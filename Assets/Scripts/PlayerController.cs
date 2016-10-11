@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private LandMovement landMovement;
     private WaterMovement waterMovement;
 
+    private CameraController playerCamera;
+
 	void Start () 
     {
         isGrounded = false;
@@ -26,6 +28,9 @@ public class PlayerController : MonoBehaviour
         landMovement = GetComponent<LandMovement>();
         waterMovement = GetComponent<WaterMovement>();
         movement = landMovement;
+
+        // get main camera component
+        playerCamera = Camera.main.GetComponent<CameraController>();
 	}
 
     void OnTriggerEnter(Collider other)
@@ -52,12 +57,12 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(controlScheme.CameraLeft))
         {
-            // TODO: Rotate camera left
+            playerCamera.RotateLeft();
         }
 
         if (Input.GetKeyDown(controlScheme.CameraRight))
         {
-            // TODO: Rotate camera right
+            playerCamera.RotateRight();
         }
         
         // if the player is near an interactable item
@@ -80,29 +85,36 @@ public class PlayerController : MonoBehaviour
 	void FixedUpdate () 
     {
         Vector3 direction = Vector3.zero;
+        Vector3 scratchDirection;
 
-        // Determine current direction of movement
-        // When we add the camera rotation, we should make sure this is relative 
-        // to the camera
+        // Determine current direction of movement relative to camera
         if (Input.GetKey(controlScheme.Forward) 
             || Input.GetKey(controlScheme.ForwardSecondary))
         {
-            direction += Vector3.left;
+            scratchDirection = playerCamera.CurrentView.forward;
+            scratchDirection.y = 0;
+            direction += scratchDirection;
         }
         if (Input.GetKey(controlScheme.Back) 
             || Input.GetKey(controlScheme.BackSecondary))
         {
-            direction += Vector3.right;
+            scratchDirection = -playerCamera.CurrentView.forward;
+            scratchDirection.y = 0;
+            direction += scratchDirection;
         }
         if (Input.GetKey(controlScheme.Left) 
             || Input.GetKey(controlScheme.LeftSecodary))
         {
-            direction += Vector3.back;
+            scratchDirection = -playerCamera.CurrentView.right;
+            scratchDirection.y = 0;
+            direction += scratchDirection;
         }
         if (Input.GetKey(controlScheme.Right) 
             || Input.GetKey(controlScheme.RightSecondary))
         {
-            direction += Vector3.forward;
+            scratchDirection = playerCamera.CurrentView.right;
+            scratchDirection.y = 0;
+            direction += scratchDirection;
         }
 
         CheckGround();
