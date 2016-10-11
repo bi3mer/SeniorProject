@@ -4,12 +4,14 @@ using System.Collections;
 public class CameraController : MonoBehaviour {
 
     public Transform[] cameraPositions;
+    public int startingView;
     public float smoothness;
 
     private int currentView;
 
 	void Start () {
-        currentView = 1;
+        // in case a starting position is entered that is out of the range
+        currentView = startingView % cameraPositions.Length;
 	}
 	
 	void Update () {
