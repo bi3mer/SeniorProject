@@ -36,13 +36,20 @@ public class RaftMovement : Movement {
         }
     }
 
+    /// <summary>
+    /// Applies a force the raft in the specified direction.
+    /// </summary>
+    /// <param name="direction"></param>
     public override void Move(Vector3 direction)
     {
         rigidbody.AddForce(direction.normalized * acceleration);
     }
 
+    /// <summary>
+    /// Doesn't do anything on boats for now.
+    /// </summary>
     public override void Jump()
     {
-        // Ya can't jump on boats, you'll fall doofus
+       
     }
 }

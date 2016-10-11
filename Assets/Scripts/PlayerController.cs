@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isGrounded;
 
-    private Interactable interactable;
+    private InteractableObject interactable;
 
     private Movement movement;
     private LandMovement landMovement;
@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
         // enter into the range of an interactable item
         if (other.tag.Equals("Interactable"))
         {
-            interactable = other.GetComponent<Interactable>();
+            interactable = other.GetComponent<InteractableObject>();
             interactable.Show = true;
         }
     }

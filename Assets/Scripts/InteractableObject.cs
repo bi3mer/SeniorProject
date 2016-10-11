@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using System;
 using System.Collections;
 
-public class Interactable : MonoBehaviour {
+public class InteractableObject : MonoBehaviour {
 
     public string text;
     public UnityEvent action;
@@ -24,6 +24,9 @@ public class Interactable : MonoBehaviour {
         transform.Rotate(30, 0, -45);
     }
 
+    /// <summary>
+    /// Shows or hieds text describing the interactable object action to the player.
+    /// </summary>
     public bool Show
     {
         get 
@@ -37,6 +40,9 @@ public class Interactable : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Text describing the interactive object's action.
+    /// </summary>
     public string Text
     {
         get 
@@ -53,11 +59,18 @@ public class Interactable : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Have the player perform the object's action.
+    /// </summary>
     public void PerformAction()
     {
         action.Invoke();
     }
 
+    /// <summary>
+    /// Set the object's action which the player may activate.
+    /// </summary>
+    /// <param name="newAction">The action to be performed.</param>
     public void SetAction(UnityAction newAction)
     {
         action.RemoveAllListeners();
