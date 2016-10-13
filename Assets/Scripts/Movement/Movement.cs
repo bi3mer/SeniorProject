@@ -3,13 +3,16 @@ using System.Collections;
 
 public abstract class Movement : MonoBehaviour 
 {
-    protected Rigidbody rigidbody;
-    protected float accumulatedFallDammage;
+    protected Rigidbody Rigidbody;
+    protected float AccumulatedFallDammage;
 
+    /// <summary>
+    /// Set up common movement variables.
+    /// </summary>
     void Start ()
     {
-        rigidbody = gameObject.GetComponent<Rigidbody>();
-        accumulatedFallDammage = 0;
+        Rigidbody = gameObject.GetComponent<Rigidbody>();
+        AccumulatedFallDammage = 0;
     }
 
     public abstract void Move(Vector3 direction);
@@ -23,8 +26,8 @@ public abstract class Movement : MonoBehaviour
     {
         get
         {
-            float dammage = accumulatedFallDammage;
-            accumulatedFallDammage = 0;
+            float dammage = AccumulatedFallDammage;
+            AccumulatedFallDammage = 0;
             return dammage;
         }
     }

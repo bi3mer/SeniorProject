@@ -4,11 +4,14 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour 
 {
-    public ControlScheme controlScheme;
-    public float groundedThreshold;
-
-    public float hungerLossRate;
-    public float waterWarmthLossRate;
+    [SerializeField]
+    private ControlScheme controlScheme;
+    [SerializeField]
+    private float groundedThreshold;
+    [SerializeField]
+    private float hungerLossRate;
+    [SerializeField]
+    private float waterWarmthLossRate;
 
     private bool isGrounded;
 
@@ -20,6 +23,9 @@ public class PlayerController : MonoBehaviour
 
     private CameraController playerCamera;
 
+    /// <summary>
+    /// Set up player movement
+    /// </summary>
 	void Start () 
     {
         isGrounded = false;
@@ -33,6 +39,10 @@ public class PlayerController : MonoBehaviour
         playerCamera = Camera.main.GetComponent<CameraController>();
 	}
 
+    /// <summary>
+    /// When colliding with a trigger. Used for interactable object interaction.
+    /// </summary>
+    /// <param name="other">Collider with trigger</param>
     void OnTriggerEnter(Collider other)
     {
         // enter into the range of an interactable item
@@ -43,6 +53,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// When leaving the trigger area. Used to signal an interactable object is not out of range.
+    /// </summary>
+    /// <param name="other">Collider with trigger</param>
     void OnTriggerExit(Collider other)
     {
         // leaving the range of an interactable item
@@ -53,6 +67,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Get player input and update accordingly.
+    /// </summary>
     void Update ()
     {
         if (Input.GetKeyDown(controlScheme.CameraLeft))
@@ -82,6 +99,9 @@ public class PlayerController : MonoBehaviour
         UpdatePlayerStats();
     }
 	
+    /// <summary>
+    /// Get player input and update accordingly
+    /// </summary>
 	void FixedUpdate () 
     {
         Vector3 direction = Vector3.zero;

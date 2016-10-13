@@ -3,16 +3,23 @@ using System.Collections;
 
 public class LandMovement : Movement 
 {
-    public float walkingSpeed;
-    public float jumpForce;
-    public float minFallDamageVelocity;
-    public float fallDamageModifier;
+    [SerializeField]
+    private float walkingSpeed;
+    [SerializeField]
+    private float jumpForce;
+    [SerializeField]
+    private float minFallDamageVelocity;
+    [SerializeField]
+    private float fallDamageModifier;
 
+    /// <summary>
+    /// Calculate accumulated fall damage
+    /// </summary>
     void Update()
     {
-        if (rigidbody.velocity.y < -minFallDamageVelocity)
+        if (Rigidbody.velocity.y < -minFallDamageVelocity)
         {
-            accumulatedFallDammage += fallDamageModifier;
+            AccumulatedFallDammage += fallDamageModifier;
         }
     }
 
@@ -22,7 +29,7 @@ public class LandMovement : Movement
     /// <param name="direction">The direction to walk the player.</param>
     public override void Move(Vector3 direction)
     {
-        rigidbody.velocity = direction.normalized * walkingSpeed + Vector3.up * rigidbody.velocity.y;
+        Rigidbody.velocity = direction.normalized * walkingSpeed + Vector3.up * Rigidbody.velocity.y;
     }
 
     /// <summary>
@@ -30,6 +37,6 @@ public class LandMovement : Movement
     /// </summary>
     public override void Jump()
     {
-        rigidbody.AddForce(Vector3.up * jumpForce);
+        Rigidbody.AddForce(Vector3.up * jumpForce);
     }
 }

@@ -1,4 +1,8 @@
 ﻿public class Player {
+    /// <summary>
+    /// Player constructor.
+    /// Initializes all fields to full.
+    /// </summary>
     public Player ()
     {
         Health = MaxHealth = 100;

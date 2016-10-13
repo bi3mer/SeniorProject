@@ -5,23 +5,34 @@ using System.Collections;
 
 public class InteractableObject : MonoBehaviour {
 
-    public string text;
-    public UnityEvent action;
+    [SerializeField]
+    private string text;
+    [SerializeField]
+    private UnityEvent action;
 
     private TextMesh display;
 
+    /// <summary>
+    /// Initializes text and hides it.
+    /// </summary>
     void Start()
     {
         display = GetComponentInChildren<TextMesh>();
         Show = false;
     }
 
+    /// <summary>
+    /// Update the text to face the camera if shown.
+    /// </summary>
     void Update()
     {
         // face text so it's readable
-        Transform transform = display.gameObject.transform;
-        transform.forward = Camera.main.transform.forward;
-        transform.Rotate(30, 0, -45);
+        if (Show)
+        {
+            Transform transform = display.gameObject.transform;
+            transform.forward = Camera.main.transform.forward;
+            transform.Rotate(30, 0, -45);
+        }
     }
 
     /// <summary>

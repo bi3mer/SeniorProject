@@ -3,15 +3,21 @@ using System.Collections;
 
 public class WaterMovement : Movement 
 {
-    public float swimmingSpeed;
-    public float minFallDamageVelocity;
-    public float fallDamageModifier;
+    [SerializeField]
+    private float swimmingSpeed;
+    [SerializeField]
+    private float minFallDamageVelocity;
+    [SerializeField]
+    private float fallDamageModifier;
 
+    /// <summary>
+    /// Calculates accumulated fall dammage
+    /// </summary>
     void Update ()
     {
-        if (rigidbody.velocity.y < -minFallDamageVelocity)
+        if (Rigidbody.velocity.y < -minFallDamageVelocity)
         {
-            accumulatedFallDammage += fallDamageModifier;
+            AccumulatedFallDammage += fallDamageModifier;
         }
     }
 
@@ -21,7 +27,7 @@ public class WaterMovement : Movement
     /// <param name="direction">The direction in which the player swims.</param>
     public override void Move(Vector3 direction)
     {
-        rigidbody.velocity = direction.normalized * swimmingSpeed;
+        Rigidbody.velocity = direction.normalized * swimmingSpeed;
     }
 
     /// <summary>

@@ -3,27 +3,30 @@ using System.Collections;
 
 public class RaftMovement : Movement {
 
-    public float acceleration;
-    public float maxSpeed;
-    public float stopThreshold;
-
-    public float heightAboveWater;
+    [SerializeField]
+    private float acceleration;
+    [SerializeField]
+    private float maxSpeed;
+    [SerializeField]
+    private float stopThreshold;
+    [SerializeField]
+    private float heightAboveWater;
 
     void Update ()
     {
-        float speed = rigidbody.velocity.magnitude;
+        float speed = Rigidbody.velocity.magnitude;
 
         // cap the speed of the raft
         if (speed > maxSpeed)
         {
-            rigidbody.velocity = rigidbody.velocity.normalized * maxSpeed;
+            Rigidbody.velocity = Rigidbody.velocity.normalized * maxSpeed;
         }
 
         // if the speed of the raft is near zero, lock it to zero 
         // (so it doesn't drift unneccisarily)
         if (speed < stopThreshold)
         {
-            rigidbody.velocity = Vector3.zero;
+            Rigidbody.velocity = Vector3.zero;
         }
 
         // Make sure we are floating on top of the water as it rises
@@ -32,7 +35,7 @@ public class RaftMovement : Movement {
         if (Physics.Raycast(transform.position, Vector3.down, out hit))
         {
             float diff = heightAboveWater - hit.distance;
-            rigidbody.position = rigidbody.position + new Vector3(0, diff, 0);
+            Rigidbody.position = Rigidbody.position + new Vector3(0, diff, 0);
         }
     }
 
@@ -42,7 +45,7 @@ public class RaftMovement : Movement {
     /// <param name="direction"></param>
     public override void Move(Vector3 direction)
     {
-        rigidbody.AddForce(direction.normalized * acceleration);
+        Rigidbody.AddForce(direction.normalized * acceleration);
     }
 
     /// <summary>
