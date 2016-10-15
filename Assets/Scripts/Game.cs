@@ -1,4 +1,5 @@
-﻿public class Game {
+﻿public class Game 
+{
     private static Game instance;
 
     private Game ()

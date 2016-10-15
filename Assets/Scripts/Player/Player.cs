@@ -1,20 +1,27 @@
-﻿public class Player {
+﻿using UnityEngine;
+
+public class Player
+{
+    private const int maxHealth = 100;
+    private const int maxWarmth = 100;
+    private const int maxHunger = 100;
+
     /// <summary>
     /// Player constructor.
     /// Initializes all fields to full.
     /// </summary>
     public Player ()
     {
-        Health = MaxHealth = 100;
-        Warmth = MaxWarmth = 100;
-        Hunger = MaxHunger = 100;
+        Health = MaxHealth = maxHealth;
+        Warmth = MaxWarmth = maxWarmth;
+        Hunger = MaxHunger = maxHunger;
     }
 
     /// <summary>
     /// The player's current health. 
     /// Used for physical dammage.
     /// </summary>
-    public float Health
+    public int Health
     {
         get;
         set;
@@ -34,7 +41,7 @@
     /// The player's current warmth. 
     /// Warmth is reduced when the player is exposed to cold.
     /// </summary>
-    public float Warmth
+    public int Warmth
     {
         get;
         set;
@@ -54,7 +61,7 @@
     /// The player's current hunger.
     /// Hunger is reduced when the player does not eat.
     /// </summary>
-    public float Hunger
+    public int Hunger
     {
         get;
         set;

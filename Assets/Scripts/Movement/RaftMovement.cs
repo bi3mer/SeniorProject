@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RaftMovement : Movement {
-
+public class RaftMovement : Movement 
+{
     [SerializeField]
     private float acceleration;
     [SerializeField]
@@ -12,21 +12,24 @@ public class RaftMovement : Movement {
     [SerializeField]
     private float heightAboveWater;
 
+    public string BoardRaftText;
+    public string DisembarkRaftText;
+
     void Update ()
     {
-        float speed = Rigidbody.velocity.magnitude;
+        float speed = RigidBody.velocity.magnitude;
 
         // cap the speed of the raft
         if (speed > maxSpeed)
         {
-            Rigidbody.velocity = Rigidbody.velocity.normalized * maxSpeed;
+            RigidBody.velocity = RigidBody.velocity.normalized * maxSpeed;
         }
 
         // if the speed of the raft is near zero, lock it to zero 
         // (so it doesn't drift unneccisarily)
         if (speed < stopThreshold)
         {
-            Rigidbody.velocity = Vector3.zero;
+            RigidBody.velocity = Vector3.zero;
         }
 
         // Make sure we are floating on top of the water as it rises
@@ -35,7 +38,7 @@ public class RaftMovement : Movement {
         if (Physics.Raycast(transform.position, Vector3.down, out hit))
         {
             float diff = heightAboveWater - hit.distance;
-            Rigidbody.position = Rigidbody.position + new Vector3(0, diff, 0);
+            RigidBody.position = RigidBody.position + new Vector3(0, diff, 0);
         }
     }
 
@@ -45,7 +48,7 @@ public class RaftMovement : Movement {
     /// <param name="direction"></param>
     public override void Move(Vector3 direction)
     {
-        Rigidbody.AddForce(direction.normalized * acceleration);
+        RigidBody.AddForce(direction.normalized * acceleration);
     }
 
     /// <summary>

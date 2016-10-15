@@ -3,8 +3,8 @@ using UnityEngine.Events;
 using System;
 using System.Collections;
 
-public class InteractableObject : MonoBehaviour {
-
+public class InteractableObject : MonoBehaviour 
+{
     [SerializeField]
     private string text;
     [SerializeField]

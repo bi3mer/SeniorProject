@@ -15,9 +15,9 @@ public class LandMovement : Movement
     /// <summary>
     /// Calculate accumulated fall damage
     /// </summary>
-    void Update()
+    void FixedUpdate()
     {
-        if (Rigidbody.velocity.y < -minFallDamageVelocity)
+        if (RigidBody.velocity.y < -minFallDamageVelocity)
         {
             AccumulatedFallDammage += fallDamageModifier;
         }
@@ -29,7 +29,7 @@ public class LandMovement : Movement
     /// <param name="direction">The direction to walk the player.</param>
     public override void Move(Vector3 direction)
     {
-        Rigidbody.velocity = direction.normalized * walkingSpeed + Vector3.up * Rigidbody.velocity.y;
+        RigidBody.velocity = direction.normalized * walkingSpeed + Vector3.up * RigidBody.velocity.y;
     }
 
     /// <summary>
@@ -37,6 +37,6 @@ public class LandMovement : Movement
     /// </summary>
     public override void Jump()
     {
-        Rigidbody.AddForce(Vector3.up * jumpForce);
+        RigidBody.AddForce(Vector3.up * jumpForce);
     }
 }

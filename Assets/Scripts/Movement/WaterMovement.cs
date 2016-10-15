@@ -13,9 +13,9 @@ public class WaterMovement : Movement
     /// <summary>
     /// Calculates accumulated fall dammage
     /// </summary>
-    void Update ()
+    void FixedUpdate ()
     {
-        if (Rigidbody.velocity.y < -minFallDamageVelocity)
+        if (RigidBody.velocity.y < -minFallDamageVelocity)
         {
             AccumulatedFallDammage += fallDamageModifier;
         }
@@ -27,7 +27,7 @@ public class WaterMovement : Movement
     /// <param name="direction">The direction in which the player swims.</param>
     public override void Move(Vector3 direction)
     {
-        Rigidbody.velocity = direction.normalized * swimmingSpeed;
+        RigidBody.velocity = direction.normalized * swimmingSpeed;
     }
 
     /// <summary>

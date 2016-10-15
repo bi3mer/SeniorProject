@@ -3,7 +3,7 @@ using System.Collections;
 
 public abstract class Movement : MonoBehaviour 
 {
-    protected Rigidbody Rigidbody;
+    protected Rigidbody RigidBody;
     protected float AccumulatedFallDammage;
 
     /// <summary>
@@ -11,7 +11,7 @@ public abstract class Movement : MonoBehaviour
     /// </summary>
     void Start ()
     {
-        Rigidbody = gameObject.GetComponent<Rigidbody>();
+        RigidBody = gameObject.GetComponent<Rigidbody>();
         AccumulatedFallDammage = 0;
     }
 

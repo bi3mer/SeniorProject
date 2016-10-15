@@ -4,16 +4,28 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour 
 {
+    [Header("Movement Settings")]
     [SerializeField]
     private ControlScheme controlScheme;
     [SerializeField]
     private float groundedThreshold;
+
+    [Header("Tag Settings")]
     [SerializeField]
-    private float hungerLossRate;
+    private string interactiveTag;
     [SerializeField]
-    private float waterWarmthLossRate;
+    private string landTag;
+    [SerializeField]
+    private string waterTag;
+
+    [Header("Resource Settings")]
+    [SerializeField]
+    private float hungerReductionRate;
+    [SerializeField]
+    private float waterWarmthReductionRate;
 
     private bool isGrounded;
+    private bool updateStats;
 
     private InteractableObject interactable;
 
@@ -29,6 +41,7 @@ public class PlayerController : MonoBehaviour
 	void Start () 
     {
         isGrounded = false;
+        updateStats = true;
 
         // set up movement components
         landMovement = GetComponent<LandMovement>();
@@ -37,6 +50,10 @@ public class PlayerController : MonoBehaviour
 
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();
+
+        // start reducing hunger & cold
+        StartCoroutine(ReduceHunger(1 / hungerReductionRate));
+        StartCoroutine(ReduceHunger(1 / waterWarmthReductionRate));
 	}
 
     /// <summary>
@@ -46,7 +63,7 @@ public class PlayerController : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         // enter into the range of an interactable item
-        if (other.tag.Equals("Interactable"))
+        if (other.CompareTag(interactiveTag))
         {
             interactable = other.GetComponent<InteractableObject>();
             interactable.Show = true;
@@ -60,7 +77,7 @@ public class PlayerController : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         // leaving the range of an interactable item
-        if (other.tag.Equals("Interactable"))
+        if (other.CompareTag(interactiveTag))
         {
             interactable.Show = false;
             interactable = null;
@@ -105,86 +122,97 @@ public class PlayerController : MonoBehaviour
 	void FixedUpdate () 
     {
         Vector3 direction = Vector3.zero;
-        Vector3 scratchDirection;
 
         // Determine current direction of movement relative to camera
         if (Input.GetKey(controlScheme.Forward) 
             || Input.GetKey(controlScheme.ForwardSecondary))
         {
-            scratchDirection = playerCamera.CurrentView.forward;
-            scratchDirection.y = 0;
-            direction += scratchDirection;
+            direction += getDirection(playerCamera.CurrentView.forward);
         }
         if (Input.GetKey(controlScheme.Back) 
             || Input.GetKey(controlScheme.BackSecondary))
         {
-            scratchDirection = -playerCamera.CurrentView.forward;
-            scratchDirection.y = 0;
-            direction += scratchDirection;
+            direction += getDirection(-playerCamera.CurrentView.forward);
         }
         if (Input.GetKey(controlScheme.Left) 
             || Input.GetKey(controlScheme.LeftSecodary))
         {
-            scratchDirection = -playerCamera.CurrentView.right;
-            scratchDirection.y = 0;
-            direction += scratchDirection;
+            direction += getDirection(-playerCamera.CurrentView.right);
         }
         if (Input.GetKey(controlScheme.Right) 
             || Input.GetKey(controlScheme.RightSecondary))
         {
-            scratchDirection = playerCamera.CurrentView.right;
-            scratchDirection.y = 0;
-            direction += scratchDirection;
+            direction += getDirection(playerCamera.CurrentView.right);
         }
 
         CheckGround();
         movement.Move(direction);
 	}
 
+    private Vector3 getDirection(Vector3 direction)
+    {
+        Vector3 scratchDirection = direction;
+        scratchDirection.y = 0;
+        return scratchDirection;
+    }
+
     private void UpdatePlayerStats ()
     {
         Player player = Game.Instance.PlayerInstance;
 
-        player.Hunger -= hungerLossRate;
-
         // Only calculate fall damage when landing on the ground
         if (isGrounded)
         {
-            player.Health -= movement.CurrentFallDammage;
+            player.Health -= (int) movement.CurrentFallDammage;
         }
+    }
 
-        if (IsInWater)
+    private IEnumerator ReduceHunger (float depletionRate)
+    {
+        while (updateStats)
         {
-            player.Warmth -= waterWarmthLossRate;
+            yield return new WaitForSeconds(depletionRate);
+            Game.Instance.PlayerInstance.Hunger--;
+        }
+    }
+
+    private IEnumerator ReduceWarmth(float depletionRate)
+    {
+        while (updateStats)
+        {
+            yield return new WaitForSeconds(depletionRate);
+            if (IsInWater)
+            {
+                Game.Instance.PlayerInstance.Warmth--;
+            }
         }
     }
 
     private void CheckGround ()
     {
-        RaycastHit hit;
+        if (IsOnRaft)
+        {
+            return;
+        }
 
         // Check if the player is close enough to the ground
+        RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, groundedThreshold))
         {
             isGrounded = true;
 
-            if (IsOnRaft)
-            {
-                return;
-            }
-
             // Check what kind of ground the player is on and update movement
-            string tag = hit.collider.tag;
-            if (tag.Equals("Land"))
+            if (hit.collider.CompareTag(landTag))
             {
                 movement = landMovement;
             }
-            else if (tag.Equals("Water"))
+            else if (hit.collider.CompareTag(waterTag))
             {
                 movement = waterMovement;
             }
         }
-        else {
+        else 
+        {
             isGrounded = false;
         }
     }
@@ -202,7 +230,7 @@ public class PlayerController : MonoBehaviour
         transform.position = position + Vector3.up * raftHeight;
 
         // update raft's interactivity
-        interactable.Text = "(F) Disembark raft";
+        interactable.Text = raftMovement.DisembarkRaftText;
         interactable.SetAction(delegate { DisembarkRaft(raftMovement); });
     }
 
@@ -215,7 +243,7 @@ public class PlayerController : MonoBehaviour
         movement = waterMovement;
 
         // update raft's interactivity
-        interactable.Text = "(F) Board raft";
+        interactable.Text = raftMovement.BoardRaftText;
         interactable.SetAction(delegate { BoardRaft(raftMovement); });
     }
 
