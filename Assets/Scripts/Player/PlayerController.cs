@@ -52,8 +52,8 @@ public class PlayerController : MonoBehaviour
         playerCamera = Camera.main.GetComponent<CameraController>();
 
         // start reducing hunger & cold
-        StartCoroutine(ReduceHunger(1 / hungerReductionRate));
-        StartCoroutine(ReduceHunger(1 / waterWarmthReductionRate));
+        StartCoroutine(ReduceHunger(hungerReductionRate));
+        StartCoroutine(ReduceHunger(waterWarmthReductionRate));
 	}
 
     /// <summary>
@@ -172,7 +172,7 @@ public class PlayerController : MonoBehaviour
         while (updateStats)
         {
             yield return new WaitForSeconds(depletionRate);
-            Game.Instance.PlayerInstance.Hunger--;
+            --Game.Instance.PlayerInstance.Hunger;
         }
     }
 
@@ -183,7 +183,7 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(depletionRate);
             if (IsInWater)
             {
-                Game.Instance.PlayerInstance.Warmth--;
+                --Game.Instance.PlayerInstance.Warmth;
             }
         }
     }
