@@ -1,0 +1,42 @@
+﻿using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+
+/// <summary>
+/// Class for the Item UI. To be attached to the sliders that show the value of each attribute in an item.
+/// </summary>
+public class AttributeStat : MonoBehaviour 
+{
+
+	// slider attached to this gameobject
+	Slider slider;
+
+	// the label that is paired with the slider
+	public Text label;
+
+	/// <summary>
+	/// Awake this instance. Gets the slider component.
+	/// </summary>
+	void Awake () {
+		slider = GetComponent<Slider> ();
+	}
+
+	/// <summary>
+	/// Changes the text displayed by the stat's label.
+	/// </summary>
+	/// <param name="labelText">Label text.</param>
+	public void setLabel(string labelText)
+	{
+		label.text = labelText;
+	}
+
+	/// <summary>
+	/// Sets the value of the slider.
+	/// </summary>
+	/// <param name="val">Value.</param>
+	public void setValue(float val)
+	{
+		slider.value = val;
+	}
+
+}
