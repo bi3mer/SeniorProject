@@ -78,7 +78,7 @@ namespace CraftingSystem
 
 			string name = rod.itemName + " Fishing Rod";
 
-			baseOb.changeName(name);
+			baseOb.ChageName(name);
 			ob.name = baseOb.itemName;
 
 			baseOb.amount = 1;
@@ -99,7 +99,7 @@ namespace CraftingSystem
 			sol.thickness = rodAttr ["thickness"];
 
 			baseOb.SetUpBaseObject ();
-			Inventory.instance.addItem (ob);
+			InventoryUIBehavior.instance.targetInventory.AddItem (ob);
 		}
 	}
 }

@@ -11,13 +11,13 @@ namespace CraftingSystem
 	public class ActionButton : MonoBehaviour 
 	{
 		// the action that will be completed when the button is clicked
-		ActionToPerform action;
+		private ActionToPerform action;
 
 		// the component that handles what text is displayed on the button
-		Text btnText;
+		private Text btnText;
 
 		// the subcategory that the action performed by this button falls under
-		string actionSubcategoryID;
+		private string actionSubcategoryID;
 
 		void Awake()
 		{
@@ -29,7 +29,7 @@ namespace CraftingSystem
 		/// </summary>
 		/// <param name="a">The action that will completed.</param>
 		/// <param name="name">Name of the action.</param>
-		public void setAction(ActionToPerform act, string name)
+		public void SetAction(ActionToPerform act, string name)
 		{
 			btnText.text = name;
 			action = act;
@@ -38,7 +38,7 @@ namespace CraftingSystem
 		/// <summary>
 		/// Performs the action. Refreshes the panel that displays the item's information.
 		/// </summary>
-		public void performAction()
+		public void PerformAction()
 		{
 			ItemInfoPanelBehavior.instance.ClearSubActionPanel ();
 			action ();

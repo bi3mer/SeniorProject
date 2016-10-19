@@ -19,6 +19,9 @@ namespace CraftingSystem
 		// library of attributes that define this category of items
 		protected Dictionary<string, float> attributes;
 
+		// Actions can only be performed once
+		protected Dictionary<string, bool> actionCompleted;
+
 		/// <summary>
 		/// Sets the component that this is connected to. May either be another item category or a base item class.
 		/// </summary>
@@ -52,9 +55,10 @@ namespace CraftingSystem
 			if (component != null) 
 			{
 				Dictionary<string, float> otherAttributes = component.GetAttributes ();
-				foreach (string key in otherAttributes.Keys) 
+				keys = new List<string>(otherAttributes.Keys);
+				for(int j = 0; j < keys.Count; ++j)
 				{
-					thisAttr.Add (key, otherAttributes [key]);
+					thisAttr.Add (keys[j], otherAttributes [keys[j]]);
 				}
 			}
 

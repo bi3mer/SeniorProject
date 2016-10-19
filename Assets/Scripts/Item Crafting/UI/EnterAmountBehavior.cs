@@ -27,15 +27,15 @@ namespace CraftingSystem
 
 		// current animation state of the panel
 		// 1 is open, 2 is closed
-		int currentAnimationState;
+		private int currentAnimationState;
 		// the current number of units selected
-		int currentAmount;
+		private int currentAmount;
 		//the maximum number of units that can be selected for the current item
-		int maxAmount;
+		private int maxAmount;
 		// the animator for this ui panel
-		Animator anim;
+		private Animator anim;
 		// the current selected item from the inventory
-		GameObject selectedItem;
+		private GameObject selectedItem;
 
 		/// <summary>
 		/// Start this instance and sets the variables necessary.
@@ -90,7 +90,7 @@ namespace CraftingSystem
 		/// Sets the max amount of units that can be selected.
 		/// </summary>
 		/// <param name="max">Max number of units availabe for a given item.</param>
-		public void setMaxAmount(int max)
+		public void SetMaxAmount(int max)
 		{
 			maxAmount = max;
 		}

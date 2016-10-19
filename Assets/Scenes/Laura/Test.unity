@@ -167,7 +167,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 822673451}
-        m_MethodName: nextStep
+        m_MethodName: NextStep
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3613,7 +3613,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 822673451}
-        m_MethodName: closeCraftingMenu
+        m_MethodName: CloseCraftingMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3945,6 +3945,7 @@ GameObject:
   - 4: {fileID: 1385441804}
   - 114: {fileID: 1385441803}
   - 114: {fileID: 1385441806}
+  - 114: {fileID: 1385441805}
   m_Layer: 0
   m_Name: CraftingDirector
   m_TagString: Untagged
@@ -3977,6 +3978,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!114 &1385441805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1385441802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9631392a0725244448ec4b1acd836710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetInventory: {fileID: 1385441803}
 --- !u!114 &1385441806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5211,7 +5224,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 822673451}
-        m_MethodName: openCraftingMenu
+        m_MethodName: OpenCraftingMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

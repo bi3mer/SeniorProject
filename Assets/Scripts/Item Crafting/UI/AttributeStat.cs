@@ -9,7 +9,7 @@ public class AttributeStat : MonoBehaviour
 {
 
 	// slider attached to this gameobject
-	Slider slider;
+	private Slider slider;
 
 	// the label that is paired with the slider
 	public Text label;
@@ -25,7 +25,7 @@ public class AttributeStat : MonoBehaviour
 	/// Changes the text displayed by the stat's label.
 	/// </summary>
 	/// <param name="labelText">Label text.</param>
-	public void setLabel(string labelText)
+	public void SetLabel(string labelText)
 	{
 		label.text = labelText;
 	}
@@ -34,7 +34,7 @@ public class AttributeStat : MonoBehaviour
 	/// Sets the value of the slider.
 	/// </summary>
 	/// <param name="val">Value.</param>
-	public void setValue(float val)
+	public void SetValue(float val)
 	{
 		slider.value = val;
 	}

@@ -79,7 +79,7 @@ namespace CraftingSystem
 		}
 
 		/// <summary>
-		/// Gets all the action that an item can performe.
+		/// Gets all the action that an item can perform.
 		/// </summary>
 		/// <returns>The possible actions of an item in a Dictionary keyed by the action name.</returns>
 		public override Dictionary<string, List<Action>> GetPossibleActions()
@@ -93,7 +93,7 @@ namespace CraftingSystem
 		/// Changes the name of the object.
 		/// </summary>
 		/// <param name="name">Name.</param>
-		public void changeName(string name)
+		public void ChageName(string name)
 		{
 			itemName = name;
 

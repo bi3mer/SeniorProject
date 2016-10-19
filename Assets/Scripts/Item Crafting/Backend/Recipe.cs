@@ -29,7 +29,7 @@ namespace CraftingSystem
 		/// Adds a requirement to the list of requirements.
 		/// </summary>
 		/// <param name="req">Req.</param>
-		public void addRequirement(Requirement req)
+		public void AddRequirement(Requirement req)
 		{
 			requirements.Add (req);
 		}
@@ -38,7 +38,7 @@ namespace CraftingSystem
 		/// Gets the list of requirements.
 		/// </summary>
 		/// <returns>The requirements.</returns>
-		public List<Requirement> getRequirements()
+		public List<Requirement> GetRequirements()
 		{
 			return requirements;
 		}
@@ -47,7 +47,7 @@ namespace CraftingSystem
 		/// Checks to see if the recipe is completely fulfilled.
 		/// </summary>
 		/// <returns><c>true</c>, if all requirements completed, <c>false</c> otherwise.</returns>
-		public bool checkCompleted()
+		public bool CheckCompleted()
 		{
 			for (int i = 0; i < requirements.Count; ++i) 
 			{
@@ -63,7 +63,7 @@ namespace CraftingSystem
 		/// Gets the name of the recipe.
 		/// </summary>
 		/// <returns>The recipe name.</returns>
-		public string getRecipeName()
+		public string GetRecipeName()
 		{
 			return recipeName;
 		}

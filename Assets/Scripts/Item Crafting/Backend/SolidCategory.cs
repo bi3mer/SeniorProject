@@ -20,8 +20,6 @@ namespace CraftingSystem
 		float sharpenUpperThreshold = 0.7f;
 		float weaveThreshold = 0.8f;
 
-		Dictionary<string, bool> actionCompleted;
-
 		/// <summary>
 		/// Preps the category for use by loading attributes.
 		/// </summary>
@@ -103,7 +101,7 @@ namespace CraftingSystem
 			}
 
 			baseOb.name =  name;
-			baseItem.changeName(name);
+			baseItem.ChageName(name);
 			baseItem.tags.Add ("Rope");
 			durability = durability * elasticity / 2f;
 
@@ -129,7 +127,7 @@ namespace CraftingSystem
 			actionCompleted ["Weave"] = true;
 
 			baseOb.name = name;
-			baseItem.changeName(name);
+			baseItem.ChageName(name);
 
 			baseOb.GetComponent<BaseItem> ().RemoveCategories (new List<string> (){GetType ().Name}, true);
 		}
@@ -144,13 +142,13 @@ namespace CraftingSystem
 				if (!this.gameObject.name.Contains ("Blade")) 
 				{
 					this.gameObject.name = this.gameObject.name + " Blade";
-					GetComponent<BaseItem> ().changeName (this.gameObject.name);
+					GetComponent<BaseItem> ().ChageName (this.gameObject.name);
 				}
 			} 
 			else 
 			{
 				this.gameObject.name = "Sharpened " + this.gameObject.name;
-				GetComponent<BaseItem> ().changeName (this.gameObject.name);
+				GetComponent<BaseItem> ().ChageName (this.gameObject.name);
 			}
 
 			sharpness = sharpness * 1.5f;

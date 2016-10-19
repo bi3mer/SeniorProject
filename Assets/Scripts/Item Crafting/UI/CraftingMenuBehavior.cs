@@ -32,35 +32,38 @@ namespace CraftingSystem
 		public Transform itemChoicePanel;
 
 		// The recipes as defined by their name and the actual recipe itself
-		Dictionary<string, Recipe> recipes;
-		string currentReqChoice;
+		private Dictionary<string, Recipe> recipes;
+
+		private string currentReqChoice;
+
 		// The name of the currently selected recipe that is being attempted
-		string recipeChoice;
+		private string recipeChoice;
 
 		//Animator that controls the crafting panel UI
-		Animator CraftingPanelAnimator;
+		private Animator CraftingPanelAnimator;
+
 		//Animator that controls the item selection UI that pops up when attempting a recipe
-		Animator ItemSelectPanelAnimator;
+		private Animator ItemSelectPanelAnimator;
 
 		// the current animation state of the crafting panel
-		int baseCurrentState;
+		private int baseCurrentState;
 
 		// the current animation state of the item selection UI
-		int selectPanelCurrentState;
+		private int selectPanelCurrentState;
 
 		// a list of names of the items selected for a recipe
-		List<string> itemsSelected;
+		private List<string> itemsSelected;
 
 		// a recipe may have multiple steps that needs to be completed which will be displayed in the 
 		// item selection UI one by one
 		// this indicates which step is being displayed by the item selection UI
-		int currentStep;
+		private int currentStep;
 
 		// which item has been highlighted in the item selection UI
 		// the highlighted item is the tentatively selected item that will be used up in a recipe
 		// however, the final selected item will not be added to the itemSelected string until
 		// the continue button is hit
-		Image currentHighlightedItem;
+		private Image currentHighlightedItem;
 
 		/// <summary>
 		/// Start this instance. Instantiates various variables as needed.
@@ -70,11 +73,11 @@ namespace CraftingSystem
 		{
 			recipes = new Dictionary<string, Recipe> ();
 			Recipe fishrod = new Recipe ("Fishing Rod");
-			fishrod.addRequirement (new Requirement (1, "Rod"));
-			fishrod.addRequirement (new Requirement (1, "Rope"));
-			fishrod.addRequirement (new Requirement (1, "Hook"));
+			fishrod.AddRequirement (new Requirement (1, "Rod"));
+			fishrod.AddRequirement (new Requirement (1, "Rope"));
+			fishrod.AddRequirement (new Requirement (1, "Hook"));
 
-			recipes.Add (fishrod.getRecipeName (), fishrod);
+			recipes.Add (fishrod.GetRecipeName (), fishrod);
 		
 			CraftingPanelAnimator = GetComponent<Animator>();
 			ItemSelectPanelAnimator = GameObject.Find("Select X Panel").GetComponent<Animator>();
@@ -116,7 +119,7 @@ namespace CraftingSystem
 		/// <summary>
 		/// Opens the crafting menu that displays all the possible recipes.
 		/// </summary>
-		public void openCraftingMenu()
+		public void OpenCraftingMenu()
 		{
 			// when the animation state of a panel is set to 1, the panel opens
 			baseCurrentState = 1;
@@ -126,7 +129,7 @@ namespace CraftingSystem
 		/// <summary>
 		/// Closes the crafting menu.
 		/// </summary>
-		public void closeCraftingMenu()
+		public void CloseCraftingMenu()
 		{
 			// when the animation state of a panel is set to 2, the panel opens
 			baseCurrentState = 2;
@@ -137,11 +140,11 @@ namespace CraftingSystem
 		/// In the item selection UI panel, advances the step that the recipe is on. Displays
 		/// the next set of items that are allowed to be used in the recipe.
 		/// </summary>
-		public void nextStep()
+		public void NextStep()
 		{
 			// If this is the last step of the recipe, then the continue button used to continue to the 
 			// next step is disabled. Instead the "craft" button which is used to combine the items is activated.
-			if (currentStep + 1 >= recipes [recipeChoice].getRequirements ().Count - 1) {
+			if (currentStep + 1 >= recipes [recipeChoice].GetRequirements ().Count - 1) {
 				continueButton.gameObject.SetActive (false);
 				craftButton.SetActive (true);
 			}
@@ -166,7 +169,7 @@ namespace CraftingSystem
 
 			// gets the category of item that is needed for this step of the recipe
 			// what categories an item falls under is determined by its tags
-			string itemTag = rec.getRequirements () [currentStep].getItemType ();
+			string itemTag = rec.GetRequirements () [currentStep].GetItemType ();
 
 			// changes prompt to tell you to select a category of item
 			selectText.text = "Select " + itemTag;
@@ -187,7 +190,7 @@ namespace CraftingSystem
 				
 			// TODO: implement an inventory system so there is no need to go through the object panel and get its children
 			// for now, all children of objectPanel are the items in a usuable inventory
-			List<BaseItem> validItems = Inventory.instance.getAllItemsWithTag(itemTag);
+			List<BaseItem> validItems = InventoryUIBehavior.instance.targetInventory.GetAllItemsWithTag(itemTag);
 
 			for(int i = 0; i < validItems.Count; ++i)
 			{
@@ -260,7 +263,7 @@ namespace CraftingSystem
 			List<BaseItem> ingredients = new List<BaseItem> ();
 
 			for (int i = 0; i < itemsSelected.Count; ++i) {
-				ingredients.Add(Inventory.instance.getItem (itemsSelected [i]));
+				ingredients.Add(InventoryUIBehavior.instance.targetInventory.GetItem (itemsSelected [i]));
 			}
 
 			// call the CraftingRecipeFactory which will create the resulting item given the
@@ -268,7 +271,7 @@ namespace CraftingSystem
 			ItemFactory.instance.Craft (recipeChoice, ingredients);
 
 			for (int i = 0; i < itemsSelected.Count; ++i) {
-				Inventory.instance.useItem (itemsSelected [i], recipes [recipeChoice].getRequirements() [i].getAmountRequired ());
+				InventoryUIBehavior.instance.targetInventory.UseItem (itemsSelected [i], recipes [recipeChoice].GetRequirements() [i].GetAmountRequired ());
 			}
 
 			// close the item select ui panel

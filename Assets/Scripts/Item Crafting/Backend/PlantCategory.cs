@@ -19,8 +19,6 @@ namespace CraftingSystem
 		public float stomachEffect;
 		public float pneumoniaEffect;
 
-		Dictionary<string, bool> actionCompleted;
-
 		/// <summary>
 		/// Readies the item category by adding the attributes and actions it can complete.
 		/// </summary>
@@ -99,12 +97,12 @@ namespace CraftingSystem
 			if (waterContent > 6f && !gameObject.name.Contains ("Soup")) 
 			{
 				gameObject.name = gameObject.name + " Soup";
-				GetComponent<BaseItem> ().changeName (gameObject.name);
+				GetComponent<BaseItem> ().ChageName (gameObject.name);
 			} 
 			else if (waterContent < 6f) 
 			{
 				gameObject.name = "Cooked " + gameObject.name;
-				GetComponent<BaseItem> ().changeName (gameObject.name);
+				GetComponent<BaseItem> ().ChageName (gameObject.name);
 			}
 
 			actionCompleted ["Cook"] = true;
@@ -127,7 +125,7 @@ namespace CraftingSystem
 			attributes ["toughness"] = toughness;
 
 			gameObject.name = "Dried " + gameObject.name;
-			GetComponent<BaseItem> ().changeName (gameObject.name);
+			GetComponent<BaseItem> ().ChageName (gameObject.name);
 
 			actionCompleted ["Dry"] = true;
 		}

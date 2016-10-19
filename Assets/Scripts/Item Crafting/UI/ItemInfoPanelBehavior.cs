@@ -35,28 +35,28 @@ namespace CraftingSystem
 		public int currentAnimationState = 1;
 
 		// animator that controls the panel's movements
-		Animator anim;
+		private Animator anim;
 
 		// attribute gameobjects, including slider and label, by name
-		Dictionary<string, GameObject> attrObjects;
+		private Dictionary<string, GameObject> attrObjects;
 
 		// actions by name
-		Dictionary<string, List<Action>> actionsByID;
+		private Dictionary<string, List<Action>> actionsByID;
 
 		// list of actionButtons, acts as a pool from which action buttons can be pulled from if necessary
-		List<GameObject> actionButtons;
+		private List<GameObject> actionButtons;
 
 		// whether or not the item was changed during the time this menu is open
-		bool itemChanged;
+		private bool itemChanged;
 
 		// the duplicate item created when this panel is opened
 		// this item is affected by the changes
 		// if no changes occur, then this duplicate item is deleted when the panel is closed
 		// and the amount put into it is added back to the original item
-		BaseItem duplicate;
+		private BaseItem duplicate;
 
 		// the original item selected
-		BaseItem original;
+		private BaseItem original;
 
 		/// <summary>
 		/// Start this instance. Gets the gameobjects needed to run the script.
@@ -92,7 +92,7 @@ namespace CraftingSystem
 			itemChanged = false;
 
 			// populates the attribute scroll section and the action scroll section
-			populate ();
+			Populate ();
 		}
 
 		/// <summary>
@@ -104,7 +104,7 @@ namespace CraftingSystem
 			anim.SetInteger ("state", currentAnimationState);
 
 			// clear the info from the selected
-			depopulate ();
+			Depopulate ();
 			attrObjects.Clear ();
 			actionsByID.Clear ();
 			actionButtons.Clear ();
@@ -122,11 +122,11 @@ namespace CraftingSystem
 				// save the changes made to the duplicate item and save it as its own object in the inventory
 				if (duplicate != null) 
 				{
-					Inventory.instance.addItem (duplicate.gameObject);
+					InventoryUIBehavior.instance.targetInventory.AddItem (duplicate.gameObject);
 				}
 				else 
 				{
-					Inventory.instance.addItem (original.gameObject);
+					InventoryUIBehavior.instance.targetInventory.AddItem (original.gameObject);
 				}
 			}
 		}
@@ -134,7 +134,7 @@ namespace CraftingSystem
 		/// <summary>
 		/// Removes the info of the selected item from the item info panel.
 		/// </summary>
-		public void depopulate()
+		public void Depopulate()
 		{
 			GameObject[] children = new GameObject [SubActionScroll.transform.childCount + ActionScroll.transform.childCount + AttributeScroll.transform.childCount];
 			int current = 0;
@@ -167,7 +167,7 @@ namespace CraftingSystem
 		/// <summary>
 		/// Populates the item info panel with attributes and actions of the selected item.
 		/// </summary>
-		public void populate()
+		public void Populate()
 		{
 			BaseItem itm;
 
@@ -193,8 +193,8 @@ namespace CraftingSystem
 				stat.transform.SetParent (AttributeScroll.transform, false);
 				stat.transform.localScale = Vector3.one;
 				AttributeStat s = stat.GetComponent<AttributeStat> ();
-				s.setValue(attr [keys[i]]);
-				s.setLabel (keys[i]);
+				s.SetValue(attr [keys[i]]);
+				s.SetLabel (keys[i]);
 
 				attrObjects.Add (keys[i], stat);
 			}
@@ -215,7 +215,7 @@ namespace CraftingSystem
 					for (int j = 0; j < acts [keys [i]].Count; ++j) 
 					{
 						GameObject act = GameObject.Instantiate (actionButton);
-						act.GetComponent<ActionButton> ().setAction (acts [keys [i]] [j].AssignedAction, acts [keys [i]] [j].ActionName);
+						act.GetComponent<ActionButton> ().SetAction (acts [keys [i]] [j].AssignedAction, acts [keys [i]] [j].ActionName);
 						act.transform.SetParent(ActionScroll.transform, false);
 						act.transform.localScale = Vector3.one;
 						actionButtons.Add (act);
@@ -229,7 +229,7 @@ namespace CraftingSystem
 					ActionButton button = act.GetComponent<ActionButton> ();
 
 					ActionToPerform subAct = new ActionToPerform (button.ShowSubAction);
-					button.setAction (subAct, keys[i]);
+					button.SetAction (subAct, keys[i]);
 					button.ActionSubcategory = keys [i];
 					actionsByID.Add (keys [i], acts [keys [i]]);
 
@@ -260,13 +260,14 @@ namespace CraftingSystem
 			Dictionary<string, float> attr = itm.GetAttributes ();
 			itemChanged = true;
 
-			foreach(string key in attr.Keys) 
+			List<string> keys = new List<string> (attr.Keys);
+			for(int i = 0; i < keys.Count; ++i)
 			{
-				attrObjects [key].GetComponent<AttributeStat> ().setValue (attr [key]);
+				attrObjects [keys[i]].GetComponent<AttributeStat> ().SetValue (attr [keys[i]]);
 			}
 
 			Dictionary<string, List<Action>> acts = itm.GetPossibleActions ();
-			List<string> keys = new List<string> (acts.Keys);
+			keys = new List<string> (acts.Keys);
 
 			int buttonUsed = 0;
 
@@ -292,7 +293,7 @@ namespace CraftingSystem
 							actionButtons.Add (act);
 						}
 
-						act.GetComponent<ActionButton> ().setAction (acts [keys [i]] [j].AssignedAction, acts [keys [i]] [j].ActionName);
+						act.GetComponent<ActionButton> ().SetAction (acts [keys [i]] [j].AssignedAction, acts [keys [i]] [j].ActionName);
 					}
 				}
 				else 
@@ -311,7 +312,7 @@ namespace CraftingSystem
 					ActionButton button = act.GetComponent<ActionButton> ();
 
 					ActionToPerform subAct = new ActionToPerform (button.ShowSubAction);
-					button.setAction (subAct, keys[i]);
+					button.SetAction (subAct, keys[i]);
 					button.ActionSubcategory = keys [i];
 
 					if (actionsByID.ContainsKey (keys [i])) 
@@ -347,7 +348,7 @@ namespace CraftingSystem
 			for(int i = 0; i < actions.Count; ++i)
 			{
 				GameObject act = GameObject.Instantiate (actionButton);
-				act.GetComponent<ActionButton> ().setAction (actions[i].AssignedAction, actions[i].ActionName);
+				act.GetComponent<ActionButton> ().SetAction (actions[i].AssignedAction, actions[i].ActionName);
 				act.transform.SetParent (SubActionScroll.transform, false);
 				act.transform.localScale = Vector3.one;
 			}

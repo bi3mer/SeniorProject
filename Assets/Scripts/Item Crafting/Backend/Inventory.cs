@@ -13,10 +13,8 @@ namespace CraftingSystem
 
 	public class Inventory : MonoBehaviour 
 	{
-		// instance of inventory to be used by other classes
-		// in future there will need to be another way of accessing the inventory
-		public static Inventory instance;
 		[Tooltip("parent gameobject of all the items in the inventory FOR NOW")]
+		// this will be switched out to read in from a text file instead
 		public GameObject itemParent;
 
 		// inventory of items keyed by their name
@@ -31,7 +29,6 @@ namespace CraftingSystem
 		/// </summary>
 		void Start () 
 		{
-			instance = this;
 			inventory = new Dictionary<string, BaseItem> ();
 			BaseItem ob;
 
@@ -53,7 +50,7 @@ namespace CraftingSystem
 		/// </summary>
 		/// <param name="name">Name of item.</param>
 		/// <param name="amt">Amount of item to use.</param>
-		public void useItem(string name, int amt)
+		public void UseItem(string name, int amt)
 		{
 			inventory [name].amount -= amt;
 
@@ -68,7 +65,7 @@ namespace CraftingSystem
 		/// </summary>
 		/// <returns>The item.</returns>
 		/// <param name="name">Name.</param>
-		public BaseItem getItem(string name)
+		public BaseItem GetItem(string name)
 		{
 			return inventory [name];
 		}
@@ -78,13 +75,13 @@ namespace CraftingSystem
 		/// TODO: require only a name and use yaml file for rest
 		/// </summary>
 		/// <param name="newItem">New item to be added.</param>
-		public void addItem(GameObject newItem)
+		public void AddItem(GameObject newItem)
 		{
 			inventory.Add (newItem.GetComponent<BaseItem> ().itemName, newItem.GetComponent<BaseItem> ());
 			newItem.transform.SetParent(itemParent.transform, false);
 		}
 
-		public List<BaseItem> getAllItemsWithTag(string itemTag)
+		public List<BaseItem> GetAllItemsWithTag(string itemTag)
 		{
 			List<BaseItem> result = new List<BaseItem> ();
 

@@ -10,9 +10,9 @@ namespace CraftingSystem
 	/// </summary>
 	public class Action
 	{
-		string actionName;
-		ActionToPerform actionToPerform;
-		int subcategoryActionID;
+		private string actionName;
+		private ActionToPerform actionToPerform;
+		private int subcategoryActionID;
 
 		public Action(string n, ActionToPerform act)
 		{

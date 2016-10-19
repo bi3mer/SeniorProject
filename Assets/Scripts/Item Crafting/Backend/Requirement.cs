@@ -35,7 +35,7 @@
 		/// Submits an item to see if it is something that can be used in the requirement.
 		/// </summary>
 		/// <param name="ob">Ob.</param>
-		public void submitItem(BaseItem item)
+		public void SubmitItem(BaseItem item)
 		{
 			// if item contains a certain type, then it can be used and the amount required is decremented
 			if (item.tags.Contains (itemType)) 
@@ -48,7 +48,7 @@
 		/// Gets the type of the item required.
 		/// </summary>
 		/// <returns>The item type.</returns>
-		public string getItemType()
+		public string GetItemType()
 		{
 			return itemType;
 		}
@@ -57,7 +57,7 @@
 		/// Gets the amount required to fulfill the requirement.
 		/// </summary>
 		/// <returns>The amount required.</returns>
-		public int getAmountRequired()
+		public int GetAmountRequired()
 		{
 			return amountRequired;
 		}
