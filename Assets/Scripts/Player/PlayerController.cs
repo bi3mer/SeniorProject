@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
     private LandMovement landMovement;
     private WaterMovement waterMovement;
 
+    private Tool equippedTool;
+
     private CameraController playerCamera;
 
     /// <summary>
@@ -47,6 +49,9 @@ public class PlayerController : MonoBehaviour
         landMovement = GetComponent<LandMovement>();
         waterMovement = GetComponent<WaterMovement>();
         movement = landMovement;
+
+        // set up tools
+        equippedTool = GetComponentInChildren<FishingRod>();
 
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();
@@ -71,7 +76,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// When leaving the trigger area. Used to signal an interactable object is not out of range.
+    /// When leaving the trigger area. Used to signal an interactable object is not in range.
     /// </summary>
     /// <param name="other">Collider with trigger</param>
     void OnTriggerExit(Collider other)
@@ -105,6 +110,17 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(controlScheme.Action))
             {
                 interactable.PerformAction();
+            }
+        }
+
+        // if the player has a tool equipped
+        if (equippedTool != null)
+        {
+            if (Input.GetKeyDown(controlScheme.UseTool))
+            {
+                // TODO: Check to see if Use returns and item
+                // if so maybe show it off then put it in the player's inventory
+                equippedTool.Use();
             }
         }
 

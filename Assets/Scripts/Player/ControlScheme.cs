@@ -16,6 +16,7 @@ public class ControlScheme
 
     public KeyCode Jump;
     public KeyCode Action;
+    public KeyCode UseTool;
 
     public KeyCode CameraRight;
     public KeyCode CameraLeft;
