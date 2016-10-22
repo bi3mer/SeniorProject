@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
 
         // start reducing hunger & cold
         StartCoroutine(ReduceHunger(hungerReductionRate));
-        StartCoroutine(ReduceHunger(waterWarmthReductionRate));
+        StartCoroutine(ReduceWarmth(waterWarmthReductionRate));
 	}
 
     /// <summary>
