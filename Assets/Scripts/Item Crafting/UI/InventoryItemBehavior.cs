@@ -1,35 +1,78 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEditor.Events;
 
-namespace CraftingSystem
+/// <summary>
+/// Attached to the buttons that represent the items in the Inventory UI
+/// </summary>
+
+public class InventoryItemBehavior : MonoBehaviour 
 {
+	[Tooltip("Label that displays the name of the item")]
+	public Text itemLabel;
+
+	BaseItem targetItem;
+	BaseItem originalItem;
+
 	/// <summary>
-	/// Attached to the buttons that represent the items in the Inventory UI
+	/// Subscribes to name change event
 	/// </summary>
-
-	public class InventoryItemBehavior : MonoBehaviour 
+	public void SetUpInventoryItem(BaseItem baseItm)
 	{
-		[Tooltip("Label that displays the name of the item")]
-		public Text itemLabel;
+		baseItm.changeItemName += HandleItemNameChangeEvent;
+		targetItem = baseItm;
+		itemLabel.text = targetItem.itemName;
+	}
 
-		/// <summary>
-		/// Subscribes to naem change event
-		/// </summary>
-		void OnEnable()
+	/// <summary>
+	/// Function that changes the UI text to reflect the gameobject's name
+	/// </summary>
+	/// <param name="itemName">Item name.</param>
+	public void HandleItemNameChangeEvent(string itemName)
+	{
+		itemLabel.text = itemName;
+	}
+
+	public string GetItemName()
+	{
+		return targetItem.itemName;
+	}
+
+	public Dictionary<string, float> GetItemAttributes()
+	{
+		return targetItem.GetItemAttributes ();
+	}
+
+	public Dictionary<string, List<Action>> GetPossibleActions()
+	{
+		return targetItem.GetPossibleActions ();
+	}
+
+	public void PreserveOriginal()
+	{
+		originalItem = targetItem;
+		targetItem = originalItem.GetItemsToModify (EnterAmountBehavior.instance.GetAmount ());
+	}
+
+	public void CheckForModification()
+	{
+		
+		if (targetItem.GetModifications ().Count > 0)  
 		{
-			BaseItem baseItm = GetComponent<BaseItem> ();
-			baseItm.changeItemName += HandleItemNameChangeEvent;
+			InventoryUIBehavior.instance.targetInventory.AddItem (targetItem);
+			originalItem = targetItem;
+			if (originalItem.amount < 1) {
+				InventoryUIBehavior.instance.targetInventory.RemoveItem (originalItem);
+			}
 		}
 
-		/// <summary>
-		/// Function that changes the UI text to reflect the gameobject's name
-		/// </summary>
-		/// <param name="itemName">Item name.</param>
-		public void HandleItemNameChangeEvent(string itemName)
-		{
-			itemLabel.text = itemName;
-		}
+		targetItem = originalItem;
+	}
+
+	public BaseItem getBaseItem()
+	{
+		return targetItem;
 	}
 }

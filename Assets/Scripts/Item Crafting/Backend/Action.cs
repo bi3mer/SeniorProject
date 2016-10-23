@@ -1,73 +1,71 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
-namespace CraftingSystem
+/// <summary>
+/// Class that defines an action being the name of the action
+/// and the UnityAction. The action may also have an id
+/// that specifies which subcategory of action it falls under.
+/// </summary>
+public class Action
 {
-	/// <summary>
-	/// Class that defines an action being the name of the action
-	/// and the actionToPerform. The action may also have an id
-	/// that specifies which subcategory of action it falls under.
-	/// </summary>
-	public class Action
+	private string actionName;
+	private UnityAction UnityAction;
+	private int subcategoryActionID;
+
+	public Action(string n, UnityAction act)
 	{
-		private string actionName;
-		private ActionToPerform actionToPerform;
-		private int subcategoryActionID;
+		actionName = n;
+		UnityAction = act;
+	}
 
-		public Action(string n, ActionToPerform act)
+	/// <summary>
+	/// Gets or sets the assigned action to perform.
+	/// </summary>
+	/// <value>The assigned action.</value>
+	/// 
+	public UnityAction AssignedAction
+	{
+		get 
 		{
-			actionName = n;
-			actionToPerform = act;
+			return UnityAction;
 		}
-
-		/// <summary>
-		/// Gets or sets the assigned action to perform.
-		/// </summary>
-		/// <value>The assigned action.</value>
-		/// 
-		public ActionToPerform AssignedAction
+		set 
 		{
-			get 
-			{
-				return actionToPerform;
-			}
-			set 
-			{
-				actionToPerform = value;
-			}
+			UnityAction = value;
 		}
+	}
 
-		/// <summary>
-		/// Gets or sets the name of the action.
-		/// </summary>
-		/// <value>The name of the action.</value>
-		public string ActionName 
+	/// <summary>
+	/// Gets or sets the name of the action.
+	/// </summary>
+	/// <value>The name of the action.</value>
+	public string ActionName 
+	{
+		get 
 		{
-			get 
-			{
-				return actionName;
-			}
-			set 
-			{
-				actionName = value;
-			}
+			return actionName;
 		}
-
-		/// <summary>
-		/// Gets or sets the id that marks which subcategory of actions this should
-		/// fall under.
-		/// </summary>
-		/// <value>The subcategory action id.</value>
-		public int SubCategoryActionID
+		set 
 		{
-			get 
-			{
-				return subcategoryActionID;	
-			}
-			set 
-			{
-				subcategoryActionID = value;
-			}
+			actionName = value;
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets the id that marks which subcategory of actions this should
+	/// fall under.
+	/// </summary>
+	/// <value>The subcategory action id.</value>
+	public int SubCategoryActionID
+	{
+		get 
+		{
+			return subcategoryActionID;	
+		}
+		set 
+		{
+			subcategoryActionID = value;
 		}
 	}
 }

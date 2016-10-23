@@ -2,301 +2,239 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
-namespace CraftingSystem
+/// <summary>
+/// Handles the behavior of the panel that pops up when an item in the inventory is clicked.
+/// Shows the attributes and actions of an item.
+/// </summary>
+public class ItemInfoPanelBehavior : MonoBehaviour 
 {
+	public static ItemInfoPanelBehavior instance;
+
+	[Tooltip("text that shows the name of the item selected")]
+	public Text itemName;
+
+	[Tooltip("the scroll bar section that contains the attributes")]
+	public GameObject AttributeScroll;
+
+	[Tooltip("the scroll bar section that contains the actions")]
+	public GameObject ActionScroll;
+
+	[Tooltip("the scroll bar section that contains the subcategory actions; only populates when a parent action is selected")]
+	public GameObject SubActionScroll;
+
+	[Tooltip("prefab for the stat bars")]
+	public GameObject statElement;
+
+	[Tooltip("prefab for the buttons that show the actions of an item")]
+	public GameObject actionButton;
+
+	[Tooltip("the animation state of the panel")]
+	public int currentAnimationState = 1;
+
+	// animator that controls the panel's movements
+	private Animator anim;
+
+	// attribute gameobjects, including slider and label, by name
+	private Dictionary<string, GameObject> attrObjects;
+
+	// actions by name
+	private Dictionary<string, List<Action>> actionsByID;
+
+	// list of actionButtons, acts as a pool from which action buttons can be pulled from if necessary
+	private List<GameObject> actionButtons;
+
+	private InventoryItemBehavior targetItem;
+
 	/// <summary>
-	/// Handles the behavior of the panel that pops up when an item in the inventory is clicked.
-	/// Shows the attributes and actions of an item.
+	/// Start this instance. Gets the gameobjects needed to run the script.
 	/// </summary>
-	public class ItemInfoPanelBehavior : MonoBehaviour 
+	void Start()
 	{
-		public static ItemInfoPanelBehavior instance;
+		instance = this;
+		anim = GetComponent<Animator> ();
+		attrObjects = new Dictionary<string, GameObject> ();
+		actionsByID = new Dictionary<string, List<Action>> ();
 
-		[Tooltip("text that shows the name of the item selected")]
-		public Text itemName;
+		actionButtons = new List<GameObject> ();
+	}
 
-		[Tooltip("the scroll bar section that contains the attributes")]
-		public GameObject AttributeScroll;
+	/// <summary>
+	/// Open the item info panel for the specified item.
+	/// </summary>
+	/// <param name="ob">Ob.</param>
+	public void OpenItemInfo(GameObject item)
+	{
+		// when the animation state is 1, the panel will open
+		currentAnimationState = 1;
 
-		[Tooltip("the scroll bar section that contains the actions")]
-		public GameObject ActionScroll;
+		// clears the panel to make way for the current item's info
+		attrObjects.Clear ();
+		actionsByID.Clear ();
 
-		[Tooltip("the scroll bar section that contains the subcategory actions; only populates when a parent action is selected")]
-		public GameObject SubActionScroll;
+		anim.SetInteger ("state", currentAnimationState);
 
-		[Tooltip("prefab for the stat bars")]
-		public GameObject statElement;
+		// creates a duplicate of the object that will be affected by any changes made
+		targetItem = item.GetComponent<InventoryItemBehavior>();
 
-		[Tooltip("prefab for the buttons that show the actions of an item")]
-		public GameObject actionButton;
+		targetItem.PreserveOriginal ();
 
-		[Tooltip("the animation state of the panel")]
-		public int currentAnimationState = 1;
+		// populates the attribute scroll section and the action scroll section
+		Populate ();
+	}
 
-		// animator that controls the panel's movements
-		private Animator anim;
+	/// <summary>
+	/// Closes the item info panel.
+	/// </summary>
+	public void CloseItemInfo()
+	{
+		currentAnimationState = 2;
+		anim.SetInteger ("state", currentAnimationState);
 
-		// attribute gameobjects, including slider and label, by name
-		private Dictionary<string, GameObject> attrObjects;
+		// clear the info from the selected
+		Depopulate ();
+		attrObjects.Clear ();
+		actionsByID.Clear ();
+		actionButtons.Clear ();
 
-		// actions by name
-		private Dictionary<string, List<Action>> actionsByID;
+		targetItem.CheckForModification ();
+	}
 
-		// list of actionButtons, acts as a pool from which action buttons can be pulled from if necessary
-		private List<GameObject> actionButtons;
+	/// <summary>
+	/// Removes the info of the selected item from the item info panel.
+	/// </summary>
+	public void Depopulate()
+	{
+		GameObject[] children = new GameObject [SubActionScroll.transform.childCount + ActionScroll.transform.childCount + AttributeScroll.transform.childCount];
+		int current = 0;
 
-		// whether or not the item was changed during the time this menu is open
-		private bool itemChanged;
-
-		// the duplicate item created when this panel is opened
-		// this item is affected by the changes
-		// if no changes occur, then this duplicate item is deleted when the panel is closed
-		// and the amount put into it is added back to the original item
-		private BaseItem duplicate;
-
-		// the original item selected
-		private BaseItem original;
-
-		/// <summary>
-		/// Start this instance. Gets the gameobjects needed to run the script.
-		/// </summary>
-		void Start()
+		for (int i = 0; i < SubActionScroll.transform.childCount; ++i) 
 		{
-			instance = this;
-			anim = GetComponent<Animator> ();
-			attrObjects = new Dictionary<string, GameObject> ();
-			actionsByID = new Dictionary<string, List<Action>> ();
-
-			actionButtons = new List<GameObject> ();
+			children [i] = SubActionScroll.transform.GetChild (i).gameObject;
 		}
 
-		/// <summary>
-		/// Open the item info panel for the specified item.
-		/// </summary>
-		/// <param name="ob">Ob.</param>
-		public void OpenItemInfo(GameObject item)
+		current = SubActionScroll.transform.childCount;
+
+		for (int j = current; j < ActionScroll.transform.childCount + current; ++j) 
 		{
-			// when the animation state is 1, the panel will open
-			currentAnimationState = 1;
-
-			// clears the panel to make way for the current item's info
-			attrObjects.Clear ();
-			actionsByID.Clear ();
-
-			anim.SetInteger ("state", currentAnimationState);
-
-			// creates a duplicate of the object that will be affected by any changes made
-			original = item.GetComponent<BaseItem>();
-			duplicate = original.CreateDuplicate (EnterAmountBehavior.instance.GetAmount());
-			itemChanged = false;
-
-			// populates the attribute scroll section and the action scroll section
-			Populate ();
+			children [j] = ActionScroll.transform.GetChild (j - current).gameObject;
 		}
 
-		/// <summary>
-		/// Closes the item info panel.
-		/// </summary>
-		public void CloseItemInfo()
+		current += ActionScroll.transform.childCount;
+
+		for (int k = current; k < AttributeScroll.transform.childCount + current; ++k) 
 		{
-			currentAnimationState = 2;
-			anim.SetInteger ("state", currentAnimationState);
+			children [k] = AttributeScroll.transform.GetChild (k - current).gameObject;
+		}
 
-			// clear the info from the selected
-			Depopulate ();
-			attrObjects.Clear ();
-			actionsByID.Clear ();
-			actionButtons.Clear ();
+		for (int j = 0; j < children.Length; ++j) 
+		{
+			GameObject.Destroy (children [j]);
+		}
+	}
 
-			// if no changes were made to the item, then the duplicate item is destroyed
-			if (!itemChanged) 
+	/// <summary>
+	/// Populates the item info panel with attributes and actions of the selected item.
+	/// </summary>
+	public void Populate()
+	{
+		itemName.text = targetItem.GetItemName ();
+
+		Dictionary<string, float> attr = targetItem.GetItemAttributes ();
+
+		List<string> keys = new List<string>(attr.Keys);
+
+		// removes the attributes from the attribute section
+		for(int i = 0; i < keys.Count; ++i)
+		{
+			GameObject stat = GameObject.Instantiate (statElement);
+			stat.transform.SetParent (AttributeScroll.transform, false);
+			stat.transform.localScale = Vector3.one;
+			AttributeStat s = stat.GetComponent<AttributeStat> ();
+			s.SetValue(attr [keys[i]]);
+			s.SetLabel (keys[i]);
+
+			attrObjects.Add (keys[i], stat);
+		}
+
+		Dictionary<string, List<Action>> possibleActions = targetItem.GetPossibleActions ();
+
+		keys = new List<string> (possibleActions.Keys);
+
+		// adds the actions to the action section
+		// each key is the category name of the action
+		// actions that are not part of a category of action
+		// has a key of "base"
+		for(int i = 0; i < keys.Count; ++i)
+		{
+			// "base" actions are directly added into the action section as clicking them do not open up more options
+			if (keys[i].Equals ("base")) 
 			{
-				if (duplicate != null) 
+				for (int j = 0; j < possibleActions [keys [i]].Count; ++j) 
 				{
-					Destroy (duplicate.gameObject);
+					GameObject action = GameObject.Instantiate (actionButton);
+					action.GetComponent<ActionButton> ().SetAction (possibleActions [keys [i]] [j].AssignedAction, possibleActions [keys [i]] [j].ActionName);
+					action.transform.SetParent(ActionScroll.transform, false);
+					action.transform.localScale = Vector3.one;
+					actionButtons.Add (action);
 				}
-			} 
+			}
 			else 
 			{
-				// save the changes made to the duplicate item and save it as its own object in the inventory
-				if (duplicate != null) 
-				{
-					InventoryUIBehavior.instance.targetInventory.AddItem (duplicate.gameObject);
-				}
-				else 
-				{
-					InventoryUIBehavior.instance.targetInventory.AddItem (original.gameObject);
-				}
+				// if the key is not "base", then an action category button needs to be added
+				// these buttons will not fire off an item changing action themselves
+				// instead clicking on them will make the actions that fall under their category appear
+				// for example, if the key is "Weave", then a button with "Weave" will appear in the initial
+				// panel that lists the actions, however if the player clicks on the "Weave" button, rather than
+				// any actual weaving happening, "Weave Basket" and "Weave Rope" will appear as options
+				// and the player can then click on one of those actions, and weaving will occur
+
+				// thus, this is creating the action button gameobject and assigning it an action to generate child actions (ShowSubActions)
+				// the name of the action category is saved to ActionSubcategory
+				// and then all actions that fall under that category are saved to actionsByID, so that when that button is pressed
+				// the ActionSubcategory can be used as a key to get the child actions
+				GameObject action = GameObject.Instantiate (actionButton);
+				ActionButton button = action.GetComponent<ActionButton> ();
+
+				UnityAction subAction = new UnityAction (button.ShowSubActions);
+				button.SetAction (subAction, keys[i]);
+				button.ActionSubcategory = keys [i];
+				actionsByID.Add (keys [i], possibleActions [keys [i]]);
+
+				action.transform.SetParent(ActionScroll.transform, false);
+				action.transform.localScale = Vector3.one;
+				actionButtons.Add (action);
 			}
 		}
+	}
 
-		/// <summary>
-		/// Removes the info of the selected item from the item info panel.
-		/// </summary>
-		public void Depopulate()
+	/// <summary>
+	/// Refreshes the info panel after changes are made to the item. Reloads the attributes and allowed actions.
+	/// </summary>
+	public void RefreshItemPanel()
+	{
+		itemName.text = targetItem.GetItemName ();
+		Dictionary<string, float> attr = targetItem.GetItemAttributes ();
+
+		List<string> keys = new List<string> (attr.Keys);
+		for(int i = 0; i < keys.Count; ++i)
 		{
-			GameObject[] children = new GameObject [SubActionScroll.transform.childCount + ActionScroll.transform.childCount + AttributeScroll.transform.childCount];
-			int current = 0;
-
-			for (int i = 0; i < SubActionScroll.transform.childCount; ++i) 
-			{
-				children [i] = SubActionScroll.transform.GetChild (i).gameObject;
-			}
-
-			current = SubActionScroll.transform.childCount;
-
-			for (int j = current; j < ActionScroll.transform.childCount + current; ++j) 
-			{
-				children [j] = ActionScroll.transform.GetChild (j - current).gameObject;
-			}
-
-			current += ActionScroll.transform.childCount;
-
-			for (int k = current; k < AttributeScroll.transform.childCount + current; ++k) 
-			{
-				children [k] = AttributeScroll.transform.GetChild (k - current).gameObject;
-			}
-
-			for (int j = 0; j < children.Length; ++j) 
-			{
-				GameObject.Destroy (children [j]);
-			}
+			attrObjects [keys[i]].GetComponent<AttributeStat> ().SetValue (attr [keys[i]]);
 		}
 
-		/// <summary>
-		/// Populates the item info panel with attributes and actions of the selected item.
-		/// </summary>
-		public void Populate()
+		Dictionary<string, List<Action>> acts = targetItem.GetPossibleActions ();
+		keys = new List<string> (acts.Keys);
+
+		int buttonUsed = 0;
+
+		for(int i = 0; i < keys.Count; ++i)
 		{
-			BaseItem itm;
+			GameObject act;
 
-			if (duplicate != null) 
+			if (keys[i].Equals ("base")) 
 			{
-				itm = duplicate;
-			} 
-			else 
-			{
-				itm = original;
-			}
-
-			itemName.text = itm.itemName;
-
-			Dictionary<string, float> attr = itm.GetAttributes ();
-
-			List<string> keys = new List<string>(attr.Keys);
-
-			// removes the attributes from the attribute section
-			for(int i = 0; i < keys.Count; ++i)
-			{
-				GameObject stat = GameObject.Instantiate (statElement);
-				stat.transform.SetParent (AttributeScroll.transform, false);
-				stat.transform.localScale = Vector3.one;
-				AttributeStat s = stat.GetComponent<AttributeStat> ();
-				s.SetValue(attr [keys[i]]);
-				s.SetLabel (keys[i]);
-
-				attrObjects.Add (keys[i], stat);
-			}
-
-			Dictionary<string, List<Action>> acts = itm.GetPossibleActions ();
-
-			keys = new List<string> (acts.Keys);
-
-			// adds the actions to the action section
-			// each key is the category name of the action
-			// actions that are not part of a category of action
-			// has a key of "base"
-			for(int i = 0; i < keys.Count; ++i)
-			{
-				// "base" actions are directly added into the action section as clicking them do not open up more options
-				if (keys[i].Equals ("base")) 
-				{
-					for (int j = 0; j < acts [keys [i]].Count; ++j) 
-					{
-						GameObject act = GameObject.Instantiate (actionButton);
-						act.GetComponent<ActionButton> ().SetAction (acts [keys [i]] [j].AssignedAction, acts [keys [i]] [j].ActionName);
-						act.transform.SetParent(ActionScroll.transform, false);
-						act.transform.localScale = Vector3.one;
-						actionButtons.Add (act);
-					}
-				}
-				else 
-				{
-					// actions that are part of a subcategory of actions will have their parent action added, then the actual actions themselves
-					// are saved into a dictionary
-					GameObject act = GameObject.Instantiate (actionButton);
-					ActionButton button = act.GetComponent<ActionButton> ();
-
-					ActionToPerform subAct = new ActionToPerform (button.ShowSubAction);
-					button.SetAction (subAct, keys[i]);
-					button.ActionSubcategory = keys [i];
-					actionsByID.Add (keys [i], acts [keys [i]]);
-
-					act.transform.SetParent(ActionScroll.transform, false);
-					act.transform.localScale = Vector3.one;
-					actionButtons.Add (act);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Refreshes the info panel after changes are made to the item. Reloads the attributes and allowed actions.
-		/// </summary>
-		public void RefreshItemPanel()
-		{
-			BaseItem itm;
-
-			if (duplicate != null) 
-			{
-				itm = duplicate;
-			} 
-			else 
-			{
-				itm = original;
-			}
-
-			itemName.text = itm.itemName;
-			Dictionary<string, float> attr = itm.GetAttributes ();
-			itemChanged = true;
-
-			List<string> keys = new List<string> (attr.Keys);
-			for(int i = 0; i < keys.Count; ++i)
-			{
-				attrObjects [keys[i]].GetComponent<AttributeStat> ().SetValue (attr [keys[i]]);
-			}
-
-			Dictionary<string, List<Action>> acts = itm.GetPossibleActions ();
-			keys = new List<string> (acts.Keys);
-
-			int buttonUsed = 0;
-
-			for(int i = 0; i < keys.Count; ++i)
-			{
-				GameObject act;
-
-				if (keys[i].Equals ("base")) 
-				{
-					for (int j = 0; j < acts [keys [i]].Count; ++j) 
-					{
-						if (buttonUsed < actionButtons.Count) 
-						{
-							act = actionButtons [buttonUsed];
-							act.SetActive (true);
-							buttonUsed++;
-						} 
-						else 
-						{
-							act = GameObject.Instantiate (actionButton);
-							act.transform.SetParent(ActionScroll.transform, false);
-							act.transform.localScale = Vector3.one;
-							actionButtons.Add (act);
-						}
-
-						act.GetComponent<ActionButton> ().SetAction (acts [keys [i]] [j].AssignedAction, acts [keys [i]] [j].ActionName);
-					}
-				}
-				else 
+				for (int j = 0; j < acts [keys [i]].Count; ++j) 
 				{
 					if (buttonUsed < actionButtons.Count) 
 					{
@@ -307,69 +245,87 @@ namespace CraftingSystem
 					else 
 					{
 						act = GameObject.Instantiate (actionButton);
+						act.transform.SetParent(ActionScroll.transform, false);
+						act.transform.localScale = Vector3.one;
+						actionButtons.Add (act);
 					}
 
-					ActionButton button = act.GetComponent<ActionButton> ();
-
-					ActionToPerform subAct = new ActionToPerform (button.ShowSubAction);
-					button.SetAction (subAct, keys[i]);
-					button.ActionSubcategory = keys [i];
-
-					if (actionsByID.ContainsKey (keys [i])) 
-					{
-						actionsByID [keys [i]] = acts [keys [i]];
-					} 
-					else 
-					{
-						actionsByID.Add (keys [i], acts [keys [i]]);
-					}
+					act.GetComponent<ActionButton> ().SetAction (acts [keys [i]] [j].AssignedAction, acts [keys [i]] [j].ActionName);
 				}
 			}
-
-			// if the number of action buttons used is less than the total created thus far
-			// then just recyle an unsed action button instead of creating a new one
-			if (buttonUsed < actionButtons.Count) 
+			else 
 			{
-				for (int j = buttonUsed; j < actionButtons.Count; ++j) 
+				if (buttonUsed < actionButtons.Count) 
 				{
-					actionButtons [j].SetActive (false);
+					act = actionButtons [buttonUsed];
+					act.SetActive (true);
+					buttonUsed++;
+				} 
+				else 
+				{
+					act = GameObject.Instantiate (actionButton);
+				}
+
+				ActionButton button = act.GetComponent<ActionButton> ();
+
+				UnityAction subAct = new UnityAction (button.ShowSubActions);
+				button.SetAction (subAct, keys[i]);
+				button.ActionSubcategory = keys [i];
+
+				if (actionsByID.ContainsKey (keys [i])) 
+				{
+					actionsByID [keys [i]] = acts [keys [i]];
+				} 
+				else 
+				{
+					actionsByID.Add (keys [i], acts [keys [i]]);
 				}
 			}
 		}
 
-		/// <summary>
-		/// Creates the sub actions for a given category of action.
-		/// </summary>
-		/// <param name="id">Identifier.</param>
-		public void CreateSubAction(string id)
+		// if the number of action buttons used is less than the total created thus far
+		// then just recyle an unsed action button instead of creating a new one
+		if (buttonUsed < actionButtons.Count) 
 		{
-			List<Action> actions = actionsByID [id];
-
-			for(int i = 0; i < actions.Count; ++i)
+			for (int j = buttonUsed; j < actionButtons.Count; ++j) 
 			{
-				GameObject act = GameObject.Instantiate (actionButton);
-				act.GetComponent<ActionButton> ().SetAction (actions[i].AssignedAction, actions[i].ActionName);
-				act.transform.SetParent (SubActionScroll.transform, false);
-				act.transform.localScale = Vector3.one;
+				actionButtons [j].SetActive (false);
 			}
 		}
+	}
 
-		/// <summary>
-		/// Clears the subcategory action panel.
-		/// </summary>
-		public void ClearSubActionPanel()
+	/// <summary>
+	/// Creates the sub actions for a given category of action.
+	/// </summary>
+	/// <param name="id">Identifier.</param>
+	public void CreateSubAction(string id)
+	{
+		List<Action> actions = actionsByID [id];
+
+		for(int i = 0; i < actions.Count; ++i)
 		{
-			GameObject[] children = new GameObject [SubActionScroll.transform.childCount];
+			GameObject act = GameObject.Instantiate (actionButton);
+			act.GetComponent<ActionButton> ().SetAction (actions[i].AssignedAction, actions[i].ActionName);
+			act.transform.SetParent (SubActionScroll.transform, false);
+			act.transform.localScale = Vector3.one;
+		}
+	}
 
-			for (int i = 0; i < SubActionScroll.transform.childCount; ++i) 
-			{
-				children [i] = SubActionScroll.transform.GetChild (i).gameObject;
-			}
+	/// <summary>
+	/// Clears the subcategory action panel.
+	/// </summary>
+	public void ClearSubActionPanel()
+	{
+		GameObject[] children = new GameObject [SubActionScroll.transform.childCount];
 
-			for (int j = 0; j < children.Length; ++j) 
-			{
-				GameObject.Destroy (children [j]);
-			}
+		for (int i = 0; i < SubActionScroll.transform.childCount; ++i) 
+		{
+			children [i] = SubActionScroll.transform.GetChild (i).gameObject;
+		}
+
+		for (int j = 0; j < children.Length; ++j) 
+		{
+			GameObject.Destroy (children [j]);
 		}
 	}
 }

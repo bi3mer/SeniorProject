@@ -1,0 +1,45 @@
+﻿{
+	"inventories":[
+	   {
+	   		"name": "player",
+	        "items": [
+	            {
+					"itemName": "river reed",
+					"unmodifiedName": "river reed",
+					"amount": 5,
+					"modifications": []
+				},
+				{
+					"itemName": "stick",
+					"unmodifiedName": "stick",
+					"amount": 2
+				},
+				{
+					"itemName": "hook",
+					"unmodifiedName": "hook",
+					"amount": 2,
+					"modifications": []
+				}
+	        ]
+	    }
+	   	{
+	   		"name": "raft",
+	        "items": [
+	            {
+					"itemName": "river reed",
+					"unmodifiedName": "river reed",
+					"amount": 10,
+					"modifications": []
+				},
+				{
+	       			"itemName": "river reed thread",
+					"unmodifiedName": "river reed",
+					"amount": 2,
+					"modifications": [
+						"Weave Rope";
+					]
+				}
+	        ]
+	    }
+    ]
+}
