@@ -121,6 +121,8 @@ public class PlayerController : MonoBehaviour
                 // TODO: Check to see if Use returns and item
                 // if so maybe show it off then put it in the player's inventory
                 equippedTool.Use();
+                
+                // TODO: Don't let player move when using tools 
             }
         }
 
