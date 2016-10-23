@@ -126,7 +126,7 @@ public class FishingRod : Tool
 
         // apply force forward and upwards in specified amount
         var force = new Vector3();
-        force += Vector3.forward * castingForce.x;
+        force += transform.forward * castingForce.x;
         force += Vector3.up * castingForce.y;
 
         fishingLure.Cast(force);

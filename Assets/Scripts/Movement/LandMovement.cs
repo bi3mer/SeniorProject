@@ -29,6 +29,10 @@ public class LandMovement : Movement
     /// <param name="direction">The direction to walk the player.</param>
     public override void Move(Vector3 direction)
     {
+        if (direction.magnitude != 0.0f)
+        {
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
         RigidBody.velocity = direction.normalized * walkingSpeed + Vector3.up * RigidBody.velocity.y;
     }
 
