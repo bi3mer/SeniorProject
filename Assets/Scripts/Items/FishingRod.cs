@@ -51,6 +51,7 @@ public class FishingRod : Tool
         private set
         {
             wasCast = value;
+            InUse = value;
             SetFishingLineActive(value);
         }
     }

@@ -94,6 +94,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update ()
     {
+        UpdatePlayerStats();
+
         if (Input.GetKeyDown(controlScheme.CameraLeft))
         {
             playerCamera.RotateLeft();
@@ -104,15 +106,6 @@ public class PlayerController : MonoBehaviour
             playerCamera.RotateRight();
         }
         
-        // if the player is near an interactable item
-        if (interactable != null)
-        {
-            if (Input.GetKeyDown(controlScheme.Action))
-            {
-                interactable.PerformAction();
-            }
-        }
-
         // if the player has a tool equipped
         if (equippedTool != null)
         {
@@ -124,14 +117,27 @@ public class PlayerController : MonoBehaviour
                 
                 // TODO: Don't let player move when using tools 
             }
+
+            // don't check for other input since we are currently using a tool
+            if (equippedTool.InUse) 
+            {
+                return;
+            }
+        }
+
+        // if the player is near an interactable item
+        if (interactable != null)
+        {
+            if (Input.GetKeyDown(controlScheme.Action))
+            {
+                interactable.PerformAction();
+            }
         }
 
         if (isGrounded && Input.GetKeyDown(controlScheme.Jump))
         {
             movement.Jump();
         }
-
-        UpdatePlayerStats();
     }
 	
     /// <summary>
@@ -139,6 +145,12 @@ public class PlayerController : MonoBehaviour
     /// </summary>
 	void FixedUpdate () 
     {
+        // don't move if a tool is currently in use
+        if (equippedTool != null && equippedTool.InUse)
+        {
+            return;
+        }
+
         Vector3 direction = Vector3.zero;
 
         // Determine current direction of movement relative to camera
