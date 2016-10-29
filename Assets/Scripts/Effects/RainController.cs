@@ -57,6 +57,7 @@ public class RainController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //Grab the renderer.
         MainRainRenderer = MainRain.GetComponent<ParticleSystemRenderer>();
     }
 
@@ -79,7 +80,7 @@ public class RainController : MonoBehaviour
         ParticleSystem.EmissionModule RainEmission = MainRain.emission;
         RainEmission.rate = RainLevel * 2f;
 
-        //set the rainfog emission rate, if it's less than the threshold turn off emission.
+        //set the RainFog emission rate, if it's less than the threshold turn off emission.
         RainEmission = RainFog.emission;
         if (RainLevel < FogStartThreshold)
         {
@@ -92,7 +93,7 @@ public class RainController : MonoBehaviour
 
         //Set the RainMain material based on the thresholds.
 
-        //If in editor, chance the script is running in edit mode and we won't have the renderer set.   
+        //If in editor, there's a chance the script is running in edit mode and we won't have the renderer set.   
         #if (UNITY_EDITOR)
         if (MainRainRenderer == null)
         {
