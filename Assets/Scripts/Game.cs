@@ -5,6 +5,8 @@
     private Game ()
     {
         PlayerInstance = new Player();
+		ClockInstance  = new Clock();
+		ClockInstance.Start();
     }
  
     /// <summary>
@@ -30,4 +32,10 @@
         get;
         private set;
     }
+
+	public Clock ClockInstance
+	{
+		get;
+		private set;
+	}
 }
