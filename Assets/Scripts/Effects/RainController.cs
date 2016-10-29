@@ -16,7 +16,7 @@ using System.Collections;
 [ExecuteInEditMode]
 public class RainController : MonoBehaviour
 {
-    //Turn this on for testing. Ideally the future will call functions in this script to change the weather
+    //Turn this on for testing. Ideally in the future other scripts will call functions in this script to change the weather
     public bool UpdateEveryFrame;
 
 
