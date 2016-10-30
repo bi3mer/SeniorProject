@@ -9,15 +9,15 @@ using UnityEngine.Events;
 /// </summary>
 public class PlantCategory : ItemCategory 
 {
-	public float waterContent;
-	public float toughness;
-	public float sweet;
-	public float bitter;
-	public float sour;
-	public float salty;
-	public float spicy;
-	public float stomachEffect;
-	public float pneumoniaEffect;
+	public float waterContent { get; set; }
+	public float toughness { get; set; }
+	public float sweet { get; set; }
+	public float bitter { get; set; }
+	public float sour { get; set; }
+	public float salty { get; set; }
+	public float spicy { get; set; }
+	public float stomachEffect { get; set; }
+	public float pneumoniaEffect { get; set; }
 
 	private const string waterContAttrName = "waterContent";
 	private const string toughAttrName = "toughness";
@@ -43,6 +43,7 @@ public class PlantCategory : ItemCategory
 		category.stomachEffect = stomachEffect;
 		category.pneumoniaEffect = pneumoniaEffect;
 
+		category.actionCompleted = actionCompleted;
 		return category;
 	}
 
@@ -52,7 +53,13 @@ public class PlantCategory : ItemCategory
 	public override void ReadyCategory()
 	{
 		attributes = new Dictionary<string, float> ();
-		actionCompleted = new Dictionary<string, bool> ();
+
+		if (actionCompleted == null) 
+		{
+			actionCompleted = new Dictionary<string, bool> ();
+			actionCompleted.Add (dryActName, false);
+			actionCompleted.Add (cookActName, false);
+		}
 
 		attributes.Add (waterContAttrName, waterContent);
 		attributes.Add (toughAttrName, toughness);
@@ -61,9 +68,6 @@ public class PlantCategory : ItemCategory
 		attributes.Add (sourAttrName, sour);
 		attributes.Add (saltyAttrName, salty);
 		attributes.Add (spicyAttrName, spicy);
-
-		actionCompleted.Add (dryActName, false);
-		actionCompleted.Add (cookActName, false);
 	}
 
 	/// <summary>

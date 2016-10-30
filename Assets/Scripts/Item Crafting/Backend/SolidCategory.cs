@@ -9,12 +9,12 @@ using UnityEngine.Events;
 /// </summary>
 public class SolidCategory : ItemCategory 
 {
-	public float flexibility;
-	public float durability;
-	public float elasticity;
-	public float stickiness;
-	public float thickness;
-	public float sharpness;
+	public float flexibility { get; set; }
+	public float durability { get; set; }
+	public float elasticity { get; set; }
+	public float stickiness { get; set; }
+	public float thickness { get; set; }
+	public float sharpness { get; set; }
 
 	float sharpenLowerThreshold = 0.2f;
 	float sharpenUpperThreshold = 0.7f;
@@ -42,6 +42,8 @@ public class SolidCategory : ItemCategory
 		category.thickness = thickness;
 		category.sharpness = sharpness;
 
+		category.actionCompleted = actionCompleted;
+
 		return category;
 	}
 
@@ -51,7 +53,13 @@ public class SolidCategory : ItemCategory
 	public override void ReadyCategory()
 	{
 		attributes = new Dictionary<string, float> ();
-		actionCompleted = new Dictionary<string, bool> ();
+
+		if (actionCompleted == null) 
+		{
+			actionCompleted = new Dictionary<string, bool> ();
+			actionCompleted.Add (weaveActionName, false);
+			actionCompleted.Add (sharpenActionName, false);
+		}
 
 		attributes.Add (flexAttrName, flexibility);
 		attributes.Add (duraAttrName, durability);
@@ -59,9 +67,6 @@ public class SolidCategory : ItemCategory
 		attributes.Add (stickiAttrName, stickiness);
 		attributes.Add (sharpAttrName, sharpness);
 		attributes.Add (thickAttrName, thickness);
-
-		actionCompleted.Add (weaveActionName, false);
-		actionCompleted.Add (sharpenActionName, false);
 	}
 
 	/// <summary>

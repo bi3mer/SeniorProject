@@ -1,0 +1,50 @@
+﻿---
+- recipeName: "Fishing Rod"
+  requirements:
+   - itemType: "rod"
+     amountRequired: 1
+   - itemType: "rope"
+     amountRequired: 1
+   - itemType: "hook"
+     amountRequired: 1
+  statsToCheck:
+   - statName: "durability"
+     affectingItems:
+      - "rod"
+      - "rope"
+      - "hook"
+     threshold:
+      - 5
+      - 15
+   - statName: "elasticity"
+     affectingItems:
+      - "rod"
+      - "rope"
+     threshold:
+      - 1
+      - 2
+   - statName: "flexibility"
+     affectingItems:
+      - "rod"
+      - "rope"
+     threshold:
+      - 1
+      - 2
+   - statName: "sharpness"
+     affectingItems:
+      - "hook"
+     threshold:
+      - 3
+      - 5
+   - statName: "stickiness"
+     affectingItems:
+      - "rod"
+     threshold:
+      - 0
+      - 0
+   - statName: "thickness"
+     affectingItems:
+      - "rod"
+     threshold:
+      - 2
+      - 4

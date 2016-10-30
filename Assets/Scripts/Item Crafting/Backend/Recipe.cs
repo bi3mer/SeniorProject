@@ -7,20 +7,18 @@
 public class Recipe  
 {
 	// list of requirements for a recipe
-	List<Requirement> requirements;
+	public List<Requirement> requirements { get; set; }
+
 	// name of the recipe, generally the name of the item that it will create
-	string recipeName;
+	public string recipeName { get; set; }
+
+	public List<CraftingStat> statsToCheck { get; set; }
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="Recipe"/> class. Takes in the name of the item that
-	/// the recipe will create and uses that as the name of the recipe. Instantiates the list of
-	/// requirements.
+	/// Initializes a new instance of the <see cref="Recipe"/> class. Used by the yaml deserializer.
 	/// </summary>
-	/// <param name="name">Name of recipe.</param>
-	public Recipe(string name)
+	public Recipe()
 	{
-		recipeName = name;
-		requirements = new List<Requirement> ();
 	}
 
 	/// <summary>
@@ -30,15 +28,6 @@ public class Recipe
 	public void AddRequirement(Requirement req)
 	{
 		requirements.Add (req);
-	}
-
-	/// <summary>
-	/// Gets the list of requirements.
-	/// </summary>
-	/// <returns>The requirements.</returns>
-	public List<Requirement> GetRequirements()
-	{
-		return requirements;
 	}
 
 	/// <summary>
@@ -55,14 +44,5 @@ public class Recipe
 		}
 
 		return true;
-	}
-
-	/// <summary>
-	/// Gets the name of the recipe.
-	/// </summary>
-	/// <returns>The recipe name.</returns>
-	public string GetRecipeName()
-	{
-		return recipeName;
 	}
 }

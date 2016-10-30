@@ -6,7 +6,7 @@ using System.Collections.Generic;
 /// Abstract class for the classes which contain suites of actions and attributes which can be used to
 /// define a category of items. Examples include solid, liquid, and plant.
 /// </summary>
-public abstract class ItemCategory : CollectableItem 
+public class ItemCategory : CollectableItem 
 {
 	//the item category that this is linked to
 	protected CollectableItem component;
@@ -18,7 +18,7 @@ public abstract class ItemCategory : CollectableItem
 	protected Dictionary<string, float> attributes;
 
 	// Actions can only be performed once
-	protected Dictionary<string, bool> actionCompleted;
+	protected Dictionary<string, bool> actionCompleted { get; set; }
 
 	/// <summary>
 	/// Sets the component that this is connected to. May either be another item category or a base item class.

@@ -31,7 +31,7 @@ public class Inventory
 		
 	public void LoadInventory()
 	{
-		List<InventoryItem> inventoryInfo = InventoryJsonParser.instance.GetInventoryContents (inventoryName);
+		List<InventoryYAMLInfo> inventoryInfo = InventoryYamlParser.instance.GetInventoryContents (inventoryName);
 	
 		for (int i = 0; i < inventoryInfo.Count; ++i) 
 		{
@@ -79,9 +79,13 @@ public class Inventory
 	public void AddItem(BaseItem newItem)
 	{
 		inventory.Add (newItem.itemName, newItem);
-		InventoryItem itemStruct = new InventoryItem (newItem.itemName, newItem.GetUnmodifedName(), newItem.amount, newItem.GetModifications());
+		InventoryYAMLInfo itemStruct = new InventoryYAMLInfo ();
+		itemStruct.itemName = newItem.itemName;
+		itemStruct.unmodifiedItemName = newItem.unmodifiedName;
+		itemStruct.itemAmount = newItem.amount;
+		itemStruct.modifications = newItem.GetModifications ();
 
-		InventoryJsonParser.instance.AddToInventory (itemStruct, inventoryName);
+		InventoryYamlParser.instance.AddToInventory (itemStruct, inventoryName);
 	}
 
 	/// <summary>
@@ -92,7 +96,7 @@ public class Inventory
 	{
 		inventory [item.itemName] = null;
 		inventory.Remove (item.itemName);
-		InventoryJsonParser.instance.RemoveFromInventory (item.itemName, inventoryName);
+		InventoryYamlParser.instance.RemoveFromInventory (item.itemName, inventoryName);
 		item = null;
 	}
 

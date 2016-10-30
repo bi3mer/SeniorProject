@@ -9,16 +9,21 @@ using System.Collections.Generic;
 public class BaseItem : CollectableItem 
 {
 	//name of the item
-	public string itemName;
+	public string itemName {get; set;}
 
-	//"tags that specify what type of item this item is"
-	public List<string> tags;
+	// tags that specify what type of item this item is
+	// unfortunately enums are not serializable with yamldotnet
+	// as such, they must remain strings for now
+	public List<string> tags {get; set;}
 
-	//"how many units of the item there are in total handled by the gameobject"
-	public float amount;
+	// how many units of the item there are in total handled by the gameobject
+	public float amount { get; set; }
 
-	//description of item"
-	public string flavorText;
+	//description of item 
+	public string flavorText {get; set;}
+
+	// the name of the raw item before actions added things to their name
+	public string unmodifiedName {get; set;}
 
 	public delegate void ChangeNameEvent (string itemName); 
 
@@ -30,22 +35,40 @@ public class BaseItem : CollectableItem
 
 	private List<ItemCategory> categoryList;
 
-	private string unmodifiedName;
-
 	private List<string> modifications;
 
 	protected int numberToModify;
 
+	/// <summary>
+	/// Initializaer only used during Yaml Deserialization
+	/// </summary>
+	/// 
+	public BaseItem()
+	{
+	}
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="BaseItem"/> class.
+	/// </summary>
+	/// <param name="name">Name.</param>
 	public BaseItem(string name)
 	{
 		itemName = name;
 		unmodifiedName = name;
+
+		categoryList = new List<ItemCategory> ();
+
+		if (tags == null) 
+		{
+			tags = new List<string> ();
+		}
 	}
 
 	/// <summary>
 	/// Creates a deep copy of the BaseItem and all category items.
 	/// </summary>
 	/// <param name="original">Original BaseItem to be copied.</param>
+	/// 
 	public BaseItem(BaseItem original)
 	{
 		amount = original.amount;
@@ -58,7 +81,7 @@ public class BaseItem : CollectableItem
 			ItemCategory cat = original.categoryList [i].GetDuplicate ();
 			categoryList.Add (cat);
 		}
-
+			
 		SetUpBaseItem ();
 	}
 		
@@ -70,7 +93,6 @@ public class BaseItem : CollectableItem
 		{
 			tags = new List<string> ();
 		}
-
 	}
 
 	/// <summary>
@@ -119,6 +141,10 @@ public class BaseItem : CollectableItem
 		}
 	}
 
+	/// <summary>
+	/// Adds an ItemCategory to the list of item categories.
+	/// </summary>
+	/// <param name="category">Category.</param>
 	public void AddItemCategory(ItemCategory category)
 	{
 		categoryList.Add (category);
@@ -198,11 +224,19 @@ public class BaseItem : CollectableItem
 		lastCategory = (ItemCategory) previous;
 	}
 
+	/// <summary>
+	/// Gets the last category from the list of item categories. The start of the decorator chain.
+	/// </summary>
+	/// <returns>The last category.</returns>
 	public ItemCategory GetLastCategory()
 	{
 		return lastCategory;
 	}
 
+	/// <summary>
+	/// Gets the list of categories attached to the item.
+	/// </summary>
+	/// <returns>The item categories.</returns>
 	public List<ItemCategory> GetItemCategories()
 	{
 		return categoryList;
@@ -241,17 +275,12 @@ public class BaseItem : CollectableItem
 		modifications.Add (modificationName);
 	}
 
+	/// <summary>
+	/// Gets the list of modifications applied to the item.
+	/// </summary>
+	/// <returns>The modifications.</returns>
 	public List<string> GetModifications()
 	{
 		return modifications;
-	}
-
-	/// <summary>
-	/// Gets the unmodified name of the item.
-	/// </summary>
-	/// <returns>The unmodifed name.</returns>
-	public string GetUnmodifedName()
-	{
-		return unmodifiedName;
 	}
 }

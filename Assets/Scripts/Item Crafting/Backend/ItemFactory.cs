@@ -25,6 +25,10 @@ public class ItemFactory : MonoBehaviour
 
 
 	private Dictionary<string, BaseItem> itemDatabase;
+
+	// the different result tiers of craftable items
+	private string[] itemLevels = new string[3] { "Poor", "Good", "Excellent" };
+
 	/// <summary>
 	/// Start this instance. 
 	/// TODO: Loading in the craftingList by YAML.
@@ -32,93 +36,135 @@ public class ItemFactory : MonoBehaviour
 	void Start () 
 	{
 		instance = this;
-		CraftItem fishingRod = new CraftItem (CraftFishingRod);
-		craftingList = new Dictionary<string, CraftItem> ();
-		craftingList.Add ("Fishing Rod", fishingRod);
 
 		itemDatabase = new Dictionary<string, BaseItem> ();
 		LoadItemInformation ();
 	}
 
 	/// <summary>
-	/// Calls upon the delegate function that will create an item.
+	/// Crafts the item based on the requirements of the recipe and the ingredients provided.
+	/// The final stats of the resultant item is determined by the level that an item has achieved.
+	/// 
+	/// Different parts of the recipe affects different stats, which is specified by affectingItems.
+	/// If the sum of the values from the affectingItems exceeds a crafting stat's threshold
+	/// values for a level, then then the crafting stat is considered that level. For example, if
+	/// the threshold for "flexibility" is 3 or a "Good" level, and "Excellent" is 6, and the affecting
+	/// items are all of the "Rope" type. If the user has selected 5 "Rope" type items, each with flexiblity 1, 
+	/// then resultant sum is 5. It exceeds the "Good" level, but not the "Excellent" level, so the the "flexibility" 
+	/// crafting stat is considered "Good".
+	/// 
+	/// If all the crafting stats are "Good" or above, then the resultant item will be the "Good" version of
+	/// the item. If all are "Excellent", then the resultant item will be the "Excellent" version of the item.
+	/// Otherwise, it is just the "Poor" version of the item that will be created.
 	/// </summary>
-	/// <param name="name">Name of the item to be crafted</param>
+	/// <param name="recipe">Recipe for the item.</param>
 	/// <param name="ingredients">Ingredients to be used. Required by CraftItem delegate functions.</param>
-	public void Craft(string name, List<BaseItem> ingredients)
+	public void Craft(Recipe recipe, List<BaseItem> ingredients)
 	{
-		craftingList [name](ingredients);
-	}
+		Dictionary<string, List<BaseItem>> ingredientsByType = new Dictionary<string, List<BaseItem>> ();
+		List<string> ingredientsKey;
 
-	/// <summary>
-	/// Crafts the fishing rod. Stats of the fishing rod are averages of the components that make it up.
-	/// Requires: Rod, Rope, Hook
-	/// </summary>
-	/// <param name="ingredients">Ingredients that make the fishing rod.</param>
-	public void CraftFishingRod(List<BaseItem> ingredients)
-	{
-		GameObject ob = GameObject.Instantiate (baseObjectTemplate);
-		ob.SetActive (true);
-
-		BaseItem baseOb = ob.GetComponent<BaseItem> ();
-
-		BaseItem rod = null;
-		BaseItem line = null;
-		BaseItem hook = null;
-
-		for (int i = 0; i < ingredients.Count; ++i) 
+		for (int i = 0; i < recipe.requirements.Count; ++i) 
 		{
-			if (ingredients [i].tags.Contains ("Rod")) 
+			ingredientsByType.Add (recipe.requirements [i].itemType, new List<BaseItem>());
+		}
+
+		ingredientsKey = new List<string> (ingredientsByType.Keys);
+
+		// sorts the ingredients into the "types" that they are by their tags
+		// this assumes that there are no overlapping types that a single item can fulfill
+		// for example, for a fishing rod that require a rod, a rope, and a hook, the item
+		// selected for rod is not also a rope.
+		for (int j = 0; j < ingredients.Count; ++j) 
+		{
+			for (int k = 0; k < ingredientsKey.Count; ++k) 
 			{
-				rod = ingredients [i];
-			} 
-			else if (ingredients [i].tags.Contains ("Rope")) 
-			{
-				line = ingredients [i];
-			} 
-			else if (ingredients [i].tags.Contains ("Hook")) 
-			{
-				hook = ingredients [i];
+				if (ingredients [j].tags.Contains (ingredientsKey [k])) 
+				{
+					ingredientsByType [ingredientsKey [k]].Add (ingredients [j]);
+				}
 			}
 		}
 
-		string name = rod.itemName + " Fishing Rod";
+		// level stats at excellent, and decreases as the crafting stat fails to reach the threshold value
 
-		baseOb.ChangeName(name);
-		ob.name = baseOb.itemName;
+		int level = 2;
 
-		baseOb.amount = 1;
+		for (int x = 0; x < recipe.statsToCheck.Count; ++x) 
+		{
+			string stat = recipe.statsToCheck [x].statName;
+			List<string> affectingItems = recipe.statsToCheck [x].affectingItems;
+			float result = 0;
 
-		SolidCategory sol = new SolidCategory ();
-		Dictionary<string, float> rodAttr = rod.GetItemAttributes ();
-		Dictionary<string, float> lineAttr = line.GetItemAttributes ();
-		Dictionary<string, float> hookAttr = hook.GetItemAttributes ();
+			for (int y = 0; y < affectingItems.Count; ++y)
+			{
+				for (int z = 0; z < ingredientsByType [affectingItems [y]].Count; ++z) {
+					result += ingredientsByType [affectingItems [y]] [z].GetItemAttributes () [stat];
+				}
+			}
 
-		sol.durability = (rodAttr ["durability"] + lineAttr ["durability"] + hookAttr["durability"]) / 3f;
-		sol.elasticity = (rodAttr ["elasticity"] + lineAttr ["elasticity"]) / 2f;
-		sol.flexibility = (rodAttr ["flexibility"] + lineAttr ["flexibility"]) / 2f;
-		sol.sharpness = hookAttr ["sharpness"];
-		sol.stickiness = rodAttr ["stickiness"];
-		sol.thickness = rodAttr ["thickness"];
+			if (level > 0) 
+			{
+				// a single crafting stat sum may decrease the level multiple times
+				while (result < recipe.statsToCheck [x].threshold [level - 1]) 
+				{
+					--level;
+				}
+			} 
+		}
 
-		baseOb.SetUpBaseItem ();
-		InventoryUIBehavior.instance.targetInventory.AddItem (baseOb);
+		string itemName = itemLevels [level] + " " + recipe.recipeName;
+		BaseItem craftedItem = GetBaseItem (itemName);
+
+		// Adds the item to the player's inventory
+		InventoryUIBehavior.instance.targetInventory.AddItem (craftedItem);
 	}
 
+	/// <summary>
+	/// Gets the blueprints for every item and stores if in the itemDatabase.
+	/// </summary>
 	public void LoadItemInformation()
 	{
 		itemDatabase = ItemSerializer.instance.DeserializeItemInformation ();
 	}
 
-	public BaseItem GetBaseItem(InventoryItem item)
+	/// <summary>
+	/// Gets the base item based on the item's InventoryYAMLInfo. This is generally
+	/// used for uncrafted items. These items may have had their names changed after
+	/// an action has been applied to them, as such, their unmodifiedName will need
+	/// to be used to get their blueprints from the itemDatabase.
+	/// 
+	/// For example, "River Reed" is stored within the ItemListYaml file, but
+	/// "River Reed Thread", which is the result of the "Weave Rope" action
+	/// being applied to "River Reed" is not. Instead, the blueprint for "River Reed"
+	/// is taken instead.
+	/// </summary>
+	/// <returns>The base item.</returns>
+	/// <param name="item">Item.</param>
+	public BaseItem GetBaseItem(InventoryYAMLInfo item)
 	{
-		if (itemDatabase.ContainsKey (item.ItemName)) 
+		if (itemDatabase.ContainsKey (item.itemName)) 
 		{
-			return itemDatabase [item.ItemName];
+			return itemDatabase [item.itemName];
 		} 
-		else if (itemDatabase.ContainsKey (item.UnmodifiedName)) 
+		else if (itemDatabase.ContainsKey (item.unmodifiedItemName)) 
 		{
-			return itemDatabase [item.UnmodifiedName];
+			return itemDatabase [item.unmodifiedItemName];
+		}
+
+		return null;
+	}
+
+	/// <summary>
+	/// Gets the base item by the item's name.
+	/// </summary>
+	/// <returns>The base item.</returns>
+	/// <param name="itemName">Item name.</param>
+	public BaseItem GetBaseItem(string itemName)
+	{
+		if (itemDatabase.ContainsKey (itemName)) 
+		{
+			return itemDatabase [itemName];
 		}
 
 		return null;

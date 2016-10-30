@@ -69,13 +69,7 @@ public class CraftingMenuBehavior : MonoBehaviour
 	/// </summary>
 	void Start () 
 	{
-		recipes = new Dictionary<string, Recipe> ();
-		Recipe fishrod = new Recipe ("Fishing Rod");
-		fishrod.AddRequirement (new Requirement (1, "Rod"));
-		fishrod.AddRequirement (new Requirement (1, "Rope"));
-		fishrod.AddRequirement (new Requirement (1, "Hook"));
-
-		recipes.Add (fishrod.GetRecipeName (), fishrod);
+		recipes = RecipeYamlSerializer.instance.LoadRecipes ();
 	
 		CraftingPanelAnimator = GetComponent<Animator>();
 		ItemSelectPanelAnimator = GameObject.Find("Select X Panel").GetComponent<Animator>();
@@ -142,7 +136,7 @@ public class CraftingMenuBehavior : MonoBehaviour
 	{
 		// If this is the last step of the recipe, then the continue button used to continue to the 
 		// next step is disabled. Instead the "craft" button which is used to combine the items is activated.
-		if (currentStep + 1 >= recipes [recipeChoice].GetRequirements ().Count - 1) {
+		if (currentStep + 1 >= recipes [recipeChoice].requirements.Count - 1) {
 			continueButton.gameObject.SetActive (false);
 			craftButton.SetActive (true);
 		}
@@ -167,7 +161,7 @@ public class CraftingMenuBehavior : MonoBehaviour
 
 		// gets the category of item that is needed for this step of the recipe
 		// what categories an item falls under is determined by its tags
-		string itemTag = rec.GetRequirements () [currentStep].GetItemType ();
+		string itemTag = rec.requirements [currentStep].itemType;
 
 		// changes prompt to tell you to select a category of item
 		selectText.text = "Select " + itemTag;
@@ -266,10 +260,10 @@ public class CraftingMenuBehavior : MonoBehaviour
 
 		// call the CraftingRecipeFactory which will create the resulting item given the
 		// name of the recipe and ingredients selected
-		ItemFactory.instance.Craft (recipeChoice, ingredients);
+		ItemFactory.instance.Craft (recipes[recipeChoice], ingredients);
 
 		for (int i = 0; i < itemsSelected.Count; ++i) {
-			InventoryUIBehavior.instance.targetInventory.UseItem (itemsSelected [i], recipes [recipeChoice].GetRequirements() [i].GetAmountRequired ());
+			InventoryUIBehavior.instance.targetInventory.UseItem (itemsSelected [i], recipes [recipeChoice].requirements [i].amountRequired);
 		}
 
 		// close the item select ui panel

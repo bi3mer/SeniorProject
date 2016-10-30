@@ -3703,7 +3703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0110324a6a46415fa8ac5b1967c9d08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseObjectTemplate: {fileID: 0}
+  baseObjectTemplate: {fileID: 103906, guid: ddab1eddbe0a8428ea888335525bfbfe, type: 2}
 --- !u!1 &1416661738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5054,8 +5054,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2089914281}
-  - 114: {fileID: 2089914280}
   - 114: {fileID: 2089914282}
+  - 114: {fileID: 2089914280}
   m_Layer: 0
   m_Name: InventoryTest
   m_TagString: Untagged
@@ -5071,10 +5071,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2089914279}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2d3ded7ba3314691b9e48a1964f3b1b, type: 3}
+  m_Script: {fileID: 11500000, guid: b139054b3ced947dba0693c984cc3cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileName: Inventory.json
+  fileName: InventoryYaml.yml
 --- !u!4 &2089914281
 Transform:
   m_ObjectHideFlags: 0
@@ -5099,4 +5099,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a48f8ee33f0254acb9d295eeba83f7bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filename: ItemList.json
+  filename: ItemListYaml.yml

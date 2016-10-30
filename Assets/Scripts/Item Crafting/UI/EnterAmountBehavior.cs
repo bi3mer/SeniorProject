@@ -135,6 +135,6 @@ public class EnterAmountBehavior : MonoBehaviour
 	public void OpenItemInfoPanel()
 	{
 		ClosePanel ();
-		Debug.Log (selectedItem.GetComponent<InventoryItemBehavior> ().GetItemName ());
+		ItemInfoPanelBehavior.instance.OpenItemInfo (selectedItem);
 	}
 }

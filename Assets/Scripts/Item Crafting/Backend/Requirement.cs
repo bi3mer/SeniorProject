@@ -5,19 +5,15 @@
 public class Requirement 
 {
 	// how much of the item is needed for a recipe
-	int amountRequired;
+	public int amountRequired { get; set; }
 	// what type of item is accepted
-	string itemType;
+	public string itemType { get; set; }
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="Requirement"/> class.
+	/// Initializes a new instance of the <see cref="Requirement"/> class. Used by the yaml deserializer.
 	/// </summary>
-	/// <param name="amount">Amount.</param>
-	/// <param name="type">Type.</param>
-	public Requirement(int amount, string type)
+	public Requirement()
 	{
-		amountRequired = amount;
-		itemType = type;
 	}
 
 	/// <summary>
@@ -40,23 +36,5 @@ public class Requirement
 		{
 			amountRequired--;	
 		}
-	}
-
-	/// <summary>
-	/// Gets the type of the item required.
-	/// </summary>
-	/// <returns>The item type.</returns>
-	public string GetItemType()
-	{
-		return itemType;
-	}
-
-	/// <summary>
-	/// Gets the amount required to fulfill the requirement.
-	/// </summary>
-	/// <returns>The amount required.</returns>
-	public int GetAmountRequired()
-	{
-		return amountRequired;
 	}
 }
