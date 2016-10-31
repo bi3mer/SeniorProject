@@ -18,7 +18,6 @@ public class RainController : MonoBehaviour
     //Turn this on for testing. Ideally in the future other scripts will call functions in this script to change the weather
     public bool UpdateEveryFrame;
 
-
     //I'm setting these systems as public so that the script can run in Edit Mode.
     //The main rain drops.
     public ParticleSystem MainRain;
@@ -68,7 +67,7 @@ public class RainController : MonoBehaviour
             UpdateParticleSystem();
         }
     }
-     #endif
+    #endif
 
     /// <summary>
     /// Sets values in the associated particle systems based off of public values on the script.
@@ -96,7 +95,7 @@ public class RainController : MonoBehaviour
         {
             MainRainRenderer = GetComponent<ParticleSystemRenderer>();
         }
-#endif
+        #endif
 
         //Set the blend to be equal to the rain ammount
         MainRainRenderer.sharedMaterial.SetFloat("_Opacity", _rainLevel);
