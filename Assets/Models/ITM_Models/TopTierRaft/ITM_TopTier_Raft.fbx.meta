@@ -1,0 +1,212 @@
+fileFormatVersion: 2
+guid: 906c99455305cb54c8e35eba363f6c60
+timeCreated: 1477884133
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: BottomPlank
+    100002: BottomPlank 1
+    100004: BottomPlank1
+    100006: BottomPlank2
+    100008: cloth
+    100010: //RootNode
+    100012: level
+    100014: levelPlank
+    100016: levelPlank1
+    100018: levelPlank2
+    100020: levelPlank3
+    100022: mainPlank1
+    100024: mainPlank10
+    100026: mainPlank11
+    100028: mainPlank12
+    100030: mainPlank13
+    100032: mainPlank14
+    100034: mainPlank15
+    100036: mainPlank2
+    100038: mainPlank3
+    100040: mainPlank4
+    100042: mainPlank5
+    100044: mainPlank6
+    100046: mainPlank7
+    100048: mainPlank8
+    100050: mainPlank9
+    100052: mainPlanks
+    100054: rope
+    100056: sidePlank
+    100058: sidePlank1
+    100060: sidePlanks
+    400000: BottomPlank
+    400002: BottomPlank 1
+    400004: BottomPlank1
+    400006: BottomPlank2
+    400008: cloth
+    400010: //RootNode
+    400012: level
+    400014: levelPlank
+    400016: levelPlank1
+    400018: levelPlank2
+    400020: levelPlank3
+    400022: mainPlank1
+    400024: mainPlank10
+    400026: mainPlank11
+    400028: mainPlank12
+    400030: mainPlank13
+    400032: mainPlank14
+    400034: mainPlank15
+    400036: mainPlank2
+    400038: mainPlank3
+    400040: mainPlank4
+    400042: mainPlank5
+    400044: mainPlank6
+    400046: mainPlank7
+    400048: mainPlank8
+    400050: mainPlank9
+    400052: mainPlanks
+    400054: rope
+    400056: sidePlank
+    400058: sidePlank1
+    400060: sidePlanks
+    2300000: BottomPlank 1
+    2300002: BottomPlank1
+    2300004: BottomPlank2
+    2300006: cloth
+    2300008: levelPlank
+    2300010: levelPlank1
+    2300012: levelPlank2
+    2300014: levelPlank3
+    2300016: mainPlank1
+    2300018: mainPlank10
+    2300020: mainPlank11
+    2300022: mainPlank12
+    2300024: mainPlank13
+    2300026: mainPlank14
+    2300028: mainPlank15
+    2300030: mainPlank2
+    2300032: mainPlank3
+    2300034: mainPlank4
+    2300036: mainPlank5
+    2300038: mainPlank6
+    2300040: mainPlank7
+    2300042: mainPlank8
+    2300044: mainPlank9
+    2300046: rope
+    2300048: sidePlank
+    2300050: sidePlank1
+    3300000: BottomPlank 1
+    3300002: BottomPlank1
+    3300004: BottomPlank2
+    3300006: cloth
+    3300008: levelPlank
+    3300010: levelPlank1
+    3300012: levelPlank2
+    3300014: levelPlank3
+    3300016: mainPlank1
+    3300018: mainPlank10
+    3300020: mainPlank11
+    3300022: mainPlank12
+    3300024: mainPlank13
+    3300026: mainPlank14
+    3300028: mainPlank15
+    3300030: mainPlank2
+    3300032: mainPlank3
+    3300034: mainPlank4
+    3300036: mainPlank5
+    3300038: mainPlank6
+    3300040: mainPlank7
+    3300042: mainPlank8
+    3300044: mainPlank9
+    3300046: rope
+    3300048: sidePlank
+    3300050: sidePlank1
+    4300000: BottomPlank2
+    4300002: BottomPlank1
+    4300004: BottomPlank
+    4300006: mainPlank1
+    4300008: mainPlank2
+    4300010: mainPlank3
+    4300012: mainPlank4
+    4300014: mainPlank5
+    4300016: mainPlank6
+    4300018: mainPlank7
+    4300020: mainPlank8
+    4300022: mainPlank9
+    4300024: mainPlank10
+    4300026: mainPlank11
+    4300028: mainPlank12
+    4300030: mainPlank13
+    4300032: mainPlank14
+    4300034: mainPlank15
+    4300036: levelPlank3
+    4300038: levelPlank2
+    4300040: levelPlank1
+    4300042: levelPlank
+    4300044: cloth
+    4300046: rope
+    4300048: sidePlank
+    4300050: sidePlank1
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 10
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
