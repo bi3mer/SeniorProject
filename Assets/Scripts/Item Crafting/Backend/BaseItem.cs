@@ -286,7 +286,7 @@ public class BaseItem : CollectableItem
 	}
 
 	/// <summary>
-	/// A base item that is modified by one of it's actions is still that base item for the purposes of the json file.
+	/// A base item that is modified by one of it's actions is still that base item for the purposes of the yaml file.
 	/// Thus is is necessary to keep a list of modifications. Whenever a category item completes an action, the modification
 	/// is added to the modifications list.
 	/// </summary>
