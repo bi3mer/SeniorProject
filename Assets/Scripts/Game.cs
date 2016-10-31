@@ -5,7 +5,7 @@
     private Game ()
     {
         PlayerInstance = new Player();
-		ClockInstance  = new Clock();
+		ClockInstance  = UnityEngine.MonoBehaviour.FindObjectOfType<Clock>();
 		ClockInstance.Start();
     }
  

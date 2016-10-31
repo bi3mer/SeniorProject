@@ -1,4 +1,7 @@
-﻿public class Clock
+﻿using UnityEngine;
+using System.Collections;
+
+public class Clock : MonoBehaviour
 {
 	/// <summary>
 	/// 30 seconds make up half an hour in game time
@@ -10,12 +13,31 @@
 	/// </summary>
 	public const int TwentyFourHours = 1440;
 
+	public const float HourDivisor = 60.0f; // 60*1000
+
 	private int currentTime = 0;
 	public int CurrentTime
 	{
 		get
 		{
 			return this.currentTime;
+		}
+		set
+		{
+			// pass
+		}
+	}
+
+	/// <summary>
+	/// Gets the current game time in hours. Setting the
+	/// value is not supported.
+	/// </summary>
+	/// <value>The current game time in hours.</value>
+	public float CurrentGameTimeInHours
+	{
+		get
+		{
+			return this.currentTime / Clock.HourDivisor;
 		}
 		set
 		{
@@ -33,15 +55,11 @@
 	public event HourDelegateUpdate HourUpdate;
 
 	/// <summary>
-	/// Create object to access default monobehavior scripts and
 	/// Start the update time loop. 
-	/// 
-	/// Note: For this class to work DefaultMonoBehavior must be 
-	///       in the scene.
 	/// </summary>
 	public void Start () 
 	{
-		DefaultMonoBehavior.Instance.StartCoroutine(this.updateTime());
+		StartCoroutine(this.updateTime());
 	}
 
 	/// <summary>
@@ -49,11 +67,11 @@
 	/// long cycle.
 	/// </summary>
 	/// <returns>The time.</returns>
-	private System.Collections.IEnumerator updateTime()
+	private IEnumerator updateTime()
 	{
 		while(true)
 		{
-			yield return new UnityEngine.WaitForSeconds(Clock.HalfAnHour);
+			yield return new WaitForSeconds(Clock.HalfAnHour);
 
 			// update time
 			this.currentTime += Clock.HalfAnHour;
