@@ -10,7 +10,6 @@ using System.Collections;
 /// Currently there seems to be an issue with Unity running out of memory and crashing when editing the particle system.
 /// I have plenty of ram to spare so I think something else is going on. People online have said it may have to do with sub-emitters so I'm going to forgoe them for now.
 /// There is still a sub emitter on RainMain you can turn on but it may make the system unstable.
-/// 
 /// </summary>
 
 [ExecuteInEditMode]
@@ -26,42 +25,42 @@ public class RainController : MonoBehaviour
     //The fog that falls to simulate extra rain.
     public ParticleSystem RainFog;
 
-    //The RainMaterials to switch between.
-    public Material LightRain;
-    public Material MediumRain;
-    public Material HeavyRain;
-
-    //Threshold before medium rain kicks in.
-    public float MediumRainThreshold;
-    //Threshold before heavy rain kicks in, Has to be higher than Medium Rain.
-    public float HeavyRainThreshold;
-
     [Range(0, 100)]
-    public float RainLevel;
+    [SerializeField]
+    private float _rainLevel;
 
     //When should rainFog kick in?
     [Range(0, 100)]
+    [SerializeField]
     public float FogStartThreshold = 50f;
 
     //How much fog to rain there should be
-    public float FogMod;
+    [SerializeField]
+    private float _fogMod;
 
     //The wind vector in XZ (considering Y is Up, but we're only concerned with 2d wind)
-    public Vector2 WindVectorXZ;
+    [SerializeField]
+    private Vector2 _windVectorXZ;
 
-    //How Much wind should effect the raind fog (Probably set this to a low number since it falls slowe than the main rain. So we want it to move less. .4 seems close)
-    public float FogWindMod = .4f;
+    //How Much wind should effect the raind fog (Probably set this to a low number since it falls slower than the main rain. So we want it to move less. .4 seems close)
+    [SerializeField]
+    private float _fogWindMod = .4f;
 
     private ParticleSystemRenderer MainRainRenderer;
 
-    // Use this for initialization
+    /// <summary>
+    /// Grab the renderer to set the material's blend amount.
+    /// </summary>
     void Start()
     {
         //Grab the renderer.
         MainRainRenderer = MainRain.GetComponent<ParticleSystemRenderer>();
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// In editor we want to check for updates every frame, everywhere else that's no good.
+    /// </summary>
+    #if (UNITY_EDITOR)
     void Update()
     {
         if (UpdateEveryFrame)
@@ -69,7 +68,7 @@ public class RainController : MonoBehaviour
             UpdateParticleSystem();
         }
     }
-
+     #endif
 
     /// <summary>
     /// Sets values in the associated particle systems based off of public values on the script.
@@ -78,20 +77,18 @@ public class RainController : MonoBehaviour
     {
         //Set RainMain Emission to double rain level. At 200 emission we almost max out particles. (Depending on the height the rain spawns at this may change, but it'll be based on the camera in the future)
         ParticleSystem.EmissionModule RainEmission = MainRain.emission;
-        RainEmission.rate = RainLevel * 2f;
+        RainEmission.rate = _rainLevel * 2f;
 
         //set the RainFog emission rate, if it's less than the threshold turn off emission.
         RainEmission = RainFog.emission;
-        if (RainLevel < FogStartThreshold)
+        if (_rainLevel < FogStartThreshold)
         {
             RainEmission.rate = 0f;
         }
         else
         {
-            RainEmission.rate = RainLevel * FogMod;
+            RainEmission.rate = _rainLevel * _fogMod;
         }
-
-        //Set the RainMain material based on the thresholds.
 
         //If in editor, there's a chance the script is running in edit mode and we won't have the renderer set.   
         #if (UNITY_EDITOR)
@@ -99,36 +96,21 @@ public class RainController : MonoBehaviour
         {
             MainRainRenderer = GetComponent<ParticleSystemRenderer>();
         }
-        #endif
+#endif
 
-        //Check for the rain thresholds
-        if (RainLevel < MediumRainThreshold)
-        {
-            //Lowest
-            MainRainRenderer.material = LightRain;
-
-        }
-        else if (RainLevel >= HeavyRainThreshold)
-        {
-            //Highest
-            MainRainRenderer.material = HeavyRain;
-        }
-        else
-        {
-            //Medium
-            MainRainRenderer.material = MediumRain;
-        }
+        //Set the blend to be equal to the rain ammount
+        MainRainRenderer.sharedMaterial.SetFloat("_Opacity", _rainLevel);
 
         //Set the wind speed via velocity over lifetime
         ParticleSystem.VelocityOverLifetimeModule ParticleVelocity = MainRain.velocityOverLifetime;
-        ParticleVelocity.x = WindVectorXZ.x;
-        ParticleVelocity.y = -WindVectorXZ.y;
+        ParticleVelocity.x = _windVectorXZ.x;
+        ParticleVelocity.y = -_windVectorXZ.y;
         ParticleVelocity = RainFog.velocityOverLifetime;
-        ParticleVelocity.x = WindVectorXZ.x * FogWindMod;
-        ParticleVelocity.z = -WindVectorXZ.y * FogWindMod;
+        ParticleVelocity.x = _windVectorXZ.x * _fogWindMod;
+        ParticleVelocity.z = -_windVectorXZ.y * _fogWindMod;
 
         //Set the rotation of the rain based on the wind.
-        MainRain.startRotation3D = new Vector3(Mathf.Deg2Rad*-WindVectorXZ.y, Mathf.Deg2Rad*-WindVectorXZ.x, 0f);
+        MainRain.startRotation3D = new Vector3(Mathf.Deg2Rad*-_windVectorXZ.y, Mathf.Deg2Rad*-_windVectorXZ.x, 0f);
     }
 
     /// <summary>
@@ -139,7 +121,7 @@ public class RainController : MonoBehaviour
     {
         if(0f <= rainAmmount && rainAmmount <= 100f)
         {
-            RainLevel = rainAmmount;
+            _rainLevel = rainAmmount;
             UpdateParticleSystem();
         }
         else
@@ -154,7 +136,7 @@ public class RainController : MonoBehaviour
     /// <param name="windVector">A vector2 for the wind using x as the global X axis and Y as the global Z axis</param>
     public void SetRain(Vector2 windVector)
     {
-        WindVectorXZ = windVector;
+        _windVectorXZ = windVector;
         UpdateParticleSystem();
     }
 
@@ -167,8 +149,8 @@ public class RainController : MonoBehaviour
     {
         if (0f <= rainAmmount && rainAmmount <= 100f)
         {
-            RainLevel = rainAmmount;
-            WindVectorXZ = windVector;
+            _rainLevel = rainAmmount;
+            _windVectorXZ = windVector;
 
             UpdateParticleSystem();
         }
@@ -177,6 +159,4 @@ public class RainController : MonoBehaviour
             Debug.LogError("Rain Ammount set to a bad value");
         }
     }
-
-
 }
