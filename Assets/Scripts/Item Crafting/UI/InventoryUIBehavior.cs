@@ -47,18 +47,30 @@ public class InventoryUIBehavior : MonoBehaviour
 	public void RefreshInventory()
 	{
 		Dictionary<string, BaseItem> inventoryInfo = targetInventory.GetInventory ();
-		List<string> keys = new List<string> (inventoryInfo.Keys);
+		List<string> desiredInventoryKeys = new List<string> (inventoryInfo.Keys);
+		List<string> currentInventoryKeys = new List<string> (inventoryUI.Keys);
 
-		for (int i = 0; i < keys.Count; ++i) 
+		// checks for items to add
+		for (int i = 0; i < desiredInventoryKeys.Count; ++i) 
 		{
-			if (!inventoryUI.ContainsKey (keys [i])) 
+			if (!inventoryUI.ContainsKey (desiredInventoryKeys [i])) 
 			{
 				InventoryItemBehavior item = GameObject.Instantiate (inventoryItemTemplate).GetComponent<InventoryItemBehavior> ();
-				item.SetUpInventoryItem (inventoryInfo [keys [i]]);
+				item.SetUpInventoryItem (inventoryInfo [desiredInventoryKeys [i]]);
 				item.transform.SetParent (itemParent.transform);
 				item.gameObject.SetActive (true);
 
-				inventoryUI.Add (inventoryInfo [keys [i]].itemName, item);
+				inventoryUI.Add (inventoryInfo [desiredInventoryKeys [i]].itemName, item);
+			}
+		}
+
+		// checks for items to remove
+		for (int j = 0; j < currentInventoryKeys.Count; ++j) 
+		{
+			if (!inventoryInfo.ContainsKey (currentInventoryKeys[j])) 
+			{
+				GameObject.Destroy (inventoryUI [currentInventoryKeys [j]].gameObject);
+				inventoryUI.Remove(currentInventoryKeys[j]);
 			}
 		}
 	}

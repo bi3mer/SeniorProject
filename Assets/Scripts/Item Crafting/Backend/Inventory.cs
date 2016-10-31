@@ -36,6 +36,10 @@ public class Inventory
 		for (int i = 0; i < inventoryInfo.Count; ++i) 
 		{
 			BaseItem item = ItemFactory.instance.GetBaseItem (inventoryInfo [i]);
+			item.amount = inventoryInfo [i].itemAmount;
+
+			item.Modifications = inventoryInfo [i].modifications;
+
 			inventory.Add (item.itemName, item);
 		}
 	}
@@ -78,14 +82,21 @@ public class Inventory
 	/// <param name="newItem">New item to be added.</param>
 	public void AddItem(BaseItem newItem)
 	{
-		inventory.Add (newItem.itemName, newItem);
-		InventoryYAMLInfo itemStruct = new InventoryYAMLInfo ();
-		itemStruct.itemName = newItem.itemName;
-		itemStruct.unmodifiedItemName = newItem.unmodifiedName;
-		itemStruct.itemAmount = newItem.amount;
-		itemStruct.modifications = newItem.GetModifications ();
+		if (inventory.ContainsKey (newItem.itemName)) 
+		{
+			++inventory [newItem.itemName].amount;
+		} 
+		else 
+		{
+			inventory.Add (newItem.itemName, newItem);
+			InventoryYAMLInfo itemStruct = new InventoryYAMLInfo ();
+			itemStruct.itemName = newItem.itemName;
+			itemStruct.unmodifiedItemName = newItem.unmodifiedName;
+			itemStruct.itemAmount = newItem.amount;
+			itemStruct.modifications = newItem.Modifications;
 
-		InventoryYamlParser.instance.AddToInventory (itemStruct, inventoryName);
+			InventoryYamlParser.instance.AddToInventory (itemStruct, inventoryName);
+		}
 	}
 
 	/// <summary>
@@ -108,7 +119,7 @@ public class Inventory
 
 		for (int i = 0; i < keys.Count; ++i) 
 		{
-			if (inventory [keys [i]].tags.Contains (itemTag)) 
+			if (inventory [keys [i]].tags.Contains (itemTag.ToLower())) 
 			{
 				result.Add (inventory [keys [i]]);
 			}

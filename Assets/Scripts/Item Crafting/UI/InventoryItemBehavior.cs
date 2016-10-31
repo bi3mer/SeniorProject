@@ -58,8 +58,9 @@ public class InventoryItemBehavior : MonoBehaviour
 
 	public void CheckForModification()
 	{
-		
-		if (targetItem.GetModifications ().Count > 0) {
+		// if a change has been applied to the item
+		if (targetItem.Modifications.Count > 0) 
+		{
 			InventoryUIBehavior.instance.targetInventory.AddItem (targetItem);
 
 			if (originalItem.amount < 1) {

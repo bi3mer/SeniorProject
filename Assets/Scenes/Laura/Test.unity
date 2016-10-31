@@ -1559,6 +1559,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 393487890}
+--- !u!1 &412425768 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000013202716918, guid: 9a79c3a36fa844deab1c9046f27908dc,
+    type: 2}
+  m_PrefabInternal: {fileID: 1977222440}
 --- !u!1 &419214545
 GameObject:
   m_ObjectHideFlags: 0
@@ -2761,13 +2766,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdbb2be5fe76a47edab149b0029eb479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  craftingItemTemplate: {fileID: 0}
-  recipePanel: {fileID: 0}
-  continueButton: {fileID: 0}
-  noValidItem: {fileID: 0}
-  craftButton: {fileID: 0}
-  selectText: {fileID: 0}
-  itemChoicePanel: {fileID: 0}
+  craftingItemTemplate: {fileID: 412425768}
+  recipePanel: {fileID: 27199230}
+  continueButton: {fileID: 13762917}
+  noValidItem: {fileID: 696261021}
+  craftButton: {fileID: 1136326612}
+  selectText: {fileID: 529822015}
+  itemChoicePanel: {fileID: 236293672}
 --- !u!95 &822673452
 Animator:
   serializedVersion: 3
@@ -5056,6 +5061,7 @@ GameObject:
   - 4: {fileID: 2089914281}
   - 114: {fileID: 2089914282}
   - 114: {fileID: 2089914280}
+  - 114: {fileID: 2089914283}
   m_Layer: 0
   m_Name: InventoryTest
   m_TagString: Untagged
@@ -5100,3 +5106,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   filename: ItemListYaml.yml
+--- !u!114 &2089914283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2089914279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62eac27b5a8834be4859268776b6ce9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filename: RecipeYaml.yml

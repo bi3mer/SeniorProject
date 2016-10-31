@@ -42,8 +42,15 @@ public class SolidCategory : ItemCategory
 		category.thickness = thickness;
 		category.sharpness = sharpness;
 
-		category.actionCompleted = actionCompleted;
+		category.ReadyCategory ();
 
+		List<string> keys = new List<string> (actionCompleted.Keys);
+
+		for(int i = 0; i < keys.Count; ++i)
+		{
+			category.actionCompleted[keys[i]] = actionCompleted [keys[i]];
+		}
+			
 		return category;
 	}
 
@@ -130,7 +137,7 @@ public class SolidCategory : ItemCategory
 		}
 			
 		baseItem.ChangeName(name);
-		baseItem.tags.Add ("Rope");
+		baseItem.tags.Add ("rope");
 		durability = durability * elasticity / 2f;
 
 		actionCompleted [weaveActionName] = true;

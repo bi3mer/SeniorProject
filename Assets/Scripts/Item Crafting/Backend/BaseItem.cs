@@ -74,15 +74,35 @@ public class BaseItem : CollectableItem
 		amount = original.amount;
 		itemName = original.itemName;
 		categoryList = new List<ItemCategory> ();
-		tags = original.tags;
+		tags = new List<string> ();
+		modifications = new List<string> ();
 
 		for (int i = 0; i < original.categoryList.Count; ++i) 
 		{
 			ItemCategory cat = original.categoryList [i].GetDuplicate ();
 			categoryList.Add (cat);
 		}
+
+		if (original.tags != null && original.tags.Count > 0) 
+		{
+			for (int j = 0; j < original.tags.Count; ++j) {
+				tags.Add (original.tags [j]);
+			}
+		}
 			
 		SetUpBaseItem ();
+
+		// Do not want modifications to be applied again to copy, so
+		// copy over modifications AFTER calling SetUpBaseItem, which
+		// apply all modifications listed in the modifications list
+		// when it is called
+
+		if (original.Modifications != null && original.Modifications.Count > 0) 
+		{
+			for (int k = 0; k < original.Modifications.Count; ++k) {
+				modifications.Add (original.Modifications [k]);
+			}
+		}
 	}
 		
 	public void InitializeBaseItem()
@@ -114,12 +134,13 @@ public class BaseItem : CollectableItem
 		}
 
 		lastCategory = (ItemCategory) previous;
-		if (modifications == null) 
+		if (modifications == null || modifications.Count < 1) 
 		{
 			modifications = new List<string> ();
 		} 
 		else 
 		{
+			// applies the modifications needed to the item
 			Dictionary<string, List<Action>> actions = GetPossibleActions ();
 			List<string> keys = new List<string> (actions.Keys);
 
@@ -279,8 +300,16 @@ public class BaseItem : CollectableItem
 	/// Gets the list of modifications applied to the item.
 	/// </summary>
 	/// <returns>The modifications.</returns>
-	public List<string> GetModifications()
+	public List<string> Modifications
 	{
-		return modifications;
+		get
+		{
+			return modifications;
+		}
+
+		set 
+		{
+			modifications = value;
+		}
 	}
 }

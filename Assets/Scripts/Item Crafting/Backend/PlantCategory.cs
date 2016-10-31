@@ -43,7 +43,15 @@ public class PlantCategory : ItemCategory
 		category.stomachEffect = stomachEffect;
 		category.pneumoniaEffect = pneumoniaEffect;
 
-		category.actionCompleted = actionCompleted;
+		category.ReadyCategory ();
+
+		List<string> keys = new List<string> (actionCompleted.Keys);
+
+		for(int i = 0; i < keys.Count; ++i)
+		{
+			category.actionCompleted[keys[i]] = actionCompleted [keys[i]];
+		}
+
 		return category;
 	}
 

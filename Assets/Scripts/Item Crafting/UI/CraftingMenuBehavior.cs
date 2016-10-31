@@ -14,6 +14,9 @@ public class CraftingMenuBehavior : MonoBehaviour
 	[Tooltip("gameobject that recipes should be parented under")]
 	public GameObject recipePanel;
 
+	[Tooltip("gameobject that is the template used to represent recipes in the crafting panel")]
+	public GameObject craftingRecipeTemplate;
+
 	[Tooltip("the button used to continue when an item has been selected for use in a recipe")]
 	public Button continueButton;
 
@@ -69,11 +72,27 @@ public class CraftingMenuBehavior : MonoBehaviour
 	/// </summary>
 	void Start () 
 	{
-		recipes = RecipeYamlSerializer.instance.LoadRecipes ();
-	
+		LoadRecipes ();
 		CraftingPanelAnimator = GetComponent<Animator>();
 		ItemSelectPanelAnimator = GameObject.Find("Select X Panel").GetComponent<Animator>();
 		itemsSelected = new List<string> ();
+	}
+
+	/// <summary>
+	/// Loads the recipes from the yaml file into the recipe select panel.
+	/// </summary>
+	public void LoadRecipes()
+	{
+		recipes = RecipeYamlSerializer.instance.LoadRecipes ();
+
+		List<string> recipeNames = new List<string> (recipes.Keys);
+
+		for (int i = 0; i < recipeNames.Count; ++i) 
+		{
+			CraftingRecipeSelectBehavior recipe = GameObject.Instantiate (craftingRecipeTemplate).GetComponent<CraftingRecipeSelectBehavior> ();
+			recipe.SetUpRecipeSelect (recipeNames [i], this);
+			recipe.transform.SetParent (recipePanel.transform);
+		}
 	}
 
 	/// <summary>
@@ -180,8 +199,6 @@ public class CraftingMenuBehavior : MonoBehaviour
 			}
 		}
 			
-		// TODO: implement an inventory system so there is no need to go through the object panel and get its children
-		// for now, all children of objectPanel are the items in a usuable inventory
 		List<BaseItem> validItems = InventoryUIBehavior.instance.targetInventory.GetAllItemsWithTag(itemTag);
 
 		for(int i = 0; i < validItems.Count; ++i)
@@ -261,10 +278,6 @@ public class CraftingMenuBehavior : MonoBehaviour
 		// call the CraftingRecipeFactory which will create the resulting item given the
 		// name of the recipe and ingredients selected
 		ItemFactory.instance.Craft (recipes[recipeChoice], ingredients);
-
-		for (int i = 0; i < itemsSelected.Count; ++i) {
-			InventoryUIBehavior.instance.targetInventory.UseItem (itemsSelected [i], recipes [recipeChoice].requirements [i].amountRequired);
-		}
 
 		// close the item select ui panel
 		EndCraftingAttempt ();

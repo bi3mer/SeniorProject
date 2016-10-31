@@ -109,15 +109,34 @@ public class ItemFactory : MonoBehaviour
 				while (result < recipe.statsToCheck [x].threshold [level - 1]) 
 				{
 					--level;
+
+					if (level <= 0) 
+					{
+						break;
+					}
 				}
 			} 
 		}
 
+		for (int a = 0; a < recipe.requirements.Count; ++a) 
+		{
+			// for now, the crafting recipes only allow for one item to be selected
+			// as an ingredient per requirement, but the list is in place in preparation
+			// for multi-item per requirement recipes that will be implemented later
+			for (int b = 0; b < ingredientsByType [recipe.requirements [a].itemType].Count; ++b) 
+			{
+				InventoryUIBehavior.instance.targetInventory.UseItem (ingredientsByType [recipe.requirements [a].itemType] [b].itemName, recipe.requirements [a].amountRequired);
+			}
+		}
+
 		string itemName = itemLevels [level] + " " + recipe.recipeName;
-		BaseItem craftedItem = GetBaseItem (itemName);
+		BaseItem craftedItem;
+
+		craftedItem = GetBaseItem (itemName);
 
 		// Adds the item to the player's inventory
 		InventoryUIBehavior.instance.targetInventory.AddItem (craftedItem);
+		InventoryUIBehavior.instance.RefreshInventory ();
 	}
 
 	/// <summary>
