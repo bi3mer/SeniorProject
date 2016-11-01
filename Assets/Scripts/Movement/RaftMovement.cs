@@ -46,7 +46,7 @@ public class RaftMovement : Movement
     /// Applies a force the raft in the specified direction.
     /// </summary>
     /// <param name="direction"></param>
-    public override void Move(Vector3 direction)
+    public override void Move(Vector3 direction, bool sprinting)
     {
         RigidBody.AddForce(direction.normalized * acceleration);
     }
