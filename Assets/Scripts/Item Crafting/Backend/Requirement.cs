@@ -32,7 +32,7 @@ public class Requirement
 	public void SubmitItem(BaseItem item)
 	{
 		// if item contains a certain type, then it can be used and the amount required is decremented
-		if (item.tags.Contains (itemType)) 
+		if (item.Tags.Contains (itemType)) 
 		{
 			amountRequired--;	
 		}

@@ -79,7 +79,7 @@ public class ItemFactory : MonoBehaviour
 		{
 			for (int k = 0; k < ingredientsKey.Count; ++k) 
 			{
-				if (ingredients [j].tags.Contains (ingredientsKey [k])) 
+				if (ingredients [j].Tags.Contains (ingredientsKey [k])) 
 				{
 					ingredientsByType [ingredientsKey [k]].Add (ingredients [j]);
 				}
@@ -125,7 +125,7 @@ public class ItemFactory : MonoBehaviour
 			// for multi-item per requirement recipes that will be implemented later
 			for (int b = 0; b < ingredientsByType [recipe.requirements [a].itemType].Count; ++b) 
 			{
-				InventoryUIBehavior.instance.targetInventory.UseItem (ingredientsByType [recipe.requirements [a].itemType] [b].itemName, recipe.requirements [a].amountRequired);
+				InventoryUIBehavior.instance.targetInventory.UseItem (ingredientsByType [recipe.requirements [a].itemType] [b].ItemName, recipe.requirements [a].amountRequired);
 			}
 		}
 

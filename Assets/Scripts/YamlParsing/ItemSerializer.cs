@@ -79,7 +79,7 @@ public class ItemSerializer : MonoBehaviour
 			}
 
 			item.SetUpBaseItem ();
-			itemDatabase.Add (item.itemName, item);
+			itemDatabase.Add (item.ItemName, item);
 		}
 
 		return itemDatabase;

@@ -133,13 +133,13 @@ public class PlantCategory : ItemCategory
 		attributes [toughAttrName] = toughness;
 		attributes [waterContAttrName] = waterContent;
 
-		if (waterContent > 6f && !baseItem.itemName.Contains ("Soup")) 
+		if (waterContent > 6f && !baseItem.ItemName.Contains ("Soup")) 
 		{
-			baseItem.ChangeName (baseItem.itemName + " Soup");
+			baseItem.ChangeName (baseItem.ItemName + " Soup");
 		} 
 		else if (waterContent < 6f) 
 		{
-			baseItem.ChangeName("Cooked " + baseItem.itemName);
+			baseItem.ChangeName("Cooked " + baseItem.ItemName);
 		}
 
 		actionCompleted [cookActName] = true;
@@ -163,7 +163,7 @@ public class PlantCategory : ItemCategory
 		attributes [waterContAttrName] = waterContent;
 		attributes [toughAttrName] = toughness;
 
-		baseItem.ChangeName("Dried " + baseItem.itemName);
+		baseItem.ChangeName("Dried " + baseItem.ItemName);
 		actionCompleted [dryActName] = true;
 		baseItem.AddToModifactionList (dryActName);
 	}

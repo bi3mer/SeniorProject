@@ -36,11 +36,11 @@ public class Inventory
 		for (int i = 0; i < inventoryInfo.Count; ++i) 
 		{
 			BaseItem item = ItemFactory.instance.GetBaseItem (inventoryInfo [i]);
-			item.amount = inventoryInfo [i].itemAmount;
+			item.Amount = inventoryInfo [i].itemAmount;
 
 			item.Modifications = inventoryInfo [i].modifications;
 
-			inventory.Add (item.itemName, item);
+			inventory.Add (item.ItemName, item);
 		}
 	}
 
@@ -57,9 +57,9 @@ public class Inventory
 	/// <param name="amt">Amount of item to use.</param>
 	public void UseItem(string name, int amt)
 	{
-		inventory [name].amount -= amt;
+		inventory [name].Amount -= amt;
 
-		if (inventory [name].amount <= 0) 
+		if (inventory [name].Amount <= 0) 
 		{
 			inventory [name] = null;
 			inventory.Remove (name);
@@ -82,17 +82,17 @@ public class Inventory
 	/// <param name="newItem">New item to be added.</param>
 	public void AddItem(BaseItem newItem)
 	{
-		if (inventory.ContainsKey (newItem.itemName)) 
+		if (inventory.ContainsKey (newItem.ItemName)) 
 		{
-			++inventory [newItem.itemName].amount;
+			++inventory [newItem.ItemName].Amount;
 		} 
 		else 
 		{
-			inventory.Add (newItem.itemName, newItem);
+			inventory.Add (newItem.ItemName, newItem);
 			InventoryYAMLInfo itemStruct = new InventoryYAMLInfo ();
-			itemStruct.itemName = newItem.itemName;
-			itemStruct.unmodifiedItemName = newItem.unmodifiedName;
-			itemStruct.itemAmount = newItem.amount;
+			itemStruct.itemName = newItem.ItemName;
+			itemStruct.unmodifiedItemName = newItem.UnmodifiedName;
+			itemStruct.itemAmount = newItem.Amount;
 			itemStruct.modifications = newItem.Modifications;
 
 			InventoryYamlParser.instance.AddToInventory (itemStruct, inventoryName);
@@ -105,9 +105,9 @@ public class Inventory
 	/// <param name="item">Item to remove.</param>
 	public void RemoveItem(BaseItem item)
 	{
-		inventory [item.itemName] = null;
-		inventory.Remove (item.itemName);
-		InventoryYamlParser.instance.RemoveFromInventory (item.itemName, inventoryName);
+		inventory [item.ItemName] = null;
+		inventory.Remove (item.ItemName);
+		InventoryYamlParser.instance.RemoveFromInventory (item.ItemName, inventoryName);
 		item = null;
 	}
 
@@ -119,7 +119,7 @@ public class Inventory
 
 		for (int i = 0; i < keys.Count; ++i) 
 		{
-			if (inventory [keys [i]].tags.Contains (itemTag.ToLower())) 
+			if (inventory [keys [i]].Tags.Contains (itemTag.ToLower())) 
 			{
 				result.Add (inventory [keys [i]]);
 			}

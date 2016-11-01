@@ -21,9 +21,9 @@ public class InventoryItemBehavior : MonoBehaviour
 	/// </summary>
 	public void SetUpInventoryItem(BaseItem baseItm)
 	{
-		baseItm.changeItemName += HandleItemNameChangeEvent;
+		baseItm.ChangeItemName += HandleItemNameChangeEvent;
 		targetItem = baseItm;
-		itemLabel.text = targetItem.itemName;
+		itemLabel.text = targetItem.ItemName;
 	}
 
 	/// <summary>
@@ -37,7 +37,7 @@ public class InventoryItemBehavior : MonoBehaviour
 
 	public string GetItemName()
 	{
-		return targetItem.itemName;
+		return targetItem.ItemName;
 	}
 
 	public Dictionary<string, float> GetItemAttributes()
@@ -63,13 +63,13 @@ public class InventoryItemBehavior : MonoBehaviour
 		{
 			InventoryUIBehavior.instance.targetInventory.AddItem (targetItem);
 
-			if (originalItem.amount < 1) {
+			if (originalItem.Amount < 1) {
 				InventoryUIBehavior.instance.targetInventory.RemoveItem (originalItem);
 			}
 		} 
 		else 
 		{
-			originalItem.amount += targetItem.amount;
+			originalItem.Amount += targetItem.Amount;
 		}
 		targetItem = originalItem;
 	}

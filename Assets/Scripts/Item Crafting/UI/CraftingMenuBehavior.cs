@@ -209,7 +209,7 @@ public class CraftingMenuBehavior : MonoBehaviour
 			GameObject itm = GameObject.Instantiate (craftingItemTemplate);
 			itm.transform.SetParent(itemChoicePanel.transform, false);
 
-			itm.GetComponentInChildren<Text> ().text = validItems[i].itemName;
+			itm.GetComponentInChildren<Text> ().text = validItems[i].ItemName;
 			itm.name = itm.GetComponentInChildren<Text> ().text;
 			itm.SetActive (true);
 			totalPossible++;

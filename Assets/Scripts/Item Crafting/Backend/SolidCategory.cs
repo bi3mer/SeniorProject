@@ -129,15 +129,15 @@ public class SolidCategory : ItemCategory
 
 		if (thickness > 0.5f) 
 		{
-			name = baseItem.itemName + " Thread";
+			name = baseItem.ItemName + " Thread";
 		} 
 		else 
 		{
-			name = baseItem.itemName + " Rope";
+			name = baseItem.ItemName + " Rope";
 		}
 			
 		baseItem.ChangeName(name);
-		baseItem.tags.Add ("rope");
+		baseItem.Tags.Add ("rope");
 		durability = durability * elasticity / 2f;
 
 		actionCompleted [weaveActionName] = true;
@@ -155,7 +155,7 @@ public class SolidCategory : ItemCategory
 	{
 		string name;
 
-		name = baseItem.itemName + " Basket";
+		name = baseItem.ItemName + " Basket";
 		durability = durability  * elasticity / 2f;
 		thickness = thickness * 2f;
 
@@ -174,14 +174,14 @@ public class SolidCategory : ItemCategory
 	{
 		if (sharpness > 3f) 
 		{
-			if (!baseItem.itemName.Contains ("Blade")) 
+			if (!baseItem.ItemName.Contains ("Blade")) 
 			{
-				baseItem.ChangeName(baseItem.itemName + " Blade");
+				baseItem.ChangeName(baseItem.ItemName + " Blade");
 			}
 		} 
 		else 
 		{
-			baseItem.ChangeName ("Sharpened " + baseItem.itemName);
+			baseItem.ChangeName ("Sharpened " + baseItem.ItemName);
 		}
 
 		sharpness = sharpness * 1.5f;

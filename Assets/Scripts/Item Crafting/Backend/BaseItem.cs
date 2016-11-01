@@ -9,25 +9,25 @@ using System.Collections.Generic;
 public class BaseItem : CollectableItem 
 {
 	//name of the item
-	public string itemName {get; set;}
+	public string ItemName {get; set;}
 
 	// tags that specify what type of item this item is
 	// unfortunately enums are not serializable with yamldotnet
 	// as such, they must remain strings for now
-	public List<string> tags {get; set;}
+	public List<string> Tags {get; set;}
 
 	// how many units of the item there are in total handled by the gameobject
-	public float amount { get; set; }
+	public float Amount { get; set; }
 
 	//description of item 
-	public string flavorText {get; set;}
+	public string FlavorText {get; set;}
 
 	// the name of the raw item before actions added things to their name
-	public string unmodifiedName {get; set;}
+	public string UnmodifiedName {get; set;}
 
 	public delegate void ChangeNameEvent (string itemName); 
 
-	public event ChangeNameEvent changeItemName;
+	public event ChangeNameEvent ChangeItemName;
 
 	// link to the last Item Category, which in turn links to another Item Category
 	// the starting point from which the BaseItem will get all of its category information from
@@ -53,14 +53,14 @@ public class BaseItem : CollectableItem
 	/// <param name="name">Name.</param>
 	public BaseItem(string name)
 	{
-		itemName = name;
-		unmodifiedName = name;
+		ItemName = name;
+		UnmodifiedName = name;
 
 		categoryList = new List<ItemCategory> ();
 
-		if (tags == null) 
+		if (Tags == null) 
 		{
-			tags = new List<string> ();
+			Tags = new List<string> ();
 		}
 	}
 
@@ -71,22 +71,21 @@ public class BaseItem : CollectableItem
 	/// 
 	public BaseItem(BaseItem original)
 	{
-		amount = original.amount;
-		itemName = original.itemName;
+		Amount = original.Amount;
+		ItemName = original.ItemName;
 		categoryList = new List<ItemCategory> ();
-		tags = new List<string> ();
+		Tags = new List<string> ();
 		modifications = new List<string> ();
 
 		for (int i = 0; i < original.categoryList.Count; ++i) 
 		{
-			ItemCategory cat = original.categoryList [i].GetDuplicate ();
-			categoryList.Add (cat);
+			categoryList.Add (original.categoryList [i].GetDuplicate ());
 		}
 
-		if (original.tags != null && original.tags.Count > 0) 
+		if (original.Tags != null && original.Tags.Count > 0) 
 		{
-			for (int j = 0; j < original.tags.Count; ++j) {
-				tags.Add (original.tags [j]);
+			for (int i = 0; i < original.Tags.Count; ++i) {
+				Tags.Add (original.Tags [i]);
 			}
 		}
 			
@@ -99,19 +98,22 @@ public class BaseItem : CollectableItem
 
 		if (original.Modifications != null && original.Modifications.Count > 0) 
 		{
-			for (int k = 0; k < original.Modifications.Count; ++k) {
-				modifications.Add (original.Modifications [k]);
+			for (int i = 0; i < original.Modifications.Count; ++i) {
+				modifications.Add (original.Modifications [i]);
 			}
 		}
 	}
-		
+
+	/// <summary>
+	/// Initializes the lists that the base item needs.
+	/// </summary>
 	public void InitializeBaseItem()
 	{
 		categoryList = new List<ItemCategory> ();
 
-		if (tags == null) 
+		if (Tags == null) 
 		{
-			tags = new List<string> ();
+			Tags = new List<string> ();
 		}
 	}
 
@@ -184,7 +186,7 @@ public class BaseItem : CollectableItem
 		// add it to the list of attributes
 		Dictionary<string, float> attributes = lastCategory.GetItemAttributes ();
 
-		attributes.Add ("amount", amount);
+		attributes.Add ("amount", Amount);
 
 		return attributes;
 	}
@@ -206,11 +208,11 @@ public class BaseItem : CollectableItem
 	/// <param name="name">Name.</param>
 	public void ChangeName(string name)
 	{
-		itemName = name;
+		ItemName = name;
 
-		if (changeItemName != null) 
+		if (ChangeItemName != null) 
 		{
-			changeItemName (name);
+			ChangeItemName (name);
 		}
 	}
 
@@ -274,12 +276,12 @@ public class BaseItem : CollectableItem
 	/// <returns>The duplicate.</returns>
 	public BaseItem GetItemsToModify(int amt)
 	{
-		if (amt <= amount) 
+		if (amt <= Amount) 
 		{
 			BaseItem duplicate = new BaseItem (this);
 
-			duplicate.amount = amt;
-			amount -= duplicate.amount;
+			duplicate.Amount = amt;
+			Amount -= duplicate.Amount;
 			return duplicate;
 		} 
 		return null;

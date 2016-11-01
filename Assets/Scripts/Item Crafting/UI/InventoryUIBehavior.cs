@@ -40,7 +40,7 @@ public class InventoryUIBehavior : MonoBehaviour
 			item.SetUpInventoryItem (inventoryInfo [keys [i]]);
 			item.transform.SetParent (itemParent.transform);
 			item.gameObject.SetActive (true);
-			inventoryUI.Add (inventoryInfo [keys [i]].itemName, item);
+			inventoryUI.Add (inventoryInfo [keys [i]].ItemName, item);
 		}
 	}
 
@@ -60,7 +60,7 @@ public class InventoryUIBehavior : MonoBehaviour
 				item.transform.SetParent (itemParent.transform);
 				item.gameObject.SetActive (true);
 
-				inventoryUI.Add (inventoryInfo [desiredInventoryKeys [i]].itemName, item);
+				inventoryUI.Add (inventoryInfo [desiredInventoryKeys [i]].ItemName, item);
 			}
 		}
 

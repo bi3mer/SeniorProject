@@ -13,6 +13,11 @@ public class Action
 	private UnityAction UnityAction;
 	private int subcategoryActionID;
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Action"/> class.
+	/// </summary>
+	/// <param name="n">Name.</param>
+	/// <param name="act">Action.</param>
 	public Action(string n, UnityAction act)
 	{
 		actionName = n;
