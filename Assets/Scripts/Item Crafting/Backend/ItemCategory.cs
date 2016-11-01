@@ -18,7 +18,11 @@ public class ItemCategory : CollectableItem
 	protected Dictionary<string, float> attributes;
 
 	// Actions can only be performed once
-	protected Dictionary<string, bool> actionCompleted { get; set; }
+	protected Dictionary<string, bool> actionCompleted
+	{ 
+		get; 
+		set; 
+	}
 
 	/// <summary>
 	/// Sets the component that this is connected to. May either be another item category or a base item class.
@@ -73,15 +77,19 @@ public class ItemCategory : CollectableItem
 	}
 		
 	/// <summary>
-	/// Changes the linked component.
+	/// Changes the linked category.
 	/// </summary>
-	/// <param name="c">Component.</param>
-	public void ChangeConnected(CollectableItem c)
+	/// <param name="c">A new category.</param>
+	public void ChangeLinkedCategory(CollectableItem c)
 	{
 		component = c;
 	}
 
-	public ItemCategory GetConnected()
+	/// <summary>
+	/// Gets the linked category.
+	/// </summary>
+	/// <returns>The linked category.</returns>
+	public ItemCategory GetLinkedCategory()
 	{
 		return (ItemCategory)component;
 	}

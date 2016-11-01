@@ -6,14 +6,14 @@ public class InventoryUIBehavior : MonoBehaviour
 {
 
 	[Tooltip("the inventory that will be shown")]
-	public string targetInventoryName;
+	public string TargetInventoryName;
 
 	[Tooltip("prefab that will be used as a template to populate the inventory")]
-	public GameObject inventoryItemTemplate;
+	public GameObject InventoryItemTemplate;
 
 	[Tooltip("parent gameobject of all the items in the inventory")]
 	// this will be switched out to read in from a text file instead
-	public GameObject itemParent;
+	public GameObject ItemParent;
 
 	public static InventoryUIBehavior instance;
 
@@ -21,11 +21,14 @@ public class InventoryUIBehavior : MonoBehaviour
 
 	public Inventory targetInventory;
 
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	void Start()
 	{
 		instance = this;
 		inventoryUI = new Dictionary<string, InventoryItemBehavior> ();
-		targetInventory = new Inventory (targetInventoryName);
+		targetInventory = new Inventory (TargetInventoryName);
 	}
 
 	public void LoadInventory()
@@ -36,9 +39,9 @@ public class InventoryUIBehavior : MonoBehaviour
 
 		for (int i = 0; i < keys.Count; ++i) 
 		{
-			InventoryItemBehavior item = GameObject.Instantiate (inventoryItemTemplate).GetComponent<InventoryItemBehavior> ();
+			InventoryItemBehavior item = GameObject.Instantiate (InventoryItemTemplate).GetComponent<InventoryItemBehavior> ();
 			item.SetUpInventoryItem (inventoryInfo [keys [i]]);
-			item.transform.SetParent (itemParent.transform);
+			item.transform.SetParent (ItemParent.transform);
 			item.gameObject.SetActive (true);
 			inventoryUI.Add (inventoryInfo [keys [i]].ItemName, item);
 		}
@@ -55,9 +58,9 @@ public class InventoryUIBehavior : MonoBehaviour
 		{
 			if (!inventoryUI.ContainsKey (desiredInventoryKeys [i])) 
 			{
-				InventoryItemBehavior item = GameObject.Instantiate (inventoryItemTemplate).GetComponent<InventoryItemBehavior> ();
+				InventoryItemBehavior item = GameObject.Instantiate (InventoryItemTemplate).GetComponent<InventoryItemBehavior> ();
 				item.SetUpInventoryItem (inventoryInfo [desiredInventoryKeys [i]]);
-				item.transform.SetParent (itemParent.transform);
+				item.transform.SetParent (ItemParent.transform);
 				item.gameObject.SetActive (true);
 
 				inventoryUI.Add (inventoryInfo [desiredInventoryKeys [i]].ItemName, item);

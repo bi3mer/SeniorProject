@@ -13,11 +13,8 @@ public class Inventory
 {
 	[SerializeField]
 	private string inventoryName;
-	// inventory of items keyed by their name
-	// this is only TEMPORARY as this requires for those objects exist in the scene
-	// TODO: make this store the names of the objects in the inventory and then create the
-	// base item 
-	Dictionary<string, BaseItem> inventory;
+	// Contents of the inventory keyed by their name
+	private Dictionary<string, BaseItem> contents;
 
 	/// <summary>
 	/// Sets up the inventory
@@ -25,28 +22,35 @@ public class Inventory
 	/// </summary>
 	public Inventory(string name)
 	{
-		inventory = new Dictionary<string, BaseItem> ();
+		contents = new Dictionary<string, BaseItem> ();
 		inventoryName = name;
 	}
-		
+
+	/// <summary>
+	/// Loads the inventory with its contents based on the contents of the yaml file.
+	/// </summary>
 	public void LoadInventory()
 	{
-		List<InventoryYAMLInfo> inventoryInfo = InventoryYamlParser.instance.GetInventoryContents (inventoryName);
+		List<InventoryYAMLModel> inventoryInfo = InventoryYamlParser.Instance.GetInventoryContents (inventoryName);
 	
 		for (int i = 0; i < inventoryInfo.Count; ++i) 
 		{
 			BaseItem item = ItemFactory.instance.GetBaseItem (inventoryInfo [i]);
-			item.Amount = inventoryInfo [i].itemAmount;
+			item.Amount = inventoryInfo [i].ItemAmount;
 
-			item.Modifications = inventoryInfo [i].modifications;
+			item.Modifications = inventoryInfo [i].Modifications;
 
-			inventory.Add (item.ItemName, item);
+			contents.Add (item.ItemName, item);
 		}
 	}
 
+	/// <summary>
+	/// Gets the contents of the inventory.
+	/// </summary>
+	/// <returns>The inventory.</returns>
 	public Dictionary<string, BaseItem> GetInventory()
 	{
-		return inventory;
+		return contents;
 	}
 
 	/// <summary>
@@ -57,12 +61,12 @@ public class Inventory
 	/// <param name="amt">Amount of item to use.</param>
 	public void UseItem(string name, int amt)
 	{
-		inventory [name].Amount -= amt;
+		contents [name].Amount -= amt;
 
-		if (inventory [name].Amount <= 0) 
+		if (contents [name].Amount <= 0) 
 		{
-			inventory [name] = null;
-			inventory.Remove (name);
+			contents [name] = null;
+			contents.Remove (name);
 		}
 	}
 
@@ -73,7 +77,7 @@ public class Inventory
 	/// <param name="name">Name.</param>
 	public BaseItem GetItem(string name)
 	{
-		return inventory [name];
+		return contents [name];
 	}
 
 	/// <summary>
@@ -82,20 +86,20 @@ public class Inventory
 	/// <param name="newItem">New item to be added.</param>
 	public void AddItem(BaseItem newItem)
 	{
-		if (inventory.ContainsKey (newItem.ItemName)) 
+		if (contents.ContainsKey (newItem.ItemName)) 
 		{
-			++inventory [newItem.ItemName].Amount;
+			++contents [newItem.ItemName].Amount;
 		} 
 		else 
 		{
-			inventory.Add (newItem.ItemName, newItem);
-			InventoryYAMLInfo itemStruct = new InventoryYAMLInfo ();
-			itemStruct.itemName = newItem.ItemName;
-			itemStruct.unmodifiedItemName = newItem.UnmodifiedName;
-			itemStruct.itemAmount = newItem.Amount;
-			itemStruct.modifications = newItem.Modifications;
+			contents.Add (newItem.ItemName, newItem);
+			InventoryYAMLModel itemStruct = new InventoryYAMLModel ();
+			itemStruct.ItemName = newItem.ItemName;
+			itemStruct.UnmodifiedItemName = newItem.UnmodifiedName;
+			itemStruct.ItemAmount = newItem.Amount;
+			itemStruct.Modifications = newItem.Modifications;
 
-			InventoryYamlParser.instance.AddToInventory (itemStruct, inventoryName);
+			InventoryYamlParser.Instance.AddToInventory (itemStruct, inventoryName);
 		}
 	}
 
@@ -105,23 +109,28 @@ public class Inventory
 	/// <param name="item">Item to remove.</param>
 	public void RemoveItem(BaseItem item)
 	{
-		inventory [item.ItemName] = null;
-		inventory.Remove (item.ItemName);
-		InventoryYamlParser.instance.RemoveFromInventory (item.ItemName, inventoryName);
+		contents [item.ItemName] = null;
+		contents.Remove (item.ItemName);
+		InventoryYamlParser.Instance.RemoveFromInventory (item.ItemName, inventoryName);
 		item = null;
 	}
 
+	/// <summary>
+	/// Gets all items in the inventory with a certain tag.
+	/// </summary>
+	/// <returns>All items with tag.</returns>
+	/// <param name="itemTag">Tag that contains desired items.</param>
 	public List<BaseItem> GetAllItemsWithTag(string itemTag)
 	{
 		List<BaseItem> result = new List<BaseItem> ();
 
-		List<string> keys = new List<string>(inventory.Keys);
+		List<string> keys = new List<string>(contents.Keys);
 
 		for (int i = 0; i < keys.Count; ++i) 
 		{
-			if (inventory [keys [i]].Tags.Contains (itemTag.ToLower())) 
+			if (contents [keys [i]].Tags.Contains (itemTag.ToLower())) 
 			{
-				result.Add (inventory [keys [i]]);
+				result.Add (contents [keys [i]]);
 			}
 		}
 

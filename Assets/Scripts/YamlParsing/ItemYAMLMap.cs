@@ -4,7 +4,21 @@ using System.Collections.Generic;
 
 public class ItemYAMLMap
 {
-	public string itemName {get; set;}
-	public BaseItem baseItem {get; set;}
-	public List<ItemCategory> itemCategories {get; set;}
+	public string ItemName
+	{ 
+		get; 
+		set; 
+	}
+
+	public BaseItem BaseItem
+	{ 
+		get; 
+		set; 
+	}
+
+	public List<ItemCategory> ItemCategories
+	{ 
+		get; 
+		set; 
+	}
 }

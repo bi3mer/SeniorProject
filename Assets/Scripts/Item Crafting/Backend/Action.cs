@@ -11,7 +11,6 @@ public class Action
 {
 	private string actionName;
 	private UnityAction UnityAction;
-	private int subcategoryActionID;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Action"/> class.
@@ -54,23 +53,6 @@ public class Action
 		set 
 		{
 			actionName = value;
-		}
-	}
-
-	/// <summary>
-	/// Gets or sets the id that marks which subcategory of actions this should
-	/// fall under.
-	/// </summary>
-	/// <value>The subcategory action id.</value>
-	public int SubCategoryActionID
-	{
-		get 
-		{
-			return subcategoryActionID;	
-		}
-		set 
-		{
-			subcategoryActionID = value;
 		}
 	}
 }

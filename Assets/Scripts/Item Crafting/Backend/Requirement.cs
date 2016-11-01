@@ -5,9 +5,17 @@
 public class Requirement 
 {
 	// how much of the item is needed for a recipe
-	public int amountRequired { get; set; }
+	public int AmountRequired
+	{ 
+		get; 
+		set; 
+	}
 	// what type of item is accepted
-	public string itemType { get; set; }
+	public string ItemType
+	{ 
+		get; 
+		set; 
+	}
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Requirement"/> class. Used by the yaml deserializer.
@@ -22,7 +30,7 @@ public class Requirement
 	/// <returns><c>true</c>, if amountRequired is fullfilled, <c>false</c> otherwise.</returns>
 	public bool isFullfilled()
 	{
-		return (amountRequired <= 0);
+		return (AmountRequired <= 0);
 	}
 
 	/// <summary>
@@ -32,9 +40,9 @@ public class Requirement
 	public void SubmitItem(BaseItem item)
 	{
 		// if item contains a certain type, then it can be used and the amount required is decremented
-		if (item.Tags.Contains (itemType)) 
+		if (item.Tags.Contains (ItemType)) 
 		{
-			amountRequired--;	
+			AmountRequired--;	
 		}
 	}
 }

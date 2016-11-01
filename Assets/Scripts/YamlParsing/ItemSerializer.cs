@@ -13,8 +13,8 @@ using YamlDotNet.RepresentationModel;
 
 public class ItemSerializer : MonoBehaviour 
 {
-	public static ItemSerializer instance;
-	public string filename;
+	public static ItemSerializer Instance;
+	public string Filename;
 
 	// the possible categories that can be added to a baseItem
 	// categoryNames stores name of the category
@@ -26,10 +26,12 @@ public class ItemSerializer : MonoBehaviour
 	// is necessary to use the full Uri
 	private string uriPrefix = "tag:yaml.org,2002:";
 
-	// Use this for initialization
+	/// <summary>
+	/// Awake this instance.
+	/// </summary>
 	void Awake () 
 	{
-		instance = this;
+		Instance = this;
 		categoryNames = new List<string> ();
 		categoryTypes = new List<Type> ();
 
@@ -54,7 +56,7 @@ public class ItemSerializer : MonoBehaviour
 	/// <returns>The item information.</returns>
 	public Dictionary<string, BaseItem> DeserializeItemInformation()
 	{
-		string fileyaml = Application.dataPath + "/YAMLFiles/" + filename;
+		string fileyaml = Application.dataPath + "/YAMLFiles/" + Filename;
 		Dictionary<string, BaseItem> itemDatabase = new Dictionary<string, BaseItem> ();
 
 		string itemListYAML = File.ReadAllText (fileyaml);
@@ -70,12 +72,12 @@ public class ItemSerializer : MonoBehaviour
 
 		for (int i = 0; i < itemYamlInfo.Count; ++i) 
 		{
-			BaseItem item = itemYamlInfo [i].baseItem;
+			BaseItem item = itemYamlInfo [i].BaseItem;
 			item.InitializeBaseItem ();
 
-			for (int j = 0; j < itemYamlInfo[i].itemCategories.Count; ++j) 
+			for (int j = 0; j < itemYamlInfo[i].ItemCategories.Count; ++j) 
 			{
-				item.AddItemCategory (itemYamlInfo[i].itemCategories [j]);
+				item.AddItemCategory (itemYamlInfo[i].ItemCategories [j]);
 			}
 
 			item.SetUpBaseItem ();

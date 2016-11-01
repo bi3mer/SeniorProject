@@ -9,16 +9,45 @@ using UnityEngine.Events;
 /// </summary>
 public class SolidCategory : ItemCategory 
 {
-	public float flexibility { get; set; }
-	public float durability { get; set; }
-	public float elasticity { get; set; }
-	public float stickiness { get; set; }
-	public float thickness { get; set; }
-	public float sharpness { get; set; }
+	public float Flexibility
+	{ 
+		get; 
+		set; 
+	}
 
-	float sharpenLowerThreshold = 0.2f;
-	float sharpenUpperThreshold = 0.7f;
-	float weaveThreshold = 0.8f;
+	public float Durability
+	{ 
+		get; 
+		set; 
+	}
+
+	public float Elasticity
+	{ 
+		get; 
+		set; 
+	}
+
+	public float Stickiness
+	{ 
+		get; 
+		set; 
+	}
+
+	public float Thickness
+	{ 
+		get; 
+		set; 
+	}
+
+	public float Sharpness
+	{ 
+		get; 
+		set; 
+	}
+
+	private float sharpenLowerThreshold = 0.2f;
+	private float sharpenUpperThreshold = 0.7f;
+	private float weaveThreshold = 0.8f;
 
 	private const string flexAttrName = "flexibility";
 	private const string duraAttrName = "durability";
@@ -32,15 +61,19 @@ public class SolidCategory : ItemCategory
 	private const string weaveRopeActName = "Weave Rope";
 	private const string weaveBasketActName = "Weave Basket";
 
+	/// <summary>
+	/// Creates a copy of the ItemCategory.
+	/// </summary>
+	/// <returns>The duplicate.</returns>
 	public override ItemCategory GetDuplicate()
 	{
 		SolidCategory category = new SolidCategory ();
-		category.flexibility = flexibility;
-		category.durability = durability;
-		category.elasticity = elasticity;
-		category.stickiness = stickiness;
-		category.thickness = thickness;
-		category.sharpness = sharpness;
+		category.Flexibility = Flexibility;
+		category.Durability = Durability;
+		category.Elasticity = Elasticity;
+		category.Stickiness = Stickiness;
+		category.Thickness = Thickness;
+		category.Sharpness = Sharpness;
 
 		category.ReadyCategory ();
 
@@ -68,12 +101,12 @@ public class SolidCategory : ItemCategory
 			actionCompleted.Add (sharpenActionName, false);
 		}
 
-		attributes.Add (flexAttrName, flexibility);
-		attributes.Add (duraAttrName, durability);
-		attributes.Add (elasAttrName, elasticity);
-		attributes.Add (stickiAttrName, stickiness);
-		attributes.Add (sharpAttrName, sharpness);
-		attributes.Add (thickAttrName, thickness);
+		attributes.Add (flexAttrName, Flexibility);
+		attributes.Add (duraAttrName, Durability);
+		attributes.Add (elasAttrName, Elasticity);
+		attributes.Add (stickiAttrName, Stickiness);
+		attributes.Add (sharpAttrName, Sharpness);
+		attributes.Add (thickAttrName, Thickness);
 	}
 
 	/// <summary>
@@ -96,14 +129,14 @@ public class SolidCategory : ItemCategory
 			possibleActions = component.GetPossibleActions ();
 		}
 
-		if (flexibility < sharpenLowerThreshold && elasticity < sharpenLowerThreshold && durability > sharpenUpperThreshold && !actionCompleted["Sharpen"]) 
+		if (Flexibility < sharpenLowerThreshold && Elasticity < sharpenLowerThreshold && Durability > sharpenUpperThreshold && !actionCompleted["Sharpen"]) 
 		{
 			UnityAction sharpen = new UnityAction (Sharpen);
 			Action act = new Action (weaveActionName, sharpen);
 			possibleActions [defaultActionCategoryName].Add (act);
 		}
 
-		if (flexibility > weaveThreshold && !actionCompleted[weaveActionName]) 
+		if (Flexibility > weaveThreshold && !actionCompleted[weaveActionName]) 
 		{
 			possibleActions.Add(weaveActionName, new List<Action>());
 
@@ -127,7 +160,7 @@ public class SolidCategory : ItemCategory
 	{
 		string name;
 
-		if (thickness > 0.5f) 
+		if (Thickness > 0.5f) 
 		{
 			name = baseItem.ItemName + " Thread";
 		} 
@@ -138,10 +171,10 @@ public class SolidCategory : ItemCategory
 			
 		baseItem.ChangeName(name);
 		baseItem.Tags.Add ("rope");
-		durability = durability * elasticity / 2f;
+		Durability = Durability * Elasticity / 2f;
 
 		actionCompleted [weaveActionName] = true;
-		thickness = thickness * 4f;
+		Thickness = Thickness * 4f;
 
 		baseItem.RemoveCategories (new List<string> () {GetType ().Name}, true);
 		baseItem.AddToModifactionList (weaveRopeActName);
@@ -156,8 +189,8 @@ public class SolidCategory : ItemCategory
 		string name;
 
 		name = baseItem.ItemName + " Basket";
-		durability = durability  * elasticity / 2f;
-		thickness = thickness * 2f;
+		Durability = Durability  * Elasticity / 2f;
+		Thickness = Thickness * 2f;
 
 		actionCompleted [weaveActionName] = true;
 
@@ -172,7 +205,7 @@ public class SolidCategory : ItemCategory
 	/// </summary>
 	public void Sharpen()
 	{
-		if (sharpness > 3f) 
+		if (Sharpness > 3f) 
 		{
 			if (!baseItem.ItemName.Contains ("Blade")) 
 			{
@@ -184,8 +217,8 @@ public class SolidCategory : ItemCategory
 			baseItem.ChangeName ("Sharpened " + baseItem.ItemName);
 		}
 
-		sharpness = sharpness * 1.5f;
+		Sharpness = Sharpness * 1.5f;
 		actionCompleted [sharpenActionName] = true;
-		attributes [sharpAttrName] = sharpness;
+		attributes [sharpAttrName] = Sharpness;
 	}
 }

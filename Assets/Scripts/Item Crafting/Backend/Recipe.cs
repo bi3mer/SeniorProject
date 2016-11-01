@@ -7,12 +7,24 @@
 public class Recipe  
 {
 	// list of requirements for a recipe
-	public List<Requirement> requirements { get; set; }
+	public List<Requirement> Requirements
+	{ 
+		get; 
+		set; 
+	}
 
 	// name of the recipe, generally the name of the item that it will create
-	public string recipeName { get; set; }
+	public string RecipeName
+	{ 
+		get; 
+		set; 
+	}
 
-	public List<CraftingStat> statsToCheck { get; set; }
+	public List<CraftingStat> StatsToCheck
+	{ 
+		get; 
+		set; 
+	}
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Recipe"/> class. Used by the yaml deserializer.
@@ -27,7 +39,7 @@ public class Recipe
 	/// <param name="req">Req.</param>
 	public void AddRequirement(Requirement req)
 	{
-		requirements.Add (req);
+		Requirements.Add (req);
 	}
 
 	/// <summary>
@@ -36,9 +48,9 @@ public class Recipe
 	/// <returns><c>true</c>, if all requirements completed, <c>false</c> otherwise.</returns>
 	public bool CheckCompleted()
 	{
-		for (int i = 0; i < requirements.Count; ++i) 
+		for (int i = 0; i < Requirements.Count; ++i) 
 		{
-			if (!requirements [i].isFullfilled ()) {
+			if (!Requirements [i].isFullfilled ()) {
 				return false;
 			}	
 		}

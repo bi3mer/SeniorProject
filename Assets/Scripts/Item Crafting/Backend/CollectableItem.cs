@@ -13,8 +13,7 @@ public abstract class CollectableItem
 	// defaultActionCategoryName is the id for actions that do not belong
 	// to any subcategory
 
-	[System.NonSerialized]
-	public string defaultActionCategoryName = "base";
+	public static string defaultActionCategoryName = "base";
 
 	/// <summary>
 	/// Gets the attributes of an item. Returns all attributes in the BaseItem and all

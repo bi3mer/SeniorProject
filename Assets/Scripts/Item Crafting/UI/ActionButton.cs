@@ -19,6 +19,9 @@ public class ActionButton : MonoBehaviour
 	// the subcategory that the action performed by this button falls under
 	private string actionSubcategoryID;
 
+	/// <summary>
+	/// Awake this instance.
+	/// </summary>
 	void Awake()
 	{
 		btnText = GetComponentInChildren<Text> ();

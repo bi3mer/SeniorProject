@@ -10,20 +10,26 @@ using YamlDotNet.RepresentationModel;
 
 public class RecipeYamlSerializer : MonoBehaviour 
 {
-	public static RecipeYamlSerializer instance;
+	public static RecipeYamlSerializer Instance;
 
 	[Tooltip("The yaml file used to store the recipes")]
-	public string filename;
+	public string Filename;
 
-	// Use this for initialization
+	/// <summary>
+	/// Awake this instance.
+	/// </summary>
 	void Awake () 
 	{
-		instance = this;
+		Instance = this;
 	}
 
+	/// <summary>
+	/// Loads the recipes from the yaml file.
+	/// </summary>
+	/// <returns>The recipes.</returns>
 	public Dictionary<string, Recipe> LoadRecipes()
 	{
-		string fileyaml = Application.dataPath + "/YAMLFiles/" + filename;
+		string fileyaml = Application.dataPath + "/YAMLFiles/" + Filename;
 		Dictionary<string, Recipe> recipeDatabase = new Dictionary<string, Recipe> ();
 
 		string itemListYAML = File.ReadAllText (fileyaml);
@@ -34,7 +40,7 @@ public class RecipeYamlSerializer : MonoBehaviour
 
 		for (int i = 0; i < itemYamlInfo.Count; ++i) 
 		{
-			recipeDatabase.Add (itemYamlInfo [i].recipeName, itemYamlInfo [i]);
+			recipeDatabase.Add (itemYamlInfo [i].RecipeName, itemYamlInfo [i]);
 		}
 
 		return recipeDatabase;

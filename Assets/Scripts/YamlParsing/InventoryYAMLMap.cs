@@ -4,6 +4,15 @@ using System.Collections.Generic;
 
 public class InventoryYAMLMap
 {
-	public string inventoryName { get; set; }
-	public List<InventoryYAMLInfo> items { get; set; }
+	public string InventoryName
+	{ 
+		get; 
+		set; 
+	}
+
+	public List<InventoryYAMLModel> Items
+	{ 
+		get; 
+		set; 
+	}
 }

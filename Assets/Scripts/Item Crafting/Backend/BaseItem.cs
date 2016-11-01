@@ -9,21 +9,41 @@ using System.Collections.Generic;
 public class BaseItem : CollectableItem 
 {
 	//name of the item
-	public string ItemName {get; set;}
+	public string ItemName 
+	{
+		get; 
+		set;
+	}
 
 	// tags that specify what type of item this item is
 	// unfortunately enums are not serializable with yamldotnet
 	// as such, they must remain strings for now
-	public List<string> Tags {get; set;}
+	public List<string> Tags 
+	{
+		get; 
+		set;
+	}
 
 	// how many units of the item there are in total handled by the gameobject
-	public float Amount { get; set; }
+	public float Amount 
+	{
+		get;
+		set;
+	}
 
 	//description of item 
-	public string FlavorText {get; set;}
+	public string FlavorText 
+	{
+		get;
+		set;
+	}
 
 	// the name of the raw item before actions added things to their name
-	public string UnmodifiedName {get; set;}
+	public string UnmodifiedName 
+	{
+		get; 
+		set;
+	}
 
 	public delegate void ChangeNameEvent (string itemName); 
 
@@ -56,12 +76,7 @@ public class BaseItem : CollectableItem
 		ItemName = name;
 		UnmodifiedName = name;
 
-		categoryList = new List<ItemCategory> ();
-
-		if (Tags == null) 
-		{
-			Tags = new List<string> ();
-		}
+		InitializeBaseItem ();
 	}
 
 	/// <summary>
@@ -186,8 +201,6 @@ public class BaseItem : CollectableItem
 		// add it to the list of attributes
 		Dictionary<string, float> attributes = lastCategory.GetItemAttributes ();
 
-		attributes.Add ("amount", Amount);
-
 		return attributes;
 	}
 
@@ -227,7 +240,7 @@ public class BaseItem : CollectableItem
 
 		for (int i = 0; i < categoryList.Count; ++i) 
 		{
-			categoryList [i].ChangeConnected (previous);
+			categoryList [i].ChangeLinkedCategory (previous);
 			if (!names.Contains(categoryList [i].GetType ().Name) && excluding) 
 			{
 				categoryList.RemoveAt (i);
@@ -266,13 +279,13 @@ public class BaseItem : CollectableItem
 	}
 
 	/// <summary>
-	/// Creates a seperate copy of this item that will be modified during crafting. This function assumes that the duplicate items will
-	/// be drawn from this item, thus the "amount" that goes into the duplicated item will be subtracted
-	/// from this item. For example, if there are four river weeds, then calling CreateDuplicate(2) will
+	/// Gets a seperate copy of this item that will be modified during crafting. This function assumes 
+	/// that the duplicate items will be drawn from this item, thus the "amount" that goes into the duplicated 
+	/// item will be subtracted from this item. For example, if there are four river weeds, calling GetItemsToModify will
 	/// result in the initial base item class for the river weeds having an amount of 2, while the duplicated
-	/// base item class will have an amount of 2 as well.
+	/// base item class will have an amount of 2 as well. 
 	/// </summary>
-	/// <param name="amt">The amount that the item should have once created.</param>
+	/// <param name="amt">The amount of the item that should be affected during the crafting.</param>
 	/// <returns>The duplicate.</returns>
 	public BaseItem GetItemsToModify(int amt)
 	{

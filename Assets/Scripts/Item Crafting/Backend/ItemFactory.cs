@@ -21,13 +21,15 @@ public class ItemFactory : MonoBehaviour
 	public static ItemFactory instance;
 
 	//dictionary of craftItem delegate functions that are keyed by the name of the item they are supposed to craft
-	public Dictionary<string, CraftItem> craftingList;
+	public Dictionary<string, CraftItem> CraftingList;
 
 
 	private Dictionary<string, BaseItem> itemDatabase;
 
 	// the different result tiers of craftable items
 	private string[] itemLevels = new string[3] { "Poor", "Good", "Excellent" };
+
+	private int levels = 3;
 
 	/// <summary>
 	/// Start this instance. 
@@ -61,75 +63,29 @@ public class ItemFactory : MonoBehaviour
 	/// <param name="ingredients">Ingredients to be used. Required by CraftItem delegate functions.</param>
 	public void Craft(Recipe recipe, List<BaseItem> ingredients)
 	{
-		Dictionary<string, List<BaseItem>> ingredientsByType = new Dictionary<string, List<BaseItem>> ();
-		List<string> ingredientsKey;
+		List<string> tags = new List<string> ();
 
-		for (int i = 0; i < recipe.requirements.Count; ++i) 
+		for (int i = 0; i < recipe.Requirements.Count; ++i) 
 		{
-			ingredientsByType.Add (recipe.requirements [i].itemType, new List<BaseItem>());
+			tags.Add (recipe.Requirements [i].ItemType);
 		}
 
-		ingredientsKey = new List<string> (ingredientsByType.Keys);
+		Dictionary<string, List<BaseItem>> ingredientsByType = SortIngredientsByTag (tags, ingredients);
 
-		// sorts the ingredients into the "types" that they are by their tags
-		// this assumes that there are no overlapping types that a single item can fulfill
-		// for example, for a fishing rod that require a rod, a rope, and a hook, the item
-		// selected for rod is not also a rope.
-		for (int j = 0; j < ingredients.Count; ++j) 
-		{
-			for (int k = 0; k < ingredientsKey.Count; ++k) 
-			{
-				if (ingredients [j].Tags.Contains (ingredientsKey [k])) 
-				{
-					ingredientsByType [ingredientsKey [k]].Add (ingredients [j]);
-				}
-			}
-		}
+		int qualityLevel = GetResultingItemLevel(recipe, ingredientsByType);
 
-		// level stats at excellent, and decreases as the crafting stat fails to reach the threshold value
-
-		int level = 2;
-
-		for (int x = 0; x < recipe.statsToCheck.Count; ++x) 
-		{
-			string stat = recipe.statsToCheck [x].statName;
-			List<string> affectingItems = recipe.statsToCheck [x].affectingItems;
-			float result = 0;
-
-			for (int y = 0; y < affectingItems.Count; ++y)
-			{
-				for (int z = 0; z < ingredientsByType [affectingItems [y]].Count; ++z) {
-					result += ingredientsByType [affectingItems [y]] [z].GetItemAttributes () [stat];
-				}
-			}
-
-			if (level > 0) 
-			{
-				// a single crafting stat sum may decrease the level multiple times
-				while (result < recipe.statsToCheck [x].threshold [level - 1]) 
-				{
-					--level;
-
-					if (level <= 0) 
-					{
-						break;
-					}
-				}
-			} 
-		}
-
-		for (int a = 0; a < recipe.requirements.Count; ++a) 
+		for (int i = 0; i < recipe.Requirements.Count; ++i) 
 		{
 			// for now, the crafting recipes only allow for one item to be selected
 			// as an ingredient per requirement, but the list is in place in preparation
 			// for multi-item per requirement recipes that will be implemented later
-			for (int b = 0; b < ingredientsByType [recipe.requirements [a].itemType].Count; ++b) 
+			for (int j = 0; j < ingredientsByType [recipe.Requirements [i].ItemType].Count; ++j) 
 			{
-				InventoryUIBehavior.instance.targetInventory.UseItem (ingredientsByType [recipe.requirements [a].itemType] [b].ItemName, recipe.requirements [a].amountRequired);
+				InventoryUIBehavior.instance.targetInventory.UseItem (ingredientsByType [recipe.Requirements [i].ItemType] [j].ItemName, recipe.Requirements [i].AmountRequired);
 			}
 		}
 
-		string itemName = itemLevels [level] + " " + recipe.recipeName;
+		string itemName = itemLevels [qualityLevel] + " " + recipe.RecipeName;
 		BaseItem craftedItem;
 
 		craftedItem = GetBaseItem (itemName);
@@ -144,7 +100,86 @@ public class ItemFactory : MonoBehaviour
 	/// </summary>
 	public void LoadItemInformation()
 	{
-		itemDatabase = ItemSerializer.instance.DeserializeItemInformation ();
+		itemDatabase = ItemSerializer.Instance.DeserializeItemInformation ();
+	}
+
+	/// <summary>
+	/// Sorts the ingredients by their tag, which determines which part of the recipe
+	/// the ingredient fulfills.
+	/// </summary>
+	/// <returns>The ingredients by tag.</returns>
+	/// <param name="tags">Tags.</param>
+	/// <param name="ingredients">Ingredients.</param>
+	public Dictionary<string, List<BaseItem>> SortIngredientsByTag(List<string> tags, List<BaseItem> ingredients)
+	{
+		Dictionary<string, List<BaseItem>> ingredientsByType = new Dictionary<string, List<BaseItem>> ();
+
+		for (int i = 0; i < tags.Count; ++i) 
+		{
+			ingredientsByType.Add (tags [i], new List<BaseItem>());
+		}
+
+		// sorts the ingredients into the "types" that they are by their tags
+		// this assumes that there are no overlapping types that a single item can fulfill
+		// for example, for a fishing rod that require a rod, a rope, and a hook, the item
+		// selected for rod is not also a rope.
+		for (int j = 0; j < ingredients.Count; ++j) 
+		{
+			for (int k = 0; k < tags.Count; ++k) 
+			{
+				if (ingredients [j].Tags.Contains (tags [k])) 
+				{
+					ingredientsByType [tags [k]].Add (ingredients [j]);
+				}
+			}
+		}
+
+		return ingredientsByType;
+	}
+
+	/// <summary>
+	/// Gets the quality level of the item based on the ingredients that goes into it.
+	/// Quality is determined by the sum of specified stats reaching certain thresholds, as
+	/// defined by the recipe.
+	/// </summary>
+	/// <returns>The resulting item level.</returns>
+	/// <param name="recipe">Recipe.</param>
+	/// <param name="ingredientsByType">Ingredients sorted by type.</param>
+	public int GetResultingItemLevel(Recipe recipe, Dictionary<string, List<BaseItem>> ingredientsByType)
+	{
+		// level starts at highest level, and decreases as the crafting stat fails to reach the threshold value
+		// highest level is the number of levels - 1 since 0 is the lowest level
+		int qualityLevel = levels - 1;
+
+		for (int x = 0; x < recipe.StatsToCheck.Count; ++x) 
+		{
+			string stat = recipe.StatsToCheck [x].StatName;
+			List<string> affectingItems = recipe.StatsToCheck [x].AffectingItems;
+			float result = 0;
+
+			for (int y = 0; y < affectingItems.Count; ++y)
+			{
+				for (int z = 0; z < ingredientsByType [affectingItems [y]].Count; ++z) {
+					result += ingredientsByType [affectingItems [y]] [z].GetItemAttributes () [stat];
+				}
+			}
+
+			if (qualityLevel > 0) 
+			{
+				// a single crafting stat sum may decrease the level multiple times
+				while (result < recipe.StatsToCheck [x].Threshold [qualityLevel - 1]) 
+				{
+					--qualityLevel;
+
+					if (qualityLevel <= 0) 
+					{
+						break;
+					}
+				}
+			} 
+		}
+
+		return qualityLevel;
 	}
 
 	/// <summary>
@@ -160,15 +195,15 @@ public class ItemFactory : MonoBehaviour
 	/// </summary>
 	/// <returns>The base item.</returns>
 	/// <param name="item">Item.</param>
-	public BaseItem GetBaseItem(InventoryYAMLInfo item)
+	public BaseItem GetBaseItem(InventoryYAMLModel item)
 	{
-		if (itemDatabase.ContainsKey (item.itemName)) 
+		if (itemDatabase.ContainsKey (item.ItemName)) 
 		{
-			return itemDatabase [item.itemName];
+			return itemDatabase [item.ItemName];
 		} 
-		else if (itemDatabase.ContainsKey (item.unmodifiedItemName)) 
+		else if (itemDatabase.ContainsKey (item.UnmodifiedItemName)) 
 		{
-			return itemDatabase [item.unmodifiedItemName];
+			return itemDatabase [item.UnmodifiedItemName];
 		}
 
 		return null;

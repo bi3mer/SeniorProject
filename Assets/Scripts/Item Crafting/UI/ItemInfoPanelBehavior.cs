@@ -13,7 +13,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 	public static ItemInfoPanelBehavior instance;
 
 	[Tooltip("text that shows the name of the item selected")]
-	public Text itemName;
+	public Text ItemName;
 
 	[Tooltip("the scroll bar section that contains the attributes")]
 	public GameObject AttributeScroll;
@@ -25,14 +25,17 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 	public GameObject SubActionScroll;
 
 	[Tooltip("prefab for the stat bars")]
-	public GameObject statElement;
+	public GameObject StatElement;
 
 	[Tooltip("prefab for the buttons that show the actions of an item")]
-	public GameObject actionButton;
+	public GameObject ActionButton;
 
 	[Tooltip("the animation state of the panel")]
 	public int currentAnimationState = 1;
 
+	private int closeState = 2;
+	private int openState = 1;
+	private string animatorStateVariable = "state";
 	// animator that controls the panel's movements
 	private Animator anim;
 
@@ -67,13 +70,13 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 	public void OpenItemInfo(GameObject item)
 	{
 		// when the animation state is 1, the panel will open
-		currentAnimationState = 1;
+		currentAnimationState = openState;
 
 		// clears the panel to make way for the current item's info
 		attrObjects.Clear ();
 		actionsByID.Clear ();
 
-		anim.SetInteger ("state", currentAnimationState);
+		anim.SetInteger (animatorStateVariable, currentAnimationState);
 
 		// creates a duplicate of the object that will be affected by any changes made
 		targetItem = item.GetComponent<InventoryItemBehavior>();
@@ -89,8 +92,8 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void CloseItemInfo()
 	{
-		currentAnimationState = 2;
-		anim.SetInteger ("state", currentAnimationState);
+		currentAnimationState = closeState;
+		anim.SetInteger (animatorStateVariable, currentAnimationState);
 
 		// clear the info from the selected
 		Depopulate ();
@@ -139,7 +142,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void Populate()
 	{
-		itemName.text = targetItem.GetItemName ();
+		ItemName.text = targetItem.GetItemName ();
 
 		Dictionary<string, float> attr = targetItem.GetItemAttributes ();
 
@@ -148,7 +151,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 		// removes the attributes from the attribute section
 		for(int i = 0; i < keys.Count; ++i)
 		{
-			GameObject stat = GameObject.Instantiate (statElement);
+			GameObject stat = GameObject.Instantiate (StatElement);
 			stat.transform.SetParent (AttributeScroll.transform, false);
 			stat.transform.localScale = Vector3.one;
 			AttributeStat s = stat.GetComponent<AttributeStat> ();
@@ -173,7 +176,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 			{
 				for (int j = 0; j < possibleActions [keys [i]].Count; ++j) 
 				{
-					GameObject action = GameObject.Instantiate (actionButton);
+					GameObject action = GameObject.Instantiate (ActionButton);
 					action.GetComponent<ActionButton> ().SetAction (possibleActions [keys [i]] [j].AssignedAction, possibleActions [keys [i]] [j].ActionName);
 					action.transform.SetParent(ActionScroll.transform, false);
 					action.transform.localScale = Vector3.one;
@@ -194,7 +197,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 				// the name of the action category is saved to ActionSubcategory
 				// and then all actions that fall under that category are saved to actionsByID, so that when that button is pressed
 				// the ActionSubcategory can be used as a key to get the child actions
-				GameObject action = GameObject.Instantiate (actionButton);
+				GameObject action = GameObject.Instantiate (ActionButton);
 				ActionButton button = action.GetComponent<ActionButton> ();
 
 				UnityAction subAction = new UnityAction (button.ShowSubActions);
@@ -214,7 +217,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void RefreshItemPanel()
 	{
-		itemName.text = targetItem.GetItemName ();
+		ItemName.text = targetItem.GetItemName ();
 		Dictionary<string, float> attr = targetItem.GetItemAttributes ();
 
 		List<string> keys = new List<string> (attr.Keys);
@@ -232,7 +235,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 		{
 			GameObject act;
 
-			if (keys[i].Equals ("base")) 
+			if (keys[i].Equals (CollectableItem.defaultActionCategoryName)) 
 			{
 				for (int j = 0; j < acts [keys [i]].Count; ++j) 
 				{
@@ -244,7 +247,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 					} 
 					else 
 					{
-						act = GameObject.Instantiate (actionButton);
+						act = GameObject.Instantiate (ActionButton);
 						act.transform.SetParent(ActionScroll.transform, false);
 						act.transform.localScale = Vector3.one;
 						actionButtons.Add (act);
@@ -263,7 +266,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 				} 
 				else 
 				{
-					act = GameObject.Instantiate (actionButton);
+					act = GameObject.Instantiate (ActionButton);
 				}
 
 				ActionButton button = act.GetComponent<ActionButton> ();
@@ -304,7 +307,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 
 		for(int i = 0; i < actions.Count; ++i)
 		{
-			GameObject act = GameObject.Instantiate (actionButton);
+			GameObject act = GameObject.Instantiate (ActionButton);
 			act.GetComponent<ActionButton> ().SetAction (actions[i].AssignedAction, actions[i].ActionName);
 			act.transform.SetParent (SubActionScroll.transform, false);
 			act.transform.localScale = Vector3.one;

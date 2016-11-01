@@ -811,7 +811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9001a4cdd70934e60abfa4807df3bb6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemLabel: {fileID: 419214547}
+  ItemLabel: {fileID: 419214547}
 --- !u!114 &296342835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1809,9 +1809,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bdf101a391b448c39d2bc4261b5800e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numDisplay: {fileID: 1471377030}
-  minus: {fileID: 1640071194}
-  plus: {fileID: 309632113}
+  NumDisplay: {fileID: 1471377030}
+  Minus: {fileID: 1640071194}
+  Plus: {fileID: 309632113}
 --- !u!1 &527965043
 GameObject:
   m_ObjectHideFlags: 0
@@ -2569,15 +2569,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdbb2be5fe76a47edab149b0029eb479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  craftingItemTemplate: {fileID: 412425768}
-  recipePanel: {fileID: 27199230}
-  craftingRecipeTemplate: {fileID: 1000013613445336, guid: 08e7eac73a5814d04850080b2c2683d0,
+  CraftingItemTemplate: {fileID: 412425768}
+  RecipePanel: {fileID: 27199230}
+  CraftingRecipeTemplate: {fileID: 1000013613445336, guid: 08e7eac73a5814d04850080b2c2683d0,
     type: 2}
-  continueButton: {fileID: 13762917}
-  noValidItem: {fileID: 696261021}
-  craftButton: {fileID: 1136326612}
-  selectText: {fileID: 529822015}
-  itemChoicePanel: {fileID: 236293672}
+  ContinueButton: {fileID: 13762917}
+  NoValidItem: {fileID: 696261021}
+  CraftButton: {fileID: 1136326612}
+  SelectText: {fileID: 529822015}
+  ItemChoicePanel: {fileID: 236293672}
 --- !u!95 &822673452
 Animator:
   serializedVersion: 3
@@ -2897,12 +2897,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c42ee6e8c0eea49cd82569d78d962d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: {fileID: 882465992}
+  ItemName: {fileID: 882465992}
   AttributeScroll: {fileID: 314674342}
   ActionScroll: {fileID: 829938171}
   SubActionScroll: {fileID: 1251414253}
-  statElement: {fileID: 188870, guid: 04ead79bf01a14505bb67e81b365480f, type: 2}
-  actionButton: {fileID: 140946, guid: 5feece1144dda4c3595de2cfb2331d74, type: 2}
+  StatElement: {fileID: 188870, guid: 04ead79bf01a14505bb67e81b365480f, type: 2}
+  ActionButton: {fileID: 140946, guid: 5feece1144dda4c3595de2cfb2331d74, type: 2}
   currentAnimationState: 1
 --- !u!1 &882465991
 GameObject:
@@ -3499,9 +3499,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9631392a0725244448ec4b1acd836710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetInventoryName: player
-  inventoryItemTemplate: {fileID: 296342833}
-  itemParent: {fileID: 1785486248}
+  TargetInventoryName: player
+  InventoryItemTemplate: {fileID: 296342833}
+  ItemParent: {fileID: 1785486248}
 --- !u!114 &1385441806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3513,7 +3513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0110324a6a46415fa8ac5b1967c9d08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseObjectTemplate: {fileID: 103906, guid: ddab1eddbe0a8428ea888335525bfbfe, type: 2}
+  baseObjectTemplate: {fileID: 296342833}
 --- !u!1 &1416661738
 GameObject:
   m_ObjectHideFlags: 0
@@ -4885,7 +4885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b139054b3ced947dba0693c984cc3cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileName: InventoryYaml.yml
+  FileName: InventoryYaml.yml
 --- !u!4 &2089914281
 Transform:
   m_ObjectHideFlags: 0
@@ -4910,7 +4910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a48f8ee33f0254acb9d295eeba83f7bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filename: ItemListYaml.yml
+  Filename: ItemListYaml.yml
 --- !u!114 &2089914283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4922,4 +4922,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62eac27b5a8834be4859268776b6ce9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filename: RecipeYaml.yml
+  Filename: RecipeYaml.yml

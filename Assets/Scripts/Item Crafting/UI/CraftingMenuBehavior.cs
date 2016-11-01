@@ -9,28 +9,28 @@ using UnityEngine.UI;
 public class CraftingMenuBehavior : MonoBehaviour 
 {
 	[Tooltip("the gameobject that defines which template the crafting menu should use to create the interactable objects that are used to list the items that are listed as usable for a recipe")]
-	public GameObject craftingItemTemplate;
+	public GameObject CraftingItemTemplate;
 
 	[Tooltip("gameobject that recipes should be parented under")]
-	public GameObject recipePanel;
+	public GameObject RecipePanel;
 
 	[Tooltip("gameobject that is the template used to represent recipes in the crafting panel")]
-	public GameObject craftingRecipeTemplate;
+	public GameObject CraftingRecipeTemplate;
 
 	[Tooltip("the button used to continue when an item has been selected for use in a recipe")]
-	public Button continueButton;
+	public Button ContinueButton;
 
 	[Tooltip("the text component that is enabled when there are no valid items are available for a recipe")]
-	public Text noValidItem;
+	public Text NoValidItem;
 
 	[Tooltip("the button that the user will click to combine the selected items into a new item")]
-	public GameObject craftButton;
+	public GameObject CraftButton;
 
 	[Tooltip("text that prompts the user to select an item of a certain category")]
-	public Text selectText;
+	public Text SelectText;
 
 	[Tooltip("panel where the items that can be selected will be displayed")]
-	public Transform itemChoicePanel;
+	public Transform ItemChoicePanel;
 
 	// The recipes as defined by their name and the actual recipe itself
 	private Dictionary<string, Recipe> recipes;
@@ -51,6 +51,11 @@ public class CraftingMenuBehavior : MonoBehaviour
 
 	// the current animation state of the item selection UI
 	private int selectPanelCurrentState;
+
+	private string animatorStateVariableName = "state";
+
+	private int closeState = 2;
+	private int openState = 1;
 
 	// a list of names of the items selected for a recipe
 	private List<string> itemsSelected;
@@ -83,15 +88,15 @@ public class CraftingMenuBehavior : MonoBehaviour
 	/// </summary>
 	public void LoadRecipes()
 	{
-		recipes = RecipeYamlSerializer.instance.LoadRecipes ();
+		recipes = RecipeYamlSerializer.Instance.LoadRecipes ();
 
 		List<string> recipeNames = new List<string> (recipes.Keys);
 
 		for (int i = 0; i < recipeNames.Count; ++i) 
 		{
-			CraftingRecipeSelectBehavior recipe = GameObject.Instantiate (craftingRecipeTemplate).GetComponent<CraftingRecipeSelectBehavior> ();
+			CraftingRecipeSelectBehavior recipe = GameObject.Instantiate (CraftingRecipeTemplate).GetComponent<CraftingRecipeSelectBehavior> ();
 			recipe.SetUpRecipeSelect (recipeNames [i], this);
-			recipe.transform.SetParent (recipePanel.transform);
+			recipe.transform.SetParent (RecipePanel.transform);
 		}
 	}
 
@@ -104,9 +109,8 @@ public class CraftingMenuBehavior : MonoBehaviour
 	{
 		recipeChoice = recipeName;
 
-		// when the animation state of a panel is 1, the panel opens
-		selectPanelCurrentState = 1;
-		ItemSelectPanelAnimator.SetInteger ("state", selectPanelCurrentState);
+		selectPanelCurrentState = openState;
+		ItemSelectPanelAnimator.SetInteger (animatorStateVariableName, selectPanelCurrentState);
 
 		// display what items may be selected for the first step of the recipe
 		DisplayPossibleItems (0);
@@ -117,14 +121,13 @@ public class CraftingMenuBehavior : MonoBehaviour
 	/// </summary>
 	public void EndCraftingAttempt()
 	{
-		// when the animation state of a panel is 2, the panel closes
-		selectPanelCurrentState = 2;
-		ItemSelectPanelAnimator.SetInteger ("state", selectPanelCurrentState);
+		selectPanelCurrentState = closeState;
+		ItemSelectPanelAnimator.SetInteger (animatorStateVariableName, selectPanelCurrentState);
 
 		// clears the list of items selected during the attempt
 		itemsSelected.Clear ();
-		continueButton.gameObject.SetActive (true);
-		craftButton.SetActive (false);
+		ContinueButton.gameObject.SetActive (true);
+		CraftButton.SetActive (false);
 	}
 
 	/// <summary>
@@ -132,9 +135,8 @@ public class CraftingMenuBehavior : MonoBehaviour
 	/// </summary>
 	public void OpenCraftingMenu()
 	{
-		// when the animation state of a panel is set to 1, the panel opens
-		baseCurrentState = 1;
-		CraftingPanelAnimator.SetInteger("state", baseCurrentState);
+		baseCurrentState = openState;
+		CraftingPanelAnimator.SetInteger(animatorStateVariableName, baseCurrentState);
 	}
 
 	/// <summary>
@@ -142,9 +144,8 @@ public class CraftingMenuBehavior : MonoBehaviour
 	/// </summary>
 	public void CloseCraftingMenu()
 	{
-		// when the animation state of a panel is set to 2, the panel opens
-		baseCurrentState = 2;
-		CraftingPanelAnimator.SetInteger ("state", baseCurrentState);
+		baseCurrentState = closeState;
+		CraftingPanelAnimator.SetInteger (animatorStateVariableName, baseCurrentState);
 	}
 		
 	/// <summary>
@@ -155,9 +156,12 @@ public class CraftingMenuBehavior : MonoBehaviour
 	{
 		// If this is the last step of the recipe, then the continue button used to continue to the 
 		// next step is disabled. Instead the "craft" button which is used to combine the items is activated.
-		if (currentStep + 1 >= recipes [recipeChoice].requirements.Count - 1) {
-			continueButton.gameObject.SetActive (false);
-			craftButton.SetActive (true);
+
+		int lastStep = recipes [recipeChoice].Requirements.Count - 1;
+		if (currentStep + 1 >= lastStep) 
+		{
+			ContinueButton.gameObject.SetActive (false);
+			CraftButton.SetActive (true);
 		}
 			
 		DisplayPossibleItems(currentStep+1);
@@ -173,27 +177,27 @@ public class CraftingMenuBehavior : MonoBehaviour
 		currentStep = step;
 
 		// continue button should be deactivated until an item has been selected for this step
-		continueButton.interactable = false;
+		ContinueButton.interactable = false;
 
 		// the text that tells the player that no valid objects are available should be disabled
-		noValidItem.gameObject.SetActive (false);
+		NoValidItem.gameObject.SetActive (false);
 
 		// gets the category of item that is needed for this step of the recipe
 		// what categories an item falls under is determined by its tags
-		string itemTag = rec.requirements [currentStep].itemType;
+		string itemTag = rec.Requirements [currentStep].ItemType;
 
 		// changes prompt to tell you to select a category of item
-		selectText.text = "Select " + itemTag;
+		SelectText.text = "Select " + itemTag;
 
 		// total number of viable items
 		int totalPossible = 0;
 
 		Transform child;
 		// clears the item select UI panel to prepare for the next set of items to be displayed there
-		for (int j = 0; j < itemChoicePanel.transform.childCount; ++j) 
+		for (int j = 0; j < ItemChoicePanel.transform.childCount; ++j) 
 		{
-			child = itemChoicePanel.transform.GetChild (j);
-			if (!child.gameObject.name.Equals(craftingItemTemplate.name) && !child.gameObject.name.Equals(noValidItem.name) ) 
+			child = ItemChoicePanel.transform.GetChild (j);
+			if (!child.gameObject.name.Equals(CraftingItemTemplate.name) && !child.gameObject.name.Equals(NoValidItem.name) ) 
 			{
 				Destroy(child.gameObject);
 			}
@@ -206,8 +210,8 @@ public class CraftingMenuBehavior : MonoBehaviour
 			// if the item has the appropriate tag, then it is a valid item to be used in this step of the recipe
 			// and a gameobject that represents it will be created and placed in the item select ui
 		
-			GameObject itm = GameObject.Instantiate (craftingItemTemplate);
-			itm.transform.SetParent(itemChoicePanel.transform, false);
+			GameObject itm = GameObject.Instantiate (CraftingItemTemplate);
+			itm.transform.SetParent(ItemChoicePanel.transform, false);
 
 			itm.GetComponentInChildren<Text> ().text = validItems[i].ItemName;
 			itm.name = itm.GetComponentInChildren<Text> ().text;
@@ -218,7 +222,7 @@ public class CraftingMenuBehavior : MonoBehaviour
 		// if there are no valid items for this step, show text that states this recipe can not be completed
 		if (totalPossible == 0) 
 		{
-			noValidItem.gameObject.SetActive (true);
+			NoValidItem.gameObject.SetActive (true);
 		}
 	}
 
@@ -243,7 +247,7 @@ public class CraftingMenuBehavior : MonoBehaviour
 		}
 
 		// since an item has been selected, the user is allowed to continue
-		continueButton.interactable = true;
+		ContinueButton.interactable = true;
 	}
 
 	/// <summary>

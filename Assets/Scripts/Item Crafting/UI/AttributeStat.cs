@@ -12,7 +12,7 @@ public class AttributeStat : MonoBehaviour
 	private Slider slider;
 
 	// the label that is paired with the slider
-	public Text label;
+	public Text Label;
 
 	/// <summary>
 	/// Awake this instance. Gets the slider component.
@@ -27,7 +27,7 @@ public class AttributeStat : MonoBehaviour
 	/// <param name="labelText">Label text.</param>
 	public void SetLabel(string labelText)
 	{
-		label.text = labelText;
+		Label.text = labelText;
 	}
 
 	/// <summary>

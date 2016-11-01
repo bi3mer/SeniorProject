@@ -2,13 +2,12 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class CraftingRecipeSelectBehavior : MonoBehaviour {
+public class CraftingRecipeSelectBehavior : MonoBehaviour 
+{
+	private string recipeName;
+	private Text nameText;
 
-	public Button button;
-	string recipeName;
-	Text nameText;
-
-	CraftingMenuBehavior craftingMenu;
+	private CraftingMenuBehavior craftingMenu;
 
 	/// <summary>
 	/// Sets up the information needed for ShowRecipe.

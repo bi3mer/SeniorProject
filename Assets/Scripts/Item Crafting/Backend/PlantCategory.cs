@@ -9,15 +9,59 @@ using UnityEngine.Events;
 /// </summary>
 public class PlantCategory : ItemCategory 
 {
-	public float waterContent { get; set; }
-	public float toughness { get; set; }
-	public float sweet { get; set; }
-	public float bitter { get; set; }
-	public float sour { get; set; }
-	public float salty { get; set; }
-	public float spicy { get; set; }
-	public float stomachEffect { get; set; }
-	public float pneumoniaEffect { get; set; }
+	public float WaterContent 
+	{ 
+		get; 
+		set; 
+	}
+
+	public float Toughness 
+	{ 
+		get; 
+		set; 
+	}
+
+	public float Sweet 
+	{ 
+		get; 
+		set; 
+	}
+
+	public float Bitter 
+	{ 
+		get; 
+		set; 
+	}
+
+	public float Sour 
+	{ 
+		get; 
+		set; 
+	}
+
+	public float Salty 
+	{ 
+		get; 
+		set; 
+	}
+
+	public float Spicy 
+	{ 
+		get; 
+		set; 
+	}
+
+	public float StomachEffect 
+	{ 
+		get; 
+		set; 
+	}
+
+	public float PneumoniaEffect 
+	{ 
+		get; 
+		set; 
+	}
 
 	private const string waterContAttrName = "waterContent";
 	private const string toughAttrName = "toughness";
@@ -31,17 +75,21 @@ public class PlantCategory : ItemCategory
 	private const string cookActName = "Cook";
 	private const string eatActName = "Eat";
 
+	/// <summary>
+	/// Creates a copy of this plant category.
+	/// </summary>
+	/// <returns>The duplicate.</returns>
 	public override ItemCategory GetDuplicate()
 	{
 		PlantCategory category = new PlantCategory ();
-		category.waterContent = waterContent;
-		category.sweet = sweet;
-		category.bitter = bitter;
-		category.sour = sour;
-		category.salty = salty;
-		category.spicy = spicy;
-		category.stomachEffect = stomachEffect;
-		category.pneumoniaEffect = pneumoniaEffect;
+		category.WaterContent = WaterContent;
+		category.Sweet = Sweet;
+		category.Bitter = Bitter;
+		category.Sour = Sour;
+		category.Salty = Salty;
+		category.Spicy = Spicy;
+		category.StomachEffect = StomachEffect;
+		category.PneumoniaEffect = PneumoniaEffect;
 
 		category.ReadyCategory ();
 
@@ -69,13 +117,13 @@ public class PlantCategory : ItemCategory
 			actionCompleted.Add (cookActName, false);
 		}
 
-		attributes.Add (waterContAttrName, waterContent);
-		attributes.Add (toughAttrName, toughness);
-		attributes.Add (sweetAttrName, sweet);
-		attributes.Add (bitterAttrName, bitter);
-		attributes.Add (sourAttrName, sour);
-		attributes.Add (saltyAttrName, salty);
-		attributes.Add (spicyAttrName, spicy);
+		attributes.Add (waterContAttrName, WaterContent);
+		attributes.Add (toughAttrName, Toughness);
+		attributes.Add (sweetAttrName, Sweet);
+		attributes.Add (bitterAttrName, Bitter);
+		attributes.Add (sourAttrName, Sour);
+		attributes.Add (saltyAttrName, Salty);
+		attributes.Add (spicyAttrName, Spicy);
 	}
 
 	/// <summary>
@@ -110,7 +158,7 @@ public class PlantCategory : ItemCategory
 			possibleActions[defaultActionCategoryName].Add (dry);
 		}
 
-		if (toughness < 3) 
+		if (Toughness < 3) 
 		{
 			UnityAction eatAct = new UnityAction (Eat);
 			Action eat = new Action (eatActName, eatAct);
@@ -127,24 +175,24 @@ public class PlantCategory : ItemCategory
 	/// <param name="variables">Variables.</param>
 	public void Cook()
 	{
-		toughness = toughness / 2f;
-		waterContent = waterContent * 1.2f;
+		Toughness = Toughness / 2f;
+		WaterContent = WaterContent * 1.2f;
 
-		attributes [toughAttrName] = toughness;
-		attributes [waterContAttrName] = waterContent;
+		attributes [toughAttrName] = Toughness;
+		attributes [waterContAttrName] = WaterContent;
 
-		if (waterContent > 6f && !baseItem.ItemName.Contains ("Soup")) 
+		if (WaterContent > 6f && !baseItem.ItemName.Contains ("Soup")) 
 		{
 			baseItem.ChangeName (baseItem.ItemName + " Soup");
 		} 
-		else if (waterContent < 6f) 
+		else if (WaterContent < 6f) 
 		{
 			baseItem.ChangeName("Cooked " + baseItem.ItemName);
 		}
 
 		actionCompleted [cookActName] = true;
 
-		if (toughness >= 3f) 
+		if (Toughness >= 3f) 
 		{
 			baseItem.RemoveCategories (new List<string> (){ "SolidAttribute" });
 		}
@@ -157,11 +205,11 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public void Dry()
 	{
-		waterContent = waterContent / 4f;
-		toughness = toughness * 1.5f;
+		WaterContent = WaterContent / 4f;
+		Toughness = Toughness * 1.5f;
 
-		attributes [waterContAttrName] = waterContent;
-		attributes [toughAttrName] = toughness;
+		attributes [waterContAttrName] = WaterContent;
+		attributes [toughAttrName] = Toughness;
 
 		baseItem.ChangeName("Dried " + baseItem.ItemName);
 		actionCompleted [dryActName] = true;
@@ -174,22 +222,22 @@ public class PlantCategory : ItemCategory
 	/// <param name="variables">Variables.</param>
 	public void Eat()
 	{
-		if (stomachEffect < 0) 
+		if (StomachEffect < 0) 
 		{
-			// insert stomach illness code
+			// TODO: stomach illness code
 		} 
-		else if (stomachEffect > 0) 
+		else if (StomachEffect > 0) 
 		{
-			// insert cure for stomach illness
+			// TODO: cure for stomach illness
 		}	
 
-		if (pneumoniaEffect < 0) 
+		if (PneumoniaEffect < 0) 
 		{
-			// insert pneumonia code
+			// TODO: pneumonia code
 		} 
-		else if (pneumoniaEffect > 0) 
+		else if (PneumoniaEffect > 0) 
 		{
-			// insert pneumonia cure code
+			// TODO: pneumonia cure code
 		}
 
 		InventoryUIBehavior.instance.targetInventory.RemoveItem (baseItem);

@@ -12,20 +12,24 @@ using System.Collections;
 public class EnterAmountBehavior : MonoBehaviour 
 {
 	[Tooltip("singleton to allow access from all classes")]
-	public static EnterAmountBehavior instance;
+	public static EnterAmountBehavior Instance;
 
 	[Tooltip("number displayed that shows how many units will be affected by default it is 1")]
-	public Text numDisplay;
+	public Text NumDisplay;
 
 	[Tooltip("button that adds to the number of units affected when clicked")]
-	public Button minus;
+	public Button Minus;
 
 	[Tooltip("button that subtracts when clicked")]
-	public Button plus;
+	public Button Plus;
 
 	// current animation state of the panel
 	// 1 is open, 2 is closed
 	private int currentAnimationState;
+	private int openState = 1;
+	private int closeState = 2;
+	private string animatorStateVariable = "state";
+
 	// the current number of units selected
 	private int currentAmount;
 	//the maximum number of units that can be selected for the current item
@@ -40,7 +44,7 @@ public class EnterAmountBehavior : MonoBehaviour
 	/// </summary>
 	void Start () 
 	{
-		instance = this;
+		Instance = this;
 		anim = GetComponent<Animator> ();
 	}
 
@@ -52,36 +56,34 @@ public class EnterAmountBehavior : MonoBehaviour
 	{
 		currentAmount += amt;
 		//update text on the panel
-		numDisplay.text = currentAmount.ToString();
+		NumDisplay.text = currentAmount.ToString();
 		// if there is no more to subtract, then disable the minus button
 		if (currentAmount < 1) 
 		{
-			minus.gameObject.SetActive (false);
+			Minus.gameObject.SetActive (false);
 		} 
 		else if (currentAmount >= maxAmount) 
 		{
 			// if there is no more to add, disable the plus button
-			plus.gameObject.SetActive (false);
+			Plus.gameObject.SetActive (false);
 		} 
-		else if (!minus.gameObject.activeInHierarchy) 
+		else if (!Minus.gameObject.activeInHierarchy) 
 		{
 			// if the minus button is disabled but should not be then enable it
-			minus.gameObject.SetActive (true);
+			Minus.gameObject.SetActive (true);
 		} 
-		else if (!plus.gameObject.activeInHierarchy) 
+		else if (!Plus.gameObject.activeInHierarchy) 
 		{
 			// if the plus button is disabled but should not be then enable it
-			plus.gameObject.SetActive (true);
+			Plus.gameObject.SetActive (true);
 		}
 	}
 
-	/// <summary>
-	/// Gets the amount selected.
-	/// </summary>
-	/// <returns>The amount.</returns>
-	public int GetAmount()
+
+	public int CurrentAmount 
 	{
-		return currentAmount;
+		get;
+		set;
 	}
 
 	/// <summary>
@@ -103,14 +105,14 @@ public class EnterAmountBehavior : MonoBehaviour
 		selectedItem = selected;
 		maxAmount = (int)selectedItem.GetComponent<InventoryItemBehavior>().getBaseItem().Amount;
 		currentAmount = 0;
-		numDisplay.text = currentAmount.ToString();
+		NumDisplay.text = currentAmount.ToString();
 
 		// when the animation state is 1, the panel opens
-		currentAnimationState = 1;
-		anim.SetInteger ("state", currentAnimationState);
+		currentAnimationState = openState;
+		anim.SetInteger (animatorStateVariable, currentAnimationState);
 
-		minus.gameObject.SetActive (true);
-		plus.gameObject.SetActive (true);
+		Minus.gameObject.SetActive (true);
+		Plus.gameObject.SetActive (true);
 		// checks to see if the buttons should be activated or not
 		// by default they are activated since 1 is the default number of
 		// units, however if there is only 1 unit of that item, then 
@@ -123,9 +125,8 @@ public class EnterAmountBehavior : MonoBehaviour
 	/// </summary>
 	public void ClosePanel()
 	{
-		// when animation state is 2 the panel is closed
-		currentAnimationState = 2;
-		anim.SetInteger ("state", currentAnimationState);
+		currentAnimationState = closeState;
+		anim.SetInteger (animatorStateVariable, currentAnimationState);
 
 	}
 
