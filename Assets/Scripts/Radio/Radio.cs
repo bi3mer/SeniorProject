@@ -52,7 +52,7 @@ public class Radio : MonoBehaviour
         if (isOn)
         {
             //when music channel selected
-            if (!music.isPlaying && CurrentChannel == RadioChannel.Music)
+            if (!music.isPlaying && this.CurrentChannel == RadioChannel.Music)
             {
                 music.Play();
             }
@@ -222,6 +222,42 @@ public class Radio : MonoBehaviour
 
         return currentWeather;
     }
+
+	/// <summary>
+	/// Flip through the channels.
+	/// </summary>
+	public void OnChannelClick()
+	{
+		if (this.CurrentChannel == RadioChannel.Music) 
+		{
+			this.SetChannel (RadioChannel.Weather);
+		} 
+		else if (this.CurrentChannel == RadioChannel.Weather) 
+		{
+			this.SetChannel (RadioChannel.Mystery);
+		} 
+		else if (this.CurrentChannel == RadioChannel.Mystery) 
+		{
+			this.SetChannel (RadioChannel.Music);
+		}
+		UnityEngine.Debug.Log (this.CurrentChannel);
+	}
+
+	/// <summary>
+	/// Raises the volume up event.
+	/// </summary>
+	public void OnVolumeUpClick()
+	{
+		// will update once Fmod is setup
+	}
+
+	/// <summary>
+	/// Raises the volume down event.
+	/// </summary>
+	public void OnVolumeDownClick()
+	{
+		// will update once Fmod is setup
+	}
 }
 
 

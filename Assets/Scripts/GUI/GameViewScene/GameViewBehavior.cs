@@ -17,7 +17,6 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	void Start () 
 	{
-		controlScheme = Game.Instance.PlayerInstance.Controller.Scheme;
 		inventoryPanel.SetActive (false);
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
@@ -28,24 +27,28 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-		if (Input.GetKey (controlScheme.Pause)) 
+		controlScheme = Game.Instance.PlayerInstance.Controller.Scheme;
+		if (controlScheme != null) 
 		{
-			if (Game.Instance.IsPaused) 
+			if (Input.GetKey (controlScheme.Pause)) 
 			{
-				OnResumeClick ();
-			} 
-			else 
-			{
-				OnPauseClick ();
+				if (Game.Instance.IsPaused) 
+				{
+					OnResumeClick ();
+				} 
+				else 
+				{
+					OnPauseClick ();
+				}
 			}
-		}
-		if (Input.GetKey (controlScheme.Inventory)) 
-		{
-			OnInventoryClick ();
-		}
-		if (Input.GetKey (controlScheme.Radio)) 
-		{
-			OnRadioClick ();
+			if (Input.GetKey (controlScheme.Inventory)) 
+			{
+				OnInventoryClick ();
+			}
+			if (Input.GetKey (controlScheme.Radio)) 
+			{
+				OnRadioClick ();
+			}
 		}
 	}
 

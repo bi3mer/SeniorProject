@@ -291,7 +291,7 @@ public class PlayerController : MonoBehaviour
 	{
 		get 
 		{
-			return controlScheme;
+			return this.controlScheme;
 		}
 	}
 }
