@@ -6,7 +6,8 @@ public class SplashScreenBehavior : MonoBehaviour
 {
 	[SerializeField]
 	private float timer = 2f;
-
+	[SerializeField]
+	private GameObject splashScreen;
 	[SerializeField]
 	private GameObject mainMenuPanel;
 
@@ -16,7 +17,7 @@ public class SplashScreenBehavior : MonoBehaviour
 	void Start () 
 	{
 		mainMenuPanel.SetActive (false);
-		StartCoroutine ("DisplayMainMenu");
+		StartCoroutine (DisplayMainMenu());
 	}
 	
 	/// <summary>
@@ -26,6 +27,6 @@ public class SplashScreenBehavior : MonoBehaviour
 	{
 		yield return new WaitForSeconds (timer);
 		mainMenuPanel.SetActive (true);
-		GameObject.Find ("SplashScreen").SetActive (false);
+		splashScreen.SetActive (false);
 	}
 }

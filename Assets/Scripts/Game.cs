@@ -1,10 +1,13 @@
-﻿public class Game 
+﻿using UnityEngine;
+
+public class Game 
 {
     private static Game instance;
 
     private Game ()
     {
         PlayerInstance = new Player();
+
     }
  
     /// <summary>
@@ -30,4 +33,27 @@
         get;
         private set;
     }
+
+	/// <summary>
+	/// Gets a value indicating whether this instance is paused.
+	/// </summary>
+	/// <value><c>true</c> if this instance is paused; otherwise, <c>false</c>.</value>
+	public bool IsPaused 
+	{
+		get 
+		{
+			return this.IsPaused;
+		}
+		private set 
+		{
+			if (IsPaused.Equals (true)) 
+			{
+				Time.timeScale = 0.0f;
+			} 
+			else 
+			{
+				Time.timeScale = 1.0f;
+			}
+		}
+	}
 }

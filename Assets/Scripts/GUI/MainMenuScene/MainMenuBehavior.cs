@@ -3,8 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MainMenuBehavior : MonoBehaviour {
-
+public class MainMenuBehavior : MonoBehaviour 
+{
 	[SerializeField]
 	private GameObject settingsPanel;
 	[SerializeField]
@@ -12,25 +12,14 @@ public class MainMenuBehavior : MonoBehaviour {
 	[SerializeField]
 	private GameObject helpPanel;
 
-
 	/// <summary>
 	/// Initialize main menu.
 	/// </summary>
 	void Start ()
 	{
-		//settingsPanel = GameObject.Find("SettingsPanel");
-		//endCreditsPanel = GameObject.Find("EndCreditsPanel");
 		settingsPanel.SetActive (false);
 		endCreditsPanel.SetActive (false);
 		helpPanel.SetActive (false);
-	}
-
-	/// <summary>
-	/// Update this instance.
-	/// </summary>
-	void Update()
-	{
-		// update keycodes from the ControlScheme here - to perform the methods stated below
 	}
 
 	/// <summary>
@@ -52,7 +41,6 @@ public class MainMenuBehavior : MonoBehaviour {
 		settingsPanel.SetActive (false);
 		endCreditsPanel.SetActive (false);
 	}
-
 
 	/// <summary>
 	/// Loads the end credits panel.

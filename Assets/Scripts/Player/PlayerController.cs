@@ -23,6 +23,12 @@ public class PlayerController : MonoBehaviour
     private float hungerReductionRate;
     [SerializeField]
     private float waterWarmthReductionRate;
+	[SerializeField]
+	private UnityEvent hungerUpdated;
+	[SerializeField]
+	private UnityEvent healthUpdated;
+	[SerializeField]
+	private UnityEvent warmthUpdated;
 
     private bool isGrounded;
     private bool updateStats;
@@ -164,6 +170,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             player.Health -= (int) movement.CurrentFallDammage;
+			healthUpdated.Invoke ();
         }
     }
 
@@ -173,6 +180,7 @@ public class PlayerController : MonoBehaviour
         {
             yield return new WaitForSeconds(depletionRate);
             --Game.Instance.PlayerInstance.Hunger;
+			hungerUpdated.Invoke ();
         }
     }
 
@@ -185,6 +193,7 @@ public class PlayerController : MonoBehaviour
             {
                 --Game.Instance.PlayerInstance.Warmth;
             }
+			warmthUpdated.Invoke ();
         }
     }
 

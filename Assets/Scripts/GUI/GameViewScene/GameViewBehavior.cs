@@ -2,20 +2,20 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class GameViewBehavior : MonoBehaviour {
-
+public class GameViewBehavior : MonoBehaviour 
+{
+	[SerializeField]
 	private GameObject inventoryPanel;
+	[SerializeField]
 	private GameObject pausePanel;
+	[SerializeField]
 	private GameObject radioPanel;
 
 	/// <summary>
-	/// Start this instance.
+	/// Start the Game View with all other menu panels disabled.
 	/// </summary>
 	void Start () 
 	{
-		inventoryPanel = GameObject.Find ("InventoryPanel");
-		pausePanel = GameObject.Find ("PausePanel");
-		radioPanel = GameObject.Find ("RadioPanel");
 		inventoryPanel.SetActive (false);
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
@@ -35,6 +35,9 @@ public class GameViewBehavior : MonoBehaviour {
 	public void OnPauseClick() 
 	{
 		pausePanel.SetActive (true);
+		inventoryPanel.SetActive (false);
+		radioPanel.SetActive (false);
+
 	}
 
 	/// <summary>
@@ -43,6 +46,8 @@ public class GameViewBehavior : MonoBehaviour {
 	public void OnInventoryClick()
 	{
 		inventoryPanel.SetActive (true);
+		pausePanel.SetActive (false);
+		radioPanel.SetActive (false);
 	}
 
 	/// <summary>
@@ -51,6 +56,8 @@ public class GameViewBehavior : MonoBehaviour {
 	public void OnRadioClick()
 	{
 		radioPanel.SetActive (true);
+		inventoryPanel.SetActive (false);
+		pausePanel.SetActive (false);
 	}
 
 	/// <summary>
@@ -61,7 +68,5 @@ public class GameViewBehavior : MonoBehaviour {
 		pausePanel.SetActive (false);
 		inventoryPanel.SetActive (false);
 		radioPanel.SetActive (false);
-		// enable player?/set Raycast Target to true again?
 	}
-
 }
