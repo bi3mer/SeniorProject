@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// TODO: Find a way to add a pause functionality to this. For now
+//       this update is out of scope. But this should be figured
+//       out before the alpha is released. It may be that a second
+//       by second update will be required instead of this every 30
+//       second option.
 public class Clock : MonoBehaviour
 {
 	/// <summary>
@@ -13,7 +18,7 @@ public class Clock : MonoBehaviour
 	/// </summary>
 	public const int TwentyFourHours = 1440;
 
-	public const float HourDivisor = 60.0f; // 60*1000
+	public const float HourDivisor = 60.0f;
 
 	private int currentTime = 0;
 	public int CurrentTime
@@ -22,26 +27,13 @@ public class Clock : MonoBehaviour
 		{
 			return this.currentTime;
 		}
-		set
-		{
-			// pass
-		}
 	}
 
-	/// <summary>
-	/// Gets the current game time in hours. Setting the
-	/// value is not supported.
-	/// </summary>
-	/// <value>The current game time in hours.</value>
 	public float CurrentGameTimeInHours
 	{
 		get
 		{
 			return this.currentTime / Clock.HourDivisor;
-		}
-		set
-		{
-			// pass
 		}
 	}
 
@@ -95,5 +87,27 @@ public class Clock : MonoBehaviour
 			// update half hour boolean
 			this.isHalfHour = !this.isHalfHour;
 		}
+	}
+
+	// TODO: the subscribed delegates will probably have to be 
+	//       notified for both of these functions. So it's looking
+	//       like the clock will have a boolean for if its running 
+	//       or not. On each delegate call, the delegates will check
+	//       if the clock is running. If it is not, they'll know to 
+	//       shutdown until they are told otherwise by the same method.
+	/// <summary>
+	/// Pause the clock running.
+	/// </summary>
+	public void Pause()
+	{
+		// to be implemented
+	}
+
+	/// <summary>
+	/// Resume the clock running.
+	/// </summary>
+	public void Resume()
+	{
+		// to be implemented
 	}
 }

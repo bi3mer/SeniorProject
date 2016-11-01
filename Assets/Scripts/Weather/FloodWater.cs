@@ -3,6 +3,9 @@ using System.Collections;
 
 public class FloodWater : MonoBehaviour 
 {
+	[Range(0.0f, 1.0f)]
+	public float LerpSpeed = 1;
+
 	private float baseCurrentLevel;
 	public float BaseCurrentLevel
 	{
@@ -14,8 +17,6 @@ public class FloodWater : MonoBehaviour
 		{
 			// update parameter
 			this.baseCurrentLevel = value;
-
-			this.updateTideLevel();
 		}
 	}
 
@@ -30,8 +31,6 @@ public class FloodWater : MonoBehaviour
 		{
 			// update parameter
 			this.currentLevelOffset = value;
-
-			this.updateTideLevel();
 		}
 	}
 
@@ -53,11 +52,11 @@ public class FloodWater : MonoBehaviour
 	private void updateTideLevel()
 	{
 		// create new position
-		Vector3 newPosition = new Vector3(0,  this.CurrentLevelOffset, 0);
+		Vector3 newPosition = this.gameObject.transform.position;
+		newPosition.y += this.currentLevelOffset;
 
-		// update tide position
-		// TODO: Make this smoother movement (lerp)?
-		this.gameObject.transform.Translate(newPosition);
+		// Update height of the tide
+		this.transform.position = Vector3.Lerp(this.gameObject.transform.position, newPosition, this.LerpSpeed);
 	}
 
 	/// <summary>
@@ -66,5 +65,19 @@ public class FloodWater : MonoBehaviour
 	void Start()
 	{
 		this.baseCurrentLevel = this.gameObject.transform.position.y;
+
+		// 1000 is a nice number for the slider in the unity editor. If
+		// this value is at, for example, .4 it will go all the way to
+		// the top of the building. This 1000 keeps the tide from getting
+		// out of control and makes the slider more useful for editing.
+		this.LerpSpeed /= 1000;
+	}
+
+	/// <summary>
+	/// Update the water level
+	/// </summary>
+	void FixedUpdate()
+	{
+		this.updateTideLevel();
 	}
 }

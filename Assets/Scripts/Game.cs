@@ -5,8 +5,6 @@
     private Game ()
     {
         PlayerInstance = new Player();
-		ClockInstance  = UnityEngine.MonoBehaviour.FindObjectOfType<Clock>();
-		ClockInstance.Start();
     }
  
     /// <summary>
@@ -33,9 +31,22 @@
         private set;
     }
 
+	private Clock clockInstance;
 	public Clock ClockInstance
 	{
-		get;
-		private set;
+		get
+		{
+			if(this.clockInstance == null)
+			{
+				this.clockInstance = UnityEngine.MonoBehaviour.FindObjectOfType<Clock>();
+				this.clockInstance.Start();
+			}
+
+			return this.clockInstance;
+		}
+		private set
+		{
+			// required pass
+		}
 	}
 }
