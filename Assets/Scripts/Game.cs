@@ -7,7 +7,6 @@ public class Game
     private Game ()
     {
         PlayerInstance = new Player();
-
     }
  
     /// <summary>

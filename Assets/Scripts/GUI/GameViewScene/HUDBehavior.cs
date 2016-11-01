@@ -4,10 +4,12 @@ using UnityEngine.UI;
 
 public class HUDBehavior : MonoBehaviour 
 {
-
-	public Slider healthSlider;
-	public Slider warmthSlider;
-	public Slider hungerSlider;
+	[SerializeField]
+	private Slider healthSlider;
+	[SerializeField]
+	private Slider warmthSlider;
+	[SerializeField]
+	private Slider hungerSlider;
 	private Player player;
 
 	/// <summary>

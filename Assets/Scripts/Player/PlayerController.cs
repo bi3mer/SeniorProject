@@ -24,11 +24,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float waterWarmthReductionRate;
 	[SerializeField]
-	private UnityEvent hungerUpdated;
+	private UnityEvent hungerUpdatedEvent;
 	[SerializeField]
-	private UnityEvent healthUpdated;
+	private UnityEvent healthUpdatedEvent;
 	[SerializeField]
-	private UnityEvent warmthUpdated;
+	private UnityEvent warmthUpdatedEvent;
 
     private bool isGrounded;
     private bool updateStats;
@@ -60,6 +60,9 @@ public class PlayerController : MonoBehaviour
         // start reducing hunger & cold
         StartCoroutine(ReduceHunger(hungerReductionRate));
         StartCoroutine(ReduceWarmth(waterWarmthReductionRate));
+
+		// Link this to the player instance
+		Game.Instance.PlayerInstance.Controller = this;
 	}
 
     /// <summary>
@@ -170,7 +173,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             player.Health -= (int) movement.CurrentFallDammage;
-			healthUpdated.Invoke ();
+			healthUpdatedEvent.Invoke ();
         }
     }
 
@@ -180,7 +183,7 @@ public class PlayerController : MonoBehaviour
         {
             yield return new WaitForSeconds(depletionRate);
             --Game.Instance.PlayerInstance.Hunger;
-			hungerUpdated.Invoke ();
+			hungerUpdatedEvent.Invoke ();
         }
     }
 
@@ -193,7 +196,7 @@ public class PlayerController : MonoBehaviour
             {
                 --Game.Instance.PlayerInstance.Warmth;
             }
-			warmthUpdated.Invoke ();
+			warmthUpdatedEvent.Invoke ();
         }
     }
 
@@ -279,4 +282,16 @@ public class PlayerController : MonoBehaviour
     {
         get { return movement is RaftMovement; }
     }
+
+	/// <summary>
+	/// Gets the control scheme configured for the player.
+	/// </summary>
+	/// <value>Player control scheme</value>
+	public ControlScheme Scheme
+	{
+		get 
+		{
+			return controlScheme;
+		}
+	}
 }

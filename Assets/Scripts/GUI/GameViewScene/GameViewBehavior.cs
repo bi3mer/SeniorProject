@@ -10,23 +10,43 @@ public class GameViewBehavior : MonoBehaviour
 	private GameObject pausePanel;
 	[SerializeField]
 	private GameObject radioPanel;
+	private ControlScheme controlScheme;
 
 	/// <summary>
 	/// Start the Game View with all other menu panels disabled.
 	/// </summary>
 	void Start () 
 	{
+		controlScheme = Game.Instance.PlayerInstance.Controller.Scheme;
 		inventoryPanel.SetActive (false);
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
 	}
 
 	/// <summary>
-	/// Update this instance.
+	/// Get player input and update accordingly.
 	/// </summary>
 	void Update()
 	{
-		// update keycodes from the ControlScheme here - to perform the methods stated below
+		if (Input.GetKey (controlScheme.Pause)) 
+		{
+			if (Game.Instance.IsPaused) 
+			{
+				OnResumeClick ();
+			} 
+			else 
+			{
+				OnPauseClick ();
+			}
+		}
+		if (Input.GetKey (controlScheme.Inventory)) 
+		{
+			OnInventoryClick ();
+		}
+		if (Input.GetKey (controlScheme.Radio)) 
+		{
+			OnRadioClick ();
+		}
 	}
 
 	/// <summary>
@@ -37,7 +57,6 @@ public class GameViewBehavior : MonoBehaviour
 		pausePanel.SetActive (true);
 		inventoryPanel.SetActive (false);
 		radioPanel.SetActive (false);
-
 	}
 
 	/// <summary>
