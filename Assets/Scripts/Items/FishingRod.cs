@@ -16,8 +16,6 @@ public class FishingRod : Tool
 
     private FishingLure fishingLure;
     private BezierLine line;
-    private bool wasCast;
-    private bool isReeling;
 
     /// <summary>
     /// Set up fishing rod variables.
@@ -28,13 +26,12 @@ public class FishingRod : Tool
         fishingLure.ReelingSpeed = reelingSpeed;
         line = GetComponent<BezierLine>();
         WasCast = false;
-        isReeling = false;
 	}
 
     /// <summary>
     /// Updating fishing rod and line.
     /// </summary>
-    void Update ()
+    void FixedUpdate ()
     {
         UpdateFishingLine();
     }
@@ -46,11 +43,10 @@ public class FishingRod : Tool
     {
         get
         {
-            return wasCast;
+            return InUse;
         }
         private set
         {
-            wasCast = value;
             InUse = value;
             SetFishingLineActive(value);
         }
@@ -93,7 +89,6 @@ public class FishingRod : Tool
     public override void Equip ()
     {
         WasCast = false;
-        isReeling = false;
 
         // TODO: Run equip animation
     }
@@ -108,7 +103,6 @@ public class FishingRod : Tool
 
     private void Reel ()
     {
-        isReeling = true;
 
         // TODO: Play reeling animation.
 
@@ -121,12 +115,11 @@ public class FishingRod : Tool
     private void Cast ()
     {
         WasCast = true;
-        isReeling = false;
 
         // TODO: Play casting animation.
 
         // apply force forward and upwards in specified amount
-        var force = new Vector3();
+        Vector3 force = new Vector3();
         force += transform.forward * castingForce.x;
         force += Vector3.up * castingForce.y;
 
@@ -146,17 +139,20 @@ public class FishingRod : Tool
             return;
         }
 
-        var rodPosition = transform.position;
-        var lurePosition = fishingLure.Position;
+        Vector3 rodPosition = transform.position;
+        Vector3 lurePosition = fishingLure.Position;
 
         // Connect the end of the fishing rod to the lure with the fihsing line
         line.StartPoint = rodPosition;
         line.EndPoint = lurePosition;
 
         // Set the control point at the midpoint, and weight it down
-        var control = Vector3.Lerp(rodPosition, lurePosition, 0.5f);
+        Vector3 control = Vector3.Lerp(rodPosition, lurePosition, 0.5f);
         // apply weight if casting, not if reeling
-        control += Vector3.down * (isReeling ? 0 : fishingLineWeight); 
+        if (fishingLure.IsReeling)
+        {
+            control += Vector3.down * fishingLineWeight;
+        }
         line.ControlPoint = control;
     }
 

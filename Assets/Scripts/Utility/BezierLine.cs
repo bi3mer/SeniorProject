@@ -33,7 +33,7 @@ public class BezierLine : MonoBehaviour
         }
         RendererComponent = GetComponent<LineRenderer>();
         RendererComponent.SetVertexCount(nodes);
-        RedrawLine();
+        redrawLine();
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class BezierLine : MonoBehaviour
         set
         {
             startPoint = value;
-            RedrawLine();
+            redrawLine();
         }
     }
 
@@ -64,7 +64,7 @@ public class BezierLine : MonoBehaviour
         set
         {
             endPoint = value;
-            RedrawLine();
+            redrawLine();
         }
     }
 
@@ -80,19 +80,28 @@ public class BezierLine : MonoBehaviour
         set
         {
             controlPoint = value;
-            RedrawLine();
+            redrawLine();
         }
     }
 
-    private void RedrawLine()
+    /// <summary>
+    /// Updates each position in the lines
+    /// </summary>
+    private void redrawLine()
     {
-        for (int i = 0; i < nodes; i++)
+        for (int i = 0; i < nodes; ++i)
         {
-            RendererComponent.SetPosition(i, CalculatePosition(i/(float)nodes));
+            RendererComponent.SetPosition(i, calculatePosition(i/(float)nodes));
         }
     }
 
-    private Vector3 CalculatePosition(float t)
+    /// <summary>
+    /// Calculate the position of the line at parametric position t.
+    /// See https://en.wikipedia.org/wiki/B%C3%A9zier_curve
+    /// </summary>
+    /// <param name="t">Parametric position t along the line ranging from 0 to 1</param>
+    /// <returns></returns>
+    private Vector3 calculatePosition(float t)
     {
         return ((1.0f - t) * ((1.0f - t) * StartPoint + t * ControlPoint)) 
             + (t * ((1.0f - t) * ControlPoint + t * EndPoint));

@@ -20,7 +20,7 @@ public class FishingLure: MonoBehaviour
     /// <summary>
     /// Update the status of the fishing lure.
     /// </summary>
-    void Update ()
+    void FixedUpdate ()
     {
         if (IsReeling)
         {
