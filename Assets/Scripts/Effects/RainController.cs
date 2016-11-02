@@ -24,8 +24,28 @@ public class RainController : MonoBehaviour
     //The fog that falls to simulate extra rain.
     public ParticleSystem RainFog;
 
-    [Range(0, 100)]
+
+    public float RainLevel
+    {
+        get
+        {
+            return _rainLevel;
+        }
+        set
+        {
+            if (0f <= value && value <= 100f)
+            {
+                _rainLevel = value;
+                UpdateParticleSystem();
+            }
+            else
+            {
+                Debug.LogError("Rain Ammount can only accept values between 0 and 100");
+            }
+        }
+    }
     [SerializeField]
+    [Range(0, 100)]
     private float _rainLevel;
 
     //When should rainFog kick in?
@@ -38,6 +58,18 @@ public class RainController : MonoBehaviour
     private float _fogMod;
 
     //The wind vector in XZ (considering Y is Up, but we're only concerned with 2d wind)
+    public Vector2 WindVectorXZ
+    {
+        get
+        {
+            return _windVectorXZ;
+        }
+        set
+        {
+            _windVectorXZ = value;
+            UpdateParticleSystem();
+        }
+    }
     [SerializeField]
     private Vector2 _windVectorXZ;
 
@@ -76,17 +108,17 @@ public class RainController : MonoBehaviour
     {
         //Set RainMain Emission to double rain level. At 200 emission we almost max out particles. (Depending on the height the rain spawns at this may change, but it'll be based on the camera in the future)
         ParticleSystem.EmissionModule RainEmission = MainRain.emission;
-        RainEmission.rate = _rainLevel * 2f;
+        RainEmission.rate = RainLevel * 2f;
 
         //set the RainFog emission rate, if it's less than the threshold turn off emission.
         RainEmission = RainFog.emission;
-        if (_rainLevel < FogStartThreshold)
+        if (RainLevel < FogStartThreshold)
         {
             RainEmission.rate = 0f;
         }
         else
         {
-            RainEmission.rate = _rainLevel * _fogMod;
+            RainEmission.rate = RainLevel * _fogMod;
         }
 
         //If in editor, there's a chance the script is running in edit mode and we won't have the renderer set.   
@@ -98,64 +130,17 @@ public class RainController : MonoBehaviour
         #endif
 
         //Set the blend to be equal to the rain ammount
-        MainRainRenderer.sharedMaterial.SetFloat("_Opacity", _rainLevel);
+        MainRainRenderer.sharedMaterial.SetFloat("_Opacity", RainLevel);
 
         //Set the wind speed via velocity over lifetime
         ParticleSystem.VelocityOverLifetimeModule ParticleVelocity = MainRain.velocityOverLifetime;
-        ParticleVelocity.x = _windVectorXZ.x;
-        ParticleVelocity.y = -_windVectorXZ.y;
+        ParticleVelocity.x = WindVectorXZ.x;
+        ParticleVelocity.y = -WindVectorXZ.y;
         ParticleVelocity = RainFog.velocityOverLifetime;
-        ParticleVelocity.x = _windVectorXZ.x * _fogWindMod;
-        ParticleVelocity.z = -_windVectorXZ.y * _fogWindMod;
+        ParticleVelocity.x = WindVectorXZ.x * _fogWindMod;
+        ParticleVelocity.z = -WindVectorXZ.y * _fogWindMod;
 
         //Set the rotation of the rain based on the wind.
-        MainRain.startRotation3D = new Vector3(Mathf.Deg2Rad*-_windVectorXZ.y, Mathf.Deg2Rad*-_windVectorXZ.x, 0f);
-    }
-
-    /// <summary>
-    /// Sets the rain level to a new value and updates the particle system.
-    /// </summary>
-    /// <param name="rainAmmount">A value for the rain between 0 and 100</param>
-    public void SetRain(float rainAmmount)
-    {
-        if(0f <= rainAmmount && rainAmmount <= 100f)
-        {
-            _rainLevel = rainAmmount;
-            UpdateParticleSystem();
-        }
-        else
-        {
-            Debug.LogError("Rain Ammount set to a bad value");
-        }
-    }
-
-    /// <summary>
-    /// Sets the wind to a new value and updates the particle system.
-    /// </summary>
-    /// <param name="windVector">A vector2 for the wind using x as the global X axis and Y as the global Z axis</param>
-    public void SetRain(Vector2 windVector)
-    {
-        _windVectorXZ = windVector;
-        UpdateParticleSystem();
-    }
-
-    /// <summary>
-    /// Sets the rain level to a new value and the wind to a new value and updates the particle system.
-    /// </summary>
-    /// <param name="rainAmmount">A value for the rain between 0 and 100</param>
-    /// <param name="windVector">A vector2 for the wind using x as the global X axis and Y as the global Z axis</param>
-    public void SetRain(float rainAmmount, Vector2 windVector)
-    {
-        if (0f <= rainAmmount && rainAmmount <= 100f)
-        {
-            _rainLevel = rainAmmount;
-            _windVectorXZ = windVector;
-
-            UpdateParticleSystem();
-        }
-        else
-        {
-            Debug.LogError("Rain Ammount set to a bad value");
-        }
+        MainRain.startRotation3D = new Vector3(Mathf.Deg2Rad*-WindVectorXZ.y, Mathf.Deg2Rad*-WindVectorXZ.x, 0f);
     }
 }
