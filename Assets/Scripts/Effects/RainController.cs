@@ -104,7 +104,7 @@ public class RainController : MonoBehaviour
     /// <summary>
     /// Sets values in the associated particle systems based off of public values on the script.
     /// </summary>
-    public void UpdateParticleSystem()
+    private void UpdateParticleSystem()
     {
         //Set RainMain Emission to double rain level. At 200 emission we almost max out particles. (Depending on the height the rain spawns at this may change, but it'll be based on the camera in the future)
         ParticleSystem.EmissionModule RainEmission = MainRain.emission;
