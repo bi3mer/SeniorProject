@@ -9,14 +9,13 @@ using System.Collections;
 public class Clock : MonoBehaviour
 {
 	/// <summary>
-	/// 30 seconds make up half an hour in game time
-	/// </summary>
-	public const int HalfAnHour = 30;
-
-	/// <summary>
 	/// Twenty four hours in game time
 	/// </summary>
 	public const int TwentyFourHours = 1440;
+	public const int TwelveHours     = 720;
+	public const int Hour            = 60;
+	public const int HalfHour        = 30;
+	public const int Tick            = 1;
 
 	public const float HourDivisor = 60.0f;
 
@@ -33,11 +32,9 @@ public class Clock : MonoBehaviour
 	{
 		get
 		{
-			return this.currentTime / Clock.HourDivisor;
+			return this.currentTime / (float) Clock.HourDivisor;
 		}
 	}
-
-	private bool isHalfHour = true;
 
 	// delegates for updates
 	public delegate void HalfHourDelegateUpdate();
@@ -63,29 +60,53 @@ public class Clock : MonoBehaviour
 	{
 		while(true)
 		{
-			yield return new WaitForSeconds(Clock.HalfAnHour);
+			yield return new WaitForSeconds(Clock.Tick);
 
 			// update time
-			this.currentTime += Clock.HalfAnHour;
-			if(this.currentTime == Clock.TwentyFourHours)
+			this.currentTime += Clock.Tick;
+			if(this.CurrentTime == Clock.TwentyFourHours)
 			{
 				this.currentTime = 0;
 			}
-				
-			// notify hour long subscribed delegates
-			if(!this.isHalfHour && this.HourUpdate != null)
-			{
-				this.HourUpdate();
-			}
 
 			// Notify thirty minute long subscribed delegates
-			if(this.HalfHourUpdate != null)
+			if(this.HalfHourUpdate != null && this.currentTime % Clock.HalfHour == 0)
 			{
 				this.HalfHourUpdate();
 			}
 
-			// update half hour boolean
-			this.isHalfHour = !this.isHalfHour;
+			// notify hour long subscribed delegates
+			if(this.HourUpdate != null && this.currentTime % Clock.Hour == 0)
+			{
+				this.HourUpdate();
+			}
+		}
+	}
+
+	/// <summary>
+	/// Determines whether this it is or day night.
+	/// </summary>
+	/// <returns><c>true</c> if this instance is day; otherwise, <c>false</c>.</returns>
+	public bool IsDay()
+	{
+		return Game.Instance.ClockInstance.CurrentTime <= Clock.TwelveHours;
+	}
+
+	/// <summary>
+	/// Gets the percentage that of twelve hours that the current 
+	/// time is representative of. THis is useful for lerping
+	/// and other related functions.
+	/// </summary>
+	/// <returns>The twelve hour percentage.</returns>
+	public float GetTwelveHourPercentage()
+	{
+		if(this.IsDay())
+		{
+			return this.CurrentTime/(float)Clock.TwelveHours;
+		}
+		else
+		{
+			return (this.CurrentTime - Clock.TwelveHours)/(float)Clock.TwelveHours;
 		}
 	}
 

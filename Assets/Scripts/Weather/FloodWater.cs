@@ -3,74 +3,40 @@ using System.Collections;
 
 public class FloodWater : MonoBehaviour 
 {
-	[Range(0.0f, 1.0f)]
-	public float LerpSpeed = 1;
+	// view link to see how tide severity works with a graph:
+	// https://github.com/bi3mer/WeatherForecasting/blob/master/Tide.ipynb
+	[SerializeField]
+	private float TideSeverity = 1.0f;
+	private Vector3 nightPosition;
+	private Vector3 dayPosition;
 
-	private float baseCurrentLevel;
-	public float BaseCurrentLevel
+	/// <summary>
+	/// Gets the level of the tide based on current game time.
+	/// </summary>
+	private Vector3 getTideLevel()
 	{
-		get
+		if(Game.Instance.ClockInstance.IsDay())
 		{
-			return this.baseCurrentLevel;
+			return Vector3.Lerp(this.nightPosition, 
+				                this.dayPosition, 
+				                Game.Instance.ClockInstance.GetTwelveHourPercentage());
 		}
-		set
+		else
 		{
-			// update parameter
-			this.baseCurrentLevel = value;
-		}
-	}
-
-	private float currentLevelOffset = 0;
-	public float CurrentLevelOffset
-	{
-		get
-		{
-			return this.currentLevelOffset;
-		}
-		set
-		{
-			// update parameter
-			this.currentLevelOffset = value;
-		}
-	}
-
-	public float CurrentLevel
-	{
-		get
-		{
-			return this.currentLevelOffset + this.baseCurrentLevel;
-		}
-		set
-		{
-			// pass
+			return Vector3.Lerp(this.dayPosition, 
+				                this.nightPosition, 
+				                Game.Instance.ClockInstance.GetTwelveHourPercentage());
 		}
 	}
 
 	/// <summary>
-	/// Updates the tide level based on class members
+	/// Updates the water level based on tide and the weather.
 	/// </summary>
-	private void updateTideLevel()
+	private void updateWaterLevel()
 	{
-		// create new position
-		Vector3 newPosition = this.gameObject.transform.position;
-		newPosition.y += this.currentLevelOffset;
-
-		// Update height of the tide
-		this.transform.position = Vector3.Lerp(this.gameObject.transform.position, newPosition, this.LerpSpeed);
-	}
-
-	/// <summary>
-	/// Set the base water level at start
-	/// </summary>
-	void Start()
-	{
-		this.baseCurrentLevel = this.gameObject.transform.position.y;
-
-		// 1000 is a nice number for the slider in the unity editor. If
-		// this value is at, for example, .4 it will go all the way to
-		// the top of the building. This 1000 keeps the tide from getting
-		// out of control and makes the slider more useful for editing.
-		this.LerpSpeed /= 1000;
+		// TODO: this should be updated in the future to handle precipitation
+		//       from the weather
+		this.transform.position = this.getTideLevel();
 	}
 
 	/// <summary>
@@ -78,6 +44,18 @@ public class FloodWater : MonoBehaviour
 	/// </summary>
 	void FixedUpdate()
 	{
-		this.updateTideLevel();
+		this.updateWaterLevel();
+	}
+
+	/// <summary>
+	/// Set the base water level at the start and set up tide 
+	/// water levels for day and night
+	/// </summary>
+	void Start()
+	{
+		// create night and day tide positions
+		this.nightPosition = this.dayPosition = this.transform.position;
+		this.nightPosition.y -= this.TideSeverity;
+		this.dayPosition.y += this.TideSeverity;
 	}
 }

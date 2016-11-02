@@ -3,20 +3,42 @@ using System.Collections;
 
 public class DayNight : MonoBehaviour 
 {
+	public Color DayColor;
+	public Color NightColor;
+	private Light DirectionaLight;
+
 	/// <summary>
-	/// Subscribe to clock
+	/// Updates the color.
 	/// </summary>
-	void Start () 
+	/// <param name="targetColor">Target color.</param>
+	/// <param name="lerpConstant">Lerp constant.</param>
+	private void updateColor(Color baseColor, Color targetColor)
 	{
-		Game.Instance.ClockInstance.HalfHourUpdate += this.UpdateDayNight;
+		DirectionaLight.color = Color.Lerp(baseColor, targetColor, Game.Instance.ClockInstance.GetTwelveHourPercentage());
 	}
 
 	/// <summary>
-	/// Updates the day night based on the time
+	/// Update the color of the light from day to night and vise versa
 	/// </summary>
-	private void UpdateDayNight()
+	void Update()
 	{
-		// TODO: Update this to affect the directional light, come up
-		//       with better update in the future.
+		if(Game.Instance.ClockInstance.IsDay())
+		{
+			this.updateColor(this.NightColor, this.DayColor);
+		}
+		else
+		{
+			this.updateColor(this.DayColor, this.NightColor);
+		}
+	}
+
+	/// <summary>
+	/// Get the light the script is attached to and set 
+	/// default color
+	/// </summary>
+	void Start()
+	{
+		this.DirectionaLight = this.GetComponent<Light>();
+		this.DirectionaLight.color = this.NightColor;
 	}
 }
