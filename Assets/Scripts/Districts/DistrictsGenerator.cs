@@ -47,7 +47,6 @@ public class DistrictsGenerator : MonoBehaviour
 		districts 		= new District[numDistricts];
 
 		// TODO: use one seed for all procedural generation
-		// TODO: abstract out voroni implementation into its own
 
 		// generate initial random seed points -- range is districtMaxSpan to districtMaxSpan * 2 to prevent negatives.
 		for (int i = 0; i < numDistricts; ++i) 
@@ -76,72 +75,10 @@ public class DistrictsGenerator : MonoBehaviour
 			}
 		}
 
-		// calculate midpoints of all initial seeds
-		for (int i = 0; i < numDistricts; ++i)
-		{
-			float x = 0;
-			float y = 0;
-
-			if (i == numDistricts - 1) 
-			{
-				x = (initialSeedPoints [i].x + initialSeedPoints [0].x) / 2;
-				y = (initialSeedPoints [i].y + initialSeedPoints [0].y) / 2;
-			} 
-			else
-			{
-				x = (initialSeedPoints [i].x + initialSeedPoints [i+1].x) / 2;
-				y = (initialSeedPoints [i].y + initialSeedPoints [i+1].y) / 2;
-			}
-
-			seedMidPoints [i].x = x;
-			seedMidPoints [i].y = y;
-		}
-
-		// using these midpoints, get the center of the city
-		float cityCenterX = 0;
-		float cityCenterY = 0;
-
-		for (int i = 0; i < numDistricts; ++i)
-		{
-			cityCenterX += seedMidPoints[i].x;
-			cityCenterY += seedMidPoints[i].y;
-		}
-
-		cityCenter.x = cityCenterX/numDistricts;
-		cityCenter.y = cityCenterY/numDistricts;
-
-		float[] slopes = new float[NumInitialSeeds];
-
-		// for each point, get the slope, its length based districtSpan, and its position relative to city center
-		for (int i = 0; i < numDistricts; ++i)
-		{
-			float slope = (cityCenter.y-seedMidPoints[i].y)/(cityCenter.x-seedMidPoints[i].x);
-			slopes [i] = slope;
-			float k = districtMaxSpan/(Mathf.Sqrt(1+Mathf.Pow(slope, 2.0f)));
-
-			// account for position of point relative in space when assigning end point
-			float currentEndpointX = 0.0f;
-			float currentEndpointY = 0.0f;
-
-			if (seedMidPoints [i].x < cityCenterX) {
-				currentEndpointX = cityCenter.x - k;
-			} 
-			else 
-			{
-				currentEndpointX = cityCenter.x + k;
-			}
-
-			if (seedMidPoints [i].y < cityCenterY) {
-				currentEndpointY = cityCenter.y - (k * slope);
-			} 
-			else 
-			{
-				currentEndpointY = cityCenter.y + (k * slope);
-			}
-			districtEndPoints [i].x = currentEndpointX;
-			districtEndPoints [i].y = currentEndpointY;
-
-		}
+		// call Voroni class to get edges for seed points
+		Voroni voroniGen = new Voroni (initialSeedPoints, districtMaxSpan, districtMaxSpan * 2);
+		districtEndPoints = voroniGen.GetEdges ();
+		cityCenter = voroniGen.Center;
 
 		// assign each district its first two verticies based on the endpoints of its edges
 		for (int i = 0; i < numDistricts; ++i) 
@@ -211,5 +148,4 @@ public class DistrictsGenerator : MonoBehaviour
 
 		debugger.Verts = districts [0].Verticies;
 	}
-
 }
