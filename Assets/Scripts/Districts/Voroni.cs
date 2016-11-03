@@ -26,7 +26,7 @@ public class Voroni
 	/// Gets or sets the center of the Voroni diagram.
 	/// </summary>
 	/// <value>The center.</value>
-	public Vector2[] Center
+	public Vector2 Center
 	{ 
 		get
 		{ 

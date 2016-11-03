@@ -16,6 +16,9 @@ public class DistrictsGenerator : MonoBehaviour
 	[SerializeField]
 	private DebugDistricts debugger;
 
+	[SerializeField]
+	private int randomSeed = 10;	// used in random range
+
 	public int NumInitialSeeds = 3;
 	public int MaxDistrictSpan = 500;
 	public int MinVerts = 10;
@@ -109,13 +112,15 @@ public class DistrictsGenerator : MonoBehaviour
 	/// <summary>
 	/// Generates the city edge vertices.
 	/// </summary>
-	/// <param name="minVerts">Minimum # of vertices for edges of city.</param>
-	/// <param name="maxVerts">Maximum # of vertices for edges of city</param>
+	/// <param name="minVerts">Minimum number of vertices for edges of city.</param>
+	/// <param name="maxVerts">Maximum number of vertices for edges of city</param>
 	/// <param name="maxDistFromCenter">Maximum distance of all verticies from center of city.</param>
 	/// <param name="minDistFromCenter">Minimum distance of all verticies from center of city.</param>
 	private void generateCityEdges(int minVerts, int maxVerts, float maxDistFromCenter, float minDistFromCenter)
 	{
-		// for each district, generate random # of randomly angled points within the current area of the district
+		Random.InitState (randomSeed);
+
+		// for each district, generate random number of randomly angled points within the current area of the district
 		for (int i = 0; i < districts.Length; ++i)
 		{
 			int numVerts = Random.Range (minVerts, maxVerts);
@@ -129,7 +134,8 @@ public class DistrictsGenerator : MonoBehaviour
 			for (int j = 0; j < numVerts; ++j)
 			{
 				// determine distance of point from center of city using perlin noise
-				float percentageLength = Mathf.PerlinNoise (cityCenter.x, cityCenter.y);
+				Vector2 offset = new Vector2(Random.Range(minDistFromCenter, maxDistFromCenter), Random.Range(minDistFromCenter, maxDistFromCenter));
+				float percentageLength = Mathf.PerlinNoise (cityCenter.x+offset.x, cityCenter.y+offset.y);
 				float distanceFromCenter = percentageLength * maxDistFromCenter;
 
 				// compute a random point within the district to use as reference for angle from center
