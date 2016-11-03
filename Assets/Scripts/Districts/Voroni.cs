@@ -4,16 +4,9 @@ using System.Collections;
 	
 public class Voroni
 {
-	[SerializeField]
 	private Vector2[] initialSeedPoints;
-
-	[SerializeField]
 	private int maxSpan;
-
-	[SerializeField]
 	private int minSpan;
-
-	[SerializeField]
 	private Vector2 center;
 
 	/// <summary>
