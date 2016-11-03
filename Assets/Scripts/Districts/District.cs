@@ -4,13 +4,8 @@ using System.Collections;
 
 public class District
 {
-	[SerializeField]
 	private Vector2[] edgeVerticies;
-
-	[SerializeField]
 	private Vector2   cityCenter;
-
-	[SerializeField]
 	private String 	  districtName;
 
 	/// <summary>

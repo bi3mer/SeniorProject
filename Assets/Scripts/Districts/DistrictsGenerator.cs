@@ -33,6 +33,7 @@ public class DistrictsGenerator : MonoBehaviour
 	{
 		debugger = GetComponent<DebugDistricts> ();
 		generateDistrictPoints (NumInitialSeeds, MaxDistrictSpan);
+		Random.InitState (randomSeed);
 	}
 
 	/// <summary>
@@ -118,8 +119,6 @@ public class DistrictsGenerator : MonoBehaviour
 	/// <param name="minDistFromCenter">Minimum distance of all verticies from center of city.</param>
 	private void generateCityEdges(int minVerts, int maxVerts, float maxDistFromCenter, float minDistFromCenter)
 	{
-		Random.InitState (randomSeed);
-
 		// for each district, generate random number of randomly angled points within the current area of the district
 		for (int i = 0; i < districts.Length; ++i)
 		{
