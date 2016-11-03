@@ -63,7 +63,7 @@ public class RooftopPointGenerator
 			// it is converted into a global position here
 			// validPoints contains global positions
 
-			Vector2 globalPosition = ConvertToGlobal (samplingPoints[i], target.transform.position, width, depth);
+			Vector2 globalPosition = ConvertToWorldSpace (samplingPoints[i], target.transform.position, width, depth);
 
 			if (Physics.Raycast (new Vector3(globalPosition.x, initialRayStartHeight, globalPosition.y), Vector3.down, out hit, initialRayStartHeight)) 
 			{
@@ -217,12 +217,22 @@ public class RooftopPointGenerator
 		return Mathf.Clamp (defaultMinDistanceAway + maxDistanceAway * (1 - Vector2.Distance (door, currentPosition) / maxDoorwayEffectArea), defaultMinDistanceAway, maxDistanceAway);
 	}
 
+	/// <summary>
+	/// Creates a sample point for the door. The door must be placed properly, so this does a slope check.
+	/// If a door cannot be created, then the building will not have any items placed on it, as that
+	/// means that the item has too little valid areas to place items.
+	/// </summary>
+	/// <returns>The relative location of the door.</returns>
+	/// <param name="width">Width of building.</param>
+	/// <param name="depth">Depth of building.</param>
+	/// <param name="height">Height of building.</param>
+	/// <param name="target">Target building.</param>
 	private Vector2 CreateDoor(float width, float depth, float height, GameObject target)
 	{
 		// Generates a point within the bounds and converts it to a global location
 		Vector2 doorLocation = new Vector2(Random.Range(width/4f, width/1.5f), Random.Range (depth / 4f, depth / 1.5f));
 
-		Vector2 doorGlobalLocation = ConvertToGlobal(doorLocation, target.transform.position, width, depth);
+		Vector2 doorGlobalLocation = ConvertToWorldSpace(doorLocation, target.transform.position, width, depth);
 		float initialRayStartHeight = height + 5f;
 
 		RaycastHit hit;
@@ -233,7 +243,7 @@ public class RooftopPointGenerator
 		{
 			doorLocation = new Vector2(Random.Range(width/4f, width/1.5f), Random.Range (depth / 4f, depth / 1.5f));
 
-			doorGlobalLocation = ConvertToGlobal(doorLocation, target.transform.position, width, depth);
+			doorGlobalLocation = ConvertToWorldSpace(doorLocation, target.transform.position, width, depth);
 
 			Physics.Raycast (new Vector3 (doorGlobalLocation.x, initialRayStartHeight, doorGlobalLocation.y), Vector3.down, out hit, height);
 		
@@ -248,7 +258,16 @@ public class RooftopPointGenerator
 		return doorLocation;
 	}
 
-	public Vector2 ConvertToGlobal(Vector2 surfacePosition, Vector3 targetPosition, float targetWidth, float targetDepth)
+	/// <summary>
+	/// Converts the relative sample point location to world space. The relative point passed in will be between Vector2(0, 0) and Vector2(width, depth) of 
+	/// of the building, where (0, 0) is the bottom left corner of the building, and (width, depth) is the upper right corner of the building.
+	/// </summary>
+	/// <returns>The to global.</returns>
+	/// <param name="surfacePosition">Surface position.</param>
+	/// <param name="targetPosition">Target position.</param>
+	/// <param name="targetWidth">Target width.</param>
+	/// <param name="targetDepth">Target depth.</param>
+	public Vector2 ConvertToWorldSpace(Vector2 surfacePosition, Vector3 targetPosition, float targetWidth, float targetDepth)
 	{
 		return new Vector2(surfacePosition.x + targetPosition.x - targetWidth/2f, surfacePosition.y + targetPosition.z - targetDepth/2f);
 	}
