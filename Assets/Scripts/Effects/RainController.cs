@@ -15,27 +15,28 @@ using System.Collections;
 [ExecuteInEditMode]
 public class RainController : MonoBehaviour
 {
-    //Turn this on for testing. Ideally in the future other scripts will call functions in this script to change the weather
+    // Turn this on for testing. Ideally in the future other scripts will call functions in this script to change the weather
     public bool UpdateEveryFrame;
 
-    //I'm setting these systems as public so that the script can run in Edit Mode.
-    //The main rain drops.
+    // I'm setting these systems as public so that the script can run in Edit Mode.
+    // The main rain drops.
     public ParticleSystem MainRain;
-    //The fog that falls to simulate extra rain.
+
+    // The fog that falls to simulate extra rain.
     public ParticleSystem RainFog;
 
-
+    // The ammount of rain that can fall on a range between 0 to 100
     public float RainLevel
     {
         get
         {
-            return _rainLevel;
+            return rainLevel;
         }
         set
         {
             if (0f <= value && value <= 100f)
             {
-                _rainLevel = value;
+                rainLevel = value;
                 UpdateParticleSystem();
             }
             else
@@ -46,45 +47,48 @@ public class RainController : MonoBehaviour
     }
     [SerializeField]
     [Range(0, 100)]
-    private float _rainLevel;
+    private float rainLevel;
 
-    //When should rainFog kick in?
+    //  When should rainFog kick in?
     [Range(0, 100)]
     [SerializeField]
     public float FogStartThreshold = 50f;
 
-    //How much fog to rain there should be
+    // How much fog to rain there should be
     [SerializeField]
-    private float _fogMod;
+    private float fogMod;
 
-    //The wind vector in XZ (considering Y is Up, but we're only concerned with 2d wind)
+    // The wind vector in XZ (considering Y is Up, but we're only concerned with 2d wind)
     public Vector2 WindVectorXZ
     {
         get
         {
-            return _windVectorXZ;
+            return windVectorXZ;
         }
         set
         {
-            _windVectorXZ = value;
+            windVectorXZ = value;
             UpdateParticleSystem();
         }
     }
     [SerializeField]
-    private Vector2 _windVectorXZ;
+    private Vector2 windVectorXZ;
 
-    //How Much wind should effect the raind fog (Probably set this to a low number since it falls slower than the main rain. So we want it to move less. .4 seems close)
+    // How Much wind should effect the raind fog (Probably set this to a low number since it falls slower than the main rain. So we want it to move less. .4 seems close)
     [SerializeField]
-    private float _fogWindMod = .4f;
+    private float fogWindMod = .4f;
 
     private ParticleSystemRenderer MainRainRenderer;
+
+    // The attribute associated with the particle shader that controlls the blend between the rain textures.
+    private const string particleMaterialBlendAttribute = "_Opacity";
 
     /// <summary>
     /// Grab the renderer to set the material's blend amount.
     /// </summary>
     void Start()
     {
-        //Grab the renderer.
+        // Grab the renderer.
         MainRainRenderer = MainRain.GetComponent<ParticleSystemRenderer>();
     }
 
@@ -118,7 +122,7 @@ public class RainController : MonoBehaviour
         }
         else
         {
-            RainEmission.rate = RainLevel * _fogMod;
+            RainEmission.rate = RainLevel * fogMod;
         }
 
         //If in editor, there's a chance the script is running in edit mode and we won't have the renderer set.   
@@ -129,18 +133,18 @@ public class RainController : MonoBehaviour
         }
         #endif
 
-        //Set the blend to be equal to the rain ammount
-        MainRainRenderer.sharedMaterial.SetFloat("_Opacity", RainLevel);
+        // Set the blend to be equal to the rain ammount
+        MainRainRenderer.sharedMaterial.SetFloat(particleMaterialBlendAttribute, RainLevel);
 
-        //Set the wind speed via velocity over lifetime
+        // Set the wind speed via velocity over lifetime
         ParticleSystem.VelocityOverLifetimeModule ParticleVelocity = MainRain.velocityOverLifetime;
         ParticleVelocity.x = WindVectorXZ.x;
         ParticleVelocity.y = -WindVectorXZ.y;
         ParticleVelocity = RainFog.velocityOverLifetime;
-        ParticleVelocity.x = WindVectorXZ.x * _fogWindMod;
-        ParticleVelocity.z = -WindVectorXZ.y * _fogWindMod;
+        ParticleVelocity.x = WindVectorXZ.x * fogWindMod;
+        ParticleVelocity.z = -WindVectorXZ.y * fogWindMod;
 
-        //Set the rotation of the rain based on the wind.
+        // Set the rotation of the rain based on the wind.
         MainRain.startRotation3D = new Vector3(Mathf.Deg2Rad*-WindVectorXZ.y, Mathf.Deg2Rad*-WindVectorXZ.x, 0f);
     }
 }
