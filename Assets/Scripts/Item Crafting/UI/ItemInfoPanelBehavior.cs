@@ -66,8 +66,9 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 	/// <summary>
 	/// Open the item info panel for the specified item.
 	/// </summary>
-	/// <param name="ob">Ob.</param>
-	public void OpenItemInfo(GameObject item)
+	/// <param name="item">Item to view.</param>
+	///  <param name="numToModify">Number to modify.</param>
+	public void OpenItemInfo(GameObject item, int numToModify)
 	{
 		// when the animation state is 1, the panel will open
 		currentAnimationState = openState;
@@ -81,7 +82,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 		// creates a duplicate of the object that will be affected by any changes made
 		targetItem = item.GetComponent<InventoryItemBehavior>();
 
-		targetItem.PreserveOriginal ();
+		targetItem.PreserveOriginal (numToModify);
 
 		// populates the attribute scroll section and the action scroll section
 		Populate ();

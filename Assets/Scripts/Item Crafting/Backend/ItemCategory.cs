@@ -15,13 +15,32 @@ public class ItemCategory : CollectableItem
 	protected BaseItem baseItem;
 
 	// library of attributes that define this category of items
-	protected Dictionary<string, float> attributes;
+	protected List<Attribute> attributes;
 
-	// Actions can only be performed once
-	protected Dictionary<string, bool> actionCompleted
-	{ 
-		get; 
-		set; 
+	protected List<Action> actions;
+
+	public List<Attribute> Attributes
+	{
+		get 
+		{
+			return attributes;
+		}
+		set 
+		{
+			attributes = value;
+		}
+	}
+
+	public List<Action> Actions
+	{
+		get 
+		{
+			return actions;
+		}
+		set 
+		{
+			actions = value;
+		}
 	}
 
 	/// <summary>
@@ -39,42 +58,59 @@ public class ItemCategory : CollectableItem
 	/// Gets the attributes of an item. Returns all attributes in the BaseItem and all
 	/// Item Categories.
 	/// </summary>
-	/// <returns>The attributes of an item in a Dictionary keyed by the attribute name.
-	/// All attribute values are floats.</returns>
-	public override Dictionary<string, float> GetItemAttributes ()
+	/// <returns>The attributes of an item in a list of attributes. </returns>
+	public override List<Attribute> GetItemAttributes ()
 	{
-		Dictionary<string, float> thisAttr = new Dictionary<string, float> ();
-
-		// add attributes of this item category to the list of attributes to be returned by the function
-		List<string> keys = new List<string> (attributes.Keys);
-
-		for (int i = 0; i < keys.Count; ++i) 
-		{
-			thisAttr.Add (keys[i], attributes [keys[i]]);
-		}
+		List<Attribute> thisAttr = attributes;
 
 		// add attributes returned by the linked component to the list of attributes that will be returned
 		if (component != null) 
 		{
-			Dictionary<string, float> otherAttributes = component.GetItemAttributes ();
-			keys = new List<string>(otherAttributes.Keys);
-			for(int j = 0; j < keys.Count; ++j)
-			{
-				thisAttr.Add (keys[j], otherAttributes [keys[j]]);
-			}
+			attributes.AddRange (component.GetItemAttributes ());
 		}
 
 		return thisAttr;
 	}
 
 	/// <summary>
-	/// Gets the category attributes, but not the entire item's attributes.
+	/// Gets all the action that an item can perform.
 	/// </summary>
-	/// <returns>The category attributes.</returns>
-	public Dictionary<string, float> GetCategoryAttributes()
+	/// <returns>The possible actions of an item in a Dictionary keyed by the action name.</returns>
+	public override List<Action> GetPossibleActions()
 	{
-		return attributes;
+		List<Action> possibleActions = new List<Action> ();
+
+		if (component != null) 
+		{
+			possibleActions = component.GetPossibleActions ();
+		}
+
+		for (int i = 0; i < actions.Count; ++i) 
+		{
+			if (!actions [i].ActionComplete) 
+			{
+				bool conditionsFullfilled = true;
+
+				for(int j = 0; j < actions[i].Conditions.Count; ++j)
+				{
+					ItemCondition condition = actions [i].Conditions [j];
+
+					if(!condition.checkCondition(GetAttribute(condition.AttributeName).Value))
+					{
+						conditionsFullfilled = false;
+					}
+				}
+
+				if (conditionsFullfilled) 
+				{
+					possibleActions.Add (actions [i]);
+				}
+			}
+		}
+
+		return possibleActions;
 	}
+
 		
 	/// <summary>
 	/// Changes the linked category.
@@ -108,6 +144,38 @@ public class ItemCategory : CollectableItem
 	public virtual ItemCategory GetDuplicate()
 	{
 		return this;
+	}
+		
+
+	/// <summary>
+	/// Sets the action as completed.
+	/// </summary>
+	/// <param name="name">Name of the action.</param>
+	public void SetActionComplete(string name)
+	{
+		for (int i = 0; i < actions; ++i) 
+		{
+			if (actions [i].ActionName.Equals (name)) 
+			{
+				actions [i].ActionComplete = true;
+			}
+		}
+	}
+
+	/// <summary>
+	/// Gets the attribute value of an attribute in the category by the attribute's name.
+	/// </summary>
+	/// <returns>The attribute value.</returns>
+	/// <param name="name">Name.</param>
+	public Attribute GetAttribute(string name)
+	{
+		for (int i = 0; i < attributes; ++i) 
+		{
+			if (attributes [i].Name.Equals (name)) 
+			{
+				return attributes [i];
+			}
+		}
 	}
 }
 

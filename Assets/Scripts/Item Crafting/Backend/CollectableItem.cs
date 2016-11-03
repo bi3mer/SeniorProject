@@ -7,14 +7,6 @@ using System.Collections.Generic;
 /// </summary>
 public abstract class CollectableItem
 {
-	// Actions may belong to a wider category of actions
-	// For example, within "Weave", there is "Weave Basket" and "Weave Rope"
-	// Both would be identified with the id "Weave"
-	// defaultActionCategoryName is the id for actions that do not belong
-	// to any subcategory
-
-	public static string defaultActionCategoryName = "base";
-
 	/// <summary>
 	/// Gets the attributes of an item. Returns all attributes in the BaseItem and all
 	/// Item Categories.
@@ -22,9 +14,9 @@ public abstract class CollectableItem
 	/// <returns>The attributes of an item in a Dictionary keyed by the attribute name.
 	/// All attribute values are floats.
 	/// </returns>
-	public virtual Dictionary<string, float> GetItemAttributes ()
+	public virtual List<Attribute> GetItemAttributes ()
 	{
-		return new Dictionary<string, float> ();
+		return new List<Attribute> ();
 	}
 
 	/// <summary>
@@ -32,8 +24,8 @@ public abstract class CollectableItem
 	/// </summary>
 	/// <returns>The possible actions of an item in a Dictionary keyed by the action name.
 	/// </returns>
-	public virtual Dictionary<string, List<Action>> GetPossibleActions ()
+	public virtual List<Action> GetPossibleActions ()
 	{
-		return new Dictionary<string, List<Action>> ();
+		return new List<Action>();
 	}
 }

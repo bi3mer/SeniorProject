@@ -127,7 +127,7 @@ public class ItemFactory : MonoBehaviour
 		{
 			for (int k = 0; k < tags.Count; ++k) 
 			{
-				if (ingredients [j].Tags.Contains (tags [k])) 
+				if (ingredients [j].Types.Contains (tags [k])) 
 				{
 					ingredientsByType [tags [k]].Add (ingredients [j]);
 				}

@@ -38,7 +38,6 @@ public class Inventory
 			BaseItem item = ItemFactory.instance.GetBaseItem (inventoryInfo [i]);
 			item.Amount = inventoryInfo [i].ItemAmount;
 
-			item.Modifications = inventoryInfo [i].Modifications;
 
 			contents.Add (item.ItemName, item);
 		}
@@ -62,7 +61,6 @@ public class Inventory
 	public void UseItem(string name, int amt)
 	{
 		contents [name].Amount -= amt;
-
 		if (contents [name].Amount <= 0) 
 		{
 			contents [name] = null;
@@ -128,7 +126,7 @@ public class Inventory
 
 		for (int i = 0; i < keys.Count; ++i) 
 		{
-			if (contents [keys [i]].Tags.Contains (itemTag.ToLower())) 
+			if (contents [keys [i]].Types.Contains (itemTag.ToLower())) 
 			{
 				result.Add (contents [keys [i]]);
 			}

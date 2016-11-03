@@ -36,11 +36,11 @@ public class Requirement
 	/// <summary>
 	/// Submits an item to see if it is something that can be used in the requirement.
 	/// </summary>
-	/// <param name="ob">Ob.</param>
+	/// <param name="item">Item.</param>
 	public void SubmitItem(BaseItem item)
 	{
 		// if item contains a certain type, then it can be used and the amount required is decremented
-		if (item.Tags.Contains (ItemType)) 
+		if (item.Types.Contains (ItemType)) 
 		{
 			AmountRequired--;	
 		}

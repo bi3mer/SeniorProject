@@ -21,18 +21,18 @@ public class InventoryItemBehavior : MonoBehaviour
 	/// </summary>
 	public void SetUpInventoryItem(BaseItem baseItm)
 	{
-		baseItm.ChangeItemName += HandleItemNameChangeEvent;
+		baseItm.ChangeItemDisplayText += HandleItemTextChangeEvent;
 		targetItem = baseItm;
-		ItemLabel.text = targetItem.ItemName;
+		ItemLabel.text = targetItem.ItemName + "\n" + targetItem.Amount;
 	}
 
 	/// <summary>
 	/// Function that changes the UI text to reflect the gameobject's name
 	/// </summary>
 	/// <param name="itemName">Item name.</param>
-	public void HandleItemNameChangeEvent(string itemName)
+	public void HandleItemTextChangeEvent(string itemName, int itemAmount)
 	{
-		ItemLabel.text = itemName;
+		ItemLabel.text = itemName + "\n" + itemAmount;
 	}
 
 	/// <summary>
@@ -66,10 +66,10 @@ public class InventoryItemBehavior : MonoBehaviour
 	/// Creates a copy of the item and sets that as the targetItem. All actions will be applied to the 
 	/// targetItem.
 	/// </summary>
-	public void PreserveOriginal()
+	public void PreserveOriginal(int numToModify)
 	{
 		originalItem = targetItem;
-		targetItem = originalItem.GetItemsToModify (EnterAmountBehavior.Instance.CurrentAmount);
+		targetItem = originalItem.GetItemsToModify (numToModify);
 	}
 
 	/// <summary>
@@ -80,19 +80,18 @@ public class InventoryItemBehavior : MonoBehaviour
 	public void CheckForModification()
 	{
 		// if a change has been applied to the item
-		if (targetItem.Modifications.Count > 0) 
+		if (targetItem.Modifications.Count > originalItem.Modifications.Count && targetItem.Amount > 0) 
 		{
 			InventoryUIBehavior.instance.targetInventory.AddItem (targetItem);
 
-			if (originalItem.Amount < 1) {
-				InventoryUIBehavior.instance.targetInventory.RemoveItem (originalItem);
-			}
+			targetItem = originalItem;
+			InventoryUIBehavior.instance.RemoveFromStack (originalItem);
 		} 
 		else 
 		{
 			originalItem.Amount += targetItem.Amount;
+			targetItem = originalItem;
 		}
-		targetItem = originalItem;
 	}
 
 	/// <summary>

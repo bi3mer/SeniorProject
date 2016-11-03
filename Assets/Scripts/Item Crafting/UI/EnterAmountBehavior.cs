@@ -136,6 +136,6 @@ public class EnterAmountBehavior : MonoBehaviour
 	public void OpenItemInfoPanel()
 	{
 		ClosePanel ();
-		ItemInfoPanelBehavior.instance.OpenItemInfo (selectedItem);
+		ItemInfoPanelBehavior.instance.OpenItemInfo (selectedItem, currentAmount);
 	}
 }

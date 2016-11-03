@@ -18,7 +18,7 @@ public class BaseItem : CollectableItem
 	// tags that specify what type of item this item is
 	// unfortunately enums are not serializable with yamldotnet
 	// as such, they must remain strings for now
-	public List<string> Tags 
+	public List<string> Types 
 	{
 		get; 
 		set;
@@ -38,16 +38,9 @@ public class BaseItem : CollectableItem
 		set;
 	}
 
-	// the name of the raw item before actions added things to their name
-	public string UnmodifiedName 
-	{
-		get; 
-		set;
-	}
+	public delegate void ChangeNameEvent (string itemName, int itemAmount); 
 
-	public delegate void ChangeNameEvent (string itemName); 
-
-	public event ChangeNameEvent ChangeItemName;
+	public event ChangeNameEvent ChangeItemDisplayText;
 
 	// link to the last Item Category, which in turn links to another Item Category
 	// the starting point from which the BaseItem will get all of its category information from
@@ -55,9 +48,9 @@ public class BaseItem : CollectableItem
 
 	private List<ItemCategory> categoryList;
 
-	private List<string> modifications;
-
 	protected int numberToModify;
+
+	private List<Attribute> itemAttributes;
 
 	/// <summary>
 	/// Initializaer only used during Yaml Deserialization
@@ -74,7 +67,6 @@ public class BaseItem : CollectableItem
 	public BaseItem(string name)
 	{
 		ItemName = name;
-		UnmodifiedName = name;
 
 		InitializeBaseItem ();
 	}
@@ -89,34 +81,21 @@ public class BaseItem : CollectableItem
 		Amount = original.Amount;
 		ItemName = original.ItemName;
 		categoryList = new List<ItemCategory> ();
-		Tags = new List<string> ();
-		modifications = new List<string> ();
+		Types = new List<string> ();
 
 		for (int i = 0; i < original.categoryList.Count; ++i) 
 		{
 			categoryList.Add (original.categoryList [i].GetDuplicate ());
 		}
 
-		if (original.Tags != null && original.Tags.Count > 0) 
+		if (original.Types != null && original.Types.Count > 0) 
 		{
-			for (int i = 0; i < original.Tags.Count; ++i) {
-				Tags.Add (original.Tags [i]);
+			for (int i = 0; i < original.Types.Count; ++i) {
+				Types.Add (original.Types [i]);
 			}
 		}
 			
 		SetUpBaseItem ();
-
-		// Do not want modifications to be applied again to copy, so
-		// copy over modifications AFTER calling SetUpBaseItem, which
-		// apply all modifications listed in the modifications list
-		// when it is called
-
-		if (original.Modifications != null && original.Modifications.Count > 0) 
-		{
-			for (int i = 0; i < original.Modifications.Count; ++i) {
-				modifications.Add (original.Modifications [i]);
-			}
-		}
 	}
 
 	/// <summary>
@@ -126,9 +105,9 @@ public class BaseItem : CollectableItem
 	{
 		categoryList = new List<ItemCategory> ();
 
-		if (Tags == null) 
+		if (Types == null) 
 		{
-			Tags = new List<string> ();
+			Types = new List<string> ();
 		}
 	}
 
@@ -151,32 +130,7 @@ public class BaseItem : CollectableItem
 		}
 
 		lastCategory = (ItemCategory) previous;
-		if (modifications == null || modifications.Count < 1) 
-		{
-			modifications = new List<string> ();
-		} 
-		else 
-		{
-			// applies the modifications needed to the item
-			Dictionary<string, List<Action>> actions = GetPossibleActions ();
-			List<string> keys = new List<string> (actions.Keys);
-
-			for (int j = 0; j < keys.Count; ++j) 
-			{
-				for (int k = 0; k < actions [keys [j]].Count; ++k) 
-				{
-					if (modifications.Contains (actions [keys [j]] [k].ActionName)) 
-					{
-						actions [keys [j]] [k].AssignedAction ();
-						modifications.Remove (actions [keys [j]] [k].ActionName);
-					}
-				}
-				if (modifications.Count < 1) 
-				{
-					break;
-				}
-			}
-		}
+		itemAttributes = lastCategory.GetItemAttributes ();
 	}
 
 	/// <summary>
@@ -194,23 +148,22 @@ public class BaseItem : CollectableItem
 	/// </summary>
 	/// <returns>The attributes of an item in a Dictionary keyed by the attribute name.
 	/// All attribute values are floats.</returns>
-	public override Dictionary<string, float> GetItemAttributes ()
+	public override List<Attribute> GetItemAttributes ()
 	{
 		// Except for the final link in the chain of categories, each item category is linked
 		// to another item category and will call GetAttributes on it's linked category and
 		// add it to the list of attributes
-		Dictionary<string, float> attributes = lastCategory.GetItemAttributes ();
 
-		return attributes;
+		return itemAttributes;
 	}
 
 	/// <summary>
 	/// Gets all the action that an item can perform.
 	/// </summary>
 	/// <returns>The possible actions of an item in a Dictionary keyed by the action name.</returns>
-	public override Dictionary<string, List<Action>> GetPossibleActions()
+	public override List<Action> GetPossibleActions()
 	{
-		Dictionary<string, List<Action>> possibleActions = lastCategory.GetPossibleActions ();
+		List<Action> possibleActions = lastCategory.GetPossibleActions ();
 
 		return possibleActions;
 	}
@@ -222,10 +175,17 @@ public class BaseItem : CollectableItem
 	public void ChangeName(string name)
 	{
 		ItemName = name;
+		FireTextChangeEvent ();
+	}
 
-		if (ChangeItemName != null) 
+	/// <summary>
+	/// Fires a text change event that alerts any subscribed that the BaseItem's name and amount has changed.
+	/// </summary>
+	public void FireTextChangeEvent()
+	{
+		if (ChangeItemDisplayText != null) 
 		{
-			ChangeItemName (name);
+			ChangeItemDisplayText (ItemName, (int)Amount);
 		}
 	}
 
@@ -241,16 +201,12 @@ public class BaseItem : CollectableItem
 		for (int i = 0; i < categoryList.Count; ++i) 
 		{
 			categoryList [i].ChangeLinkedCategory (previous);
-			if (!names.Contains(categoryList [i].GetType ().Name) && excluding) 
+			if ((!names.Contains(categoryList [i].GetType ().Name) && excluding) || (!excluding && names.Contains(categoryList [i].GetType ().Name))) 
 			{
+				RemoveAttributes (categoryList [i].Attributes);
 				categoryList.RemoveAt (i);
 				--i;
 			} 
-			else if (!excluding && names.Contains(categoryList [i].GetType ().Name)) 
-			{
-				categoryList.RemoveAt(i);
-				--i;
-			}
 			else 
 			{
 				previous = categoryList [i];
@@ -299,32 +255,35 @@ public class BaseItem : CollectableItem
 		} 
 		return null;
 	}
+		
 
 	/// <summary>
-	/// A base item that is modified by one of it's actions is still that base item for the purposes of the yaml file.
-	/// Thus is is necessary to keep a list of modifications. Whenever a category item completes an action, the modification
-	/// is added to the modifications list.
+	/// Removes values from the attributes list.
 	/// </summary>
-	/// <param name="modificationName">Modification name.</param>
-	public void AddToModifactionList(string modificationName)
+	/// <param name="toBeRemoved">Attributes to be removed.</param>
+	public void RemoveAttributes(List<Attribute> toBeRemoved)
 	{
-		modifications.Add (modificationName);
+		for (int i = 0; i < toBeRemoved.Count; ++i) 
+		{
+			itemAttributes.Remove (toBeRemoved [i]);
+		}
 	}
 
 	/// <summary>
-	/// Gets the list of modifications applied to the item.
+	/// Gets the attribute from the list of all attributes in this item.
 	/// </summary>
-	/// <returns>The modifications.</returns>
-	public List<string> Modifications
+	/// <returns>The item attribute.</returns>
+	/// <param name="name">Name.</param>
+	public Attribute GetItemAttribute(string name)
 	{
-		get
+		for (int i = 0; i < itemAttributes.Count; ++i) 
 		{
-			return modifications;
+			if (itemAttributes [i].Name.Equals (name)) 
+			{
+				return itemAttributes [i];
+			}
 		}
 
-		set 
-		{
-			modifications = value;
-		}
+		return new Attribute();
 	}
 }

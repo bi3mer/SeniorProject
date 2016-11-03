@@ -48,6 +48,25 @@ public class SolidCategory : ItemCategory
 	private float sharpenLowerThreshold = 0.2f;
 	private float sharpenUpperThreshold = 0.7f;
 	private float weaveThreshold = 0.8f;
+	private const float sharpenRate = 1.5f;
+	private const float threadWidthThreshold = 1f;
+	private const float weaveRopeThicknessRate = 4f;
+	private const float weaveBasketThicknessRate = 2f;
+	private const float bladeNameThreshold = 3f;
+
+	// string added to item name when the resulting rope is thin enough to be a thread
+	private const string threadNameAddtion = "Thread";
+
+	// string added to item name when weaving rope
+	private const string defaultRopeNameAddition = "Rope";
+
+	// string added to item name by default when item has been sharpened
+	private const string defualtSharpenNameAddtion = "Sharpened";
+
+	// string added to item name when item is sharp enough to be a blade
+	private const string bladeNameAddition = "Blade";
+
+	private const string basketNameAddition = "Basket";
 
 	private const string flexAttrName = "flexibility";
 	private const string duraAttrName = "durability";
@@ -75,13 +94,17 @@ public class SolidCategory : ItemCategory
 		category.Thickness = Thickness;
 		category.Sharpness = Sharpness;
 
-		category.ReadyCategory ();
+		category.Actions = new List<Action> ();
+		category.Attributes = new List<Attribute> ();
 
-		List<string> keys = new List<string> (actionCompleted.Keys);
-
-		for(int i = 0; i < keys.Count; ++i)
+		for (int i = 0; i < actions.Count; ++i) 
 		{
-			category.actionCompleted[keys[i]] = actionCompleted [keys[i]];
+			category.Actions.Add (actions [i]);
+		}
+
+		for(int i = 0; i < attributes.Count; ++i)
+		{
+			category.Attributes.Add (attributes [i]);
 		}
 			
 		return category;
@@ -92,64 +115,45 @@ public class SolidCategory : ItemCategory
 	/// </summary>
 	public override void ReadyCategory()
 	{
-		attributes = new Dictionary<string, float> ();
+		attributes = new List<Attribute>();
 
-		if (actionCompleted == null) 
-		{
-			actionCompleted = new Dictionary<string, bool> ();
-			actionCompleted.Add (weaveActionName, false);
-			actionCompleted.Add (sharpenActionName, false);
-		}
+		Attribute flexibleAttribute = new Attribute (flexAttrName, Flexibility);
+		Attribute durableAttribute = new Attribute (duraAttrName, Durability);
+		Attribute elasticAttribute = new Attribute (elasAttrName, Elasticity);
+		Attribute stickinessAttribute = new Attribute (stickiAttrName, Stickiness);
+		Attribute sharpnessAttribute = new Attribute (sharpAttrName, Sharpness);
+		Attribute thicknessAttribute = new Attribute (thickAttrName, Thickness);
 
-		attributes.Add (flexAttrName, Flexibility);
-		attributes.Add (duraAttrName, Durability);
-		attributes.Add (elasAttrName, Elasticity);
-		attributes.Add (stickiAttrName, Stickiness);
-		attributes.Add (sharpAttrName, Sharpness);
-		attributes.Add (thickAttrName, Thickness);
-	}
+		attributes.Add (flexibleAttribute);
+		attributes.Add (durableAttribute);
+		attributes.Add (elasticAttribute);
+		attributes.Add (stickinessAttribute);
+		attributes.Add (sharpnessAttribute);
+		attributes.Add (thicknessAttribute);
 
-	/// <summary>
-	/// Gets all the action that an item can perform. This changes depending on what actions have already been performed.
-	/// </summary>
-	/// <returns>The possible actions of an item in a Dictionary keyed by the action name.</returns>
-	public override Dictionary<string, List<Action>> GetPossibleActions()
-	{
-		Dictionary<string, List<Action>> possibleActions = new Dictionary<string, List<Action>> ();
-	
-		if (!possibleActions.ContainsKey (defaultActionCategoryName)) 
-		{
-			possibleActions.Add (defaultActionCategoryName, new List<Action> ());
-		}
+		actions = new List<Action> ();
 
-		// gets the actions of the component its linked to
-		// the linked component does the same until all item category components in the gameobject have added their possible actions
-		if (component != null) 
-		{
-			possibleActions = component.GetPossibleActions ();
-		}
+		Action sharpen = new Action (sharpenActionName, new UnityAction (Sharpen));
+		ItemCondition sharpenConditionFlex = new ItemCondition (flexAttrName, sharpenLowerThreshold, new BooleanOperator.BooleanOperatorDelegate (BooleanOperator.Less));
+		ItemCondition sharpenConditionElas = new ItemCondition (elasAttrName, sharpenLowerThreshold, new BooleanOperator.BooleanOperatorDelegate (BooleanOperator.Less));
+		ItemCondition sharpenConditionDura = new ItemCondition (duraAttrName, sharpenUpperThreshold, new BooleanOperator.BooleanOperatorDelegate (BooleanOperator.More));
 
-		if (Flexibility < sharpenLowerThreshold && Elasticity < sharpenLowerThreshold && Durability > sharpenUpperThreshold && !actionCompleted["Sharpen"]) 
-		{
-			UnityAction sharpen = new UnityAction (Sharpen);
-			Action act = new Action (weaveActionName, sharpen);
-			possibleActions [defaultActionCategoryName].Add (act);
-		}
+		sharpen.Conditions.Add (sharpenConditionFlex);
+		sharpen.Conditions.Add (sharpenConditionElas);
+		sharpen.Conditions.Add (sharpenConditionDura);
 
-		if (Flexibility > weaveThreshold && !actionCompleted[weaveActionName]) 
-		{
-			possibleActions.Add(weaveActionName, new List<Action>());
+		Action weave = new Action (weaveActionName, null);
+		ItemCondition weaveCondition = new ItemCondition (flexAttrName, weaveThreshold, new BooleanOperator.BooleanOperatorDelegate (BooleanOperator.More));
+		weave.Conditions.Add (weaveCondition);
 
-			UnityAction wRope = new UnityAction (WeaveRope);
-			Action weaveRope = new Action (weaveRopeActName, wRope);
-			possibleActions[weaveActionName].Add (weaveRope);
+		Action weaveRope = new Action (weaveRopeActName, new UnityAction (WeaveRope));
+		Action weaveBasket = new Action (weaveBasketActName, new UnityAction (WeaveBasket));
 
-			UnityAction wBasket = new UnityAction (WeaveBasket);
-			Action weaveBasket = new Action (weaveBasketActName, wBasket);
-			possibleActions[weaveActionName].Add (weaveBasket);
-		}
+		weave.SubActions.Add (weaveRope);
+		weave.SubActions.Add (weaveBasket);
 
-		return possibleActions;
+		actions.Add (sharpen);
+		actions.Add (weave);
 	}
 
 	/// <summary>
@@ -160,24 +164,25 @@ public class SolidCategory : ItemCategory
 	{
 		string name;
 
-		if (Thickness > 0.5f) 
+		if (Thickness > threadWidthThreshold) 
 		{
-			name = baseItem.ItemName + " Thread";
+			name = baseItem.ItemName + " " + threadNameAddtion;
 		} 
 		else 
 		{
-			name = baseItem.ItemName + " Rope";
+			name = baseItem.ItemName + " " + defaultRopeNameAddition;
 		}
 			
 		baseItem.ChangeName(name);
-		baseItem.Tags.Add ("rope");
+		baseItem.Types.Add (Types.Rod);
+
+		// durability of the woven object is determined by averaging the durability and elasticity of the item
+		// as tightly weaving something won't work as well with less elastic objects
 		Durability = Durability * Elasticity / 2f;
 
-		actionCompleted [weaveActionName] = true;
-		Thickness = Thickness * 4f;
+		Thickness = Thickness * weaveRopeThicknessRate;
 
 		baseItem.RemoveCategories (new List<string> () {GetType ().Name}, true);
-		baseItem.AddToModifactionList (weaveRopeActName);
 	}
 
 	/// <summary>
@@ -188,16 +193,19 @@ public class SolidCategory : ItemCategory
 	{
 		string name;
 
-		name = baseItem.ItemName + " Basket";
-		Durability = Durability  * Elasticity / 2f;
-		Thickness = Thickness * 2f;
+		name = baseItem.ItemName + " " + basketNameAddition;
 
-		actionCompleted [weaveActionName] = true;
+		// durability of the woven object is determined by averaging the durability and elasticity of the item
+		// as tightly weaving something won't work as well with less elastic objects
+		Durability = Durability  * Elasticity / 2f;
+		GetAttribute (duraAttrName).Value = Durability;
+
+		Thickness = Thickness * weaveBasketThicknessRate;
+		GetAttribute (thickAttrName).Value = Thickness;
 
 		baseItem.ChangeName(name);
 
 		baseItem.RemoveCategories (new List<string> (){GetType ().Name}, true);
-		baseItem.AddToModifactionList (weaveBasketActName);
 	}
 
 	/// <summary>
@@ -205,20 +213,19 @@ public class SolidCategory : ItemCategory
 	/// </summary>
 	public void Sharpen()
 	{
-		if (Sharpness > 3f) 
+		if (Sharpness > bladeNameThreshold) 
 		{
-			if (!baseItem.ItemName.Contains ("Blade")) 
+			if (!baseItem.ItemName.Contains (bladeNameAddition)) 
 			{
-				baseItem.ChangeName(baseItem.ItemName + " Blade");
+				baseItem.ChangeName(baseItem.ItemName + " " + bladeNameAddition);
 			}
 		} 
 		else 
 		{
-			baseItem.ChangeName ("Sharpened " + baseItem.ItemName);
+			baseItem.ChangeName (defualtSharpenNameAddtion + " " + baseItem.ItemName);
 		}
 
-		Sharpness = Sharpness * 1.5f;
-		actionCompleted [sharpenActionName] = true;
-		attributes [sharpAttrName] = Sharpness;
+		Sharpness = Sharpness * sharpenRate;
+		GetAttribute (sharpAttrName).Value = Sharpness;
 	}
 }

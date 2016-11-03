@@ -1,16 +1,20 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 /// <summary>
-/// Class that defines an action being the name of the action
+/// Struct that defines an action being the name of the action
 /// and the UnityAction. The action may also have an id
 /// that specifies which subcategory of action it falls under.
 /// </summary>
-public class Action
+public struct Action
 {
 	private string actionName;
 	private UnityAction UnityAction;
+	private List<Action> subActions;
+	private bool completed;
+
+	private List<ItemCondition> conditions;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Action"/> class.
@@ -21,6 +25,9 @@ public class Action
 	{
 		actionName = n;
 		UnityAction = act;
+		subActions = new List<Action> ();
+		conditions = new List<ItemCondition> ();
+		completed = false;
 	}
 
 	/// <summary>
@@ -53,6 +60,42 @@ public class Action
 		set 
 		{
 			actionName = value;
+		}
+	}
+
+	public List<Action> SubActions
+	{
+		get 
+		{
+			return subActions;
+		}
+		set 
+		{
+			subActions = value;
+		}
+	}
+
+	public bool ActionComplete
+	{
+		get
+		{
+			return completed;
+		}
+		set 
+		{
+			completed = value;
+		}
+	}
+
+	public List<ItemCondition> Conditions
+	{
+		get
+		{
+			return conditions;
+		}
+		set 
+		{
+			conditions = value;
 		}
 	}
 }

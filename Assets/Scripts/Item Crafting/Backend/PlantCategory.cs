@@ -75,6 +75,29 @@ public class PlantCategory : ItemCategory
 	private const string cookActName = "Cook";
 	private const string eatActName = "Eat";
 
+	// variables needed to adjust the WaterContent and Toughness attributes in the drying function
+	private const float dryingWaterDecreaseRate = 0.25f;
+	private const float dryingToughnessIncreaseRate = 1.5f;
+
+	// variables needed to adujst the WaterContent and Toughness attributes in the cooking function
+	private const float cookingWaterIncreaseRate = 1.2f;
+	private const float cookingToughnessDecreaseRate = 0.5f;
+
+	// max toughness before you can't eat an object
+	private const float toughnessEdibleThreshold = 3f;
+
+	// how high the waterContent needs to be before it is soup
+	private const float waterContentSoupThreshold = 6f;
+
+	// string that will be added to the names of items that are soup
+	private const string soupNameAddition = "Soup";
+
+	// string that will be added to the names of items that cooked by default
+	private const string defaultCookedNameAddition = "Cooked";
+
+	// string that will be added to the names of items that are dried
+	private const string defaultDryNameAddition = "Dried";
+
 	/// <summary>
 	/// Creates a copy of this plant category.
 	/// </summary>
@@ -91,13 +114,17 @@ public class PlantCategory : ItemCategory
 		category.StomachEffect = StomachEffect;
 		category.PneumoniaEffect = PneumoniaEffect;
 
-		category.ReadyCategory ();
+		category.Actions = new List<Action> ();
+		category.Attributes = new List<Attribute> ();
 
-		List<string> keys = new List<string> (actionCompleted.Keys);
-
-		for(int i = 0; i < keys.Count; ++i)
+		for (int i = 0; i < actions.Count; ++i) 
 		{
-			category.actionCompleted[keys[i]] = actionCompleted [keys[i]];
+			category.Actions.Add (actions [i]);
+		}
+
+		for(int i = 0; i < attributes.Count; ++i)
+		{
+			category.Attributes.Add (attributes [i]);
 		}
 
 		return category;
@@ -108,66 +135,39 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public override void ReadyCategory()
 	{
-		attributes = new Dictionary<string, float> ();
+		attributes = new List<Attribute> ();
 
-		if (actionCompleted == null) 
-		{
-			actionCompleted = new Dictionary<string, bool> ();
-			actionCompleted.Add (dryActName, false);
-			actionCompleted.Add (cookActName, false);
-		}
+		Attribute waterAttribute = new Attribute (waterContAttrName, WaterContent);
+		Attribute toughAttribute = new Attribute (toughAttrName, Toughness);
+		Attribute sweetAttribute = new Attribute (sweetAttrName, Sweet);
+		Attribute bitterAttribute = new Attribute(bitterAttrName, Bitter);
+		Attribute sourAttribute = new Attribute(sourAttrName, Sour);
+		Attribute saltyAttribute = new Attribute(saltyAttrName, Salty);
+		Attribute spicyAttribute = new Attribute(spicyAttrName, Spicy);
 
-		attributes.Add (waterContAttrName, WaterContent);
-		attributes.Add (toughAttrName, Toughness);
-		attributes.Add (sweetAttrName, Sweet);
-		attributes.Add (bitterAttrName, Bitter);
-		attributes.Add (sourAttrName, Sour);
-		attributes.Add (saltyAttrName, Salty);
-		attributes.Add (spicyAttrName, Spicy);
+		attributes.Add (waterAttribute);
+		attributes.Add (toughAttribute);
+		attributes.Add (sweetAttribute);
+		attributes.Add (bitterAttribute);
+		attributes.Add (sourAttribute);
+		attributes.Add (saltyAttribute);
+		attributes.Add (spicyAttribute);
+
+		actions = new List<Action> ();
+
+		Action cook = new Action (cookActName, new UnityAction(Cook));
+		Action dry = new Action (dryActName, new UnityAction(Dry));
+
+		Action eat = new Action (eatActName, new UnityAction(Eat));
+		ItemCondition eatCondition = new ItemCondition (toughAttrName, toughnessEdibleThreshold, new BooleanOperator.BooleanOperatorDelegate (BooleanOperator.Less));
+
+		eat.Conditions.Add (eatCondition);
+
+		actions.Add (cook);
+		actions.Add (dry);
+		actions.Add (eat);
 	}
-
-	/// <summary>
-	/// Gets all the action that an item can perform.
-	/// </summary>
-	/// <returns>The possible actions of an item in a Dictionary keyed by the action name.</returns>
-	public override Dictionary<string, List<Action>> GetPossibleActions()
-	{
-		Dictionary<string, List<Action>> possibleActions = new Dictionary<string, List<Action>> ();
-
-		if (component != null) 
-		{
-			possibleActions = component.GetPossibleActions ();
-		}
-
-		if (!possibleActions.ContainsKey (defaultActionCategoryName)) 
-		{
-			possibleActions.Add (defaultActionCategoryName, new List<Action> ());
-		}
-
-		if (!actionCompleted [cookActName]) 
-		{
-			UnityAction cookAct = new UnityAction (Cook);
-			Action cook = new Action (cookActName, cookAct);
-			possibleActions [defaultActionCategoryName].Add (cook);
-		}
-	
-		if (!actionCompleted [dryActName]) 
-		{
-			UnityAction dryAct = new UnityAction (Dry);
-			Action dry = new Action (dryActName, dryAct);
-			possibleActions[defaultActionCategoryName].Add (dry);
-		}
-
-		if (Toughness < 3) 
-		{
-			UnityAction eatAct = new UnityAction (Eat);
-			Action eat = new Action (eatActName, eatAct);
-			possibleActions [defaultActionCategoryName].Add (eat);
-		}
-
-		return possibleActions;
-	}
-
+		
 	/// <summary>
 	/// Cooks the item. Lowers toughness and increases water content. If the item has high enough water content, it becomes soup.
 	/// Otherwise, it is just called Cooked X.
@@ -175,29 +175,22 @@ public class PlantCategory : ItemCategory
 	/// <param name="variables">Variables.</param>
 	public void Cook()
 	{
-		Toughness = Toughness / 2f;
-		WaterContent = WaterContent * 1.2f;
+		Toughness = Toughness * cookingWaterIncreaseRate;
+		WaterContent = WaterContent * cookingWaterIncreaseRate;
 
-		attributes [toughAttrName] = Toughness;
-		attributes [waterContAttrName] = WaterContent;
+		GetAttribute (toughAttrName).Value = Toughness;
+		GetAttribute (waterContAttrName).Value = WaterContent;
 
-		if (WaterContent > 6f && !baseItem.ItemName.Contains ("Soup")) 
+		if (WaterContent > waterContentSoupThreshold && !baseItem.ItemName.Contains (soupNameAddition)) 
 		{
-			baseItem.ChangeName (baseItem.ItemName + " Soup");
+			baseItem.ChangeName (baseItem.ItemName + " " + soupNameAddition);
 		} 
-		else if (WaterContent < 6f) 
+		else if (WaterContent < waterContentSoupThreshold) 
 		{
-			baseItem.ChangeName("Cooked " + baseItem.ItemName);
+			baseItem.ChangeName(defaultCookedNameAddition + baseItem.ItemName);
 		}
 
-		actionCompleted [cookActName] = true;
-
-		if (Toughness >= 3f) 
-		{
-			baseItem.RemoveCategories (new List<string> (){ "SolidAttribute" });
-		}
-
-		baseItem.AddToModifactionList (cookActName);
+		SetActionComplete (cookActName);
 	}
 
 	/// <summary>
@@ -205,15 +198,15 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public void Dry()
 	{
-		WaterContent = WaterContent / 4f;
-		Toughness = Toughness * 1.5f;
+		WaterContent = WaterContent * dryingWaterDecreaseRate;
+		Toughness = Toughness * dryingToughnessIncreaseRate;
 
-		attributes [waterContAttrName] = WaterContent;
-		attributes [toughAttrName] = Toughness;
+		GetAttribute (waterContAttrName).Value = WaterContent;
+		GetAttribute (toughAttrName).Value = Toughness;
 
-		baseItem.ChangeName("Dried " + baseItem.ItemName);
-		actionCompleted [dryActName] = true;
-		baseItem.AddToModifactionList (dryActName);
+		baseItem.ChangeName(defaultDryNameAddition + " " + baseItem.ItemName);
+
+		SetActionComplete(dryActName) = true;
 	}
 
 	/// <summary>
