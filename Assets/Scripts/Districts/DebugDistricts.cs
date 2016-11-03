@@ -22,12 +22,11 @@ public class DebugDistricts : MonoBehaviour
 		set 
 		{
 			verts = value;
-
-			updateLines ();
+			UpdateLines ();
 		}
 	}
 
-	private void updateLines()
+	private void UpdateLines()
 	{
 		lines.SetVertexCount (verts.Length);
 		for (int i = 0; i < verts.Length; ++i) 

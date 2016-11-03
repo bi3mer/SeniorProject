@@ -2,8 +2,8 @@
 using System.Collections;
 
 
-public class DistrictsGenerator : MonoBehaviour {
-
+public class DistrictsGenerator : MonoBehaviour 
+{
 	[SerializeField]
 	private Vector2[] districtEndPoints;
 
@@ -37,9 +37,8 @@ public class DistrictsGenerator : MonoBehaviour {
 	/// </summary>
 	/// <param name="numDistricts">Number of districts desired -- currently supports 3.</param>
 	/// <param name="districtMaxSpan">District max span for one side from center point to edge.</param>
-	void generateDistrictPoints(int numDistricts, int districtMaxSpan)
+	private void generateDistrictPoints(int numDistricts, int districtMaxSpan)
 	{
-
 		Vector2[] initialSeedPoints = new Vector2[numDistricts];
 		Vector2[] seedMidPoints		= new Vector2[numDistricts];
 
@@ -87,7 +86,8 @@ public class DistrictsGenerator : MonoBehaviour {
 			{
 				x = (initialSeedPoints [i].x + initialSeedPoints [0].x) / 2;
 				y = (initialSeedPoints [i].y + initialSeedPoints [0].y) / 2;
-			} else 
+			} 
+			else
 			{
 				x = (initialSeedPoints [i].x + initialSeedPoints [i+1].x) / 2;
 				y = (initialSeedPoints [i].y + initialSeedPoints [i+1].y) / 2;
@@ -123,12 +123,21 @@ public class DistrictsGenerator : MonoBehaviour {
 			float currentEndpointX = 0.0f;
 			float currentEndpointY = 0.0f;
 
-			if (seedMidPoints[i].x < cityCenterX)	currentEndpointX = cityCenter.x - k;
-			else 									currentEndpointX = cityCenter.x + k;
+			if (seedMidPoints [i].x < cityCenterX) {
+				currentEndpointX = cityCenter.x - k;
+			} 
+			else 
+			{
+				currentEndpointX = cityCenter.x + k;
+			}
 
-			if (seedMidPoints[i].y < cityCenterY)	currentEndpointY = cityCenter.y - (k*slope);
-			else 									currentEndpointY = cityCenter.y + (k*slope);
-
+			if (seedMidPoints [i].y < cityCenterY) {
+				currentEndpointY = cityCenter.y - (k * slope);
+			} 
+			else 
+			{
+				currentEndpointY = cityCenter.y + (k * slope);
+			}
 			districtEndPoints [i].x = currentEndpointX;
 			districtEndPoints [i].y = currentEndpointY;
 
@@ -146,13 +155,14 @@ public class DistrictsGenerator : MonoBehaviour {
 			{
 				districtPoints[0] = districtEndPoints[districtEndPoints.Length-1];
 				districtPoints[1] = districtEndPoints[0];
-			} else 
+			} 
+			else 
 			{
 				districtPoints[0] = districtEndPoints[i];
 				districtPoints[1] = districtEndPoints[i+1];
 			}
 
-			districts [i].setVerticies (districtPoints);
+			districts [i].Verticies = districtPoints;
 		}
 
 		// generate verticies for each district to allow for more natural edges
@@ -166,14 +176,14 @@ public class DistrictsGenerator : MonoBehaviour {
 	/// <param name="maxVerts">Maximum # of vertices for edges of city</param>
 	/// <param name="maxDistFromCenter">Maximum distance of all verticies from center of city.</param>
 	/// <param name="minDistFromCenter">Minimum distance of all verticies from center of city.</param>
-	void generateCityEdges(int minVerts, int maxVerts, float maxDistFromCenter, float minDistFromCenter)
+	private void generateCityEdges(int minVerts, int maxVerts, float maxDistFromCenter, float minDistFromCenter)
 	{
 		// for each district, generate random # of randomly angled points within the current area of the district
 		for (int i = 0; i < districts.Length; ++i)
 		{
 			int numVerts = Random.Range (minVerts, maxVerts);
 			Vector2[] newDistrictVerts = new Vector2 [numVerts+2];	// must allow for two initial points
-			Vector2[] currentDistrictVerts = districts [i].getVerticies();
+			Vector2[] currentDistrictVerts = districts [i].Verticies;
 
 			// add initial district edges to list of verticies
 			newDistrictVerts [0] = currentDistrictVerts [0];
@@ -196,10 +206,10 @@ public class DistrictsGenerator : MonoBehaviour {
 				newDistrictVerts [j].y = cityCenter.y + (distanceFromCenter) * Mathf.Sin (angleFromCenter);
 			}
 
-			districts [i].setVerticies (newDistrictVerts);
+			districts [i].Verticies = newDistrictVerts;
 		}
 
-		debugger.Verts = districts [0].getVerticies();
+		debugger.Verts = districts [0].Verticies;
 	}
 
 }

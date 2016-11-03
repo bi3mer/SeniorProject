@@ -21,41 +21,39 @@ public class District
 	{
 		cityCenter = center;
 	}
-
+		
 	/// <summary>
-	/// Sets the verticies of the edges of the district.
+	/// Gets or sets the verticies.
 	/// </summary>
-	/// <param name="verts">Vector of verticies to set.</param>
-	public void setVerticies(Vector2[] verts)
-	{
-		edgeVerticies = verts;
+	/// <value>The verticies.</value>
+	public Vector2[] Verticies
+	{ 
+		get
+		{ 
+			return edgeVerticies;
+		} 
+
+		set 
+		{
+			edgeVerticies = value;
+		}
 	}
 
 	/// <summary>
-	/// Gets the verticies that define the edges of this district.
+	/// Gets or sets the name.
 	/// </summary>
-	/// <returns>The verticies that make of this district's edges.</returns>
-	public Vector2[] getVerticies()
+	/// <value>The name.</value>
+	public String Name
 	{
-		return edgeVerticies;
-	}
+		get 
+		{
+			return districtName;
+		}
 
-	/// <summary>
-	///  Sets the name of the district.
-	/// </summary>
-	/// <param name="name">Name to be set.</param>
-	public void setName(String name)
-	{
-		districtName = name;
-	}
-
-	/// <summary>
-	///  Gets the name of the district.
-	/// </summary>
-	/// <returns>The name of the district.</returns>
-	public String getName()
-	{
-		return districtName;
+		set
+		{
+			districtName = value;
+		}
 	}
 
 	/// <summary>
@@ -63,7 +61,7 @@ public class District
 	/// </summary>
 	/// <returns><c>true</c>, if point is within district, <c>false</c> otherwise.</returns>
 	/// <param name="point">Point to be checked.</param>
-	public bool containsPoint(Vector2 point)
+	public bool ContainsPoint(Vector2 point)
 	{
 
 		// check whether this point's x value is between the district's edges & the city center
