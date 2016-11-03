@@ -50,8 +50,6 @@ public class DistrictsGenerator : MonoBehaviour
 		cityCenter 	    = new Vector2();
 		districts 		= new District[numDistricts];
 
-		// TODO: use one seed for all procedural generation
-
 		// generate initial random seed points -- range is districtMaxSpan to districtMaxSpan * 2 to prevent negatives.
 		for (int i = 0; i < numDistricts; ++i) 
 		{
