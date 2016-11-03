@@ -5,6 +5,7 @@
     private Game ()
     {
         PlayerInstance = new Player();
+		WeatherInstance = new WeatherSystem();
     }
  
     /// <summary>
@@ -30,6 +31,16 @@
         get;
         private set;
     }
+
+	/// <summary>
+	/// Gets the weather instance.
+	/// </summary>
+	/// <value>The weather instance.</value>
+	public WeatherSystem WeatherInstance
+	{
+		get;
+		private set;
+	}
 
 	private Clock clockInstance;
 	public Clock ClockInstance

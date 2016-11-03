@@ -55,7 +55,6 @@ public class FloodWater : MonoBehaviour
 	{
 		// create night and day tide positions
 		this.nightPosition = this.dayPosition = this.transform.position;
-		this.nightPosition.y -= this.TideSeverity;
-		this.dayPosition.y += this.TideSeverity;
+		this.dayPosition.y += this.TideSeverity + this.TideSeverity;
 	}
 }
