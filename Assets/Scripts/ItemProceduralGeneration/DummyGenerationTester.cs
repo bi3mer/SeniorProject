@@ -13,6 +13,9 @@ public class DummyGenerationTester : MonoBehaviour
 
 	public float GenerationChance;
 
+	/// <summary>
+	/// Populates the roof top on game start.
+	/// </summary>
 	void Start () 
 	{
 		RooftopGeneration generator = new RooftopGeneration (DoorTemplate, ItemTemplate);

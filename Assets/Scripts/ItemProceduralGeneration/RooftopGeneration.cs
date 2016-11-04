@@ -16,6 +16,13 @@ public class RooftopGeneration
 	// Generator that creates the points to place objects
 	private RooftopPointGenerator generator;
 
+	private int seed = 8;
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="RooftopGeneration"/> class.
+	/// </summary>
+	/// <param name="doors">Door template object.</param>
+	/// <param name="items">Items that may be generated.</param>
 	public RooftopGeneration(List<GameObject> doors, List<GameObject> items)
 	{
 		DoorTemplates = doors;
@@ -33,6 +40,7 @@ public class RooftopGeneration
 		float chance;
 		List<Vector3> points;
 
+		Random.InitState (seed);
 		for (int i = 0; i < targets.Count; ++i) 
 		{
 			// check to see if this building will have objects on its roof

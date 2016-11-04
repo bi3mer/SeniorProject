@@ -4,7 +4,7 @@ using System.Collections;
 
 public class RooftopPointGenerator 
 {
-	//The maximum angle a surface can be to still be considered a viable surface for object placement
+	// The maximum angle a surface can be to still be considered a viable surface for object placement
 	private float maxAngle = 0.35f;
 
 	// Maximum attempts to place a point
@@ -13,10 +13,10 @@ public class RooftopPointGenerator
 	// Maxmimum items to be placed
 	private int maximumItems = 5;
 
-	//The maximum distance away from the doorway in which the door being there will affect whether or not objects may be placed there
+	// The maximum distance away from the doorway in which the door being there will affect whether or not objects may be placed there
 	private float maxDoorwayEffectArea = 10f;
 
-	//Minimum distance objects must be from each other by default, not accounting for the doorway which will increase it
+	// Minimum distance objects must be from each other by default, not accounting for the doorway which will increase it
 	private float defaultMinDistanceAway = 4f;
 
 	// the number of new points that will be created around an existing sampling point
@@ -50,7 +50,7 @@ public class RooftopPointGenerator
 
 		// Generates points to place objects, as well a door object.
 		// TODO: Function that generates points without taking a door into consideration
-		List<Vector2> samplingPoints = GeneratePointsWithDoor (target, targetMesh, width, depth, height);
+		List<Vector2> samplingPoints = generatePointsWithDoor (target, targetMesh, width, depth, height);
 		float initialRayStartHeight = height + rayOffset;
 
 		RaycastHit hit;
@@ -63,7 +63,7 @@ public class RooftopPointGenerator
 			// it is converted into a global position here
 			// validPoints contains global positions
 
-			Vector2 globalPosition = ConvertToWorldSpace (samplingPoints[i], target.transform.position, width, depth);
+			Vector2 globalPosition = convertToWorldSpace (samplingPoints[i], target.transform.position, width, depth);
 
 			if (Physics.Raycast (new Vector3(globalPosition.x, initialRayStartHeight, globalPosition.y), Vector3.down, out hit, initialRayStartHeight)) 
 			{
@@ -92,7 +92,7 @@ public class RooftopPointGenerator
 	/// <param name="width">Width.</param>
 	/// <param name="depth">Depth.</param>
 	/// <param name="height">Height.</param>
-	private List<Vector2> GeneratePointsWithDoor(GameObject target, Mesh targetMesh, float width, float depth, float height)
+	private List<Vector2> generatePointsWithDoor(GameObject target, Mesh targetMesh, float width, float depth, float height)
 	{
 		float shorterLength = width;
 
@@ -101,17 +101,16 @@ public class RooftopPointGenerator
 			shorterLength = depth;
 		}
 
-		//RandomQueue works like a queue, except that it
+		// RandomQueue works like a queue, except that it
 		//pops a random element from the queue instead of
 		//the element at the head of the queue
 		List<ItemPlacementSamplePoint> processList = new List<ItemPlacementSamplePoint>();
 
 		List<Vector2> samplePoints = new List<Vector2>();
 
-		//generate the first point randomly away from the doorway
-
+		// generate the first point randomly away from the doorway
 		ItemPlacementSamplePoint firstPoint = new ItemPlacementSamplePoint();
-		firstPoint.PointOnTargetSurface = CreateDoor (width, depth, height, target);
+		firstPoint.PointOnTargetSurface = createDoor (width, depth, height, target);
 
 		// Building failed to have any sample points after attempting the maximum attempts
 		// not a good building, skip
@@ -123,9 +122,8 @@ public class RooftopPointGenerator
 		// the door acts as an origin point, however no other sampling points should be placed around it
 		// thus the door's point itself should not be returned as part of the sampling points
 		processList.Add(firstPoint);
-
-
-		//generate other points from points in queue.
+	
+		// generate other points from points in queue.
 		while (processList.Count != 0)
 		{
 			int index = Random.Range (0, processList.Count);
@@ -136,15 +134,15 @@ public class RooftopPointGenerator
 
 			for (int i = 0; i < newPointsPerSamplingPoint; ++i)
 			{
-				point.MinDistance = GetMinDistance (firstPoint.PointOnTargetSurface, point.PointOnTargetSurface, shorterLength/2f);
-				newPointLocation = GenerateRandomPointAround(point.PointOnTargetSurface, point.MinDistance);
+				point.MinDistance = getMinDistance (firstPoint.PointOnTargetSurface, point.PointOnTargetSurface, shorterLength/2f);
+				newPointLocation = generateRandomPointAround(point.PointOnTargetSurface, point.MinDistance);
 				tries = 0;
 
 				//check that the point is in the building's region
 				// TODO: check that the new point is not within the minDistance of the existing points in it's neighborhood
-				while (tries < maximumAttempts && (!InRange (newPointLocation, width, depth)) )
+				while (tries < maximumAttempts && (!inRangeOfBuilding (newPointLocation, width, depth)) )
 				{
-					newPointLocation = GenerateRandomPointAround (point.PointOnTargetSurface, point.MinDistance);
+					newPointLocation = generateRandomPointAround (point.PointOnTargetSurface, point.MinDistance);
 					++tries;
 				}
 
@@ -176,12 +174,16 @@ public class RooftopPointGenerator
 	/// <returns>Random point relative to the building.</returns>
 	/// <param name="targetPoint">Point to generate around.</param>
 	/// <param name="minDistance">Minimum distance from the current point that the new point must be.</param>
-	private Vector2 GenerateRandomPointAround(Vector2 targetPoint, float minDistance)
+	private Vector2 generateRandomPointAround(Vector2 targetPoint, float minDistance)
 	{
-		//random radius between mindist and 2 * mindist
+		// random radius between mindist and 2 * mindist
+		// The random number will generate from 0 to 1, so to make
+		// it 1 to 2, 1 is added to it
 		float radius = minDistance * (Random.Range(0f, 1f)  + 1);
-		//random angle
+
+		//random angle in radians
 		float angle = 2 * Mathf.PI * Random.Range(0f, 1f); 
+
 		//the new point is generated around the point (x, y)
 		Vector2 point = new Vector2(targetPoint.x + radius * Mathf.Cos(angle), targetPoint.y + radius * Mathf.Sin(angle));
 	
@@ -197,7 +199,7 @@ public class RooftopPointGenerator
 	/// <param name="samplingPoint">Sampling point that contains a location relative to the building to be checked against.</param>
 	/// <param name="width">Width of building.</param>
 	/// <param name="depth">Depth of building.</param>
-	private bool InRange(Vector2 samplingPoint, float width, float depth)
+	private bool inRangeOfBuilding(Vector2 samplingPoint, float width, float depth)
 	{
 		float widthBorder = width * borderPercent;
 		float depthBorder = depth * borderPercent;
@@ -212,7 +214,7 @@ public class RooftopPointGenerator
 	/// <returns>The minimum distance.</returns>
 	/// <param name="door">Door.</param>
 	/// <param name="currentPosition">Current position.</param>
-	private float GetMinDistance(Vector2 door, Vector2 currentPosition, float maxDistanceAway)
+	private float getMinDistance(Vector2 door, Vector2 currentPosition, float maxDistanceAway)
 	{
 		return Mathf.Clamp (defaultMinDistanceAway + maxDistanceAway * (1 - Vector2.Distance (door, currentPosition) / maxDoorwayEffectArea), defaultMinDistanceAway, maxDistanceAway);
 	}
@@ -227,23 +229,29 @@ public class RooftopPointGenerator
 	/// <param name="depth">Depth of building.</param>
 	/// <param name="height">Height of building.</param>
 	/// <param name="target">Target building.</param>
-	private Vector2 CreateDoor(float width, float depth, float height, GameObject target)
+	private Vector2 createDoor(float width, float depth, float height, GameObject target)
 	{
 		// Generates a point within the bounds and converts it to a global location
-		Vector2 doorLocation = new Vector2(Random.Range(width/4f, width/1.5f), Random.Range (depth / 4f, depth / 1.5f));
+		Vector2 doorLocation = new Vector2(Random.Range(width * borderPercent, 1 - (width * borderPercent)), Random.Range (depth * borderPercent, 1 - (depth * borderPercent)));
 
-		Vector2 doorGlobalLocation = ConvertToWorldSpace(doorLocation, target.transform.position, width, depth);
-		float initialRayStartHeight = height + 5f;
+		Vector2 doorGlobalLocation = convertToWorldSpace(doorLocation, target.transform.position, width, depth);
+		float rayOffset = 1f;
+		float initialRayStartHeight = height + rayOffset;
 
 		RaycastHit hit;
 		Physics.Raycast (new Vector3 (doorGlobalLocation.x, initialRayStartHeight, doorGlobalLocation.y), Vector3.down, out hit, initialRayStartHeight);
 		int tries = 0;
 
+		// It will continue trying to place a point for the door so long as
+		// 1) the number of maximum attempts has not been reached
+		// 2) the raycast is not hitting anything
+		// 3) the raycast is not hitting the target gamebobject
+		// 4) the angle of the surface that the raycast hits exceeds the maxAngle
 		while (tries < maximumAttempts && (hit.transform == null || !hit.transform.gameObject.Equals (target) || (Mathf.Abs (Mathf.Acos (Vector3.Dot (hit.normal, Vector3.up))) > maxAngle))) 
 		{
-			doorLocation = new Vector2(Random.Range(width/4f, width/1.5f), Random.Range (depth / 4f, depth / 1.5f));
+			doorLocation = new Vector2(Random.Range(width * borderPercent, 1 - (width * borderPercent)), Random.Range (depth * borderPercent, 1 - (depth * borderPercent)));
 
-			doorGlobalLocation = ConvertToWorldSpace(doorLocation, target.transform.position, width, depth);
+			doorGlobalLocation = convertToWorldSpace(doorLocation, target.transform.position, width, depth);
 
 			Physics.Raycast (new Vector3 (doorGlobalLocation.x, initialRayStartHeight, doorGlobalLocation.y), Vector3.down, out hit, height);
 		
@@ -267,8 +275,10 @@ public class RooftopPointGenerator
 	/// <param name="targetPosition">Target position.</param>
 	/// <param name="targetWidth">Target width.</param>
 	/// <param name="targetDepth">Target depth.</param>
-	public Vector2 ConvertToWorldSpace(Vector2 surfacePosition, Vector3 targetPosition, float targetWidth, float targetDepth)
+	private Vector2 convertToWorldSpace(Vector2 surfacePosition, Vector3 targetPosition, float targetWidth, float targetDepth)
 	{
+		// to convert to worldSpace, add the target object's position, then subtract half the width so that "0" is the left bound rather than the center
+		// and subtract half of the depth so that "0" is the bottom bound rather than the center
 		return new Vector2(surfacePosition.x + targetPosition.x - targetWidth/2f, surfacePosition.y + targetPosition.z - targetDepth/2f);
 	}
 }
