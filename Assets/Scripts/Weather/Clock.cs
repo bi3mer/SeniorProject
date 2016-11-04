@@ -94,7 +94,7 @@ public class Clock : MonoBehaviour
 
 	/// <summary>
 	/// Gets the percentage that of twelve hours that the current 
-	/// time is representative of. THis is useful for lerping
+	/// time is representative of. This is useful for lerping
 	/// and other related functions.
 	/// </summary>
 	/// <returns>The twelve hour percentage.</returns>

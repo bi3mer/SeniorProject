@@ -64,9 +64,9 @@ public class WeatherSystem
 	public const float PrecipitationIntercept         = 4.6207279047035579f;
 
 	// Calculating relative dew point constants
-	public const float relativeHumidityConstant  = 243.04f;
-	public const float percentageDivisor         = 100f;
-	public const float temperatureCoefficient    = 17.625f;
+	private const float relativeHumidityConstant  = 243.04f;
+	private const float percentageDivisor         = 100f;
+	private const float temperatureCoefficient    = 17.625f;
 
 	/// <summary>
 	/// Gets the pressure based on the player from the pressure centers
@@ -81,7 +81,6 @@ public class WeatherSystem
 		if(centerIndex == WeatherSystem.HighPressureIndex)
 		{
 			multiplier = -1;
-
 		}
 
 		// calculate pressure system
@@ -387,7 +386,7 @@ public class WeatherSystem
 	/// </summary>
 	/// <returns>The center index.</returns>
 	/// <param name="position">Position.</param>
-	public int getCenterIndex(Vector2 position)
+	public int GetCenterIndex(Vector2 position)
 	{
 		// TODO: Update this for a future build
 		return WeatherSystem.HighPressureIndex;
