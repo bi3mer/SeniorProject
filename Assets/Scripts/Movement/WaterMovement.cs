@@ -39,9 +39,11 @@ public class WaterMovement : Movement
         RigidBody.velocity = direction.normalized * swimmingSpeed;
 
         // Needs to be factored out.
-        Vector3 facingrotation = Vector3.Normalize(new Vector3(RigidBody.velocity.x, 0f, RigidBody.velocity.z));
-        if (facingrotation != Vector3.zero)
-            playerAnimator.transform.forward = facingrotation;
+        Vector3 facingRotation = Vector3.Normalize(new Vector3(RigidBody.velocity.x, 0f, RigidBody.velocity.z));
+        if (facingRotation != Vector3.zero)
+        {
+            playerAnimator.transform.forward = facingRotation;
+        }
     }
 
     /// <summary>
