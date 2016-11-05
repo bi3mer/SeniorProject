@@ -5,28 +5,28 @@ using System.Collections;
 public class RooftopPointGenerator 
 {
 	// The maximum angle a surface can be to still be considered a viable surface for object placement
-	private float maxAngle = 0.35f;
+	private const float maxAngle = 0.35f;
 
 	// Maximum attempts to place a point
-	private int maximumAttempts = 5;
+	private const int maximumAttempts = 5;
 
 	// Maxmimum items to be placed
-	private int maximumItems = 5;
+	private const int maximumItems = 5;
 
 	// The maximum distance away from the doorway in which the door being there will affect whether or not objects may be placed there
-	private float maxDoorwayEffectArea = 10f;
+	private const float maxDoorwayEffectArea = 10f;
 
 	// Minimum distance objects must be from each other by default, not accounting for the doorway which will increase it
-	private float defaultMinDistanceAway = 4f;
+	private const float defaultMinDistanceAway = 4f;
 
 	// the number of new points that will be created around an existing sampling point
-	private int newPointsPerSamplingPoint = 2;
+	private const int newPointsPerSamplingPoint = 2;
 
 	// the amount of area considered valid on the surface of a building
 	// from 0 to 1, where 0 means none of the surface is valid, and 1 means that there is no area of the building that is valid
 	// if 0.1, there is a border that is 10% the width and 10% the depth run around the edge of the surface
 	// no sampling points may be placed within that border
-	private float borderPercent = 0.1f;
+	private const float borderPercent = 0.1f;
 
 	/// <summary>
 	/// Takes the sampling points and checks to see if they are on locations that are not at too steep an incline on the building's surface.
