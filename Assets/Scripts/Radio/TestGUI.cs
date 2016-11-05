@@ -4,6 +4,11 @@ using System.Collections;
 public class TestGUI : MonoBehaviour {
     public GameObject[] buttons;
     public Radio radio;
+    public AudioSource[] audios;
+    public AudioSource soundA;
+    public AudioSource soundB;
+    public AudioClip newClip;
+
 
     void Awake()
     {
@@ -12,11 +17,6 @@ public class TestGUI : MonoBehaviour {
         {
             buttons[i].SetActive(false);
         }
-    }
-
-    void Start()
-    {
-        
     }
 
 
@@ -44,4 +44,5 @@ public class TestGUI : MonoBehaviour {
     {
         radio.SetChannel(RadioChannel.Music);
     }
+
 }

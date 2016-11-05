@@ -14,6 +14,7 @@ public class ControlScheme
     public KeyCode RightSecondary;
     public KeyCode LeftSecodary;
 
+    public KeyCode Sprint;
     public KeyCode Jump;
     public KeyCode Action;
 

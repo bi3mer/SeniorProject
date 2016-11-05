@@ -25,7 +25,7 @@ public class WaterMovement : Movement
     /// Player swims in the specified direction.
     /// </summary>
     /// <param name="direction">The direction in which the player swims.</param>
-    public override void Move(Vector3 direction)
+    public override void Move(Vector3 direction, bool sprinting)
     {
         RigidBody.velocity = direction.normalized * swimmingSpeed;
     }
