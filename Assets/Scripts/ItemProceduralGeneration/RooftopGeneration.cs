@@ -37,10 +37,11 @@ public class RooftopGeneration
 	/// <param name="targets">Target buildings.</param>
 	public void PopulateRoof(List<GameObject> targets)
 	{
+		// TODO: This init should be placed in the start function of the monobehavior that calls this
+		Random.InitState (seed);
 		float chance;
 		List<Vector3> points;
 
-		Random.InitState (seed);
 		for (int i = 0; i < targets.Count; ++i) 
 		{
 			// check to see if this building will have objects on its roof
