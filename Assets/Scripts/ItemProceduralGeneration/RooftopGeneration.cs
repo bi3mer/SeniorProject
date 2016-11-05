@@ -16,7 +16,7 @@ public class RooftopGeneration
 	// Generator that creates the points to place objects
 	private RooftopPointGenerator generator;
 
-	private int seed = 8;
+	private const int seed = 8;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RooftopGeneration"/> class.
