@@ -149,7 +149,7 @@ public class FishingRod : Tool
         // Set the control point at the midpoint, and weight it down
         Vector3 control = Vector3.Lerp(rodPosition, lurePosition, 0.5f);
         // apply weight if casting, not if reeling
-        if (fishingLure.IsReeling)
+        if (!fishingLure.IsReeling)
         {
             control += Vector3.down * fishingLineWeight;
         }

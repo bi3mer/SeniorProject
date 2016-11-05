@@ -152,6 +152,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector3 direction = Vector3.zero;
+        bool sprinting = Input.GetKey(controlScheme.Sprint);
 
         // Determine current direction of movement relative to camera
         if (Input.GetKey(controlScheme.Forward) 
@@ -176,7 +177,7 @@ public class PlayerController : MonoBehaviour
         }
 
         CheckGround();
-        movement.Move(direction);
+        movement.Move(direction, sprinting);
 	}
 
     private Vector3 getDirection(Vector3 direction)
@@ -256,7 +257,7 @@ public class PlayerController : MonoBehaviour
 
         // place player on raft
         Vector3 position = raftMovement.gameObject.transform.position;
-        float raftHeight = raftMovement.gameObject.GetComponent<MeshRenderer>().bounds.size.y;
+        float raftHeight = raftMovement.gameObject.GetComponent<BoxCollider>().bounds.size.y;
         transform.position = position + Vector3.up * raftHeight;
 
         // update raft's interactivity
