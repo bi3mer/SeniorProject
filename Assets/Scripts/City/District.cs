@@ -1,12 +1,14 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class District
 {
 	private Vector2[] edgeVerticies;
 	private Vector2   cityCenter;
 	private String 	  districtName;
+    private Bounds    bounds;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AssemblyCSharp.District"/> class.
@@ -15,6 +17,7 @@ public class District
 	public District (Vector2 center)
 	{
 		cityCenter = center;
+        Blocks = new List<CityBlock>();
 	}
 		
 	/// <summary>
@@ -51,6 +54,36 @@ public class District
 		}
 	}
 
+    /// <summary>
+    /// The list of blocks contained in this district.
+    /// </summary>
+    public List<CityBlock> Blocks
+    {
+        get;
+        private set;
+    }
+
+    public void AddBlock (CityBlock block)
+    {
+        Blocks.Add(block);
+    }
+
+    /// <summary>
+    /// The bounds that conatin all of the district verticies.
+    /// </summary>
+    public Bounds BoundingArea
+    {
+        get
+        {
+            // only calculate the bounds once
+            if (bounds == null)
+            {
+                bounds = calculateBounds();
+            }
+            return bounds;
+        }
+    }
+
 	/// <summary>
 	/// Checks whether the point is within the bounds of the district.
 	/// </summary>
@@ -82,4 +115,14 @@ public class District
 
 		return true;
 	}
+
+    private Bounds calculateBounds()
+    {
+        Bounds bounds = new Bounds(Verticies[0], Vector3.zero);
+        for (int i = 1; i < Verticies.Length; ++i)
+        {
+            bounds.Encapsulate(Verticies[i]);
+        }
+        return bounds;
+    }
 }

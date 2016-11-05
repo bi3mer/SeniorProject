@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 public class DistrictsGenerator : MonoBehaviour 
 {
 	[SerializeField]
@@ -16,9 +15,6 @@ public class DistrictsGenerator : MonoBehaviour
 	[SerializeField]
 	private DebugDistricts debugger;
 
-	[SerializeField]
-	private int randomSeed = 10;	// used in random range
-
 	public int NumInitialSeeds = 3;
 	public int MaxDistrictSpan = 500;
 	public int MinVerts = 10;
@@ -29,11 +25,12 @@ public class DistrictsGenerator : MonoBehaviour
 	/// <summary>
 	/// Entry point of the generator.
 	/// </summary>
-	void Start () 
+	public District[] Generate (int randomSeed) 
 	{
 		debugger = GetComponent<DebugDistricts> ();
 		generateDistrictPoints (NumInitialSeeds, MaxDistrictSpan);
 		Random.InitState (randomSeed);
+        return districts;
 	}
 
 	/// <summary>
@@ -149,6 +146,9 @@ public class DistrictsGenerator : MonoBehaviour
 			districts [i].Verticies = newDistrictVerts;
 		}
 
-		debugger.Verts = districts [0].Verticies;
+        if (debugger != null)
+        {
+            debugger.Verts = districts[0].Verticies;
+        }
 	}
 }
