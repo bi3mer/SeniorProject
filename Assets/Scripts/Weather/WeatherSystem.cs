@@ -20,11 +20,11 @@ public enum Weather
 
 public class WeatherSystem 
 {
-	public const int HighPressureIndex = 1;
-	public const int LowPressureIndex  = 0;
+	private const int highPressureIndex = 1;
+	private const int lowPressureIndex  = 0;
 
-	public Vector2[] StormCenterLocations;
-	public float[] StormCenterPressure;
+	private Vector2[] stormCenterLocations;
+	private float[] StormCenterPressure;
 	public float[] WeatherInformation
 	{
 		get;
@@ -34,34 +34,34 @@ public class WeatherSystem
 	// For these constants below please view
 	// https://github.com/bi3mer/WeatherForecasting/blob/master/Lorenz%20Simulation.ipynb
 	// to see how they are used in the context of graphs
-	public const float AirDensity                = 3.4f;
-	public const float KelvinConverter           = 273.15f; 
+	private const float airDensity                = 3.4f;
+	private const float kelvinConverter           = 273.15f; 
 
 	// wind speed
-	public readonly float[] WindSpeedCoefficents = {0f, -13.641617f, 0.00670152751f};
-	public readonly int[,] WindSpeedPowers       = {{0}, {1}, {2}};
-	public const float WindSpeedIntercept        = 6951.17066465f;
+	private readonly float[] windSpeedCoefficents = {0f, -13.641617f, 0.00670152751f};
+	private readonly int[,] windSpeedPowers       = {{0}, {1}, {2}};
+	private const float windSpeedIntercept        = 6951.17066465f;
 
 	// relative humidity
-	public readonly float[] RelativeHumidityCoefficients = {0f,0f, 0f, -0.00042569f, 0.00282497f, -0.01846812f};
-	public readonly int[,] RelativeHumidityPowers        = {{0, 0},{1, 0},{0, 1},{2, 0},{1, 1},{0, 2}};
-	public const float RelativeHumidityIntercept         = 402.68743138357206f;
+	private readonly float[] relativeHumidityCoefficients = {0f,0f, 0f, -0.00042569f, 0.00282497f, -0.01846812f};
+	private readonly int[,] relativeHumidityPowers        = {{0, 0},{1, 0},{0, 1},{2, 0},{1, 1},{0, 2}};
+	private const float relativeHumidityIntercept         = 402.68743138357206f;
 
 	// precipitation
-	public readonly float[] PrecipitationCoefficients = {0.00000000e+00f,  -0.00000000e+00f,  -0.00000000e+00f,
-                                                        -0.00000000e+00f,   0.00000000e+00f,   0.00000000e+00f,
-                                                        -4.46876693e-06f,   2.07456756e-07f,   1.50875127e-07f,
-                                                         9.82522088e-04f,  -3.10613821e-07f,  -0.00000000e+00f,
-                                                        -0.00000000e+00f,   0.00000000e+00f,  -0.00000000e+00f,
-                                                        -0.00000000e+00f,   0.00000000e+00f,  -0.00000000e+00f,
-                                                        -0.00000000e+00f,   0.00000000e+00f,   0.00000000e+00f};
-	public readonly int[,] PrecipitationPowers        = {{0, 0, 0, 0, 0},{1, 0, 0, 0, 0},{0, 1, 0, 0, 0},{0, 0, 1, 0, 0},
-		                                                 {0, 0, 0, 1, 0},{0, 0, 0, 0, 1},{2, 0, 0, 0, 0},{1, 1, 0, 0, 0},
-		                                                 {1, 0, 1, 0, 0},{1, 0, 0, 1, 0},{1, 0, 0, 0, 1},{0, 2, 0, 0, 0},
-		                                                 {0, 1, 1, 0, 0},{0, 1, 0, 1, 0},{0, 1, 0, 0, 1},{0, 0, 2, 0, 0},
-		                                                 {0, 0, 1, 1, 0},{0, 0, 1, 0, 1},{0, 0, 0, 2, 0},{0, 0, 0, 1, 1},
-		                                                 {0, 0, 0, 0, 2}};
-	public const float PrecipitationIntercept         = 4.6207279047035579f;
+	private readonly float[] precipitationCoefficients = {0.00000000e+00f,  -0.00000000e+00f,  -0.00000000e+00f,
+                                                         -0.00000000e+00f,   0.00000000e+00f,   0.00000000e+00f,
+                                                         -4.46876693e-06f,   2.07456756e-07f,   1.50875127e-07f,
+                                                          9.82522088e-04f,  -3.10613821e-07f,  -0.00000000e+00f,
+                                                         -0.00000000e+00f,   0.00000000e+00f,  -0.00000000e+00f,
+                                                         -0.00000000e+00f,   0.00000000e+00f,  -0.00000000e+00f,
+                                                         -0.00000000e+00f,   0.00000000e+00f,   0.00000000e+00f};
+	private readonly int[,] precipitationPowers        = {{0, 0, 0, 0, 0},{1, 0, 0, 0, 0},{0, 1, 0, 0, 0},{0, 0, 1, 0, 0},
+		                                                  {0, 0, 0, 1, 0},{0, 0, 0, 0, 1},{2, 0, 0, 0, 0},{1, 1, 0, 0, 0},
+		                                                  {1, 0, 1, 0, 0},{1, 0, 0, 1, 0},{1, 0, 0, 0, 1},{0, 2, 0, 0, 0},
+		                                                  {0, 1, 1, 0, 0},{0, 1, 0, 1, 0},{0, 1, 0, 0, 1},{0, 0, 2, 0, 0},
+		                                                  {0, 0, 1, 1, 0},{0, 0, 1, 0, 1},{0, 0, 0, 2, 0},{0, 0, 0, 1, 1},
+		                                                  {0, 0, 0, 0, 2}};
+	private const float precipitationIntercept         = 4.6207279047035579f;
 
 	// Calculating relative dew point constants
 	private const float relativeHumidityConstant  = 243.04f;
@@ -78,14 +78,14 @@ public class WeatherSystem
 	{
 		// Get multiplier for kind of pressure system
 		int multiplier = 1;
-		if(centerIndex == WeatherSystem.HighPressureIndex)
+		if(centerIndex == WeatherSystem.highPressureIndex)
 		{
 			multiplier = -1;
 		}
 
 		// calculate pressure system
 		return StormCenterPressure[centerIndex] + 
-			   multiplier * Vector2.Distance(position, this.StormCenterLocations[centerIndex]);
+			   multiplier * Vector2.Distance(position, this.stormCenterLocations[centerIndex]);
 	}
 
 
@@ -96,7 +96,7 @@ public class WeatherSystem
 	/// <param name="temperature">Temperature.</param>
 	private float kelvinToCelcius(float temperature)
 	{
-		return temperature - WeatherSystem.KelvinConverter;
+		return temperature - WeatherSystem.kelvinConverter;
 	}
 
 	/// <summary>
@@ -106,6 +106,7 @@ public class WeatherSystem
 	/// <param name="temperature">Temperature.</param>
 	private float celciusToFahrenheit(float temperature)
 	{
+	// todo fix
 		return temperature * (9.0f / 5.0f) + 32.0f;
 	}
 
@@ -125,7 +126,7 @@ public class WeatherSystem
 	/// <returns>The temperature.</returns>
 	private float getTemperature()
 	{
-		return this.kelvinToFahrenheit(this.WeatherInformation[(int)Weather.Pressure] / WeatherSystem.AirDensity);
+		return this.kelvinToFahrenheit(this.WeatherInformation[(int)Weather.Pressure] / WeatherSystem.airDensity);
 	}
 
 	/// <summary>
@@ -169,10 +170,10 @@ public class WeatherSystem
 	private float getWindSpeed() 
 	{
 		float[] inputs = {this.WeatherInformation[(int) Weather.Pressure]};
-		return linearRegressionPrediction(this.WindSpeedCoefficents, 
-			                              this.WindSpeedPowers, 
+		return linearRegressionPrediction(this.windSpeedCoefficents, 
+			                              this.windSpeedPowers, 
 			                              inputs,
-			                              WeatherSystem.WindSpeedIntercept);
+			                              WeatherSystem.windSpeedIntercept);
 	}
 
 	/// <summary>
@@ -183,8 +184,14 @@ public class WeatherSystem
 	/// <param name="posTwo">Position two.</param>
 	private float getSlope(Vector2 posOne, Vector2 posTwo)
 	{
-		// TODO: Add defensive programming to avoid divide by 0 case
-		return (posTwo.y - posOne.y) / (posTwo.x - posOne.x);
+		// ensure that divide by 0 case doesn't occur
+		float divisor = posTwo.x - posOne.x;
+		if(divisor == 0)
+		{
+			return Mathf.Infinity;
+		}
+
+		return (posTwo.y - posOne.y) / divisor;
 	}
 
 	/// <summary>
@@ -195,16 +202,24 @@ public class WeatherSystem
 	/// <param name="posTwo">Position two.</param>
 	private float getPerpindicularSlope(Vector2 posOne, Vector2 posTwo)
 	{
-		// TODO: add defensive programming to avoid divide by 0 case
-		return -1 / getSlope(posOne, posTwo);
+		float divisor = this.getSlope(posOne, posTwo);
+		if(divisor == 0)
+		{
+			return Mathf.Infinity;
+		}
+
+		return -1 / divisor;
 	}
 
 	/// <summary>
 	/// Determine if the index is indicative of a high pressure system
 	/// or low pressure system. This is important for determining if 
 	/// a system is high or low pressure
+	///
+	/// TODO: this will be updated in the future when >2 pressure systems
+	///       are present
 	/// </summary>
-	/// <returns><c>true</c>, if high pressure was ised, <c>false</c> otherwise.</returns>
+	/// <returns><c>true</c>, if high is high pressure, <c>false</c> otherwise.</returns>
 	/// <param name="index">Index.</param>
 	private bool isHighPressure(int index)
 	{
@@ -305,7 +320,7 @@ public class WeatherSystem
 	/// <param name="centerIndex">Center index.</param>
 	private void setWindSpeedVector(Vector2 position, int centerIndex)
 	{
-		Vector2 center = this.StormCenterLocations[centerIndex];
+		Vector2 center = this.stormCenterLocations[centerIndex];
 		float perpindicularSlope = this.getPerpindicularSlope(position, center);
 
 		// calculate y intercept
@@ -341,10 +356,10 @@ public class WeatherSystem
 		float[] inputs = {this.WeatherInformation[(int) Weather.Pressure], 
 		                  this.WeatherInformation[(int) Weather.Temperature]};
 
-		return linearRegressionPrediction(this.RelativeHumidityCoefficients, 
-			                              this.RelativeHumidityPowers, 
+		return linearRegressionPrediction(this.relativeHumidityCoefficients, 
+			                              this.relativeHumidityPowers, 
 			                              inputs,
-			                              WeatherSystem.RelativeHumidityIntercept);
+			                              WeatherSystem.relativeHumidityIntercept);
 	}
 
 	/// <summary>
@@ -375,10 +390,10 @@ public class WeatherSystem
 			              this.WeatherInformation[(int) Weather.WindSpeedMagnitude],
 			              this.WeatherInformation[(int) Weather.RelativeDewPoint]};
 
-		return linearRegressionPrediction(this.PrecipitationCoefficients, 
-			                              this.PrecipitationPowers, 
+		return linearRegressionPrediction(this.precipitationCoefficients, 
+			                              this.precipitationPowers, 
 		                                  inputs,
-			                              WeatherSystem.PrecipitationIntercept);
+			                              WeatherSystem.precipitationIntercept);
 	}
 
 	/// <summary>
@@ -389,7 +404,7 @@ public class WeatherSystem
 	public int GetCenterIndex(Vector2 position)
 	{
 		// TODO: Update this for a future build
-		return WeatherSystem.HighPressureIndex;
+		return WeatherSystem.highPressureIndex;
 	}
 
 	/// <summary>
@@ -402,7 +417,7 @@ public class WeatherSystem
 		Vector2 position = new Vector2(positionVector.x, positionVector.z);
 
 		// TODO: update this for a future build
-		int centerIndex = WeatherSystem.HighPressureIndex;
+		int centerIndex = WeatherSystem.highPressureIndex;
 
 		this.WeatherInformation[(int) Weather.Pressure]           = this.getPressure(position, centerIndex);
 		this.WeatherInformation[(int) Weather.Temperature]        = this.getTemperature();
@@ -421,15 +436,15 @@ public class WeatherSystem
 		// eight is the size of the array needed 
 		// based on the number of enums present in
 		// Weather
-		this.WeatherInformation = new float[8];
+		this.WeatherInformation = new float[Weather.GetNames(typeof(Weather)).Length];
 
 		// TODO: this needs to be updated to be dynamic but
 		//       for now it creates an example of how the 
 		//       weather works. So please ignore the magic
 		//       numbers for now
-		this.StormCenterLocations    = new Vector2[2];
-		this.StormCenterLocations[0] = Vector2.left*10;
-		this.StormCenterLocations[0] = Vector2.right*10;
+		this.stormCenterLocations    = new Vector2[2];
+		this.stormCenterLocations[0] = Vector2.left*10;
+		this.stormCenterLocations[0] = Vector2.right*10;
 
 		this.StormCenterPressure = new float[2];
 		this.StormCenterPressure[0] = 1000;

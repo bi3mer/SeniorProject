@@ -87,9 +87,12 @@ public class Clock : MonoBehaviour
 	/// Determines whether this it is or day night.
 	/// </summary>
 	/// <returns><c>true</c> if this instance is day; otherwise, <c>false</c>.</returns>
-	public bool IsDay()
+	public bool IsDay
 	{
-		return Game.Instance.ClockInstance.CurrentTime <= Clock.TwelveHours;
+		get
+		{
+			return Game.Instance.ClockInstance.CurrentTime <= Clock.TwelveHours;
+		}
 	}
 
 	/// <summary>
@@ -100,7 +103,7 @@ public class Clock : MonoBehaviour
 	/// <returns>The twelve hour percentage.</returns>
 	public float GetTwelveHourPercentage()
 	{
-		if(this.IsDay())
+		if(this.IsDay)
 		{
 			return this.CurrentTime/(float)Clock.TwelveHours;
 		}

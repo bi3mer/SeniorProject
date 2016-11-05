@@ -55,9 +55,5 @@
 
 			return this.clockInstance;
 		}
-		private set
-		{
-			// required pass
-		}
 	}
 }

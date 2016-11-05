@@ -3,8 +3,11 @@ using System.Collections;
 
 public class DayNight : MonoBehaviour 
 {
-	public Color DayColor;
-	public Color NightColor;
+	[SerializeField]
+	private Color DayColor;
+	[SerializeField]
+	private Color NightColor;
+
 	private Light DirectionaLight;
 
 	/// <summary>
@@ -22,7 +25,7 @@ public class DayNight : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-		if(Game.Instance.ClockInstance.IsDay())
+		if(Game.Instance.ClockInstance.IsDay)
 		{
 			this.updateColor(this.NightColor, this.DayColor);
 		}

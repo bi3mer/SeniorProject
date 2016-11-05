@@ -15,7 +15,7 @@ public class FloodWater : MonoBehaviour
 	/// </summary>
 	private Vector3 getTideLevel()
 	{
-		if(Game.Instance.ClockInstance.IsDay())
+		if(Game.Instance.ClockInstance.IsDay)
 		{
 			return Vector3.Lerp(this.nightPosition, 
 				                this.dayPosition, 
