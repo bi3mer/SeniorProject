@@ -1,0 +1,469 @@
+fileFormatVersion: 2
+guid: d07c3ff93e74796409b2194870cf4e83
+timeCreated: 1477686460
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: BackLowerFinBase
+    100002: BackLowerFinTip
+    100004: BottomBackFin1
+    100006: BottomBackFin2
+    100008: BottomFrontFin
+    100010: BottomMiddleFin1
+    100012: BottomMiddleFin2
+    100014: //RootNode
+    100016: CHA_Fish_Center
+    100018: CHA_FishGeo
+    100020: FishBase
+    100022: FrontLowerFinBase
+    100024: FrontLowerFinTip
+    100026: LowerMouthBase
+    100028: LowerMouthTip
+    100030: MiddleLowerFinBase
+    100032: MiddleLowerFinLeftTip
+    100034: MiddleLowerFinRightTip
+    100036: MouthBase
+    100038: MouthTop
+    100040: SideFin1
+    100042: SideFin2
+    100044: SideLeftFinBase
+    100046: SideLeftFinTip
+    100048: SideRightFinBase
+    100050: SideRightFinTip
+    100052: Spine1
+    100054: Spine2
+    100056: TailBase
+    100058: TailEnd
+    100060: TailModifier
+    100062: TopFin1
+    100064: TopFin2
+    100066: TopFin3
+    100068: TopFinBase
+    100070: TopFinTip
+    400000: BackLowerFinBase
+    400002: BackLowerFinTip
+    400004: BottomBackFin1
+    400006: BottomBackFin2
+    400008: BottomFrontFin
+    400010: BottomMiddleFin1
+    400012: BottomMiddleFin2
+    400014: //RootNode
+    400016: CHA_Fish_Center
+    400018: CHA_FishGeo
+    400020: FishBase
+    400022: FrontLowerFinBase
+    400024: FrontLowerFinTip
+    400026: LowerMouthBase
+    400028: LowerMouthTip
+    400030: MiddleLowerFinBase
+    400032: MiddleLowerFinLeftTip
+    400034: MiddleLowerFinRightTip
+    400036: MouthBase
+    400038: MouthTop
+    400040: SideFin1
+    400042: SideFin2
+    400044: SideLeftFinBase
+    400046: SideLeftFinTip
+    400048: SideRightFinBase
+    400050: SideRightFinTip
+    400052: Spine1
+    400054: Spine2
+    400056: TailBase
+    400058: TailEnd
+    400060: TailModifier
+    400062: TopFin1
+    400064: TopFin2
+    400066: TopFin3
+    400068: TopFinBase
+    400070: TopFinTip
+    4300000: FishBase
+    4300002: TopFin1
+    4300004: TopFin2
+    4300006: TopFin3
+    4300008: SideFin1
+    4300010: SideFin2
+    4300012: BottomBackFin1
+    4300014: BottomBackFin2
+    4300016: BottomMiddleFin1
+    4300018: BottomMiddleFin2
+    4300020: BottomFrontFin
+    7400000: Dead
+    7400002: Swimming
+    7400004: U-Turn
+    9500000: //RootNode
+    13700000: BottomBackFin1
+    13700002: BottomBackFin2
+    13700004: BottomFrontFin
+    13700006: BottomMiddleFin1
+    13700008: BottomMiddleFin2
+    13700010: FishBase
+    13700012: SideFin1
+    13700014: SideFin2
+    13700016: TopFin1
+    13700018: TopFin2
+    13700020: TopFin3
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Dead
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: CHA_Fish_Center
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/FrontLowerFinBase
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/FrontLowerFinBase/FrontLowerFinTip
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/LowerMouthBase
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/LowerMouthBase/LowerMouthTip
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/MouthTop
+        weight: 1
+      - path: CHA_Fish_Center/SideLeftFinBase
+        weight: 1
+      - path: CHA_Fish_Center/SideLeftFinBase/SideLeftFinTip
+        weight: 1
+      - path: CHA_Fish_Center/SideRightFinBase
+        weight: 1
+      - path: CHA_Fish_Center/SideRightFinBase/SideRightFinTip
+        weight: 1
+      - path: CHA_Fish_Center/Spine1
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/MiddleLowerFinBase
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/MiddleLowerFinBase/MiddleLowerFinLeftTip
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/MiddleLowerFinBase/MiddleLowerFinRightTip
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/BackLowerFinBase
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/BackLowerFinBase/BackLowerFinTip
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/TailBase
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/TailBase/TailEnd
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/TailBase/TailEnd/TailModifier
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/TopFinBase
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/TopFinBase/TopFinTip
+        weight: 1
+      - path: CHA_FishGeo
+        weight: 1
+      - path: CHA_FishGeo/BottomBackFin1
+        weight: 1
+      - path: CHA_FishGeo/BottomBackFin2
+        weight: 1
+      - path: CHA_FishGeo/BottomFrontFin
+        weight: 1
+      - path: CHA_FishGeo/BottomMiddleFin1
+        weight: 1
+      - path: CHA_FishGeo/BottomMiddleFin2
+        weight: 1
+      - path: CHA_FishGeo/FishBase
+        weight: 1
+      - path: CHA_FishGeo/SideFin1
+        weight: 1
+      - path: CHA_FishGeo/SideFin2
+        weight: 1
+      - path: CHA_FishGeo/TopFin1
+        weight: 1
+      - path: CHA_FishGeo/TopFin2
+        weight: 1
+      - path: CHA_FishGeo/TopFin3
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Swimming
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 70
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: CHA_Fish_Center
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/FrontLowerFinBase
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/FrontLowerFinBase/FrontLowerFinTip
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/LowerMouthBase
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/LowerMouthBase/LowerMouthTip
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/MouthTop
+        weight: 1
+      - path: CHA_Fish_Center/SideLeftFinBase
+        weight: 1
+      - path: CHA_Fish_Center/SideLeftFinBase/SideLeftFinTip
+        weight: 1
+      - path: CHA_Fish_Center/SideRightFinBase
+        weight: 1
+      - path: CHA_Fish_Center/SideRightFinBase/SideRightFinTip
+        weight: 1
+      - path: CHA_Fish_Center/Spine1
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/MiddleLowerFinBase
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/MiddleLowerFinBase/MiddleLowerFinLeftTip
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/MiddleLowerFinBase/MiddleLowerFinRightTip
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/BackLowerFinBase
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/BackLowerFinBase/BackLowerFinTip
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/TailBase
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/TailBase/TailEnd
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/TailBase/TailEnd/TailModifier
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/TopFinBase
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/TopFinBase/TopFinTip
+        weight: 1
+      - path: CHA_FishGeo
+        weight: 1
+      - path: CHA_FishGeo/BottomBackFin1
+        weight: 1
+      - path: CHA_FishGeo/BottomBackFin2
+        weight: 1
+      - path: CHA_FishGeo/BottomFrontFin
+        weight: 1
+      - path: CHA_FishGeo/BottomMiddleFin1
+        weight: 1
+      - path: CHA_FishGeo/BottomMiddleFin2
+        weight: 1
+      - path: CHA_FishGeo/FishBase
+        weight: 1
+      - path: CHA_FishGeo/SideFin1
+        weight: 1
+      - path: CHA_FishGeo/SideFin2
+        weight: 1
+      - path: CHA_FishGeo/TopFin1
+        weight: 1
+      - path: CHA_FishGeo/TopFin2
+        weight: 1
+      - path: CHA_FishGeo/TopFin3
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: U-Turn
+      takeName: Take 001
+      firstFrame: 70
+      lastFrame: 100
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: CHA_Fish_Center
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/FrontLowerFinBase
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/FrontLowerFinBase/FrontLowerFinTip
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/LowerMouthBase
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/LowerMouthBase/LowerMouthTip
+        weight: 1
+      - path: CHA_Fish_Center/MouthBase/MouthTop
+        weight: 1
+      - path: CHA_Fish_Center/SideLeftFinBase
+        weight: 1
+      - path: CHA_Fish_Center/SideLeftFinBase/SideLeftFinTip
+        weight: 1
+      - path: CHA_Fish_Center/SideRightFinBase
+        weight: 1
+      - path: CHA_Fish_Center/SideRightFinBase/SideRightFinTip
+        weight: 1
+      - path: CHA_Fish_Center/Spine1
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/MiddleLowerFinBase
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/MiddleLowerFinBase/MiddleLowerFinLeftTip
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/MiddleLowerFinBase/MiddleLowerFinRightTip
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/BackLowerFinBase
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/BackLowerFinBase/BackLowerFinTip
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/TailBase
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/TailBase/TailEnd
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/Spine2/TailBase/TailEnd/TailModifier
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/TopFinBase
+        weight: 1
+      - path: CHA_Fish_Center/Spine1/TopFinBase/TopFinTip
+        weight: 1
+      - path: CHA_FishGeo
+        weight: 1
+      - path: CHA_FishGeo/BottomBackFin1
+        weight: 1
+      - path: CHA_FishGeo/BottomBackFin2
+        weight: 1
+      - path: CHA_FishGeo/BottomFrontFin
+        weight: 1
+      - path: CHA_FishGeo/BottomMiddleFin1
+        weight: 1
+      - path: CHA_FishGeo/BottomMiddleFin2
+        weight: 1
+      - path: CHA_FishGeo/FishBase
+        weight: 1
+      - path: CHA_FishGeo/SideFin1
+        weight: 1
+      - path: CHA_FishGeo/SideFin2
+        weight: 1
+      - path: CHA_FishGeo/TopFin1
+        weight: 1
+      - path: CHA_FishGeo/TopFin2
+        weight: 1
+      - path: CHA_FishGeo/TopFin3
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1.2
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

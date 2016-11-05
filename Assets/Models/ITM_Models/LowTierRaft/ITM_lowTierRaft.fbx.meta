@@ -1,0 +1,160 @@
+fileFormatVersion: 2
+guid: 9778a34b01d5eb84cb075bf3c102bbf1
+timeCreated: 1477264068
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: backBarrel
+    100002: backPlank
+    100004: Barrels
+    100006: frontBarrel
+    100008: frontPlank
+    100010: //RootNode
+    100012: longPlank1
+    100014: longPlank2
+    100016: midPlank1
+    100018: midPlank2
+    100020: midPlank3
+    100022: midPlank4
+    100024: midPlank5
+    100026: midPlank6
+    100028: Planks
+    100030: wire
+    100032: wire1
+    100034: wire2
+    100036: wire3
+    100038: Wires
+    400000: backBarrel
+    400002: backPlank
+    400004: Barrels
+    400006: frontBarrel
+    400008: frontPlank
+    400010: //RootNode
+    400012: longPlank1
+    400014: longPlank2
+    400016: midPlank1
+    400018: midPlank2
+    400020: midPlank3
+    400022: midPlank4
+    400024: midPlank5
+    400026: midPlank6
+    400028: Planks
+    400030: wire
+    400032: wire1
+    400034: wire2
+    400036: wire3
+    400038: Wires
+    2300000: backBarrel
+    2300002: backPlank
+    2300004: frontBarrel
+    2300006: frontPlank
+    2300008: longPlank1
+    2300010: longPlank2
+    2300012: midPlank1
+    2300014: midPlank2
+    2300016: midPlank3
+    2300018: midPlank4
+    2300020: midPlank5
+    2300022: midPlank6
+    2300024: wire
+    2300026: wire1
+    2300028: wire2
+    2300030: wire3
+    3300000: backBarrel
+    3300002: backPlank
+    3300004: frontBarrel
+    3300006: frontPlank
+    3300008: longPlank1
+    3300010: longPlank2
+    3300012: midPlank1
+    3300014: midPlank2
+    3300016: midPlank3
+    3300018: midPlank4
+    3300020: midPlank5
+    3300022: midPlank6
+    3300024: wire
+    3300026: wire1
+    3300028: wire2
+    3300030: wire3
+    4300000: frontBarrel
+    4300002: backBarrel
+    4300004: wire3
+    4300006: wire
+    4300008: wire2
+    4300010: wire1
+    4300012: midPlank3
+    4300014: midPlank4
+    4300016: midPlank5
+    4300018: midPlank6
+    4300020: midPlank1
+    4300022: midPlank2
+    4300024: frontPlank
+    4300026: backPlank
+    4300028: longPlank2
+    4300030: longPlank1
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 400
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

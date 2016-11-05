@@ -1,0 +1,307 @@
+fileFormatVersion: 2
+guid: 49b0d62701f944442ad16eb256e44069
+timeCreated: 1478329751
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Base
+    100002: Base1
+    100004: Base2
+    100006: Base3
+    100008: Base4
+    100010: Base5
+    100012: CenterAndLowerTendrils
+    100014: //RootNode
+    100016: Jellyfish
+    100018: Middle1
+    100020: TendrilEight
+    100022: TendrilEight1
+    100024: TendrilEight2
+    100026: TendrilEight3
+    100028: TendrilEight4
+    100030: TendrilFive
+    100032: TendrilFive1
+    100034: TendrilFive2
+    100036: TendrilFive3
+    100038: TendrilFive4
+    100040: TendrilFour
+    100042: TendrilFour1
+    100044: TendrilFour2
+    100046: TendrilFour3
+    100048: TendrilFour4
+    100050: TendrilOne
+    100052: TendrilOne1
+    100054: TendrilOne2
+    100056: TendrilOne3
+    100058: TendrilOne4
+    100060: TendrilSeven
+    100062: TendrilSeven1
+    100064: TendrilSeven2
+    100066: TendrilSeven3
+    100068: TendrilSeven4
+    100070: TendrilSix
+    100072: TendrilSix1
+    100074: TendrilSix2
+    100076: TendrilSix3
+    100078: TendrilSix4
+    100080: TendrilThree
+    100082: TendrilThree1
+    100084: TendrilThree2
+    100086: TendrilThree3
+    100088: TendrilThree4
+    100090: TendrilTwo
+    100092: TendrilTwo1
+    100094: TendrilTwo2
+    100096: TendrilTwo3
+    100098: TendrilTwo4
+    100100: Tip
+    400000: Base
+    400002: Base1
+    400004: Base2
+    400006: Base3
+    400008: Base4
+    400010: Base5
+    400012: CenterAndLowerTendrils
+    400014: //RootNode
+    400016: Jellyfish
+    400018: Middle1
+    400020: TendrilEight
+    400022: TendrilEight1
+    400024: TendrilEight2
+    400026: TendrilEight3
+    400028: TendrilEight4
+    400030: TendrilFive
+    400032: TendrilFive1
+    400034: TendrilFive2
+    400036: TendrilFive3
+    400038: TendrilFive4
+    400040: TendrilFour
+    400042: TendrilFour1
+    400044: TendrilFour2
+    400046: TendrilFour3
+    400048: TendrilFour4
+    400050: TendrilOne
+    400052: TendrilOne1
+    400054: TendrilOne2
+    400056: TendrilOne3
+    400058: TendrilOne4
+    400060: TendrilSeven
+    400062: TendrilSeven1
+    400064: TendrilSeven2
+    400066: TendrilSeven3
+    400068: TendrilSeven4
+    400070: TendrilSix
+    400072: TendrilSix1
+    400074: TendrilSix2
+    400076: TendrilSix3
+    400078: TendrilSix4
+    400080: TendrilThree
+    400082: TendrilThree1
+    400084: TendrilThree2
+    400086: TendrilThree3
+    400088: TendrilThree4
+    400090: TendrilTwo
+    400092: TendrilTwo1
+    400094: TendrilTwo2
+    400096: TendrilTwo3
+    400098: TendrilTwo4
+    400100: Tip
+    4300000: Jellyfish
+    7400000: Swim
+    9500000: //RootNode
+    13700000: Jellyfish
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Swim
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 80
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Jellyfish
+        weight: 1
+      - path: Tip
+        weight: 1
+      - path: Tip/Middle1
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/Base
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/Base/Base1
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/Base/Base1/Base2
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/Base/Base1/Base2/Base3
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/Base/Base1/Base2/Base3/Base4
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/Base/Base1/Base2/Base3/Base4/Base5
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilEight
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilEight/TendrilEight1
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilEight/TendrilEight1/TendrilEight2
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilEight/TendrilEight1/TendrilEight2/TendrilEight3
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilEight/TendrilEight1/TendrilEight2/TendrilEight3/TendrilEight4
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilFive
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilFive/TendrilFive1
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilFive/TendrilFive1/TendrilFive2
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilFive/TendrilFive1/TendrilFive2/TendrilFive3
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilFive/TendrilFive1/TendrilFive2/TendrilFive3/TendrilFive4
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilFour
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilFour/TendrilFour1
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilFour/TendrilFour1/TendrilFour2
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilFour/TendrilFour1/TendrilFour2/TendrilFour3
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilFour/TendrilFour1/TendrilFour2/TendrilFour3/TendrilFour4
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilOne
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilOne/TendrilOne1
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilOne/TendrilOne1/TendrilOne2
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilOne/TendrilOne1/TendrilOne2/TendrilOne3
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilOne/TendrilOne1/TendrilOne2/TendrilOne3/TendrilOne4
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilSeven
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilSeven/TendrilSeven1
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilSeven/TendrilSeven1/TendrilSeven2
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilSeven/TendrilSeven1/TendrilSeven2/TendrilSeven3
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilSeven/TendrilSeven1/TendrilSeven2/TendrilSeven3/TendrilSeven4
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilSix
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilSix/TendrilSix1
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilSix/TendrilSix1/TendrilSix2
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilSix/TendrilSix1/TendrilSix2/TendrilSix3
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilSix/TendrilSix1/TendrilSix2/TendrilSix3/TendrilSix4
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilThree
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilThree/TendrilThree1
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilThree/TendrilThree1/TendrilThree2
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilThree/TendrilThree1/TendrilThree2/TendrilThree3
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilThree/TendrilThree1/TendrilThree2/TendrilThree3/TendrilThree4
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilTwo
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilTwo/TendrilTwo1
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilTwo/TendrilTwo1/TendrilTwo2
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilTwo/TendrilTwo1/TendrilTwo2/TendrilTwo3
+        weight: 1
+      - path: Tip/Middle1/CenterAndLowerTendrils/TendrilTwo/TendrilTwo1/TendrilTwo2/TendrilTwo3/TendrilTwo4
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 2
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
