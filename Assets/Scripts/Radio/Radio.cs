@@ -7,7 +7,11 @@ using Crosstales.RTVoice;
 public enum RadioChannel {Music, Weather, Mystery, Null};
 
 //mock weather struct
+<<<<<<< HEAD
 public struct MockWeather
+=======
+public struct Weather
+>>>>>>> 7138ebfa11ca322f11c1e82469c44c4510ab7972
 {
     public float windSpeed; 
     public float temperature;
@@ -28,7 +32,11 @@ public class Radio : MonoBehaviour
     private AudioSource weather;
 
     //mock weather
+<<<<<<< HEAD
     private MockWeather currentWeather;
+=======
+    private Weather currentWeather;
+>>>>>>> 7138ebfa11ca322f11c1e82469c44c4510ab7972
 
     /// <summary>
     /// Sets up radio for usage.
@@ -105,7 +113,11 @@ public class Radio : MonoBehaviour
                     if (weatherCounter == 0)
                     {
                         //get struct from weather system
+<<<<<<< HEAD
                         MockWeather newWeather = GetWeather();
+=======
+                        Weather newWeather = GetWeather();
+>>>>>>> 7138ebfa11ca322f11c1e82469c44c4510ab7972
 
                         //don't update clip if same
                         if (currentWeather.windSpeed != newWeather.windSpeed && currentWeather.temperature != newWeather.temperature)
@@ -188,9 +200,15 @@ public class Radio : MonoBehaviour
     /// Mock weather getter.
     /// </summary>
     /// <returns></returns>
+<<<<<<< HEAD
     public MockWeather GetWeather()
     {
         MockWeather currentWeather;
+=======
+    public Weather GetWeather()
+    {
+        Weather currentWeather;
+>>>>>>> 7138ebfa11ca322f11c1e82469c44c4510ab7972
 
         //set up mock weather struct
         currentWeather.temperature = Random.Range(0.0f, 50f);
