@@ -15,8 +15,9 @@ public abstract class Movement : MonoBehaviour
         AccumulatedFallDammage = 0;
     }
 
-    public abstract void Move(Vector3 direction, bool sprinting);
-    public abstract void Jump();
+    public abstract void Idle(Animator playerAnimator);
+    public abstract void Move(Vector3 direction, bool sprinting, Animator playerAnimator);
+    public abstract void Jump(Animator playerAnimator);
     // TODO: Climb
 
     /// <summary>

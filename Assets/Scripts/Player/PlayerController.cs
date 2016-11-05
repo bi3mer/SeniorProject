@@ -35,6 +35,16 @@ public class PlayerController : MonoBehaviour
 
     private CameraController playerCamera;
 
+    public Animator PlayerAnimator
+    {
+        get
+        {
+            return playerAnimator;
+        }
+    }
+    [SerializeField]
+    private Animator playerAnimator;
+
     /// <summary>
     /// Set up player movement
     /// </summary>
@@ -110,7 +120,7 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded && Input.GetKeyDown(controlScheme.Jump))
         {
-            movement.Jump();
+            movement.Jump(playerAnimator);
         }
 
         UpdatePlayerStats();
@@ -147,8 +157,15 @@ public class PlayerController : MonoBehaviour
         }
 
         CheckGround();
-        movement.Move(direction, sprinting);
-	}
+        if(direction!= Vector3.zero)
+        { 
+            movement.Move(direction, sprinting, playerAnimator);
+        }
+        else
+        {
+            movement.Idle(playerAnimator);
+        }
+    }
 
     private Vector3 getDirection(Vector3 direction)
     {
@@ -205,10 +222,12 @@ public class PlayerController : MonoBehaviour
             // Check what kind of ground the player is on and update movement
             if (hit.collider.CompareTag(landTag))
             {
+                movement.Idle(playerAnimator);
                 movement = landMovement;
             }
             else if (hit.collider.CompareTag(waterTag))
             {
+                movement.Idle(playerAnimator);
                 movement = waterMovement;
             }
         }
@@ -223,6 +242,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void BoardRaft(RaftMovement raftMovement)
     {
+        movement.Idle(playerAnimator);
         movement = raftMovement;
 
         // place player on raft
