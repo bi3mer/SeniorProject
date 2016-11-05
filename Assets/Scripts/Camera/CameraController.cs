@@ -7,8 +7,11 @@ public class CameraController : MonoBehaviour
 
     [SerializeField]
     private int startingView;
+    [Range(0.0f, 1.0f)]
     [SerializeField]
-    private float smoothness;
+    private float cameraTransitionSpeed;
+    [SerializeField]
+    private Transform target;
 
     private int currentView;
 
@@ -24,10 +27,10 @@ public class CameraController : MonoBehaviour
     /// Translates the camera smoothly betwteen camera positions.
     /// </summary>
 	void Update () {
-        transform.position = Vector3.Lerp(transform.position, 
-            CameraPositions[currentView].position, smoothness);
+        Vector3 targetPosition = target.position + CameraPositions[currentView].localPosition;
+        transform.position = Vector3.Lerp(transform.position, targetPosition, cameraTransitionSpeed);
         transform.rotation = Quaternion.Slerp(transform.rotation,
-            CameraPositions[currentView].rotation, smoothness);
+            CameraPositions[currentView].rotation, cameraTransitionSpeed);
 	}
 
     /// <summary>

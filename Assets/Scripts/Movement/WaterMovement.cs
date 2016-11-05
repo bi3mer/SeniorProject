@@ -36,6 +36,10 @@ public class WaterMovement : Movement
     /// <param name="direction">The direction in which the player swims.</param>
     public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
+        if (direction.magnitude != 0.0f)
+        {
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
         RigidBody.velocity = direction.normalized * swimmingSpeed;
 
         // Needs to be factored out.
@@ -51,6 +55,6 @@ public class WaterMovement : Movement
     /// </summary>
     public override void Jump(Animator playerAnimator)
     {
-        Debug.Log("Dives");
+        // TODO: run dive animation
     }
 }

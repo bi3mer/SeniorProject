@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
     private LandMovement landMovement;
     private WaterMovement waterMovement;
 
+    private Tool equippedTool;
+
     private CameraController playerCamera;
 
     public Animator PlayerAnimator
@@ -58,6 +60,9 @@ public class PlayerController : MonoBehaviour
         waterMovement = GetComponent<WaterMovement>();
         movement = landMovement;
 
+        // set up tools
+        equippedTool = GetComponentInChildren<FishingRod>();
+
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();
 
@@ -81,7 +86,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// When leaving the trigger area. Used to signal an interactable object is not out of range.
+    /// When leaving the trigger area. Used to signal an interactable object is not in range.
     /// </summary>
     /// <param name="other">Collider with trigger</param>
     void OnTriggerExit(Collider other)
@@ -99,6 +104,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update ()
     {
+        UpdatePlayerStats();
+
         if (Input.GetKeyDown(controlScheme.CameraLeft))
         {
             playerCamera.RotateLeft();
@@ -109,6 +116,25 @@ public class PlayerController : MonoBehaviour
             playerCamera.RotateRight();
         }
         
+        // if the player has a tool equipped
+        if (equippedTool != null)
+        {
+            if (Input.GetKeyDown(controlScheme.UseTool))
+            {
+                // TODO: Check to see if Use returns and item
+                // if so maybe show it off then put it in the player's inventory
+                equippedTool.Use();
+                
+                // TODO: Don't let player move when using tools 
+            }
+
+            // don't check for other input since we are currently using a tool
+            if (equippedTool.InUse) 
+            {
+                return;
+            }
+        }
+
         // if the player is near an interactable item
         if (interactable != null)
         {
@@ -122,8 +148,6 @@ public class PlayerController : MonoBehaviour
         {
             movement.Jump(playerAnimator);
         }
-
-        UpdatePlayerStats();
     }
 	
     /// <summary>
@@ -131,6 +155,12 @@ public class PlayerController : MonoBehaviour
     /// </summary>
 	void FixedUpdate () 
     {
+        // don't move if a tool is currently in use
+        if (equippedTool != null && equippedTool.InUse)
+        {
+            return;
+        }
+
         Vector3 direction = Vector3.zero;
         bool sprinting = Input.GetKey(controlScheme.Sprint);
 
