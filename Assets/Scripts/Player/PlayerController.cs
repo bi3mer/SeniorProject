@@ -106,15 +106,16 @@ public class PlayerController : MonoBehaviour
     {
         UpdatePlayerStats();
 
+        // check for camera related input
         if (Input.GetKeyDown(controlScheme.CameraLeft))
         {
             playerCamera.RotateLeft();
         }
-
         if (Input.GetKeyDown(controlScheme.CameraRight))
         {
             playerCamera.RotateRight();
         }
+        playerCamera.Zoom(Input.GetAxis(controlScheme.CameraZoomAxis));
         
         // if the player has a tool equipped
         if (equippedTool != null)
