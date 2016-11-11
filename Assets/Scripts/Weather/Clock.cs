@@ -1,11 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// TODO: Find a way to add a pause functionality to this. For now
-//       this update is out of scope. But this should be figured
-//       out before the alpha is released. It may be that a second
-//       by second update will be required instead of this every 30
-//       second option.
 public class Clock : MonoBehaviour
 {
 	/// <summary>
