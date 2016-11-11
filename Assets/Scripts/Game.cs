@@ -6,6 +6,7 @@
     {
         PlayerInstance = new Player();
 		WeatherInstance = new WeatherSystem();
+		PauseInstance = new PauseSystem();
     }
  
     /// <summary>
@@ -55,5 +56,10 @@
 
 			return this.clockInstance;
 		}
+	}
+	public PauseSystem PauseInstance
+	{
+		get;
+		private set;
 	}
 }

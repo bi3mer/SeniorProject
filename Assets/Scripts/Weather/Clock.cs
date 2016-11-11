@@ -48,7 +48,10 @@ public class Clock : MonoBehaviour
 	/// </summary>
 	public void Start () 
 	{
-		StartCoroutine(this.updateTime());
+		// subscribe to delegate
+		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
+
+		this.Resume();
 	}
 
 	/// <summary>
@@ -61,6 +64,12 @@ public class Clock : MonoBehaviour
 		while(true)
 		{
 			yield return new WaitForSeconds(Clock.Tick);
+
+			// Check if Paused and if so break out of while loop
+			if(Game.Instance.PauseInstance.IsPaused)
+			{
+				break;
+			}
 
 			// update time
 			this.currentTime += Clock.Tick;
@@ -113,25 +122,11 @@ public class Clock : MonoBehaviour
 		}
 	}
 
-	// TODO: the subscribed delegates will probably have to be 
-	//       notified for both of these functions. So it's looking
-	//       like the clock will have a boolean for if its running 
-	//       or not. On each delegate call, the delegates will check
-	//       if the clock is running. If it is not, they'll know to 
-	//       shutdown until they are told otherwise by the same method.
-	/// <summary>
-	/// Pause the clock running.
-	/// </summary>
-	public void Pause()
-	{
-		// to be implemented
-	}
-
 	/// <summary>
 	/// Resume the clock running.
 	/// </summary>
 	public void Resume()
 	{
-		// to be implemented
+		StartCoroutine(this.updateTime());
 	}
 }
