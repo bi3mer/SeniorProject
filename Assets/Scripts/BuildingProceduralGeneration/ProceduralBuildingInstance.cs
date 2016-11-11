@@ -105,18 +105,18 @@ public class ProceduralBuildingInstance : MonoBehaviour
         }
     }
 
-    private ProceduralBuildingAttachment[] buildingAttatchments;
-    public ProceduralBuildingAttachment[] BuildingAttatchments
+    private ProceduralBuildingAttachment[] buildingAttachments;
+    public ProceduralBuildingAttachment[] BuildingAttachments
     {
         get
         {
-            return buildingAttatchments;
+            return buildingAttachments;
         }
         set
         {
-            if (BuildingAttatchments == null)
+            if (buildingAttachments == null)
             {
-               buildingAttatchments = value;
+               buildingAttachments = value;
             }
             else
             {

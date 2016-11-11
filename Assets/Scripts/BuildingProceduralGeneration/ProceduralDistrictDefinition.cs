@@ -6,6 +6,7 @@ public class ProceduralDistrictDefinition
 {
     [SerializeField]
     private string districtName;
+
     [SerializeField]
     private ProceduralBuildingBase[] oneXOneDistrictBases;
     public ProceduralBuildingBase[] OneXOneDistrictBases
@@ -24,6 +25,45 @@ public class ProceduralDistrictDefinition
             return oneXOneDistrictRoofs;
         }
     }
+    [SerializeField]
+    private ProceduralBuildingBase[] twoXTwoDistrictBases;
+    public ProceduralBuildingBase[] TwoXTwoDistrictBases
+    {
+        get
+        {
+            return twoXTwoDistrictBases;
+        }
+    }
+
+    [SerializeField]
+    private ProceduralBuildingRoof[] twoXTwoDistrictRoofs;
+    public ProceduralBuildingRoof[] TwoXTwoDistrictRoofs
+    {
+        get
+        {
+            return twoXTwoDistrictRoofs;
+        }
+    }
+
+    [SerializeField]
+    private ProceduralBuildingBase[] threeXThreeDistrictBases;
+    public ProceduralBuildingBase[] ThreeXThreeDistrictBases
+    {
+        get
+        {
+            return threeXThreeDistrictBases;
+        }
+    }
+    [SerializeField]
+    private ProceduralBuildingRoof[] threeXThreeDistrictRoofs;
+    public ProceduralBuildingRoof[] ThreeXThreeDistrictRoofs
+    {
+        get
+        {
+            return threeXThreeDistrictRoofs;
+        }
+    }
+
     [SerializeField]
     private ProceduralBuildingAttachment[] districtAttachments;
     public ProceduralBuildingAttachment[] DistrictAttachments

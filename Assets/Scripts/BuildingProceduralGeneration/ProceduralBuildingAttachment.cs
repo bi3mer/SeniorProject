@@ -23,12 +23,34 @@ public class ProceduralBuildingAttachment : MonoBehaviour
     // Roof
     [SerializeField]
     [Header("Leave null if the attatchment doesn't come with a roof")]
-    private GameObject hasRoof;
-    public GameObject HasRoof
+    private ProceduralBuildingRoof hasRoof;
+    public ProceduralBuildingRoof HasRoof
     {
         get
         {
             return hasRoof;
+        }
+        set
+        {
+            if (hasRoof == null)
+            {
+                hasRoof = value;
+            }
+            else
+            {
+                Debug.LogError("You can not set this more than once.");
+            }
+        }
+    }
+
+    // Roof Location
+    [SerializeField]
+    private Transform roofLocation;
+    public Transform RoofLocation
+    {
+        get
+        {
+            return roofLocation;
         }
     }
 }

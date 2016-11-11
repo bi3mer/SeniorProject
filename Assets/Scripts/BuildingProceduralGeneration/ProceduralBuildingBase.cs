@@ -10,6 +10,13 @@ public class ProceduralBuildingBase : MonoBehaviour
     private ProceduralBuildingCreator.HeightType heightType;
     [SerializeField]
     private Transform[] attatchmentPoints;
+    public Transform[] AttatchmentPoints
+    {
+        get
+        {
+            return attatchmentPoints;
+        }
+    }
 
     // Windows
     [SerializeField]
@@ -26,7 +33,17 @@ public class ProceduralBuildingBase : MonoBehaviour
     }
 
 
-   
+    // Roof Location
+    [SerializeField]
+    private Transform roofLocation;
+    public Transform RoofLocation
+    {
+        get
+        {
+            return roofLocation;
+        }
+    }
+
     // Roof
     [SerializeField]
     [Header("Leave null if the base doesn't come with a roof")]
@@ -38,5 +55,4 @@ public class ProceduralBuildingBase : MonoBehaviour
             return hasRoof;
         }
     }
-
 }
