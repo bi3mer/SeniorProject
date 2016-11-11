@@ -133,11 +133,11 @@ public class ProceduralBuildingCreator : MonoBehaviour
         if(district.DistrictAttachments.Length > 0 && attatchmentPercentage > 0f && newBuilding.BuildingBase.AttatchmentPoints.Length > 0)
         {
             int numberOfAttachments = Mathf.RoundToInt(newBuilding.BuildingBase.AttatchmentPoints.Length * attatchmentPercentage/100f);
-
+        
             newBuilding.BuildingAttachments = new ProceduralBuildingAttachment[numberOfAttachments];
 
             // Create a list of random numbers the length of the attatchment points.
-            List<int> randomPoint = Enumerable.Range(0, newBuilding.BuildingBase.AttatchmentPoints.Length - 1).ToList<int>();
+            List<int> randomPoint = Enumerable.Range(0, newBuilding.BuildingBase.AttatchmentPoints.Length).ToList<int>();
 
 
             // Shuffle the list
@@ -162,7 +162,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 newObject.transform.localPosition = Vector3.zero;
                 //Rotate the attatchment based off the modelling/prefab setup.
                 newObject.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
-
                 newBuilding.BuildingAttachments[i] = newAttachment;
             }
                      
@@ -189,7 +188,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
                         newBuilding.BuildingAttachments[i].HasRoof.RoofRotation = Random.Range(0, 3) * 90;
                         newObject.transform.Rotate(new Vector3(0f, newBuilding.BuildingRoof.RoofRotation, 0f));
                     }
-                    newBuilding.BuildingAttachments[i].HasRoof = newRoof;
                 }
                 else if(newBuilding.BuildingAttachments[i] != null)
                 {
