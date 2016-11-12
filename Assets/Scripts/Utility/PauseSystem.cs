@@ -6,10 +6,23 @@
 	public delegate void ResumeDelegateUpdate();
 	public event ResumeDelegateUpdate ResumeUpdate;
 
+	/// <summary>
+	/// Gets a value indicating whether this game is paused.
+	/// </summary>
+	/// <value><c>true</c> if this instance is paused; otherwise, <c>false</c>.</value>
 	public bool IsPaused
 	{
 		get;
 		private set;
+	}
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="PauseSystem"/> class.
+	/// and starts the instance.
+	/// </summary>
+	public PauseSystem()
+	{
+		this.Resume();
 	}
 
 	/// <summary>
@@ -34,14 +47,5 @@
 		{
 			this.ResumeUpdate();
 		}
-	}
-
-	/// <summary>
-	/// Initializes a new instance of the <see cref="PauseSystem"/> class.
-	/// and starts the instance.
-	/// </summary>
-	public PauseSystem()
-	{
-		this.Resume();
 	}
 }

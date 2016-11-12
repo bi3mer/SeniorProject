@@ -56,15 +56,9 @@ public class Clock : MonoBehaviour
 	/// <returns>The time.</returns>
 	private IEnumerator updateTime()
 	{
-		while(true)
+		while(!Game.Instance.PauseInstance.IsPaused)
 		{
 			yield return new WaitForSeconds(Clock.Tick);
-
-			// Check if Paused and if so break out of while loop
-			if(Game.Instance.PauseInstance.IsPaused)
-			{
-				break;
-			}
 
 			// update time
 			this.currentTime += Clock.Tick;
