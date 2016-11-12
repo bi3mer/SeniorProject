@@ -89,6 +89,10 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Zoom in the camera by the amount.
+    /// </summary>
+    /// <param name="amount">Amount to zoom.</param>
     public void Zoom (float amount)
     {
         ZoomLevel += amount * zoomingSpeed;
