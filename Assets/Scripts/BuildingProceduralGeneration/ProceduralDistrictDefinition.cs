@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class ProceduralDistrictDefinition
@@ -103,7 +104,6 @@ public class ProceduralDistrictDefinition
         }
     }
 
-
     [SerializeField]
     private Material[] districtMaterials;
     public Material[] DistrictMaterials
@@ -113,4 +113,19 @@ public class ProceduralDistrictDefinition
             return districtMaterials;
         }
     }
+    [SerializeField]
+    private Material[] districtWindowMaterials;
+    public Material[] DistrictWindowMaterials
+    {
+        get
+        {
+            return districtWindowMaterials;
+        }
+    }
+
+   // [HideInInspector]
+    public List<Material> districtProceduralMaterials = new List<Material>();
+
+ //   [HideInInspector]
+    public List<Material> districtProceduralWindowMaterials = new List<Material>();
 }

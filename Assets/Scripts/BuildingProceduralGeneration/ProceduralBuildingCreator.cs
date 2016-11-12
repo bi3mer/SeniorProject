@@ -29,8 +29,11 @@ public class ProceduralBuildingCreator : MonoBehaviour
     private Gradient materialAlbedoColors;
 
     [SerializeField]
-    private ProceduralBuildingInstance ProceduralBuilding;
+    private ProceduralBuildingInstance proceduralBuilding;
 
+    // The number of material instances to make per material.
+    [SerializeField]
+    private int materialInstances = 1;
 
     // Height of a single story
     private const float storyHeightUnits = .75f;
@@ -64,13 +67,68 @@ public class ProceduralBuildingCreator : MonoBehaviour
  //      ShowBuilding(NewestBuilding);
     }
 
+
+    //Creates materials that all buildings in a district will use.
+    [ContextMenu("CreateNewMaterials")]
+    public void CreateMaterialsForAllDistricts()
+    {
+        for (int i = 0; i < district.Length; ++i)
+        {
+            CreateMaterialsForDistrict(district[i]);
+        }
+    }
+
+    void CreateMaterialsForDistrict(ProceduralDistrictDefinition district)
+    {
+        district.districtProceduralMaterials.Clear();
+        district.districtProceduralWindowMaterials.Clear();
+
+        for (int i = 0; i < district.DistrictMaterials.Length; ++i)
+        {
+            for (int j = 0; j < materialInstances; ++j)
+            {
+                Material newMaterial = new Material(district.DistrictMaterials[i].shader);
+                newMaterial.CopyPropertiesFromMaterial(district.DistrictMaterials[i]);
+                newMaterial.color = materialAlbedoColors.Evaluate( j * 1f/materialInstances);
+                district.districtProceduralMaterials.Add(newMaterial);
+            }
+        }
+
+        for (int i = 0; i < district.DistrictWindowMaterials.Length; ++i)
+        {
+            for (int j = 0; j < materialInstances; ++j)
+            {
+                Material newMaterial = new Material(district.DistrictWindowMaterials[i].shader);
+                newMaterial.CopyPropertiesFromMaterial(district.DistrictWindowMaterials[i]);
+                newMaterial.color = materialAlbedoColors.Evaluate(Random.Range(0f, 1f));
+                district.districtProceduralWindowMaterials.Add(newMaterial);
+            }
+        }
+    }
+
     /// <summary>
     /// Populates a new proceduralbuilding class and spawns it in the world.
     /// </summary>
     public ProceduralBuildingInstance CreateBuilding(ProceduralDistrictDefinition district, BaseSize size, float attatchmentPercentage, int storiesTall)
     {
-        ProceduralBuildingInstance newBuilding = (ProceduralBuildingInstance)Instantiate(ProceduralBuilding, Vector3.zero, Quaternion.Euler(Vector3.zero));
+        if(district.districtProceduralMaterials.Count == 0 || district.districtProceduralWindowMaterials.Count == 0)
+        {
+            CreateMaterialsForDistrict(district);
+        }
+
+        ProceduralBuildingInstance newBuilding = (ProceduralBuildingInstance)Instantiate(proceduralBuilding, Vector3.zero, Quaternion.Euler(Vector3.zero));
         newBuilding.IsVisible = true;
+
+        // Choose a material for all the building bits
+        Material buildingMaterial = (Material) district.districtProceduralMaterials[Random.Range(0, district.districtProceduralMaterials.Count)];
+
+        // Choose a window material to use for all the materials
+        Material windowMaterial = (Material) district.districtProceduralWindowMaterials[Random.Range(0, district.districtProceduralWindowMaterials.Count)];
+
+
+
+        List<MeshRenderer> buildingMeshes = new List<MeshRenderer>();
+        List<MeshRenderer> windowMeshes = new List<MeshRenderer>();
 
         // Set buildingbase
         ProceduralBuildingBase newBase = district.OneXOneDistrictBases[0];
@@ -96,7 +154,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
         GameObject newObject = (GameObject)Instantiate(newBase.gameObject, newBuilding.transform);
         newObject.transform.localScale = new Vector3(1f, storiesTall, 1f);
         newObject.transform.position = Vector3.zero;
-
+        buildingMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
         // Set the new base to the instance class.
         newBuilding.BuildingBase = newObject.GetComponent<ProceduralBuildingBase>();
 
@@ -124,6 +182,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
 
             // Create the roof
             newObject = (GameObject)Instantiate(newRoof.gameObject);
+            buildingMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
             newObject.transform.localScale = new Vector3(1f, 1f, 1f);
             newObject.transform.SetParent(newBuilding.BuildingBase.RoofLocation);
             newObject.transform.localPosition = Vector3.zero;
@@ -163,6 +222,8 @@ public class ProceduralBuildingCreator : MonoBehaviour
 
                 // Create the attatchment object
                 newObject = (GameObject)Instantiate(newAttachment.gameObject);
+                buildingMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
+
                 newAttachment = newObject.GetComponent<ProceduralBuildingAttachment>();
                 newAttachment.AttachmentPoint = randomPoint[i];
                 newObject.transform.localScale = new Vector3(1f, storiesTall, 1f); //NEEDS TO SUPPORT SEPERATE STORIES VALUES IN FUTURE
@@ -183,6 +244,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                     
                     // Create the roof
                     newObject = (GameObject)Instantiate(newRoof.gameObject);
+                    buildingMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
                     newRoof = newObject.GetComponent<ProceduralBuildingRoof>();
 
                     newObject.transform.localScale = new Vector3(1f, 1f, 1f);
@@ -270,7 +332,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                             {
                                 // With no attachment, windows can be added.                    
                                 newObject = (GameObject)Instantiate(newWindow.gameObject);
-
+                                windowMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
                                 newObject.transform.parent = newBuilding.transform;
                                 newObject.transform.position = newBuilding.BuildingBase.AttachmentPoints[i].transform.position;
                                 newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentRotationMod, 0f) + newBuilding.BuildingBase.AttachmentPoints[i].transform.eulerAngles);
@@ -296,7 +358,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                         {
                             // With no attachment, windows can be added.                    
                             newObject = (GameObject)Instantiate(newWindow.gameObject);
-
+                            windowMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
                             newObject.transform.parent = newBuilding.transform;
                             newObject.transform.position = newBuilding.BuildingBase.WindowPoints[i].transform.position;
                             newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentRotationMod, 0f) + newBuilding.BuildingBase.WindowPoints[i].transform.eulerAngles);
@@ -351,7 +413,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                                 for (int j = 0; j < numberOfWindowsPerSide; ++j)
                                 {                    
                                     newObject = (GameObject)Instantiate(newWindow.gameObject);
-
+                                    windowMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
                                     newObject.transform.parent = newBuilding.BuildingAttachments[i].transform;
                                     newObject.transform.position = centerPosition;
                                     newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentRotationMod * (m+3), 0f));
@@ -374,7 +436,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                             {
                                 // With no attachment, windows can be added.                    
                                 newObject = (GameObject)Instantiate(newWindow.gameObject);
-
+                                windowMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
                                 newObject.transform.parent = newBuilding.BuildingAttachments[i].WindowPoints[p].transform;
                                 newObject.transform.position = newBuilding.BuildingAttachments[i].WindowPoints[p].transform.position;
                                 newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentRotationMod, 0f));
@@ -385,6 +447,23 @@ public class ProceduralBuildingCreator : MonoBehaviour
                         }
                     }
                 }
+            }
+        }
+
+        //Set all the materials we added to lists while making the meshes.
+        if (buildingMeshes.Count > 1)
+        {
+            for (int i = 0; i < buildingMeshes.Count; ++i)
+            {
+                buildingMeshes[i].material = buildingMaterial;
+
+            }
+        }
+        if (windowMeshes.Count > 1)
+        {
+            for (int i = 0; i < windowMeshes.Count; ++i)
+            {
+                windowMeshes[i].material = windowMaterial;
             }
         }
         return newBuilding;
