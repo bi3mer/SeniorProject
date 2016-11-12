@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class RaftMovement : Movement 
 {
@@ -43,10 +44,19 @@ public class RaftMovement : Movement
     }
 
     /// <summary>
+    /// Runs the raft idle animation.
+    /// </summary>
+    public override void Idle(Animator playerAnimator)
+    {
+         //Raft Idle animation code
+    }
+
+
+    /// <summary>
     /// Applies a force the raft in the specified direction.
     /// </summary>
     /// <param name="direction"></param>
-    public override void Move(Vector3 direction, bool sprinting)
+    public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
         RigidBody.AddForce(direction.normalized * acceleration);
     }
@@ -54,7 +64,7 @@ public class RaftMovement : Movement
     /// <summary>
     /// Doesn't do anything on boats for now.
     /// </summary>
-    public override void Jump()
+    public override void Jump(Animator playerAnimator)
     {
        
     }

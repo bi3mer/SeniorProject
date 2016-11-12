@@ -37,7 +37,7 @@ public class TestGUI : MonoBehaviour {
 
 	public void Weather_Clicked()
     {
-        radio.SetChannel(RadioChannel.Weather);
+        radio.SetChannel(RadioChannel.WeatherInfo);
     }
 
     public void Music_Clicked()

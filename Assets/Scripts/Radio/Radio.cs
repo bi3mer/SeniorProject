@@ -2,10 +2,10 @@ using UnityEngine;
 using System.Diagnostics;
 using System.Collections;
 
-public enum RadioChannel {Music, Weather, Mystery, Null};
+public enum RadioChannel {Music, WeatherInfo, Mystery, Null};
 
 //mock weather struct
-public struct Weather
+public struct WeatherInfo
 {
     public float windSpeed; 
     public float temperature;
@@ -26,7 +26,7 @@ public class Radio : MonoBehaviour
 
 
     //mock weather
-    private Weather currentWeather;
+    private WeatherInfo currentWeatherInfo;
 
 
     void Start()
@@ -43,7 +43,7 @@ public class Radio : MonoBehaviour
         weather = sounds[1];
         warning = sounds[2];
 
-        StartCoroutine(updateWeather());
+        StartCoroutine(updateWeatherInfo());
     }
 	
 
@@ -81,21 +81,21 @@ public class Radio : MonoBehaviour
     /// <summary>
     /// Updates the weather and creates a new announcement.
     /// </summary>
-    IEnumerator updateWeather()
+    IEnumerator updateWeatherInfo()
     {
         while (true)
         {
-            if (CurrentChannel == RadioChannel.Weather && !weather.isPlaying)
+            if (CurrentChannel == RadioChannel.WeatherInfo && !weather.isPlaying)
             {                
                 //get struct from weather system
-                Weather newWeather = GetWeather();
+                WeatherInfo newWeatherInfo = GetWeatherInfo();
 
                 //don't update clip if same
-                if (currentWeather.windSpeed != newWeather.windSpeed && currentWeather.temperature != newWeather.temperature)
+                if (currentWeatherInfo.windSpeed != newWeatherInfo.windSpeed && currentWeatherInfo.temperature != newWeatherInfo.temperature)
                 {
-                    currentWeather = newWeather;
-                    CreateWeatherAnnouncement(currentWeather.windSpeed, currentWeather.temperature);
-                    MakeWaveFile(Application.dataPath + "/Sounds/Weather.wav", announcement);
+                    currentWeatherInfo = newWeatherInfo;
+                    CreateWeatherInfoAnnouncement(currentWeatherInfo.windSpeed, currentWeatherInfo.temperature);
+                    MakeWaveFile(Application.dataPath + "/Sounds/WeatherInfo.wav", announcement);
 
                     //wait so the new updated clip can load
                     yield return new WaitForSeconds(1f);
@@ -128,7 +128,7 @@ public class Radio : MonoBehaviour
             {
                 music.Stop();
             }
-            if (CurrentChannel == RadioChannel.Weather)
+            if (CurrentChannel == RadioChannel.WeatherInfo)
             {
                 weather.Stop();
             }
@@ -143,7 +143,7 @@ public class Radio : MonoBehaviour
     /// <param name="windSpeed"></param>
     /// <param name="temperature"></param>
     /// <returns></returns>
-    public void CreateWeatherAnnouncement(float windSpeed, float temperature) //this will be part of updating the weather; weather info taken in as struct
+    public void CreateWeatherInfoAnnouncement(float windSpeed, float temperature) //this will be part of updating the weather; weather info taken in as struct
     {
         //round the floats to 2 decimal places
         string windSpeedText = windSpeed.ToString("F2");
@@ -212,15 +212,15 @@ public class Radio : MonoBehaviour
     /// Mock weather getter.
     /// </summary>
     /// <returns></returns>
-    public Weather GetWeather()
+    public WeatherInfo GetWeatherInfo()
     {
-        Weather currentWeather;
+        WeatherInfo currentWeatherInfo;
 
         //set up mock weather struct
-        currentWeather.temperature = Random.Range(0.0f, 50f);
-        currentWeather.windSpeed = Random.Range(0.0f, 200f);
+        currentWeatherInfo.temperature = Random.Range(0.0f, 50f);
+        currentWeatherInfo.windSpeed = Random.Range(0.0f, 200f);
 
-        return currentWeather;
+        return currentWeatherInfo;
     }
 
 	/// <summary>
@@ -230,9 +230,9 @@ public class Radio : MonoBehaviour
 	{
 		if (this.CurrentChannel == RadioChannel.Music) 
 		{
-			this.SetChannel (RadioChannel.Weather);
+			this.SetChannel (RadioChannel.WeatherInfo);
 		} 
-		else if (this.CurrentChannel == RadioChannel.Weather) 
+		else if (this.CurrentChannel == RadioChannel.WeatherInfo) 
 		{
 			this.SetChannel (RadioChannel.Mystery);
 		} 

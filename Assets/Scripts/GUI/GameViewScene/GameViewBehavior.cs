@@ -32,7 +32,7 @@ public class GameViewBehavior : MonoBehaviour
 		{
 			if (Input.GetKey (controlScheme.Pause)) 
 			{
-				if (Game.Instance.IsPaused) 
+				if (Game.Instance.PauseInstance.IsPaused) 
 				{
 					OnResumeClick ();
 				} 

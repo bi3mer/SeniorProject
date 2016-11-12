@@ -17,10 +17,11 @@ public class ControlScheme
     public KeyCode Sprint;
     public KeyCode Jump;
     public KeyCode Action;
+    public KeyCode UseTool;
 
     public KeyCode CameraRight;
     public KeyCode CameraLeft;
-    public KeyCode CameraZoom;
+    public string CameraZoomAxis;
 
     public KeyCode Pause;
     public KeyCode Inventory;

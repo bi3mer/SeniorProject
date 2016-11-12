@@ -5,12 +5,25 @@ public class CameraController : MonoBehaviour
 {
     public Transform[] CameraPositions;
 
+    [Header("Rotation Control")]
     [SerializeField]
     private int startingView;
+    [Range(0.0f, 1.0f)]
     [SerializeField]
-    private float smoothness;
+    private float cameraTransitionSpeed;
+    [SerializeField]
+    private Transform target;
+
+    [Header("Zoom Controls")]
+    [SerializeField]
+    private float zoomingSpeed;
+    [SerializeField]
+    private float minZoom;
+    [SerializeField]
+    private float maxZoom;
 
     private int currentView;
+    private Camera camera;
 
     /// <summary>
     /// Initialize camera based on starting view specified.
@@ -18,16 +31,18 @@ public class CameraController : MonoBehaviour
 	void Start () {
         // in case a starting position is entered that is out of the range
         currentView = startingView % CameraPositions.Length;
+        // grab the camera
+        camera = GetComponent<Camera>();
 	}
 	
     /// <summary>
     /// Translates the camera smoothly betwteen camera positions.
     /// </summary>
 	void Update () {
-        transform.position = Vector3.Lerp(transform.position, 
-            CameraPositions[currentView].position, smoothness);
+        Vector3 targetPosition = target.position + CameraPositions[currentView].localPosition;
+        transform.position = Vector3.Lerp(transform.position, targetPosition, cameraTransitionSpeed);
         transform.rotation = Quaternion.Slerp(transform.rotation,
-            CameraPositions[currentView].rotation, smoothness);
+            CameraPositions[currentView].rotation, cameraTransitionSpeed);
 	}
 
     /// <summary>
@@ -36,6 +51,21 @@ public class CameraController : MonoBehaviour
     public Transform CurrentView
     {
         get { return CameraPositions[currentView]; }
+    }
+
+    /// <summary>
+    /// Gets the current level of zoom.
+    /// </summary>
+    public float ZoomLevel
+    {
+        get
+        {
+            return camera.orthographicSize;
+        }
+        private set
+        {
+            camera.orthographicSize = value;
+        }
     }
 
     /// <summary>
@@ -56,6 +86,24 @@ public class CameraController : MonoBehaviour
         if (currentView < 0)
         {
             currentView = CameraPositions.Length - 1;
+        }
+    }
+
+    /// <summary>
+    /// Zoom in the camera by the amount.
+    /// </summary>
+    /// <param name="amount">Amount to zoom.</param>
+    public void Zoom (float amount)
+    {
+        ZoomLevel += amount * zoomingSpeed;
+
+        if (ZoomLevel > maxZoom)
+        {
+            ZoomLevel = maxZoom;
+        }
+        else if (ZoomLevel < minZoom)
+        {
+            ZoomLevel = minZoom;
         }
     }
 }

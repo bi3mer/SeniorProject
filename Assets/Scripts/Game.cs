@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-
-public class Game 
+﻿public class Game 
 {
     private static Game instance;
 
     private Game ()
     {
         PlayerInstance = new Player();
+		WeatherInstance = new WeatherSystem();
+		PauseInstance = new PauseSystem();
     }
  
     /// <summary>
@@ -34,25 +34,32 @@ public class Game
     }
 
 	/// <summary>
-	/// Gets a value indicating whether this instance is paused.
+	/// Gets the weather instance.
 	/// </summary>
-	/// <value><c>true</c> if this instance is paused; otherwise, <c>false</c>.</value>
-	public bool IsPaused 
+	/// <value>The weather instance.</value>
+	public WeatherSystem WeatherInstance
 	{
-		get 
+		get;
+		private set;
+	}
+
+	private Clock clockInstance;
+	public Clock ClockInstance
+	{
+		get
 		{
-			return this.IsPaused;
-		}
-		private set 
-		{
-			if (IsPaused.Equals (true)) 
+			if(this.clockInstance == null)
 			{
-				Time.timeScale = 0.0f;
-			} 
-			else 
-			{
-				Time.timeScale = 1.0f;
+				this.clockInstance = UnityEngine.MonoBehaviour.FindObjectOfType<Clock>();
+				this.clockInstance.Start();
 			}
+
+			return this.clockInstance;
 		}
+	}
+	public PauseSystem PauseInstance
+	{
+		get;
+		private set;
 	}
 }
