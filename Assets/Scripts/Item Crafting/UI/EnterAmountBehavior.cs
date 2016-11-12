@@ -103,7 +103,7 @@ public class EnterAmountBehavior : MonoBehaviour
 	public void OpenPanel(GameObject selected)
 	{
 		selectedItem = selected;
-		maxAmount = (int)selectedItem.GetComponent<InventoryItemBehavior>().getBaseItem().Amount;
+		maxAmount = (int)selectedItem.GetComponent<InventoryItemBehavior>().GetStack().Amount;
 		currentAmount = 0;
 		NumDisplay.text = currentAmount.ToString();
 

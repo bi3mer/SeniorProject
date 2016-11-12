@@ -15,4 +15,10 @@ public class InventoryYAMLMap
 		get; 
 		set; 
 	}
+
+	public int InventorySize
+	{
+		get;
+		set;
+	}
 }

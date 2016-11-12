@@ -145,44 +145,37 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 	{
 		ItemName.text = targetItem.GetItemName ();
 
-		Dictionary<string, float> attr = targetItem.GetItemAttributes ();
-
-		List<string> keys = new List<string>(attr.Keys);
+		List<Attribute> attr = targetItem.GetItemAttributes ();
 
 		// removes the attributes from the attribute section
-		for(int i = 0; i < keys.Count; ++i)
+		for(int i = 0; i < attr.Count; ++i)
 		{
 			GameObject stat = GameObject.Instantiate (StatElement);
 			stat.transform.SetParent (AttributeScroll.transform, false);
 			stat.transform.localScale = Vector3.one;
 			AttributeStat s = stat.GetComponent<AttributeStat> ();
-			s.SetValue(attr [keys[i]]);
-			s.SetLabel (keys[i]);
+			s.SetValue(attr[i].Value);
+			s.SetLabel (attr[i].Name);
 
-			attrObjects.Add (keys[i], stat);
+			attrObjects.Add (attr[i].Name, stat);
 		}
 
-		Dictionary<string, List<Action>> possibleActions = targetItem.GetPossibleActions ();
-
-		keys = new List<string> (possibleActions.Keys);
+		List<Action> possibleActions = targetItem.GetPossibleActions ();
 
 		// adds the actions to the action section
 		// each key is the category name of the action
 		// actions that are not part of a category of action
 		// has a key of "base"
-		for(int i = 0; i < keys.Count; ++i)
+		for(int i = 0; i < possibleActions.Count; ++i)
 		{
 			// "base" actions are directly added into the action section as clicking them do not open up more options
-			if (keys[i].Equals ("base")) 
+			if (possibleActions[i].SubActions.Count < 1) 
 			{
-				for (int j = 0; j < possibleActions [keys [i]].Count; ++j) 
-				{
-					GameObject action = GameObject.Instantiate (ActionButton);
-					action.GetComponent<ActionButton> ().SetAction (possibleActions [keys [i]] [j].AssignedAction, possibleActions [keys [i]] [j].ActionName);
-					action.transform.SetParent(ActionScroll.transform, false);
-					action.transform.localScale = Vector3.one;
-					actionButtons.Add (action);
-				}
+				GameObject action = GameObject.Instantiate (ActionButton);
+				action.GetComponent<ActionButton> ().SetAction (possibleActions[i].AssignedAction, possibleActions[i].ActionName);
+				action.transform.SetParent(ActionScroll.transform, false);
+				action.transform.localScale = Vector3.one;
+				actionButtons.Add (action);
 			}
 			else 
 			{
@@ -194,17 +187,13 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 				// any actual weaving happening, "Weave Basket" and "Weave Rope" will appear as options
 				// and the player can then click on one of those actions, and weaving will occur
 
-				// thus, this is creating the action button gameobject and assigning it an action to generate child actions (ShowSubActions)
-				// the name of the action category is saved to ActionSubcategory
-				// and then all actions that fall under that category are saved to actionsByID, so that when that button is pressed
-				// the ActionSubcategory can be used as a key to get the child actions
 				GameObject action = GameObject.Instantiate (ActionButton);
 				ActionButton button = action.GetComponent<ActionButton> ();
 
 				UnityAction subAction = new UnityAction (button.ShowSubActions);
-				button.SetAction (subAction, keys[i]);
-				button.ActionSubcategory = keys [i];
-				actionsByID.Add (keys [i], possibleActions [keys [i]]);
+
+				button.SetAction (subAction, possibleActions[i].ActionName);
+				button.SubActions = possibleActions[i].SubActions;
 
 				action.transform.SetParent(ActionScroll.transform, false);
 				action.transform.localScale = Vector3.one;
@@ -219,71 +208,53 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 	public void RefreshItemPanel()
 	{
 		ItemName.text = targetItem.GetItemName ();
-		Dictionary<string, float> attr = targetItem.GetItemAttributes ();
+		List<Attribute> attr = targetItem.GetItemAttributes ();
 
-		List<string> keys = new List<string> (attr.Keys);
-		for(int i = 0; i < keys.Count; ++i)
+		for(int i = 0; i < attr.Count; ++i)
 		{
-			attrObjects [keys[i]].GetComponent<AttributeStat> ().SetValue (attr [keys[i]]);
+			attrObjects [attr[i].Name].GetComponent<AttributeStat> ().SetValue (attr [i].Value);
 		}
 
-		Dictionary<string, List<Action>> acts = targetItem.GetPossibleActions ();
-		keys = new List<string> (acts.Keys);
+		List<Action> acts = targetItem.GetPossibleActions ();
 
 		int buttonUsed = 0;
 
-		for(int i = 0; i < keys.Count; ++i)
+		for(int i = 0; i < acts.Count; ++i)
 		{
 			GameObject act;
 
-			if (keys[i].Equals (CollectableItem.defaultActionCategoryName)) 
+			// if there are unused buttons in the pool that are ready to be reused
+			if (buttonUsed < actionButtons.Count) 
 			{
-				for (int j = 0; j < acts [keys [i]].Count; ++j) 
-				{
-					if (buttonUsed < actionButtons.Count) 
-					{
-						act = actionButtons [buttonUsed];
-						act.SetActive (true);
-						buttonUsed++;
-					} 
-					else 
-					{
-						act = GameObject.Instantiate (ActionButton);
-						act.transform.SetParent(ActionScroll.transform, false);
-						act.transform.localScale = Vector3.one;
-						actionButtons.Add (act);
-					}
+				act = actionButtons [buttonUsed];
+				act.SetActive (true);
+				buttonUsed++;
+			} 
+			else 
+			{
+				// create a new button to use for the action button
+				act = GameObject.Instantiate (ActionButton);
+				act.transform.SetParent(ActionScroll.transform, false);
+				act.transform.localScale = Vector3.one;
+				actionButtons.Add (act);
+			}
 
-					act.GetComponent<ActionButton> ().SetAction (acts [keys [i]] [j].AssignedAction, acts [keys [i]] [j].ActionName);
-				}
+			// if action has no subaction, simply set the action to the button
+			if (acts[i].SubActions.Count < 1) 
+			{
+				act.GetComponent<ActionButton> ().SetAction (acts [i].AssignedAction, acts[i].ActionName);
+				
 			}
 			else 
 			{
-				if (buttonUsed < actionButtons.Count) 
-				{
-					act = actionButtons [buttonUsed];
-					act.SetActive (true);
-					buttonUsed++;
-				} 
-				else 
-				{
-					act = GameObject.Instantiate (ActionButton);
-				}
+				// otherwise set the sub action to be ShowSubActions and set the subaction that need to be shown
+				// on button click
 
 				ActionButton button = act.GetComponent<ActionButton> ();
 
 				UnityAction subAct = new UnityAction (button.ShowSubActions);
-				button.SetAction (subAct, keys[i]);
-				button.ActionSubcategory = keys [i];
-
-				if (actionsByID.ContainsKey (keys [i])) 
-				{
-					actionsByID [keys [i]] = acts [keys [i]];
-				} 
-				else 
-				{
-					actionsByID.Add (keys [i], acts [keys [i]]);
-				}
+				button.SetAction (subAct, acts[i].ActionName);
+				button.SubActions = acts[i].SubActions;
 			}
 		}
 
@@ -302,10 +273,8 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 	/// Creates the sub actions for a given category of action.
 	/// </summary>
 	/// <param name="id">Identifier.</param>
-	public void CreateSubAction(string id)
+	public void CreateSubAction(List<Action> actions)
 	{
-		List<Action> actions = actionsByID [id];
-
 		for(int i = 0; i < actions.Count; ++i)
 		{
 			GameObject act = GameObject.Instantiate (ActionButton);

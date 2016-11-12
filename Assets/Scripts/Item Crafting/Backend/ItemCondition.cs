@@ -23,7 +23,7 @@
 		}
 	}
 
-	public string Threshold
+	public float Threshold
 	{
 		get
 		{

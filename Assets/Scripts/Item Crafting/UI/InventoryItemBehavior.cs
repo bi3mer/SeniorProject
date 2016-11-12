@@ -13,26 +13,36 @@ public class InventoryItemBehavior : MonoBehaviour
 	[Tooltip("Label that displays the name of the item")]
 	public Text ItemLabel;
 
-	private BaseItem targetItem;
-	private BaseItem originalItem;
+	private Stack targetStack;
+	private Stack originalStack;
 
 	/// <summary>
 	/// Subscribes to name change event
 	/// </summary>
-	public void SetUpInventoryItem(BaseItem baseItm)
+	public void SetUpInventoryItem(Stack baseStack)
 	{
-		baseItm.ChangeItemDisplayText += HandleItemTextChangeEvent;
-		targetItem = baseItm;
-		ItemLabel.text = targetItem.ItemName + "\n" + targetItem.Amount;
+		baseStack.Item.UpdateItemInformation += HandleItemTextChangeEvent;
+		targetStack = baseStack;
+		ItemLabel.text = targetStack.Item.ItemName;
 	}
 
 	/// <summary>
-	/// Function that changes the UI text to reflect the gameobject's name
+	/// Refreshs the inventory item with new information from stack
+	/// </summary>
+	/// <param name="baseStack">Base stack.</param>
+	public void RefreshInventoryItem(Stack baseStack)
+	{
+		targetStack = baseStack;
+		ItemLabel.text = targetStack.Item.ItemName;
+	}
+
+	/// <summary>
+	/// Function that will be used to handle changes to the item's stats
 	/// </summary>
 	/// <param name="itemName">Item name.</param>
-	public void HandleItemTextChangeEvent(string itemName, int itemAmount)
+	public void HandleItemTextChangeEvent(BaseItem item)
 	{
-		ItemLabel.text = itemName + "\n" + itemAmount;
+		ItemLabel.text = item.ItemName;
 	}
 
 	/// <summary>
@@ -41,25 +51,25 @@ public class InventoryItemBehavior : MonoBehaviour
 	/// <returns>The item name.</returns>
 	public string GetItemName()
 	{
-		return targetItem.ItemName;
+		return targetStack.Item.ItemName;
 	}
 
 	/// <summary>
 	/// Gets the item's attributes.
 	/// </summary>
 	/// <returns>The item's attributes.</returns>
-	public Dictionary<string, float> GetItemAttributes()
+	public List<Attribute> GetItemAttributes()
 	{
-		return targetItem.GetItemAttributes ();
+		return targetStack.Item.GetItemAttributes ();
 	}
 
 	/// <summary>
 	/// Gets the possible actions that can be applied to the item.
 	/// </summary>
 	/// <returns>The possible actions.</returns>
-	public Dictionary<string, List<Action>> GetPossibleActions()
+	public List<Action> GetPossibleActions()
 	{
-		return targetItem.GetPossibleActions ();
+		return targetStack.Item.GetPossibleActions ();
 	}
 
 	/// <summary>
@@ -68,8 +78,12 @@ public class InventoryItemBehavior : MonoBehaviour
 	/// </summary>
 	public void PreserveOriginal(int numToModify)
 	{
-		originalItem = targetItem;
-		targetItem = originalItem.GetItemsToModify (numToModify);
+		originalStack = targetStack;
+
+		// not in the Inventory yet, so it is given the temporary id of -1
+		// which will not be used in any calculations
+		originalStack.Amount -= numToModify;
+		targetStack = new Stack(originalStack.Item.GetItemToModify (), numToModify, -1);
 	}
 
 	/// <summary>
@@ -79,18 +93,23 @@ public class InventoryItemBehavior : MonoBehaviour
 	/// </summary>
 	public void CheckForModification()
 	{
-		// if a change has been applied to the item
-		if (targetItem.Modifications.Count > originalItem.Modifications.Count && targetItem.Amount > 0) 
+		// if some number of the item has been modified and the modified items are not flagged for removal (possible through eating or discarding)
+		if (targetStack.Item.GetNumberOfActionsCompleted() > originalStack.Item.GetNumberOfActionsCompleted() && targetStack.Amount > 0 && !targetStack.Item.RemovalFlag) 
 		{
-			InventoryUIBehavior.instance.targetInventory.AddItem (targetItem);
-
-			targetItem = originalItem;
-			InventoryUIBehavior.instance.RemoveFromStack (originalItem);
+			InventoryUIBehavior.instance.targetInventory.AddItem (targetStack.Item, targetStack.Amount);
 		} 
-		else 
+		else if(!targetStack.Item.RemovalFlag)
 		{
-			originalItem.Amount += targetItem.Amount;
-			targetItem = originalItem;
+			// if no number of the item has been modified and items are not flagged for removal, add back on the items set aside for modifcations
+			// to the original stack
+			originalStack.Amount += targetStack.Amount;
+		}
+
+		targetStack = originalStack;
+
+		if(targetStack.Amount <= 0)
+		{
+			InventoryUIBehavior.instance.targetInventory.RemoveStack(targetStack);
 		}
 	}
 
@@ -98,8 +117,8 @@ public class InventoryItemBehavior : MonoBehaviour
 	/// Gets the base item.
 	/// </summary>
 	/// <returns>The base item.</returns>
-	public BaseItem getBaseItem()
+	public Stack GetStack()
 	{
-		return targetItem;
+		return targetStack;
 	}
 }

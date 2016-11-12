@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// and the UnityAction. The action may also have an id
 /// that specifies which subcategory of action it falls under.
 /// </summary>
-public struct Action
+public class Action
 {
 	private string actionName;
 	private UnityAction UnityAction;
@@ -63,6 +63,10 @@ public struct Action
 		}
 	}
 
+	/// <summary>
+	/// Gets or sets the sub actions of this action.
+	/// </summary>
+	/// <value>The sub actions.</value>
 	public List<Action> SubActions
 	{
 		get 
@@ -75,6 +79,10 @@ public struct Action
 		}
 	}
 
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="Action"/> has been completed.
+	/// </summary>
+	/// <value><c>true</c> if action complete; otherwise, <c>false</c>.</value>
 	public bool ActionComplete
 	{
 		get
@@ -87,6 +95,10 @@ public struct Action
 		}
 	}
 
+	/// <summary>
+	/// Conditions for the action to be possible
+	/// </summary>
+	/// <value>The conditions.</value>
 	public List<ItemCondition> Conditions
 	{
 		get

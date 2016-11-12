@@ -2,10 +2,8 @@
 - itemName: "river reed"
   baseItem: 
    itemName: "river reed"
-   unmodifiedName: "river reed"
-   tags:
+   types:
     - "edible"
-   amount: 1
    flavorText: ""
   itemCategories: 
     - !!solid
@@ -28,10 +26,8 @@
 - itemName: "stick"
   baseItem: 
    itemName: "stick"
-   unmodifiedName: "stick"
-   tags:
+   types:
      - "rod"
-   amount: 1
    flavorText: ""
   itemCategories:
     - !!solid
@@ -54,10 +50,8 @@
 - itemName: "hook"
   baseItem: 
    itemName: "hook"
-   unmodifiedName: "hook"
-   tags:
+   types:
     - "hook"
-   amount: 1
    flavorText: ""
   itemCategories: 
     - !!solid
@@ -70,10 +64,8 @@
 - itemName: "Poor Fishing Rod"
   baseItem: 
    itemName: "Poor Fishing Rod"
-   unmodifiedName: "Poor Fishing Rod"
-   tags:
+   types:
     - "Advanced Tool"
-   amount: 1
    flavorText: "Not a very good fishing rod. Breaks easily."
   itemCategories: 
     - !!solid
@@ -86,10 +78,8 @@
 - itemName: "Good Fishing Rod"
   baseItem: 
    itemName: "Good Fishing Rod"
-   unmodifiedName: "Good Fishing Rod"
-   tags:
+   types:
     - "Advanced Tool"
-   amount: 1
    flavorText: "Pretty good fishing rod. Will last awhile."
   itemCategories: 
     - !!solid
@@ -102,10 +92,8 @@
 - itemName: "Excellent Fishing Rod"
   baseItem: 
    itemName: "Excellent Fishing Rod"
-   unmodifiedName: "Poor Fishing Rod"
-   tags:
+   types:
     - "Advanced Tool"
-   amount: 1
    flavorText: "Fantastic fishing rod! Best catches and last a long time!"
   itemCategories: 
     - !!solid

@@ -24,13 +24,6 @@ public class BaseItem : CollectableItem
 		set;
 	}
 
-	// how many units of the item there are in total handled by the gameobject
-	public float Amount 
-	{
-		get;
-		set;
-	}
-
 	//description of item 
 	public string FlavorText 
 	{
@@ -38,9 +31,9 @@ public class BaseItem : CollectableItem
 		set;
 	}
 
-	public delegate void ChangeNameEvent (string itemName, int itemAmount); 
+	public delegate void UpdateItemEvent (BaseItem item); 
 
-	public event ChangeNameEvent ChangeItemDisplayText;
+	public event UpdateItemEvent UpdateItemInformation;
 
 	// link to the last Item Category, which in turn links to another Item Category
 	// the starting point from which the BaseItem will get all of its category information from
@@ -51,6 +44,10 @@ public class BaseItem : CollectableItem
 	protected int numberToModify;
 
 	private List<Attribute> itemAttributes;
+
+	// flag checked by the InventoryItemBehavior to see if the BaseItem should actually be removed
+	// when checking for modifications
+	public bool RemovalFlag = false;
 
 	/// <summary>
 	/// Initializaer only used during Yaml Deserialization
@@ -78,7 +75,6 @@ public class BaseItem : CollectableItem
 	/// 
 	public BaseItem(BaseItem original)
 	{
-		Amount = original.Amount;
 		ItemName = original.ItemName;
 		categoryList = new List<ItemCategory> ();
 		Types = new List<string> ();
@@ -169,23 +165,45 @@ public class BaseItem : CollectableItem
 	}
 
 	/// <summary>
+	/// Gets the number of actions completed by the item.
+	/// </summary>
+	/// <returns>The all actions.</returns>
+	public int GetNumberOfActionsCompleted()
+	{
+		int actionsCompleted = 0;
+
+		for (int i = 0; i < categoryList.Count; ++i) 
+		{
+			for (int j = 0; j < categoryList [i].Actions.Count; ++j) 
+			{
+				if (categoryList [i].Actions [j].ActionComplete) 
+				{
+					++actionsCompleted;
+				}
+			}
+		}
+
+		return actionsCompleted;
+	}
+
+	/// <summary>
 	/// Changes the name of the object.
 	/// </summary>
 	/// <param name="name">Name.</param>
 	public void ChangeName(string name)
 	{
 		ItemName = name;
-		FireTextChangeEvent ();
+		FireItemChangedEvent ();
 	}
 
 	/// <summary>
 	/// Fires a text change event that alerts any subscribed that the BaseItem's name and amount has changed.
 	/// </summary>
-	public void FireTextChangeEvent()
+	public void FireItemChangedEvent()
 	{
-		if (ChangeItemDisplayText != null) 
+		if (UpdateItemInformation != null) 
 		{
-			ChangeItemDisplayText (ItemName, (int)Amount);
+			UpdateItemInformation (this);
 		}
 	}
 
@@ -243,17 +261,9 @@ public class BaseItem : CollectableItem
 	/// </summary>
 	/// <param name="amt">The amount of the item that should be affected during the crafting.</param>
 	/// <returns>The duplicate.</returns>
-	public BaseItem GetItemsToModify(int amt)
+	public BaseItem GetItemToModify()
 	{
-		if (amt <= Amount) 
-		{
-			BaseItem duplicate = new BaseItem (this);
-
-			duplicate.Amount = amt;
-			Amount -= duplicate.Amount;
-			return duplicate;
-		} 
-		return null;
+		return new BaseItem (this);
 	}
 		
 
@@ -284,6 +294,6 @@ public class BaseItem : CollectableItem
 			}
 		}
 
-		return new Attribute();
+		return new Attribute(name, 0);
 	}
 }

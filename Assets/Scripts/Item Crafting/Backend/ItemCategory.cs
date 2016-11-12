@@ -153,9 +153,20 @@ public class ItemCategory : CollectableItem
 	/// <param name="name">Name of the action.</param>
 	public void SetActionComplete(string name)
 	{
-		for (int i = 0; i < actions; ++i) 
+		for (int i = 0; i < actions.Count; ++i) 
 		{
-			if (actions [i].ActionName.Equals (name)) 
+			if(actions[i].SubActions.Count > 0)
+			{
+				for(int j = 0; j < actions[i].SubActions.Count; ++j)
+				{
+					if(actions [i].SubActions[j].ActionName.Equals (name)) 
+					{
+						actions [i].ActionComplete = true;
+					}
+				}
+
+			}
+			else if (actions [i].ActionName.Equals (name)) 
 			{
 				actions [i].ActionComplete = true;
 			}
@@ -169,13 +180,15 @@ public class ItemCategory : CollectableItem
 	/// <param name="name">Name.</param>
 	public Attribute GetAttribute(string name)
 	{
-		for (int i = 0; i < attributes; ++i) 
+		for (int i = 0; i < attributes.Count; ++i) 
 		{
 			if (attributes [i].Name.Equals (name)) 
 			{
 				return attributes [i];
 			}
 		}
+
+		return new Attribute(name, 0);
 	}
 }
 

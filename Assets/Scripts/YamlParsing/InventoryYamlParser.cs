@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using YamlDotNet.Serialization;
@@ -7,26 +6,24 @@ using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
+using System;
 
-public class InventoryYamlParser : MonoBehaviour 
+public class InventoryYamlParser : CraftingSystemSerializer 
 {
-	public static InventoryYamlParser Instance;
-
-	[Tooltip("Yaml file that stores the inventory information")]
-	public string FileName;
-
 	private Dictionary<string, List<InventoryYAMLModel>> inventoryYamlData;
-
 
 	/// <summary>
 	/// Awake this instance.
 	/// </summary>
-	void Awake()
+	public InventoryYamlParser(string file)
 	{
-		Instance = this;
 		inventoryYamlData = new Dictionary<string, List<InventoryYAMLModel>> ();
+		Filename = file;
 
-		LoadInventories ();
+		categoryNames = new List<string> ();
+		categoryTypes = new List<Type> ();
+		SetUpCategoryInformation();
+		LoadInventories();
 	}
 
 	/// <summary>
@@ -34,17 +31,22 @@ public class InventoryYamlParser : MonoBehaviour
 	/// </summary>
 	public void LoadInventories()
 	{
-		string file = Application.dataPath + "/YAMLFiles/" + FileName;
+		string file = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + Filename;
 
 		string itemListYAML = File.ReadAllText (file);
 		StringReader input = new StringReader(itemListYAML);
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
-		List<InventoryYAMLMap> itemYamlInfo = deserializer.Deserialize<List<InventoryYAMLMap>> (input);
-
-		for(int i = 0; i < itemYamlInfo.Count; ++i)
+		for (int x = 0; x < categoryNames.Count; ++x) 
 		{
-			inventoryYamlData.Add (itemYamlInfo[i].InventoryName, itemYamlInfo[i].Items);
+			deserializer.RegisterTagMapping(uriPrefix + categoryNames[x], categoryTypes[x]);
+		}
+
+		List<InventoryYAMLMap> inventoryYamlInfo = deserializer.Deserialize<List<InventoryYAMLMap>> (input);
+
+		for(int i = 0; i < inventoryYamlInfo.Count; ++i)
+		{
+			inventoryYamlData.Add (inventoryYamlInfo[i].InventoryName, inventoryYamlInfo[i].Items);
 		}
 	}
 
@@ -85,7 +87,7 @@ public class InventoryYamlParser : MonoBehaviour
 			yamlMap.Add (mapping);
 		}
 
-		string file = Application.dataPath + "/YAMLFiles/" + FileName;
+		string file = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + Filename;
 		File.WriteAllText (file, yamlMap.ToString ());
 	}
 
@@ -96,7 +98,7 @@ public class InventoryYamlParser : MonoBehaviour
 	/// <param name="inventory">Inventory.</param>
 	public void AddToInventory(InventoryYAMLModel item, string inventory)
 	{
-		inventoryYamlData[inventory].Add (item);
+		inventoryYamlData[inventory].Add(item);
 	}
 
 	/// <summary>
@@ -104,8 +106,8 @@ public class InventoryYamlParser : MonoBehaviour
 	/// </summary>
 	/// <param name="name">Name.</param>
 	/// <param name="inventory">Inventory.</param>
-	public void RemoveFromInventory(string name, string inventory)
+	public void RemoveFromInventory(int location, string inventory)
 	{
-		inventoryYamlData [inventory].RemoveAll (e => e.ItemName == name);
+		inventoryYamlData [inventory][location] = new InventoryYAMLModel();
 	}
 }

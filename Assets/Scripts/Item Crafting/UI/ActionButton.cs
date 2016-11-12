@@ -16,8 +16,8 @@ public class ActionButton : MonoBehaviour
 	// the component that handles what text is displayed on the button
 	private Text btnText;
 
-	// the subcategory that the action performed by this button falls under
-	private string actionSubcategoryID;
+	// subactions owned by the action button
+	private List<Action> subActions;
 
 	/// <summary>
 	/// Awake this instance.
@@ -52,21 +52,23 @@ public class ActionButton : MonoBehaviour
 		}
 	}
 
+
 	/// <summary>
-	/// Gets or sets the action subcategory ID.
+	/// Gets or sets the sub actions.
 	/// </summary>
-	/// <value>The action subcategory ID.</value>
-	public string ActionSubcategory
+	/// <value>The sub actions.</value>
+	public List<Action> SubActions
 	{
 		get
 		{
-			return actionSubcategoryID;
+			return subActions;
 		}
 		set
 		{
-			actionSubcategoryID = value;
+			subActions = value;
 		}
 	}
+
 
 	/// <summary>
 	/// A special action seperate from those that can be performed by items. This is used on Action Buttons that
@@ -76,6 +78,6 @@ public class ActionButton : MonoBehaviour
 	/// <param name="variables">Variables.</param>
 	public void ShowSubActions()
 	{
-		ItemInfoPanelBehavior.instance.CreateSubAction (actionSubcategoryID);
+		ItemInfoPanelBehavior.instance.CreateSubAction (subActions);
 	}
 }

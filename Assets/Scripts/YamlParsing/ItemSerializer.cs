@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System;
@@ -11,43 +10,17 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
 
-public class ItemSerializer : MonoBehaviour 
+public class ItemSerializer: CraftingSystemSerializer
 {
-	public static ItemSerializer Instance;
-	public string Filename;
 
-	// the possible categories that can be added to a baseItem
-	// categoryNames stores name of the category
-	// categoryTypes stores the type
-	private List<string> categoryNames;
-	private List<Type> categoryTypes;
-
-	// tag:yaml.org,2002 is shorthanded as "!" in the yaml file, but when registering the tag, it
-	// is necessary to use the full Uri
-	private string uriPrefix = "tag:yaml.org,2002:";
-
-	/// <summary>
-	/// Awake this instance.
-	/// </summary>
-	void Awake () 
+	public ItemSerializer(string file)
 	{
-		Instance = this;
+		Filename = file;
+
 		categoryNames = new List<string> ();
 		categoryTypes = new List<Type> ();
 
-		SetUpCategoryInformation ();
-	}
-
-	/// <summary>
-	/// Fills out the categoryNames and cateogryTypes lists with the necessary information
-	/// </summary>
-	public void SetUpCategoryInformation()
-	{
-		categoryNames.Add ("plant");
-		categoryTypes.Add (typeof(PlantCategory));
-
-		categoryNames.Add ("solid");
-		categoryTypes.Add (typeof(SolidCategory));
+		SetUpCategoryInformation();
 	}
 
 	/// <summary>
@@ -56,7 +29,7 @@ public class ItemSerializer : MonoBehaviour
 	/// <returns>The item information.</returns>
 	public Dictionary<string, BaseItem> DeserializeItemInformation()
 	{
-		string fileyaml = Application.dataPath + "/YAMLFiles/" + Filename;
+		string fileyaml = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + Filename;
 		Dictionary<string, BaseItem> itemDatabase = new Dictionary<string, BaseItem> ();
 
 		string itemListYAML = File.ReadAllText (fileyaml);

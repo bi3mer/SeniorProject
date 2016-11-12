@@ -174,7 +174,7 @@ public class SolidCategory : ItemCategory
 		}
 			
 		baseItem.ChangeName(name);
-		baseItem.Types.Add (Types.Rod);
+		baseItem.Types.Add (Types.Rope);
 
 		// durability of the woven object is determined by averaging the durability and elasticity of the item
 		// as tightly weaving something won't work as well with less elastic objects
@@ -183,6 +183,7 @@ public class SolidCategory : ItemCategory
 		Thickness = Thickness * weaveRopeThicknessRate;
 
 		baseItem.RemoveCategories (new List<string> () {GetType ().Name}, true);
+		SetActionComplete(weaveRopeActName);
 	}
 
 	/// <summary>
@@ -206,6 +207,7 @@ public class SolidCategory : ItemCategory
 		baseItem.ChangeName(name);
 
 		baseItem.RemoveCategories (new List<string> (){GetType ().Name}, true);
+		SetActionComplete(weaveBasketActName);
 	}
 
 	/// <summary>
@@ -227,5 +229,6 @@ public class SolidCategory : ItemCategory
 
 		Sharpness = Sharpness * sharpenRate;
 		GetAttribute (sharpAttrName).Value = Sharpness;
+		SetActionComplete(sharpenActionName);
 	}
 }

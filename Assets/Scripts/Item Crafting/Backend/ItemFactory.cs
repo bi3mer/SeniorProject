@@ -17,6 +17,9 @@ public class ItemFactory : MonoBehaviour
 	[Tooltip("Basic template gameobject with a baseItem component that is used to create items. Should be in scene.")]
 	public GameObject baseObjectTemplate;
 
+	[Tooltip("Name of the file that contains the item information")]
+	public string ItemFileName;
+
 	// instance of the factory so that it can be easily accessed by other classes
 	public static ItemFactory instance;
 
@@ -31,6 +34,8 @@ public class ItemFactory : MonoBehaviour
 
 	private int levels = 3;
 
+	private ItemSerializer itemParser;
+
 	/// <summary>
 	/// Start this instance. 
 	/// TODO: Loading in the craftingList by YAML.
@@ -40,6 +45,8 @@ public class ItemFactory : MonoBehaviour
 		instance = this;
 
 		itemDatabase = new Dictionary<string, BaseItem> ();
+		itemParser = new ItemSerializer(ItemFileName);
+
 		LoadItemInformation ();
 	}
 
@@ -61,7 +68,7 @@ public class ItemFactory : MonoBehaviour
 	/// </summary>
 	/// <param name="recipe">Recipe for the item.</param>
 	/// <param name="ingredients">Ingredients to be used. Required by CraftItem delegate functions.</param>
-	public void Craft(Recipe recipe, List<BaseItem> ingredients)
+	public void Craft(Recipe recipe, List<BaseItem> ingredients, PlayerInventory targetInventory)
 	{
 		List<string> tags = new List<string> ();
 
@@ -81,7 +88,7 @@ public class ItemFactory : MonoBehaviour
 			// for multi-item per requirement recipes that will be implemented later
 			for (int j = 0; j < ingredientsByType [recipe.Requirements [i].ItemType].Count; ++j) 
 			{
-				InventoryUIBehavior.instance.targetInventory.UseItem (ingredientsByType [recipe.Requirements [i].ItemType] [j].ItemName, recipe.Requirements [i].AmountRequired);
+				targetInventory.UseItem (ingredientsByType [recipe.Requirements [i].ItemType] [j], recipe.Requirements [i].AmountRequired);
 			}
 		}
 
@@ -91,8 +98,8 @@ public class ItemFactory : MonoBehaviour
 		craftedItem = GetBaseItem (itemName);
 
 		// Adds the item to the player's inventory
-		InventoryUIBehavior.instance.targetInventory.AddItem (craftedItem);
-		InventoryUIBehavior.instance.RefreshInventory ();
+		// for now, it will only create one at a time
+		targetInventory.AddItem (craftedItem, 1);
 	}
 
 	/// <summary>
@@ -100,7 +107,7 @@ public class ItemFactory : MonoBehaviour
 	/// </summary>
 	public void LoadItemInformation()
 	{
-		itemDatabase = ItemSerializer.Instance.DeserializeItemInformation ();
+		itemDatabase = itemParser.DeserializeItemInformation ();
 	}
 
 	/// <summary>
@@ -160,7 +167,7 @@ public class ItemFactory : MonoBehaviour
 			for (int y = 0; y < affectingItems.Count; ++y)
 			{
 				for (int z = 0; z < ingredientsByType [affectingItems [y]].Count; ++z) {
-					result += ingredientsByType [affectingItems [y]] [z].GetItemAttributes () [stat];
+					result += ingredientsByType [affectingItems [y]] [z].GetItemAttribute (stat).Value;
 				}
 			}
 
@@ -197,14 +204,10 @@ public class ItemFactory : MonoBehaviour
 	/// <param name="item">Item.</param>
 	public BaseItem GetBaseItem(InventoryYAMLModel item)
 	{
-		if (itemDatabase.ContainsKey (item.ItemName)) 
+		if (itemDatabase.ContainsKey (item.Item.ItemName)) 
 		{
-			return itemDatabase [item.ItemName];
+			return itemDatabase [item.Item.ItemName];
 		} 
-		else if (itemDatabase.ContainsKey (item.UnmodifiedItemName)) 
-		{
-			return itemDatabase [item.UnmodifiedItemName];
-		}
 
 		return null;
 	}

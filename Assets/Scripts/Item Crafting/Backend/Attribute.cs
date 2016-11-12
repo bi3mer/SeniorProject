@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public struct Attribute
+public class Attribute
 {
 	private string attributeName;
 	private float attributeValue;

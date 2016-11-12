@@ -15,14 +15,14 @@ public class InventoryUIBehavior : MonoBehaviour
 	// this will be switched out to read in from a text file instead
 	public GameObject ItemParent;
 
-	[Tooltip("How many items there may be in a stack")]
-	public int StackSize;
-
 	public static InventoryUIBehavior instance;
 
-	private Dictionary<string, List<InventoryItemBehavior>> inventoryUI;
+	private InventoryItemBehavior[] inventoryUI;
 
-	public Inventory targetInventory;
+	public PlayerInventory targetInventory;
+
+	[Tooltip("the yaml file containing inventory information")]
+	public string inventoryFile;
 
 	/// <summary>
 	/// Start this instance.
@@ -30,8 +30,8 @@ public class InventoryUIBehavior : MonoBehaviour
 	void Start()
 	{
 		instance = this;
-		inventoryUI = new Dictionary<string, List<InventoryItemBehavior>> ();
-		targetInventory = new Inventory (TargetInventoryName);
+		targetInventory = new PlayerInventory (TargetInventoryName, inventoryFile);
+		inventoryUI = new InventoryItemBehavior[targetInventory.InventorySize];
 	}
 
 	/// <summary>
@@ -40,12 +40,18 @@ public class InventoryUIBehavior : MonoBehaviour
 	public void LoadInventory()
 	{
 		targetInventory.LoadInventory ();
-		Dictionary<string, BaseItem> inventoryInfo = targetInventory.GetInventory ();
-		List<string> keys = new List<string> (inventoryInfo.Keys);
+		Stack[] inventoryInfo = targetInventory.GetInventory ();
 
-		for (int i = 0; i < keys.Count; ++i) 
+		for (int i = 0; i < inventoryInfo.Length; ++i) 
 		{
-			inventoryUI.Add (inventoryInfo [keys [i]].ItemName, GenerateStacks(inventoryInfo [keys [i]]));
+			if(inventoryInfo[i] != null)
+			{
+				InventoryItemBehavior item = GameObject.Instantiate(InventoryItemTemplate).GetComponent<InventoryItemBehavior>();
+				item.SetUpInventoryItem(inventoryInfo[i]);
+				item.gameObject.SetActive(true);
+				item.transform.SetParent(ItemParent.transform);
+				inventoryUI[i] = item;
+			}
 		}
 	}
 
@@ -54,182 +60,32 @@ public class InventoryUIBehavior : MonoBehaviour
 	/// </summary>
 	public void RefreshInventory()
 	{
-		Dictionary<string, BaseItem> inventoryInfo = targetInventory.GetInventory ();
-		List<string> desiredInventoryKeys = new List<string> (inventoryInfo.Keys);
-		List<string> currentInventoryKeys = new List<string> (inventoryUI.Keys);
+		Stack[] inventoryInfo = targetInventory.GetInventory ();
 
-		// checks for items to add
-		for (int i = 0; i < desiredInventoryKeys.Count; ++i) 
+		for (int i = 0; i < inventoryInfo.Length; ++i) 
 		{
-			if (!inventoryUI.ContainsKey (desiredInventoryKeys [i])) 
+			// if item has been removed from inventory
+			if(inventoryInfo[i] == null && inventoryUI[i] != null)
 			{
-				inventoryUI.Add (inventoryInfo [desiredInventoryKeys [i]].ItemName, GenerateStacks(inventoryInfo [desiredInventoryKeys [i]]));
+				GameObject.Destroy(inventoryUI[i].gameObject);
+				inventoryUI[i] = null;
+			}
+			else if(inventoryInfo[i] != null && inventoryUI[i] == null)
+			{
+				// if item has been added to inventory
+				InventoryItemBehavior item = GameObject.Instantiate(InventoryItemTemplate).GetComponent<InventoryItemBehavior>();
+				item.SetUpInventoryItem(inventoryInfo[i]);
+				item.gameObject.SetActive(true);
+				item.transform.SetParent(ItemParent.transform);
+				inventoryUI[i] = item;
+			}
+			else if(inventoryInfo[i] != null && inventoryUI[i] != null && (inventoryInfo[i].Id != inventoryUI[i].GetStack().Id 
+											|| !inventoryInfo[i].Item.ItemName.Equals(inventoryUI[i].GetStack().Item.ItemName)))
+			{
+				// if item in slot has been changed
+				inventoryUI[i].RefreshInventoryItem(inventoryInfo[i]);
 			}
 		}
-
-		// checks for items to remove
-		for (int j = 0; j < currentInventoryKeys.Count; ++j) 
-		{
-			if (!inventoryInfo.ContainsKey (currentInventoryKeys [j])) 
-			{
-				for (int k = 0; k < inventoryUI [currentInventoryKeys [j]].Count; ++k) 
-				{
-					GameObject.Destroy (inventoryUI [currentInventoryKeys [j]] [k].gameObject);
-				}
-
-				inventoryUI.Remove (currentInventoryKeys [j]);
-			}
-			else if(inventoryInfo[currentInventoryKeys[j]].Amount != GetTotalAmount(currentInventoryKeys[j]))
-			{
-				RedistributeStacks(inventoryUI[currentInventoryKeys[j]], (int) inventoryInfo[currentInventoryKeys[j]].Amount);
-			}	
-		}
-	}
-
-	/// <summary>
-	/// Takes a base item and seperates it into stacks in the inventory ui, as defined by StackSize.
-	/// </summary>
-	/// <returns>The stacks.</returns>
-	/// <param name="item">Item.</param>
-	public List<InventoryItemBehavior> GenerateStacks(BaseItem item)
-	{
-		List<InventoryItemBehavior> stacks = new List<InventoryItemBehavior> ();
-
-		// determines how many stacks are needed to represent the item
-		int totalAmount = (int) item.Amount;
-
-		// number of stacks needed
-		// the minimum number of stacks is 1, hence the + 1
-		// 
-		int numberOfStacks = (totalAmount - 1) / StackSize + 1;
-
-		// for every stack, create a new button that will appear in the ui
-		for (int j = 0; j < numberOfStacks; ++j) 
-		{
-			InventoryItemBehavior invItem = GameObject.Instantiate (InventoryItemTemplate).GetComponent<InventoryItemBehavior> ();
-			BaseItem splitItem = new BaseItem (item);
-
-			if (totalAmount > StackSize) 
-			{
-				splitItem.Amount = StackSize;
-				totalAmount -= StackSize;
-			} 
-			else 
-			{
-				splitItem.Amount = totalAmount;
-			}
-
-			invItem.SetUpInventoryItem (splitItem);
-			invItem.transform.SetParent (ItemParent.transform);
-			invItem.gameObject.SetActive (true);
-
-			stacks.Add (invItem);
-		}
-
-		return stacks;
-	}
-
-	/// <summary>
-	/// Gets the total amount of an item there is in the inventory.
-	/// </summary>
-	/// <returns>The total amount.</returns>
-	/// <param name="itemName">Item name.</param>
-	public int GetTotalAmount(string itemName)
-	{
-		int totalAmount = 0;
-
-		List<InventoryItemBehavior> stacks = inventoryUI [itemName];
-
-		for (int i = 0; i < stacks.Count; ++i) 
-		{
-			totalAmount += (int) stacks [i].getBaseItem ().Amount;
-		}
-
-		return totalAmount;
-
-	}
-
-	/// <summary>
-	/// Redistributes the the stacks in the inventory so that it is using the least number of stacks
-	/// </summary>
-	/// <param name="stacks">Stacks.</param>
-	/// <param name="amount">Amount.</param>
-	public void RedistributeStacks(List<InventoryItemBehavior> stacks, int amount)
-	{
-		int desiredStacks = (amount - 1) / StackSize + 1;
-		int totalAmount = amount;
-		// if there are less stacks than there needs to be
-		if (stacks.Count < desiredStacks) 
-		{
-			// pre-existing stacks are maxed out
-			for (int i = 0; i < stacks.Count; ++i) 
-			{
-				stacks [i].getBaseItem ().Amount = StackSize;
-				stacks [i].getBaseItem ().FireTextChangeEvent ();
-				totalAmount -= StackSize;
-			}
-
-			// then new stacks are created as needed
-			while (stacks.Count < desiredStacks) 
-			{
-				InventoryItemBehavior invItem = GameObject.Instantiate (InventoryItemTemplate).GetComponent<InventoryItemBehavior> ();
-				BaseItem splitItem = new BaseItem (stacks [0].getBaseItem ());
-
-				if (totalAmount > StackSize) 
-				{
-					splitItem.Amount = StackSize;
-					totalAmount -= StackSize;
-				} 
-				else 
-				{
-					splitItem.Amount = totalAmount;
-				}
-
-				invItem.SetUpInventoryItem (splitItem);
-				invItem.transform.SetParent (ItemParent.transform);
-				invItem.gameObject.SetActive (true);
-
-				stacks.Add (invItem);	
-			}
-		} 
-		else if (stacks.Count >= desiredStacks) 
-		{
-			// otherwise removes stacks until it reaches the number of desired stacks
-			while (stacks.Count > desiredStacks)
-			{
-				GameObject.Destroy (stacks [0].gameObject);
-				stacks.RemoveAt (0);
-			}
-
-			for (int j = 0; j < desiredStacks; ++j) 
-			{
-				if (totalAmount > StackSize) 
-				{
-					stacks [j].getBaseItem ().Amount = StackSize;
-					totalAmount -= StackSize;
-				} 
-				else 
-				{
-					stacks [j].getBaseItem ().Amount = totalAmount;
-				}
-
-				stacks [j].getBaseItem ().FireTextChangeEvent ();
-			}
-		}
-	}
-
-	/// <summary>
-	/// Removes from a stack. Checks the new total number of items to determine how many stacks there should be.
-	/// </summary>
-	/// <param name="item">Item.</param>
-	public void RemoveFromStack(BaseItem item)
-	{
-		List<InventoryItemBehavior> stacks = inventoryUI [item.ItemName];
-
-		int totalAmount = GetTotalAmount (item.ItemName);
-		targetInventory.GetInventory () [item.ItemName].Amount = totalAmount;
-
-		RedistributeStacks (stacks, totalAmount);
 	}
 }
 

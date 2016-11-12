@@ -1,28 +1,27 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 public class InventoryYAMLModel
 {
-	public string ItemName
+	public int StackId
+	{
+		get;
+		set;
+	}
+
+	public BaseItem Item
 	{ 
 		get; 
 		set; 
 	}
 
-	public float ItemAmount
+	public int ItemAmount
 	{ 
 		get; 
 		set; 
 	}
 
-	public string UnmodifiedItemName
-	{ 
-		get; 
-		set; 
-	}
-
-	public List<string> Modifications
+	public List<ItemCategory> ItemCategories
 	{ 
 		get; 
 		set; 

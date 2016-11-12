@@ -32,6 +32,9 @@ public class CraftingMenuBehavior : MonoBehaviour
 	[Tooltip("panel where the items that can be selected will be displayed")]
 	public Transform ItemChoicePanel;
 
+	[Tooltip("filename for yaml that contains the recipe information")]
+	public string RecipeFileName;
+
 	// The recipes as defined by their name and the actual recipe itself
 	private Dictionary<string, Recipe> recipes;
 
@@ -58,7 +61,7 @@ public class CraftingMenuBehavior : MonoBehaviour
 	private int openState = 1;
 
 	// a list of names of the items selected for a recipe
-	private List<string> itemsSelected;
+	private List<Ingredient> itemsSelected;
 
 	// a recipe may have multiple steps that needs to be completed which will be displayed in the 
 	// item selection UI one by one
@@ -71,16 +74,19 @@ public class CraftingMenuBehavior : MonoBehaviour
 	// the continue button is hit
 	private Image currentHighlightedItem;
 
+	private RecipeYamlSerializer parser;
+
 	/// <summary>
 	/// Start this instance. Instantiates various variables as needed.
 	/// TODO: Should call a function which will read in a YAML file to fill out the dictionary of recipes.
 	/// </summary>
 	void Start () 
 	{
+		parser = new RecipeYamlSerializer(RecipeFileName);
 		LoadRecipes ();
 		CraftingPanelAnimator = GetComponent<Animator>();
 		ItemSelectPanelAnimator = GameObject.Find("Select X Panel").GetComponent<Animator>();
-		itemsSelected = new List<string> ();
+		itemsSelected = new List<Ingredient> ();
 	}
 
 	/// <summary>
@@ -88,7 +94,7 @@ public class CraftingMenuBehavior : MonoBehaviour
 	/// </summary>
 	public void LoadRecipes()
 	{
-		recipes = RecipeYamlSerializer.Instance.LoadRecipes ();
+		recipes = parser.LoadRecipes ();
 
 		List<string> recipeNames = new List<string> (recipes.Keys);
 
@@ -238,12 +244,12 @@ public class CraftingMenuBehavior : MonoBehaviour
 		// need to be added to the list of itemsSelected 
 		if (itemsSelected.Count == currentStep) 
 		{
-			itemsSelected.Add (name.text);
+			itemsSelected.Add (new Ingredient(name.text, recipes[recipeChoice].Requirements [currentStep].AmountRequired));
 		} 
 		else 
 		{
 			// oterwise it can be reassigned to that slot in the list
-			itemsSelected [currentStep] = name.text;
+			itemsSelected [currentStep] = new Ingredient(name.text, recipes[recipeChoice].Requirements [currentStep].AmountRequired);
 		}
 
 		// since an item has been selected, the user is allowed to continue
@@ -275,13 +281,16 @@ public class CraftingMenuBehavior : MonoBehaviour
 		// gets the list of items needed by the recipe from the Inventory
 		List<BaseItem> ingredients = new List<BaseItem> ();
 
-		for (int i = 0; i < itemsSelected.Count; ++i) {
-			ingredients.Add(InventoryUIBehavior.instance.targetInventory.GetItem (itemsSelected [i]));
+		for (int i = 0; i < itemsSelected.Count; ++i) 
+		{
+			ingredients.Add(InventoryUIBehavior.instance.targetInventory.GetStack(itemsSelected[i].IngredientName, itemsSelected[i].Amount)[0].Item);
 		}
 
 		// call the CraftingRecipeFactory which will create the resulting item given the
 		// name of the recipe and ingredients selected
-		ItemFactory.instance.Craft (recipes[recipeChoice], ingredients);
+		ItemFactory.instance.Craft (recipes[recipeChoice], ingredients, InventoryUIBehavior.instance.targetInventory);
+
+		InventoryUIBehavior.instance.RefreshInventory ();
 
 		// close the item select ui panel
 		EndCraftingAttempt ();

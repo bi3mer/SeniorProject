@@ -206,7 +206,7 @@ public class PlantCategory : ItemCategory
 
 		baseItem.ChangeName(defaultDryNameAddition + " " + baseItem.ItemName);
 
-		SetActionComplete(dryActName) = true;
+		SetActionComplete (dryActName);
 	}
 
 	/// <summary>
@@ -233,8 +233,6 @@ public class PlantCategory : ItemCategory
 			// TODO: pneumonia cure code
 		}
 
-		InventoryUIBehavior.instance.targetInventory.RemoveItem (baseItem);
-
-		ItemInfoPanelBehavior.instance.CloseItemInfo ();
+		baseItem.RemovalFlag = true;
 	}
 }

@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using YamlDotNet.Serialization;
@@ -8,19 +7,14 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
 
-public class RecipeYamlSerializer : MonoBehaviour 
+public class RecipeYamlSerializer : CraftingSystemSerializer 
 {
-	public static RecipeYamlSerializer Instance;
-
-	[Tooltip("The yaml file used to store the recipes")]
-	public string Filename;
-
 	/// <summary>
 	/// Awake this instance.
 	/// </summary>
-	void Awake () 
+	public RecipeYamlSerializer (string file) 
 	{
-		Instance = this;
+		Filename = file;
 	}
 
 	/// <summary>
@@ -29,7 +23,7 @@ public class RecipeYamlSerializer : MonoBehaviour
 	/// <returns>The recipes.</returns>
 	public Dictionary<string, Recipe> LoadRecipes()
 	{
-		string fileyaml = Application.dataPath + "/YAMLFiles/" + Filename;
+		string fileyaml = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + Filename;
 		Dictionary<string, Recipe> recipeDatabase = new Dictionary<string, Recipe> ();
 
 		string itemListYAML = File.ReadAllText (fileyaml);
