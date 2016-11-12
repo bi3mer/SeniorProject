@@ -82,6 +82,28 @@ public class ProceduralDistrictDefinition
             return districtWindows;
         }
     }
+
+    [SerializeField]
+    private float districtMaxWindowSpacing;
+    public float DistrictMaxWindowSpacings
+    {
+        get
+        {
+            return districtMaxWindowSpacing;
+        }
+    }
+
+    [SerializeField]
+    private float districMinWindowSpacing;
+    public float DistrictMinWindowSpacings
+    {
+        get
+        {
+            return districMinWindowSpacing;
+        }
+    }
+
+
     [SerializeField]
     private Material[] districtMaterials;
     public Material[] DistrictMaterials

@@ -31,6 +31,14 @@ public class ProceduralBuildingCreator : MonoBehaviour
     [SerializeField]
     private ProceduralBuildingInstance ProceduralBuilding;
 
+
+    // Height of a single story
+    private const float storyHeightUnits = .75f;
+    // Height of 1 base building unit on the grid.
+    private const float OneBaseLengthUnits = 3f;
+    // Start rotation modifier of all attachments
+    private const float attachmentRotationMod = -90f;
+
     // Test Variables
     public int TestDistrict;
     public BaseSize TestBaseSize;
@@ -130,14 +138,14 @@ public class ProceduralBuildingCreator : MonoBehaviour
         }
 
         // Set Attatchments
-        if(district.DistrictAttachments.Length > 0 && attatchmentPercentage > 0f && newBuilding.BuildingBase.AttatchmentPoints.Length > 0)
+        if(district.DistrictAttachments.Length > 0 && attatchmentPercentage > 0f && newBuilding.BuildingBase.AttachmentPoints.Length > 0)
         {
-            int numberOfAttachments = Mathf.RoundToInt(newBuilding.BuildingBase.AttatchmentPoints.Length * attatchmentPercentage/100f);
+            int numberOfAttachments = Mathf.RoundToInt(newBuilding.BuildingBase.AttachmentPoints.Length * attatchmentPercentage/100f);
         
             newBuilding.BuildingAttachments = new ProceduralBuildingAttachment[numberOfAttachments];
 
             // Create a list of random numbers the length of the attatchment points.
-            List<int> randomPoint = Enumerable.Range(0, newBuilding.BuildingBase.AttatchmentPoints.Length).ToList<int>();
+            List<int> randomPoint = Enumerable.Range(0, newBuilding.BuildingBase.AttachmentPoints.Length).ToList<int>();
 
 
             // Shuffle the list
@@ -158,10 +166,10 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 newAttachment = newObject.GetComponent<ProceduralBuildingAttachment>();
                 newAttachment.AttachmentPoint = randomPoint[i];
                 newObject.transform.localScale = new Vector3(1f, storiesTall, 1f); //NEEDS TO SUPPORT SEPERATE STORIES VALUES IN FUTURE
-                newObject.transform.SetParent(newBuilding.BuildingBase.AttatchmentPoints[newAttachment.AttachmentPoint].transform);
+                newObject.transform.SetParent(newBuilding.BuildingBase.AttachmentPoints[newAttachment.AttachmentPoint].transform);
                 newObject.transform.localPosition = Vector3.zero;
-                //Rotate the attatchment based off the modelling/prefab setup.
-                newObject.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
+                // Rotate the attatchment based off the modelling/prefab setup.
+                newObject.transform.localRotation = Quaternion.Euler(0f, attachmentRotationMod, 0f);
                 newBuilding.BuildingAttachments[i] = newAttachment;
             }
                      
@@ -192,7 +200,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 else if(newBuilding.BuildingAttachments[i] != null)
                 {
                     // Scale the roof the prefab came with properly.
-
                     newBuilding.BuildingAttachments[i].HasRoof.transform.SetParent(null);
                     newBuilding.BuildingAttachments[i].HasRoof.transform.localScale = new Vector3(1f, 1f, 1f);
                     newBuilding.BuildingAttachments[i].HasRoof.transform.SetParent(newBuilding.BuildingAttachments[i].RoofLocation);
@@ -211,6 +218,175 @@ public class ProceduralBuildingCreator : MonoBehaviour
 
         // Windows
 
+        // grab a window to use for all the windows on the building.
+        ProceduralBuildingWindow newWindow = district.DistrictWindows[Random.Range(0, district.DistrictWindows.Length)];
+        float windowWidth = newWindow.Width;
+        float windowSpacing = Random.Range(district.DistrictMinWindowSpacings, district.DistrictMaxWindowSpacings);
+
+        // Check to see if we need to add windows to the base.
+        if (newBuilding.BuildingBase.AddWindows)
+        {
+            // List of the attachment points I can't use
+            List<int> usedPoints = new List<int>();
+            if (newBuilding.BuildingAttachments != null)
+            { 
+                for (int k = 0; k < newBuilding.BuildingAttachments.Length; k++)
+                {
+                    usedPoints.Add(newBuilding.BuildingAttachments[k].AttachmentPoint);
+                }
+            } 
+
+            // Mathmatic Window placement
+            if (newBuilding.BuildingBase.WindowPoints.Length == 0)
+            {
+                // get the length of the size of the base.
+                float baseSizeLength = 0f;
+                if (size == BaseSize.OneByOne)
+                {
+                    baseSizeLength = 1 * OneBaseLengthUnits;
+                }
+                else if (size == BaseSize.TwoByTwo)
+                {
+                    baseSizeLength = 2 * OneBaseLengthUnits;
+                }
+                else if (size == BaseSize.ThreeByThree)
+                {
+                    baseSizeLength = 3 * OneBaseLengthUnits;
+                }
+
+                // Number of windows per side of building base.
+                int numberOfWindowsPerSide = Mathf.FloorToInt(baseSizeLength / (windowWidth + windowSpacing));
+
+                for (int i = 0; i < newBuilding.BuildingBase.AttachmentPoints.Length; ++i)
+                {
+                    // For each side check if it does not have an attachment.
+                    if (!usedPoints.Contains(i))
+                    {
+                        // Repeat spawning for each story
+                        for (int l = 0; l < storiesTall; ++l)
+                        {
+                            //Repeat spawning for number of windows on each side
+                            for (int j = 0; j < numberOfWindowsPerSide; ++j)
+                            {
+                                // With no attachment, windows can be added.                    
+                                newObject = (GameObject)Instantiate(newWindow.gameObject);
+
+                                newObject.transform.parent = newBuilding.transform;
+                                newObject.transform.position = newBuilding.BuildingBase.AttachmentPoints[i].transform.position;
+                                newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentRotationMod, 0f) + newBuilding.BuildingBase.AttachmentPoints[i].transform.eulerAngles);
+
+                                // Set window position
+                                newObject.transform.position += newObject.transform.forward * ((windowSpacing + windowWidth) * j - (baseSizeLength / 2f) + windowWidth + windowSpacing /2f);
+                                newObject.transform.position += new Vector3(0f, (l * storyHeightUnits) + storyHeightUnits /2f, 0f);
+                            }
+                        }
+                    }
+                }
+            }
+            // Node based window placement
+            else
+            {
+                // Repeat spawning for each story
+                for (int l = 0; l < storiesTall; ++l)
+                {
+                    // For each window attatchment, make sure it's not parented to a used attachmentpoint
+                    for (int i = 0; i < newBuilding.BuildingBase.WindowPoints.Length; i++)
+                    {
+                        if (newBuilding.BuildingBase.WindowPoints[i].transform.parent.GetComponentInChildren<ProceduralBuildingAttachment>() == null)
+                        {
+                            // With no attachment, windows can be added.                    
+                            newObject = (GameObject)Instantiate(newWindow.gameObject);
+
+                            newObject.transform.parent = newBuilding.transform;
+                            newObject.transform.position = newBuilding.BuildingBase.WindowPoints[i].transform.position;
+                            newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentRotationMod, 0f) + newBuilding.BuildingBase.WindowPoints[i].transform.eulerAngles);
+
+                            // Set window height                         
+                            newObject.transform.position += new Vector3(0f, (l * storyHeightUnits) + storyHeightUnits / 2f, 0f);       
+                        }
+                    }
+                }
+            }
+        }
+
+
+        // Check the attatchments
+        if (newBuilding.BuildingAttachments != null)
+        {
+            for (int i = 0; i < newBuilding.BuildingAttachments.Length; ++i)
+            {
+                if (newBuilding.BuildingAttachments[i] != null && newBuilding.BuildingAttachments[i].AddWindows)
+                {
+                    // Mathmatic Window placement
+                    if (newBuilding.BuildingAttachments[i].WindowPoints.Length == 0)
+                    {
+                        
+                        // get the length of the size of the base.
+                        float baseSizeLength = OneBaseLengthUnits;
+    
+                        // Number of windows per side of building base.
+                        int numberOfWindowsPerSide = Mathf.FloorToInt(baseSizeLength / (windowWidth + windowSpacing));
+                       
+                        // Three sides to spawn windows on
+                        for (int m = 0; m < 3; ++m)
+                        {
+                            Vector3 centerPosition = Vector3.zero;
+                            if (m == 0)
+                            {
+                                centerPosition = newBuilding.BuildingAttachments[i].transform.position + (newBuilding.BuildingAttachments[i].transform.right * baseSizeLength/2f) - (newBuilding.BuildingAttachments[i].transform.forward * baseSizeLength / 2f) ;
+                            }
+                            else if ( m == 1)
+                            {
+                                centerPosition = newBuilding.BuildingAttachments[i].transform.position + (newBuilding.BuildingAttachments[i].transform.right * baseSizeLength);
+                            }
+                            else if (m == 2)
+                            {
+                                centerPosition = newBuilding.BuildingAttachments[i].transform.position + (newBuilding.BuildingAttachments[i].transform.right * baseSizeLength / 2f) + (newBuilding.BuildingAttachments[i].transform.forward * baseSizeLength / 2f);
+                            }
+
+                            // Repeat spawning for each story
+                            for (int l = 0; l < storiesTall; ++l)
+                            {
+                                //Repeat spawning for number of windows on each side
+                                for (int j = 0; j < numberOfWindowsPerSide; ++j)
+                                {                    
+                                    newObject = (GameObject)Instantiate(newWindow.gameObject);
+
+                                    newObject.transform.parent = newBuilding.BuildingAttachments[i].transform;
+                                    newObject.transform.position = centerPosition;
+                                    newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentRotationMod * (m+3), 0f));
+
+                                    // Set window position
+                                    newObject.transform.position += newObject.transform.forward * ((windowSpacing + windowWidth) * j - (baseSizeLength / 2f) + windowWidth + windowSpacing / 2f);
+                                    newObject.transform.position += new Vector3(0f, (l * storyHeightUnits) + storyHeightUnits / 2f, 0f);
+                                }
+                            }
+                        }
+                    }
+                    // Node based window placement
+                    else
+                    {
+                        // Repeat spawning for each story
+                        for (int l = 0; l < storiesTall; ++l)
+                        {
+                            // For each window attatchment, make sure it's not parented to a used attachmentpoint
+                            for (int p = 0; p < newBuilding.BuildingAttachments[i].WindowPoints.Length; p++)
+                            {
+                                // With no attachment, windows can be added.                    
+                                newObject = (GameObject)Instantiate(newWindow.gameObject);
+
+                                newObject.transform.parent = newBuilding.BuildingAttachments[i].WindowPoints[p].transform;
+                                newObject.transform.position = newBuilding.BuildingAttachments[i].WindowPoints[p].transform.position;
+                                newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentRotationMod, 0f));
+
+                                // Set window height                         
+                                newObject.transform.position += new Vector3(0f, (l * storyHeightUnits) + storyHeightUnits / 2f, 0f);
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return newBuilding;
     }
 
@@ -222,28 +398,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     {
         if(building.IsVisible == false)
         {
-            building.IsVisible = true;
-
-            GameObject newObject;
-            // Create the base
-            newObject = (GameObject)Instantiate(building.BuildingBase.gameObject, building.transform);
-            newObject.transform.localScale = new Vector3(1f, building.BuildingStories, 1f);
-            newObject.transform.position = Vector3.zero;
-
-            // Base roof
-            if(building.BuildingBase.HasRoof != null)
-            {
-                building.BuildingBase.HasRoof.transform.SetParent(building.BuildingBase.RoofLocation);
-                building.BuildingBase.HasRoof.transform.position = Vector3.zero;
-                building.BuildingBase.HasRoof.transform.localScale = Vector3.one;
-            }
-            else
-            {
-                newObject = (GameObject)Instantiate(building.BuildingRoof.gameObject, building.BuildingBase.RoofLocation);
-                newObject.transform.position = Vector3.zero;
-                newObject.transform.localScale = Vector3.one;
-            }
-
+   
         }
         else
         {
@@ -261,12 +416,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
         {
             building.IsVisible = false;
 
-         // List<GameObject> children = new List<GameObject>();
-         //  int buildingChildCount = building.transform.childCount - 1;
-            for (int i = building.transform.childCount; i > 0; --i)
-            {
-                Destroy(building.transform.GetChild(i));
-            }
         }
         else
         {

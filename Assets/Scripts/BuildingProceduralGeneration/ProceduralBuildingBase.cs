@@ -9,18 +9,26 @@ public class ProceduralBuildingBase : MonoBehaviour
     [SerializeField]
     private ProceduralBuildingCreator.HeightType heightType;
     [SerializeField]
-    private Transform[] attatchmentPoints;
-    public Transform[] AttatchmentPoints
+    private Transform[] attachmentPoints;
+    public Transform[] AttachmentPoints
     {
         get
         {
-            return attatchmentPoints;
+            return attachmentPoints;
         }
     }
 
     // Windows
     [SerializeField]
-    private bool AddWindows;
+    private bool addWindows;
+    public bool AddWindows
+    {
+        get
+        {
+            return addWindows;
+        }
+    }
+
     [SerializeField]
     [Header("Set to 0 if the building uses mathmatical placement")]
     private Transform[] windowPoints;
