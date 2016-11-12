@@ -9,8 +9,8 @@ public class EndCreditsBehavior : MonoBehaviour
 	[SerializeField]
 	private GameObject scrollContentPanel;
 	private bool scroll = true;
-	private int speed = 40;
-	private int minPanelPositionY = -263;
+	private const int SPEED = 40;
+	private const int MIN_Y_POSITION = -263;
 
 	/// <summary>
 	/// Update the text scroll.
@@ -22,8 +22,8 @@ public class EndCreditsBehavior : MonoBehaviour
 			return;
 		}
 
-		scrollContentPanel.transform.Translate (Vector3.up * Time.deltaTime * speed);
-		if (scrollContentPanel.transform.position.y < minPanelPositionY) 
+		scrollContentPanel.transform.Translate (Vector3.up * Time.deltaTime * SPEED);
+		if (scrollContentPanel.transform.position.y < MIN_Y_POSITION) 
 		{
 			scroll = false;
 		}
