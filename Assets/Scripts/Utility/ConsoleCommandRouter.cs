@@ -14,6 +14,9 @@ public class ConsoleCommandRouter : MonoBehaviour
 
 	[SerializeField]
 	private string debugWeather = "weather";
+	[SerializeField]
+	private GameObject debuWeatherGUI;
+	private GameObject instantiatedWeather = null;
 
 	[SerializeField]
 	private string timeScale = "time";
@@ -44,6 +47,16 @@ public class ConsoleCommandRouter : MonoBehaviour
 	/// <param name="args">Arguments.</param>
 	public string DebugWeatherGUI(params string[] args)
 	{
+		if(this.instantiatedWeather == null)
+		{
+			// instantiate object and save
+			this.instantiatedWeather = Instantiate(this.debuWeatherGUI);
+		}
+		else
+		{
+			GameObject.Destroy(this.instantiatedWeather);
+			this.instantiatedWeather = null;
+		}
 		return "Colan has not implemented this yet";
 	}
 
