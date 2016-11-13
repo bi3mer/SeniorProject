@@ -6,6 +6,8 @@
     {
         PlayerInstance = new Player();
 		WeatherInstance = new WeatherSystem();
+        Radio RadioInstance = new Radio();
+        RadioInstance.currentWeather = WeatherInstance;
     }
  
     /// <summary>

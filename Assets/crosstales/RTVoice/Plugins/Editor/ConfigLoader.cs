@@ -51,6 +51,8 @@ namespace Crosstales.RTVoice.EditorExt {
 
             if (Constants.DEBUG)
             Debug.Log("Config data loaded");
+
+            Constants.TTS_MACOS = "/usr/bin/say";
       }
 
 #endregion

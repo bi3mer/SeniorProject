@@ -6,18 +6,17 @@ using Crosstales.RTVoice;
 //radio stations
 public enum RadioChannel {Music, Weather, Mystery, Null};
 
-//mock weather struct
-public struct MockWeather
-{
-    public float windSpeed; 
-    public float temperature;
-}
-
 public class Radio : MonoBehaviour
 {
+    [SerializeField]
     public bool isOn;
+    [SerializeField]
     public RadioChannel CurrentChannel { get; private set; }
+    [SerializeField]
     public string announcement;
+
+    //set up weather
+    public WeatherSystem currentWeather;
 
     //counter for how many times weather played
     private int weatherCounter;
@@ -26,9 +25,6 @@ public class Radio : MonoBehaviour
     private AudioSource[] sounds;
     private AudioSource music;
     private AudioSource weather;
-
-    //mock weather
-    private MockWeather currentWeather;
 
     /// <summary>
     /// Sets up radio for usage.
@@ -46,7 +42,7 @@ public class Radio : MonoBehaviour
         //update the weather and play if radio on
         StartCoroutine(updateWeather());
     }
-	
+
     /// <summary>
     /// Updates music if on.
     /// </summary>
@@ -104,22 +100,14 @@ public class Radio : MonoBehaviour
                     //update the weather when it has played 3 times or has just turned on
                     if (weatherCounter == 0)
                     {
-                        //get struct from weather system
-                        MockWeather newWeather = GetWeather();
+                        //get new announcment
+                        GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
 
-                        //don't update clip if same
-                        if (currentWeather.windSpeed != newWeather.windSpeed && currentWeather.temperature != newWeather.temperature)
-                        {
-                            //update weather and get new announcment
-                            currentWeather = newWeather;
-                            GetWeatherAnnouncement(currentWeather.windSpeed, currentWeather.temperature);
+                        //send the announcement to the wave file
+                        Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather", .7f);
 
-                            //send the announcement to the wave file
-                            Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather.wav", .7f);
-
-                            //wait for the wave file to update
-                            yield return new WaitForSeconds(2);
-                        }
+                        //wait for the wave file to update
+                        yield return new WaitForSeconds(2);
                     }
 
                     ++weatherCounter;
@@ -140,6 +128,7 @@ public class Radio : MonoBehaviour
             }
         }
     }
+
 
     /// <summary>
     /// Set new selected channel.
@@ -182,21 +171,6 @@ public class Radio : MonoBehaviour
     public void GetMysteryAnnouncement() 
     {
         
-    }
-
-    /// <summary>
-    /// Mock weather getter.
-    /// </summary>
-    /// <returns></returns>
-    public MockWeather GetWeather()
-    {
-        MockWeather currentWeather;
-
-        //set up mock weather struct
-        currentWeather.temperature = Random.Range(0.0f, 50f);
-        currentWeather.windSpeed = Random.Range(0.0f, 200f);
-
-        return currentWeather;
     }
 }
 
