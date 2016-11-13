@@ -21,6 +21,7 @@ public class LandMovement : Movement
     private const float playerAnimatorSprint = 1f;
     private const float playerAnimatorWalk = .5f;
     private const float playerAnimatorIdle = 0f;
+	private const string playerJumpSoundPath = "event:/Character/Land/Aesthetic_Jump";
 
     /// <summary>
     /// Calculate accumulated fall damage
@@ -75,6 +76,9 @@ public class LandMovement : Movement
     /// </summary>
     public override void Jump(Animator playerAnimator)
     {
+		FMOD.Studio.EventInstance eventEmitter = FMODUnity.RuntimeManager.CreateInstance(playerJumpSoundPath);
+		eventEmitter.start ();
+
         playerAnimator.SetTrigger(playerAnimatorJump);
     }
     /// <summary>
