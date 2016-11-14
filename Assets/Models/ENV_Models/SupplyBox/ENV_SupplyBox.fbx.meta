@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 9b980b4b5999db746ae6f0e5ce0150ab
-timeCreated: 1478826985
+guid: a20ff58448390db49ac7c375b96b44af
+timeCreated: 1478826986
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,8 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: RoofSupport_UV:polySurface1
-    4300002: WindowWasher_RoofSupport
+    4300000: pCube1
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -36,7 +35,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 15
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
