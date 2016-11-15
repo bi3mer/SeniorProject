@@ -341,7 +341,7 @@ public class WeatherSystem
 		int centerIndex = WeatherSystem.highPressureIndex;
 
 		this.WeatherInformation[(int) Weather.Pressure]           = this.getPressure(position, centerIndex);
-		this.WeatherInformation[(int) Weather.Temperature]        = this.getTemperature();
+		this.WeatherInformation[(int) Weather.Temperature]        = this.getTemperature() + DiurnalTemperatureVariance.TemperatureVariance;
 		this.WeatherInformation[(int) Weather.WindSpeedMagnitude] = this.getWindSpeed();
 		this.WeatherInformation[(int) Weather.RelativeHumidity]   = this.getRelativeHumidity();
 		this.WeatherInformation[(int) Weather.RelativeDewPoint]   = this.getRelativeDewPoint();
