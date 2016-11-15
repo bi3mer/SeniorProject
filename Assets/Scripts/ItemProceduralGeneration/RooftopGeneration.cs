@@ -16,7 +16,7 @@ public class RooftopGeneration
 	// Generator that creates the points to place objects
 	private RooftopPointGenerator generator;
 
-	private const int seed = 12;
+	private const int seed = 320;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RooftopGeneration"/> class.
@@ -40,7 +40,7 @@ public class RooftopGeneration
 		// TODO: This init should be placed in the start function of the monobehavior that calls this
 		Random.InitState (seed);
 		float chance;
-		List<Vector3> points;
+		List<ItemPlacementSamplePoint> points;
 
 		for (int i = 0; i < targets.Count; ++i) 
 		{
@@ -67,26 +67,32 @@ public class RooftopGeneration
 	/// <param name="hasDoor">If set to <c>true</c>, there is a door that needs to be created.</param>
 	/// <param name="points">Points.</param>
 	/// <param name="target">Target.</param>
-	public void GenerateObjects(bool hasDoor, List<Vector3> points, GameObject target)
+	public void GenerateObjects(bool hasDoor, List<ItemPlacementSamplePoint> points, GameObject target)
 	{
 		int startingIndex = 0;
 		// if there is a door, it will always be the first point returned
 		if (hasDoor) 
 		{
-			GameObject door = GameObject.Instantiate (DoorTemplates [Random.Range (0, DoorTemplates.Count)]);
-			door.transform.position = points [0];
+			GameObject door = GameObject.Instantiate (DoorTemplates [points[0].ItemIndex]);
+			door.transform.position = points [0].WorldSpaceLocation;
 			door.transform.SetParent (target.transform);
 			++startingIndex;
 		}
 
 		for (int i = startingIndex; i < points.Count; ++i) 
 		{
-			GameObject item = GameObject.Instantiate (ItemTemplates [Random.Range (0, ItemTemplates.Count)]);
-			item.transform.position = points [i];
+			GameObject item = GameObject.Instantiate (ItemTemplates [points[i].ItemIndex]);
+			item.transform.position = points [i].WorldSpaceLocation;
 			item.transform.SetParent (target.transform);
 		}
 	}
 
+	/// <summary>
+	/// Returns the sizes of each gameobject. Used during sampling point generation to take into account the size of the objet
+	/// when dealing with minDistance. Only needs the extents of the objects, so only half the size. Assuming that pivot is in center.
+	/// </summary>
+	/// <returns>The sizes.</returns>
+	/// <param name="items">Items.</param>
 	public List<float> GetSizes(List<GameObject> items)
 	{
 		List<float> size = new List<float>();
@@ -95,7 +101,7 @@ public class RooftopGeneration
 		for(int i = 0; i < items.Count; ++i)
 		{
 			renderer = items[i].GetComponent<Renderer>();
-			size.Add(Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.y));
+			size.Add(Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.y)/2f);
 		}
 
 		return size;

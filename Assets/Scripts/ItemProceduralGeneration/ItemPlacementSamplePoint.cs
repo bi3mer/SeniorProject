@@ -33,4 +33,10 @@ public class ItemPlacementSamplePoint
 		get;
 		set;
 	}
+
+	public float Size
+	{
+		get;
+		set;
+	}
 }
