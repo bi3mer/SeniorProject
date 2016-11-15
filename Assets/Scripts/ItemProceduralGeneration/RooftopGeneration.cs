@@ -16,7 +16,7 @@ public class RooftopGeneration
 	// Generator that creates the points to place objects
 	private RooftopPointGenerator generator;
 
-	private const int seed = 8;
+	private const int seed = 12;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RooftopGeneration"/> class.
@@ -48,7 +48,7 @@ public class RooftopGeneration
 			chance = Random.Range (0f, 1f);
 			if (chance < ChanceOfGeneration) 
 			{
-				points = generator.GetValidPoints (targets [i]);
+				points = generator.GetValidPoints (targets [i], GetSizes(DoorTemplates), GetSizes(ItemTemplates));
 
 				if (points.Count > 0) 
 				{
@@ -85,5 +85,19 @@ public class RooftopGeneration
 			item.transform.position = points [i];
 			item.transform.SetParent (target.transform);
 		}
+	}
+
+	public List<float> GetSizes(List<GameObject> items)
+	{
+		List<float> size = new List<float>();
+		Renderer renderer;
+
+		for(int i = 0; i < items.Count; ++i)
+		{
+			renderer = items[i].GetComponent<Renderer>();
+			size.Add(Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.y));
+		}
+
+		return size;
 	}
 }
