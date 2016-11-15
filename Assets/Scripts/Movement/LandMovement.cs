@@ -14,6 +14,8 @@ public class LandMovement : Movement
     private float minFallDamageVelocity;
     [SerializeField]
     private float fallDamageModifier;
+	[SerilaizeField]
+	private const string playerJumpSoundPath = "event:/Character/Land/Aesthetic_Jump";
 
     private const string playerAnimatorTurn = "Turn";
     private const string playerAnimatorForward = "Forward";
@@ -21,7 +23,6 @@ public class LandMovement : Movement
     private const float playerAnimatorSprint = 1f;
     private const float playerAnimatorWalk = .5f;
     private const float playerAnimatorIdle = 0f;
-	private const string playerJumpSoundPath = "event:/Character/Land/Aesthetic_Jump";
 
 	FMOD.ATTRIBUTES_3D attr = new FMOD.ATTRIBUTES_3D ();
 
