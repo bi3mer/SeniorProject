@@ -23,6 +23,8 @@ public class LandMovement : Movement
     private const float playerAnimatorIdle = 0f;
 	private const string playerJumpSoundPath = "event:/Character/Land/Aesthetic_Jump";
 
+	FMOD.ATTRIBUTES_3D attr = new FMOD.ATTRIBUTES_3D ();
+
     /// <summary>
     /// Calculate accumulated fall damage
     /// </summary>
@@ -77,6 +79,18 @@ public class LandMovement : Movement
     public override void Jump(Animator playerAnimator)
     {
 		FMOD.Studio.EventInstance eventEmitter = FMODUnity.RuntimeManager.CreateInstance(playerJumpSoundPath);
+
+		FMOD.VECTOR pos = new FMOD.VECTOR ();
+		pos.x = 0;
+		pos.y = 1;
+		pos.z = 0;
+
+		attr.forward = new FMOD.VECTOR();
+		attr.position = pos;
+		attr.up = new FMOD.VECTOR ();
+		attr.velocity = new FMOD.VECTOR ();
+
+		eventEmitter.set3DAttributes (attr);
 		eventEmitter.start ();
 
         playerAnimator.SetTrigger(playerAnimatorJump);
