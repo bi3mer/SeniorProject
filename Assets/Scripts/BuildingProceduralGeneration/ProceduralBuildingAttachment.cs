@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ProceduralBuildingAttachment : MonoBehaviour
 {
-    // The enum value this is attatched at.
+    // The position in the buildings attatchment point array this part is connected to.
     public int AttachmentPoint;
 
     // Windows
@@ -18,7 +18,7 @@ public class ProceduralBuildingAttachment : MonoBehaviour
     }
 
     [SerializeField]
-    [Header("Set to 0 if the building uses mathmatical placement")]
+    [Tooltip("Set to 0 if the building uses mathmatical placement")]
     private Transform[] windowPoints;
     public Transform[] WindowPoints
     {
@@ -30,7 +30,7 @@ public class ProceduralBuildingAttachment : MonoBehaviour
 
     // Roof
     [SerializeField]
-    [Header("Leave null if the attatchment doesn't come with a roof")]
+    [Tooltip("Leave null if the attatchment doesn't come with a roof")]
     private ProceduralBuildingRoof hasRoof;
     public ProceduralBuildingRoof HasRoof
     {

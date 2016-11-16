@@ -9,7 +9,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     [SerializeField]
     private ProceduralDistrictDefinition[] district;
 
-    //  Per building base Enums
+    // Per building base Enums
     public enum HeightType
     {
         Stretch,
@@ -40,7 +40,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
     // Height of 1 base building unit on the grid.
     private const float OneBaseLengthUnits = 3f;
     // Start rotation modifier of all attachments
-    private const float attachmentRotationMod = -90f;
+    private const float attachmentRotationMod = 0f;
+    // Rotation mod of all windows.
+    private const float attachmentWindowRotationMod = 90f;
 
     // Test Variables
     public int TestDistrict;
@@ -53,18 +55,18 @@ public class ProceduralBuildingCreator : MonoBehaviour
     public void TestBuildBuilding()
     {
        ProceduralBuildingInstance newbuilding = CreateBuilding(district[TestDistrict], TestBaseSize, TestAttatchmentPercentage, TestStoriesTall);
-       //ShowBuilding(newbuilding);
+       // ShowBuilding(newbuilding);
        NewestBuilding = newbuilding;
     }
     [ContextMenu("Hide the newest building")]
     public void HideTestBuilding()
     {
-   //     HideBuilding(NewestBuilding);
+        // HideBuilding(NewestBuilding);
     }
     [ContextMenu("Show the newest building")]
     public void ShowTestBuilding()
     {
- //      ShowBuilding(NewestBuilding);
+        // ShowBuilding(NewestBuilding);
     }
 
 
@@ -124,8 +126,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
 
         // Choose a window material to use for all the materials
         Material windowMaterial = (Material) district.districtProceduralWindowMaterials[Random.Range(0, district.districtProceduralWindowMaterials.Count)];
-
-
 
         List<MeshRenderer> buildingMeshes = new List<MeshRenderer>();
         List<MeshRenderer> windowMeshes = new List<MeshRenderer>();
@@ -302,19 +302,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             if (newBuilding.BuildingBase.WindowPoints.Length == 0)
             {
                 // get the length of the size of the base.
-                float baseSizeLength = 0f;
-                if (size == BaseSize.OneByOne)
-                {
-                    baseSizeLength = 1 * OneBaseLengthUnits;
-                }
-                else if (size == BaseSize.TwoByTwo)
-                {
-                    baseSizeLength = 2 * OneBaseLengthUnits;
-                }
-                else if (size == BaseSize.ThreeByThree)
-                {
-                    baseSizeLength = 3 * OneBaseLengthUnits;
-                }
+                float baseSizeLength = OneBaseLengthUnits;
 
                 // Number of windows per side of building base.
                 int numberOfWindowsPerSide = Mathf.FloorToInt(baseSizeLength / (windowWidth + windowSpacing));
@@ -327,7 +315,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                         // Repeat spawning for each story
                         for (int l = 0; l < storiesTall; ++l)
                         {
-                            //Repeat spawning for number of windows on each side
+                            // Repeat spawning for number of windows on each side
                             for (int j = 0; j < numberOfWindowsPerSide; ++j)
                             {
                                 // With no attachment, windows can be added.                    
@@ -348,6 +336,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             // Node based window placement
             else
             {
+
                 // Repeat spawning for each story
                 for (int l = 0; l < storiesTall; ++l)
                 {
@@ -362,7 +351,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                             newObject.transform.parent = newBuilding.transform;
                             newObject.transform.position = newBuilding.BuildingBase.WindowPoints[i].transform.position;
                             newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentRotationMod, 0f) + newBuilding.BuildingBase.WindowPoints[i].transform.eulerAngles);
-
+                            
                             // Set window height                         
                             newObject.transform.position += new Vector3(0f, (l * storyHeightUnits) + storyHeightUnits / 2f, 0f);       
                         }
@@ -372,7 +361,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
         }
 
 
-        // Check the attatchments
+        // Check the attatchment windows
         if (newBuilding.BuildingAttachments != null)
         {
             for (int i = 0; i < newBuilding.BuildingAttachments.Length; ++i)
@@ -395,7 +384,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                             Vector3 centerPosition = Vector3.zero;
                             if (m == 0)
                             {
-                                centerPosition = newBuilding.BuildingAttachments[i].transform.position + (newBuilding.BuildingAttachments[i].transform.right * baseSizeLength/2f) - (newBuilding.BuildingAttachments[i].transform.forward * baseSizeLength / 2f) ;
+                                centerPosition = newBuilding.BuildingAttachments[i].transform.position + (newBuilding.BuildingAttachments[i].transform.right * baseSizeLength / 2f) + (newBuilding.BuildingAttachments[i].transform.forward * baseSizeLength / 2f);      
                             }
                             else if ( m == 1)
                             {
@@ -403,20 +392,20 @@ public class ProceduralBuildingCreator : MonoBehaviour
                             }
                             else if (m == 2)
                             {
-                                centerPosition = newBuilding.BuildingAttachments[i].transform.position + (newBuilding.BuildingAttachments[i].transform.right * baseSizeLength / 2f) + (newBuilding.BuildingAttachments[i].transform.forward * baseSizeLength / 2f);
+                                centerPosition = newBuilding.BuildingAttachments[i].transform.position + (newBuilding.BuildingAttachments[i].transform.right * baseSizeLength / 2f) - (newBuilding.BuildingAttachments[i].transform.forward * baseSizeLength / 2f);
                             }
 
                             // Repeat spawning for each story
                             for (int l = 0; l < storiesTall; ++l)
                             {
-                                //Repeat spawning for number of windows on each side
+                                // Repeat spawning for number of windows on each side
                                 for (int j = 0; j < numberOfWindowsPerSide; ++j)
                                 {                    
                                     newObject = (GameObject)Instantiate(newWindow.gameObject);
                                     windowMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
                                     newObject.transform.parent = newBuilding.BuildingAttachments[i].transform;
                                     newObject.transform.position = centerPosition;
-                                    newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentRotationMod * (m+3), 0f));
+                                    newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentWindowRotationMod * (m+3), 0f));
 
                                     // Set window position
                                     newObject.transform.position += newObject.transform.forward * ((windowSpacing + windowWidth) * j - (baseSizeLength / 2f) + windowWidth + windowSpacing / 2f);
@@ -439,7 +428,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                                 windowMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
                                 newObject.transform.parent = newBuilding.BuildingAttachments[i].WindowPoints[p].transform;
                                 newObject.transform.position = newBuilding.BuildingAttachments[i].WindowPoints[p].transform.position;
-                                newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentRotationMod, 0f));
+                                newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentRotationMod - attachmentWindowRotationMod, 0f));
 
                                 // Set window height                         
                                 newObject.transform.position += new Vector3(0f, (l * storyHeightUnits) + storyHeightUnits / 2f, 0f);
@@ -450,7 +439,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             }
         }
 
-        //Set all the materials we added to lists while making the meshes.
+        // Set all the materials we added to lists while making the meshes.
         if (buildingMeshes.Count > 1)
         {
             for (int i = 0; i < buildingMeshes.Count; ++i)
