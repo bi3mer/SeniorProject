@@ -23,10 +23,11 @@ public class RooftopGeneration
 	/// </summary>
 	/// <param name="doors">Door template object.</param>
 	/// <param name="items">Items that may be generated.</param>
-	public RooftopGeneration(List<GameObject> doors, List<GameObject> items)
+	public RooftopGeneration(List<GameObject> doors, List<GameObject> items, float chance)
 	{
 		DoorTemplates = doors;
 		ItemTemplates = items;
+		ChanceOfGeneration = chance;
 
 		generator = new RooftopPointGenerator ();
 	}
@@ -48,7 +49,7 @@ public class RooftopGeneration
 			chance = Random.Range (0f, 1f);
 			if (chance < ChanceOfGeneration) 
 			{
-				points = generator.GetValidPoints (targets [i], GetSizes(DoorTemplates), GetSizes(ItemTemplates));
+				points = generator.GetValidPoints (targets [i], GetItemExtents(DoorTemplates), GetItemExtents(ItemTemplates));
 
 				if (points.Count > 0) 
 				{
@@ -88,22 +89,26 @@ public class RooftopGeneration
 	}
 
 	/// <summary>
-	/// Returns the sizes of each gameobject. Used during sampling point generation to take into account the size of the objet
+	/// Returns the extents of each gameobject. Used during sampling point generation to take into account the extents of the objet
 	/// when dealing with minDistance. Only needs the extents of the objects, so only half the size. Assuming that pivot is in center.
 	/// </summary>
-	/// <returns>The sizes.</returns>
+	/// <returns>The extents of the items.</returns>
 	/// <param name="items">Items.</param>
-	public List<float> GetSizes(List<GameObject> items)
+	public List<float> GetItemExtents(List<GameObject> items)
 	{
-		List<float> size = new List<float>();
+		List<float> extents = new List<float>();
 		Renderer renderer;
 
 		for(int i = 0; i < items.Count; ++i)
 		{
 			renderer = items[i].GetComponent<Renderer>();
-			size.Add(Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.y)/2f);
+
+			// the extents of the item for the purposes of the procedural generation is half of either the depth or width
+			// this number will be used to determine how far the minDistance between points must be to avoid objects overlapping
+			// since the pivots are generally in the center, the size is halved
+			extents.Add(Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.z)/2f);
 		}
 
-		return size;
+		return extents;
 	}
 }

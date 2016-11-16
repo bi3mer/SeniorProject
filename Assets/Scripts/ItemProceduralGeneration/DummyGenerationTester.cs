@@ -18,8 +18,7 @@ public class DummyGenerationTester : MonoBehaviour
 	/// </summary>
 	void Start () 
 	{
-		RooftopGeneration generator = new RooftopGeneration (DoorTemplate, ItemTemplate);
-		generator.ChanceOfGeneration = GenerationChance;
+		RooftopGeneration generator = new RooftopGeneration (DoorTemplate, ItemTemplate, GenerationChance);
 		generator.PopulateRoof (Buildings);
 	}
 }

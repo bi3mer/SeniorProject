@@ -33,9 +33,9 @@ public class RooftopPointGenerator
 
 	private ItemPlacementSamplePoint[,] grid;
 
-	private List<float> generatableObjectSizes;
+	private List<float> generatableObjectExtents;
 
-	private List<float> generatableDoorSizes;
+	private List<float> generatableDoorExtents;
 
 	/// <summary>
 	/// Takes the sampling points and checks to see if they are on locations that are not at too steep an incline on the building's surface.
@@ -43,10 +43,10 @@ public class RooftopPointGenerator
 	/// </summary>
 	/// <returns>The valid points.</returns>
 	/// <param name="target">Target.</param>
-	public List<ItemPlacementSamplePoint> GetValidPoints(GameObject target, List<float> doors, List<float> items)
+	public List<ItemPlacementSamplePoint> GetValidPoints(GameObject target, List<float> doorExtents, List<float> itemExtents)
 	{
-		generatableDoorSizes = doors;
-		generatableObjectSizes = items;
+		generatableDoorExtents = doorExtents;
+		generatableObjectExtents = itemExtents;
 
 		Mesh targetMesh = target.GetComponent<MeshFilter> ().mesh;
 		Vector3 max = targetMesh.bounds.max;
@@ -128,11 +128,11 @@ public class RooftopPointGenerator
 
 		// generate the first point randomly away from the doorway
 		ItemPlacementSamplePoint firstPoint = new ItemPlacementSamplePoint();
-		firstPoint.ItemIndex = Random.Range(0, generatableDoorSizes.Count);
+		firstPoint.ItemIndex = Random.Range(0, generatableDoorExtents.Count);
 		firstPoint.PointOnTargetSurface = createDoor (width, depth, height, target, firstPoint.ItemIndex);
 		firstPoint.GridPoint = PointToGrid(firstPoint.PointOnTargetSurface);
 		firstPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, firstPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea);
-		firstPoint.Size = generatableDoorSizes[firstPoint.ItemIndex];
+		firstPoint.Size = generatableDoorExtents[firstPoint.ItemIndex];
 
 		// Building failed to have any sample points after attempting the maximum attempts
 		// not a good building, skip
@@ -162,12 +162,12 @@ public class RooftopPointGenerator
 			for (int i = 0; i < newPointsPerSamplingPoint; ++i)
 			{
 				newPoint = new ItemPlacementSamplePoint ();
-				newPoint.ItemIndex = Random.Range(0, generatableObjectSizes.Count);
+				newPoint.ItemIndex = Random.Range(0, generatableObjectExtents.Count);
 
 				newPoint.PointOnTargetSurface = generateRandomPointAround(point.PointOnTargetSurface, point.MinDistance + point.Size);
 				newPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, newPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea);
 				newPoint.GridPoint = PointToGrid(newPoint.PointOnTargetSurface);
-				newPoint.Size = generatableObjectSizes[newPoint.ItemIndex];
+				newPoint.Size = generatableObjectExtents[newPoint.ItemIndex];
 
 				tries = 0;
 
@@ -264,7 +264,7 @@ public class RooftopPointGenerator
 	/// <param name="target">Target building.</param>
 	private Vector2 createDoor(float width, float depth, float height, GameObject target, int doorIndex)
 	{
-		float size = generatableDoorSizes[doorIndex];
+		float size = generatableDoorExtents[doorIndex];
 
 		// Generates a point within the bounds and converts it to a global location
 		Vector2 doorLocation = new Vector2(Random.Range(width * borderPercent + size, width - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, depth - (depth * borderPercent + size)));
