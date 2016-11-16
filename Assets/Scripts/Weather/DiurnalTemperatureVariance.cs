@@ -1,4 +1,8 @@
-﻿public class DiurnalTemperatureVariance
+﻿/// <summary>
+/// A gamified version of:
+/// https://en.wikipedia.org/wiki/Diurnal_temperature_variation
+/// </summary>
+public class DiurnalTemperatureVariance
 {
 	private const float nightTimeTemeprature = -5.0f;
 	private const float dayTimeTemeprature   = 5.0f;
