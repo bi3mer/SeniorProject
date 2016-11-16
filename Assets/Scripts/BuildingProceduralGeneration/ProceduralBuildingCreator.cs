@@ -19,7 +19,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
     public enum BaseSize
     {
         OneByOne,
-        // The below is not yet Implimented
         TwoByTwo,
         ThreeByThree
     }
