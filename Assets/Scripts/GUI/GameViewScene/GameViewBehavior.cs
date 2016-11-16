@@ -27,7 +27,7 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-		controlScheme = Game.Instance.PlayerInstance.Controller.Scheme;
+		controlScheme = Game.Instance.Scheme;
 		if (controlScheme != null) 
 		{
 			if (Input.GetKey (controlScheme.Pause)) 
@@ -57,6 +57,7 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	public void OnPauseClick() 
 	{
+		Game.Instance.PauseInstance.Pause ();
 		pausePanel.SetActive (true);
 		inventoryPanel.SetActive (false);
 		radioPanel.SetActive (false);
@@ -87,6 +88,7 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	public void OnResumeClick()
 	{
+		Game.Instance.PauseInstance.Resume ();
 		pausePanel.SetActive (false);
 		inventoryPanel.SetActive (false);
 		radioPanel.SetActive (false);

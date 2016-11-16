@@ -240,7 +240,6 @@ public class Radio : MonoBehaviour
 		{
 			this.SetChannel (RadioChannel.Music);
 		}
-		UnityEngine.Debug.Log (this.CurrentChannel);
 	}
 
 	/// <summary>

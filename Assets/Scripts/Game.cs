@@ -7,6 +7,8 @@
         PlayerInstance = new Player();
 		WeatherInstance = new WeatherSystem();
 		PauseInstance = new PauseSystem();
+		GameSettingsInstance = new GameSettings ();
+		Scheme = new ControlScheme ();
     }
  
     /// <summary>
@@ -43,7 +45,15 @@
 		private set;
 	}
 
+	/// <summary>
+	/// The clock instance.
+	/// </summary>
 	private Clock clockInstance;
+
+	/// <summary>
+	/// Gets the clock instance.
+	/// </summary>
+	/// <value>The clock instance.</value>
 	public Clock ClockInstance
 	{
 		get
@@ -57,9 +67,34 @@
 			return this.clockInstance;
 		}
 	}
+
+	/// <summary>
+	/// Gets or private sets the pause instance.
+	/// </summary>
+	/// <value>The pause instance.</value>
 	public PauseSystem PauseInstance
 	{
 		get;
 		private set;
+	}
+
+	/// <summary>
+	/// Gets the game settings instance.
+	/// </summary>
+	/// <value>The game settings instance.</value>
+	public GameSettings GameSettingsInstance 
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets the control scheme configured for the game.
+	/// </summary>
+	/// <value>Player control scheme</value>
+	public ControlScheme Scheme 
+	{
+		get;
+		set;
 	}
 }

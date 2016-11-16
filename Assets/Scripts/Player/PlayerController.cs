@@ -76,8 +76,9 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(ReduceHunger(hungerReductionRate));
         StartCoroutine(ReduceWarmth(waterWarmthReductionRate));
 
-		// Link this to the player instance
+		// Link this to the player instance and control scheme instance
 		Game.Instance.PlayerInstance.Controller = this;
+		Game.Instance.Scheme = this.controlScheme;
 	}
 
     /// <summary>
@@ -186,7 +187,7 @@ public class PlayerController : MonoBehaviour
             direction += getDirection(-playerCamera.CurrentView.forward);
         }
         if (Input.GetKey(controlScheme.Left) 
-            || Input.GetKey(controlScheme.LeftSecodary))
+            || Input.GetKey(controlScheme.LeftSecondary))
         {
             direction += getDirection(-playerCamera.CurrentView.right);
         }
@@ -334,16 +335,4 @@ public class PlayerController : MonoBehaviour
     {
         get { return movement is RaftMovement; }
     }
-
-	/// <summary>
-	/// Gets the control scheme configured for the player.
-	/// </summary>
-	/// <value>Player control scheme</value>
-	public ControlScheme Scheme
-	{
-		get 
-		{
-			return this.controlScheme;
-		}
-	}
 }
