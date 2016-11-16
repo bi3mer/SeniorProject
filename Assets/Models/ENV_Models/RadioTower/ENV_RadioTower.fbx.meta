@@ -18,6 +18,7 @@ ModelImporter:
     100020: tower
     100022: tower_top
     100024: wires1
+    100026: satellites
     400000: base
     400002: bottomHolders1
     400004: building
@@ -31,6 +32,7 @@ ModelImporter:
     400020: tower
     400022: tower_top
     400024: wires1
+    400026: satellites
     2300000: base
     2300002: bottomHolders1
     2300004: building
