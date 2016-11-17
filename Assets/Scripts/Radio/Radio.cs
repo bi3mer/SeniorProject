@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Diagnostics;
 using System.Collections;
 using Crosstales.RTVoice;
 
@@ -18,23 +17,25 @@ public class Radio : MonoBehaviour
     //counter for how many times weather played
     private int weatherCounter;
 
-    //declare sounds
-    private AudioSource[] sounds;
+    // set sound sources
+	[SerializeField]
     private AudioSource music;
+	[SerializeField]
     private AudioSource weather;
+	[SerializeField]
+	private AudioSource mystery;
 
     /// <summary>
     /// Sets up radio for usage.
     /// </summary>
     void Start()
     {
-        isOn = false;
-        CurrentChannel = RadioChannel.Null;
+		if (isOn == null) 
+		{
+			isOn = false;
+		}
 
-        //set sounds - this is temp until audio engine figured out
-        sounds = GetComponents<AudioSource>();
-        music = sounds[0];
-        weather = sounds[1];
+        CurrentChannel = RadioChannel.Null;
 
         //update the weather and play if radio on
         StartCoroutine(updateWeather());
@@ -108,7 +109,7 @@ public class Radio : MonoBehaviour
                     }
 
                     ++weatherCounter;
-                    weather.Play();
+                    //weather.Play();
                 }
 
                 //don't do anything if the weather is still playing
@@ -132,18 +133,37 @@ public class Radio : MonoBehaviour
     /// <param name="channel"></param>
     public void SetChannel(RadioChannel channel)
     {
-        if (CurrentChannel != channel)
-        {        
-            if (CurrentChannel == RadioChannel.Music)
-            {
-                music.Stop();
-            }
-            if (CurrentChannel == RadioChannel.Weather)
-            {
-                weather.Stop();
-            }
-            CurrentChannel = channel;
-        }
+		if (isOn) 
+		{
+			if (channel == RadioChannel.Music) 
+			{
+				music.Play ();
+				weather.Stop ();
+				mystery.Stop ();
+				this.CurrentChannel = channel;
+			} 
+			else if (channel == RadioChannel.Weather) 
+			{
+				weather.Play ();
+				music.Stop ();
+				mystery.Stop ();
+				this.CurrentChannel = channel;
+			} 
+			else if (this.CurrentChannel == RadioChannel.Mystery) 
+			{
+				mystery.Play ();
+				music.Stop ();
+				weather.Stop ();
+				this.CurrentChannel = channel;
+			} 
+			else if (this.CurrentChannel == RadioChannel.Null) 
+			{
+				mystery.Stop ();
+				music.Stop ();
+				weather.Stop ();
+				this.CurrentChannel = channel;
+			}
+		}
     }
 
     /// <summary>
@@ -151,18 +171,22 @@ public class Radio : MonoBehaviour
     /// </summary>
     public void OnChannelClick()
     {
-        if (CurrentChannel == RadioChannel.Music)
-        {
-            SetChannel(RadioChannel.Weather);
-        }
-        else if (CurrentChannel == RadioChannel.Weather)
-        {
-            SetChannel(RadioChannel.Mystery);
-        }
-        else if (this.CurrentChannel == RadioChannel.Mystery)
-        {
-            SetChannel(RadioChannel.Music);
-        }
+		if (CurrentChannel == RadioChannel.Music) 
+		{
+			SetChannel (RadioChannel.Weather);
+		} 
+		else if (CurrentChannel == RadioChannel.Weather) 
+		{
+			SetChannel (RadioChannel.Mystery);
+		} 
+		else if (this.CurrentChannel == RadioChannel.Mystery) 
+		{
+			SetChannel (RadioChannel.Null);
+		} 
+		else if (this.CurrentChannel == RadioChannel.Null) 
+		{
+			SetChannel (RadioChannel.Music);
+		}
     }
 
     /// <summary>

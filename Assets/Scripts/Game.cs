@@ -6,6 +6,8 @@
     {
         PlayerInstance = new Player();
 		WeatherInstance = new WeatherSystem();
+		RadioInstance = new Radio();
+		RadioInstance.currentWeather = WeatherInstance;
 		PauseInstance = new PauseSystem();
 		GameSettingsInstance = new GameSettings ();
 		Scheme = new ControlScheme ();
@@ -83,6 +85,16 @@
 	/// </summary>
 	/// <value>The game settings instance.</value>
 	public GameSettings GameSettingsInstance 
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets the radio instance.
+	/// </summary>
+	/// <value>The radio instance.</value>
+	public Radio RadioInstance 
 	{
 		get;
 		private set;
