@@ -10,6 +10,8 @@ public class GameViewBehavior : MonoBehaviour
 	private GameObject pausePanel;
 	[SerializeField]
 	private GameObject radioPanel;
+	[SerializeField]
+	private GameObject craftingPanel;
 	private ControlScheme controlScheme;
 
 	/// <summary>
@@ -17,9 +19,11 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	void Start () 
 	{
+		controlScheme = Game.Instance.Scheme;
 		inventoryPanel.SetActive (false);
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
+		craftingPanel.SetActive (false);
 	}
 
 	/// <summary>
@@ -27,7 +31,6 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-		controlScheme = Game.Instance.Scheme;
 		if (controlScheme != null) 
 		{
 			if (Input.GetKey (controlScheme.Pause)) 
@@ -51,7 +54,7 @@ public class GameViewBehavior : MonoBehaviour
 			}
 		}
 	}
-
+		
 	/// <summary>
 	/// Loads the pause panel.
 	/// </summary>
@@ -61,6 +64,7 @@ public class GameViewBehavior : MonoBehaviour
 		pausePanel.SetActive (true);
 		inventoryPanel.SetActive (false);
 		radioPanel.SetActive (false);
+		craftingPanel.SetActive (false);
 	}
 
 	/// <summary>
@@ -71,6 +75,7 @@ public class GameViewBehavior : MonoBehaviour
 		inventoryPanel.SetActive (true);
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
+		craftingPanel.SetActive (false);
 	}
 
 	/// <summary>
@@ -81,6 +86,7 @@ public class GameViewBehavior : MonoBehaviour
 		radioPanel.SetActive (true);
 		inventoryPanel.SetActive (false);
 		pausePanel.SetActive (false);
+		craftingPanel.SetActive (false);
 	}
 
 	/// <summary>
@@ -92,5 +98,17 @@ public class GameViewBehavior : MonoBehaviour
 		pausePanel.SetActive (false);
 		inventoryPanel.SetActive (false);
 		radioPanel.SetActive (false);
+		craftingPanel.SetActive (false);
+	}
+
+	/// <summary>
+	/// Loads the crafting panel.
+	/// </summary>
+	public void OnCraftingClick()
+	{
+		radioPanel.SetActive (false);
+		inventoryPanel.SetActive (false);
+		pausePanel.SetActive (false);
+		craftingPanel.SetActive (true);
 	}
 }
