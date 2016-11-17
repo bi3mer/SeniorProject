@@ -177,7 +177,8 @@ public class Radio : MonoBehaviour
         string windSpeedText = windSpeed.ToString("F2");
         string temperatureText = temperature.ToString("F2");
 
-        return "There is heavy rain heading toward the city with a wind speed of " + windSpeedText + " miles per hour and a temperature of " + temperatureText + " degrees Fahrenheit.";
+        string newAnnouncement =  "There is heavy rain heading toward the city with a wind speed of " + windSpeedText + " miles per hour and a temperature of " + temperatureText + " degrees Fahrenheit.";
+        return newAnnouncement;
     }
 
     /// <summary>
@@ -185,7 +186,8 @@ public class Radio : MonoBehaviour
     /// </summary>
     public string GetMysteryAnnouncement() 
     {
-        return "This is a mystery";
+        string newAnnouncement = "This is a mystery";
+        return newAnnouncement;
     }
 }
 
