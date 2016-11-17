@@ -1,0 +1,266 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using System;
+
+/// <summary>
+/// Defines the inventory of items the player can access. Currently just considers all the gameobjects parented under item parent
+/// as part of the inventory.
+/// TODO: Enable this to be used for on hand and raft inventories. Add inventory size limit and ability to adjust the size. Make
+/// the inventory save strings of objects then use YAML file to define those items as needed.
+/// </summary>
+
+public class PlayerInventory
+{
+	// Inventory size
+	public int InventorySize = 20;
+
+	// How many items there may be in a stack
+	private const int StackSize = 5;
+
+	private string inventoryName;
+
+	// Contents of the inventory keyed by their name
+	private Stack[] contents;
+
+	private bool[] usedId;
+
+	private InventoryYamlParser parser;
+	/// <summary>
+	/// Sets up the inventory
+	/// TODO: Remove the definition of the inventory
+	/// </summary>
+	public PlayerInventory(string name, string inventoryFile)
+	{
+		contents = new Stack[InventorySize];
+		usedId = new bool[InventorySize];
+		inventoryName = name;
+
+		parser = new InventoryYamlParser(inventoryFile);
+	}
+
+	/// <summary>
+	/// Loads the inventory with its contents based on the contents of the yaml file.
+	/// </summary>
+	public void LoadInventory()
+	{
+		List<InventoryYAMLModel> inventoryInfo = parser.GetInventoryContents (inventoryName);
+	
+		for (int i = 0; i < inventoryInfo.Count; ++i) 
+		{
+			if(inventoryInfo[i].StackId != -1)
+			{
+
+				BaseItem item = inventoryInfo [i].Item;
+				item.InitializeBaseItem ();
+
+				for (int j = 0; j < inventoryInfo[i].ItemCategories.Count; ++j) 
+				{
+					item.AddItemCategory (inventoryInfo[i].ItemCategories [j]);
+				}
+
+				item.SetUpBaseItem ();
+
+				Stack stack = new Stack(item, inventoryInfo[i].ItemAmount, GetID());
+				contents[i] = stack;
+			}
+			else
+			{
+				contents[i] = null;
+			}
+		}
+	}
+
+	/// <summary>
+	/// Gets the contents of the inventory.
+	/// </summary>
+	/// <returns>The inventory.</returns>
+	public Stack[] GetInventory()
+	{
+		return contents;
+	}
+
+	/// <summary>
+	/// Uses the item. This means that the number of units in an item will decrease. 
+	/// If there are no units of the item left, then the item is removed from the inventory.
+	/// </summary>
+	/// <param name="name">Name of item.</param>
+	/// <param name="amt">Amount of item to use.</param>
+	public void UseItem(BaseItem item, int amt)
+	{
+		int amountLeft = amt;
+		int stackAmount;
+
+		for (int i = 0; i < contents.Length; ++i) 
+		{
+			if(contents[i] != null)
+			{
+				if (contents[i].Item.ItemName.Equals(item.ItemName)) 
+				{
+					stackAmount = contents[i].Amount;
+					contents[i].Amount -= amountLeft;
+
+					amountLeft -= stackAmount;
+
+					if(contents[i].Amount <= 0)
+					{
+						contents[i].Amount = 0;
+						contents[i] = null;
+						usedId [i] = false;
+					}
+
+					if(amountLeft <= 0)
+					{
+						i = contents.Length;
+					}
+				}
+			}
+		}
+	}
+
+	/// <summary>
+	/// Gets an item based on their name. Returns as many stacks as needed to fulfill the amount desired.
+	/// </summary>
+	/// <returns>The item.</returns>
+	/// <param name="name">Name.</param>
+	public List<Stack> GetStack(string name, int amt)
+	{
+		int currentAmount = 0;
+		List<Stack> stacksNeeded = new List<Stack> ();
+
+		for (int i = 0; i < contents.Length; ++i) 
+		{
+			if(contents[i] != null)
+			{
+				if (contents [i].Item.ItemName.Equals (name)) 
+				{
+					stacksNeeded.Add (contents [i]);
+					currentAmount += contents [i].Amount;
+				}
+
+				if(currentAmount >= amt)
+				{
+					break;
+				}
+			}
+		}
+
+		return stacksNeeded;
+	}
+
+	/// <summary>
+	/// Add item to inventory.
+	/// </summary>
+	/// <param name="newItem">New item to be added.</param>
+	public void AddItem(BaseItem newItem, int amount)
+	{
+		int loc = GetNextOpenSlot ();
+		contents[loc] = new Stack(newItem, amount, GetID());
+		InventoryYAMLModel itemStruct = new InventoryYAMLModel ();
+		itemStruct.Item = newItem;
+		itemStruct.ItemAmount = amount;
+		itemStruct.StackId = contents[loc].Id;
+		itemStruct.ItemCategories = newItem.GetItemCategories();
+
+		parser.AddToInventory (itemStruct, inventoryName);
+	}
+
+	/// <summary>
+	/// Removes the item from the inventory.
+	/// </summary>
+	/// <param name="item">Item to remove.</param>
+	public void RemoveStack(Stack stack)
+	{
+		for (int i = 0; i < contents.Length; ++i) 
+		{
+			if(contents[i] != null)
+			{
+				if (contents [i].Item.ItemName.Equals (stack.Item.ItemName) && contents [i].Id == stack.Id) 
+				{
+					contents [i] = null;
+					usedId [i] = false;
+					parser.RemoveFromInventory (i, inventoryName);
+					stack = null;
+
+					break;
+				}
+			}
+		}
+
+	}
+
+	/// <summary>
+	/// Gets all items in the inventory with a certain tag.
+	/// </summary>
+	/// <returns>All items with tag.</returns>
+	/// <param name="itemTag">Tag that contains desired items.</param>
+	public List<BaseItem> GetAllItemsWithTag(string itemTag)
+	{
+		List<BaseItem> result = new List<BaseItem> ();
+
+		for (int i = 0; i < contents.Length; ++i) 
+		{
+			if(contents[i] != null)
+			{
+				if (contents [i].Item.Types.Contains (itemTag.ToLower())) 
+				{
+					result.Add (contents [i].Item);
+				}
+			}
+		}
+
+		return result;
+	}
+
+
+
+	/// <summary>
+	/// Combines the stacks in an inventory. Adds the amount in the current stack to the target stack and removes the current stack, but only
+	/// if adding to the target stack does not push it over the stack size.
+	/// </summary>
+	/// <param name="current">Current.</param>
+	/// <param name="target">Target.</param>
+	public void CombineStacks(Stack current, Stack target)
+	{
+		if (target.Amount + current.Amount <= InventorySize) 
+		{
+			target.Amount += current.Amount;
+			RemoveStack (current);
+		}
+
+	}
+
+	/// <summary>
+	/// Gets the next open slot in the inventory.
+	/// </summary>
+	/// <returns>The next open slot.</returns>
+	public int GetNextOpenSlot()
+	{
+		for (int i = 0; i < contents.Length; ++i) 
+		{
+			if (contents [i] == null) 
+			{
+				return i;	
+			}
+		}
+
+		return InventorySize;
+	}
+
+	/// <summary>
+	/// Gets an id for a stack. Checks the usedId array and returns the first unusedId.
+	/// </summary>
+	/// <returns>The I.</returns>
+	public int GetID()
+	{
+		for (int i = 0; i < usedId.Length; ++i) 
+		{
+			if (!usedId [i]) 
+			{
+				usedId [i] = true;
+				return i;	
+			}
+		}
+
+		return InventorySize;
+	}
+}
