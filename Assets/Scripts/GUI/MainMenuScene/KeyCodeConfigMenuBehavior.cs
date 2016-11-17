@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class KeyCodeConfigMenuBehavior : MonoBehaviour 
 {
+	// key buttons for each user input
 	[SerializeField]
 	private Button forwardKeyButton;
 	[SerializeField]
@@ -33,7 +34,14 @@ public class KeyCodeConfigMenuBehavior : MonoBehaviour
 	private Button camRightKeyButton;
 	[SerializeField]
 	private Button camLeftKeyButton;
-
+	[SerializeField]
+	private Button pauseKeyButton;
+	[SerializeField]
+	private Button inventoryKeyButton;
+	[SerializeField]
+	private Button radioKeyButton;
+	[SerializeField]
+	private Button craftingKeyButton;
 
 	// Text Components of each button
 	private Text forwardText;
@@ -50,6 +58,10 @@ public class KeyCodeConfigMenuBehavior : MonoBehaviour
 	private Text useToolText;
 	private Text camRightText;
 	private Text camLeftText;
+	private Text pauseText;
+	private Text inventoryText;
+	private Text radioText;
+	private Text craftingText;
 
 	private ControlScheme controlSchemeInstance = Game.Instance.Scheme;
 	private bool waitingForUserInputKey;
@@ -61,8 +73,6 @@ public class KeyCodeConfigMenuBehavior : MonoBehaviour
 	/// </summary>
 	void Start()
 	{
-		//controlSchemeInstance = Game.Instance.Scheme;
-
 		// set text elements for button labels
 		forwardText = forwardKeyButton.GetComponentInChildren<Text>();
 		backText = backKeyButton.GetComponentInChildren<Text> ();
@@ -78,6 +88,10 @@ public class KeyCodeConfigMenuBehavior : MonoBehaviour
 		useToolText = useToolKeyButton.GetComponentInChildren<Text> ();
 		camRightText = camRightKeyButton.GetComponentInChildren<Text> ();
 		camLeftText = camLeftKeyButton.GetComponentInChildren<Text> ();
+		pauseText = pauseKeyButton.GetComponentInChildren<Text> ();
+		inventoryText = inventoryKeyButton.GetComponentInChildren<Text> ();
+		radioText = radioKeyButton.GetComponentInChildren<Text> ();
+		craftingText = craftingKeyButton.GetComponentInChildren<Text> ();
 
 		// set initial button labels from set keycodes
 		forwardText.text = controlSchemeInstance.Forward.ToString();
@@ -94,6 +108,10 @@ public class KeyCodeConfigMenuBehavior : MonoBehaviour
 		useToolText.text = controlSchemeInstance.UseTool.ToString();
 		camRightText.text = controlSchemeInstance.CameraRight.ToString();
 		camLeftText.text = controlSchemeInstance.CameraLeft.ToString();
+		pauseText.text = controlSchemeInstance.Pause.ToString();
+		inventoryText.text = controlSchemeInstance.Inventory.ToString();
+		radioText.text = controlSchemeInstance.Radio.ToString();
+		craftingText.text = controlSchemeInstance.Crafting.ToString();
 	}
 
 	/// <summary>
@@ -191,6 +209,22 @@ public class KeyCodeConfigMenuBehavior : MonoBehaviour
 		case "CamLeftKeyButton":
 			camLeftText.text = newKeyCode.ToString ();
 			controlSchemeInstance.CameraLeft = newKeyCode;
+			break;
+		case "PauseKeyButton":
+			pauseText.text = newKeyCode.ToString ();
+			controlSchemeInstance.Pause = newKeyCode;
+			break;
+		case "InventoryKeyButton":
+			inventoryText.text = newKeyCode.ToString ();
+			controlSchemeInstance.Inventory = newKeyCode;
+			break;
+		case "RadioKeyButton":
+			radioText.text = newKeyCode.ToString ();
+			controlSchemeInstance.Radio = newKeyCode;
+			break;
+		case "CraftingKeyButton":
+			craftingText.text = newKeyCode.ToString ();
+			controlSchemeInstance.Crafting = newKeyCode;
 			break;
 		}
 
