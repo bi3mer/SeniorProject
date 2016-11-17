@@ -2,6 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// This class holds all the relevant info needed to define a district.
+/// It holds things like the building pieces the district contains, that districts materials, window types, etc.
+/// </summary>
 [System.Serializable]
 public class ProceduralDistrictDefinition
 {
@@ -123,9 +127,6 @@ public class ProceduralDistrictDefinition
         }
     }
 
-   // [HideInInspector]
     public List<Material> districtProceduralMaterials = new List<Material>();
-
- //   [HideInInspector]
     public List<Material> districtProceduralWindowMaterials = new List<Material>();
 }
