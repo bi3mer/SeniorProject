@@ -1,58 +1,54 @@
 using UnityEngine;
 using System.Diagnostics;
 using System.Collections;
+using Crosstales.RTVoice;
 
-public enum RadioChannel {Music, WeatherInfo, Mystery, Null};
-
-//mock weather struct
-public struct WeatherInfo
-{
-    public float windSpeed; 
-    public float temperature;
-}
+//radio stations
+public enum RadioChannel {Music, Weather, Mystery, Null};
 
 public class Radio : MonoBehaviour
 {
-    public bool isOn;
-    public RadioChannel CurrentChannel { get; private set; }
-    public string announcement;
-    public string appLocation;
+    private bool isOn;
+    private RadioChannel CurrentChannel { get; set; }
+    private string announcement;
+
+    //set up weather
+    public WeatherSystem currentWeather;
+
+    //counter for how many times weather played
+    private int weatherCounter;
 
     //declare sounds
     private AudioSource[] sounds;
     private AudioSource music;
     private AudioSource weather;
-    private AudioSource warning;
 
-
-    //mock weather
-    private WeatherInfo currentWeatherInfo;
-
-
+    /// <summary>
+    /// Sets up radio for usage.
+    /// </summary>
     void Start()
     {
         isOn = false;
         CurrentChannel = RadioChannel.Null;
 
-        //set location for SpeechProgram
-        appLocation = Application.dataPath + "/TextToSpeech/SpeechProgram.exe";
-
         //set sounds - this is temp until audio engine figured out
         sounds = GetComponents<AudioSource>();
         music = sounds[0];
         weather = sounds[1];
-        warning = sounds[2];
 
-        StartCoroutine(updateWeatherInfo());
+        //update the weather and play if radio on
+        StartCoroutine(updateWeather());
     }
-	
 
+    /// <summary>
+    /// Updates music if on.
+    /// </summary>
     void Update()
     {
         if (isOn)
         {
             //when music channel selected
-            if (!music.isPlaying && this.CurrentChannel == RadioChannel.Music)
+            if (!music.isPlaying && CurrentChannel == RadioChannel.Music)
             {
                 music.Play();
             }
@@ -64,6 +60,7 @@ public class Radio : MonoBehaviour
     /// </summary>
     public void Power()
     {
+        //Turn off the radio and all channels
         if (isOn)
         {
             isOn = false;
@@ -72,6 +69,7 @@ public class Radio : MonoBehaviour
             weather.Stop();
         }
 
+        //Turn on the radio
         else
         {
             isOn = true;
@@ -81,40 +79,52 @@ public class Radio : MonoBehaviour
     /// <summary>
     /// Updates the weather and creates a new announcement.
     /// </summary>
-    IEnumerator updateWeatherInfo()
+    IEnumerator updateWeather()
     {
         while (true)
         {
-            if (CurrentChannel == RadioChannel.WeatherInfo && !weather.isPlaying)
-            {                
-                //get struct from weather system
-                WeatherInfo newWeatherInfo = GetWeatherInfo();
-
-                //don't update clip if same
-                if (currentWeatherInfo.windSpeed != newWeatherInfo.windSpeed && currentWeatherInfo.temperature != newWeatherInfo.temperature)
+            if (isOn)
+            {
+                //check if the weather is not playing and if the radio is on the weather channel
+                if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
                 {
-                    currentWeatherInfo = newWeatherInfo;
-                    CreateWeatherInfoAnnouncement(currentWeatherInfo.windSpeed, currentWeatherInfo.temperature);
-                    MakeWaveFile(Application.dataPath + "/Sounds/WeatherInfo.wav", announcement);
+                    //Play the weather 3 times before restarting to 0 
+                    if (weatherCounter == 3)
+                    {
+                        weatherCounter = 0;
+                    }
 
-                    //wait so the new updated clip can load
-                    yield return new WaitForSeconds(1f);
+                    //update the weather when it has played 3 times or has just turned on
+                    if (weatherCounter == 0)
+                    {
+                        //get new announcment
+                        announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
+
+                        //send the announcement to the wave file
+                        Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather", .7f);
+
+                        //wait for the wave file to update
+                        yield return new WaitForSeconds(2);
+                    }
+
+                    ++weatherCounter;
                     weather.Play();
                 }
+
+                //don't do anything if the weather is still playing
                 else
                 {
-                    weather.Play();
                     yield return null;
                 }
             }
+
+            //don't do anything if radio is not on
             else
             {
                 yield return null;
             }
         }
     }
-
-
 
     /// <summary>
     /// Set new selected channel.
@@ -128,7 +138,7 @@ public class Radio : MonoBehaviour
             {
                 music.Stop();
             }
-            if (CurrentChannel == RadioChannel.WeatherInfo)
+            if (CurrentChannel == RadioChannel.Weather)
             {
                 weather.Stop();
             }
@@ -136,6 +146,24 @@ public class Radio : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Flip through the channels.
+    /// </summary>
+    public void OnChannelClick()
+    {
+        if (CurrentChannel == RadioChannel.Music)
+        {
+            SetChannel(RadioChannel.Weather);
+        }
+        else if (CurrentChannel == RadioChannel.Weather)
+        {
+            SetChannel(RadioChannel.Mystery);
+        }
+        else if (this.CurrentChannel == RadioChannel.Mystery)
+        {
+            SetChannel(RadioChannel.Music);
+        }
+    }
 
     /// <summary>
     /// Creates string based on windSpeed and temperature (and eventually amount of rainfall)
@@ -143,120 +171,24 @@ public class Radio : MonoBehaviour
     /// <param name="windSpeed"></param>
     /// <param name="temperature"></param>
     /// <returns></returns>
-    public void CreateWeatherInfoAnnouncement(float windSpeed, float temperature) //this will be part of updating the weather; weather info taken in as struct
+    public string GetWeatherAnnouncement(float windSpeed, float temperature) //this will be part of updating the weather; weather info taken in as struct
     {
         //round the floats to 2 decimal places
         string windSpeedText = windSpeed.ToString("F2");
         string temperatureText = temperature.ToString("F2");
 
-        announcement = "There is heavy rain heading toward the city with a wind speed of " + windSpeedText + " miles per hour and a temperature of " + temperatureText + " degrees Fahrenheit.";
+        string newAnnouncement =  "There is heavy rain heading toward the city with a wind speed of " + windSpeedText + " miles per hour and a temperature of " + temperatureText + " degrees Fahrenheit.";
+        return newAnnouncement;
     }
-
 
     /// <summary>
-    /// This code is adapted from the Easy Voice the Unity plugin by Game Loop. 
-    /// For now it speaks the text.
+    /// Gets the mystery announcement.
     /// </summary>
-    /// <param name="filename"></param>
-    /// <param name="text"></param>
-    /// <param name="action"></param>
-    public void SpeakText(string text)
+    public string GetMysteryAnnouncement() 
     {
-        //create process to use SpeechProgram
-        Process convertText = new Process();
-
-        //set path to SpeechProgram and arguments
-        convertText.StartInfo.FileName = appLocation;
-        convertText.StartInfo.Arguments = "\"" + null + "\"" + " \"" + text + "\"" + " \"" + "speakText" + "\"";
-
-        //don't create the program window when run
-        convertText.StartInfo.CreateNoWindow = true;
-
-        //don't use shell to execute program
-        convertText.StartInfo.UseShellExecute = false;
-
-        convertText.Start();
-        convertText.Close();
-
+        string newAnnouncement = "This is a mystery";
+        return newAnnouncement;
     }
-
-
-
-    /// <summary>
-    /// This code is adapted from the Easy Voice the Unity plugin by Game Loop. 
-    /// Creates the wave file with the text to speech.
-    /// </summary>
-    /// <param name="filename"></param>
-    /// <param name="text"></param>
-    public void MakeWaveFile(string filename, string text)
-    {
-        //create process to use SpeechProgram
-        Process convertText = new Process();
-
-        //set path to SpeechProgram and arguments
-        convertText.StartInfo.FileName = appLocation;
-        convertText.StartInfo.Arguments = "\"" + filename + "\"" + " \"" + text + "\"" + " \"" + "makeFile" + "\"";
-
-        //run shell to execute program - clip doesn't update if shell isn't executed
-        convertText.StartInfo.UseShellExecute = true;
-
-        //minimize the shell window
-        convertText.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-
-        convertText.Start();
-        convertText.WaitForExit();
-    }
-
-
-    /// <summary>
-    /// Mock weather getter.
-    /// </summary>
-    /// <returns></returns>
-    public WeatherInfo GetWeatherInfo()
-    {
-        WeatherInfo currentWeatherInfo;
-
-        //set up mock weather struct
-        currentWeatherInfo.temperature = Random.Range(0.0f, 50f);
-        currentWeatherInfo.windSpeed = Random.Range(0.0f, 200f);
-
-        return currentWeatherInfo;
-    }
-
-	/// <summary>
-	/// Flip through the channels.
-	/// </summary>
-	public void OnChannelClick()
-	{
-		if (this.CurrentChannel == RadioChannel.Music) 
-		{
-			this.SetChannel (RadioChannel.WeatherInfo);
-		} 
-		else if (this.CurrentChannel == RadioChannel.WeatherInfo) 
-		{
-			this.SetChannel (RadioChannel.Mystery);
-		} 
-		else if (this.CurrentChannel == RadioChannel.Mystery) 
-		{
-			this.SetChannel (RadioChannel.Music);
-		}
-	}
-
-	/// <summary>
-	/// Raises the volume up event.
-	/// </summary>
-	public void OnVolumeUpClick()
-	{
-		// will update once Fmod is setup
-	}
-
-	/// <summary>
-	/// Raises the volume down event.
-	/// </summary>
-	public void OnVolumeDownClick()
-	{
-		// will update once Fmod is setup
-	}
 }
 
 
