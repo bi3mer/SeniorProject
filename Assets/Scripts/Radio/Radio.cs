@@ -8,12 +8,9 @@ public enum RadioChannel {Music, Weather, Mystery, Null};
 
 public class Radio : MonoBehaviour
 {
-    [SerializeField]
-    public bool isOn;
-    [SerializeField]
-    public RadioChannel CurrentChannel { get; private set; }
-    [SerializeField]
-    public string announcement;
+    private bool isOn;
+    private RadioChannel CurrentChannel { get; set; }
+    private string announcement;
 
     //set up weather
     public WeatherSystem currentWeather;
@@ -101,7 +98,7 @@ public class Radio : MonoBehaviour
                     if (weatherCounter == 0)
                     {
                         //get new announcment
-                        GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
+                        announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
 
                         //send the announcement to the wave file
                         Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather", .7f);
@@ -129,7 +126,6 @@ public class Radio : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// Set new selected channel.
     /// </summary>
@@ -151,26 +147,45 @@ public class Radio : MonoBehaviour
     }
 
     /// <summary>
+    /// Flip through the channels.
+    /// </summary>
+    public void OnChannelClick()
+    {
+        if (CurrentChannel == RadioChannel.Music)
+        {
+            SetChannel(RadioChannel.Weather);
+        }
+        else if (CurrentChannel == RadioChannel.Weather)
+        {
+            SetChannel(RadioChannel.Mystery);
+        }
+        else if (this.CurrentChannel == RadioChannel.Mystery)
+        {
+            SetChannel(RadioChannel.Music);
+        }
+    }
+
+    /// <summary>
     /// Creates string based on windSpeed and temperature (and eventually amount of rainfall)
     /// </summary>
     /// <param name="windSpeed"></param>
     /// <param name="temperature"></param>
     /// <returns></returns>
-    public void GetWeatherAnnouncement(float windSpeed, float temperature) //this will be part of updating the weather; weather info taken in as struct
+    public string GetWeatherAnnouncement(float windSpeed, float temperature) //this will be part of updating the weather; weather info taken in as struct
     {
         //round the floats to 2 decimal places
         string windSpeedText = windSpeed.ToString("F2");
         string temperatureText = temperature.ToString("F2");
 
-        announcement = "There is heavy rain heading toward the city with a wind speed of " + windSpeedText + " miles per hour and a temperature of " + temperatureText + " degrees Fahrenheit.";
+        return "There is heavy rain heading toward the city with a wind speed of " + windSpeedText + " miles per hour and a temperature of " + temperatureText + " degrees Fahrenheit.";
     }
 
     /// <summary>
     /// Gets the mystery announcement.
     /// </summary>
-    public void GetMysteryAnnouncement() 
+    public string GetMysteryAnnouncement() 
     {
-        
+        return "This is a mystery";
     }
 }
 
