@@ -13,7 +13,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
     public enum HeightType
     {
         Stretch,
-        // The below is not yet Implimented
         Stack
     };
     public enum BaseSize
@@ -57,17 +56,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
     {
        ProceduralBuildingInstance newbuilding = CreateBuilding(district[TestDistrict], TestBaseSize, TestAttatchmentPercentage, TestStoriesTall);
        NewestBuilding = newbuilding;
-    }
-
-    [ContextMenu("Hide the newest building")]
-    public void HideTestBuilding()
-    {
-        // HideBuilding(NewestBuilding);
-    }
-    [ContextMenu("Show the newest building")]
-    public void ShowTestBuilding()
-    {
-        // ShowBuilding(NewestBuilding);
     }
 
     // Creates materials that all buildings in a district will use.
@@ -180,11 +168,34 @@ public class ProceduralBuildingCreator : MonoBehaviour
 
         // Create the base
         GameObject newObject = (GameObject)Instantiate(newBase.gameObject, newBuilding.transform);
-        newObject.transform.localScale = new Vector3(1f, storiesTall, 1f);
         newObject.transform.position = Vector3.zero;
-        buildingMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
+        if (newBase.HeightType == HeightType.Stretch)
+        {
+            newObject.transform.localScale = new Vector3(1f, storiesTall, 1f);
+        }
+        else if (newBase.HeightType == HeightType.Stack)
+        {
+            if (newBase.StackableObject == null)
+            {
+                Debug.LogError("Building base: " + newBase + "is set to Stack but does not have a stackable object set.");
+            }
+            else
+            {
+                newBase.RoofLocation.position = new Vector3(0f, storyHeightUnits * storiesTall, 0f);
+                GameObject newObjectA = newObject;
+                GameObject newObjectB = newObject;
+                for (int i = 0; i < storiesTall; ++i)
+                {
+                    newObjectA = Instantiate(newBase.StackableObject);
+                    newObjectA.transform.position = new Vector3(0f, storyHeightUnits * i, 0f);
+                    newObjectA.transform.SetParent(newObjectB.transform);
+                    newObjectB = newObjectA;
+                }
+            }
+        }
         // Set the new base to the instance class.
         newBuilding.BuildingBase = newObject.GetComponent<ProceduralBuildingBase>();
+        buildingMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
 
         // Set the roof if need be set.
         if (newBuilding.BuildingBase.HasRoof == null)
@@ -220,8 +231,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             if (newBuilding.BuildingRoof.CanRotate == true)
             {
                 //At 90 degree intervals, the building can only rotate up to 3 times before it's back to where it was.
-                newBuilding.BuildingRoof.RoofRotation = Random.Range(0, 3) * 90;
-                newObject.transform.Rotate(new Vector3(0f, newBuilding.BuildingRoof.RoofRotation, 0f));
+                newObject.transform.Rotate(new Vector3(0f, Random.Range(0, 3) * 90, 0f));
             }
         }
     }
@@ -264,7 +274,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
 
                 newAttachment = newObject.GetComponent<ProceduralBuildingAttachment>();
                 newAttachment.AttachmentPoint = randomPoint[i];
-                newObject.transform.localScale = new Vector3(1f, storiesTall, 1f); //NEEDS TO SUPPORT SEPERATE STORIES VALUES IN FUTURE
+                newObject.transform.localScale = new Vector3(1f, storiesTall, 1f);
                 newObject.transform.SetParent(newBuilding.BuildingBase.AttachmentPoints[newAttachment.AttachmentPoint].transform);
                 newObject.transform.localPosition = Vector3.zero;
                 // Rotate the attatchment based off the modelling/prefab setup.
@@ -288,13 +298,11 @@ public class ProceduralBuildingCreator : MonoBehaviour
                     newObject.transform.localScale = new Vector3(1f, 1f, 1f);
                     newObject.transform.SetParent(newBuilding.BuildingAttachments[i].RoofLocation);
                     newObject.transform.localPosition = Vector3.zero;
-                    newBuilding.BuildingAttachments[i].HasRoof = newRoof;
 
                     // If the new roof can be rotated rotate it! But only at 90 degree intervals.
-                    if (newBuilding.BuildingAttachments[i].HasRoof.CanRotate == true)
+                    if(newRoof.CanRotate == true)
                     {
-                        newBuilding.BuildingAttachments[i].HasRoof.RoofRotation = Random.Range(0, 3) * 90;
-                        newObject.transform.Rotate(new Vector3(0f, newBuilding.BuildingRoof.RoofRotation, 0f));
+                        newObject.transform.Rotate(new Vector3(0f, Random.Range(0, 3) * 90, 0f));
                     }
                 }
                 else if (newBuilding.BuildingAttachments[i] != null)
@@ -308,8 +316,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                     // If the roof can be rotated rotate it! But only at 90 degree intervals.
                     if (newBuilding.BuildingAttachments[i].HasRoof.CanRotate == true)
                     {
-                        newBuilding.BuildingAttachments[i].HasRoof.RoofRotation = Random.Range(0, 3) * 90;
-                        newBuilding.BuildingAttachments[i].HasRoof.transform.Rotate(new Vector3(0f, newBuilding.BuildingAttachments[i].HasRoof.RoofRotation, 0f));
+                        newBuilding.BuildingAttachments[i].HasRoof.transform.Rotate(new Vector3(0f, Random.Range(0, 3) * 90, 0f));
                     }
                 }
             }
@@ -366,16 +373,16 @@ public class ProceduralBuildingCreator : MonoBehaviour
             }
             // Node based window placement
             else
-            {
-                // Repeat spawning for each story
-                for (int i = 0; i < storiesTall; ++i)
+            {   
+                for (int i = 0; i < newBuilding.BuildingBase.WindowPoints.Length; i++)
                 {
-                    for (int j = 0; j < newBuilding.BuildingBase.WindowPoints.Length; j++)
+                    // For each window attatchment, make sure it's not parented to a used attachmentpoint
+                    if (!usedPoints.Contains(i))
                     {
-						// For each window attatchment, make sure it's not parented to a used attachmentpoint
-                        if (newBuilding.BuildingBase.WindowPoints[j].transform.parent.GetComponentInChildren<ProceduralBuildingAttachment>() == null)
+                        // Repeat spawning for each story
+                        for (int j = 0; j < storiesTall; ++j)
                         {
-                            placeNodeBasedWindow(newBuilding, newBuilding.transform, newBuilding.BuildingBase.WindowPoints[j].transform.position, windowMeshes, j, i, 0);
+                            placeNodeBasedWindow(newBuilding, newBuilding.transform, newBuilding.BuildingBase.WindowPoints[i].transform.position, windowMeshes, i, j, 0);
                         }
                     }
                 }
@@ -490,41 +497,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
         // Move the window up based on the story of the building we're putting windows on. 
         // Use half of storyHeightUnits so that the windows get placed in the middle of stories and not on the top of a story.
         window.transform.position += new Vector3(0f, (buildingStory * storyHeightUnits) + storyHeightUnits / 2f, 0f);
-    }
-
-    // TO DO: Make these functions destroy/create already defined buildings. Used to hide buildings far away from the player.
-    /// <summary>
-    /// Spawns all the aspects of a procedural building that's already been created.
-    /// </summary>
-    /// <param name="building"></param>
-    public void ShowBuilding(ProceduralBuildingInstance building)
-    {
-        if(building.IsVisible == false)
-        {
-            building.IsVisible = true;
-            // TO DO: add code to rebuild a building.
-        }
-        else
-        {
-            Debug.LogError("Building " + building + " was already visible");
-        }
-    }    
-
-    /// <summary>
-    /// Destroys all aspects of a procedural building that's already been created.
-    /// </summary>
-    /// <param name="building"></param>
-    public void HideBuilding(ProceduralBuildingInstance building)
-    {
-        if(building.IsVisible == true)
-        {
-            building.IsVisible = false;
-            // TO DO: add code to destroy a building
-        }
-        else
-        {
-            Debug.LogError("Building " + building + " was already hidden");
-        }
     }
 }
 

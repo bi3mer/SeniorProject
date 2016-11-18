@@ -6,8 +6,17 @@ public class ProceduralBuildingBase : MonoBehaviour
     // Base
     [SerializeField]
     private ProceduralBuildingCreator.BaseSize baseSize;
+
     [SerializeField]
     private ProceduralBuildingCreator.HeightType heightType;
+    public ProceduralBuildingCreator.HeightType HeightType
+    {
+        get
+        {
+            return heightType;
+        }
+    }
+
     [SerializeField]
     private Transform[] attachmentPoints;
     public Transform[] AttachmentPoints
@@ -18,7 +27,6 @@ public class ProceduralBuildingBase : MonoBehaviour
         }
     }
 
-    // Windows
     [SerializeField]
     private bool addWindows;
     public bool AddWindows
@@ -30,7 +38,7 @@ public class ProceduralBuildingBase : MonoBehaviour
     }
 
     [SerializeField]
-    [Header("Set to 0 if the building uses mathmatical placement")]
+    [Tooltip("Set to 0 if the building uses mathmatical placement")]
     private Transform[] windowPoints;
     public Transform[] WindowPoints
     {
@@ -40,8 +48,6 @@ public class ProceduralBuildingBase : MonoBehaviour
         }
     }
 
-
-    // Roof Location
     [SerializeField]
     private Transform roofLocation;
     public Transform RoofLocation
@@ -52,9 +58,8 @@ public class ProceduralBuildingBase : MonoBehaviour
         }
     }
 
-    // Roof
     [SerializeField]
-    [Header("Leave null if the base doesn't come with a roof")]
+    [Tooltip("Leave null if the base doesn't come with a roof")]
     private GameObject hasRoof;
     public GameObject HasRoof
     {
@@ -63,4 +68,15 @@ public class ProceduralBuildingBase : MonoBehaviour
             return hasRoof;
         }
     }
+
+    [SerializeField]
+    [Tooltip("You don't need to set this if the object isn't stackable")]
+    private GameObject stackableObject;
+    public GameObject StackableObject
+    {
+        get
+        {
+            return stackableObject;
+        }
+    } 
 }

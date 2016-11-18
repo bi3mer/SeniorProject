@@ -38,17 +38,6 @@ public class ProceduralBuildingAttachment : MonoBehaviour
         {
             return hasRoof;
         }
-        set
-        {
-            if (hasRoof == null)
-            {
-                hasRoof = value;
-            }
-            else
-            {
-                Debug.LogError("You can not set this more than once.");
-            }
-        }
     }
 
     // Roof Location

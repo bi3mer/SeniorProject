@@ -12,26 +12,4 @@ public class ProceduralBuildingRoof : MonoBehaviour
             return canRotate;
         }
     }
-
-    private int roofRotation;
-    private bool roofRotationSet;
-    public int RoofRotation
-    {
-        get
-        {
-            return roofRotation;
-        }
-        set
-        {
-            if (roofRotationSet == false)
-            {
-                roofRotationSet = true;
-                roofRotation = value;
-            }
-            else
-            {
-                Debug.LogError("You can not set this more than once.");
-            }
-        }
-    }
 }
