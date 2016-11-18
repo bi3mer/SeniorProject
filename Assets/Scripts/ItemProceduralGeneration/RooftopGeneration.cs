@@ -16,7 +16,7 @@ public class RooftopGeneration
 	// Generator that creates the points to place objects
 	private RooftopPointGenerator generator;
 
-	private const int seed = 320;
+	private int seed = 320;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RooftopGeneration"/> class.
@@ -110,5 +110,14 @@ public class RooftopGeneration
 		}
 
 		return extents;
+	}
+
+	/// <summary>
+	/// Sets the seed.
+	/// </summary>
+	/// <param name="newSeed">Seed.</param>
+	public void SetSeed(int newSeed)
+	{
+		seed = newSeed;
 	}
 }

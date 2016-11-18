@@ -56,9 +56,12 @@ public class RooftopPointGenerator
 		float depth = (target.transform.localScale.z * max.z) - (target.transform.localScale.z * min.z);
 		float height = (target.transform.localScale.y * max.y) - (target.transform.localScale.y * min.y);
 
-		//Create the grid
+		// the defaultMinDistanceAway is used as the diagonal of the square cell
+		// thus, the size of the cell--that is its sides
+		// is defined by the diagonal/sqrt(2)
 		cellSize = defaultMinDistanceAway/Mathf.Sqrt(2);
 
+		//Create the grid
 		grid = new ItemPlacementSamplePoint[Mathf.CeilToInt (width / cellSize), Mathf.CeilToInt (depth / cellSize)];   
 
 		// ray needs to start a little above the object, so this is the offset distance that will be added
@@ -373,8 +376,9 @@ public class RooftopPointGenerator
 				{
 					ItemPlacementSamplePoint gridSample = grid [i, j];
 
-					if (gridSample != null && Vector2.Distance(gridSample.PointOnTargetSurface, point) <
-											(Mathf.Max(minDistance, gridSample.MinDistance) + samplePoint.Size + gridSample.Size)) 
+					if (gridSample != null && 
+						Vector2.Distance(gridSample.PointOnTargetSurface, point) < (Mathf.Max(minDistance, gridSample.MinDistance) 
+																					+ samplePoint.Size + gridSample.Size)) 
 					{
 						return true;
 					}
