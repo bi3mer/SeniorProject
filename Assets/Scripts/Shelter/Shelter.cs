@@ -3,8 +3,6 @@ using System.Collections;
 
 public class Shelter : MonoBehaviour 
 {
-	private Collider collider;
-
 	/// <summary>
 	/// Start this instance.
 	/// </summary>

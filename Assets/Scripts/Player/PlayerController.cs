@@ -221,13 +221,9 @@ public class PlayerController : MonoBehaviour
         }
 
 		if (IsInShelter) {
-			Debug.Log ("increase warmth");
-			Debug.Log (Game.Instance.PlayerInstance.Warmth);
 			StopCoroutine (ReduceWarmth(outsideWarmthReductionRate));
 			StartCoroutine(IncreaseWarmth (shelterWarmthIncreaseRate));
 		} else {
-			Debug.Log ("decrease warmth");
-			Debug.Log (Game.Instance.PlayerInstance.Warmth);
 			StopCoroutine (IncreaseWarmth(shelterWarmthIncreaseRate));
 			StartCoroutine(ReduceWarmth (outsideWarmthReductionRate));
 		}
