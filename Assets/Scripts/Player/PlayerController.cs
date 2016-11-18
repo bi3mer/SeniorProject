@@ -23,8 +23,13 @@ public class PlayerController : MonoBehaviour
     private float hungerReductionRate;
     [SerializeField]
     private float waterWarmthReductionRate;
+	[SerializeField]
+	private float outsideWarmthReductionRate;
+	[SerializeField]
+	private float shelterWarmthIncreaseRate;
 
     private bool isGrounded;
+	private bool inShelter;
     private bool updateStats;
 
     private InteractableObject interactable;
@@ -214,6 +219,18 @@ public class PlayerController : MonoBehaviour
         {
             player.Health -= (int) movement.CurrentFallDammage;
         }
+
+		if (IsInShelter) {
+			Debug.Log ("increase warmth");
+			Debug.Log (Game.Instance.PlayerInstance.Warmth);
+			StopCoroutine (ReduceWarmth(outsideWarmthReductionRate));
+			StartCoroutine(IncreaseWarmth (shelterWarmthIncreaseRate));
+		} else {
+			Debug.Log ("decrease warmth");
+			Debug.Log (Game.Instance.PlayerInstance.Warmth);
+			StopCoroutine (IncreaseWarmth(shelterWarmthIncreaseRate));
+			StartCoroutine(ReduceWarmth (outsideWarmthReductionRate));
+		}
     }
 
     private IEnumerator ReduceHunger (float depletionRate)
@@ -225,17 +242,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator ReduceWarmth(float depletionRate)
-    {
-        while (updateStats)
-        {
-            yield return new WaitForSeconds(depletionRate);
-            if (IsInWater)
-            {
-                --Game.Instance.PlayerInstance.Warmth;
-            }
-        }
-    }
+	private IEnumerator ReduceWarmth(float depletionRate)
+	{
+		while (updateStats)
+		{
+			yield return new WaitForSeconds(depletionRate);
+			--Game.Instance.PlayerInstance.Warmth;
+		}
+	}
+
+	private IEnumerator IncreaseWarmth(float increaseRate)
+	{
+		while (updateStats) {
+			if (IsInShelter) {
+				yield return new WaitForSeconds (increaseRate);
+				++Game.Instance.PlayerInstance.Warmth;
+			} else {
+				break;
+			}
+		}
+	}
+
 
     private void CheckGround ()
     {
@@ -322,4 +349,19 @@ public class PlayerController : MonoBehaviour
     {
         get { return movement is RaftMovement; }
     }
+
+	/// <summary>
+	/// Returns true if the player is currently in a shelter
+	/// </summary>
+	public bool IsInShelter
+	{ 
+		get
+		{ 
+			return inShelter; 
+		} 
+		set 
+		{
+			inShelter = value;
+		}
+	}
 }
