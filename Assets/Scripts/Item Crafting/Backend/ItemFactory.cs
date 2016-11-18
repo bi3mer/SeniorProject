@@ -27,7 +27,7 @@ public class ItemFactory
 
 	/// <summary>
 	/// Start this instance. 
-	/// TODO: Loading in the craftingList by YAML.
+	/// Loading in the craftingList by YAML.
 	/// </summary>
 	public ItemFactory (string itemFile) 
 	{
@@ -189,7 +189,7 @@ public class ItemFactory
 	/// </summary>
 	/// <returns>The base item.</returns>
 	/// <param name="item">Item.</param>
-	public BaseItem GetBaseItem(InventoryYAMLModel item)
+	public BaseItem GetBaseItem(InventoryItemYAMLModel item)
 	{
 		if (itemDatabase.ContainsKey (item.Item.ItemName)) 
 		{

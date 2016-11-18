@@ -74,7 +74,6 @@ public class BaseItem : CollectableItem
 	/// <summary>
 	/// Initializaer only used during Yaml Deserialization
 	/// </summary>
-	/// 
 	public BaseItem()
 	{
 	}
@@ -94,7 +93,6 @@ public class BaseItem : CollectableItem
 	/// Creates a deep copy of the BaseItem and all category items.
 	/// </summary>
 	/// <param name="original">Original BaseItem to be copied.</param>
-	/// 
 	public BaseItem(BaseItem original)
 	{
 		ItemName = original.ItemName;
@@ -108,7 +106,8 @@ public class BaseItem : CollectableItem
 
 		if (original.Types != null && original.Types.Count > 0) 
 		{
-			for (int i = 0; i < original.Types.Count; ++i) {
+			for (int i = 0; i < original.Types.Count; ++i) 
+			{
 				Types.Add (original.Types [i]);
 			}
 		}
@@ -234,7 +233,7 @@ public class BaseItem : CollectableItem
 	/// </summary>
 	/// <param name="names">List of names of the item categories to be removed, or to be excluded from removal.</param>
 	/// <param name="excluding">If set to <c>true</c>, it will remove all item categories EXCEPT for the ones specified in names.</param>
-	public void RemoveCategories(List<string> names, bool excluding = false)
+	private void RemoveCategories(List<string> names, bool excluding = false)
 	{
 		ItemCategory previous = null;
 
@@ -254,6 +253,24 @@ public class BaseItem : CollectableItem
 		}
 
 		lastCategory = (ItemCategory) previous;
+	}
+
+	/// <summary>
+	/// Removes the categories specified in the list of names.
+	/// </summary>
+	/// <param name="names">Names.</param>
+	public void RemoveCategoriesSpecified(List<string> names)
+	{
+		RemoveCategories(names, false);
+	}
+
+	/// <summary>
+	/// Removes the categories excluding the categories in the list of names.
+	/// </summary>
+	/// <param name="names">Names.</param>
+	public void RemoveCategoriesExcluding(List<string> names)
+	{
+		RemoveCategories(names, true);
 	}
 
 	/// <summary>

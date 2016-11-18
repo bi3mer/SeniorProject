@@ -172,21 +172,13 @@ public class PlantCategory : ItemCategory
 	{
 		Attributes = new List<Attribute> ();
 
-		Attribute waterAttribute = new Attribute (waterContAttrName, WaterContent);
-		Attribute toughAttribute = new Attribute (toughAttrName, Toughness);
-		Attribute sweetAttribute = new Attribute (sweetAttrName, Sweet);
-		Attribute bitterAttribute = new Attribute(bitterAttrName, Bitter);
-		Attribute sourAttribute = new Attribute(sourAttrName, Sour);
-		Attribute saltyAttribute = new Attribute(saltyAttrName, Salty);
-		Attribute spicyAttribute = new Attribute(spicyAttrName, Spicy);
-
-		Attributes.Add (waterAttribute);
-		Attributes.Add (toughAttribute);
-		Attributes.Add (sweetAttribute);
-		Attributes.Add (bitterAttribute);
-		Attributes.Add (sourAttribute);
-		Attributes.Add (saltyAttribute);
-		Attributes.Add (spicyAttribute);
+		Attributes.Add (new Attribute (waterContAttrName, WaterContent));
+		Attributes.Add (new Attribute (toughAttrName, Toughness));
+		Attributes.Add (new Attribute (sweetAttrName, Sweet));
+		Attributes.Add (new Attribute(bitterAttrName, Bitter));
+		Attributes.Add (new Attribute(sourAttrName, Sour));
+		Attributes.Add (new Attribute(saltyAttrName, Salty));
+		Attributes.Add (new Attribute(spicyAttrName, Spicy));
 
 		Actions = new List<ItemAction> ();
 
@@ -204,8 +196,8 @@ public class PlantCategory : ItemCategory
 	}
 		
 	/// <summary>
-	/// Cooks the item. Lowers toughness and increases water content. If the item has high enough water content, it becomes soup.
-	/// Otherwise, it is just called Cooked X.
+	/// Cooks the item. Lowers toughness and increases water content. If the item 
+	///has high enough water content, it becomes soup. Otherwise, it becomes Cooked X.
 	/// </summary>
 	public void Cook()
 	{

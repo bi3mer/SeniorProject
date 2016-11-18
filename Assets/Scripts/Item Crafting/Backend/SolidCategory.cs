@@ -177,19 +177,12 @@ public class SolidCategory : ItemCategory
 	{
 		Attributes = new List<Attribute>();
 
-		Attribute flexibleAttribute = new Attribute (flexAttrName, Flexibility);
-		Attribute durableAttribute = new Attribute (duraAttrName, Durability);
-		Attribute elasticAttribute = new Attribute (elasAttrName, Elasticity);
-		Attribute stickinessAttribute = new Attribute (stickiAttrName, Stickiness);
-		Attribute sharpnessAttribute = new Attribute (sharpAttrName, Sharpness);
-		Attribute thicknessAttribute = new Attribute (thickAttrName, Thickness);
-
-		Attributes.Add (flexibleAttribute);
-		Attributes.Add (durableAttribute);
-		Attributes.Add (elasticAttribute);
-		Attributes.Add (stickinessAttribute);
-		Attributes.Add (sharpnessAttribute);
-		Attributes.Add (thicknessAttribute);
+		Attributes.Add (new Attribute (flexAttrName, Flexibility));
+		Attributes.Add (new Attribute (duraAttrName, Durability));
+		Attributes.Add (new Attribute (elasAttrName, Elasticity));
+		Attributes.Add (new Attribute (stickiAttrName, Stickiness));
+		Attributes.Add (new Attribute (sharpAttrName, Sharpness));
+		Attributes.Add (new Attribute (thickAttrName, Thickness));
 
 		Actions = new List<ItemAction> ();
 
@@ -242,7 +235,7 @@ public class SolidCategory : ItemCategory
 
 		Thickness = Thickness * weaveRopeThicknessRate;
 
-		baseItem.RemoveCategories (new List<string> () {GetType ().Name}, true);
+		baseItem.RemoveCategoriesExcluding (new List<string> () {GetType ().Name});
 		SetActionComplete(weaveRopeActName);
 	}
 
@@ -258,7 +251,7 @@ public class SolidCategory : ItemCategory
 
 		// durability of the woven object is determined by averaging the durability and elasticity of the item
 		// as tightly weaving something won't work as well with less elastic objects
-		Durability = Durability  * Elasticity / 2f;
+		Durability = (Durability  + Elasticity) / 2f;
 		GetAttribute (duraAttrName).Value = Durability;
 
 		Thickness = Thickness * weaveBasketThicknessRate;
@@ -266,7 +259,7 @@ public class SolidCategory : ItemCategory
 
 		baseItem.ChangeName(name);
 
-		baseItem.RemoveCategories (new List<string> (){GetType ().Name}, true);
+		baseItem.RemoveCategoriesSpecified (new List<string> (){GetType ().Name});
 		SetActionComplete(weaveBasketActName);
 	}
 

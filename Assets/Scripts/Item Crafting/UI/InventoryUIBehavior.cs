@@ -31,7 +31,7 @@ public class InventoryUIBehavior : MonoBehaviour
 	{
 		instance = this;
 		targetInventory = new Inventory (TargetInventoryName, inventoryFile);
-		inventoryUI = new InventoryItemBehavior[targetInventory.GetInventorySize()];
+		inventoryUI = new InventoryItemBehavior[targetInventory.InventorySize];
 	}
 
 	/// <summary>

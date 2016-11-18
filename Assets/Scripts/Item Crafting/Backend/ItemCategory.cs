@@ -18,7 +18,6 @@ public class ItemCategory : CollectableItem
 	/// </summary>
 	protected BaseItem baseItem;
 
-
 	/// <summary>
 	/// Gets or sets the attributes.
 	/// </summary>
@@ -160,7 +159,6 @@ public class ItemCategory : CollectableItem
 						Actions [i].ActionComplete = true;
 					}
 				}
-
 			}
 			else if (Actions [i].ActionName.Equals (name)) 
 			{

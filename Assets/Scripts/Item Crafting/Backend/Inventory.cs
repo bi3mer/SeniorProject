@@ -40,7 +40,7 @@ public class Inventory
 	/// </summary>
 	public void LoadInventory()
 	{
-		List<InventoryYAMLModel> inventoryInfo = parser.GetInventoryContents (inventoryName);
+		List<InventoryItemYAMLModel> inventoryInfo = parser.GetInventoryContents (inventoryName);
 	
 		for (int i = 0; i < inventoryInfo.Count; ++i) 
 		{
@@ -151,7 +151,7 @@ public class Inventory
 	{
 		int loc = GetNextOpenSlot ();
 		contents[loc] = new Stack(newItem, amount, Guid.NewGuid().ToString("N"));
-		InventoryYAMLModel itemStruct = new InventoryYAMLModel ();
+		InventoryItemYAMLModel itemStruct = new InventoryItemYAMLModel ();
 		itemStruct.Item = newItem;
 		itemStruct.ItemAmount = amount;
 		itemStruct.StackId = contents[loc].Id;
@@ -221,7 +221,6 @@ public class Inventory
 			target.Amount += current.Amount;
 			RemoveStack (current);
 		}
-
 	}
 
 	/// <summary>
@@ -242,11 +241,22 @@ public class Inventory
 	}
 
 	/// <summary>
-	/// Gets the size of the inventory.
+	/// Gets or sets the size of the inventory.
+	/// Resizes the contents array as necessary.
+	/// TODO: If inventory becomes smaller, the user should be able to choose what to discard.
+	/// Also, should remove empty slots instead when shrinking.
 	/// </summary>
-	/// <returns>The inventory size.</returns>
-	public int GetInventorySize()
+	/// <value>The size of the inventory.</value>
+	public int InventorySize
 	{
-		return inventorySize;
+		get
+		{
+			return inventorySize;
+		}
+		set
+		{
+			inventorySize = value;
+			Array.Resize(ref contents, inventorySize);
+		}
 	}
 }
