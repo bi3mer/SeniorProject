@@ -56,7 +56,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
     public void TestBuildBuilding()
     {
        ProceduralBuildingInstance newbuilding = CreateBuilding(district[TestDistrict], TestBaseSize, TestAttatchmentPercentage, TestStoriesTall);
-       // ShowBuilding(newbuilding);
        NewestBuilding = newbuilding;
     }
 
@@ -164,15 +163,15 @@ public class ProceduralBuildingCreator : MonoBehaviour
 
         if (size == BaseSize.OneByOne && district.OneXOneDistrictBases.Length > 0)
         {
-            newBase = district.OneXOneDistrictBases[Random.Range(0, district.OneXOneDistrictBases.Length - 1)];
+            newBase = district.OneXOneDistrictBases[Random.Range(0, district.OneXOneDistrictBases.Length)];
         }
         else if (size == BaseSize.TwoByTwo && district.TwoXTwoDistrictBases.Length > 0)
         {
-            newBase = district.TwoXTwoDistrictBases[Random.Range(0, district.TwoXTwoDistrictBases.Length - 1)];
+            newBase = district.TwoXTwoDistrictBases[Random.Range(0, district.TwoXTwoDistrictBases.Length)];
         }
         else if (size == BaseSize.ThreeByThree && district.ThreeXThreeDistrictBases.Length > 0)
         {
-            newBase = district.ThreeXThreeDistrictBases[Random.Range(0, district.ThreeXThreeDistrictBases.Length - 1)];
+            newBase = district.ThreeXThreeDistrictBases[Random.Range(0, district.ThreeXThreeDistrictBases.Length)];
         }
         else
         {
@@ -371,9 +370,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 // Repeat spawning for each story
                 for (int i = 0; i < storiesTall; ++i)
                 {
-                    // For each window attatchment, make sure it's not parented to a used attachmentpoint
                     for (int j = 0; j < newBuilding.BuildingBase.WindowPoints.Length; j++)
                     {
+						// For each window attatchment, make sure it's not parented to a used attachmentpoint
                         if (newBuilding.BuildingBase.WindowPoints[j].transform.parent.GetComponentInChildren<ProceduralBuildingAttachment>() == null)
                         {
                             placeNodeBasedWindow(newBuilding, newBuilding.transform, newBuilding.BuildingBase.WindowPoints[j].transform.position, windowMeshes, j, i, 0);
@@ -424,7 +423,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                                 // Repeat spawning for number of windows on each side
                                 for (int k = 0; k < numberOfWindowsPerSide; ++k)
                                 {
-                                    placeMathmaticWindow(newBuilding, newBuilding.BuildingAttachments[i].transform, centerPosition, windowMeshes, 0, j, k, m +1);                       
+                                    placeMathmaticWindow(newBuilding, newBuilding.BuildingAttachments[i].transform, centerPosition, windowMeshes, 0, j, k, m+1);                       
                                 }
                             }
                         }
@@ -435,10 +434,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
                         // Repeat spawning for each story
                         for (int j = 0; j < storiesTall; ++j)
                         {
-                            // For each window attatchment, make sure it's not parented to a used attachmentpoint
                             for (int k = 0; k < newBuilding.BuildingAttachments[i].WindowPoints.Length; ++k)
                             {
-                                placeNodeBasedWindow(newBuilding, newBuilding.BuildingAttachments[i].WindowPoints[k].transform, newBuilding.BuildingAttachments[i].WindowPoints[k].transform.position, windowMeshes, i, j, 1);
+								placeNodeBasedWindow(newBuilding, newBuilding.BuildingAttachments[i].WindowPoints[k].transform, newBuilding.BuildingAttachments[i].WindowPoints[k].transform.position, windowMeshes, k, j, 1);
                             }
                         }
                     }
@@ -470,13 +468,17 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// <summary>
     /// Places a window on a building using the node based system
     /// </summary>
-    private void placeNodeBasedWindow(ProceduralBuildingInstance newBuilding, Transform windowParent, Vector3 startPosition, List<MeshRenderer> windowMeshes, int windowNumber, int buildingStory, int isAttachment)
+	private void placeNodeBasedWindow(ProceduralBuildingInstance newBuilding, Transform windowParent, Vector3 startPosition, List<MeshRenderer> windowMeshes, int windowNumber, int buildingStory, int isAttachment)
     {
         GameObject newObject = (GameObject)Instantiate(newBuilding.Windows.gameObject);
         windowMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
         newObject.transform.parent = windowParent;
         newObject.transform.position = startPosition;
-        newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentRotationMod - attachmentWindowRotationMod * isAttachment, 0f) + newBuilding.BuildingBase.WindowPoints[windowNumber].transform.eulerAngles * Mathf.Abs(isAttachment - 1));
+        newObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, attachmentRotationMod - attachmentWindowRotationMod * isAttachment, 0f));
+		if (isAttachment == 0)
+		{
+			newObject.transform.localRotation = Quaternion.Euler(newObject.transform.localRotation.eulerAngles + newBuilding.BuildingBase.WindowPoints [windowNumber].transform.eulerAngles);
+		}
         raiseWindow(newObject, buildingStory);
     }
 
