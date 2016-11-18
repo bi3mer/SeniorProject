@@ -4,15 +4,6 @@ using System.Collections;
 public class Shelter : MonoBehaviour 
 {
 	/// <summary>
-	/// Start this instance.
-	/// </summary>
-	void Start () 
-	{
-		// gets the collider for the shelter
-		collider = GetComponent<BoxCollider> ();
-	}
-
-	/// <summary>
 	/// Raises the trigger enter event.
 	/// </summary>
 	/// <param name="coll">Collider entered</param>

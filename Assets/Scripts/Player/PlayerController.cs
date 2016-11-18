@@ -222,13 +222,14 @@ public class PlayerController : MonoBehaviour
 
 		if (IsInShelter) 
 		{
-			StopCoroutine (ReduceWarmth(outsideWarmthReductionRate));
-			StartCoroutine(IncreaseWarmth (shelterWarmthIncreaseRate));
+			Debug.Log ("In shelter");
+			StopCoroutine (reduceWarmth(outsideWarmthReductionRate));
+			StartCoroutine(increaseWarmth (shelterWarmthIncreaseRate));
 
 		} else 
 		{
-			StopCoroutine (IncreaseWarmth(shelterWarmthIncreaseRate));
-			StartCoroutine(ReduceWarmth (outsideWarmthReductionRate));
+			StopCoroutine (increaseWarmth(shelterWarmthIncreaseRate));
+			StartCoroutine(reduceWarmth (outsideWarmthReductionRate));
 		}
     }
 
@@ -241,7 +242,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-	private IEnumerator ReduceWarmth(float depletionRate)
+	private IEnumerator reduceWarmth(float depletionRate)
 	{
 		while (updateStats)
 		{
@@ -250,7 +251,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	private IEnumerator IncreaseWarmth(float increaseRate)
+	private IEnumerator increaseWarmth(float increaseRate)
 	{
 		while (updateStats) 
 		{
