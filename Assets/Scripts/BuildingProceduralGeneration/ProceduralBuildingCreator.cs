@@ -79,7 +79,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {
                 Material newMaterial = new Material(district.DistrictMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictMaterials[i]);
-                newMaterial.color = materialAlbedoColors.Evaluate( j * 1f/materialInstances);
+                newMaterial.color = materialAlbedoColors.Evaluate( j * materialInstances);
                 district.districtProceduralMaterials.Add(newMaterial);
             }
         }
