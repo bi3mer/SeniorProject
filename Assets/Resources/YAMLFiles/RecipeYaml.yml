@@ -9,42 +9,42 @@
      amountRequired: 1
   statsToCheck:
    - statName: "durability"
-     affectingItems:
+     statAffectingItems:
       - "rod"
       - "rope"
       - "hook"
-     threshold:
+     qualityThreshold:
       - 5
       - 15
    - statName: "elasticity"
-     affectingItems:
+     statAffectingItems:
       - "rod"
       - "rope"
-     threshold:
+     qualityThreshold:
       - 1
       - 2
    - statName: "flexibility"
-     affectingItems:
+     statAffectingItems:
       - "rod"
       - "rope"
-     threshold:
+     qualityThreshold:
       - 1
       - 2
    - statName: "sharpness"
-     affectingItems:
+     statAffectingItems:
       - "hook"
-     threshold:
+     qualityThreshold:
       - 3
       - 5
    - statName: "stickiness"
-     affectingItems:
+     statAffectingItems:
       - "rod"
-     threshold:
+     qualityThreshold:
       - 0
       - 0
    - statName: "thickness"
-     affectingItems:
+     statAffectingItems:
       - "rod"
-     threshold:
+     qualityThreshold:
       - 2
       - 4

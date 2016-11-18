@@ -67,7 +67,7 @@ public class InventoryItemBehavior : MonoBehaviour
 	/// Gets the possible actions that can be applied to the item.
 	/// </summary>
 	/// <returns>The possible actions.</returns>
-	public List<Action> GetPossibleActions()
+	public List<ItemAction> GetPossibleActions()
 	{
 		return targetStack.Item.GetPossibleActions ();
 	}
@@ -83,7 +83,7 @@ public class InventoryItemBehavior : MonoBehaviour
 		// not in the Inventory yet, so it is given the temporary id of -1
 		// which will not be used in any calculations
 		originalStack.Amount -= numToModify;
-		targetStack = new Stack(originalStack.Item.GetItemToModify (), numToModify, -1);
+		targetStack = new Stack(originalStack.Item.GetItemToModify (), numToModify, "");
 	}
 
 	/// <summary>

@@ -3,36 +3,21 @@ using System.Collections;
 
 public class Attribute
 {
-	private string attributeName;
-	private float attributeValue;
-
 	public Attribute(string name, float value)
 	{
-		attributeName = name;
-		attributeValue = value;
+		Name = name;
+		Value = value;
 	}
 
 	public string Name 
 	{
-		get 
-		{
-			return attributeName;
-		}
-		set 
-		{
-			attributeName = value;
-		}
+		get;
+		set;
 	}
 
 	public float Value 
 	{
-		get 
-		{
-			return attributeValue;
-		}
-		set 
-		{
-			attributeValue = value;
-		}
+		get;
+		set;
 	}
 }

@@ -9,23 +9,12 @@ using System.Collections;
 /// TODO: Enable this class to craft base items.
 /// </summary>
 
-public class ItemFactory : MonoBehaviour 
+public class ItemFactory 
 {
-	// Temporary delegate function that handles crafting a specific object given a list of items
+	/// <summary>
+	/// Temporary delegate function that handles crafting a specific object given a list of items
+	/// </summary>
 	public delegate void CraftItem(List<BaseItem> ingredients);
-
-	[Tooltip("Basic template gameobject with a baseItem component that is used to create items. Should be in scene.")]
-	public GameObject baseObjectTemplate;
-
-	[Tooltip("Name of the file that contains the item information")]
-	public string ItemFileName;
-
-	// instance of the factory so that it can be easily accessed by other classes
-	public static ItemFactory instance;
-
-	//dictionary of craftItem delegate functions that are keyed by the name of the item they are supposed to craft
-	public Dictionary<string, CraftItem> CraftingList;
-
 
 	private Dictionary<string, BaseItem> itemDatabase;
 
@@ -40,12 +29,10 @@ public class ItemFactory : MonoBehaviour
 	/// Start this instance. 
 	/// TODO: Loading in the craftingList by YAML.
 	/// </summary>
-	void Start () 
+	public ItemFactory (string itemFile) 
 	{
-		instance = this;
-
 		itemDatabase = new Dictionary<string, BaseItem> ();
-		itemParser = new ItemSerializer(ItemFileName);
+		itemParser = new ItemSerializer(itemFile);
 
 		LoadItemInformation ();
 	}
@@ -68,7 +55,7 @@ public class ItemFactory : MonoBehaviour
 	/// </summary>
 	/// <param name="recipe">Recipe for the item.</param>
 	/// <param name="ingredients">Ingredients to be used. Required by CraftItem delegate functions.</param>
-	public void Craft(Recipe recipe, List<BaseItem> ingredients, PlayerInventory targetInventory)
+	public void Craft(Recipe recipe, List<BaseItem> ingredients, Inventory targetInventory)
 	{
 		List<string> tags = new List<string> ();
 
@@ -161,7 +148,7 @@ public class ItemFactory : MonoBehaviour
 		for (int x = 0; x < recipe.StatsToCheck.Count; ++x) 
 		{
 			string stat = recipe.StatsToCheck [x].StatName;
-			List<string> affectingItems = recipe.StatsToCheck [x].AffectingItems;
+			List<string> affectingItems = recipe.StatsToCheck [x].StatAffectingItems;
 			float result = 0;
 
 			for (int y = 0; y < affectingItems.Count; ++y)
@@ -174,7 +161,7 @@ public class ItemFactory : MonoBehaviour
 			if (qualityLevel > 0) 
 			{
 				// a single crafting stat sum may decrease the level multiple times
-				while (result < recipe.StatsToCheck [x].Threshold [qualityLevel - 1]) 
+				while (result < recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
 				{
 					--qualityLevel;
 

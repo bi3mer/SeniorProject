@@ -7,27 +7,20 @@ using System.Collections.Generic;
 /// and the UnityAction. The action may also have an id
 /// that specifies which subcategory of action it falls under.
 /// </summary>
-public class Action
+public class ItemAction
 {
-	private string actionName;
-	private UnityAction UnityAction;
-	private List<Action> subActions;
-	private bool completed;
-
-	private List<ItemCondition> conditions;
-
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Action"/> class.
 	/// </summary>
-	/// <param name="n">Name.</param>
-	/// <param name="act">Action.</param>
-	public Action(string n, UnityAction act)
+	/// <param name="name">Name.</param>
+	/// <param name="desiredAction">Action.</param>
+	public ItemAction(string name, UnityAction desiredAction)
 	{
-		actionName = n;
-		UnityAction = act;
-		subActions = new List<Action> ();
-		conditions = new List<ItemCondition> ();
-		completed = false;
+		ActionName = name;
+		AssignedAction = desiredAction;
+		SubActions = new List<ItemAction> ();
+		Conditions = new List<ItemCondition> ();
+		ActionComplete = false;
 	}
 
 	/// <summary>
@@ -37,14 +30,8 @@ public class Action
 	/// 
 	public UnityAction AssignedAction
 	{
-		get 
-		{
-			return UnityAction;
-		}
-		set 
-		{
-			UnityAction = value;
-		}
+		get;
+		set;
 	}
 
 	/// <summary>
@@ -53,30 +40,18 @@ public class Action
 	/// <value>The name of the action.</value>
 	public string ActionName 
 	{
-		get 
-		{
-			return actionName;
-		}
-		set 
-		{
-			actionName = value;
-		}
+		get;
+		set;
 	}
 
 	/// <summary>
 	/// Gets or sets the sub actions of this action.
 	/// </summary>
 	/// <value>The sub actions.</value>
-	public List<Action> SubActions
+	public List<ItemAction> SubActions
 	{
-		get 
-		{
-			return subActions;
-		}
-		set 
-		{
-			subActions = value;
-		}
+		get;
+		set;
 	}
 
 	/// <summary>
@@ -85,14 +60,8 @@ public class Action
 	/// <value><c>true</c> if action complete; otherwise, <c>false</c>.</value>
 	public bool ActionComplete
 	{
-		get
-		{
-			return completed;
-		}
-		set 
-		{
-			completed = value;
-		}
+		get;
+		set;
 	}
 
 	/// <summary>
@@ -101,13 +70,7 @@ public class Action
 	/// <value>The conditions.</value>
 	public List<ItemCondition> Conditions
 	{
-		get
-		{
-			return conditions;
-		}
-		set 
-		{
-			conditions = value;
-		}
+		get;
+		set;
 	}
 }

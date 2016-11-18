@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,47 +7,68 @@ using System.Collections.Generic;
 /// </summary>
 public class BaseItem : CollectableItem 
 {
-	//name of the item
+	/// <summary>
+	/// Gets or sets the name of the item.
+	/// </summary>
+	/// <value>The name of the item.</value>
 	public string ItemName 
 	{
 		get; 
 		set;
 	}
 
-	// tags that specify what type of item this item is
-	// unfortunately enums are not serializable with yamldotnet
-	// as such, they must remain strings for now
+	/// <summary>
+	/// tags that specify what type of item this item is
+	/// unfortunately enums are not serializable with yamldotnet
+	/// as such, they must remain strings for now
+	/// </summary>
+	/// <value>The types.</value>
 	public List<string> Types 
 	{
 		get; 
 		set;
 	}
 
-	//description of item 
+	/// <summary>
+	/// Gets or sets the flavor text that describes the item.
+	/// </summary>
+	/// <value>The flavor text.</value>
 	public string FlavorText 
 	{
 		get;
 		set;
 	}
 
-	// delegate function that takes in a baseItem
+	/// <summary>
+	/// Delegate function that takes in a baseItem
+	/// </summary>
 	public delegate void UpdateItemEvent (BaseItem item); 
 
-	// event that can be subscribed to by functions of UpdateItemEvent format
+	/// <summary>
+	/// Event that can be subscribed to by functions of UpdateItemEvent format
+	/// </summary>
 	public event UpdateItemEvent UpdateItemInformation;
 
-	// link to the last Item Category, which in turn links to another Item Category
-	// the starting point from which the BaseItem will get all of its category information from
+	/// <summary>
+	/// link to the last Item Category, which in turn links to another Item Category
+	/// the starting point from which the BaseItem will get all of its category information from
+	/// </summary>
 	private ItemCategory lastCategory;
 
+	/// <summary>
+	/// All categories that the item contains.
+	/// </summary>
 	private List<ItemCategory> categoryList;
 
-	protected int numberToModify;
-
+	/// <summary>
+	/// The item's attributes.
+	/// </summary>
 	private List<Attribute> itemAttributes;
 
-	// flag checked by the InventoryItemBehavior to see if the BaseItem should actually be removed
-	// when checking for modifications
+	/// <summary>
+	/// flag checked by the InventoryItemBehavior to see if the BaseItem should actually be removed
+	/// when checking for modifications
+	/// </summary>
 	public bool RemovalFlag = false;
 
 	/// <summary>
@@ -159,9 +179,9 @@ public class BaseItem : CollectableItem
 	/// Gets all the action that an item can perform.
 	/// </summary>
 	/// <returns>The possible actions of an item in a Dictionary keyed by the action name.</returns>
-	public override List<Action> GetPossibleActions()
+	public override List<ItemAction> GetPossibleActions()
 	{
-		List<Action> possibleActions = lastCategory.GetPossibleActions ();
+		List<ItemAction> possibleActions = lastCategory.GetPossibleActions ();
 
 		return possibleActions;
 	}

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine.Events;
 
 /// <summary>
@@ -9,54 +8,90 @@ using UnityEngine.Events;
 /// </summary>
 public class PlantCategory : ItemCategory 
 {
+	/// <summary>
+	/// Gets or sets the water content of the item.
+	/// </summary>
+	/// <value>The content of the water.</value>
 	public float WaterContent 
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// Gets or sets the toughness.
+	/// </summary>
+	/// <value>The toughness.</value>
 	public float Toughness 
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// Gets or sets the sweetness.
+	/// </summary>
+	/// <value>The sweet.</value>
 	public float Sweet 
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// Gets or sets the bitterness.
+	/// </summary>
+	/// <value>The bitter.</value>
 	public float Bitter 
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// Gets or sets the sournss.
+	/// </summary>
+	/// <value>The sour.</value>
 	public float Sour 
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// Gets or sets the saltiness.
+	/// </summary>
+	/// <value>The salty.</value>
 	public float Salty 
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// Gets or sets the spiciness.
+	/// </summary>
+	/// <value>The spicy.</value>
 	public float Spicy 
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// Gets or sets the stomach effect.
+	/// </summary>
+	/// <value>The stomach effect.</value>
 	public float StomachEffect 
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// Gets or sets the pneumonia effect.
+	/// </summary>
+	/// <value>The pneumonia effect.</value>
 	public float PneumoniaEffect 
 	{ 
 		get; 
@@ -114,17 +149,17 @@ public class PlantCategory : ItemCategory
 		category.StomachEffect = StomachEffect;
 		category.PneumoniaEffect = PneumoniaEffect;
 
-		category.Actions = new List<Action> ();
+		category.Actions = new List<ItemAction> ();
 		category.Attributes = new List<Attribute> ();
 
-		for (int i = 0; i < actions.Count; ++i) 
+		for (int i = 0; i < Actions.Count; ++i) 
 		{
-			category.Actions.Add (actions [i]);
+			category.Actions.Add (Actions [i]);
 		}
 
-		for(int i = 0; i < attributes.Count; ++i)
+		for(int i = 0; i < Attributes.Count; ++i)
 		{
-			category.Attributes.Add (attributes [i]);
+			category.Attributes.Add (Attributes [i]);
 		}
 
 		return category;
@@ -135,7 +170,7 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public override void ReadyCategory()
 	{
-		attributes = new List<Attribute> ();
+		Attributes = new List<Attribute> ();
 
 		Attribute waterAttribute = new Attribute (waterContAttrName, WaterContent);
 		Attribute toughAttribute = new Attribute (toughAttrName, Toughness);
@@ -145,34 +180,33 @@ public class PlantCategory : ItemCategory
 		Attribute saltyAttribute = new Attribute(saltyAttrName, Salty);
 		Attribute spicyAttribute = new Attribute(spicyAttrName, Spicy);
 
-		attributes.Add (waterAttribute);
-		attributes.Add (toughAttribute);
-		attributes.Add (sweetAttribute);
-		attributes.Add (bitterAttribute);
-		attributes.Add (sourAttribute);
-		attributes.Add (saltyAttribute);
-		attributes.Add (spicyAttribute);
+		Attributes.Add (waterAttribute);
+		Attributes.Add (toughAttribute);
+		Attributes.Add (sweetAttribute);
+		Attributes.Add (bitterAttribute);
+		Attributes.Add (sourAttribute);
+		Attributes.Add (saltyAttribute);
+		Attributes.Add (spicyAttribute);
 
-		actions = new List<Action> ();
+		Actions = new List<ItemAction> ();
 
-		Action cook = new Action (cookActName, new UnityAction(Cook));
-		Action dry = new Action (dryActName, new UnityAction(Dry));
+		ItemAction cook = new ItemAction (cookActName, new UnityAction(Cook));
+		ItemAction dry = new ItemAction (dryActName, new UnityAction(Dry));
 
-		Action eat = new Action (eatActName, new UnityAction(Eat));
+		ItemAction eat = new ItemAction (eatActName, new UnityAction(Eat));
 		ItemCondition eatCondition = new ItemCondition (toughAttrName, toughnessEdibleThreshold, new BooleanOperator.BooleanOperatorDelegate (BooleanOperator.Less));
 
 		eat.Conditions.Add (eatCondition);
 
-		actions.Add (cook);
-		actions.Add (dry);
-		actions.Add (eat);
+		Actions.Add (cook);
+		Actions.Add (dry);
+		Actions.Add (eat);
 	}
 		
 	/// <summary>
 	/// Cooks the item. Lowers toughness and increases water content. If the item has high enough water content, it becomes soup.
 	/// Otherwise, it is just called Cooked X.
 	/// </summary>
-	/// <param name="variables">Variables.</param>
 	public void Cook()
 	{
 		Toughness = Toughness * cookingWaterIncreaseRate;
@@ -212,7 +246,6 @@ public class PlantCategory : ItemCategory
 	/// <summary>
 	/// Consumes the item. May cause illness.
 	/// </summary>
-	/// <param name="variables">Variables.</param>
 	public void Eat()
 	{
 		if (StomachEffect < 0) 

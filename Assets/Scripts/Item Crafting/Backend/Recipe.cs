@@ -1,25 +1,35 @@
 ﻿using System.Collections.Generic;
 
 /// <summary>
-///  Class that handles storing the contents of recipes and checking whether or not they are met.
+///  Class that handles storing the contents of recipes and checking whether or not the requirements are met.
 /// </summary>
 
 public class Recipe  
 {
-	// list of requirements for a recipe
+	/// <summary>
+	/// list of requirements for a recipe
+	/// </summary>
+	/// <value>The requirements.</value>
 	public List<Requirement> Requirements
 	{ 
 		get; 
 		set; 
 	}
 
-	// name of the recipe, generally the name of the item that it will create
+	/// <summary>
+	/// name of the recipe, generally the name of the item that it will create
+	/// </summary>
+	/// <value>The name of the recipe.</value>
 	public string RecipeName
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// Gets or sets the stats to check when determing the quality of the crafted item
+	/// </summary>
+	/// <value>The stats to check.</value>
 	public List<CraftingStat> StatsToCheck
 	{ 
 		get; 

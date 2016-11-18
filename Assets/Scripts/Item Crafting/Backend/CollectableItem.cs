@@ -24,8 +24,8 @@ public abstract class CollectableItem
 	/// </summary>
 	/// <returns>The possible actions of an item in a Dictionary keyed by the action name.
 	/// </returns>
-	public virtual List<Action> GetPossibleActions ()
+	public virtual List<ItemAction> GetPossibleActions ()
 	{
-		return new List<Action>();
+		return new List<ItemAction>();
 	}
 }

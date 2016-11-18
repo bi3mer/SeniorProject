@@ -35,6 +35,9 @@ public class CraftingMenuBehavior : MonoBehaviour
 	[Tooltip("filename for yaml that contains the recipe information")]
 	public string RecipeFileName;
 
+	[Tooltip("filename for the yaml that contains the item information")]
+	public string ItemFileName;
+
 	// The recipes as defined by their name and the actual recipe itself
 	private Dictionary<string, Recipe> recipes;
 
@@ -76,6 +79,8 @@ public class CraftingMenuBehavior : MonoBehaviour
 
 	private RecipeYamlSerializer parser;
 
+	private ItemFactory itemFactory;
+
 	/// <summary>
 	/// Start this instance. Instantiates various variables as needed.
 	/// TODO: Should call a function which will read in a YAML file to fill out the dictionary of recipes.
@@ -83,10 +88,13 @@ public class CraftingMenuBehavior : MonoBehaviour
 	void Start () 
 	{
 		parser = new RecipeYamlSerializer(RecipeFileName);
+		itemFactory = new ItemFactory(ItemFileName);
+
 		LoadRecipes ();
 		CraftingPanelAnimator = GetComponent<Animator>();
 		ItemSelectPanelAnimator = GameObject.Find("Select X Panel").GetComponent<Animator>();
 		itemsSelected = new List<Ingredient> ();
+
 	}
 
 	/// <summary>
@@ -288,7 +296,7 @@ public class CraftingMenuBehavior : MonoBehaviour
 
 		// call the CraftingRecipeFactory which will create the resulting item given the
 		// name of the recipe and ingredients selected
-		ItemFactory.instance.Craft (recipes[recipeChoice], ingredients, InventoryUIBehavior.instance.targetInventory);
+		itemFactory.Craft (recipes[recipeChoice], ingredients, InventoryUIBehavior.instance.targetInventory);
 
 		InventoryUIBehavior.instance.RefreshInventory ();
 

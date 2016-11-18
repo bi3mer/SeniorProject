@@ -9,10 +9,10 @@ using System;
 /// the inventory save strings of objects then use YAML file to define those items as needed.
 /// </summary>
 
-public class PlayerInventory
+public class Inventory
 {
 	// Inventory size
-	public int InventorySize = 20;
+	private int inventorySize = 20;
 
 	// How many items there may be in a stack
 	private const int StackSize = 5;
@@ -22,17 +22,14 @@ public class PlayerInventory
 	// Contents of the inventory keyed by their name
 	private Stack[] contents;
 
-	private bool[] usedId;
-
 	private InventoryYamlParser parser;
 	/// <summary>
 	/// Sets up the inventory
 	/// TODO: Remove the definition of the inventory
 	/// </summary>
-	public PlayerInventory(string name, string inventoryFile)
+	public Inventory(string name, string inventoryFile)
 	{
-		contents = new Stack[InventorySize];
-		usedId = new bool[InventorySize];
+		contents = new Stack[inventorySize];
 		inventoryName = name;
 
 		parser = new InventoryYamlParser(inventoryFile);
@@ -47,7 +44,7 @@ public class PlayerInventory
 	
 		for (int i = 0; i < inventoryInfo.Count; ++i) 
 		{
-			if(inventoryInfo[i].StackId != -1)
+			if(!inventoryInfo[i].StackId.Equals(""))
 			{
 
 				BaseItem item = inventoryInfo [i].Item;
@@ -60,7 +57,7 @@ public class PlayerInventory
 
 				item.SetUpBaseItem ();
 
-				Stack stack = new Stack(item, inventoryInfo[i].ItemAmount, GetID());
+				Stack stack = new Stack(item, inventoryInfo[i].ItemAmount,  Guid.NewGuid().ToString("N"));
 				contents[i] = stack;
 			}
 			else
@@ -105,7 +102,6 @@ public class PlayerInventory
 					{
 						contents[i].Amount = 0;
 						contents[i] = null;
-						usedId [i] = false;
 					}
 
 					if(amountLeft <= 0)
@@ -154,7 +150,7 @@ public class PlayerInventory
 	public void AddItem(BaseItem newItem, int amount)
 	{
 		int loc = GetNextOpenSlot ();
-		contents[loc] = new Stack(newItem, amount, GetID());
+		contents[loc] = new Stack(newItem, amount, Guid.NewGuid().ToString("N"));
 		InventoryYAMLModel itemStruct = new InventoryYAMLModel ();
 		itemStruct.Item = newItem;
 		itemStruct.ItemAmount = amount;
@@ -177,7 +173,6 @@ public class PlayerInventory
 				if (contents [i].Item.ItemName.Equals (stack.Item.ItemName) && contents [i].Id == stack.Id) 
 				{
 					contents [i] = null;
-					usedId [i] = false;
 					parser.RemoveFromInventory (i, inventoryName);
 					stack = null;
 
@@ -221,7 +216,7 @@ public class PlayerInventory
 	/// <param name="target">Target.</param>
 	public void CombineStacks(Stack current, Stack target)
 	{
-		if (target.Amount + current.Amount <= InventorySize) 
+		if (target.Amount + current.Amount <= inventorySize) 
 		{
 			target.Amount += current.Amount;
 			RemoveStack (current);
@@ -243,24 +238,15 @@ public class PlayerInventory
 			}
 		}
 
-		return InventorySize;
+		return inventorySize;
 	}
 
 	/// <summary>
-	/// Gets an id for a stack. Checks the usedId array and returns the first unusedId.
+	/// Gets the size of the inventory.
 	/// </summary>
-	/// <returns>The I.</returns>
-	public int GetID()
+	/// <returns>The inventory size.</returns>
+	public int GetInventorySize()
 	{
-		for (int i = 0; i < usedId.Length; ++i) 
-		{
-			if (!usedId [i]) 
-			{
-				usedId [i] = true;
-				return i;	
-			}
-		}
-
-		return InventorySize;
+		return inventorySize;
 	}
 }
