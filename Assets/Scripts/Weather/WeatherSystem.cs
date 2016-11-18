@@ -37,6 +37,11 @@ public class WeatherSystem
 	private const float airDensity                = 3.4f;
 	private const float kelvinConverter           = 273.15f; 
 
+	// constants for celcius to farenheight
+	private const float celciusNumerator   = 9.0f;
+	private const float celciusDenominator = 5.0f;
+	private const float celciusAdder       = 32.0f;
+
 	// wind speed
 	private readonly float[] windSpeedCoefficents = {0f, -13.641617f, 0.00670152751f};
 	private readonly int[,] windSpeedPowers       = {{0}, {1}, {2}};
@@ -106,8 +111,7 @@ public class WeatherSystem
 	/// <param name="temperature">Temperature.</param>
 	private float celciusToFahrenheit(float temperature)
 	{
-	// todo fix
-		return temperature * (9.0f / 5.0f) + 32.0f;
+		return temperature * (WeatherSystem.celciusNumerator / WeatherSystem.celciusDenominator) + WeatherSystem.celciusAdder;
 	}
 
 	/// <summary>
@@ -130,85 +134,16 @@ public class WeatherSystem
 	}
 
 	/// <summary>
-	/// Uses linear regression from the coefficients, powwers,
-	/// and inputs to get a prediction. 
-	/// 
-	/// Note: the length of the powers on the inside should be
-	///       size of the inputs array
-	/// </summary>
-	/// <returns>The regression prediction.</returns>
-	/// <param name="coefficients">Coefficients.</param>
-	/// <param name="powers">Powers.</param>
-	/// <param name="inputs">Inputs.</param>
-	/// <param name="intercept">Intercept.</param>
-	private float linearRegressionPrediction(float[] coefficients, int[,] powers, float[] inputs, float intercept)
-	{
-		float prediction = intercept;
-
-		for(int i = 0; i < coefficients.Length; ++i)
-		{
-			if(coefficients[i] != 0)
-			{
-				float total = 1;
-
-				for(int j = 0; j < inputs.Length; ++j)
-				{
-					total *= Mathf.Pow(inputs[j], powers[i,j]);
-				}
-
-				prediction += total * coefficients[i];
-			}
-		}
-
-		return prediction;
-	}
-
-	/// <summary>
 	/// Predicts the wind speed with linearRegressionPrediction
 	/// </summary>
 	/// <returns>The wind speed.</returns>
 	private float getWindSpeed() 
 	{
 		float[] inputs = {this.WeatherInformation[(int) Weather.Pressure]};
-		return linearRegressionPrediction(this.windSpeedCoefficents, 
-			                              this.windSpeedPowers, 
-			                              inputs,
-			                              WeatherSystem.windSpeedIntercept);
-	}
-
-	/// <summary>
-	/// Gets the slope.
-	/// </summary>
-	/// <returns>The slope.</returns>
-	/// <param name="posOne">Position one.</param>
-	/// <param name="posTwo">Position two.</param>
-	private float getSlope(Vector2 posOne, Vector2 posTwo)
-	{
-		// ensure that divide by 0 case doesn't occur
-		float divisor = posTwo.x - posOne.x;
-		if(divisor == 0)
-		{
-			return Mathf.Infinity;
-		}
-
-		return (posTwo.y - posOne.y) / divisor;
-	}
-
-	/// <summary>
-	/// Gets the perpindicular slope.
-	/// </summary>
-	/// <returns>The perpindicular slope.</returns>
-	/// <param name="posOne">Position one.</param>
-	/// <param name="posTwo">Position two.</param>
-	private float getPerpindicularSlope(Vector2 posOne, Vector2 posTwo)
-	{
-		float divisor = this.getSlope(posOne, posTwo);
-		if(divisor == 0)
-		{
-			return Mathf.Infinity;
-		}
-
-		return -1 / divisor;
+		return Regression.Prediction(this.windSpeedCoefficents, 
+			                         this.windSpeedPowers, 
+			                         inputs,
+			                         WeatherSystem.windSpeedIntercept);
 	}
 
 	/// <summary>
@@ -299,20 +234,6 @@ public class WeatherSystem
 	}
 
 	/// <summary>
-	/// Gets the tangent angle between two points
-	/// </summary>
-	/// <returns>The wind angle.</returns>
-	/// <param name="posOne">Position one.</param>
-	/// <param name="posTwo">Position two.</param>
-	private float getAngle(Vector2 posOne, Vector2 posTwo)
-	{
-		float adjacent = posTwo.y - posOne.y;
-		float opposite = posTwo.x - posOne.x;
-
-		return Mathf.Atan2(opposite, adjacent);
-	}
-
-	/// <summary>
 	/// Sets the wind speed vector.
 	/// TODO: this needs to broken up into multiple functions
 	/// </summary>
@@ -321,7 +242,7 @@ public class WeatherSystem
 	private void setWindSpeedVector(Vector2 position, int centerIndex)
 	{
 		Vector2 center = this.stormCenterLocations[centerIndex];
-		float perpindicularSlope = this.getPerpindicularSlope(position, center);
+		float perpindicularSlope = VectorUtility.GetPerpindicularSlope(position, center);
 
 		// calculate y intercept
 		float yIntercept = position.y - (perpindicularSlope * position.x);
@@ -330,12 +251,12 @@ public class WeatherSystem
 		Vector2 newPosition = this.calculatePositionOnSlopeAndDirection(position, center, yIntercept, perpindicularSlope, centerIndex);
 
 		// get angle of the wind
-		float windAngle = this.getAngle(newPosition, position);
+		float windAngle = VectorUtility.GetAngle(newPosition, position);
 
 		// add forces to weatherInformation
-		this.WeatherInformation[(int) Weather.WindSpeedX] = Mathf.Cos(windAngle) * this.WeatherInformation[(int) Weather.WindSpeedMagnitude];
-		this.WeatherInformation[(int) Weather.WindSpeedY] = Mathf.Sin(windAngle) * this.WeatherInformation[(int) Weather.WindSpeedMagnitude];
-	}
+		this.WeatherInformation[(int) Weather.WindSpeedX] = Mathf.Sin(windAngle) * this.WeatherInformation[(int) Weather.WindSpeedMagnitude];
+		this.WeatherInformation[(int) Weather.WindSpeedY] = Mathf.Cos(windAngle) * this.WeatherInformation[(int) Weather.WindSpeedMagnitude];
+}
 
 	/// <summary>
 	/// Gets the wind speed vector from the weather informaiton
@@ -343,7 +264,7 @@ public class WeatherSystem
 	public Vector2 GetWindSpeedVector()
 	{
 		return new Vector2(this.WeatherInformation[(int) Weather.WindSpeedX], 
-			this.WeatherInformation[(int) Weather.WindSpeedY]);
+			               this.WeatherInformation[(int) Weather.WindSpeedY]);
 	} 
 
 	/// <summary>
@@ -356,10 +277,10 @@ public class WeatherSystem
 		float[] inputs = {this.WeatherInformation[(int) Weather.Pressure], 
 		                  this.WeatherInformation[(int) Weather.Temperature]};
 
-		return linearRegressionPrediction(this.relativeHumidityCoefficients, 
-			                              this.relativeHumidityPowers, 
-			                              inputs,
-			                              WeatherSystem.relativeHumidityIntercept);
+		return Regression.Prediction(this.relativeHumidityCoefficients, 
+			                         this.relativeHumidityPowers, 
+			                         inputs,
+			                         WeatherSystem.relativeHumidityIntercept);
 	}
 
 	/// <summary>
@@ -390,10 +311,10 @@ public class WeatherSystem
 			              this.WeatherInformation[(int) Weather.WindSpeedMagnitude],
 			              this.WeatherInformation[(int) Weather.RelativeDewPoint]};
 
-		return linearRegressionPrediction(this.precipitationCoefficients, 
-			                              this.precipitationPowers, 
-		                                  inputs,
-			                              WeatherSystem.precipitationIntercept);
+		return Regression.Prediction(this.precipitationCoefficients, 
+			                         this.precipitationPowers, 
+		                             inputs,
+			                         WeatherSystem.precipitationIntercept);
 	}
 
 	/// <summary>
@@ -420,7 +341,7 @@ public class WeatherSystem
 		int centerIndex = WeatherSystem.highPressureIndex;
 
 		this.WeatherInformation[(int) Weather.Pressure]           = this.getPressure(position, centerIndex);
-		this.WeatherInformation[(int) Weather.Temperature]        = this.getTemperature();
+		this.WeatherInformation[(int) Weather.Temperature]        = this.getTemperature() + DiurnalTemperatureVariance.TemperatureVariance;
 		this.WeatherInformation[(int) Weather.WindSpeedMagnitude] = this.getWindSpeed();
 		this.WeatherInformation[(int) Weather.RelativeHumidity]   = this.getRelativeHumidity();
 		this.WeatherInformation[(int) Weather.RelativeDewPoint]   = this.getRelativeDewPoint();

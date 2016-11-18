@@ -8,6 +8,7 @@
 		WeatherInstance = new WeatherSystem();
         Radio RadioInstance = new Radio();
         RadioInstance.currentWeather = WeatherInstance;
+		PauseInstance = new PauseSystem();
     }
  
     /// <summary>
@@ -57,5 +58,10 @@
 
 			return this.clockInstance;
 		}
+	}
+	public PauseSystem PauseInstance
+	{
+		get;
+		private set;
 	}
 }
