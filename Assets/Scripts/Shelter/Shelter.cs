@@ -13,14 +13,6 @@ public class Shelter : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Update this instance.
-	/// </summary>
-	void Update () 
-	{
-
-	} 
-
-	/// <summary>
 	/// Raises the trigger enter event.
 	/// </summary>
 	/// <param name="coll">Collider entered</param>

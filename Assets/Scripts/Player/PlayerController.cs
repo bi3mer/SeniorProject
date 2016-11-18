@@ -220,10 +220,13 @@ public class PlayerController : MonoBehaviour
             player.Health -= (int) movement.CurrentFallDammage;
         }
 
-		if (IsInShelter) {
+		if (IsInShelter) 
+		{
 			StopCoroutine (ReduceWarmth(outsideWarmthReductionRate));
 			StartCoroutine(IncreaseWarmth (shelterWarmthIncreaseRate));
-		} else {
+
+		} else 
+		{
 			StopCoroutine (IncreaseWarmth(shelterWarmthIncreaseRate));
 			StartCoroutine(ReduceWarmth (outsideWarmthReductionRate));
 		}
@@ -249,11 +252,15 @@ public class PlayerController : MonoBehaviour
 
 	private IEnumerator IncreaseWarmth(float increaseRate)
 	{
-		while (updateStats) {
-			if (IsInShelter) {
+		while (updateStats) 
+		{
+			if (IsInShelter) 
+			{
 				yield return new WaitForSeconds (increaseRate);
 				++Game.Instance.PlayerInstance.Warmth;
-			} else {
+			} 
+			else 
+			{
 				break;
 			}
 		}
