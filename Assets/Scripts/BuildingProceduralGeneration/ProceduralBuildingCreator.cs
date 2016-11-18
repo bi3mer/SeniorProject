@@ -20,7 +20,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
         OneByOne,
         TwoByTwo,
         ThreeByThree
-    }
+    };
 
     // Aditional colors building's albedo can take on to increase building variability.
     [SerializeField]
@@ -37,14 +37,14 @@ public class ProceduralBuildingCreator : MonoBehaviour
     private const float storyHeightUnits = .75f;
     // Length of 1 base building unit on the grid.
     private const float OneBaseLengthUnits = 3f;
-    //Half of above.
+    // Half of above.
     private const float HalfBaseLengthUnits = OneBaseLengthUnits / 2f;
     // Start rotation modifier of all attachments
     private const float attachmentRotationMod = 0f;
     // Rotation mod of all windows.
     private const float attachmentWindowRotationMod = 90f;
 
-    // Test Variables
+    // Test Variables.
     public int TestDistrict;
     public BaseSize TestBaseSize;
     public float TestAttatchmentPercentage;
@@ -359,10 +359,10 @@ public class ProceduralBuildingCreator : MonoBehaviour
                     // For each side check if it does not have an attachment.
                     if (!usedPoints.Contains(i))
                     {
-                        // Repeat spawning for each story
+                        // Repeat spawning for each story.
                         for (int j = 0; j < storiesTall; ++j)
                         {
-                            // Repeat spawning for number of windows on each side
+                            // Repeat spawning for number of windows on each side.
                             for (int k = 0; k < numberOfWindowsPerSide; ++k)
                             {
                                 placeMathmaticWindow(newBuilding, newBuilding.BuildingBase.transform, newBuilding.BuildingBase.AttachmentPoints[i].transform.position, windowMeshes, i, j, k, 0);
@@ -376,7 +376,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {   
                 for (int i = 0; i < newBuilding.BuildingBase.WindowPoints.Length; i++)
                 {
-                    // For each window attatchment, make sure it's not parented to a used attachmentpoint
+                    // For each window attatchment, make sure it's not parented to a used attachmentpoint.
                     if (!usedPoints.Contains(i))
                     {
                         // Repeat spawning for each story
@@ -451,7 +451,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
             }
         }
     }
-
 
     /// <summary>
     /// Places a window on a building using the mathmatic system.
