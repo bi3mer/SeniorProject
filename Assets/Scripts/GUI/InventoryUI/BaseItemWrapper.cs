@@ -9,6 +9,7 @@ public class BaseItemWrapper
 	public string itemName;
 	public Guid uniqueId;
 	public int amount;
+	public Sprite itemSprite;
 	//public List<string> types;
 	public string flavorText;
 	//public List<ItemAction> possibleActions;
@@ -19,8 +20,13 @@ public class BaseItemWrapper
 		itemName = item.ItemName;
 		uniqueId = item.UniqueID;
 		amount = itemAmount;
+		//Sprite = Resources.Load<Sprite> ("PATH");
 		//types = item.Types;
 		//possibleActions = item.GetPossibleActions ();
 		//attributes = item.GetItemAttributes ();
+	}
+
+	public BaseItemWrapper()
+	{
 	}
 }
