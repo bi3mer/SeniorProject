@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -14,6 +15,16 @@ public class BaseItem : CollectableItem
 	public string ItemName 
 	{
 		get; 
+		set;
+	}
+
+	/// <summary>
+	/// Gets or sets the unique ID (for use in keeping track of gameObjects).
+	/// </summary>
+	/// <value>The unique ID.</value>
+	public Guid UniqueID 
+	{
+		get;
 		set;
 	}
 
@@ -85,7 +96,7 @@ public class BaseItem : CollectableItem
 	public BaseItem(string name)
 	{
 		ItemName = name;
-
+		UniqueID = Guid.NewGuid ();
 		InitializeBaseItem ();
 	}
 

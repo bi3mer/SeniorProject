@@ -57,9 +57,16 @@
 			return this.clockInstance;
 		}
 	}
+
 	public PauseSystem PauseInstance
 	{
 		get;
 		private set;
+	}
+
+	public Inventory MainInventoryInstance 
+	{
+		get;
+		set;
 	}
 }
