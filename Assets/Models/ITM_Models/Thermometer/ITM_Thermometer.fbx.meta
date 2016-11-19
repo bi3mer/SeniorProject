@@ -6,10 +6,30 @@ ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Thermometer_Base
+    100004: Thermometer_Glass
+    100006: Thermometer_MercuryAnimated
+    100008: Thermometer_MercuryBase
     400000: //RootNode
+    400002: Thermometer_Base
+    400004: Thermometer_Glass
+    400006: Thermometer_MercuryAnimated
+    400008: Thermometer_MercuryBase
     2300000: //RootNode
+    2300002: Thermometer_Base
+    2300004: Thermometer_Glass
+    2300006: Thermometer_MercuryAnimated
+    2300008: Thermometer_MercuryBase
     3300000: //RootNode
+    3300002: Thermometer_Base
+    3300004: Thermometer_Glass
+    3300006: Thermometer_MercuryAnimated
+    3300008: Thermometer_MercuryBase
     4300000: ITM_Thermometer
+    4300002: Thermometer_Base
+    4300004: Thermometer_Glass
+    4300006: Thermometer_MercuryBase
+    4300008: Thermometer_MercuryAnimated
     9500000: //RootNode
   materials:
     importMaterials: 1
