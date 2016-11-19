@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
 	private float shelterWarmthIncreaseRate;
 
     private bool isGrounded;
-	private bool inShelter;
     private bool updateStats;
 
     private InteractableObject interactable;
@@ -222,11 +221,11 @@ public class PlayerController : MonoBehaviour
 
 		if (IsInShelter) 
 		{
-			Debug.Log ("In shelter");
 			StopCoroutine (reduceWarmth(outsideWarmthReductionRate));
 			StartCoroutine(increaseWarmth (shelterWarmthIncreaseRate));
 
-		} else 
+		} 
+		else 
 		{
 			StopCoroutine (increaseWarmth(shelterWarmthIncreaseRate));
 			StartCoroutine(reduceWarmth (outsideWarmthReductionRate));
@@ -253,17 +252,10 @@ public class PlayerController : MonoBehaviour
 
 	private IEnumerator increaseWarmth(float increaseRate)
 	{
-		while (updateStats) 
+		while (updateStats & IsInShelter) 
 		{
-			if (IsInShelter) 
-			{
-				yield return new WaitForSeconds (increaseRate);
-				++Game.Instance.PlayerInstance.Warmth;
-			} 
-			else 
-			{
-				break;
-			}
+			yield return new WaitForSeconds (increaseRate);
+			++Game.Instance.PlayerInstance.Warmth;
 		}
 	}
 
@@ -357,15 +349,9 @@ public class PlayerController : MonoBehaviour
 	/// <summary>
 	/// Returns true if the player is currently in a shelter
 	/// </summary>
-	public bool IsInShelter
-	{ 
-		get
-		{ 
-			return inShelter; 
-		} 
-		set 
-		{
-			inShelter = value;
-		}
+	public bool IsInShelter 
+	{
+		get;
+		set;
 	}
 }

@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Shelter : MonoBehaviour 
+public class ShelterCollider : MonoBehaviour 
 {
+
+	private PlayerController player;
 	/// <summary>
 	/// Raises the trigger enter event.
 	/// </summary>
@@ -11,8 +13,8 @@ public class Shelter : MonoBehaviour
 	{
 		if (coll.gameObject.GetComponent<PlayerController>()) 
 		{
-			PlayerController p = coll.gameObject.gameObject.GetComponent <PlayerController>();
-			p.IsInShelter = true;
+			player = coll.gameObject.gameObject.GetComponent <PlayerController>();
+			player.IsInShelter = true;
 		}
 	}
 
@@ -24,8 +26,7 @@ public class Shelter : MonoBehaviour
 	{
 		if (coll.gameObject.GetComponent<PlayerController>())
 		{
-			PlayerController p = coll.gameObject.gameObject.GetComponent <PlayerController>();
-			p.IsInShelter = false;
+			player.IsInShelter = false;
 		}
 	}
 }
