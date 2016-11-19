@@ -33,6 +33,7 @@ public class InventoryWrapper : MonoBehaviour
 		for (int i = 0; i < slotsX * slotsY; ++i) 
 		{
 			slots.Add (new BaseItemWrapper ());
+			inventory.Add(new BaseItemWrapper ());
 		}
 
 		// Load itemDatabase object in UI with inventory from yaml --> this should be done on the backend
@@ -55,8 +56,9 @@ public class InventoryWrapper : MonoBehaviour
 			}
 		}
 
-		//DisplayInventory ();
-		DrawEmptySlots();
+
+		DrawEmptySlots ();
+		DisplayInventory ();
 	}
 
 	public void DisplayInventory()
@@ -78,13 +80,27 @@ public class InventoryWrapper : MonoBehaviour
 
 	public void DrawEmptySlots()
 	{
-		for (int i = 0; i < slots.Count; ++i) 
+		int i = 0;
+		for (int s = 0; s < slots.Count; ++s) 
 		{
 			BaseItemUI newItemUI = GameObject.Instantiate (baseItemUiTemplate);
 
 			// place in grid layout
 			newItemUI.gameObject.SetActive (true);
 			newItemUI.transform.SetParent (inventoryParentUI.transform);
+			slots [i] = inventory [i];
+			if (slots[i].itemName != null)
+			{
+				BaseItemUI newItemUI2 = GameObject.Instantiate (baseItemUiTemplate);
+				// fill in data for UI element from stack
+				newItemUI2.Initialize (inventory [i].itemName, inventory [i].amount);
+
+				// place in grid layout
+				newItemUI2.gameObject.SetActive (true);
+				newItemUI2.transform.SetParent (inventoryParentUI.transform);
+			}
+
+			i++;
 		}
 	}
 
@@ -93,16 +109,6 @@ public class InventoryWrapper : MonoBehaviour
 //		if (Input.GetButtonDown ("Inventory")) 
 //		{
 //			showInventory = !showInventory;
-//		}
-	}
-
-	void OnGUI()
-	{
-//		
-//				BaseItemUI newItemUI = Object.Instantiate (baseItemUiTemplate);
-//				// fill in data for UI element from stack
-//				newItemUI.Initialize (inventory [i].itemName, inventory [i].amount);
-//			}
 //		}
 	}
 }
