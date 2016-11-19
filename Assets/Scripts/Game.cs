@@ -6,8 +6,6 @@
     {
         PlayerInstance = new Player();
 		WeatherInstance = new WeatherSystem();
-		RadioInstance = new Radio();
-		RadioInstance.currentWeather = WeatherInstance;
 		PauseInstance = new PauseSystem();
 		GameSettingsInstance = new GameSettings ();
 		Scheme = new ControlScheme ();
@@ -46,6 +44,20 @@
 		get;
 		private set;
 	}
+
+    public bool IsRadioActive
+    {
+        get
+        {
+            return RadioInstance != null;
+        }
+    }
+
+    public Radio RadioInstance
+    {
+        get;
+        set;
+    }
 
 	/// <summary>
 	/// The clock instance.
@@ -90,15 +102,6 @@
 		private set;
 	}
 
-	/// <summary>
-	/// Gets the radio instance.
-	/// </summary>
-	/// <value>The radio instance.</value>
-	public Radio RadioInstance 
-	{
-		get;
-		private set;
-	}
 
 	/// <summary>
 	/// Gets the control scheme configured for the game.
