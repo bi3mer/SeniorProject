@@ -18,15 +18,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private string waterTag;
 
-    [Header("Resource Settings")]
-    [SerializeField]
-    private float hungerReductionRate;
+    [Header("Environmental Resource Settings")]
     [SerializeField]
     private float waterWarmthReductionRate;
 	[SerializeField]
 	private float outsideWarmthReductionRate;
 	[SerializeField]
 	private float shelterWarmthIncreaseRate;
+
+	[Header("Current Resource Settings")]
+	[SerializeField]
+	private float currentWarmthReductionRate;
+	[SerializeField]
+	private float currentWarmthIncreaseRate;
+	[SerializeField]
+	private float currentHungerReductionRate;
 
     private bool isGrounded;
     private bool updateStats;
@@ -70,9 +76,8 @@ public class PlayerController : MonoBehaviour
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();
 
-        // start reducing hunger & cold
-        StartCoroutine(ReduceHunger(hungerReductionRate));
-        StartCoroutine(ReduceHunger(waterWarmthReductionRate));
+        // start reducing hunger
+        StartCoroutine(ReduceHunger());
 	}
 
     /// <summary>
@@ -108,6 +113,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update ()
     {
+		Debug.Log (Game.Instance.PlayerInstance.Warmth);
         UpdatePlayerStats();
 
         // check for camera related input
@@ -221,40 +227,42 @@ public class PlayerController : MonoBehaviour
 
 		if (IsInShelter) 
 		{
-			StopCoroutine (reduceWarmth(outsideWarmthReductionRate));
-			StartCoroutine(increaseWarmth (shelterWarmthIncreaseRate));
+			currentWarmthIncreaseRate = shelterWarmthIncreaseRate;
+			StopCoroutine (reduceWarmth());
+			StartCoroutine(increaseWarmth ());
 
 		} 
 		else 
 		{
-			StopCoroutine (increaseWarmth(shelterWarmthIncreaseRate));
-			StartCoroutine(reduceWarmth (outsideWarmthReductionRate));
+			currentWarmthReductionRate = outsideWarmthReductionRate;
+			StopCoroutine (increaseWarmth());
+			StartCoroutine(reduceWarmth ());
 		}
     }
 
-    private IEnumerator ReduceHunger (float depletionRate)
+    private IEnumerator ReduceHunger ()
     {
         while (updateStats)
         {
-            yield return new WaitForSeconds(depletionRate);
+			yield return new WaitForSeconds(currentHungerReductionRate);
             --Game.Instance.PlayerInstance.Hunger;
         }
     }
 
-	private IEnumerator reduceWarmth(float depletionRate)
+	private IEnumerator reduceWarmth()
 	{
 		while (updateStats)
 		{
-			yield return new WaitForSeconds(depletionRate);
+			yield return new WaitForSeconds(currentWarmthReductionRate);
 			--Game.Instance.PlayerInstance.Warmth;
 		}
 	}
 
-	private IEnumerator increaseWarmth(float increaseRate)
+	private IEnumerator increaseWarmth()
 	{
 		while (updateStats & IsInShelter) 
 		{
-			yield return new WaitForSeconds (increaseRate);
+			yield return new WaitForSeconds (currentWarmthIncreaseRate);
 			++Game.Instance.PlayerInstance.Warmth;
 		}
 	}
