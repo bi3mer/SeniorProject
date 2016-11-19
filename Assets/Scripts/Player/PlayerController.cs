@@ -60,6 +60,9 @@ public class PlayerController : MonoBehaviour
         waterMovement = GetComponent<WaterMovement>();
         movement = landMovement;
 
+        // update accessable player transform
+        Game.Instance.PlayerInstance.WorldTransform = transform;
+
         // set up tools
         equippedTool = GetComponentInChildren<FishingRod>();
 
