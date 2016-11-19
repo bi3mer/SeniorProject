@@ -79,7 +79,8 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {
                 Material newMaterial = new Material(district.DistrictMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictMaterials[i]);
-                newMaterial.color = materialAlbedoColors.Evaluate( j * materialInstances);
+                // Setting all the material's smoothess to 5 to reduce glossiness.
+                newMaterial.SetFloat("_GlossMapScale", .5f);
                 district.districtProceduralMaterials.Add(newMaterial);
             }
         }
