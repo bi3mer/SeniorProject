@@ -43,7 +43,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 	private Dictionary<string, GameObject> attrObjects;
 
 	// actions by name
-	private Dictionary<string, List<Action>> actionsByID;
+	private Dictionary<string, List<ItemAction>> actionsByID;
 
 	// list of actionButtons, acts as a pool from which action buttons can be pulled from if necessary
 	private List<GameObject> actionButtons;
@@ -58,7 +58,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 		instance = this;
 		anim = GetComponent<Animator> ();
 		attrObjects = new Dictionary<string, GameObject> ();
-		actionsByID = new Dictionary<string, List<Action>> ();
+		actionsByID = new Dictionary<string, List<ItemAction>> ();
 
 		actionButtons = new List<GameObject> ();
 	}
@@ -160,7 +160,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 			attrObjects.Add (attr[i].Name, stat);
 		}
 
-		List<Action> possibleActions = targetItem.GetPossibleActions ();
+		List<ItemAction> possibleActions = targetItem.GetPossibleActions ();
 
 		// adds the actions to the action section
 		// each key is the category name of the action
@@ -215,7 +215,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 			attrObjects [attr[i].Name].GetComponent<AttributeStat> ().SetValue (attr [i].Value);
 		}
 
-		List<Action> acts = targetItem.GetPossibleActions ();
+		List<ItemAction> acts = targetItem.GetPossibleActions ();
 
 		int buttonUsed = 0;
 
@@ -273,7 +273,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 	/// Creates the sub actions for a given category of action.
 	/// </summary>
 	/// <param name="id">Identifier.</param>
-	public void CreateSubAction(List<Action> actions)
+	public void CreateSubAction(List<ItemAction> actions)
 	{
 		for(int i = 0; i < actions.Count; ++i)
 		{

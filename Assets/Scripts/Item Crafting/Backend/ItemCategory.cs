@@ -8,39 +8,34 @@ using System.Collections.Generic;
 /// </summary>
 public class ItemCategory : CollectableItem 
 {
-	//the item category that this is linked to
+	/// <summary>
+	/// the item category that this is linked to
+	/// </summary>
 	protected CollectableItem component;
 
-	// base item which controls all item category components
+	/// <summary>
+	/// base item which controls all item category components
+	/// </summary>
 	protected BaseItem baseItem;
 
-	// library of attributes that define this category of items
-	protected List<Attribute> attributes;
-
-	protected List<Action> actions;
-
+	/// <summary>
+	/// Gets or sets the attributes.
+	/// </summary>
+	/// <value>The attributes.</value>
 	public List<Attribute> Attributes
 	{
-		get 
-		{
-			return attributes;
-		}
-		set 
-		{
-			attributes = value;
-		}
+		get;
+		set;
 	}
 
-	public List<Action> Actions
+	/// <summary>
+	/// Gets or sets the actions.
+	/// </summary>
+	/// <value>The actions.</value>
+	public List<ItemAction> Actions
 	{
-		get 
-		{
-			return actions;
-		}
-		set 
-		{
-			actions = value;
-		}
+		get;
+		set;
 	}
 
 	/// <summary>
@@ -61,12 +56,12 @@ public class ItemCategory : CollectableItem
 	/// <returns>The attributes of an item in a list of attributes. </returns>
 	public override List<Attribute> GetItemAttributes ()
 	{
-		List<Attribute> thisAttr = attributes;
+		List<Attribute> thisAttr = Attributes;
 
 		// add attributes returned by the linked component to the list of attributes that will be returned
 		if (component != null) 
 		{
-			attributes.AddRange (component.GetItemAttributes ());
+			Attributes.AddRange (component.GetItemAttributes ());
 		}
 
 		return thisAttr;
@@ -76,26 +71,26 @@ public class ItemCategory : CollectableItem
 	/// Gets all the action that an item can perform.
 	/// </summary>
 	/// <returns>The possible actions of an item in a Dictionary keyed by the action name.</returns>
-	public override List<Action> GetPossibleActions()
+	public override List<ItemAction> GetPossibleActions()
 	{
-		List<Action> possibleActions = new List<Action> ();
+		List<ItemAction> possibleActions = new List<ItemAction> ();
 
 		if (component != null) 
 		{
 			possibleActions = component.GetPossibleActions ();
 		}
 
-		for (int i = 0; i < actions.Count; ++i) 
+		for (int i = 0; i < Actions.Count; ++i) 
 		{
-			if (!actions [i].ActionComplete) 
+			if (!Actions [i].ActionComplete) 
 			{
 				bool conditionsFullfilled = true;
 
-				for(int j = 0; j < actions[i].Conditions.Count; ++j)
+				for(int j = 0; j < Actions[i].Conditions.Count; ++j)
 				{
-					ItemCondition condition = actions [i].Conditions [j];
+					ItemCondition condition = Actions [i].Conditions [j];
 
-					if(!condition.checkCondition(GetAttribute(condition.AttributeName).Value))
+					if(!condition.CheckCondition(GetAttribute(condition.AttributeName).Value))
 					{
 						conditionsFullfilled = false;
 					}
@@ -103,7 +98,7 @@ public class ItemCategory : CollectableItem
 
 				if (conditionsFullfilled) 
 				{
-					possibleActions.Add (actions [i]);
+					possibleActions.Add (Actions [i]);
 				}
 			}
 		}
@@ -115,10 +110,10 @@ public class ItemCategory : CollectableItem
 	/// <summary>
 	/// Changes the linked category.
 	/// </summary>
-	/// <param name="c">A new category.</param>
-	public void ChangeLinkedCategory(CollectableItem c)
+	/// <param name="linkedCategory">A new category.</param>
+	public void ChangeLinkedCategory(CollectableItem linkedCategory)
 	{
-		component = c;
+		component = linkedCategory;
 	}
 
 	/// <summary>
@@ -153,22 +148,21 @@ public class ItemCategory : CollectableItem
 	/// <param name="name">Name of the action.</param>
 	public void SetActionComplete(string name)
 	{
-		for (int i = 0; i < actions.Count; ++i) 
+		for (int i = 0; i < Actions.Count; ++i) 
 		{
-			if(actions[i].SubActions.Count > 0)
+			if(Actions[i].SubActions.Count > 0)
 			{
-				for(int j = 0; j < actions[i].SubActions.Count; ++j)
+				for(int j = 0; j < Actions[i].SubActions.Count; ++j)
 				{
-					if(actions [i].SubActions[j].ActionName.Equals (name)) 
+					if(Actions [i].SubActions[j].ActionName.Equals (name)) 
 					{
-						actions [i].ActionComplete = true;
+						Actions [i].ActionComplete = true;
 					}
 				}
-
 			}
-			else if (actions [i].ActionName.Equals (name)) 
+			else if (Actions [i].ActionName.Equals (name)) 
 			{
-				actions [i].ActionComplete = true;
+				Actions [i].ActionComplete = true;
 			}
 		}
 	}
@@ -180,11 +174,11 @@ public class ItemCategory : CollectableItem
 	/// <param name="name">Name.</param>
 	public Attribute GetAttribute(string name)
 	{
-		for (int i = 0; i < attributes.Count; ++i) 
+		for (int i = 0; i < Attributes.Count; ++i) 
 		{
-			if (attributes [i].Name.Equals (name)) 
+			if (Attributes [i].Name.Equals (name)) 
 			{
-				return attributes [i];
+				return Attributes [i];
 			}
 		}
 

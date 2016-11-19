@@ -2,41 +2,48 @@
 
 public class Stack
 {
-	private int id;
+	/// <summary>
+	/// The amount in a stack.
+	/// </summary>
 	private int amount;
-	private BaseItem item;
 
-	public Stack(BaseItem itm, int amt, int identifier)
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Stack"/> class.
+	/// </summary>
+	/// <param name="item">Item.</param>
+	/// <param name="stackAmount">Stack amount.</param>
+	/// <param name="identifier">Identifier.</param>
+	public Stack(BaseItem item, int stackAmount, string identifier)
 	{
-		id = identifier;
-		amount = amt;
-		item = itm;
+		Id = identifier;
+		amount = stackAmount;
+		Item = item;
 	}
 
+	/// <summary>
+	/// Gets or sets the item.
+	/// </summary>
+	/// <value>The item.</value>
 	public BaseItem Item
 	{
-		get 
-		{
-			return item;
-		}
-		set
-		{
-			item = value;
-		}
+		get;
+		set;
 	}
 
-	public int Id
+	/// <summary>
+	/// Gets or sets the identifier.
+	/// </summary>
+	/// <value>The identifier.</value>
+	public string Id
 	{
-		get 
-		{
-			return id;
-		}
-		set
-		{
-			id = value;
-		}
+		get;
+		set;
 	}
 
+	/// <summary>
+	/// Gets or sets the amount. When amount is changed, fires the UpdateStackAmount event
+	/// </summary>
+	/// <value>The amount.</value>
 	public int Amount
 	{
 		get 
@@ -58,9 +65,13 @@ public class Stack
 		}
 	}
 
-	// delegate function that takes in an amount
+	/// <summary>
+	/// delegate function that takes in an amount
+	/// </summary>
 	public delegate void UpdateStackAmountEvent (int amount); 
 
-	// event that can be subscribed to by function of UpdateStackAmountEvent format
+	/// <summary>
+	/// event that can be subscribed to by function of UpdateStackAmountEvent format
+	/// </summary>
 	public event UpdateStackAmountEvent UpdateStackAmount;
 }

@@ -12,7 +12,10 @@ using YamlDotNet.RepresentationModel;
 
 public class ItemSerializer: CraftingSystemSerializer
 {
-
+	/// <summary>
+	/// Initializes a new instance of the <see cref="ItemSerializer"/> class.
+	/// </summary>
+	/// <param name="file">File.</param>
 	public ItemSerializer(string file)
 	{
 		Filename = file;

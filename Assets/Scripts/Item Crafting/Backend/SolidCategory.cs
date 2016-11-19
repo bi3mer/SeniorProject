@@ -9,61 +9,121 @@ using UnityEngine.Events;
 /// </summary>
 public class SolidCategory : ItemCategory 
 {
+
+	/// <summary>
+	/// Gets or sets the flexibility.
+	/// </summary>
+	/// <value>The flexibility.</value>
 	public float Flexibility
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// Gets or sets the durability.
+	/// </summary>
+	/// <value>The durability.</value>
 	public float Durability
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// Gets or sets the elasticity.
+	/// </summary>
+	/// <value>The elasticity.</value>
 	public float Elasticity
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// Gets or sets the stickiness.
+	/// </summary>
+	/// <value>The stickiness.</value>
 	public float Stickiness
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// Gets or sets the thickness.
+	/// </summary>
+	/// <value>The thickness.</value>
 	public float Thickness
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// Gets or sets the sharpness.
+	/// </summary>
+	/// <value>The sharpness.</value>
 	public float Sharpness
 	{ 
 		get; 
 		set; 
 	}
 
+	/// <summary>
+	/// The thresholds for Sharpen to be a possible action
+	/// </summary>
 	private float sharpenLowerThreshold = 0.2f;
 	private float sharpenUpperThreshold = 0.7f;
+
+	/// <summary>
+	/// The threshold for whether or not Weave is a possible action
+	/// </summary>
 	private float weaveThreshold = 0.8f;
+
+	/// <summary>
+	/// Amount that sharpness will be increased by when Sharpen is executed
+	/// </summary>
 	private const float sharpenRate = 1.5f;
+
+	/// <summary>
+	/// Threshold value of Thickness, under which the item will be considered a thread, and not rope
+	/// </summary>
 	private const float threadWidthThreshold = 1f;
+
+	/// <summary>
+	/// How much the Thickness will increase by when weaving rope
+	/// </summary>
 	private const float weaveRopeThicknessRate = 4f;
+
+	/// <summary>
+	/// How much the Thickness will increase by when weaving basket
+	/// </summary>
 	private const float weaveBasketThicknessRate = 2f;
+
+	/// <summary>
+	/// Threshold value of Sharpess, over which the item will be considered a blade
+	/// </summary>
 	private const float bladeNameThreshold = 3f;
 
-	// string added to item name when the resulting rope is thin enough to be a thread
+	/// <summary>
+	/// string added to item name when the resulting rope is thin enough to be a thread
+	/// </summary>
 	private const string threadNameAddtion = "Thread";
 
-	// string added to item name when weaving rope
+	/// <summary>
+	/// string added to item name when weaving rope
+	/// </summary>
 	private const string defaultRopeNameAddition = "Rope";
 
-	// string added to item name by default when item has been sharpened
+	/// <summary>
+	/// string added to item name by default when item has been sharpened
+	/// </summary>
 	private const string defualtSharpenNameAddtion = "Sharpened";
 
-	// string added to item name when item is sharp enough to be a blade
+	/// <summary>
+	/// string added to item name when item is sharp enough to be a blade
+	/// </summary>
 	private const string bladeNameAddition = "Blade";
 
 	private const string basketNameAddition = "Basket";
@@ -94,17 +154,17 @@ public class SolidCategory : ItemCategory
 		category.Thickness = Thickness;
 		category.Sharpness = Sharpness;
 
-		category.Actions = new List<Action> ();
+		category.Actions = new List<ItemAction> ();
 		category.Attributes = new List<Attribute> ();
 
-		for (int i = 0; i < actions.Count; ++i) 
+		for (int i = 0; i < Actions.Count; ++i) 
 		{
-			category.Actions.Add (actions [i]);
+			category.Actions.Add (Actions [i]);
 		}
 
-		for(int i = 0; i < attributes.Count; ++i)
+		for(int i = 0; i < Attributes.Count; ++i)
 		{
-			category.Attributes.Add (attributes [i]);
+			category.Attributes.Add (Attributes [i]);
 		}
 			
 		return category;
@@ -115,45 +175,38 @@ public class SolidCategory : ItemCategory
 	/// </summary>
 	public override void ReadyCategory()
 	{
-		attributes = new List<Attribute>();
+		Attributes = new List<Attribute>();
 
-		Attribute flexibleAttribute = new Attribute (flexAttrName, Flexibility);
-		Attribute durableAttribute = new Attribute (duraAttrName, Durability);
-		Attribute elasticAttribute = new Attribute (elasAttrName, Elasticity);
-		Attribute stickinessAttribute = new Attribute (stickiAttrName, Stickiness);
-		Attribute sharpnessAttribute = new Attribute (sharpAttrName, Sharpness);
-		Attribute thicknessAttribute = new Attribute (thickAttrName, Thickness);
+		Attributes.Add (new Attribute (flexAttrName, Flexibility));
+		Attributes.Add (new Attribute (duraAttrName, Durability));
+		Attributes.Add (new Attribute (elasAttrName, Elasticity));
+		Attributes.Add (new Attribute (stickiAttrName, Stickiness));
+		Attributes.Add (new Attribute (sharpAttrName, Sharpness));
+		Attributes.Add (new Attribute (thickAttrName, Thickness));
 
-		attributes.Add (flexibleAttribute);
-		attributes.Add (durableAttribute);
-		attributes.Add (elasticAttribute);
-		attributes.Add (stickinessAttribute);
-		attributes.Add (sharpnessAttribute);
-		attributes.Add (thicknessAttribute);
+		Actions = new List<ItemAction> ();
 
-		actions = new List<Action> ();
-
-		Action sharpen = new Action (sharpenActionName, new UnityAction (Sharpen));
+		ItemAction sharpen = new ItemAction (sharpenActionName, new UnityAction (Sharpen));
 		ItemCondition sharpenConditionFlex = new ItemCondition (flexAttrName, sharpenLowerThreshold, new BooleanOperator.BooleanOperatorDelegate (BooleanOperator.Less));
 		ItemCondition sharpenConditionElas = new ItemCondition (elasAttrName, sharpenLowerThreshold, new BooleanOperator.BooleanOperatorDelegate (BooleanOperator.Less));
-		ItemCondition sharpenConditionDura = new ItemCondition (duraAttrName, sharpenUpperThreshold, new BooleanOperator.BooleanOperatorDelegate (BooleanOperator.More));
+		ItemCondition sharpenConditionDura = new ItemCondition (duraAttrName, sharpenUpperThreshold, new BooleanOperator.BooleanOperatorDelegate (BooleanOperator.Greater));
 
 		sharpen.Conditions.Add (sharpenConditionFlex);
 		sharpen.Conditions.Add (sharpenConditionElas);
 		sharpen.Conditions.Add (sharpenConditionDura);
 
-		Action weave = new Action (weaveActionName, null);
-		ItemCondition weaveCondition = new ItemCondition (flexAttrName, weaveThreshold, new BooleanOperator.BooleanOperatorDelegate (BooleanOperator.More));
+		ItemAction weave = new ItemAction (weaveActionName, null);
+		ItemCondition weaveCondition = new ItemCondition (flexAttrName, weaveThreshold, new BooleanOperator.BooleanOperatorDelegate (BooleanOperator.Greater));
 		weave.Conditions.Add (weaveCondition);
 
-		Action weaveRope = new Action (weaveRopeActName, new UnityAction (WeaveRope));
-		Action weaveBasket = new Action (weaveBasketActName, new UnityAction (WeaveBasket));
+		ItemAction weaveRope = new ItemAction (weaveRopeActName, new UnityAction (WeaveRope));
+		ItemAction weaveBasket = new ItemAction (weaveBasketActName, new UnityAction (WeaveBasket));
 
 		weave.SubActions.Add (weaveRope);
 		weave.SubActions.Add (weaveBasket);
 
-		actions.Add (sharpen);
-		actions.Add (weave);
+		Actions.Add (sharpen);
+		Actions.Add (weave);
 	}
 
 	/// <summary>
@@ -174,7 +227,7 @@ public class SolidCategory : ItemCategory
 		}
 			
 		baseItem.ChangeName(name);
-		baseItem.Types.Add (Types.Rope);
+		baseItem.Types.Add (ItemTypes.Rope);
 
 		// durability of the woven object is determined by averaging the durability and elasticity of the item
 		// as tightly weaving something won't work as well with less elastic objects
@@ -182,7 +235,7 @@ public class SolidCategory : ItemCategory
 
 		Thickness = Thickness * weaveRopeThicknessRate;
 
-		baseItem.RemoveCategories (new List<string> () {GetType ().Name}, true);
+		baseItem.RemoveCategoriesExcluding (new List<string> () {GetType ().Name});
 		SetActionComplete(weaveRopeActName);
 	}
 
@@ -198,7 +251,7 @@ public class SolidCategory : ItemCategory
 
 		// durability of the woven object is determined by averaging the durability and elasticity of the item
 		// as tightly weaving something won't work as well with less elastic objects
-		Durability = Durability  * Elasticity / 2f;
+		Durability = (Durability  + Elasticity) / 2f;
 		GetAttribute (duraAttrName).Value = Durability;
 
 		Thickness = Thickness * weaveBasketThicknessRate;
@@ -206,7 +259,7 @@ public class SolidCategory : ItemCategory
 
 		baseItem.ChangeName(name);
 
-		baseItem.RemoveCategories (new List<string> (){GetType ().Name}, true);
+		baseItem.RemoveCategoriesSpecified (new List<string> (){GetType ().Name});
 		SetActionComplete(weaveBasketActName);
 	}
 

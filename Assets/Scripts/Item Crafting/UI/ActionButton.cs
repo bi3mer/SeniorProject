@@ -17,7 +17,7 @@ public class ActionButton : MonoBehaviour
 	private Text btnText;
 
 	// subactions owned by the action button
-	private List<Action> subActions;
+	private List<ItemAction> subActions;
 
 	/// <summary>
 	/// Awake this instance.
@@ -57,7 +57,7 @@ public class ActionButton : MonoBehaviour
 	/// Gets or sets the sub actions.
 	/// </summary>
 	/// <value>The sub actions.</value>
-	public List<Action> SubActions
+	public List<ItemAction> SubActions
 	{
 		get
 		{

@@ -9,10 +9,10 @@ using System;
 /// the inventory save strings of objects then use YAML file to define those items as needed.
 /// </summary>
 
-public class PlayerInventory
+public class Inventory
 {
 	// Inventory size
-	public int InventorySize = 20;
+	private int inventorySize = 20;
 
 	// How many items there may be in a stack
 	private const int StackSize = 5;
@@ -22,17 +22,14 @@ public class PlayerInventory
 	// Contents of the inventory keyed by their name
 	private Stack[] contents;
 
-	private bool[] usedId;
-
 	private InventoryYamlParser parser;
 	/// <summary>
 	/// Sets up the inventory
 	/// TODO: Remove the definition of the inventory
 	/// </summary>
-	public PlayerInventory(string name, string inventoryFile)
+	public Inventory(string name, string inventoryFile)
 	{
-		contents = new Stack[InventorySize];
-		usedId = new bool[InventorySize];
+		contents = new Stack[inventorySize];
 		inventoryName = name;
 
 		parser = new InventoryYamlParser(inventoryFile);
@@ -43,11 +40,11 @@ public class PlayerInventory
 	/// </summary>
 	public void LoadInventory()
 	{
-		List<InventoryYAMLModel> inventoryInfo = parser.GetInventoryContents (inventoryName);
+		List<InventoryItemYAMLModel> inventoryInfo = parser.GetInventoryContents (inventoryName);
 	
 		for (int i = 0; i < inventoryInfo.Count; ++i) 
 		{
-			if(inventoryInfo[i].StackId != -1)
+			if(!inventoryInfo[i].StackId.Equals(""))
 			{
 
 				BaseItem item = inventoryInfo [i].Item;
@@ -60,7 +57,7 @@ public class PlayerInventory
 
 				item.SetUpBaseItem ();
 
-				Stack stack = new Stack(item, inventoryInfo[i].ItemAmount, GetID());
+				Stack stack = new Stack(item, inventoryInfo[i].ItemAmount,  Guid.NewGuid().ToString("N"));
 				contents[i] = stack;
 			}
 			else
@@ -105,7 +102,6 @@ public class PlayerInventory
 					{
 						contents[i].Amount = 0;
 						contents[i] = null;
-						usedId [i] = false;
 					}
 
 					if(amountLeft <= 0)
@@ -154,8 +150,8 @@ public class PlayerInventory
 	public void AddItem(BaseItem newItem, int amount)
 	{
 		int loc = GetNextOpenSlot ();
-		contents[loc] = new Stack(newItem, amount, GetID());
-		InventoryYAMLModel itemStruct = new InventoryYAMLModel ();
+		contents[loc] = new Stack(newItem, amount, Guid.NewGuid().ToString("N"));
+		InventoryItemYAMLModel itemStruct = new InventoryItemYAMLModel ();
 		itemStruct.Item = newItem;
 		itemStruct.ItemAmount = amount;
 		itemStruct.StackId = contents[loc].Id;
@@ -177,7 +173,6 @@ public class PlayerInventory
 				if (contents [i].Item.ItemName.Equals (stack.Item.ItemName) && contents [i].Id == stack.Id) 
 				{
 					contents [i] = null;
-					usedId [i] = false;
 					parser.RemoveFromInventory (i, inventoryName);
 					stack = null;
 
@@ -221,12 +216,11 @@ public class PlayerInventory
 	/// <param name="target">Target.</param>
 	public void CombineStacks(Stack current, Stack target)
 	{
-		if (target.Amount + current.Amount <= InventorySize) 
+		if (target.Amount + current.Amount <= inventorySize) 
 		{
 			target.Amount += current.Amount;
 			RemoveStack (current);
 		}
-
 	}
 
 	/// <summary>
@@ -243,24 +237,26 @@ public class PlayerInventory
 			}
 		}
 
-		return InventorySize;
+		return inventorySize;
 	}
 
 	/// <summary>
-	/// Gets an id for a stack. Checks the usedId array and returns the first unusedId.
+	/// Gets or sets the size of the inventory.
+	/// Resizes the contents array as necessary.
+	/// TODO: If inventory becomes smaller, the user should be able to choose what to discard.
+	/// Also, should remove empty slots instead when shrinking.
 	/// </summary>
-	/// <returns>The I.</returns>
-	public int GetID()
+	/// <value>The size of the inventory.</value>
+	public int InventorySize
 	{
-		for (int i = 0; i < usedId.Length; ++i) 
+		get
 		{
-			if (!usedId [i]) 
-			{
-				usedId [i] = true;
-				return i;	
-			}
+			return inventorySize;
 		}
-
-		return InventorySize;
+		set
+		{
+			inventorySize = value;
+			Array.Resize(ref contents, inventorySize);
+		}
 	}
 }

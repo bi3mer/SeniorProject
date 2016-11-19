@@ -4,13 +4,20 @@
 
 public class Requirement 
 {
-	// how much of the item is needed for a recipe
+	/// <summary>
+	/// how much of the item is needed for a recipe
+	/// </summary>
+	/// <value>The amount required.</value>
 	public int AmountRequired
 	{ 
 		get; 
 		set; 
 	}
-	// what type of item is accepted
+
+	/// <summary>
+	/// what type of item is accepted
+	/// </summary>
+	/// <value>The type of the item.</value>
 	public string ItemType
 	{ 
 		get; 

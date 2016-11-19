@@ -19,7 +19,7 @@ public class InventoryUIBehavior : MonoBehaviour
 
 	private InventoryItemBehavior[] inventoryUI;
 
-	public PlayerInventory targetInventory;
+	public Inventory targetInventory;
 
 	[Tooltip("the yaml file containing inventory information")]
 	public string inventoryFile;
@@ -30,7 +30,7 @@ public class InventoryUIBehavior : MonoBehaviour
 	void Start()
 	{
 		instance = this;
-		targetInventory = new PlayerInventory (TargetInventoryName, inventoryFile);
+		targetInventory = new Inventory (TargetInventoryName, inventoryFile);
 		inventoryUI = new InventoryItemBehavior[targetInventory.InventorySize];
 	}
 

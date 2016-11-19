@@ -10,14 +10,14 @@ using System;
 
 public class InventoryYamlParser : CraftingSystemSerializer 
 {
-	private Dictionary<string, List<InventoryYAMLModel>> inventoryYamlData;
+	private Dictionary<string, List<InventoryItemYAMLModel>> inventoryYamlData;
 
 	/// <summary>
 	/// Awake this instance.
 	/// </summary>
 	public InventoryYamlParser(string file)
 	{
-		inventoryYamlData = new Dictionary<string, List<InventoryYAMLModel>> ();
+		inventoryYamlData = new Dictionary<string, List<InventoryItemYAMLModel>> ();
 		Filename = file;
 
 		categoryNames = new List<string> ();
@@ -42,7 +42,7 @@ public class InventoryYamlParser : CraftingSystemSerializer
 			deserializer.RegisterTagMapping(uriPrefix + categoryNames[x], categoryTypes[x]);
 		}
 
-		List<InventoryYAMLMap> inventoryYamlInfo = deserializer.Deserialize<List<InventoryYAMLMap>> (input);
+		List<InventoryYAMLModel> inventoryYamlInfo = deserializer.Deserialize<List<InventoryYAMLModel>> (input);
 
 		for(int i = 0; i < inventoryYamlInfo.Count; ++i)
 		{
@@ -55,7 +55,7 @@ public class InventoryYamlParser : CraftingSystemSerializer
 	/// </summary>
 	/// <returns>The inventory contents.</returns>
 	/// <param name="inventoryID">Inventory ID.</param>
-	public List<InventoryYAMLModel> GetInventoryContents(string inventoryID)
+	public List<InventoryItemYAMLModel> GetInventoryContents(string inventoryID)
 	{
 		return inventoryYamlData [inventoryID];
 	}
@@ -66,7 +66,7 @@ public class InventoryYamlParser : CraftingSystemSerializer
 	/// <param name="inventoryID">Inventory ID.</param>
 	public void AddNewInventory(string inventoryID)
 	{
-		inventoryYamlData.Add (inventoryID, new List<InventoryYAMLModel>());
+		inventoryYamlData.Add (inventoryID, new List<InventoryItemYAMLModel>());
 	}
 
 
@@ -76,11 +76,11 @@ public class InventoryYamlParser : CraftingSystemSerializer
 	public void SaveInventoryInfo()
 	{
 		List<string> inventoryIDS = new List<string>(inventoryYamlData.Keys);
-		List<InventoryYAMLMap> yamlMap = new List<InventoryYAMLMap> ();
+		List<InventoryYAMLModel> yamlMap = new List<InventoryYAMLModel> ();
 
 		for (int i = 0; i < inventoryIDS.Count; ++i) 
 		{
-			InventoryYAMLMap mapping = new InventoryYAMLMap ();
+			InventoryYAMLModel mapping = new InventoryYAMLModel ();
 			mapping.InventoryName = inventoryIDS [i];
 			mapping.Items = inventoryYamlData [inventoryIDS [i]];
 
@@ -96,7 +96,7 @@ public class InventoryYamlParser : CraftingSystemSerializer
 	/// </summary>
 	/// <param name="item">Item.</param>
 	/// <param name="inventory">Inventory.</param>
-	public void AddToInventory(InventoryYAMLModel item, string inventory)
+	public void AddToInventory(InventoryItemYAMLModel item, string inventory)
 	{
 		inventoryYamlData[inventory].Add(item);
 	}
@@ -108,6 +108,6 @@ public class InventoryYamlParser : CraftingSystemSerializer
 	/// <param name="inventory">Inventory.</param>
 	public void RemoveFromInventory(int location, string inventory)
 	{
-		inventoryYamlData [inventory][location] = new InventoryYAMLModel();
+		inventoryYamlData [inventory][location] = new InventoryItemYAMLModel();
 	}
 }
