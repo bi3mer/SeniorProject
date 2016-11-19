@@ -3,8 +3,8 @@ using System.Collections;
 
 public class ShelterCollider : MonoBehaviour 
 {
-
 	private PlayerController player;
+
 	/// <summary>
 	/// Raises the trigger enter event.
 	/// </summary>
