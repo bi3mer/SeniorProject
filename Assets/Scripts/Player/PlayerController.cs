@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
             return playerAnimator;
         }
     }
+
     [SerializeField]
     private Animator playerAnimator;
 
@@ -78,6 +79,10 @@ public class PlayerController : MonoBehaviour
 
         // start reducing hunger
         StartCoroutine(ReduceHunger());
+
+		// subscribe to delegate
+		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
+		Game.Instance.PauseInstance.PauseUpdate += this.Pause;
 	}
 
     /// <summary>
@@ -249,7 +254,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-	private IEnumerator reduceWarmth()
+	private IEnumerator ReduceWarmth()
 	{
 		while (updateStats)
 		{
@@ -258,7 +263,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	private IEnumerator increaseWarmth()
+	private IEnumerator IncreaseWarmth()
 	{
 		while (updateStats & IsInShelter) 
 		{
@@ -361,5 +366,21 @@ public class PlayerController : MonoBehaviour
 	{
 		get;
 		set;
+	}
+
+	/// <summary>
+	/// Resume stat changes.
+	/// </summary>
+	public void Resume()
+	{
+		// TODO: Resume any stat changes coroutines
+	}
+
+	/// <summary>
+	/// Pause stat changes.
+	/// </summary>
+	public void Pause()
+	{
+		// TODO: Stop any stat changes coroutines
 	}
 }
