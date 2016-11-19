@@ -21,6 +21,18 @@ public class ProceduralBuildingCreator : MonoBehaviour
         TwoByTwo,
         ThreeByThree
     };
+    
+    public enum BuildingParts
+    {
+        Base,
+        Roof
+    };
+
+    private struct buildingIndex
+    {
+        int buildingSize;
+        int partNumber;
+    };
 
     // Aditional colors building's albedo can take on to increase building variability.
     [SerializeField]
@@ -43,6 +55,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
     private const float attachmentRotationMod = 0f;
     // Rotation mod of all windows.
     private const float attachmentWindowRotationMod = 90f;
+
+    // The string name to access the standard shader's smoothness value
+    private const string fuckColon = "_GlossMapScale";
 
     // Test Variables.
     public int TestDistrict;
@@ -80,7 +95,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 Material newMaterial = new Material(district.DistrictMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictMaterials[i]);
                 // Setting all the material's smoothess to 5 to reduce glossiness.
-                newMaterial.SetFloat("_GlossMapScale", .5f);
+                newMaterial.SetFloat(fuckColon, .5f);
                 district.districtProceduralMaterials.Add(newMaterial);
             }
         }
@@ -148,24 +163,24 @@ public class ProceduralBuildingCreator : MonoBehaviour
     private void createBase(ProceduralBuildingInstance newBuilding, ProceduralDistrictDefinition district, BaseSize size, float attatchmentPercentage, int storiesTall, List<MeshRenderer> buildingMeshes)
     {
         // Set buildingbase
-        ProceduralBuildingBase newBase = district.OneXOneDistrictBases[0];
-
-        if (size == BaseSize.OneByOne && district.OneXOneDistrictBases.Length > 0)
-        {
-            newBase = district.OneXOneDistrictBases[Random.Range(0, district.OneXOneDistrictBases.Length)];
-        }
-        else if (size == BaseSize.TwoByTwo && district.TwoXTwoDistrictBases.Length > 0)
-        {
-            newBase = district.TwoXTwoDistrictBases[Random.Range(0, district.TwoXTwoDistrictBases.Length)];
-        }
-        else if (size == BaseSize.ThreeByThree && district.ThreeXThreeDistrictBases.Length > 0)
-        {
-            newBase = district.ThreeXThreeDistrictBases[Random.Range(0, district.ThreeXThreeDistrictBases.Length)];
-        }
-        else
-        {
-            Debug.LogError(district + " has no buildings of size " + size + ". Your building was not properly created!");
-        }
+        ProceduralBuildingBase newBase = district.DistrictBases[0][0];//= district.OneXOneDistrictBases[0];
+        /*
+                if (size == BaseSize.OneByOne && district.OneXOneDistrictBases.Length > 0)
+                {
+                    newBase = district.OneXOneDistrictBases[Random.Range(0, district.OneXOneDistrictBases.Length)];
+                }
+                else if (size == BaseSize.TwoByTwo && district.TwoXTwoDistrictBases.Length > 0)
+                {
+                    newBase = district.TwoXTwoDistrictBases[Random.Range(0, district.TwoXTwoDistrictBases.Length)];
+                }
+                else if (size == BaseSize.ThreeByThree && district.ThreeXThreeDistrictBases.Length > 0)
+                {
+                    newBase = district.ThreeXThreeDistrictBases[Random.Range(0, district.ThreeXThreeDistrictBases.Length)];
+                }
+                else
+                {
+                    Debug.LogError(district + " has no buildings of size " + size + ". Your building was not properly created!");
+                } */
 
         // Create the base
         GameObject newObject = (GameObject)Instantiate(newBase.gameObject, newBuilding.transform);
@@ -201,8 +216,8 @@ public class ProceduralBuildingCreator : MonoBehaviour
         // Set the roof if need be set.
         if (newBuilding.BuildingBase.HasRoof == null)
         {
-            ProceduralBuildingRoof newRoof = district.OneXOneDistrictRoofs[0];
-            // Set buildingbase
+            ProceduralBuildingRoof newRoof  = district.DistrictRoofs[0][0]; // district.OneXOneDistrictRoofs[0];
+         /*   // Set buildingbase
             if (size == BaseSize.OneByOne && district.OneXOneDistrictRoofs.Length > 0)
             {
                 newRoof = district.OneXOneDistrictRoofs[Random.Range(0, district.OneXOneDistrictRoofs.Length)];
@@ -218,7 +233,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             else
             {
                 Debug.LogError(district + " has no buildings of size " + size + ". Your building was not properly created!");
-            }
+            }*/
 
             // Create the roof
             newObject = (GameObject)Instantiate(newRoof.gameObject);
@@ -236,6 +251,11 @@ public class ProceduralBuildingCreator : MonoBehaviour
             }
         }
     }
+
+    private int[][] function(BaseSize size, BuildingParts part)
+    {
+        return [size][part];
+    } 
 
     /// <summary>
     /// Called during building creation, spawns attachments for a building base and spawns roofs for all attachements.
