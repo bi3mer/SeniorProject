@@ -44,6 +44,11 @@
 	}
 
 	private Clock clockInstance;
+
+	/// <summary>
+	/// Gets the clock instance.
+	/// </summary>
+	/// <value>The clock instance.</value>
 	public Clock ClockInstance
 	{
 		get
@@ -51,12 +56,16 @@
 			if(this.clockInstance == null)
 			{
 				this.clockInstance = UnityEngine.MonoBehaviour.FindObjectOfType<Clock>();
-				this.clockInstance.Start();
 			}
 
 			return this.clockInstance;
 		}
 	}
+
+	/// <summary>
+	/// Gets the pause instance.
+	/// </summary>
+	/// <value>The pause instance.</value>
 	public PauseSystem PauseInstance
 	{
 		get;

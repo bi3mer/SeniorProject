@@ -21,6 +21,10 @@ public class ConsoleCommandRouter : MonoBehaviour
 	[SerializeField]
 	private string timeScale = "time";
 
+	[SerializeField]
+	private string pressureSystem = "press";
+	private PressureSystemVisualization pressureScript;
+
 	/// <summary>
 	/// Testing console with very important command
 	/// </summary>
@@ -77,6 +81,26 @@ public class ConsoleCommandRouter : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Activates the pressure system.
+	/// </summary>
+	/// <returns>The pressure system.</returns>
+	/// <param name="args">Arguments.</param>
+	public string ActivatePressureSystem(params string[] args)
+	{
+		if(this.pressureScript == null)
+		{
+			this.pressureScript = this.gameObject.AddComponent<PressureSystemVisualization>();
+			return "Pressure script visualization activated";
+		}
+		else
+		{
+			Destroy(this.pressureScript);
+			this.pressureScript = null;
+			return "Pressure script visualization de-activated";
+		}
+	}
+
+	/// <summary>
 	/// initialize console commands
 	/// </summary>
 	void Start () 
@@ -85,5 +109,6 @@ public class ConsoleCommandRouter : MonoBehaviour
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugMovement, this.DebugMovement);
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugWeather, this.DebugWeatherGUI);
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.timeScale, this.SetTimeScale);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.pressureSystem, this.ActivatePressureSystem);
 	}
 }

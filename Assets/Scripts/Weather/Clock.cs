@@ -12,9 +12,12 @@ public class Clock : MonoBehaviour
 	public const int HalfHour        = 30;
 	public const int Tick            = 1;
 
-	public const float HourDivisor = 60.0f;
-
 	private int currentTime = 0;
+
+	/// <summary>
+	/// Gets the current time.
+	/// </summary>
+	/// <value>The current time.</value>
 	public int CurrentTime
 	{
 		get
@@ -23,15 +26,22 @@ public class Clock : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Gets the current game time in hours.
+	/// </summary>
+	/// <value>The current game time in hours.</value>
 	public float CurrentGameTimeInHours
 	{
 		get
 		{
-			return this.currentTime / (float) Clock.HourDivisor;
+			return this.currentTime / (float) Clock.Hour;
 		}
 	}
 
 	// delegates for updates
+	public delegate void SecondDelegateUpdate();
+	public event SecondDelegateUpdate SecondUpdate;
+
 	public delegate void HalfHourDelegateUpdate();
 	public event HalfHourDelegateUpdate HalfHourUpdate;
 
@@ -41,12 +51,45 @@ public class Clock : MonoBehaviour
 	/// <summary>
 	/// Start the update time loop. 
 	/// </summary>
-	public void Start () 
+	void Awake() 
 	{
 		// subscribe to delegate
 		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
 
 		this.Resume();
+	}
+
+	/// <summary>
+	/// Gets the formatted time of the game clock.
+	/// </summary>
+	/// <value>The formatted time.</value>
+	public string FormattedTime
+	{
+		get
+		{
+			// get hours and minutes
+			int hours = (int) Mathf.Floor(this.CurrentGameTimeInHours);
+			int minutes = this.CurrentTime - (hours * Clock.Hour);
+
+			return this.addZeroToTimeString(hours) + ":" + this.addZeroToTimeString(minutes);
+		}
+	}
+
+	/// <summary>
+	/// Adds the zero to time variable where it is less than ten.
+	/// </summary>
+	/// <returns>The zero to time string.</returns>
+	/// <param name="unit">Unit.</param>
+	private string addZeroToTimeString(int unit)
+	{
+		// 10 is the limit where anything less will be one digit
+		// instead of 2.
+		if(unit < 10)
+		{
+			// "0" represents the extra digit for the clock
+			return "0" + unit.ToString();
+		}
+		return unit.ToString();
 	}
 
 	/// <summary>
@@ -65,6 +108,16 @@ public class Clock : MonoBehaviour
 			if(this.CurrentTime == Clock.TwentyFourHours)
 			{
 				this.currentTime = 0;
+			}
+
+			// TODO find a way to get non monobehaviour scripts to subscribe to
+			//      the seconds instance. This will have to do for now.
+			Game.Instance.WeatherInstance.UpdateSystem();
+
+			// notify second long subscribed delegates
+			if(this.SecondUpdate != null)
+			{
+				this.SecondUpdate();
 			}
 
 			// Notify thirty minute long subscribed delegates
