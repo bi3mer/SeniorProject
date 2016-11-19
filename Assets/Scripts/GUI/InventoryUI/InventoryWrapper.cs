@@ -22,13 +22,9 @@ public class InventoryWrapper : MonoBehaviour
 	private int slotsX;
 	[SerializeField]
 	private int slotsY;
-	[SerializeField]
-	private Sprite slotSprite;
-	private Texture texture;
-	private Rect textureRect;
-	private Rect newRect;
 
 	private Inventory internalInventory;
+	private List<BaseItemUI> currentUiItems = new List<BaseItemUI> ();
 
 	// Use this for initialization
 	void Start () 
@@ -59,11 +55,8 @@ public class InventoryWrapper : MonoBehaviour
 			}
 		}
 
-		// set up sprite values
-		texture = slotSprite.texture;
-		textureRect = slotSprite.textureRect;
-		newRect = new Rect(textureRect.x / texture.width, textureRect.y / texture.height, textureRect.width / texture.width, textureRect.height / texture.height );
 		//DisplayInventory ();
+		DrawEmptySlots();
 	}
 
 	public void DisplayInventory()
@@ -80,6 +73,18 @@ public class InventoryWrapper : MonoBehaviour
 				newItemUI.gameObject.SetActive (true);
 				newItemUI.transform.SetParent (inventoryParentUI.transform);
 			}
+		}
+	}
+
+	public void DrawEmptySlots()
+	{
+		for (int i = 0; i < slots.Count; ++i) 
+		{
+			BaseItemUI newItemUI = GameObject.Instantiate (baseItemUiTemplate);
+
+			// place in grid layout
+			newItemUI.gameObject.SetActive (true);
+			newItemUI.transform.SetParent (inventoryParentUI.transform);
 		}
 	}
 
