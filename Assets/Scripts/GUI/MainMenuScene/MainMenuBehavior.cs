@@ -11,12 +11,15 @@ public class MainMenuBehavior : MonoBehaviour
 	private GameObject endCreditsPanel;
 	[SerializeField]
 	private GameObject helpPanel;
+	[SerializeField]
+	private GameObject mainPanel;
 
 	/// <summary>
 	/// Initialize main menu.
 	/// </summary>
 	void Start ()
 	{
+		mainPanel.SetActive (true);
 		settingsPanel.SetActive (false);
 		endCreditsPanel.SetActive (false);
 		helpPanel.SetActive (false);
@@ -27,6 +30,7 @@ public class MainMenuBehavior : MonoBehaviour
 	/// </summary>
 	public void OnSettingsClick()
 	{
+		mainPanel.SetActive (false);
 		settingsPanel.SetActive (true);
 		endCreditsPanel.SetActive (false);
 		helpPanel.SetActive (false);
@@ -37,6 +41,7 @@ public class MainMenuBehavior : MonoBehaviour
 	/// </summary>
 	public void OnHelpClick()
 	{
+		mainPanel.SetActive (false);
 		helpPanel.SetActive (true);
 		settingsPanel.SetActive (false);
 		endCreditsPanel.SetActive (false);
@@ -47,6 +52,7 @@ public class MainMenuBehavior : MonoBehaviour
 	/// </summary>
 	public void OnExitClick()
 	{
+		mainPanel.SetActive (false);
 		endCreditsPanel.SetActive (true);
 		settingsPanel.SetActive (false);
 		helpPanel.SetActive (false);
@@ -65,6 +71,7 @@ public class MainMenuBehavior : MonoBehaviour
 	/// </summary>
 	public void OnBackToMainClick()
 	{
+		mainPanel.SetActive (true);
 		endCreditsPanel.SetActive (false);
 		settingsPanel.SetActive (false);
 		helpPanel.SetActive (false);
