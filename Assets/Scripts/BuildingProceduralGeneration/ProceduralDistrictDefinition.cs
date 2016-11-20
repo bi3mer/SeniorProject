@@ -34,8 +34,10 @@ public class ProceduralDistrictDefinition
                 return districtSizeXRoofs;
             }
         }
-        
-        // Used in the building creator to test for problems in building creation.
+
+        /// <summary>
+        ///  Gets the lengths of this district sizes bases or roofs.
+        /// </summary>
         public int GetTypeLengthByType(ProceduralBuildingCreator.BuildingParts partType)
         {
             if (partType == ProceduralBuildingCreator.BuildingParts.Base)
@@ -52,6 +54,9 @@ public class ProceduralDistrictDefinition
             }
         }
 
+        /// <summary>
+        /// Gets a random entry in a district's building array by its type. Returns a struct of that buildings size, and position in the enum.
+        /// </summary>
         public ProceduralBuildingCreator.buildingIndex getRandomEntryByType(ProceduralBuildingCreator.BaseSize size, ProceduralBuildingCreator.BuildingParts partType)
         {
             ProceduralBuildingCreator.buildingIndex index = new ProceduralBuildingCreator.buildingIndex();

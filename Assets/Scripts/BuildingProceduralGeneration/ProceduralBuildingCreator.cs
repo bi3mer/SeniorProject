@@ -57,7 +57,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     private const float attachmentWindowRotationMod = 90f;
 
     // The string name to access the standard shader's smoothness value
-    private const string fuckColon = "_GlossMapScale";
+    private const string StandardShaderSmoothness = "_GlossMapScale";
 
     // Test Variables.
     public int TestDistrict;
@@ -66,6 +66,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
     public int TestStoriesTall;
     public ProceduralBuildingInstance NewestBuilding;
 
+    /// <summary>
+    /// Function used to test making buildings using the above test variables.
+    /// </summary>
     [ContextMenu("Create a test building")]
     public void TestBuildBuilding()
     {
@@ -73,7 +76,10 @@ public class ProceduralBuildingCreator : MonoBehaviour
        NewestBuilding = newbuilding;
     }
 
-    // Creates materials that all buildings in a district will use.
+
+    /// <summary>
+    /// Creates materials that all buildings in a district will use.
+    /// </summary>
     [ContextMenu("CreateNewMaterials")]
     public void CreateMaterialsForAllDistricts()
     {
@@ -83,6 +89,10 @@ public class ProceduralBuildingCreator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Creates all the procedural materials for a single district.
+    /// </summary>
+    /// <param name="district"></param>
     void CreateMaterialsForDistrict(ProceduralDistrictDefinition district)
     {
         district.districtProceduralMaterials.Clear();
@@ -95,7 +105,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 Material newMaterial = new Material(district.DistrictMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictMaterials[i]);
                 // Setting all the material's smoothess to 5 to reduce glossiness.
-                newMaterial.SetFloat(fuckColon, .5f);
+                newMaterial.SetFloat(StandardShaderSmoothness, .5f);
                 district.districtProceduralMaterials.Add(newMaterial);
             }
         }
@@ -219,6 +229,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns a random building piece by district, size and type
+    /// </summary>
     private int GetNewBuilding(ProceduralDistrictDefinition thisDistrict, BaseSize size, BuildingParts part)
     {
         for (int i = 0; i < thisDistrict.SizeXDefinitions.Length; i++)
