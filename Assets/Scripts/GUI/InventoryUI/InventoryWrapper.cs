@@ -49,7 +49,7 @@ public class InventoryWrapper : MonoBehaviour
 				BaseItemWrapper newItemWrapper = new BaseItemWrapper(contents [i].Item, contents [i].Amount);
 
 				// bind UI object with baseItem object to make interactions between UI and backend easier
-				contents [i].Item.UniqueID = newItemWrapper.uniqueId; 
+				//contents [i].Item.UniqueID = newItemWrapper.uniqueId; 
 
 				// add to UI database object
 				inventory.Add (newItemWrapper);
@@ -58,7 +58,7 @@ public class InventoryWrapper : MonoBehaviour
 
 
 		DrawEmptySlots ();
-		DisplayInventory ();
+		//DisplayInventory ();
 	}
 
 	public void DisplayInventory()

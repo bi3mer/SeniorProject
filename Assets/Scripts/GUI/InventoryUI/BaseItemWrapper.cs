@@ -18,7 +18,6 @@ public class BaseItemWrapper
 	public BaseItemWrapper(BaseItem item, int itemAmount)
 	{
 		itemName = item.ItemName;
-		uniqueId = item.UniqueID;
 		amount = itemAmount;
 		//Sprite = Resources.Load<Sprite> ("PATH");
 		//types = item.Types;

@@ -19,16 +19,6 @@ public class BaseItem : CollectableItem
 	}
 
 	/// <summary>
-	/// Gets or sets the unique ID (for use in keeping track of gameObjects).
-	/// </summary>
-	/// <value>The unique ID.</value>
-	public Guid UniqueID 
-	{
-		get;
-		set;
-	}
-
-	/// <summary>
 	/// tags that specify what type of item this item is
 	/// unfortunately enums are not serializable with yamldotnet
 	/// as such, they must remain strings for now
@@ -96,7 +86,6 @@ public class BaseItem : CollectableItem
 	public BaseItem(string name)
 	{
 		ItemName = name;
-		UniqueID = Guid.NewGuid ();
 		InitializeBaseItem ();
 	}
 
