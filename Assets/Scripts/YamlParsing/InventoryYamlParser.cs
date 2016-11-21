@@ -71,9 +71,9 @@ public class InventoryYamlParser : CraftingSystemSerializer
 
 
 	/// <summary>
-	/// Saves the inventory information for all inventories.
+	/// Serializes the contents of inventoryYamlData and updates the YAML file.
 	/// </summary>
-	public void SaveInventoryInfo()
+	public void SaveInventoriesToFile()
 	{
 		List<string> inventoryIDS = new List<string>(inventoryYamlData.Keys);
 		List<InventoryYAMLModel> yamlMap = new List<InventoryYAMLModel> ();
@@ -92,22 +92,26 @@ public class InventoryYamlParser : CraftingSystemSerializer
 	}
 
 	/// <summary>
-	/// Adds item to inventory.
+	/// Saves the inventory passed to it to inventoryYamlData.
 	/// </summary>
-	/// <param name="item">Item.</param>
 	/// <param name="inventory">Inventory.</param>
-	public void AddToInventory(InventoryItemYAMLModel item, string inventory)
+	/// <param name="inventoryName">Inventory name.</param>
+	public void SaveInventory(Inventory inventory, string inventoryName)
 	{
-		inventoryYamlData[inventory].Add(item);
-	}
+		List<InventoryItemYAMLModel> saveData = new List<InventoryItemYAMLModel>();
+		Stack[] contents =  inventory.GetInventory();
 
-	/// <summary>
-	/// Removes item from inventory.
-	/// </summary>
-	/// <param name="name">Name.</param>
-	/// <param name="inventory">Inventory.</param>
-	public void RemoveFromInventory(int location, string inventory)
-	{
-		inventoryYamlData [inventory][location] = new InventoryItemYAMLModel();
+		for(int i = 0; i < contents.Length; ++i)
+		{
+			InventoryItemYAMLModel itemModel = new InventoryItemYAMLModel ();
+			itemModel.Item = contents[i].Item;
+			itemModel.ItemAmount = contents[i].Amount;
+			itemModel.StackId = contents[i].Id;
+			itemModel.ItemCategories = contents[i].Item.GetItemCategories();
+
+			saveData.Add(itemModel);
+		}
+
+		inventoryYamlData[inventoryName] = saveData;
 	}
 }

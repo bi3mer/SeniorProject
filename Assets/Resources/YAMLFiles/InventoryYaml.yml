@@ -5,6 +5,8 @@
      itemAmount: 4
      item: 
       itemName: "river reed"
+      inventorySprite: ""
+      worldModel: ""
       types:
        - "edible"
       flavorText: ""
@@ -30,6 +32,8 @@
      itemAmount: 2
      item: 
       itemName: "stick"
+      inventorySprite: ""
+      worldModel: ""
       types:
         - "rod"
       flavorText: ""
@@ -55,6 +59,8 @@
      itemAmount: 2
      item: 
       itemName: "hook"
+      inventorySprite: ""
+      worldModel: ""
       types:
        - "hook"
       flavorText: ""

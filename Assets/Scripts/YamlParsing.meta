@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: af39b0b1816554674b43f91f5ab5ca4e
 folderAsset: yes
 timeCreated: 1479423980
+=======
+guid: 75c7b968b36df4f2189ca3b83f0a27b9
+folderAsset: yes
+timeCreated: 1479259207
+>>>>>>> item-crafting-inventory
 licenseType: Free
 DefaultImporter:
   userData: 

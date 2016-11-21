@@ -2,6 +2,8 @@
 - itemName: "river reed"
   baseItem: 
    itemName: "river reed"
+   inventorySprite: ""
+   worldModel: ""
    types:
     - "edible"
    flavorText: ""
@@ -26,6 +28,8 @@
 - itemName: "stick"
   baseItem: 
    itemName: "stick"
+   inventorySprite: ""
+   worldModel: ""
    types:
      - "rod"
    flavorText: ""
@@ -50,6 +54,8 @@
 - itemName: "hook"
   baseItem: 
    itemName: "hook"
+   inventorySprite: ""
+   worldModel: ""
    types:
     - "hook"
    flavorText: ""
@@ -62,7 +68,9 @@
       thickness: 0.4
       sharpness: 0.3
 - itemName: "Poor Fishing Rod"
-  baseItem: 
+  baseItem:
+   inventorySprite: ""
+   worldModel: ""
    itemName: "Poor Fishing Rod"
    types:
     - "Advanced Tool"
@@ -78,6 +86,8 @@
 - itemName: "Good Fishing Rod"
   baseItem: 
    itemName: "Good Fishing Rod"
+   inventorySprite: ""
+   worldModel: ""
    types:
     - "Advanced Tool"
    flavorText: "Pretty good fishing rod. Will last awhile."

@@ -114,7 +114,7 @@ public class Inventory
 	}
 
 	/// <summary>
-	/// Gets an item based on their name. Returns as many stacks as needed to fulfill the amount desired.
+	/// Gets stacks with the specified item name. Returns as many stacks as needed to fulfill the amount desired.
 	/// </summary>
 	/// <returns>The item.</returns>
 	/// <param name="name">Name.</param>
@@ -151,13 +151,6 @@ public class Inventory
 	{
 		int loc = GetNextOpenSlot ();
 		contents[loc] = new Stack(newItem, amount, Guid.NewGuid().ToString("N"));
-		InventoryItemYAMLModel itemStruct = new InventoryItemYAMLModel ();
-		itemStruct.Item = newItem;
-		itemStruct.ItemAmount = amount;
-		itemStruct.StackId = contents[loc].Id;
-		itemStruct.ItemCategories = newItem.GetItemCategories();
-
-		parser.AddToInventory (itemStruct, inventoryName);
 	}
 
 	/// <summary>
@@ -173,7 +166,6 @@ public class Inventory
 				if (contents [i].Item.ItemName.Equals (stack.Item.ItemName) && contents [i].Id == stack.Id) 
 				{
 					contents [i] = null;
-					parser.RemoveFromInventory (i, inventoryName);
 					stack = null;
 
 					break;
@@ -184,7 +176,7 @@ public class Inventory
 	}
 
 	/// <summary>
-	/// Gets all items in the inventory with a certain tag.
+	/// Gets all items in the inventory with a certain item tag.
 	/// </summary>
 	/// <returns>All items with tag.</returns>
 	/// <param name="itemTag">Tag that contains desired items.</param>
@@ -205,8 +197,6 @@ public class Inventory
 
 		return result;
 	}
-
-
 
 	/// <summary>
 	/// Combines the stacks in an inventory. Adds the amount in the current stack to the target stack and removes the current stack, but only

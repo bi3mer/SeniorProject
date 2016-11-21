@@ -259,7 +259,7 @@ public class SolidCategory : ItemCategory
 
 		baseItem.ChangeName(name);
 
-		baseItem.RemoveCategoriesSpecified (new List<string> (){GetType ().Name});
+		baseItem.RemoveCategoriesExcluding (new List<string> (){GetType ().Name});
 		SetActionComplete(weaveBasketActName);
 	}
 
