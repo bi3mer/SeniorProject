@@ -16,7 +16,7 @@ public class RooftopGeneration
 	// Generator that creates the points to place objects
 	private RooftopPointGenerator generator;
 
-	private int seed = 320;
+	private int seed = 3;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RooftopGeneration"/> class.
@@ -28,7 +28,6 @@ public class RooftopGeneration
 		DoorTemplates = doors;
 		ItemTemplates = items;
 		ChanceOfGeneration = chance;
-
 		generator = new RooftopPointGenerator ();
 	}
 
