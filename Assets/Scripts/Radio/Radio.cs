@@ -86,16 +86,14 @@ public class Radio : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates the weather and creates a new announcement.
+    /// Updates the weather, creates a new announcement, and then plays the announcement.
     /// </summary>
     IEnumerator updateWeather()
     {
         while (true)
         {
             if (isOn)
-            {
-                currentWeather = Game.Instance.WeatherInstance;
-
+            {             
                 //check if the weather is not playing and if the radio is on the weather channel
                 if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
                 {
@@ -108,18 +106,21 @@ public class Radio : MonoBehaviour
                     //update the weather when it has played 3 times or has just turned on
                     if (weatherCounter == 0)
                     {
+                        //update weather
+                        currentWeather = Game.Instance.WeatherInstance;
+
                         //get new announcment
                         announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
-
+                        Debug.Log(announcement);
                         //send the announcement to the wave file
-                        Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather.wav", .7f);
+                        Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather", .7f);
 
                         //wait for the wave file to update
                         yield return new WaitForSeconds(2);
                     }
 
                     ++weatherCounter;
-                    //weather.Play();
+                    weather.Play();
                 }
 
                 //don't do anything if the weather is still playing
@@ -153,7 +154,6 @@ public class Radio : MonoBehaviour
 			} 
 			else if (channel == RadioChannel.Weather) 
 			{
-				weather.Play ();
 				music.Stop ();
 				mystery.Stop ();
 				this.CurrentChannel = channel;
