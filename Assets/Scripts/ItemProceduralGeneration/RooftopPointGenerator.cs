@@ -82,7 +82,6 @@ public class RooftopPointGenerator
 			// where Vector2(0, 0) is the bottom left corner, and Vector2(width, depth) is the upper right corner
 			// it is converted into a global position here
 			// validPoints contains global positions
-
 			Vector2 globalPosition = convertToWorldSpace (samplingPoints[i].PointOnTargetSurface, target.transform.position, width, depth);
 
 			if (Physics.Raycast (new Vector3(globalPosition.x, initialRayStartHeight, globalPosition.y), Vector3.down, out hit, initialRayStartHeight)) 
@@ -139,7 +138,6 @@ public class RooftopPointGenerator
 
 		// Building failed to have any sample points after attempting the maximum attempts
 		// not a good building, skip
-
 		if (firstPoint.PointOnTargetSurface.Equals (Vector2.zero)) 
 		{
 			return samplePoints;
@@ -271,11 +269,9 @@ public class RooftopPointGenerator
 
 		// Generates a point within the bounds and converts it to a global location
 		Vector2 doorLocation = new Vector2(Random.Range(width * borderPercent + size, width - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, depth - (depth * borderPercent + size)));
-
 		Vector2 doorGlobalLocation = convertToWorldSpace(doorLocation, target.transform.position, width, depth);
 		float rayOffset = 1f;
 		float initialRayStartHeight = height + rayOffset;
-
 
 		RaycastHit hit;
 		Physics.Raycast (new Vector3 (doorGlobalLocation.x, initialRayStartHeight, doorGlobalLocation.y), Vector3.down, out hit, initialRayStartHeight);
