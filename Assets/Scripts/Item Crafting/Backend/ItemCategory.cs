@@ -9,11 +9,6 @@ using System.Collections.Generic;
 public class ItemCategory : CollectableItem 
 {
 	/// <summary>
-	/// the item category that this is linked to
-	/// </summary>
-	protected CollectableItem component;
-
-	/// <summary>
 	/// base item which controls all item category components
 	/// </summary>
 	protected BaseItem baseItem;
@@ -43,28 +38,9 @@ public class ItemCategory : CollectableItem
 	/// </summary>
 	/// <param name="item">The item this is linked to.</param>
 	/// <param name="baseItem">The base item component this item category is used by.</param>
-	public void SetConnections(CollectableItem item, BaseItem bItem)
+	public void SetBaseItem(BaseItem bItem)
 	{
-		component = item;
 		baseItem = bItem;
-	}
-
-	/// <summary>
-	/// Gets the attributes of an item. Returns all attributes in the BaseItem and all
-	/// Item Categories.
-	/// </summary>
-	/// <returns>The attributes of an item in a list of attributes. </returns>
-	public override List<Attribute> GetItemAttributes ()
-	{
-		List<Attribute> thisAttr = Attributes;
-
-		// add attributes returned by the linked component to the list of attributes that will be returned
-		if (component != null) 
-		{
-			Attributes.AddRange (component.GetItemAttributes ());
-		}
-
-		return thisAttr;
 	}
 
 	/// <summary>
@@ -74,11 +50,6 @@ public class ItemCategory : CollectableItem
 	public override List<ItemAction> GetPossibleActions()
 	{
 		List<ItemAction> possibleActions = new List<ItemAction> ();
-
-		if (component != null) 
-		{
-			possibleActions = component.GetPossibleActions ();
-		}
 
 		for (int i = 0; i < Actions.Count; ++i) 
 		{
@@ -104,25 +75,6 @@ public class ItemCategory : CollectableItem
 		}
 
 		return possibleActions;
-	}
-
-		
-	/// <summary>
-	/// Changes the linked category.
-	/// </summary>
-	/// <param name="linkedCategory">A new category.</param>
-	public void ChangeLinkedCategory(CollectableItem linkedCategory)
-	{
-		component = linkedCategory;
-	}
-
-	/// <summary>
-	/// Gets the linked category.
-	/// </summary>
-	/// <returns>The linked category.</returns>
-	public ItemCategory GetLinkedCategory()
-	{
-		return (ItemCategory)component;
 	}
 
 	/// <summary>

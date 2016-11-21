@@ -40,6 +40,26 @@ public class BaseItem : CollectableItem
 	}
 
 	/// <summary>
+	/// Gets or sets the sprite representation of the item in the inventory.
+	/// </summary>
+	/// <value>The inventory sprite.</value>
+	public string InventorySprite
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
+	/// Gets or sets the model that represents the item in the world.
+	/// </summary>
+	/// <value>The world model.</value>
+    public string WorldModel
+    {
+    	get;
+    	set;
+    }
+
+	/// <summary>
 	/// Delegate function that takes in a baseItem
 	/// </summary>
 	public delegate void UpdateItemEvent (BaseItem item); 
@@ -48,12 +68,6 @@ public class BaseItem : CollectableItem
 	/// Event that can be subscribed to by functions of UpdateItemEvent format
 	/// </summary>
 	public event UpdateItemEvent UpdateItemInformation;
-
-	/// <summary>
-	/// link to the last Item Category, which in turn links to another Item Category
-	/// the starting point from which the BaseItem will get all of its category information from
-	/// </summary>
-	private ItemCategory lastCategory;
 
 	/// <summary>
 	/// All categories that the item contains.
@@ -133,21 +147,16 @@ public class BaseItem : CollectableItem
 	/// </summary>
 	public void SetUpBaseItem()
 	{
-		// Gets all of the Item Categories attached to the game object.
-		CollectableItem previous = null;
+		itemAttributes = new List<Attribute>();
 
 		// Each Item Category is linked to the one before it
 		// The Base Item will retain a link to the last category
 		for (int i = 0; i < categoryList.Count; ++i) 
 		{
-			categoryList [i].SetConnections (previous, this);
+			categoryList [i].SetBaseItem (this);
 			categoryList [i].ReadyCategory ();
-
-			previous = categoryList [i];
+			itemAttributes.AddRange(categoryList[i].Attributes);
 		}
-
-		lastCategory = (ItemCategory) previous;
-		itemAttributes = lastCategory.GetItemAttributes ();
 	}
 
 	/// <summary>
@@ -165,7 +174,7 @@ public class BaseItem : CollectableItem
 	/// </summary>
 	/// <returns>The attributes of an item in a Dictionary keyed by the attribute name.
 	/// All attribute values are floats.</returns>
-	public override List<Attribute> GetItemAttributes ()
+	public List<Attribute> GetItemAttributes ()
 	{
 		// Except for the final link in the chain of categories, each item category is linked
 		// to another item category and will call GetAttributes on it's linked category and
@@ -180,7 +189,12 @@ public class BaseItem : CollectableItem
 	/// <returns>The possible actions of an item in a Dictionary keyed by the action name.</returns>
 	public override List<ItemAction> GetPossibleActions()
 	{
-		List<ItemAction> possibleActions = lastCategory.GetPossibleActions ();
+		List<ItemAction> possibleActions = new List<ItemAction>();
+
+		for(int i = 0; i < categoryList.Count; ++i)
+		{
+			possibleActions.AddRange(categoryList[i].GetPossibleActions());
+		}
 
 		return possibleActions;
 	}
@@ -235,24 +249,15 @@ public class BaseItem : CollectableItem
 	/// <param name="excluding">If set to <c>true</c>, it will remove all item categories EXCEPT for the ones specified in names.</param>
 	private void RemoveCategories(List<string> names, bool excluding = false)
 	{
-		ItemCategory previous = null;
-
 		for (int i = 0; i < categoryList.Count; ++i) 
 		{
-			categoryList [i].ChangeLinkedCategory (previous);
 			if ((!names.Contains(categoryList [i].GetType ().Name) && excluding) || (!excluding && names.Contains(categoryList [i].GetType ().Name))) 
 			{
 				RemoveAttributes (categoryList [i].Attributes);
 				categoryList.RemoveAt (i);
 				--i;
 			} 
-			else 
-			{
-				previous = categoryList [i];
-			}
 		}
-
-		lastCategory = (ItemCategory) previous;
 	}
 
 	/// <summary>
@@ -271,15 +276,6 @@ public class BaseItem : CollectableItem
 	public void RemoveCategoriesExcluding(List<string> names)
 	{
 		RemoveCategories(names, true);
-	}
-
-	/// <summary>
-	/// Gets the last category from the list of item categories. The start of the decorator chain.
-	/// </summary>
-	/// <returns>The last category.</returns>
-	public ItemCategory GetLastCategory()
-	{
-		return lastCategory;
 	}
 
 	/// <summary>
