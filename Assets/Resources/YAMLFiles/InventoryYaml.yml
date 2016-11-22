@@ -1,0 +1,74 @@
+---
+- inventoryName: "player"
+  items: 
+   - stackId: 0
+     itemAmount: 4
+     item: 
+      itemName: "river reed"
+      inventorySprite: ""
+      worldModel: ""
+      types:
+       - "edible"
+      flavorText: ""
+     itemCategories: 
+       - !!solid
+         flexibility: 1.0
+         durability: 0.5
+         elasticity: 0.6
+         stickiness: 0.1
+         thickness: 0.1
+         sharpness: 0.2
+       - !!plant
+         waterContent: 1.2
+         toughness: 3.0
+         sweet: 0.0
+         bitter: 0.0
+         sour: 0.0
+         salty: 0.0
+         spicy: 0.0
+         stomachEffect: 0.0
+         pneumoniaEffect: 0.0
+   - stackId: 1
+     itemAmount: 2
+     item: 
+      itemName: "stick"
+      inventorySprite: ""
+      worldModel: ""
+      types:
+        - "rod"
+      flavorText: ""
+     itemCategories:
+       - !!solid
+         flexibility: 0.2
+         durability: 0.5
+         elasticity: 0.1
+         stickiness: 0.1
+         thickness: 0.4
+         sharpness: 0.3
+       - !!plant
+         waterContent: 0.8
+         toughness: 5.0
+         sweet: 0.0
+         bitter: 0.0
+         sour: 0.0
+         salty: 0.0
+         spicy: 0.0
+         stomachEffect: 0.0
+         pneumoniaEffect: 0.0
+   - stackId: 2
+     itemAmount: 2
+     item: 
+      itemName: "hook"
+      inventorySprite: ""
+      worldModel: ""
+      types:
+       - "hook"
+      flavorText: ""
+     itemCategories: 
+       - !!solid
+         flexibility: 0.2
+         durability: 0.5
+         elasticity: 0.1
+         stickiness: 0.1
+         thickness: 0.4
+         sharpness: 0.3
