@@ -84,8 +84,6 @@ public class PlayerController : MonoBehaviour
 
         // subscribe to events
         Game.Instance.DebugModeSubscription += this.toggleDebugMode;
-
-        Game.Instance.DebugMode = true;
 	}
 
     /// <summary>
@@ -355,6 +353,9 @@ public class PlayerController : MonoBehaviour
         get { return movement is RaftMovement; }
     }
 
+    /// <summary>
+    /// Set up or tear down any configuration neccisary for debug mode.
+    /// </summary>
     private void toggleDebugMode()
     {
         if (Game.Instance.DebugMode)
