@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.08.00">
+    <object class="AudioFile" id="{95f4c7ed-b100-48e5-b794-7bf5fbf0996d}">
+        <property name="assetPath">
+            <value>IPhone Horn SMS Ton.mp3</value>
+        </property>
+        <property name="isStreaming">
+            <value>true</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>44.0999985</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>13.949387755102041</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{d1e6b5ec-b3c7-4bec-a737-39a9863156aa}</destination>
+        </relationship>
+    </object>
+</objects>
