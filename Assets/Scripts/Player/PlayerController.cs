@@ -83,7 +83,9 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(ReduceHunger(waterWarmthReductionRate));
 
         // subscribe to events
-        Game.Instance.DebugModeSubscription += this.ToggleDebugMode;
+        Game.Instance.DebugModeSubscription += this.toggleDebugMode;
+
+        Game.Instance.DebugMode = true;
 	}
 
     /// <summary>
@@ -160,7 +162,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // can'tjump while in debug mode
+        // can't jump while in debug mode
         if (isGrounded && !Game.Instance.DebugMode && Input.GetKeyDown(controlScheme.Jump))
         {
             movement.Jump(playerAnimator);
@@ -353,7 +355,7 @@ public class PlayerController : MonoBehaviour
         get { return movement is RaftMovement; }
     }
 
-    public void ToggleDebugMode()
+    private void toggleDebugMode()
     {
         if (Game.Instance.DebugMode)
         {
