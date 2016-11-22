@@ -18,9 +18,11 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private float zoomingSpeed;
     [SerializeField]
-    private float minZoom;
+    private float minZoomLevel;
     [SerializeField]
-    private float maxZoom;
+    private float maxZoomLevel;
+    [SerializeField]
+    private float initialZoomLevel;
 
     private int currentView;
     private Camera camera;
@@ -33,13 +35,15 @@ public class CameraController : MonoBehaviour
         currentView = startingView % CameraPositions.Length;
         // grab the camera
         camera = GetComponent<Camera>();
+
+        ZoomLevel = initialZoomLevel;
 	}
 	
     /// <summary>
     /// Translates the camera smoothly betwteen camera positions.
     /// </summary>
 	void Update () {
-        Vector3 targetPosition = target.position + CameraPositions[currentView].localPosition;
+        Vector3 targetPosition = Vector3.LerpUnclamped(target.position + CameraPositions[currentView].localPosition, target.position, ZoomLevel);
         transform.position = Vector3.Lerp(transform.position, targetPosition, cameraTransitionSpeed);
         transform.rotation = Quaternion.Slerp(transform.rotation,
             CameraPositions[currentView].rotation, cameraTransitionSpeed);
@@ -58,14 +62,8 @@ public class CameraController : MonoBehaviour
     /// </summary>
     public float ZoomLevel
     {
-        get
-        {
-            return camera.orthographicSize;
-        }
-        private set
-        {
-            camera.orthographicSize = value;
-        }
+        get;
+        private set;
     }
 
     /// <summary>
@@ -97,13 +95,13 @@ public class CameraController : MonoBehaviour
     {
         ZoomLevel += amount * zoomingSpeed;
 
-        if (ZoomLevel > maxZoom)
+        if (ZoomLevel > maxZoomLevel)
         {
-            ZoomLevel = maxZoom;
+            ZoomLevel = maxZoomLevel;
         }
-        else if (ZoomLevel < minZoom)
+        else if (ZoomLevel < minZoomLevel)
         {
-            ZoomLevel = minZoom;
+            ZoomLevel = minZoomLevel;
         }
     }
 }
