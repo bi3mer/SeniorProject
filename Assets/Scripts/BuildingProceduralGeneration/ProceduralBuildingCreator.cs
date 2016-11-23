@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+/// <summary>
+/// Defines all the buildings for each district and allows for the creation of builings in those districts.
+/// </summary>
 public class ProceduralBuildingCreator : MonoBehaviour
 {
     // All of the different districts, and all of their procedural building assets
@@ -64,6 +67,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     public BaseSize TestBaseSize;
     public float TestAttatchmentPercentage;
     public int TestStoriesTall;
+    public string TestDistrictName;
     public ProceduralBuildingInstance NewestBuilding;
 
     /// <summary>
@@ -72,7 +76,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     [ContextMenu("Create a test building")]
     public void TestBuildBuilding()
     {
-       ProceduralBuildingInstance newbuilding = CreateBuilding(districts[TestDistrict], TestBaseSize, TestAttatchmentPercentage, TestStoriesTall);
+       ProceduralBuildingInstance newbuilding = CreateBuilding(TestDistrictName, TestBaseSize, TestAttatchmentPercentage, TestStoriesTall);
        NewestBuilding = newbuilding;
     }
 
@@ -121,6 +125,39 @@ public class ProceduralBuildingCreator : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Creates a building in a district by its name.
+    /// </summary>
+    /// <returns></returns>
+    public ProceduralBuildingInstance CreateBuilding(string districtName, BaseSize size, float attatchmentPercentage, int storiesTall)
+    {
+        for (int i = 0; i < districts.Length; i++)
+        {
+            if(districts[i].DistrictName == districtName)
+            {
+                return CreateBuilding(districts[i], size, attatchmentPercentage, storiesTall);
+            }
+        }
+
+        Debug.LogError("No district with name: " + districtName + " defaulting to district 1");
+        return CreateBuilding(districts[1], size, attatchmentPercentage, storiesTall);
+    }
+
+    /// <summary>
+    /// Creates a building in a district by its district number.
+    /// </summary>
+    public ProceduralBuildingInstance CreateBuilding(int districtNumber, BaseSize size, float attatchmentPercentage, int storiesTall)
+    {
+        if(districtNumber  <= districts.Length)
+        {
+            return CreateBuilding(districts[districtNumber], size, attatchmentPercentage, storiesTall);
+        }
+
+        Debug.LogError("No district with number "+ districtNumber +" defaulting to the first district");
+        return CreateBuilding(districts[0], size, attatchmentPercentage, storiesTall);
+    }
+
 
     /// <summary>
     /// Populates a new proceduralbuilding class and spawns it in the world.
@@ -173,11 +210,12 @@ public class ProceduralBuildingCreator : MonoBehaviour
     private void createBase(ProceduralBuildingInstance newBuilding, ProceduralDistrictDefinition district, BaseSize size, float attatchmentPercentage, int storiesTall, List<MeshRenderer> buildingMeshes)
     {
         // Set buildingbase
-        ProceduralBuildingBase newBase = district.SizeXDefinitions[(int)size].DistrictSizeXBases[GetNewBuilding(district, size, BuildingParts.Base)];
-            
+        ProceduralBuildingBase newBase = district.SizeXDefinitions[(int)size].DistrictSizeXBases[GetNewBuilding(district, size, BuildingParts.Base)];         
         // Create the base
         GameObject newObject = (GameObject)Instantiate(newBase.gameObject, newBuilding.transform);
+        newBase = newObject.GetComponent<ProceduralBuildingBase>();
         newObject.transform.position = Vector3.zero;
+
         if (newBase.HeightType == HeightType.Stretch)
         {
             newObject.transform.localScale = new Vector3(1f, storiesTall, 1f);
@@ -190,7 +228,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
             }
             else
             {
-                newBase.RoofLocation.position = new Vector3(0f, storyHeightUnits * storiesTall, 0f);
                 GameObject newObjectA = newObject;
                 GameObject newObjectB = newObject;
                 for (int i = 0; i < storiesTall; ++i)
@@ -200,6 +237,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
                     newObjectA.transform.SetParent(newObjectB.transform);
                     newObjectB = newObjectA;
                 }
+                //Move the roof node up.
+                print(new Vector3(0f, storyHeightUnits * storiesTall, 0f));
+                newBase.RoofLocation.position = new Vector3(0f, storyHeightUnits * storiesTall, 0f);
             }
         }
         // Set the new base to the instance class.

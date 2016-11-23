@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Defines parts of the building base that are needed for procedural building generation.
+/// </summary>
 public class ProceduralBuildingBase : MonoBehaviour
 {
     // Base
     [SerializeField]
     private ProceduralBuildingCreator.BaseSize baseSize;
 
+    /// <summary>
+    /// The way that this building handles growing vertically.
+    /// </summary>
     [SerializeField]
     private ProceduralBuildingCreator.HeightType heightType;
     public ProceduralBuildingCreator.HeightType HeightType
@@ -17,6 +23,9 @@ public class ProceduralBuildingBase : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// The points on the base that can handle having an attachment added to them.
+    /// </summary>
     [SerializeField]
     private Transform[] attachmentPoints;
     public Transform[] AttachmentPoints
@@ -27,6 +36,9 @@ public class ProceduralBuildingBase : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Does the base need windows added to it.
+    /// </summary>
     [SerializeField]
     private bool addWindows;
     public bool AddWindows
@@ -37,6 +49,9 @@ public class ProceduralBuildingBase : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// The points on the base that can take windows.
+    /// </summary>
     [SerializeField]
     [Tooltip("Set to 0 if the building uses mathmatical placement")]
     private Transform[] windowPoints;
@@ -48,6 +63,9 @@ public class ProceduralBuildingBase : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// The location of the empty gameobject where the roof is placed.
+    /// </summary>
     [SerializeField]
     private Transform roofLocation;
     public Transform RoofLocation
@@ -58,6 +76,9 @@ public class ProceduralBuildingBase : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// If the building has a specific roof it needs, it's set here.
+    /// </summary>
     [SerializeField]
     [Tooltip("Leave null if the base doesn't come with a roof")]
     private GameObject hasRoof;

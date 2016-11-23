@@ -9,12 +9,28 @@ using System.Collections.Generic;
 [System.Serializable]
 public class ProceduralDistrictDefinition
 {
+    /// <summary>
+    /// The name of the district, used to make the inspector more clear, or used to create buildings by name.
+    /// </summary>
     [SerializeField]
     private string districtName;
+    public string DistrictName
+    {
+        get
+        {
+            return districtName;
+        }
+    }
 
+    /// <summary>
+    /// Holds all of the bases and roofs for each size of building.
+    /// </summary>
     [System.Serializable]
     public struct ProceduralBuildingBasesSizeXDefinition
     {
+        /// <summary>
+        /// The building bases associated with the size.
+        /// </summary>
         [SerializeField]
         private ProceduralBuildingBase[] districtSizeXBases;
         public ProceduralBuildingBase[] DistrictSizeXBases
@@ -25,6 +41,9 @@ public class ProceduralDistrictDefinition
             }
         }
 
+        /// <summary>
+        /// The building roofs associated with the size.
+        /// </summary>
         [SerializeField]
         private ProceduralBuildingRoof[] districtSizeXRoofs;
         public ProceduralBuildingRoof[] DistrictSizeXRoofs
@@ -55,7 +74,7 @@ public class ProceduralDistrictDefinition
         }
 
         /// <summary>
-        /// Gets a random entry in a district's building array by its type. Returns a struct of that buildings size, and position in the enum.
+        /// Gets a random entry in the district's building array by its type. Returns a struct of that buildings size, and position in the enum.
         /// </summary>
         public ProceduralBuildingCreator.buildingIndex getRandomEntryByType(ProceduralBuildingCreator.BaseSize size, ProceduralBuildingCreator.BuildingParts partType)
         {
@@ -78,6 +97,9 @@ public class ProceduralDistrictDefinition
         }
     }
 
+    /// <summary>
+    /// An array of the different size buildings the district can have.
+    /// </summary>
     [SerializeField]
     private ProceduralBuildingBasesSizeXDefinition[] sizeXDefinitions;
     public ProceduralBuildingBasesSizeXDefinition[] SizeXDefinitions
@@ -88,6 +110,9 @@ public class ProceduralDistrictDefinition
         }
     }
 
+    /// <summary>
+    /// The attachments that this district takes.
+    /// </summary>
     [SerializeField]
     private ProceduralBuildingAttachment[] districtAttachments;
     public ProceduralBuildingAttachment[] DistrictAttachments
@@ -97,6 +122,10 @@ public class ProceduralDistrictDefinition
             return districtAttachments;
         }
     }
+
+    /// <summary>
+    /// The windows that this district can have
+    /// </summary>
     [SerializeField]
     private ProceduralBuildingWindow[] districtWindows;
     public ProceduralBuildingWindow[] DistrictWindows
@@ -107,6 +136,9 @@ public class ProceduralDistrictDefinition
         }
     }
 
+    /// <summary>
+    /// The max distance windows can be apart from eachother in this district.
+    /// </summary>
     [SerializeField]
     private float districtMaxWindowSpacing;
     public float DistrictMaxWindowSpacings
@@ -127,6 +159,9 @@ public class ProceduralDistrictDefinition
         }
     }
 
+    /// <summary>
+    /// The materials buildings can have in this district.
+    /// </summary>
     [SerializeField]
     private Material[] districtMaterials;
     public Material[] DistrictMaterials
@@ -136,6 +171,10 @@ public class ProceduralDistrictDefinition
             return districtMaterials;
         }
     }
+
+    /// <summary>
+    /// The materials windows can have in this district.
+    /// </summary>
     [SerializeField]
     private Material[] districtWindowMaterials;
     public Material[] DistrictWindowMaterials
@@ -145,7 +184,7 @@ public class ProceduralDistrictDefinition
             return districtWindowMaterials;
         }
     }
-
+    
     public List<Material> districtProceduralMaterials = new List<Material>();
     public List<Material> districtProceduralWindowMaterials = new List<Material>();
 }

@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Used to define important parts of building attachments that are used during building creation and item placement.
+/// </summary>
 public class ProceduralBuildingAttachment : MonoBehaviour
 {
     // The position in the buildings attatchment point array this part is connected to.
     public int AttachmentPoint;
-
-    // Windows
+    
+    /// <summary>
+    /// Does the attachment take windows
+    /// </summary>
     [SerializeField]
     private bool addWindows;
     public bool AddWindows
@@ -17,6 +22,9 @@ public class ProceduralBuildingAttachment : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// The points on the attachment that windows can be placed at.
+    /// </summary>
     [SerializeField]
     [Tooltip("Set to 0 if the building uses mathmatical placement")]
     private Transform[] windowPoints;
@@ -28,7 +36,9 @@ public class ProceduralBuildingAttachment : MonoBehaviour
         }
     }
 
-    // Roof
+    /// <summary>
+    /// The roof the attachment comes with, if any.
+    /// </summary>
     [SerializeField]
     [Tooltip("Leave null if the attatchment doesn't come with a roof")]
     private ProceduralBuildingRoof hasRoof;
@@ -40,7 +50,9 @@ public class ProceduralBuildingAttachment : MonoBehaviour
         }
     }
 
-    // Roof Location
+    /// <summary>
+    /// The empty gameobject where a roof gets placed.
+    /// </summary>
     [SerializeField]
     private Transform roofLocation;
     public Transform RoofLocation
