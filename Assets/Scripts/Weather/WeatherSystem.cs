@@ -62,6 +62,19 @@ public class WeatherSystem
 	private const float percentageDivisor         = 100f;
 	private const float temperatureCoefficient    = 17.625f;
 
+	/// <summary>
+	/// Gets the wind direction.
+	/// </summary>
+	/// <value>The wind direction.</value>
+	public Vector2 WindDirection
+	{
+		get
+		{
+			return new Vector2(this.WeatherInformation[(int) Weather.WindSpeedX],
+			                   this.WeatherInformation[(int) Weather.WindSpeedY]);
+		}
+	}
+
 	public PressureSystems WeatherPressureSystems
 	{
 		get;
@@ -255,16 +268,7 @@ public class WeatherSystem
 		// add forces to weatherInformation
 		this.WeatherInformation[(int) Weather.WindSpeedX] = Mathf.Sin(windAngle) * this.WeatherInformation[(int) Weather.WindSpeedMagnitude];
 		this.WeatherInformation[(int) Weather.WindSpeedY] = Mathf.Cos(windAngle) * this.WeatherInformation[(int) Weather.WindSpeedMagnitude];
-}
-
-	/// <summary>
-	/// Gets the wind speed vector from the weather informaiton
-	/// </summary>
-	public Vector2 GetWindSpeedVector()
-	{
-		return new Vector2(this.WeatherInformation[(int) Weather.WindSpeedX], 
-			               this.WeatherInformation[(int) Weather.WindSpeedY]);
-	} 
+	}
 
 	/// <summary>
 	/// Gets the relative humidity using linear regression constants

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class Clock : MonoBehaviour
@@ -68,28 +69,13 @@ public class Clock : MonoBehaviour
 		get
 		{
 			// get hours and minutes
-			int hours = (int) Mathf.Floor(this.CurrentGameTimeInHours);
+			int hours = Mathf.FloorToInt(this.CurrentGameTimeInHours);
 			int minutes = this.CurrentTime - (hours * Clock.Hour);
 
-			return this.addZeroToTimeString(hours) + ":" + this.addZeroToTimeString(minutes);
+			// 
+			DateTime date = new DateTime(1, 1, 1, hours, minutes, 0, 0);
+			return date.ToString("HH:mm");
 		}
-	}
-
-	/// <summary>
-	/// Adds the zero to time variable where it is less than ten.
-	/// </summary>
-	/// <returns>The zero to time string.</returns>
-	/// <param name="unit">Unit.</param>
-	private string addZeroToTimeString(int unit)
-	{
-		// 10 is the limit where anything less will be one digit
-		// instead of 2.
-		if(unit < 10)
-		{
-			// "0" represents the extra digit for the clock
-			return "0" + unit.ToString();
-		}
-		return unit.ToString();
 	}
 
 	/// <summary>
@@ -105,7 +91,7 @@ public class Clock : MonoBehaviour
 
 			// update time
 			this.currentTime += Clock.Tick;
-			if(this.CurrentTime == Clock.TwentyFourHours)
+			if(this.CurrentTime >= Clock.TwentyFourHours)
 			{
 				this.currentTime = 0;
 			}
