@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private ControlScheme controlScheme;
     [SerializeField]
     private float groundedThreshold;
+    [SerializeField]
+    private Animator playerAnimator;
 
     [Header("Tag Settings")]
     [SerializeField]
@@ -23,15 +25,18 @@ public class PlayerController : MonoBehaviour
     private float hungerReductionRate;
     [SerializeField]
     private float waterWarmthReductionRate;
-	[SerializeField]
-	private UnityEvent hungerUpdatedEvent;
-	[SerializeField]
-	private UnityEvent healthUpdatedEvent;
-	[SerializeField]
-	private UnityEvent warmthUpdatedEvent;
+
+    [Header("DebugMode Settings")]
+    [SerializeField]
+    private float verticalSpeed;
+    [SerializeField]
+    private KeyCode debugFlightUp;
+    [SerializeField]
+    private KeyCode debugFlightDown;
 
     private bool isGrounded;
     private bool updateStats;
+    private bool isFlying;
 
     private InteractableObject interactable;
 
@@ -40,8 +45,8 @@ public class PlayerController : MonoBehaviour
     private WaterMovement waterMovement;
 
     private Tool equippedTool;
-
     private CameraController playerCamera;
+    private Rigidbody playerRigidbody;
 
     public Animator PlayerAnimator
     {
@@ -50,8 +55,6 @@ public class PlayerController : MonoBehaviour
             return playerAnimator;
         }
     }
-    [SerializeField]
-    private Animator playerAnimator;
 
     /// <summary>
     /// Set up player movement
@@ -66,19 +69,24 @@ public class PlayerController : MonoBehaviour
         waterMovement = GetComponent<WaterMovement>();
         movement = landMovement;
 
+        // update accessable player transform
+        Game.Instance.PlayerInstance.WorldTransform = transform;
+
         // set up tools
         equippedTool = GetComponentInChildren<FishingRod>();
 
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();
 
+        // set up rigidbody
+        playerRigidbody = GetComponent<Rigidbody>();
+
         // start reducing hunger & cold
         StartCoroutine(ReduceHunger(hungerReductionRate));
-        StartCoroutine(ReduceWarmth(waterWarmthReductionRate));
+        StartCoroutine(ReduceHunger(waterWarmthReductionRate));
 
-		// Link this to the player instance and control scheme instance
-		Game.Instance.PlayerInstance.Controller = this;
-		Game.Instance.Scheme = this.controlScheme;
+        // subscribe to events
+        Game.Instance.DebugModeSubscription += this.toggleDebugMode;
 	}
 
     /// <summary>
@@ -155,9 +163,24 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (isGrounded && Input.GetKeyDown(controlScheme.Jump))
+        // can't jump while in debug mode
+        if (isGrounded && !Game.Instance.DebugMode && Input.GetKeyDown(controlScheme.Jump))
         {
             movement.Jump(playerAnimator);
+        }
+
+        // Debug mode flight controls
+        if (Game.Instance.DebugMode)
+        {
+            if (Input.GetKey(debugFlightUp))
+            {
+                playerRigidbody.transform.Translate(Vector3.up * verticalSpeed);
+            }
+
+            if (Input.GetKey(debugFlightDown))
+            {
+                playerRigidbody.transform.Translate(Vector3.down * verticalSpeed);
+            }
         }
     }
 	
@@ -223,7 +246,6 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             player.Health -= (int) movement.CurrentFallDammage;
-			healthUpdatedEvent.Invoke ();
         }
     }
 
@@ -233,7 +255,6 @@ public class PlayerController : MonoBehaviour
         {
             yield return new WaitForSeconds(depletionRate);
             --Game.Instance.PlayerInstance.Hunger;
-			hungerUpdatedEvent.Invoke ();
         }
     }
 
@@ -246,7 +267,6 @@ public class PlayerController : MonoBehaviour
             {
                 --Game.Instance.PlayerInstance.Warmth;
             }
-			warmthUpdatedEvent.Invoke ();
         }
     }
 
@@ -334,5 +354,20 @@ public class PlayerController : MonoBehaviour
     public bool IsOnRaft
     {
         get { return movement is RaftMovement; }
+    }
+
+    /// <summary>
+    /// Set up or tear down any configuration neccisary for debug mode.
+    /// </summary>
+    private void toggleDebugMode()
+    {
+        if (Game.Instance.DebugMode)
+        {
+            playerRigidbody.useGravity = false;
+        }
+        else
+        {
+            playerRigidbody.useGravity = true;
+        }
     }
 }
