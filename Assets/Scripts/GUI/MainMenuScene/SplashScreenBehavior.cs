@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 public class SplashScreenBehavior : MonoBehaviour 
 {
 	[SerializeField]
-	private float timer = 1.5f;
+	private GameObject gameLogoPanel;
 	[SerializeField]
-	private GameObject splashScreen;
+	private GameObject teamLogoPanel;
 	[SerializeField]
 	private GameObject mainMenuPanel;
 
@@ -16,7 +16,21 @@ public class SplashScreenBehavior : MonoBehaviour
 	/// </summary>
 	void Start () 
 	{
+		teamLogoPanel.SetActive (true);
 		mainMenuPanel.SetActive (false);
+		gameLogoPanel.SetActive (false);
+		StartCoroutine (DisplayGameLogo());
+	}
+
+	/// <summary>
+	/// Display the Game Logo panel.
+	/// </summary>
+	IEnumerator DisplayGameLogo () 
+	{
+		yield return new WaitForSeconds (2.2f);
+		gameLogoPanel.SetActive (true);
+		mainMenuPanel.SetActive (false);
+		teamLogoPanel.SetActive (false);
 		StartCoroutine (DisplayMainMenu());
 	}
 	
@@ -25,8 +39,9 @@ public class SplashScreenBehavior : MonoBehaviour
 	/// </summary>
 	IEnumerator DisplayMainMenu () 
 	{
-		yield return new WaitForSeconds (timer);
+		yield return new WaitForSeconds (3.3f);
 		mainMenuPanel.SetActive (true);
-		splashScreen.SetActive (false);
+		teamLogoPanel.SetActive (false);
+		gameLogoPanel.SetActive (false);
 	}
 }
