@@ -32,12 +32,18 @@ public class FieldOfView : MonoBehaviour
 
     private InteractableObject interactable;
 
+    /// <summary>
+    /// Set up field of view on start.
+    /// </summary>
     void Start()
     {
         // set the closest distance as nothing
         closestDistance = 0;
     }
 
+    /// <summary>
+    /// Every frame look for the closest interactable.
+    /// </summary>
     void Update()
     {
         FindVisibleInteractables();
