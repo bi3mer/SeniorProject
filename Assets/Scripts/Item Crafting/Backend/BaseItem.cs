@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 ﻿using System;
 using UnityEngine;
+=======
+﻿using UnityEngine;
+>>>>>>> master
 using System.Collections;
 using System.Collections.Generic;
 
@@ -100,6 +104,10 @@ public class BaseItem : CollectableItem
 	public BaseItem(string name)
 	{
 		ItemName = name;
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 		InitializeBaseItem ();
 	}
 

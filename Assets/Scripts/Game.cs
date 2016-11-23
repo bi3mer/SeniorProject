@@ -1,6 +1,7 @@
 ﻿public class Game 
 {
     private static Game instance;
+    private bool debugMode;
 
     private Game ()
     {
@@ -34,6 +35,28 @@
         get;
         private set;
     }
+
+    /// <summary>
+    /// Turns on debug mode.
+    /// </summary>
+    public bool DebugMode
+    {
+        get
+        {
+            return debugMode;
+        }
+        set
+        {
+            debugMode = value;
+            if (DebugModeSubscription != null)
+            {
+                DebugModeSubscription();
+            }
+        }
+    }
+
+    public delegate void DebugModeDelegate();
+    public event DebugModeDelegate DebugModeSubscription;
 
 	/// <summary>
 	/// Gets the weather instance.
