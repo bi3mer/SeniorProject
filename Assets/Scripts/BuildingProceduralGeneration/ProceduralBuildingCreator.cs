@@ -18,6 +18,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
         Stretch,
         Stack
     };
+
     public enum BaseSize
     {
         OneByOne,
@@ -132,7 +133,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// <returns></returns>
     public ProceduralBuildingInstance CreateBuilding(string districtName, BaseSize size, float attatchmentPercentage, int storiesTall)
     {
-        for (int i = 0; i < districts.Length; i++)
+        for (int i = 0; i < districts.Length; ++i)
         {
             if(districts[i].DistrictName == districtName)
             {
@@ -164,7 +165,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// </summary>
     public ProceduralBuildingInstance CreateBuilding(ProceduralDistrictDefinition district, BaseSize size, float attatchmentPercentage, int storiesTall)
     {
-        //Check to see if we need new materials.
+        // Check to see if we need new materials.
         if (district.districtProceduralMaterials.Count == 0 || district.districtProceduralWindowMaterials.Count == 0)
         {
             CreateMaterialsForDistrict(district);
@@ -211,6 +212,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     {
         // Set buildingbase
         ProceduralBuildingBase newBase = district.SizeXDefinitions[(int)size].DistrictSizeXBases[GetNewBuilding(district, size, BuildingParts.Base)];         
+      
         // Create the base
         GameObject newObject = (GameObject)Instantiate(newBase.gameObject, newBuilding.transform);
         newBase = newObject.GetComponent<ProceduralBuildingBase>();
@@ -237,7 +239,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                     newObjectA.transform.SetParent(newObjectB.transform);
                     newObjectB = newObjectA;
                 }
-                //Move the roof node up.
+                // Move the roof node up.
                 print(new Vector3(0f, storyHeightUnits * storiesTall, 0f));
                 newBase.RoofLocation.position = new Vector3(0f, storyHeightUnits * storiesTall, 0f);
             }
@@ -263,7 +265,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             // If the new roof can be rotated rotate it! But only at 90 degree intervals.
             if (newBuilding.BuildingRoof.CanRotate == true)
             {
-                //At 90 degree intervals, the building can only rotate up to 3 times before it's back to where it was.
+                // At 90 degree intervals, the building can only rotate up to 3 times before it's back to where it was.
                 newObject.transform.Rotate(new Vector3(0f, Random.Range(0, 3) * 90, 0f));
             }
         }
@@ -274,7 +276,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// </summary>
     private int GetNewBuilding(ProceduralDistrictDefinition thisDistrict, BaseSize size, BuildingParts part)
     {
-        for (int i = 0; i < thisDistrict.SizeXDefinitions.Length; i++)
+        for (int i = 0; i < thisDistrict.SizeXDefinitions.Length; ++i)
         {
             if((int)size == i && thisDistrict.SizeXDefinitions[i].GetTypeLengthByType(part) > 0)
             {
@@ -300,11 +302,11 @@ public class ProceduralBuildingCreator : MonoBehaviour
 
             // Create a list of numbers the length of the attatchment points. 
             // By moving through a list of randomly sorted, non-duplicate ints we insure that we don't place an attachment on the same point more than once.
-            // As opposed to using Random.Range() every time.
+            // As opposed to using Random.Range() every time which has the potential to repeat entries.
             List<int> randomPoint = Enumerable.Range(0, newBuilding.BuildingBase.AttachmentPoints.Length).ToList<int>();
 
             // Shuffle the list to make it random
-            for (int i = 0; i < randomPoint.Count; i++)
+            for (int i = 0; i < randomPoint.Count; ++i)
             {
                 int temp = randomPoint[i];
                 int randomIndex = Random.Range(i, randomPoint.Count);
@@ -389,7 +391,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             List<int> usedPoints = new List<int>();
             if (newBuilding.BuildingAttachments != null)
             {
-                for (int i = 0; i < newBuilding.BuildingAttachments.Length; i++)
+                for (int i = 0; i < newBuilding.BuildingAttachments.Length; ++i)
                 {
                     usedPoints.Add(newBuilding.BuildingAttachments[i].AttachmentPoint);
                 }
@@ -421,7 +423,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             // Node based window placement
             else
             {   
-                for (int i = 0; i < newBuilding.BuildingBase.WindowPoints.Length; i++)
+                for (int i = 0; i < newBuilding.BuildingBase.WindowPoints.Length; ++i)
                 {
                     // For each window attatchment, make sure it's not parented to a used attachmentpoint.
                     if (!usedPoints.Contains(i))

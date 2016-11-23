@@ -9,11 +9,12 @@ public class ProceduralBuildingAttachment : MonoBehaviour
     // The position in the buildings attatchment point array this part is connected to.
     public int AttachmentPoint;
     
+
+    [SerializeField]
+    private bool addWindows;
     /// <summary>
     /// Does the attachment take windows
     /// </summary>
-    [SerializeField]
-    private bool addWindows;
     public bool AddWindows
     {
         get
@@ -22,12 +23,12 @@ public class ProceduralBuildingAttachment : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// The points on the attachment that windows can be placed at.
-    /// </summary>
     [SerializeField]
     [Tooltip("Set to 0 if the building uses mathmatical placement")]
     private Transform[] windowPoints;
+    /// <summary>
+    /// The points on the attachment that windows can be placed at.
+    /// </summary>
     public Transform[] WindowPoints
     {
         get
@@ -36,12 +37,12 @@ public class ProceduralBuildingAttachment : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// The roof the attachment comes with, if any.
-    /// </summary>
     [SerializeField]
     [Tooltip("Leave null if the attatchment doesn't come with a roof")]
     private ProceduralBuildingRoof hasRoof;
+    /// <summary>
+    /// The roof the attachment comes with, if any.
+    /// </summary>
     public ProceduralBuildingRoof HasRoof
     {
         get
@@ -50,11 +51,11 @@ public class ProceduralBuildingAttachment : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private Transform roofLocation;
     /// <summary>
     /// The empty gameobject where a roof gets placed.
     /// </summary>
-    [SerializeField]
-    private Transform roofLocation;
     public Transform RoofLocation
     {
         get

@@ -10,11 +10,11 @@ public class ProceduralBuildingBase : MonoBehaviour
     [SerializeField]
     private ProceduralBuildingCreator.BaseSize baseSize;
 
+    [SerializeField]
+    private ProceduralBuildingCreator.HeightType heightType;
     /// <summary>
     /// The way that this building handles growing vertically.
     /// </summary>
-    [SerializeField]
-    private ProceduralBuildingCreator.HeightType heightType;
     public ProceduralBuildingCreator.HeightType HeightType
     {
         get
@@ -23,11 +23,11 @@ public class ProceduralBuildingBase : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private Transform[] attachmentPoints;
     /// <summary>
     /// The points on the base that can handle having an attachment added to them.
     /// </summary>
-    [SerializeField]
-    private Transform[] attachmentPoints;
     public Transform[] AttachmentPoints
     {
         get
@@ -36,11 +36,11 @@ public class ProceduralBuildingBase : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private bool addWindows;
     /// <summary>
     /// Does the base need windows added to it.
     /// </summary>
-    [SerializeField]
-    private bool addWindows;
     public bool AddWindows
     {
         get
@@ -49,12 +49,12 @@ public class ProceduralBuildingBase : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// The points on the base that can take windows.
-    /// </summary>
     [SerializeField]
     [Tooltip("Set to 0 if the building uses mathmatical placement")]
     private Transform[] windowPoints;
+    /// <summary>
+    /// The points on the base that can take windows.
+    /// </summary>
     public Transform[] WindowPoints
     {
         get
@@ -63,11 +63,11 @@ public class ProceduralBuildingBase : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private Transform roofLocation;
     /// <summary>
     /// The location of the empty gameobject where the roof is placed.
     /// </summary>
-    [SerializeField]
-    private Transform roofLocation;
     public Transform RoofLocation
     {
         get
@@ -76,12 +76,12 @@ public class ProceduralBuildingBase : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// If the building has a specific roof it needs, it's set here.
-    /// </summary>
     [SerializeField]
     [Tooltip("Leave null if the base doesn't come with a roof")]
     private GameObject hasRoof;
+    /// <summary>
+    /// If the building has a specific roof it needs, it's set here.
+    /// </summary>
     public GameObject HasRoof
     {
         get
@@ -93,6 +93,9 @@ public class ProceduralBuildingBase : MonoBehaviour
     [SerializeField]
     [Tooltip("You don't need to set this if the object isn't stackable")]
     private GameObject stackableObject;
+    /// <summary>
+    /// If the object is of type stackable, we need to know which part of it to duplicate and stack.
+    /// </summary>
     public GameObject StackableObject
     {
         get

@@ -6,11 +6,11 @@ using System.Collections;
 /// </summary>
 public class ProceduralBuildingWindow : MonoBehaviour
 {
+    [SerializeField]
+    private float width;
     /// <summary>
     /// The width of this window.
     /// </summary>
-    [SerializeField]
-    private float width;
     public float Width
     {
         get

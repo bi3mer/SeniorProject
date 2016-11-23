@@ -9,11 +9,11 @@ using System.Collections.Generic;
 [System.Serializable]
 public class ProceduralDistrictDefinition
 {
+    [SerializeField]
+    private string districtName;
     /// <summary>
     /// The name of the district, used to make the inspector more clear, or used to create buildings by name.
     /// </summary>
-    [SerializeField]
-    private string districtName;
     public string DistrictName
     {
         get
@@ -28,11 +28,11 @@ public class ProceduralDistrictDefinition
     [System.Serializable]
     public struct ProceduralBuildingBasesSizeXDefinition
     {
+        [SerializeField]
+        private ProceduralBuildingBase[] districtSizeXBases;
         /// <summary>
         /// The building bases associated with the size.
         /// </summary>
-        [SerializeField]
-        private ProceduralBuildingBase[] districtSizeXBases;
         public ProceduralBuildingBase[] DistrictSizeXBases
         {
             get
@@ -41,11 +41,11 @@ public class ProceduralDistrictDefinition
             }
         }
 
+        [SerializeField]
+        private ProceduralBuildingRoof[] districtSizeXRoofs;
         /// <summary>
         /// The building roofs associated with the size.
         /// </summary>
-        [SerializeField]
-        private ProceduralBuildingRoof[] districtSizeXRoofs;
         public ProceduralBuildingRoof[] DistrictSizeXRoofs
         {
             get
@@ -97,11 +97,11 @@ public class ProceduralDistrictDefinition
         }
     }
 
+    [SerializeField]
+    private ProceduralBuildingBasesSizeXDefinition[] sizeXDefinitions;
     /// <summary>
     /// An array of the different size buildings the district can have.
     /// </summary>
-    [SerializeField]
-    private ProceduralBuildingBasesSizeXDefinition[] sizeXDefinitions;
     public ProceduralBuildingBasesSizeXDefinition[] SizeXDefinitions
     {
         get
@@ -110,11 +110,11 @@ public class ProceduralDistrictDefinition
         }
     }
 
+    [SerializeField]
+    private ProceduralBuildingAttachment[] districtAttachments;
     /// <summary>
     /// The attachments that this district takes.
     /// </summary>
-    [SerializeField]
-    private ProceduralBuildingAttachment[] districtAttachments;
     public ProceduralBuildingAttachment[] DistrictAttachments
     {
         get
@@ -123,11 +123,11 @@ public class ProceduralDistrictDefinition
         }
     }
 
+    [SerializeField]
+    private ProceduralBuildingWindow[] districtWindows;
     /// <summary>
     /// The windows that this district can have
     /// </summary>
-    [SerializeField]
-    private ProceduralBuildingWindow[] districtWindows;
     public ProceduralBuildingWindow[] DistrictWindows
     {
         get
@@ -136,11 +136,11 @@ public class ProceduralDistrictDefinition
         }
     }
 
+    [SerializeField]
+    private float districtMaxWindowSpacing;
     /// <summary>
     /// The max distance windows can be apart from eachother in this district.
     /// </summary>
-    [SerializeField]
-    private float districtMaxWindowSpacing;
     public float DistrictMaxWindowSpacings
     {
         get
@@ -151,6 +151,9 @@ public class ProceduralDistrictDefinition
 
     [SerializeField]
     private float districMinWindowSpacing;
+    /// <summary>
+    /// The min distance windows can be apart from eachother in this district.
+    /// </summary>
     public float DistrictMinWindowSpacings
     {
         get
@@ -159,11 +162,11 @@ public class ProceduralDistrictDefinition
         }
     }
 
+    [SerializeField]
+    private Material[] districtMaterials;
     /// <summary>
     /// The materials buildings can have in this district.
     /// </summary>
-    [SerializeField]
-    private Material[] districtMaterials;
     public Material[] DistrictMaterials
     {
         get
@@ -172,11 +175,11 @@ public class ProceduralDistrictDefinition
         }
     }
 
+    [SerializeField]
+    private Material[] districtWindowMaterials;
     /// <summary>
     /// The materials windows can have in this district.
     /// </summary>
-    [SerializeField]
-    private Material[] districtWindowMaterials;
     public Material[] DistrictWindowMaterials
     {
         get

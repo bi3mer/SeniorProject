@@ -6,11 +6,11 @@ using System.Collections;
 /// </summary>
 public class ProceduralBuildingRoof : MonoBehaviour
 {
+    [SerializeField]
+    private bool canRotate;
     /// <summary>
     /// If the roof can be rotated at 90 degree intervals when it's created.
     /// </summary>
-    [SerializeField]
-    private bool canRotate;
     public bool CanRotate
     {
         get
