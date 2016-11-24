@@ -6,12 +6,15 @@ using System.Collections;
 /// </summary>
 public class TeleportPlayer : MonoBehaviour
 {
+    [System.Serializable]
     public struct TeleportLocation
     {
+
+        [SerializeField]
+        private Transform location;
         /// <summary>
         /// A location the player can teleport to.
         /// </summary>
-        private Transform location;
         public Transform Location
         {
             get
