@@ -77,12 +77,12 @@ public class ProceduralBuildingBase : MonoBehaviour
     }
 
     [SerializeField]
-    [Tooltip("Leave null if the base doesn't come with a roof")]
-    private GameObject hasRoof;
+    [Tooltip("Leave null if the base doesn't come with a roof. Don't set to a prefab.")]
+    private ProceduralBuildingRoof hasRoof;
     /// <summary>
     /// If the building has a specific roof it needs, it's set here.
     /// </summary>
-    public GameObject HasRoof
+    public ProceduralBuildingRoof HasRoof
     {
         get
         {

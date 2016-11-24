@@ -248,27 +248,8 @@ public class ProceduralBuildingCreator : MonoBehaviour
         newBuilding.BuildingBase = newObject.GetComponent<ProceduralBuildingBase>();
         buildingMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
 
-        // Set the roof if need be set.
-        if (newBuilding.BuildingBase.HasRoof == null)
-        {
-
-            ProceduralBuildingRoof newRoof = district.SizeXDefinitions[(int)size].DistrictSizeXRoofs[GetNewBuilding(district, size, BuildingParts.Roof)];
-
-            // Create the roof
-            newObject = (GameObject)Instantiate(newRoof.gameObject);
-            buildingMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
-            newObject.transform.localScale = new Vector3(1f, 1f, 1f);
-            newObject.transform.SetParent(newBuilding.BuildingBase.RoofLocation);
-            newObject.transform.localPosition = Vector3.zero;
-            newBuilding.BuildingRoof = newObject.GetComponent<ProceduralBuildingRoof>();
-
-            // If the new roof can be rotated rotate it! But only at 90 degree intervals.
-            if (newBuilding.BuildingRoof.CanRotate == true)
-            {
-                // At 90 degree intervals, the building can only rotate up to 3 times before it's back to where it was.
-                newObject.transform.Rotate(new Vector3(0f, Random.Range(0, 3) * 90, 0f));
-            }
-        }
+        // Set the roof
+        newBuilding.BuildingRoof = placeRoof(newBuilding.BuildingBase.RoofLocation, district, size, storiesTall, buildingMeshes, newBuilding.BuildingBase.HasRoof);
     }
 
     /// <summary>
@@ -336,40 +317,52 @@ public class ProceduralBuildingCreator : MonoBehaviour
             // give the new attachments roofs if they need them, set the roof's scales properly if they don't.
             for (int i = 0; i < newBuilding.BuildingAttachments.Length; ++i)
             {
-                if (newBuilding.BuildingAttachments[i] != null && newBuilding.BuildingAttachments[i].HasRoof == null)
-                {
-                    ProceduralBuildingRoof newRoof = district.SizeXDefinitions[0].DistrictSizeXRoofs[GetNewBuilding(district, 0, BuildingParts.Roof)];
-                    // Create the roof
-                    GameObject newObject = (GameObject)Instantiate(newRoof.gameObject);
-                    buildingMeshes.AddRange(newObject.GetComponentsInChildren<MeshRenderer>());
-                    newRoof = newObject.GetComponent<ProceduralBuildingRoof>();
-
-                    newObject.transform.localScale = new Vector3(1f, 1f, 1f);
-                    newObject.transform.SetParent(newBuilding.BuildingAttachments[i].RoofLocation);
-                    newObject.transform.localPosition = Vector3.zero;
-
-                    // If the new roof can be rotated rotate it! But only at 90 degree intervals.
-                    if(newRoof.CanRotate == true)
-                    {
-                        newObject.transform.Rotate(new Vector3(0f, Random.Range(0, 3) * 90, 0f));
-                    }
-                }
-                else if (newBuilding.BuildingAttachments[i] != null)
-                {
-                    // Scale the roof the prefab came with properly.
-                    newBuilding.BuildingAttachments[i].HasRoof.transform.SetParent(null);
-                    newBuilding.BuildingAttachments[i].HasRoof.transform.localScale = new Vector3(1f, 1f, 1f);
-                    newBuilding.BuildingAttachments[i].HasRoof.transform.SetParent(newBuilding.BuildingAttachments[i].RoofLocation);
-                    newBuilding.BuildingAttachments[i].HasRoof.transform.localPosition = Vector3.zero;
-
-                    // If the roof can be rotated rotate it! But only at 90 degree intervals.
-                    if (newBuilding.BuildingAttachments[i].HasRoof.CanRotate == true)
-                    {
-                        newBuilding.BuildingAttachments[i].HasRoof.transform.Rotate(new Vector3(0f, Random.Range(0, 3) * 90, 0f));
-                    }
+                if (newBuilding.BuildingAttachments[i] != null)
+                { 
+                    newBuilding.BuildingAttachments[i].HasRoof = placeRoof(newBuilding.BuildingAttachments[i].RoofLocation, district, BaseSize.OneByOne, storiesTall, buildingMeshes, newBuilding.BuildingAttachments[i].HasRoof);
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// handles the placing, and / or addition of roofs to attachments and to building bases.
+    /// </summary>
+    private ProceduralBuildingRoof placeRoof(Transform roofLocation, ProceduralDistrictDefinition district, BaseSize roofSize, int storiesTall, List<MeshRenderer> buildingMeshes, ProceduralBuildingRoof hasRoof = null)
+    {
+        ProceduralBuildingRoof newRoof;
+        GameObject roofObject;
+        if (hasRoof == null)
+        {
+            newRoof = district.SizeXDefinitions[(int)roofSize].DistrictSizeXRoofs[GetNewBuilding(district, roofSize, BuildingParts.Roof)];
+
+            // Create the roof
+            roofObject = (GameObject)Instantiate(newRoof.gameObject);
+            buildingMeshes.AddRange(roofObject.GetComponentsInChildren<MeshRenderer>());
+            roofObject.transform.localScale = Vector3.one;
+            roofObject.transform.SetParent(roofLocation);
+            roofObject.transform.localPosition = Vector3.zero;
+        }
+        else
+        {
+            newRoof = hasRoof;
+            roofObject = newRoof.gameObject;
+            // To set a global scale of an object you need to have it unparented to everything.
+            roofObject.transform.SetParent(null);
+            roofObject.transform.localScale = Vector3.one;
+            roofObject.transform.SetParent(roofLocation);
+            roofObject.transform.localPosition = Vector3.zero;
+        }
+
+        // If the new roof can be rotated rotate it! But only at 90 degree intervals.
+        if (newRoof.CanRotate == true)
+        {
+            // At 90 degree intervals, the building can only rotate up to 3 times before it's back to where it was.
+            roofObject.transform.Rotate(new Vector3(0f, Random.Range(0, 3) * 90, 0f));
+        }
+
+        // Return the script on the gameobject so that we're not returning part of a prefab.
+        return roofObject.GetComponent<ProceduralBuildingRoof>();
     }
 
     /// <summary>

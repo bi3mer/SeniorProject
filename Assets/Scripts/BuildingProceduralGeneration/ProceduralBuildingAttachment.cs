@@ -37,19 +37,11 @@ public class ProceduralBuildingAttachment : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    [Tooltip("Leave null if the attatchment doesn't come with a roof")]
-    private ProceduralBuildingRoof hasRoof;
     /// <summary>
     /// The roof the attachment comes with, if any.
     /// </summary>
-    public ProceduralBuildingRoof HasRoof
-    {
-        get
-        {
-            return hasRoof;
-        }
-    }
+    [Tooltip("Leave null if the attatchment doesn't come with a roof")]
+    public ProceduralBuildingRoof HasRoof;
 
     [SerializeField]
     private Transform roofLocation;
