@@ -103,7 +103,7 @@ public class RainController : MonoBehaviour
         }
         else
         {
-        	this.WindVectorXZ = Game.Instance.WeatherInstance.WindDirection;
+        	this.WindVectorXZ = Game.Instance.WeatherInstance.WindDirection2d;
         	this.RainLevel    = Game.Instance.WeatherInstance.WeatherInformation[(int) Weather.Precipitation];
         }
     }

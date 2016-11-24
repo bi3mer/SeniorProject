@@ -63,14 +63,28 @@ public class WeatherSystem
 	private const float temperatureCoefficient    = 17.625f;
 
 	/// <summary>
-	/// Gets the wind direction.
+	/// Gets the wind direction in 2d.
 	/// </summary>
 	/// <value>The wind direction.</value>
-	public Vector2 WindDirection
+	public Vector2 WindDirection2d
 	{
 		get
 		{
 			return new Vector2(this.WeatherInformation[(int) Weather.WindSpeedX],
+			                   this.WeatherInformation[(int) Weather.WindSpeedY]);
+		}
+	}
+
+	/// <summary>
+	/// Gets the wind direction in 3d.
+	/// </summary>
+	/// <value>The wind direction3d.</value>
+	public Vector3 WindDirection3d
+	{
+		get
+		{
+			return new Vector3(this.WeatherInformation[(int) Weather.WindSpeedX],
+			                   0,
 			                   this.WeatherInformation[(int) Weather.WindSpeedY]);
 		}
 	}
@@ -361,6 +375,6 @@ public class WeatherSystem
 		this.WeatherPressureSystems = new PressureSystems();
 
 		// TODO this will be removed in the near future
-		this.playerPosition = this.playerPosition = GameObject.FindGameObjectWithTag("Player").transform;
+		this.playerPosition = GameObject.FindGameObjectWithTag("Player").transform;
 	}
 }
