@@ -9,7 +9,7 @@
 		WeatherInstance = new WeatherSystem();
 		PauseInstance = new PauseSystem();
 		GameSettingsInstance = new GameSettings ();
-		Scheme = new ControlScheme ();
+		Scheme = GameSettingsInstance.Scheme;
     }
  
     /// <summary>
