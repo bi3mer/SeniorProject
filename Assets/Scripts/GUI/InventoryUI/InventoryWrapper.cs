@@ -6,8 +6,10 @@ using System.Collections.Generic;
 
 public class InventoryWrapper : MonoBehaviour 
 {
-	public List<BaseItemWrapper> inventory = new List<BaseItemWrapper>();
-	public List<BaseItemWrapper> slots = new List<BaseItemWrapper> ();
+//	public List<BaseItemWrapper> inventory = new List<BaseItemWrapper>();
+//	public List<BaseItemWrapper> slots = new List<BaseItemWrapper> ();
+	public List<Stack> inventory = new List<Stack>();
+	public List<Stack> slots = new List<Stack> ();
 	private bool showInventory = true;
 
 	[SerializeField]
@@ -32,11 +34,10 @@ public class InventoryWrapper : MonoBehaviour
 		// create empty slots
 		for (int i = 0; i < slotsX * slotsY; ++i) 
 		{
-			slots.Add (new BaseItemWrapper ());
-			inventory.Add(new BaseItemWrapper ());
+			slots.Add (new Stack());
+			inventory.Add (new Stack ());
 		}
 
-		// Load itemDatabase object in UI with inventory from yaml --> this should be done on the backend
 		Game.Instance.MainInventoryInstance = new Inventory (inventoryName, inventoryFile);
 		Game.Instance.MainInventoryInstance.LoadInventory ();
 		internalInventory = Game.Instance.MainInventoryInstance;
@@ -46,30 +47,29 @@ public class InventoryWrapper : MonoBehaviour
 		{
 			if (contents [i] != null)
 			{
-				BaseItemWrapper newItemWrapper = new BaseItemWrapper(contents [i].Item, contents [i].Amount);
+				//BaseItemWrapper newItemWrapper = new BaseItemWrapper(contents [i].Item, contents [i].Amount);
 
 				// bind UI object with baseItem object to make interactions between UI and backend easier
 				//contents [i].Item.UniqueID = newItemWrapper.uniqueId; 
 
 				// add to UI database object
-				inventory.Add (newItemWrapper);
+				inventory[i] = contents[i];
 			}
 		}
 
 
 		DrawEmptySlots ();
-		//DisplayInventory ();
 	}
 
 	public void DisplayInventory()
 	{
 		for (int i = 0; i < inventory.Count; ++i) 
 		{
-			if (inventory [i] != null) 
+			if (inventory [i].Item.ItemName != null) 
 			{
 				BaseItemUI newItemUI = GameObject.Instantiate (baseItemUiTemplate);
 				// fill in data for UI element from stack
-				newItemUI.Initialize (inventory [i].itemName, inventory [i].amount);
+				newItemUI.Initialize (inventory [i].Item.ItemName, inventory[i].Amount);
 
 				// place in grid layout
 				newItemUI.gameObject.SetActive (true);
@@ -89,11 +89,11 @@ public class InventoryWrapper : MonoBehaviour
 			newItemUI.gameObject.SetActive (true);
 			newItemUI.transform.SetParent (inventoryParentUI.transform);
 			slots [i] = inventory [i];
-			if (slots[i].itemName != null)
+			if (slots[i].Item != null)
 			{
 				BaseItemUI newItemUI2 = GameObject.Instantiate (baseItemUiTemplate);
 				// fill in data for UI element from stack
-				newItemUI2.Initialize (inventory [i].itemName, inventory [i].amount);
+				newItemUI2.Initialize (inventory [i].Item.ItemName, inventory [i].Amount);
 
 				// place in grid layout
 				newItemUI2.gameObject.SetActive (true);
@@ -103,6 +103,8 @@ public class InventoryWrapper : MonoBehaviour
 			i++;
 		}
 	}
+
+
 
 	void Update()
 	{

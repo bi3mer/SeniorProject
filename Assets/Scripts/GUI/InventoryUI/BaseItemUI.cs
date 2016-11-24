@@ -9,6 +9,11 @@ public class BaseItemUI : MonoBehaviour
 	public Text ItemName;
 	public Text ItemAmount;
 
+	/// <summary>
+	/// Initialize the specified UI item itemName and amount.
+	/// </summary>
+	/// <param name="itemName">Item name.</param>
+	/// <param name="amount">Amount.</param>
 	public void Initialize(string itemName, int amount)
 	{
 		if (itemName.Length != 0) 
@@ -21,4 +26,6 @@ public class BaseItemUI : MonoBehaviour
 			ItemAmount.text = amount.ToString ();
 		}
 	}
+
+
 }
