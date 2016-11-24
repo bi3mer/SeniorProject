@@ -69,14 +69,54 @@ public class InventoryWrapper : MonoBehaviour
 			if (slots [i].Item != null) 
 			{
 				// fill in data for UI element from stack - add item sprite once they're available
-				itemStackUIList [i].Initialize (inventory [i].Item.ItemName, inventory [i].Amount);
+				itemStackUIList [i].SetUpInventoryItem(inventory[i]);
 			}
 
 			++i;
 		}
 	}
 
+	public void RefreshInventory()
+	{
+		Stack[] newContents = internalInventory.GetInventory ();
 
+		for (int i = 0; i < newContents.Length; ++i) 
+		{
+			if(newContents[i] == null && itemStackUIList[i] != null && slots[i] != null)
+			{
+				// if item has been removed from inventory...
+				// get current item's sibling index in UI and then destroy it
+				int slotIndex = itemStackUIList[i].gameObject.transform.GetSiblingIndex();
+				GameObject.Destroy(itemStackUIList[i].gameObject);
+
+				// add empty slot item at that index in ui list
+				ItemStackUI newItemUI = GameObject.Instantiate (baseItemUiTemplate);
+				itemStackUIList [i] = newItemUI;
+				slots [i] = new Stack ();
+
+				// place empty ui slot back in position in grid layout
+				newItemUI.gameObject.SetActive (true);
+				newItemUI.transform.SetParent (inventoryParentUI.transform);
+				newItemUI.transform.SetSiblingIndex(slotIndex);
+			}
+			else if(newContents[i] != null && slots[i] == null)
+			{
+				// if item has been added to inventory...
+				// add slot item at that index in ui list
+				itemStackUIList [i].SetUpInventoryItem (newContents [i]);
+				slots [i] = newContents [i];
+			}
+			else if(newContents[i] != null && itemStackUIList[i] != null && (newContents[i].Id != itemStackUIList[i].GetStack().Id 
+				|| !newContents[i].Item.ItemName.Equals(itemStackUIList[i].GetStack().Item.ItemName) 
+				|| newContents[i].Amount != itemStackUIList[i].GetStack().Amount))
+			{
+				// if item has been updated...
+				// if item in slot has been changed
+				itemStackUIList[i].RefreshInventoryItem(newContents[i]);
+				slots [i] = newContents [i];
+			}
+		}
+	}
 		
 
 	void Update()
