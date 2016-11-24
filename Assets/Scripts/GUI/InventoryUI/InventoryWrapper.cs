@@ -10,6 +10,7 @@ public class InventoryWrapper : MonoBehaviour
 //	public List<BaseItemWrapper> slots = new List<BaseItemWrapper> ();
 	public List<Stack> inventory = new List<Stack>();
 	public List<Stack> slots = new List<Stack> ();
+	private List<ItemStackUI> itemStackUIList = new List<ItemStackUI> ();
 	private bool showInventory = true;
 
 	[SerializeField]
@@ -17,7 +18,7 @@ public class InventoryWrapper : MonoBehaviour
 	[SerializeField]
 	private string inventoryName;
 	[SerializeField]
-	private BaseItemUI baseItemUiTemplate;
+	private ItemStackUI baseItemUiTemplate;
 	[SerializeField]
 	private GameObject inventoryParentUI;
 	[SerializeField]
@@ -26,7 +27,6 @@ public class InventoryWrapper : MonoBehaviour
 	private int slotsY;
 
 	private Inventory internalInventory;
-	private List<BaseItemUI> currentUiItems = new List<BaseItemUI> ();
 
 	// Use this for initialization
 	void Start () 
@@ -36,6 +36,12 @@ public class InventoryWrapper : MonoBehaviour
 		{
 			slots.Add (new Stack());
 			inventory.Add (new Stack ());
+			ItemStackUI newItemUI = GameObject.Instantiate (baseItemUiTemplate);
+			itemStackUIList.Add(newItemUI);
+
+			// place empty ui slots in grid layout
+			newItemUI.gameObject.SetActive (true);
+			newItemUI.transform.SetParent (inventoryParentUI.transform);
 		}
 
 		Game.Instance.MainInventoryInstance = new Inventory (inventoryName, inventoryFile);
@@ -47,64 +53,31 @@ public class InventoryWrapper : MonoBehaviour
 		{
 			if (contents [i] != null)
 			{
-				//BaseItemWrapper newItemWrapper = new BaseItemWrapper(contents [i].Item, contents [i].Amount);
-
-				// bind UI object with baseItem object to make interactions between UI and backend easier
-				//contents [i].Item.UniqueID = newItemWrapper.uniqueId; 
-
-				// add to UI database object
 				inventory[i] = contents[i];
 			}
 		}
 
-
-		DrawEmptySlots ();
+		DisplayInventory();
 	}
 
 	public void DisplayInventory()
 	{
-		for (int i = 0; i < inventory.Count; ++i) 
-		{
-			if (inventory [i].Item.ItemName != null) 
-			{
-				BaseItemUI newItemUI = GameObject.Instantiate (baseItemUiTemplate);
-				// fill in data for UI element from stack
-				newItemUI.Initialize (inventory [i].Item.ItemName, inventory[i].Amount);
-
-				// place in grid layout
-				newItemUI.gameObject.SetActive (true);
-				newItemUI.transform.SetParent (inventoryParentUI.transform);
-			}
-		}
-	}
-
-	public void DrawEmptySlots()
-	{
 		int i = 0;
-		for (int s = 0; s < slots.Count; ++s) 
+		for (int index = 0; index < slotsX * slotsY; ++index) 
 		{
-			BaseItemUI newItemUI = GameObject.Instantiate (baseItemUiTemplate);
-
-			// place in grid layout
-			newItemUI.gameObject.SetActive (true);
-			newItemUI.transform.SetParent (inventoryParentUI.transform);
 			slots [i] = inventory [i];
-			if (slots[i].Item != null)
+			if (slots [i].Item != null) 
 			{
-				BaseItemUI newItemUI2 = GameObject.Instantiate (baseItemUiTemplate);
-				// fill in data for UI element from stack
-				newItemUI2.Initialize (inventory [i].Item.ItemName, inventory [i].Amount);
-
-				// place in grid layout
-				newItemUI2.gameObject.SetActive (true);
-				newItemUI2.transform.SetParent (inventoryParentUI.transform);
+				// fill in data for UI element from stack - add item sprite once they're available
+				itemStackUIList [i].Initialize (inventory [i].Item.ItemName, inventory [i].Amount);
 			}
 
-			i++;
+			++i;
 		}
 	}
 
 
+		
 
 	void Update()
 	{

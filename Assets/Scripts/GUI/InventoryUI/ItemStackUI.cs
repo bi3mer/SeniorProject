@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 
-public class BaseItemUI : MonoBehaviour 
+public class ItemStackUI : MonoBehaviour 
 {
 	public UnityAction Action;
 	public Text ItemName;
