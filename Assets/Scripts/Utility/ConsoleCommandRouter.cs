@@ -24,6 +24,7 @@ public class ConsoleCommandRouter : MonoBehaviour
 	[SerializeField]
 	private string pressureSystem = "press";
 	private PressureSystemVisualization pressureScript;
+	private const string pressureMessage = "Pressure script visualization ";
 
 	/// <summary>
 	/// Testing console with very important command
@@ -90,13 +91,13 @@ public class ConsoleCommandRouter : MonoBehaviour
 		if(this.pressureScript == null)
 		{
 			this.pressureScript = this.gameObject.AddComponent<PressureSystemVisualization>();
-			return "Pressure script visualization activated";
+			return pressureMessage + "activated";
 		}
 		else
 		{
 			Destroy(this.pressureScript);
 			this.pressureScript = null;
-			return "Pressure script visualization de-activated";
+			return pressureMessage + "de-activated";
 		}
 	}
 

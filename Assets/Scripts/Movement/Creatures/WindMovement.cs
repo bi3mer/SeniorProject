@@ -8,6 +8,9 @@ public class WindMovement : MonoBehaviour
 
 	private Rigidbody rb;
 
+	/// <summary>
+	/// gets rigid body
+	/// </summary>
 	void Start()
 	{
 		this.rb = this.GetComponent<Rigidbody>();

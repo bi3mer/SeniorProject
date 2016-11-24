@@ -106,7 +106,7 @@ public class WeatherSystem
 	/// </summary>
 	/// <returns>The pressure.</returns>
 	/// <param name="position">Position.</param>
-	/// <param name="centerIndex">Center index.</param>
+	/// <param name="center">Center.</param>
 	private float getPressure(Vector2 position, PressureSystem center)
 	{
 		// Get multiplier for kind of pressure system
@@ -191,12 +191,11 @@ public class WeatherSystem
 	/// <summary>
 	/// Calculates the position on slope and direction of wind vector.
 	/// </summary>
-	/// <returns>The position on slope and direciton.</returns>
+	/// <returns>The position on slope and direction.</returns>
 	/// <param name="position">Position.</param>
 	/// <param name="center">Center.</param>
 	/// <param name="yIntercept">Y intercept.</param>
 	/// <param name="slope">Slope.</param>
-	/// <param name="centerIndex">Center index.</param>
 	private Vector2 calculatePositionOnSlopeAndDirection(Vector2 position, PressureSystem center, float yIntercept, float slope)
 	{
 		// get x and y coord in direction of the wind force
@@ -261,11 +260,10 @@ public class WeatherSystem
 	}
 
 	/// <summary>
-	/// Sets the wind speed vector.
-	/// TODO: this needs to broken up into multiple functions
+	/// Sets the wind speed vector based on wind magnitude and pressure system type.
 	/// </summary>
 	/// <param name="position">Position.</param>
-	/// <param name="centerIndex">Center index.</param>
+	/// <param name="center">Center.</param>
 	private void setWindSpeedVector(Vector2 position, PressureSystem center)
 	{
 		float perpindicularSlope = VectorUtility.GetPerpindicularSlope(position, center.Position);
