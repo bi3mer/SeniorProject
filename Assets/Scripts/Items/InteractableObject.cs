@@ -36,7 +36,7 @@ public class InteractableObject : MonoBehaviour
     }
 
     /// <summary>
-    /// Shows or hieds text describing the interactable object action to the player.
+    /// Shows or hides text describing the interactable object action to the player.
     /// </summary>
     public bool Show
     {

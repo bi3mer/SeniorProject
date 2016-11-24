@@ -10,11 +10,25 @@ public class WindowWasher : MonoBehaviour
     [SerializeField]
     private TeleportPlayer teleportLocations;
 
-    private bool IsUp;
 
+    public float MaxLowerDistance;
+    [SerializeField]
+    private bool isUp;
+    private Rigidbody playerBody;
+    private bool canMove = false;
+    private const string playerTag = "Player";
+    private const string waterTag = "Water";
+    [SerializeField]
+    private GameObject water;
+    [SerializeField]
+    private GameObject movingPlatform;
+    // When teleporting, move the player up this much so they don't fall through the floor.
+    private const float upStep = .15f;
+
+    // When the window washer needs to move up, this is the Y position it moves to.
+    private const float upYPosition = -0.03200006f;
 
     //Rope Variables
-
     [SerializeField]
     private LineRenderer ropeRenderer;
     [SerializeField]
@@ -39,17 +53,99 @@ public class WindowWasher : MonoBehaviour
         ropeMaterial = newMaterial;
         ropeRenderer.material = ropeMaterial;
         ropeRendererTwo.material = ropeMaterial;
+
+        // Attempt to find the water if it wasn't set up manually. I'd love having water level be a static variable that I can read.
+        if(water == null)
+        {
+            water = GameObject.FindGameObjectWithTag("Water");
+        }
     }
 
     public void Update()
+    {   
+        // Disable if water is above the building.
+        if (water.transform.position.y < transform.position.y)
+        { 
+            UpdateRopePosition();
+   
+            // rise with the water
+            if(!isUp && water.transform.position.y + MaxLowerDistance >= transform.position.y)
+            {
+                movingPlatform.transform.position = new Vector3(movingPlatform.transform.position.x,
+                                                    water.transform.position.y,
+                                                    movingPlatform.transform.position.z);
+            }
+            else if(!isUp)
+            {
+                movingPlatform.transform.position = new Vector3(movingPlatform.transform.position.x,
+                                        transform.position.y - MaxLowerDistance,
+                                        movingPlatform.transform.position.z);
+            }
+        }
+    }
+
+    /// <summary>
+    /// When the player enters the trigger zone located on the window washer.
+    /// </summary>
+    /// <param name="other"></param>
+    void OnTriggerEnter(Collider other)
     {
-        UpdateRopePosition();
+        if(other.tag == playerTag)
+        {
+            playerBody = other.GetComponent<Rigidbody>();
+            canMove = true;
+        }
+    }
+    /// <summary>
+    /// When the player leaves the window washer
+    /// </summary>
+    /// <param name="other"></param>
+    void OnTriggerExit(Collider other)
+    {
+        if(other.tag == playerTag)
+        {
+            canMove = false;
+        }
+    }
+
+    /// <summary>
+    /// Moves the player object and the window washer either up or down.
+    /// </summary>
+    public void TeleportPlayer()
+    {
+        if (canMove == true && playerBody != null)
+        {
+            Vector3 offset = Vector3.zero;
+            // Move down
+            if (isUp)
+            {
+                isUp = false;
+                // Water is too far down to reach
+                if (movingPlatform.transform.position.y - water.transform.position.y > MaxLowerDistance)
+                {
+                    offset = new Vector3(0f, -MaxLowerDistance, 0f);
+                }
+                // Water is within reach
+                else
+                {
+                    offset = - new Vector3(0f, movingPlatform.transform.position.y - water.transform.position.y, 0f);
+                }
+            }
+            // Move up
+            else
+            {
+                isUp = true;
+                offset = new Vector3(0f, transform.position.y - movingPlatform.transform.position.y + upYPosition, 0f);
+            }
+  
+            movingPlatform.transform.position += offset;
+            playerBody.transform.position += offset + new Vector3(0f, upStep, 0f);
+            playerBody.velocity = Vector3.zero;
+        }
     }
 
     /// <summary>
     /// When the window washer moves the rope needs to update to reflect this.
-    /// 
-    /// Originally I only wanted to use one line renderer but Unity can't handle splitting the rope up.
     /// </summary>
     public void UpdateRopePosition()
     {
