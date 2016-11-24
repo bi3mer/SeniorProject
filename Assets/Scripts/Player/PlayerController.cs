@@ -98,8 +98,6 @@ public class PlayerController : MonoBehaviour
 		Game.Instance.PlayerInstance.Controller = this;
 		controlScheme = Game.Instance.Scheme;
 
-		Debug.Log (controlScheme.Pause);
-
         // subscribe to events
         Game.Instance.DebugModeSubscription += this.toggleDebugMode;
 	}

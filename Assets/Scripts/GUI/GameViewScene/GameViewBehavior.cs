@@ -44,13 +44,20 @@ public class GameViewBehavior : MonoBehaviour
 					OnPauseClick ();
 				}
 			}
+
 			if (Input.GetKey (controlScheme.Inventory)) 
 			{
 				OnInventoryClick ();
 			}
+
 			if (Input.GetKey (controlScheme.Radio)) 
 			{
 				OnRadioClick ();
+			}
+
+			if (Input.GetKey (controlScheme.Crafting)) 
+			{
+				OnCraftingClick ();
 			}
 		}
 	}
