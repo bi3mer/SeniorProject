@@ -123,7 +123,12 @@ public class InventoryWrapper : MonoBehaviour
 	{
 //		if (Input.GetButtonDown ("Inventory")) 
 //		{
-//			showInventory = !showInventory;
+		//	showInventory = !showInventory;  
 //		}
+
+		// check if clicked location is within location of a stackitem
+
+
+
 	}
 }

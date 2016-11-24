@@ -12,6 +12,17 @@ public class ItemStackUI : MonoBehaviour
 	private Stack targetStack;
 	private Stack originalStack;
 
+	void Start()
+	{
+		// set up box collider size to match sprite size
+		//Debug.Log(gameObject.GetComponent<BoxCollider2D> ().size);
+		Vector2 S = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y) ;
+		//Debug.Log (S);
+		gameObject.GetComponent<BoxCollider2D>().size = S;
+		gameObject.GetComponent<BoxCollider2D>().offset = new Vector2 ((S.x / 2), (S.y / 2));
+		//Debug.Log(gameObject.GetComponent<BoxCollider2D> ().size);
+	}
+
 	/// <summary>
 	/// Initialize the specified UI item itemName and amount.
 	/// </summary>
