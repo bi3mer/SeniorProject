@@ -80,13 +80,8 @@ public class InventoryWrapper : MonoBehaviour
 	{
 		Stack[] newContents = internalInventory.GetInventory ();
 
-
 		for (int i = 0; i < newContents.Length; ++i) 
 		{
-			if (newContents [i] != null) {
-				Debug.Log (newContents [i].Item.ItemName);
-			}
-
 			if(newContents[i] == null && itemStackUIList[i] != null && slots[i] != null)
 			{
 				// if item has been removed from inventory...
@@ -121,19 +116,5 @@ public class InventoryWrapper : MonoBehaviour
 				slots [i] = newContents [i];
 			}
 		}
-	}
-		
-
-	void Update()
-	{
-//		if (Input.GetButtonDown ("Inventory")) 
-//		{
-		//	showInventory = !showInventory;  
-//		}
-
-		// check if clicked location is within location of a stackitem
-
-
-
 	}
 }

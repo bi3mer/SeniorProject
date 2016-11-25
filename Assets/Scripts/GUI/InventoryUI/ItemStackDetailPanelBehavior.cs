@@ -63,7 +63,6 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 			}
 		}
 
-		//Debug.Log (ActionButtonPanel.transform.childCount);
 		for (int i = 0; i < ActionButtonPanel.transform.childCount; ++i) 
 		{
 			if (ActionButtonPanel.transform.GetChild (i).gameObject != null) 
@@ -239,9 +238,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 			ItemActionButtonUI act = GameObject.Instantiate (SubActionButtonUI);
 			act.GetComponent<ItemActionButtonUI> ().SetAction (actions[i].AssignedAction, actions[i].ActionName);
 			act.transform.SetParent (SubActionButtonPanel.transform, false);
-			//act.transform.localScale = Vector3.one;
 			act.gameObject.SetActive (true);
-			//possibleSubActions.Add (actions[i].ActionName, act);
 		}
 	}
 

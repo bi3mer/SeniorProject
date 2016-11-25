@@ -32,6 +32,9 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 	private GameObject itemStackDetailPanel;
 
 	[SerializeField]
+	private GameObject itemAmountAffectPanel;
+
+	[SerializeField]
 	private GameObject attributesAndActionPanel;
 
 	// the current number of units selected
@@ -102,7 +105,14 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 	public void OpenPanel(GameObject selected)
 	{
 		itemStackDetailPanel.SetActive (true);
-		this.gameObject.SetActive (true);
+		this.Plus.gameObject.SetActive (true);
+		this.Minus.gameObject.SetActive (true);
+		this.Ok.gameObject.SetActive (true);
+		this.Cancel.gameObject.SetActive (true);
+		this.Close.gameObject.SetActive (false);
+
+		itemStackDetailPanel.SetActive (true);
+		itemAmountAffectPanel.SetActive (true);
 		attributesAndActionPanel.SetActive (false);
 		selectedItem = selected;
 
@@ -125,7 +135,7 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void ClosePanel()
 	{
-		this.gameObject.SetActive (false);
+		itemAmountAffectPanel.SetActive (false);
 		itemStackDetailPanel.SetActive (false);
 		attributesAndActionPanel.SetActive (false);
 	}
