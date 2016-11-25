@@ -12,7 +12,7 @@ public class ControlScheme
     public KeyCode ForwardSecondary;
     public KeyCode BackSecondary;
     public KeyCode RightSecondary;
-    public KeyCode LeftSecodary;
+    public KeyCode LeftSecondary;
 
     public KeyCode Sprint;
     public KeyCode Jump;
@@ -26,4 +26,5 @@ public class ControlScheme
     public KeyCode Pause;
     public KeyCode Inventory;
     public KeyCode Radio;
+	public KeyCode Crafting;
 }
