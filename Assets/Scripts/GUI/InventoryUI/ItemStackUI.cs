@@ -12,35 +12,6 @@ public class ItemStackUI : MonoBehaviour
 	private Stack targetStack;
 	private Stack originalStack;
 
-	void Start()
-	{
-		// set up box collider size to match sprite size
-		//Debug.Log(gameObject.GetComponent<BoxCollider2D> ().size);
-		Vector2 S = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y) ;
-		//Debug.Log (S);
-		gameObject.GetComponent<BoxCollider2D>().size = S;
-		gameObject.GetComponent<BoxCollider2D>().offset = new Vector2 ((S.x / 2), (S.y / 2));
-		//Debug.Log(gameObject.GetComponent<BoxCollider2D> ().size);
-	}
-
-	/// <summary>
-	/// Initialize the specified UI item itemName and amount.
-	/// </summary>
-	/// <param name="itemName">Item name.</param>
-	/// <param name="amount">Amount.</param>
-	public void Initialize(string itemName, int amount)
-	{
-		if (itemName.Length != 0) 
-		{
-			ItemName.text = itemName;
-		}
-
-		if (amount != null) 
-		{
-			ItemAmount.text = amount.ToString ();
-		}
-	}
-
 	/// <summary>
 	/// Subscribes to name change event
 	/// </summary>
@@ -133,7 +104,7 @@ public class ItemStackUI : MonoBehaviour
 		// if some number of the item has been modified and the modified items are not flagged for removal (possible through eating or discarding)
 		if (targetStack.Item.GetNumberOfActionsCompleted() > originalStack.Item.GetNumberOfActionsCompleted() && targetStack.Amount > 0 && !targetStack.Item.RemovalFlag) 
 		{
-			InventoryUIBehavior.instance.targetInventory.AddItem (targetStack.Item, targetStack.Amount);
+			Game.Instance.MainInventoryInstance.AddItem (targetStack.Item, targetStack.Amount);
 		} 
 		else if(!targetStack.Item.RemovalFlag)
 		{
@@ -146,7 +117,7 @@ public class ItemStackUI : MonoBehaviour
 
 		if(targetStack.Amount <= 0)
 		{
-			InventoryUIBehavior.instance.targetInventory.RemoveStack(targetStack);
+			Game.Instance.MainInventoryInstance.RemoveStack(targetStack);
 		}
 	}
 

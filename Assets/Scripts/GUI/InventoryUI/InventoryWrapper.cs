@@ -25,7 +25,7 @@ public class InventoryWrapper : MonoBehaviour
 	[SerializeField]
 	private int slotsY;
 
-	private Inventory internalInventory;
+	public Inventory internalInventory;
 
 	// Use this for initialization
 	void Start () 

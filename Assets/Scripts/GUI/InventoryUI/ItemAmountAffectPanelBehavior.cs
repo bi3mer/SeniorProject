@@ -24,7 +24,7 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 	private GameObject itemStackDetailPanel;
 
 	[SerializeField]
-	private GameObject attributsAndActionPanel;
+	private GameObject attributesAndActionPanel;
 
 	// the current number of units selected
 	private int currentAmount;
@@ -88,9 +88,10 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 	{
 		itemStackDetailPanel.SetActive (true);
 		this.gameObject.SetActive (true);
-		attributsAndActionPanel.SetActive (false);
+		attributesAndActionPanel.SetActive (false);
 		selectedItem = selected;
-		ItemNameDisplay.text = selectedItem.GetComponent<ItemStackUI> ().ItemName.text;
+
+		ItemNameDisplay.text = selectedItem.GetComponent<ItemStackUI>().ItemName.text;
 		maxAmount = (int)selectedItem.GetComponent<ItemStackUI>().GetStack().Amount;
 		currentAmount = 0;
 		NumDisplay.text = currentAmount.ToString();
@@ -111,7 +112,7 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 	{
 		this.gameObject.SetActive (false);
 		itemStackDetailPanel.SetActive (false);
-		attributsAndActionPanel.SetActive (false);
+		attributesAndActionPanel.SetActive (false);
 	}
 
 	/// <summary>
@@ -121,8 +122,9 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 	{
 		this.Plus.gameObject.SetActive (false);
 		this.Minus.gameObject.SetActive (false);
-		attributsAndActionPanel.SetActive (true);
+		attributesAndActionPanel.SetActive (true);
 
-		//ItemStackDetailPanelBehavior.OpenItemInfo (selectedItem, currentAmount);
+		// display attributes and actions
+		ItemStackDetailPanelBehavior.instance.SetItemData(selectedItem, currentAmount);
 	}
 }
