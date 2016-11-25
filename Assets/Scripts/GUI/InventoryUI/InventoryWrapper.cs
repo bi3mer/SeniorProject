@@ -80,8 +80,13 @@ public class InventoryWrapper : MonoBehaviour
 	{
 		Stack[] newContents = internalInventory.GetInventory ();
 
+
 		for (int i = 0; i < newContents.Length; ++i) 
 		{
+			if (newContents [i] != null) {
+				Debug.Log (newContents [i].Item.ItemName);
+			}
+
 			if(newContents[i] == null && itemStackUIList[i] != null && slots[i] != null)
 			{
 				// if item has been removed from inventory...
@@ -99,7 +104,7 @@ public class InventoryWrapper : MonoBehaviour
 				newItemUI.transform.SetParent (inventoryParentUI.transform);
 				newItemUI.transform.SetSiblingIndex(slotIndex);
 			}
-			else if(newContents[i] != null && slots[i] == null)
+			else if(newContents[i] != null && slots[i].Item == null)
 			{
 				// if item has been added to inventory...
 				// add slot item at that index in ui list

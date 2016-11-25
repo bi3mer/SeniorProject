@@ -16,9 +16,17 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 	[SerializeField]
 	private Button Plus;
 
-	[Tooltip("text that shows item's name")]
 	[SerializeField]
-	private Text ItemNameDisplay;
+	private Button Ok;
+
+	[SerializeField]
+	private Button Cancel;
+
+	[SerializeField]
+	private Button Close;
+
+	[Tooltip("text that shows item's name")]
+	public Text ItemNameDisplay;
 
 	[SerializeField]
 	private GameObject itemStackDetailPanel;
@@ -32,6 +40,13 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 	private int maxAmount;
 	// the current selected item from the inventory
 	private GameObject selectedItem;
+
+	public static ItemAmountAffectPanelBehavior instance;
+
+	void Start()
+	{
+		instance = this;
+	}
 
 	/// <summary>
 	/// Change the number of units to affect. Updates the number displayed and the number saved in the backend.
@@ -122,6 +137,10 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 	{
 		this.Plus.gameObject.SetActive (false);
 		this.Minus.gameObject.SetActive (false);
+		this.Ok.gameObject.SetActive (false);
+		this.Cancel.gameObject.SetActive (false);
+		this.Close.gameObject.SetActive (true);
+
 		attributesAndActionPanel.SetActive (true);
 
 		// display attributes and actions

@@ -102,6 +102,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		possibleActions.Clear ();
 		possibleSubActions.Clear ();
 		selected.CheckForModification ();
+		InventoryWrapper.instance.RefreshInventory ();
 	}
 
 
@@ -163,6 +164,8 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 
 	public void RefreshItemPanel()
 	{
+		ItemAmountAffectPanelBehavior.instance.ItemNameDisplay.text = selected.GetItemName ();
+
 		List<Attribute> attr = selected.GetItemAttributes ();
 
 		for(int i = 0; i < attr.Count; ++i)
