@@ -6,10 +6,9 @@ using System.Collections.Generic;
 
 public class InventoryWrapper : MonoBehaviour 
 {
-//	public List<BaseItemWrapper> inventory = new List<BaseItemWrapper>();
-//	public List<BaseItemWrapper> slots = new List<BaseItemWrapper> ();
-	public List<Stack> inventory = new List<Stack>();
-	public List<Stack> slots = new List<Stack> ();
+	public static InventoryWrapper instance;
+	private List<Stack> inventory = new List<Stack>();
+	private List<Stack> slots = new List<Stack> ();
 	private List<ItemStackUI> itemStackUIList = new List<ItemStackUI> ();
 	private bool showInventory = true;
 
@@ -31,6 +30,7 @@ public class InventoryWrapper : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		instance = this;
 		// create empty slots
 		for (int i = 0; i < slotsX * slotsY; ++i) 
 		{
