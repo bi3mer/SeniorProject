@@ -13,7 +13,6 @@ public class Block
     {
         Center = controlPoint;
         Vertices = vertices;
-        Buildings = new List<Building>();
     }
 
     /// <summary>
@@ -34,12 +33,5 @@ public class Block
         private set;
     }
 
-    /// <summary>
-    /// The list of buildings contained in the block.
-    /// </summary>
-    public List<Building> Buildings
-    {
-        get;
-        private set;
-    }
+    // TODO: List of buildings
 }
