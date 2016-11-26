@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Collections;
 
+/// <summary>
+/// Item amount affect panel behavior.
+/// </summary>
 public class ItemAmountAffectPanelBehavior : MonoBehaviour 
 {
 	[Tooltip("number displayed that shows how many units will be affected by default it is 1")]
@@ -46,6 +50,9 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 
 	public static ItemAmountAffectPanelBehavior instance;
 
+	/// <summary>
+	/// Start this instance of itemAmountAffectPanelBehavior.
+	/// </summary>
 	void Start()
 	{
 		instance = this;
@@ -82,6 +89,10 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Gets or sets the current amount.
+	/// </summary>
+	/// <value>The current amount.</value>
 	public int CurrentAmount 
 	{
 		get;
@@ -137,6 +148,7 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 		itemAmountAffectPanel.SetActive (false);
 		itemStackDetailPanel.SetActive (false);
 		attributesAndActionPanel.SetActive (false);
+		EventSystem.current.SetSelectedGameObject(null);
 	}
 
 	/// <summary>

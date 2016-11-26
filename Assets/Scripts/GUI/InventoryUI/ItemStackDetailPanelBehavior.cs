@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// Item stack detail panel behavior.
+/// </summary>
 public class ItemStackDetailPanelBehavior : MonoBehaviour 
 {
 	public static ItemStackDetailPanelBehavior instance;
@@ -44,6 +48,9 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	// current selected item
 	private ItemStackUI selected;
 
+	/// <summary>
+	/// Start this instance of itemStackPanelBehavior.
+	/// </summary>
 	void Start()
 	{
 		instance = this;
@@ -52,6 +59,9 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		possibleSubActions = new Dictionary<string, List<ItemActionButtonUI>> ();
 	}
 
+	/// <summary>
+	/// Clears the attributes and actions.
+	/// </summary>
 	private void ClearAttributesAndActions()
 	{
 		// clear the panels if filled with previous item's objects
@@ -80,6 +90,11 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Sets the item data.
+	/// </summary>
+	/// <param name="item">Item.</param>
+	/// <param name="numToModify">Number to modify.</param>
 	public void SetItemData(GameObject item, int numToModify)
 	{
 		//ClearAttributesAndActions();
@@ -94,6 +109,9 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		GetAttributesAndAction();
 	}
 
+	/// <summary>
+	/// Closes the panel.
+	/// </summary>
 	public void ClosePanel()
 	{
 		ClearAttributesAndActions();
@@ -102,9 +120,12 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		possibleSubActions.Clear ();
 		selected.CheckForModification ();
 		InventoryWrapper.instance.RefreshInventory ();
+		EventSystem.current.SetSelectedGameObject(null);
 	}
 
-
+	/// <summary>
+	/// Gets the attributes and action.
+	/// </summary>
 	public void GetAttributesAndAction()
 	{
 		List<Attribute> attr = selected.GetItemAttributes ();
@@ -161,6 +182,9 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 
 	}
 
+	/// <summary>
+	/// Refreshs the item panel.
+	/// </summary>
 	public void RefreshItemPanel()
 	{
 		ItemAmountAffectPanelBehavior.instance.ItemNameDisplay.text = selected.GetItemName ();

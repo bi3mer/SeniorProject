@@ -15,8 +15,7 @@ public class RecipeRequirementsUI : MonoBehaviour
 	/// <summary>
 	/// Sets up requirement.
 	/// </summary>
-	/// <param name="itemTypeName">Item type name.</param>
-	/// <param name="amountRequired">Amount required.</param>
+	/// <param name="r">The red component.</param>
 	public void SetUpRequirement(Requirement r)
 	{
 		this.RequiredAmount.text = r.AmountRequired.ToString ();

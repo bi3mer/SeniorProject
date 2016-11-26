@@ -27,7 +27,9 @@ public class InventoryWrapper : MonoBehaviour
 
 	public Inventory internalInventory;
 
-	// Use this for initialization
+	/// <summary>
+	/// Start this instance of Inventory Wrapper.
+	/// </summary>
 	void Start () 
 	{
 		instance = this;
@@ -60,6 +62,9 @@ public class InventoryWrapper : MonoBehaviour
 		DisplayInventory();
 	}
 
+	/// <summary>
+	/// Displays the inventory.
+	/// </summary>
 	public void DisplayInventory()
 	{
 		int i = 0;
@@ -76,6 +81,9 @@ public class InventoryWrapper : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Refreshes the inventory.
+	/// </summary>
 	public void RefreshInventory()
 	{
 		Stack[] newContents = internalInventory.GetInventory ();

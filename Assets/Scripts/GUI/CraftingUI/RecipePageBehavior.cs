@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -106,6 +107,7 @@ public class RecipePageBehavior : MonoBehaviour
 		instance.CancelCraftButton.gameObject.SetActive (false);
 		instance.CraftingPanel.gameObject.SetActive (false);
 		instance.CraftButton.gameObject.SetActive (false);
+		EventSystem.current.SetSelectedGameObject(null);
 	}
 
 	/// <summary>
