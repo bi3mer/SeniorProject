@@ -61,7 +61,7 @@ public class RooftopGeneration
 		bool hasDoor = false;
 
 		List<GameObject> itemTemplates = new List<GameObject>();
-		ItemFactory factory = Game.Instance.ItemFactoryInstance;
+		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
 
 		for(int j = 0; j < generatableItems.Count; ++j)
 		{
@@ -102,7 +102,7 @@ public class RooftopGeneration
 	public void GenerateObjects(bool hasDoor, List<ItemPlacementSamplePoint> points, GameObject target)
 	{
 		int startingIndex = 0;
-		ItemFactory factory = Game.Instance.ItemFactoryInstance;
+		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
 
 		// if there is a door, it will always be the first point returned
 		if (hasDoor) 
@@ -155,8 +155,8 @@ public class RooftopGeneration
 	/// <returns>The represented items.</returns>
 	public List<BaseItem> GetGeneratableItems()
 	{
-		ItemFactory factory = new ItemFactory();
-		List<GeneratableItemInfoModel> possibleItems = factory.GetListOfPossibleItems();
+		ItemFactory factory = Game.Instance.ItemFactoryInstance;
+		List<GeneratableItemInfoModel> possibleItems = factory.GeneratableItemList;
 		List<BaseItem> items = new List<BaseItem>();
 
 		for(int i = 0; i < possibleItems.Count; ++i)

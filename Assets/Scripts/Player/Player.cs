@@ -8,9 +8,6 @@ public class Player
     private const string playerInventoryName = "player";
     private const string inventoryFileName = "InventoryYaml.yml";
 
-    private string equippedTool;
-
-    private bool discardSlots;
     /// <summary>
     /// Player constructor.
     /// Initializes all fields to full.
@@ -115,15 +112,25 @@ public class Player
     	private set;
     }
 
+    /// <summary>
+    /// Gets or sets the equipped tool.
+    /// </summary>
+    /// <value>The equipped tool.</value>
     public string EquippedTool
+    {
+    	get;
+    	set;
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether this instance has a tool equipped.
+    /// </summary>
+    /// <value><c>true</c> if this instance has tool; otherwise, <c>false</c>.</value>
+    public bool HasTool
     {
     	get
     	{
-    		return equippedTool;
-    	}
-    	set
-    	{
-    		equippedTool = value;
+    		return !EquippedTool.Equals("");
     	}
     }
 }

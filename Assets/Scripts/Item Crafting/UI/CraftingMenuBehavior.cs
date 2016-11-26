@@ -80,7 +80,7 @@ public class CraftingMenuBehavior : MonoBehaviour
 
 	/// <summary>
 	/// Start this instance. Instantiates various variables as needed.
-	/// Should call a function which will read in a YAML file to fill out the dictionary of recipes.
+	/// Calls a function which will read in a YAML file to fill out the dictionary of recipes.
 	/// </summary>
 	void Start () 
 	{

@@ -10,6 +10,9 @@
         Radio RadioInstance = new Radio();
         RadioInstance.currentWeather = WeatherInstance;
 		PauseInstance = new PauseSystem();
+
+		// this must be created before ItemFactory as ItemFactory will load it's information into the worldItemFactory
+		WorldItemFactoryInstance = new WorldItemFactory();
 		ItemFactoryInstance = new ItemFactory();
     }
  
@@ -91,10 +94,20 @@
 	}
 
 	/// <summary>
-	/// Gets the item factory instance.
+	/// Gets the item factory instance which stores all data about items.
 	/// </summary>
 	/// <value>The item factory instance.</value>
 	public ItemFactory ItemFactoryInstance
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets the item factory instance which creates items in the world.
+	/// </summary>
+	/// <value>The world item factory instance.</value>
+	public WorldItemFactory WorldItemFactoryInstance
 	{
 		get;
 		private set;

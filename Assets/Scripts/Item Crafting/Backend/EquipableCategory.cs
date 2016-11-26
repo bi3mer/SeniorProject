@@ -22,7 +22,7 @@
 	/// </summary>
 	public void Equip()
 	{
-		changePlayerEquiped(toolType);
+		changePlayerEquiped(toolType, 1);
 	}
 
 	/// <summary>
@@ -30,17 +30,17 @@
 	/// </summary>
 	public void UnEquip()
 	{
-		changePlayerEquiped("");
+		changePlayerEquiped("", 0);
 	}
 
 	/// <summary>
 	/// Changes whether or not the item is the 
 	/// </summary>
 	/// <param name="equipString">Equip string.</param>
-	private void changePlayerEquiped(string equipString)
+	private void changePlayerEquiped(string equipString, float equipedVal)
 	{
 		Game.Instance.PlayerInstance.EquippedTool = equipString;
-		Equiped = 1f;
+		Equiped = equipedVal;
 		GetAttribute(equipedAttrName).Value = Equiped;
 		baseItem.DirtyFlag = true;
 	}

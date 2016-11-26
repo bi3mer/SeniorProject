@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ItemDiscarder : MonoBehaviour 
+public class ItemDiscarder 
 {
 	// <summary>
 	/// The radius at which points will be placed around the player for discarding items
@@ -23,7 +23,7 @@ public class ItemDiscarder : MonoBehaviour
 		// however, at 360, the player has looped back to 0, so subtract the last slot, which will be considered to be 360, which equals 0
 		int maxDiscardSlots = Mathf.FloorToInt(360 / angleIncrementations) - 1;
 		Vector3 centerPos = Game.Instance.PlayerInstance.WorldTransform.position;
-		ItemFactory factory = Game.Instance.ItemFactoryInstance;
+		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
 
 		for (int i = 0; i < itemsToDiscard.Count; ++i)
 		{
