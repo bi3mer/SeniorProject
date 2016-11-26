@@ -11,7 +11,8 @@ public class InventoryCraftingTestTempButtonScript : MonoBehaviour
 
 	void Start()
 	{
-		OnInventoryButtonClick ();
+		OnCraftingButtonClick ();
+		//OnInventoryButtonClick ();
 	}
 
 	public void OnInventoryButtonClick()
