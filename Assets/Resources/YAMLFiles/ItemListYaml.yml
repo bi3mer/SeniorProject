@@ -1,0 +1,115 @@
+---
+- itemName: "river reed"
+  baseItem: 
+   itemName: "river reed"
+   inventorySprite: ""
+   worldModel: ""
+   types:
+    - "edible"
+   flavorText: ""
+  itemCategories: 
+    - !!solid
+      flexibility: 1.0
+      durability: 0.5
+      elasticity: 0.6
+      stickiness: 0.1
+      thickness: 0.1
+      sharpness: 0.2
+    - !!plant
+      waterContent: 1.2
+      toughness: 3.0
+      sweet: 0.0
+      bitter: 0.0
+      sour: 0.0
+      salty: 0.0
+      spicy: 0.0
+      stomachEffect: 0.0
+      pneumoniaEffect: 0.0
+- itemName: "stick"
+  baseItem: 
+   itemName: "stick"
+   inventorySprite: ""
+   worldModel: ""
+   types:
+     - "rod"
+   flavorText: ""
+  itemCategories:
+    - !!solid
+      flexibility: 0.2
+      durability: 0.5
+      elasticity: 0.1
+      stickiness: 0.1
+      thickness: 0.4
+      sharpness: 0.3
+    - !!plant
+      waterContent: 0.8
+      toughness: 5.0
+      sweet: 0.0
+      bitter: 0.0
+      sour: 0.0
+      salty: 0.0
+      spicy: 0.0
+      stomachEffect: 0.0
+      pneumoniaEffect: 0.0
+- itemName: "hook"
+  baseItem: 
+   itemName: "hook"
+   inventorySprite: ""
+   worldModel: ""
+   types:
+    - "hook"
+   flavorText: ""
+  itemCategories: 
+    - !!solid
+      flexibility: 0.2
+      durability: 0.5
+      elasticity: 0.1
+      stickiness: 0.1
+      thickness: 0.4
+      sharpness: 0.3
+- itemName: "Poor Fishing Rod"
+  baseItem:
+   inventorySprite: ""
+   worldModel: ""
+   itemName: "Poor Fishing Rod"
+   types:
+    - "Advanced Tool"
+   flavorText: "Not a very good fishing rod. Breaks easily."
+  itemCategories: 
+    - !!solid
+      flexibility: 0.5
+      durability: 1
+      elasticity: 0.1
+      stickiness: 0
+      thickness: 0.4
+      sharpness: 0.3
+- itemName: "Good Fishing Rod"
+  baseItem: 
+   itemName: "Good Fishing Rod"
+   inventorySprite: ""
+   worldModel: ""
+   types:
+    - "Advanced Tool"
+   flavorText: "Pretty good fishing rod. Will last awhile."
+  itemCategories: 
+    - !!solid
+      flexibility: 1
+      durability: 5
+      elasticity: 1
+      stickiness: 0
+      thickness: 2
+      sharpness: 1
+- itemName: "Excellent Fishing Rod"
+  baseItem: 
+   itemName: "Excellent Fishing Rod"
+   types:
+    - "Advanced Tool"
+   flavorText: "Fantastic fishing rod! Best catches and last a long time!"
+  itemCategories: 
+    - !!solid
+      flexibility: 2
+      durability: 20
+      elasticity: 2
+      stickiness: 0
+      thickness: 2
+      sharpness: 2

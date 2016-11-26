@@ -17,6 +17,37 @@ public class Player
         Hunger = MaxHunger = maxHunger;
     }
 
+	/// <summary>
+	/// Gets or sets the player controller if we are in a scene with the player controller.
+	/// </summary>
+	/// <value>The controller</value>
+	public PlayerController Controller 
+	{
+		get;
+		set;
+	}
+
+    /// <summary>
+    /// Returns true if the player is instantiated in the game scene.
+    /// </summary>
+    public bool IsInWorld
+    {
+        get
+        {
+            return (WorldTransform != null);
+        }
+    }
+
+    /// <summary>
+    /// Player's transform in the game world.
+    /// Returns null if the player is not in the scene, check IsInWorld before using the value directly.
+    /// </summary>
+    public Transform WorldTransform
+    {
+        get;
+        set;
+    }
+
     /// <summary>
     /// The player's current health. 
     /// Used for physical dammage.

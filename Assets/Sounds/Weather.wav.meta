@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+guid: 4569d8936facb4cdaa023d0ed49060f9
+timeCreated: 1478025363
+=======
 guid: abc8ff6e5f771ef4eafec8b67e571d83
 timeCreated: 1477717698
+>>>>>>> radio
 licenseType: Free
 AudioImporter:
   serializedVersion: 6
@@ -15,7 +20,11 @@ AudioImporter:
   forceToMono: 0
   normalize: 1
   preloadAudioData: 1
+<<<<<<< HEAD
+  loadInBackground: 0
+=======
   loadInBackground: 1
+>>>>>>> radio
   3D: 1
   userData: 
   assetBundleName: 

@@ -1,14 +1,15 @@
 ﻿public class Game 
 {
     private static Game instance;
+	private bool debugMode;
 
     private Game ()
     {
         PlayerInstance = new Player();
 		WeatherInstance = new WeatherSystem();
-        Radio RadioInstance = new Radio();
-        RadioInstance.currentWeather = WeatherInstance;
 		PauseInstance = new PauseSystem();
+		GameSettingsInstance = new GameSettings ();
+		Scheme = GameSettingsInstance.Scheme;
     }
  
     /// <summary>
@@ -35,6 +36,29 @@
         private set;
     }
 
+
+	/// <summary>
+	/// Turns on debug mode.
+	/// </summary>
+	public bool DebugMode
+	{
+		get
+		{
+			return debugMode;
+		}
+		set
+		{
+			debugMode = value;
+			if (DebugModeSubscription != null)
+			{
+				DebugModeSubscription();
+			}
+		}
+	}
+
+	public delegate void DebugModeDelegate();
+	public event DebugModeDelegate DebugModeSubscription;
+
 	/// <summary>
 	/// Gets the weather instance.
 	/// </summary>
@@ -45,7 +69,29 @@
 		private set;
 	}
 
+    public bool IsRadioActive
+    {
+        get
+        {
+            return RadioInstance != null;
+        }
+    }
+
+    public Radio RadioInstance
+    {
+        get;
+        set;
+    }
+
+	/// <summary>
+	/// The clock instance.
+	/// </summary>
 	private Clock clockInstance;
+
+	/// <summary>
+	/// Gets the clock instance.
+	/// </summary>
+	/// <value>The clock instance.</value>
 	public Clock ClockInstance
 	{
 		get
@@ -59,9 +105,35 @@
 			return this.clockInstance;
 		}
 	}
+
+	/// <summary>
+	/// Gets or private sets the pause instance.
+	/// </summary>
+	/// <value>The pause instance.</value>
 	public PauseSystem PauseInstance
 	{
 		get;
 		private set;
+	}
+
+	/// <summary>
+	/// Gets the game settings instance.
+	/// </summary>
+	/// <value>The game settings instance.</value>
+	public GameSettings GameSettingsInstance 
+	{
+		get;
+		private set;
+	}
+
+
+	/// <summary>
+	/// Gets the control scheme configured for the game.
+	/// </summary>
+	/// <value>Player control scheme</value>
+	public ControlScheme Scheme 
+	{
+		get;
+		set;
 	}
 }
