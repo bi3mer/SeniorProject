@@ -118,7 +118,6 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update ()
     {
-		Debug.Log (Game.Instance.PlayerInstance.Warmth);
         UpdatePlayerStats();
 
         // check for camera related input
@@ -233,15 +232,15 @@ public class PlayerController : MonoBehaviour
 		if (IsInShelter) 
 		{
 			currentWarmthIncreaseRate = shelterWarmthIncreaseRate;
-			StopCoroutine (reduceWarmth());
-			StartCoroutine(increaseWarmth ());
+			StopCoroutine (ReduceWarmth());
+			StartCoroutine(IncreaseWarmth ());
 
 		} 
 		else 
 		{
 			currentWarmthReductionRate = outsideWarmthReductionRate;
-			StopCoroutine (increaseWarmth());
-			StartCoroutine(reduceWarmth ());
+			StopCoroutine (IncreaseWarmth());
+			StartCoroutine(ReduceWarmth ());
 		}
     }
 

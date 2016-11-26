@@ -11,9 +11,8 @@ public class ShelterCollider : MonoBehaviour
 	/// <param name="coll">Collider entered</param>
 	public void OnTriggerEnter(Collider coll)
 	{
-		if (coll.gameObject.GetComponent<PlayerController>()) 
+		if (player = coll.gameObject.GetComponent<PlayerController>()) 
 		{
-			player = coll.gameObject.gameObject.GetComponent <PlayerController>();
 			player.IsInShelter = true;
 		}
 	}
