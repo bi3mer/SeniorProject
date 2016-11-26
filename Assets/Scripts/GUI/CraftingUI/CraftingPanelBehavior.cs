@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CraftingPanelBehavior : MonoBehaviour {
+public class CraftingPanelBehavior : MonoBehaviour 
+{
 
 	// Use this for initialization
 	void Start () {
