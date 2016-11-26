@@ -102,19 +102,17 @@ public class ItemCategory : CollectableItem
 	{
 		for (int i = 0; i < Actions.Count; ++i) 
 		{
-			if(Actions[i].SubActions.Count > 0)
-			{
-				for(int j = 0; j < Actions[i].SubActions.Count; ++j)
-				{
-					if(Actions [i].SubActions[j].ActionName.Equals (name)) 
-					{
-						Actions [i].ActionComplete = true;
-					}
-				}
-			}
-			else if (Actions [i].ActionName.Equals (name)) 
+			if(Actions [i].ActionName.Equals (name)) 
 			{
 				Actions [i].ActionComplete = true;
+
+				if(Actions[i].SubActions.Count > 0)
+				{
+					for(int j = 0; j < Actions[i].SubActions.Count; ++j)
+					{
+						Actions[i].SubActions[j].ActionComplete = true;
+					}
+				}
 			}
 		}
 	}

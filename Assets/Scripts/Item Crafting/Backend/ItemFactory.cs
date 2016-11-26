@@ -18,6 +18,10 @@ public class ItemFactory
 
 	private Dictionary<string, BaseItem> itemDatabase;
 
+	private Dictionary<string, GameObject> worldItemTemplates;
+
+	private List<GeneratableItemInfoModel> generatableItemList;
+
 	// the different result tiers of craftable items
 	private string[] itemLevels = new string[3] { "Poor", "Good", "Excellent" };
 
@@ -26,14 +30,31 @@ public class ItemFactory
 	private ItemSerializer itemParser;
 
 	/// <summary>
+	/// The name of the item file. All yaml files must be placed under "Resources/YAMLFiles"
+	/// </summary>
+	private const string itemFileName = "ItemListYaml.yml";
+	private const string naturallyOccuringFileName = "OverworldGeneratableItemInformation.yml";
+
+	/// <summary>
+	/// The location of the prefab that contains the trigger collider and text mesh needed for interactable objects
+	/// </summary>
+	private const string triggerObjectLocation = "ItemGeneration/InteractableTrigger";
+
+	/// <summary>
+	/// the prefab that contains the trigger collider and text mesh needed for interactable objects
+	/// </summary>
+	private GameObject triggerObjectPrefab;
+
+	/// <summary>
 	/// Start this instance. 
 	/// Loading in the craftingList by YAML.
 	/// </summary>
-	public ItemFactory (string itemFile) 
+	public ItemFactory () 
 	{
 		itemDatabase = new Dictionary<string, BaseItem> ();
-		itemParser = new ItemSerializer(itemFile);
-
+		itemParser = new ItemSerializer(itemFileName, naturallyOccuringFileName);
+		worldItemTemplates = new Dictionary<string, GameObject>();
+		triggerObjectPrefab = (GameObject) Resources.Load(triggerObjectLocation);
 		LoadItemInformation ();
 	}
 
@@ -95,6 +116,13 @@ public class ItemFactory
 	public void LoadItemInformation()
 	{
 		itemDatabase = itemParser.DeserializeItemInformation ();
+		generatableItemList = itemParser.DeserializeNaturallyOccuringItemData();
+
+		List<string> keys = new List<string> (itemDatabase.Keys);
+		for(int i = 0; i < keys.Count; ++i)
+		{
+			worldItemTemplates.Add(itemDatabase[keys[i]].ItemName, (GameObject) Resources.Load(itemDatabase[keys[i]].WorldModel));
+		}
 	}
 
 	/// <summary>
@@ -212,5 +240,63 @@ public class ItemFactory
 		}
 
 		return null;
+	}
+
+	/// <summary>
+	/// Gets the gameobject that will be copied when the specified item needs to be created in the world.
+	/// </summary>
+	/// <returns>The item template.</returns>
+	/// <param name="itemName">Item name.</param>
+	public GameObject GetItemTemplate(string itemName)
+	{
+		if (worldItemTemplates.ContainsKey (itemName)) 
+		{
+			return worldItemTemplates [itemName];
+		}
+
+		return null;
+	}
+
+	/// <summary>
+	/// Gets the names of possible items.
+	/// </summary>
+	/// <returns>The list of names of possible items.</returns>
+	public List<GeneratableItemInfoModel> GetListOfPossibleItems()
+	{
+		return generatableItemList;
+	}
+
+	/// <summary>
+	/// Creates the interactable item that is ready to be placed in the world.
+	/// </summary>
+	/// <returns>The interactable item.</returns>
+	/// <param name="itemToCreate">Item to create.</param>
+	/// <param name="amount">Amount.</param>
+	public GameObject CreateInteractableItem(BaseItem itemToCreate, int amount)
+	{
+		if(!worldItemTemplates.ContainsKey(itemToCreate.ItemName))
+		{
+			worldItemTemplates.Add(itemToCreate.ItemName, (GameObject) Resources.Load(itemToCreate.WorldModel));
+		}
+
+		// create the object with the model
+		GameObject item = GameObject.Instantiate (worldItemTemplates[itemToCreate.ItemName]);
+
+		// creates the trigger object that will handle interaction with player
+		GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
+		triggerObject.GetComponent<BoxCollider>().size = item.GetComponent<BoxCollider>().size;
+		triggerObject.GetComponent<BoxCollider>().center = item.GetComponent<BoxCollider>().center;
+		triggerObject.transform.SetParent(item.transform);
+		triggerObject.transform.localPosition = Vector3.zero;
+
+		PickUpItem pickup = triggerObject.AddComponent<PickUpItem>();
+		pickup.SetUp();
+		pickup.SetUpPickUp();
+		pickup.Item = itemToCreate;
+
+		// TODO: Make the amount found in one stack to be a variable number
+		pickup.Amount = amount;
+
+		return item;
 	}
 }

@@ -112,8 +112,11 @@ public class PlayerController : MonoBehaviour
         // leaving the range of an interactable item
         if (other.CompareTag(interactiveTag))
         {
-            interactable.Show = false;
-            interactable = null;
+        	if(interactable != null)
+        	{
+	            interactable.Show = false;
+	            interactable = null;
+	        }
         }
     }
 

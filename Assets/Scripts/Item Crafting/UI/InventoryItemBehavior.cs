@@ -98,11 +98,15 @@ public class InventoryItemBehavior : MonoBehaviour
 		{
 			InventoryUIBehavior.instance.targetInventory.AddItem (targetStack.Item, targetStack.Amount);
 		} 
-		else if(!targetStack.Item.RemovalFlag)
+		else if(!targetStack.Item.RemovalFlag && !targetStack.Item.DiscardFlag)
 		{
 			// if no number of the item has been modified and items are not flagged for removal, add back on the items set aside for modifcations
 			// to the original stack
 			originalStack.Amount += targetStack.Amount;
+		}
+		else if(targetStack.Item.DiscardFlag)
+		{
+			InventoryUIBehavior.instance.ItemsToDiscard.Add(targetStack);
 		}
 
 		targetStack = originalStack;

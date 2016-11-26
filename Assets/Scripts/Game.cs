@@ -10,6 +10,7 @@
         Radio RadioInstance = new Radio();
         RadioInstance.currentWeather = WeatherInstance;
 		PauseInstance = new PauseSystem();
+		ItemFactoryInstance = new ItemFactory();
     }
  
     /// <summary>
@@ -82,7 +83,18 @@
 			return this.clockInstance;
 		}
 	}
+
 	public PauseSystem PauseInstance
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets the item factory instance.
+	/// </summary>
+	/// <value>The item factory instance.</value>
+	public ItemFactory ItemFactoryInstance
 	{
 		get;
 		private set;

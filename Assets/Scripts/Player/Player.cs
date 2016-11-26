@@ -5,7 +5,12 @@ public class Player
     private const int maxHealth = 100;
     private const int maxWarmth = 100;
     private const int maxHunger = 100;
+    private const string playerInventoryName = "player";
+    private const string inventoryFileName = "InventoryYaml.yml";
 
+    private string equippedTool;
+
+    private bool discardSlots;
     /// <summary>
     /// Player constructor.
     /// Initializes all fields to full.
@@ -15,6 +20,7 @@ public class Player
         Health = MaxHealth = maxHealth;
         Warmth = MaxWarmth = maxWarmth;
         Hunger = MaxHunger = maxHunger;
+		Inventory = new Inventory (playerInventoryName, inventoryFileName);
     }
 
     /// <summary>
@@ -96,5 +102,27 @@ public class Player
     {
         get;
         private set;
+    }
+
+    /// <summary>
+    /// Gets the player's on-person intenvory.
+    /// </summary>
+    /// <value>The player's intenvory.</value>
+    public Inventory Inventory
+    {
+    	get;
+    	private set;
+    }
+
+    public string EquippedTool
+    {
+    	get
+    	{
+    		return equippedTool;
+    	}
+    	set
+    	{
+    		equippedTool = value;
+    	}
     }
 }
