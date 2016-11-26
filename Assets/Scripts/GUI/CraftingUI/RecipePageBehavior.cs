@@ -5,8 +5,16 @@ using System.Collections.Generic;
 
 public class RecipePageBehavior : MonoBehaviour 
 {
+	public static RecipePageBehavior instance;
+
 	[SerializeField]
 	private Text RecipeNameText;
+
+	[SerializeField]
+	private GameObject CraftingPanel;
+
+	[SerializeField]
+	private Button BeginCraftingButton;
 
 	[SerializeField]
 	private GameObject RequirementsScrollPanel;
@@ -32,6 +40,9 @@ public class RecipePageBehavior : MonoBehaviour
 	[SerializeField]
 	private Button CraftButton;
 
+	[SerializeField]
+	private Button CancelCraftButton;
+
 	private ItemFactory itemFactory;
 	private Recipe recipe;
 	private string recipeChoiceName;
@@ -42,13 +53,23 @@ public class RecipePageBehavior : MonoBehaviour
 	private int currentStep;
 
 	/// <summary>
+	/// Start this instance of RecipePageBehavior.
+	/// </summary>
+	void Start()
+	{
+		instance = this;
+		ResetCraftingPanel ();
+	}
+
+	/// <summary>
 	/// Sets up recipe page.
 	/// </summary>
 	/// <param name="pageRecipe">Page recipe.</param>
 	public void SetUpRecipePage(Recipe pageRecipe)
 	{
+		instance = this;
 		itemsSelected = new List<Ingredient> ();
-		this.recipe = pageRecipe;
+		instance.recipe = pageRecipe;
 		RecipeNameText.text = recipe.RecipeName;
 
 		// add all requirements to requirement scroll view
@@ -61,8 +82,30 @@ public class RecipePageBehavior : MonoBehaviour
 			requirement.transform.SetParent (RequirementsScrollPanel.transform);
 		}
 
+		ResetCraftingPanel ();
+	}
+
+	/// <summary>
+	/// Raises the begin crafting click event.
+	/// </summary>
+	public void OnBeginCraftingClick()
+	{
+		BeginCraftingButton.gameObject.SetActive (false);
+		CraftingPanel.gameObject.SetActive (true);
 		DisplayPossibleItems (0);
 		CraftButton.gameObject.SetActive (false);
+		CancelCraftButton.gameObject.SetActive (true);
+	}
+
+	/// <summary>
+	/// Resets the crafting panel.
+	/// </summary>
+	public void ResetCraftingPanel()
+	{
+		instance.BeginCraftingButton.gameObject.SetActive (true);
+		instance.CancelCraftButton.gameObject.SetActive (false);
+		instance.CraftingPanel.gameObject.SetActive (false);
+		instance.CraftButton.gameObject.SetActive (false);
 	}
 
 	/// <summary>
@@ -204,6 +247,7 @@ public class RecipePageBehavior : MonoBehaviour
 
 		// close the item select ui panel
 		EndCraftingAttempt ();
+		ResetCraftingPanel ();
 	}
 
 	/// <summary>
@@ -214,7 +258,6 @@ public class RecipePageBehavior : MonoBehaviour
 		// clears the list of items selected during the attempt
 		itemsSelected.Clear ();
 		NextStepButton.gameObject.SetActive (true);
+		ResetCraftingPanel ();
 	}
-
-
 }
