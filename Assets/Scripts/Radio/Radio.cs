@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Diagnostics;
 using System.Collections;
 using Crosstales.RTVoice;
 
@@ -18,23 +17,28 @@ public class Radio : MonoBehaviour
     //counter for how many times weather played
     private int weatherCounter;
 
-    //declare sounds
-    private AudioSource[] sounds;
+    // set sound sources
+	[SerializeField]
     private AudioSource music;
+	[SerializeField]
     private AudioSource weather;
+	[SerializeField]
+	private AudioSource mystery;
 
     /// <summary>
     /// Sets up radio for usage.
     /// </summary>
     void Start()
     {
-        isOn = false;
-        CurrentChannel = RadioChannel.Null;
+        if (Game.Instance.IsRadioActive)
+        {
+            // assign instance to this one
+            Game.Instance.RadioInstance = this;
+        }
 
-        //set sounds - this is temp until audio engine figured out
-        sounds = GetComponents<AudioSource>();
-        music = sounds[0];
-        weather = sounds[1];
+        isOn = false;
+
+		CurrentChannel = RadioChannel.Null;
 
         //update the weather and play if radio on
         StartCoroutine(updateWeather());
@@ -52,6 +56,10 @@ public class Radio : MonoBehaviour
             {
                 music.Play();
             }
+            if (!mystery.isPlaying && CurrentChannel == RadioChannel.Mystery)
+            {
+                mystery.Play();
+            }
         }
     }
 
@@ -67,6 +75,7 @@ public class Radio : MonoBehaviour
             CurrentChannel = RadioChannel.Null;
             music.Stop();
             weather.Stop();
+			mystery.Stop();
         }
 
         //Turn on the radio
@@ -77,14 +86,14 @@ public class Radio : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates the weather and creates a new announcement.
+    /// Updates the weather, creates a new announcement, and then plays the announcement.
     /// </summary>
     IEnumerator updateWeather()
     {
         while (true)
         {
             if (isOn)
-            {
+            {             
                 //check if the weather is not playing and if the radio is on the weather channel
                 if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
                 {
@@ -97,9 +106,12 @@ public class Radio : MonoBehaviour
                     //update the weather when it has played 3 times or has just turned on
                     if (weatherCounter == 0)
                     {
+                        //update weather
+                        currentWeather = Game.Instance.WeatherInstance;
+
                         //get new announcment
                         announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
-
+                        Debug.Log(announcement);
                         //send the announcement to the wave file
                         Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather", .7f);
 
@@ -132,37 +144,50 @@ public class Radio : MonoBehaviour
     /// <param name="channel"></param>
     public void SetChannel(RadioChannel channel)
     {
-        if (CurrentChannel != channel)
-        {        
-            if (CurrentChannel == RadioChannel.Music)
-            {
-                music.Stop();
-            }
-            if (CurrentChannel == RadioChannel.Weather)
-            {
-                weather.Stop();
-            }
-            CurrentChannel = channel;
-        }
+		if (isOn) 
+		{
+			if (channel == RadioChannel.Music) 
+			{
+				weather.Stop ();
+				mystery.Stop ();
+				this.CurrentChannel = channel;
+			} 
+			else if (channel == RadioChannel.Weather) 
+			{
+				music.Stop ();
+				mystery.Stop ();
+				this.CurrentChannel = channel;
+			} 
+			else if (channel == RadioChannel.Mystery) 
+			{
+				music.Stop ();
+				weather.Stop ();
+				this.CurrentChannel = channel;
+			}
+		}
     }
 
     /// <summary>
     /// Flip through the channels.
     /// </summary>
     public void OnChannelClick()
-    {
-        if (CurrentChannel == RadioChannel.Music)
-        {
-            SetChannel(RadioChannel.Weather);
-        }
-        else if (CurrentChannel == RadioChannel.Weather)
-        {
-            SetChannel(RadioChannel.Mystery);
-        }
-        else if (this.CurrentChannel == RadioChannel.Mystery)
-        {
-            SetChannel(RadioChannel.Music);
-        }
+    {        
+		if (CurrentChannel == RadioChannel.Null) 
+		{
+			SetChannel (RadioChannel.Music);
+		}
+		else if (CurrentChannel == RadioChannel.Music) 
+		{
+			SetChannel (RadioChannel.Weather);
+		} 
+		else if (CurrentChannel == RadioChannel.Weather) 
+		{
+			SetChannel (RadioChannel.Mystery);
+		} 
+		else if (CurrentChannel == RadioChannel.Mystery) 
+		{
+			SetChannel (RadioChannel.Music);
+		}
     }
 
     /// <summary>

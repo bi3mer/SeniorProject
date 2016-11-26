@@ -17,6 +17,16 @@ public class Player
         Hunger = MaxHunger = maxHunger;
     }
 
+	/// <summary>
+	/// Gets or sets the player controller if we are in a scene with the player controller.
+	/// </summary>
+	/// <value>The controller</value>
+	public PlayerController Controller 
+	{
+		get;
+		set;
+	}
+
     /// <summary>
     /// Returns true if the player is instantiated in the game scene.
     /// </summary>
