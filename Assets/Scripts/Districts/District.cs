@@ -231,7 +231,7 @@ public class District
     {
         get
         {
-            return WindowWasherMaxLengthCurve;
+            return windowWasherMaxLengthCurve;
         }
     }
 

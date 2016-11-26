@@ -6,28 +6,25 @@ using System.Collections;
 /// </summary>
 public class WindowWasher : MonoBehaviour
 {
-    // Teleportation Variabls
-    [SerializeField]
-    private TeleportPlayer teleportLocations;
-
     public float MaxLowerDistance;
     [SerializeField]
     private bool isUp;
-    private Rigidbody playerBody;
-    private bool canMove = false;
-    private const string playerTag = "Player";
-    private const string waterTag = "Water";
     [SerializeField]
     private GameObject water;
     [SerializeField]
     private GameObject movingPlatform;
+
     // When teleporting, move the player up this much so they don't fall through the floor.
     private const float upStep = .15f;
-
     // When the window washer needs to move up, this is the Y position it moves to.
     private const float upYPosition = -0.03200006f;
 
-    // Rope Variables
+    private Rigidbody playerBody;
+    private bool canMove = false;
+    private const string playerTag = "Player";
+    private const string waterTag = "Water";
+
+    [Header ("Rope Variables")]
     [SerializeField]
     private LineRenderer ropeRenderer;
     [SerializeField]
@@ -40,7 +37,7 @@ public class WindowWasher : MonoBehaviour
     private Transform[] ropeLocations;
     private Material ropeMaterial;
 
-    // Placement Variables
+    [Header("Placement Variables")]
     [SerializeField]
     [Tooltip ("The length of the window washer's base, set this properly to prevant it from hanging off the edge of a building")]
     private float washerBaseLength;
@@ -61,10 +58,8 @@ public class WindowWasher : MonoBehaviour
             return placementCenter;
        }
     }
-
-    // Does the washer start in the up position?
+    [Tooltip ("Does the washer start in the up position?")]
     public bool StartUp;
-
 
     /// <summary>
     /// Set up the rope material on start.

@@ -82,7 +82,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     [ContextMenu("Create test buildings")]
     public void TestBuildBuildings()
     {
-        for (int i = 0; i < testBuildings; i++)
+        for (int i = 0; i < testBuildings; ++i)
         {
             TestBuildBuilding();
         }   
@@ -576,20 +576,20 @@ public class ProceduralBuildingCreator : MonoBehaviour
         // Since WindowWasherChance is a float between 0-100, we use that range for generating a random float.
         if (Random.Range(0f, 100f) <= district.WindowWasherChance)
         {
-            // Pick a location for the washer to go.
-            // -1 is the base, 0+ is the corresponding attachment point.
-            // We need to exclude putting the washer on the base of the building if it has no free sides.
             int washerLocation = 0;
             Vector3 washerRotation = Vector3.zero;
             Vector3 washerPosition = Vector3.zero;
             float washerPositionMod = 0;
-            
-            if(newBuilding.BuildingBase.AttachmentPoints.Length == newBuilding.BuildingAttachments.Length)
+
+            // Pick a location for the washer to go.
+            // We need to exclude putting the washer on the base of the building if it has no free sides.
+            if (newBuilding.BuildingBase.AttachmentPoints.Length == newBuilding.BuildingAttachments.Length)
             {
                 washerLocation = Random.Range(0, newBuilding.BuildingAttachments.Length);
             }
             else
             {
+                // -1 is the base, 0+ is the corresponding attachment point in the base's attachment point array.
                 washerLocation = Random.Range(-1, newBuilding.BuildingAttachments.Length);
             }
 
@@ -599,7 +599,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 // If the base uses node based windows default to trying one of them as the location.
                 if (newBuilding.BuildingBase.WindowPoints.Length > 0)
                 {
-                    for(int i = 0; i < numberOfTries; i++)
+                    for(int i = 0; i < numberOfTries; ++i)
                     {                       
                         int windowPos = Random.Range(0, newBuilding.BuildingBase.WindowPoints.Length);
 
@@ -658,7 +658,8 @@ public class ProceduralBuildingCreator : MonoBehaviour
 
                 RaycastHit placementHit;
                 // Raycast above the building where the washer is straight down 
-                if (Physics.Raycast(newWashersPrefab.PlacementCenter.transform.position + newWasher.transform.position + new Vector3(0f, storiesTall * (storyHeightUnits + 5), 0f), Vector3.down, out placementHit))
+                if (Physics.Raycast(newWashersPrefab.PlacementCenter.transform.position + newWasher.transform.position
+                    + new Vector3(0f, storiesTall * (storyHeightUnits + 5), 0f), Vector3.down, out placementHit))
                 {
                     newWasher.transform.position += new Vector3(0f, placementHit.point.y, 0f);
                 }
