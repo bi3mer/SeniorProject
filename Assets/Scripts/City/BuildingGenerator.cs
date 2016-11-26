@@ -7,9 +7,9 @@ public class BuildingGenerator : MonoBehaviour
     private AnimationCurve heightDistribution;
     private float maxHeightDeviation;
     
-    public Building[] Generate (CityBlock block, int seed)
+    public Building[] Generate (Block block, int seed)
     {
-        Building[] buildings;
+        Building[] buildings = new Building[1];
 
         return buildings;
     }

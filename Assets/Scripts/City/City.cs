@@ -3,9 +3,15 @@ using System.Collections;
 
 public class City
 {
-    public City (District[] districts)
+    /// <summary>
+    /// Creates a city.
+    /// </summary>
+    /// <param name="districts">The list of districts conatined in the city.</param>
+    /// <param name="boundingBox">The bounding box that defines the size of the city.</param>
+    public City (District[] districts, Bounds boundingBox)
     {
         Districts = districts;
+        BoundingBox = boundingBox;
     }
 
     /// <summary>
@@ -16,4 +22,15 @@ public class City
         get;
         private set;
     }
+
+    /// <summary>
+    /// The bounding box that defines the size of the city.
+    /// </summary>
+    public Bounds BoundingBox
+    {
+        get;
+        private set;
+    }
+
+    // TODO: Implement city center
 }

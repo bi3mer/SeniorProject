@@ -5,78 +5,68 @@ using System.Collections.Generic;
 
 public class District
 {
-	private Vector2[] edgeVerticies;
-	private Vector2   cityCenter;
-	private String 	  districtName;
-    private Bounds    bounds;
+    private Bounds bounds;
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="AssemblyCSharp.District"/> class.
-	/// </summary>
-	/// <param name="center">Center point of the city as determined by DistrictsGenerator.</param>
-	public District (Vector2 center)
+    /// <summary>
+    /// Creates a new district
+    /// </summary>
+    /// <param name="seedPoint">The seed point that created the district.</param>
+    /// <param name="verticies">The edge verticies defining the district.</param>
+    /// <param name="name">The name of the district.</param>
+	public District (Vector3 seedPoint, Vector3[] verticies, string name)
 	{
-		cityCenter = center;
-        Blocks = new List<CityBlock>();
-	}
-		
-	/// <summary>
-	/// Gets or sets the verticies.
-	/// </summary>
-	/// <value>The verticies.</value>
-	public Vector2[] Verticies
-	{ 
-		get
-		{ 
-			return edgeVerticies;
-		} 
-
-		set 
-		{
-			edgeVerticies = value;
-		}
-	}
-
-	/// <summary>
-	/// Gets or sets the name.
-	/// </summary>
-	/// <value>The name.</value>
-	public String Name
-	{
-		get 
-		{
-			return districtName;
-		}
-
-		set
-		{
-			districtName = value;
-		}
+        SeedPoint = seedPoint;
+        EdgeVerticies = verticies;
+        Name = name;
+        Blocks = new List<Block>();
 	}
 
     /// <summary>
-    /// The list of blocks contained in this district.
+    /// The seed point used to generate the district.
     /// </summary>
-    public List<CityBlock> Blocks
+    public Vector3 SeedPoint
     {
         get;
         private set;
     }
 
-    public void AddBlock (CityBlock block)
+    /// <summary>
+    /// The list of edge verticies.
+    /// </summary>
+    public Vector3[] EdgeVerticies
     {
-        Blocks.Add(block);
+        get;
+        private set;
+    }
+
+	/// <summary>
+	/// Gets or sets the name.
+	/// </summary>
+	/// <value>The name.</value>
+    public String Name
+    {
+        get;
+        private set;
+    }
+
+    /// <summary>
+    /// The list of blocks contained in this district.
+    /// </summary>
+    public List<Block> Blocks
+    {
+        get;
+        private set;
     }
 
     /// <summary>
     /// The bounds that conatin all of the district verticies.
     /// </summary>
-    public Bounds BoundingArea
+    public Bounds BoundingBox
     {
         get
         {
             // only calculate the bounds once
-            if (bounds == null)
+            if (bounds.size == Vector3.zero)
             {
                 bounds = calculateBounds();
             }
@@ -91,37 +81,24 @@ public class District
 	/// <param name="point">Point to be checked.</param>
 	public bool ContainsPoint(Vector2 point)
 	{
-
-		// check whether this point's x value is between the district's edges & the city center
-		if (point.x < edgeVerticies [0].x && point.x < edgeVerticies [1].x && point.x < cityCenter.x) 
-		{
-			return false;
-		}
-		if (point.x > edgeVerticies [0].x && point.x > edgeVerticies [1].x && point.x > cityCenter.x) 
-		{
-			return false;
-		}
-
-		// check whether this point's x value is between the district's edges & the city center
-		if (point.y < edgeVerticies [0].y && point.y < edgeVerticies [1].y && point.y < cityCenter.y) 
-		{
-			return false;
-		}
-
-		if (point.y > edgeVerticies [0].y && point.y > edgeVerticies [1].y && point.y > cityCenter.y) 
-		{
-			return false;
-		}
-
-		return true;
+        Vector2[] edges = new Vector2[EdgeVerticies.Length];
+        for (int i = 0; i < EdgeVerticies.Length; ++i)
+        {
+            edges[i] = GenerationUtility.ToAlignedVector2(EdgeVerticies[i]);
+        }
+        return GenerationUtility.IsPointInPolygon(point, edges);
 	}
 
+    /// <summary>
+    /// Calculate the bound that encapsulates all the edge vertecies.
+    /// </summary>
+    /// <returns>Bounds conatining the ede vertecies.</returns>
     private Bounds calculateBounds()
     {
-        Bounds bounds = new Bounds(Verticies[0], Vector3.zero);
-        for (int i = 1; i < Verticies.Length; ++i)
+        Bounds bounds = new Bounds(EdgeVerticies[0], Vector3.zero);
+        for (int i = 1; i < EdgeVerticies.Length; ++i)
         {
-            bounds.Encapsulate(Verticies[i]);
+            bounds.Encapsulate(EdgeVerticies[i]);
         }
         return bounds;
     }

@@ -4,20 +4,24 @@ using System.Collections;
 public class CityController : MonoBehaviour 
 {
     [SerializeField]
+    [Tooltip("Generation seed to construct the city.")]
     private int seed;
+    [SerializeField]
+    [Tooltip("Bounds defnining the size of the city.")]
+    private Bounds cityBounds;
 
-    private DistrictsGenerator districtGenerator;
+    private DistrictGenerator districtGenerator;
     private BlockGenerator blockGenerator;
-    private BuildingGenerator buildingGenerator;
 
     /// <summary>
     /// Grabs other generators and starts generation.
+    /// 
+    /// If debugger is set up, show debug view.
     /// </summary>
 	void Start () 
     {
-        districtGenerator = GetComponent<DistrictsGenerator>();
+        districtGenerator = GetComponent<DistrictGenerator>();
         blockGenerator = GetComponent<BlockGenerator>();
-        buildingGenerator = GetComponent<BuildingGenerator>();
 
         Game.Instance.CityInstance = GenerateCity();
 	}
@@ -35,33 +39,23 @@ public class CityController : MonoBehaviour
     /// </summary>
     private City GenerateCity ()
     {
-        District[] districts = districtGenerator.Generate(seed);
+        District[] districts = districtGenerator.Generate(seed, cityBounds);
 
         // Generate blocks in each district
         for (int i = 0; i < districts.Length; ++i)
         {
-            CityBlock[] blocks = blockGenerator.Generate(districts[i], seed);
+            District district = districts[i];
+            Block[] blocks = blockGenerator.Generate(seed, district);
             
-            // Generate buildings in each block
+            // Generate buildings in each block and add the blocks to the district
             for (int j = 0; j < blocks.Length; ++j)
             {
-                Building[] buildings = buildingGenerator.Generate(blocks[j], seed);
+                // TODO: Generate buildings
 
-                for (int k = 0; k < buildings.Length; ++k)
-                {
-                    PlaceBuilding(buildings[k]);
-                    blocks[j].AddBuilding(buildings[k]);
-                }
-
-                districts[i].AddBlock(blocks[j]);
+                district.Blocks.Add(blocks[j]);
             }
         }
 
-        return new City(districts);
-    }
-
-    private void PlaceBuilding (Building building)
-    {
-
+        return new City(districts, cityBounds);
     }
 }
