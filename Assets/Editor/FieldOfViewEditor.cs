@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEditor;
 
-[CustomEditor(typeof(FieldOfView))]
+[CustomEditor(typeof(PlayerController))]
 public class FieldOfViewEditor : Editor
 {
     /// <summary>
@@ -10,7 +10,7 @@ public class FieldOfViewEditor : Editor
     /// </summary>
     void OnSceneGUI()
     {
-        FieldOfView fov = (FieldOfView)target;
+        PlayerController fov = (PlayerController)target;
         Handles.color = Color.white;
 
         // draw a circle by drawing the arc 360 degrees

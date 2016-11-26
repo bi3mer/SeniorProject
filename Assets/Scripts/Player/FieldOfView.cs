@@ -79,16 +79,17 @@ public class FieldOfView : MonoBehaviour
         }
 
         // show item if closest item and stop showing previous item
-        if (closestInteractable != prevInteractable && closestInteractable.CompareTag("Interactable"))
+        if (closestInteractable != prevInteractable)
         {
 
             // only stop showing if there was a previous collider
-            if (prevInteractable != null)
+            if (prevInteractable != null && prevInteractable.CompareTag("Interactable"))
             {
                 interactable.Show = false;
+                interactable = null;
             }
 
-            if (closestInteractable != null)
+            if (closestInteractable != null && closestInteractable.CompareTag("Interactable"))
             {
                 interactable = closestInteractable.GetComponent<InteractableObject>();
                 interactable.Show = true;
@@ -96,6 +97,7 @@ public class FieldOfView : MonoBehaviour
         }
 
         closestDistance = 0;
+        prevInteractable = closestInteractable;
         closestInteractable = null;
     }
 
@@ -106,11 +108,12 @@ public class FieldOfView : MonoBehaviour
     /// <param name="distance"></param>
     public void CheckClosestInteractable(Collider target, float targetDist)
     {
+        Collider prevTarget;
         // set first found interactable object as the closest item
         if (closestDistance == 0)
         {
             // set previous interactable
-            prevInteractable = closestInteractable;
+            prevTarget = closestInteractable;
 
             closestInteractable = target;
             closestDistance = targetDist;
@@ -120,7 +123,7 @@ public class FieldOfView : MonoBehaviour
         else if (targetDist < closestDistance)
         {
             // set previous interactable
-            prevInteractable = closestInteractable;
+            prevTarget = closestInteractable;
 
             closestInteractable = target;
             closestDistance = targetDist;
