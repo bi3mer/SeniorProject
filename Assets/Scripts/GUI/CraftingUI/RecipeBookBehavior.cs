@@ -1,15 +1,73 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
-public class RecipeBookBehavior : MonoBehaviour {
+public class RecipeBookBehavior : MonoBehaviour 
+{
+	[SerializeField]
+	private GameObject bookPanelGridLayout;
 
-	// Use this for initialization
-	void Start () {
-	
+	[SerializeField]
+	private RecipePageBehavior RecipePageUI;
+
+	[Tooltip("filename for yaml that contains the recipe information")]
+	public string RecipeFileName;
+
+	[Tooltip("filename for the yaml that contains the item information")]
+	public string ItemFileName;
+
+	private Dictionary<string, Recipe> recipes;
+
+	private RecipeYamlSerializer parser;
+
+	//private ItemFactory itemFactory;
+
+
+	/// <summary>
+	/// Start the instance of the recipe book and get recipes from yaml.
+	/// </summary>
+	void Start()
+	{
+		
+		parser = new RecipeYamlSerializer(RecipeFileName);
+		//itemFactory = new ItemFactory(ItemFileName);
+
+		LoadRecipes ();
+
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	/// <summary>
+	/// Loads the recipes from the yaml file into the recipe select panel.
+	/// </summary>
+	public void LoadRecipes()
+	{
+		recipes = parser.LoadRecipes ();
+
+		List<string> recipeNames = new List<string> (recipes.Keys);
+
+		for (int i = 0; i < recipeNames.Count; ++i) 
+		{
+			RecipePageBehavior recipe = GameObject.Instantiate (RecipePageUI).GetComponent<RecipePageBehavior> ();
+			recipe.gameObject.SetActive (true);
+			recipe.SetUpRecipePage(recipes[recipeNames [i]]);
+			// add page to book panel grid and set first page active
+			recipe.transform.SetParent (bookPanelGridLayout.transform);
+		}
+	}
+
+	/// <summary>
+	/// Raises the next page click event.
+	/// </summary>
+	public void OnNextPageClick()
+	{
+		// flip book page to the next page
+
+	}
+
+	public void OnPreviousPageClick()
+	{
+		// flip book page to previous page
+
 	}
 }

@@ -104,7 +104,6 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 	/// <param name="selected">The item selected.</param>
 	public void OpenPanel(GameObject selected)
 	{
-		itemStackDetailPanel.SetActive (true);
 		this.Plus.gameObject.SetActive (true);
 		this.Minus.gameObject.SetActive (true);
 		this.Ok.gameObject.SetActive (true);
