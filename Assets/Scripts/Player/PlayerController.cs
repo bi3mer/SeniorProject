@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
     private CameraController playerCamera;
     private Rigidbody playerRigidbody;
 
+    private Tool fishingRod;
+
     public Animator PlayerAnimator
     {
         get
@@ -73,7 +75,9 @@ public class PlayerController : MonoBehaviour
         Game.Instance.PlayerInstance.WorldTransform = transform;
 
         // set up tools
-        equippedTool = GetComponentInChildren<FishingRod>();
+
+		fishingRod = GetComponentInChildren<FishingRod>();
+        equippedTool = null;
 
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();
@@ -149,13 +153,23 @@ public class PlayerController : MonoBehaviour
                 
                 // TODO: Don't let player move when using tools 
             }
+			else if(!Game.Instance.PlayerInstance.HasTool)
+            {
+            	// unequip the tool
+				equippedTool.Unequip();
+            	equippedTool = null;
+            }
 
             // don't check for other input since we are currently using a tool
-            if (equippedTool.InUse) 
+            if (equippedTool != null && equippedTool.InUse) 
             {
                 return;
             }
         }
+		else if(Game.Instance.PlayerInstance.HasTool)
+		{
+			equippedTool = fishingRod;
+		}
 
         // if the player is near an interactable item
         if (interactable != null)
