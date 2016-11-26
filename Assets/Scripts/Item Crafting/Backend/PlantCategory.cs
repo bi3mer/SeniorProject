@@ -161,25 +161,7 @@ public class PlantCategory : ItemCategory
 		category.Actions.Add (dry);
 		category.Actions.Add (eat);
 
-		for (int i = 0; i < Actions.Count; ++i) 
-		{
-			category.Actions[i].Conditions = Actions[i].Conditions;
-			category.Actions[i].ActionComplete = Actions[i].ActionComplete;
-
-			if(category.Actions[i].SubActions.Count > 0)
-			{
-				for(int j = 0; j < Actions[i].SubActions.Count; ++j)
-				{
-					category.Actions[i].SubActions[j].Conditions = Actions[i].SubActions[j].Conditions;
-					category.Actions[i].SubActions[j].ActionComplete = Actions[i].SubActions[j].ActionComplete;
-				}
-			}
-		}
-
-		for(int i = 0; i < Attributes.Count; ++i)
-		{
-			category.Attributes.Add (Attributes [i].GetDuplicate());
-		}
+		finishDuplication(category);
 
 		return category;
 	}
@@ -235,6 +217,7 @@ public class PlantCategory : ItemCategory
 			baseItem.ChangeName(defaultCookedNameAddition + baseItem.ItemName);
 		}
 
+		baseItem.DirtyFlag = true;
 		SetActionComplete (cookActName);
 	}
 
@@ -251,6 +234,7 @@ public class PlantCategory : ItemCategory
 
 		baseItem.ChangeName(defaultDryNameAddition + " " + baseItem.ItemName);
 
+		baseItem.DirtyFlag = true;
 		SetActionComplete (dryActName);
 	}
 

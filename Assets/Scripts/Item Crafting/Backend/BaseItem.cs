@@ -111,6 +111,11 @@ public class BaseItem : CollectableItem
 	private List<Attribute> itemAttributes;
 
 	/// <summary>
+	/// If the item has been changed, DirtyFlag is true.
+	/// </summary>
+	public bool DirtyFlag = false;
+
+	/// <summary>
 	/// flag checked by the InventoryItemBehavior to see if the BaseItem should actually be removed from the inventory
 	/// due to being consumed or otherwise used when checking for modifications
 	/// </summary>

@@ -168,26 +168,7 @@ public class SolidCategory : ItemCategory
 		category.Actions.Add (sharpen);
 		category.Actions.Add (weave);
 
-		for (int i = 0; i < Actions.Count; ++i) 
-		{
-			category.Actions[i].Conditions = Actions[i].Conditions;
-			category.Actions[i].ActionComplete = Actions[i].ActionComplete;
-
-			if(category.Actions[i].SubActions.Count > 0)
-			{
-				for(int j = 0; j < Actions[i].SubActions.Count; ++j)
-				{
-					category.Actions[i].SubActions[j].Conditions = Actions[i].SubActions[j].Conditions;
-					category.Actions[i].SubActions[j].ActionComplete = Actions[i].SubActions[j].ActionComplete;
-				}
-			}
-		}
-
-		for(int i = 0; i < Attributes.Count; ++i)
-		{
-			category.Attributes.Add (Attributes [i].GetDuplicate());
-		}
-			
+		finishDuplication(category);
 		return category;
 	}
 
@@ -247,7 +228,6 @@ public class SolidCategory : ItemCategory
 			name = baseItem.ItemName + " " + defaultRopeNameAddition;
 		}
 
-		Debug.Log(name);
 		// durability of the woven object is determined by averaging the durability and elasticity of the item
 		// as tightly weaving something won't work as well with less elastic objects
 		Durability = Durability * Elasticity / 2f;
@@ -274,6 +254,7 @@ public class SolidCategory : ItemCategory
 		}
 
 		baseItem.RemoveCategoriesExcluding (new List<string> () {GetType ().Name});
+		baseItem.DirtyFlag = true;
 		SetActionComplete(weaveActionName);
 	}
 
@@ -314,7 +295,7 @@ public class SolidCategory : ItemCategory
 		}
 
 		baseItem.RemoveCategoriesExcluding (new List<string> (){GetType ().Name});
-
+		baseItem.DirtyFlag = true;
 		// setting the parent action as complete marks all subactions as complete as well
 		SetActionComplete(weaveActionName);
 	}
@@ -338,6 +319,7 @@ public class SolidCategory : ItemCategory
 
 		Sharpness = Sharpness * sharpenRate;
 		GetAttribute (sharpAttrName).Value = Sharpness;
+		baseItem.DirtyFlag = true;
 		SetActionComplete(sharpenActionName);
 	}
 }

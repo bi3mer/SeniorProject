@@ -21,6 +21,7 @@ public class Player
         Warmth = MaxWarmth = maxWarmth;
         Hunger = MaxHunger = maxHunger;
 		Inventory = new Inventory (playerInventoryName, inventoryFileName);
+		EquippedTool = "";
     }
 
     /// <summary>

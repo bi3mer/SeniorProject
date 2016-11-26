@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
         // if the player has a tool equipped
         if (equippedTool != null)
         {
-            if (Input.GetKeyDown(controlScheme.UseTool))
+			if (Input.GetKeyDown(controlScheme.UseTool) && !Game.Instance.PlayerInstance.EquippedTool.Equals(""))
             {
                 // TODO: Check to see if Use returns and item
                 // if so maybe show it off then put it in the player's inventory

@@ -31,5 +31,8 @@ public abstract class CraftingSystemSerializer
 
 		categoryNames.Add ("solid");
 		categoryTypes.Add (typeof(SolidCategory));
+
+		categoryNames.Add("fishingRod");
+		categoryTypes.Add(typeof(FishingRodCategory));
 	}
 }

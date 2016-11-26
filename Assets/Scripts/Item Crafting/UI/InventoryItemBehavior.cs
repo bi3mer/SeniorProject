@@ -94,8 +94,9 @@ public class InventoryItemBehavior : MonoBehaviour
 	public void CheckForModification()
 	{
 		// if some number of the item has been modified and the modified items are not flagged for removal (possible through eating or discarding)
-		if (targetStack.Item.GetNumberOfActionsCompleted() > originalStack.Item.GetNumberOfActionsCompleted() && targetStack.Amount > 0 && !targetStack.Item.RemovalFlag) 
+		if (targetStack.Item.DirtyFlag && targetStack.Amount > 0 && !targetStack.Item.RemovalFlag) 
 		{
+			targetStack.Item.DirtyFlag = false;
 			InventoryUIBehavior.instance.targetInventory.AddItem (targetStack.Item, targetStack.Amount);
 		} 
 		else if(!targetStack.Item.RemovalFlag && !targetStack.Item.DiscardFlag)
