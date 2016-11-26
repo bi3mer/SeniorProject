@@ -32,8 +32,6 @@ public class RecipePageBehavior : MonoBehaviour
 	[SerializeField]
 	private Button CraftButton;
 
-
-
 	private ItemFactory itemFactory;
 	private Recipe recipe;
 	private string recipeChoiceName;
@@ -42,12 +40,6 @@ public class RecipePageBehavior : MonoBehaviour
 	private List<Ingredient> itemsSelected;
 	private Image currentHighlightedItem;
 	private int currentStep;
-
-	// Use this for initialization
-	void Start () 
-	{
-	
-	}
 
 	/// <summary>
 	/// Sets up recipe page.
@@ -70,6 +62,26 @@ public class RecipePageBehavior : MonoBehaviour
 		}
 
 		DisplayPossibleItems (0);
+		CraftButton.gameObject.SetActive (false);
+	}
+
+	/// <summary>
+	/// In the item selection UI panel, advances the step that the recipe is on. Displays
+	/// the next set of items that are allowed to be used in the recipe.
+	/// </summary>
+	public void NextStep()
+	{
+		// If this is the last step of the recipe, then the continue button used to continue to the 
+		// next step is disabled. Instead the "craft" button which is used to combine the items is activated.
+
+		int lastStep = recipe.Requirements.Count - 1;
+		if (currentStep + 1 >= lastStep) 
+		{
+			NextStepButton.gameObject.SetActive (false);
+			CraftButton.gameObject.SetActive (true);
+		}
+
+		DisplayPossibleItems(currentStep+1);
 	}
 
 	/// <summary>
@@ -89,10 +101,10 @@ public class RecipePageBehavior : MonoBehaviour
 		// gets the category of item that is needed for this step of the recipe
 		// what categories an item falls under is determined by its tags
 		string itemTag = recipe.Requirements [currentStep].ItemType;
-//
+
 		// changes prompt to tell you to select a category of item
 		itemTypeName.text = "Select " + itemTag;
-//
+
 		// total number of viable items
 		int totalPossible = 0;
 
@@ -122,12 +134,87 @@ public class RecipePageBehavior : MonoBehaviour
 			itm.gameObject.SetActive (true);
 			totalPossible++;
 		}
-//
+
 		// if there are no valid items for this step, show text that states this recipe can not be completed
 		if (totalPossible == 0) 
 		{
 			noValidItemText.gameObject.SetActive (true);
 		}
 	}
+
+	/// <summary>
+	/// Function is fired when an item in the item select ui panel is clicked.
+	/// This will tentatively highlight that item as the item that should be used in the recipe.
+	/// However this is not final until the continue/craft button is clicked.
+	/// </summary>
+	/// <param name="name">Name of the item.</param>
+	public void SelectItem(Text name)
+	{
+		// if this is the first time an item has been selected on this step, it will
+		// need to be added to the list of itemsSelected 
+		if (itemsSelected.Count == currentStep) 
+		{
+			itemsSelected.Add (new Ingredient(name.text, recipe.Requirements [currentStep].AmountRequired));
+		} 
+		else 
+		{
+			// oterwise it can be reassigned to that slot in the list
+			itemsSelected [currentStep] = new Ingredient(name.text, recipe.Requirements [currentStep].AmountRequired);
+		}
+
+		// since an item has been selected, the user is allowed to continue
+		NextStepButton.interactable = true;
+	}
+
+	/// <summary>
+	/// Highlights the specified item. Used when an item is selected in the item select ui panel.
+	/// </summary>
+	/// <param name="item">The image component of the button that represents an item on the item select ui panel.</param>
+	public void Highlight(Image item)
+	{
+		// if another item has been highlighted before, return this to the default color
+		if (currentHighlightedItem != null) 
+		{
+			currentHighlightedItem.color = Color.white;
+		}
+
+		// set the item to the highlighted color
+		currentHighlightedItem = item;
+		currentHighlightedItem.color = Color.grey;
+	}
+
+	/// <summary>
+	/// Craft the item stated in the recipe.
+	/// </summary>
+	public void Craft()
+	{
+		// gets the list of items needed by the recipe from the Inventory
+		List<BaseItem> ingredients = new List<BaseItem> ();
+
+		for (int i = 0; i < itemsSelected.Count; ++i) 
+		{
+			ingredients.Add(InventoryWrapper.instance.internalInventory.GetStack(itemsSelected[i].IngredientName, itemsSelected[i].Amount)[0].Item);
+		}
+
+		// call the CraftingRecipeFactory which will create the resulting item given the
+		// name of the recipe and ingredients selected
+		RecipeBookBehavior.instance.ItemFactory.Craft (recipe, ingredients, InventoryWrapper.instance.internalInventory);
+
+		InventoryWrapper.instance.RefreshInventory ();
+
+		// close the item select ui panel
+		EndCraftingAttempt ();
+	}
+
+	/// <summary>
+	/// Cancels the an attempt on a recipe. Closes the item selection UI panel.
+	/// </summary>
+	public void EndCraftingAttempt()
+	{
+		// clears the list of items selected during the attempt
+		itemsSelected.Clear ();
+		NextStepButton.gameObject.SetActive (true);
+	}
+
 
 }

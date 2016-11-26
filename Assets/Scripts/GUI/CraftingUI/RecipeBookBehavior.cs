@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class RecipeBookBehavior : MonoBehaviour 
 {
+	public static RecipeBookBehavior instance;
+
 	[SerializeField]
 	private GameObject bookPanelGridLayout;
 
@@ -21,7 +23,7 @@ public class RecipeBookBehavior : MonoBehaviour
 
 	private RecipeYamlSerializer parser;
 
-	//private ItemFactory itemFactory;
+	public ItemFactory ItemFactory;
 
 
 	/// <summary>
@@ -29,9 +31,9 @@ public class RecipeBookBehavior : MonoBehaviour
 	/// </summary>
 	void Start()
 	{
-		
+		instance = this;
 		parser = new RecipeYamlSerializer(RecipeFileName);
-		//itemFactory = new ItemFactory(ItemFileName);
+		ItemFactory = new ItemFactory(ItemFileName);
 
 		LoadRecipes ();
 
