@@ -9,10 +9,13 @@ public class BlockGenerator : MonoBehaviour
     // TODO: Make this value specific to district type?
     // TODO: Split this into North/South distance East/West distance if we want rectangular blocks
     [SerializeField]
-    [Tooltip("distance between the control points for each block.")]
+    [Tooltip("Distance between the control points for each block.")]
     private float distanceBetweenControlPoints;
 
-    // TODO: Add jitter?
+    [SerializeField]
+    [Tooltip("Amount to jitter the spacing of the control points. A value of 0 is regularly spaced.")]
+    [Range(0, 1)]
+    private float jitter;
 
     /// <summary>
     /// Generate the blocks within the specified ditrict based on the values specified in the block generator.
@@ -21,7 +24,10 @@ public class BlockGenerator : MonoBehaviour
     /// <param name="district">The district to generate blocks within.</param>
     /// <returns>An array of the generated blocks.</returns>
     public Block[] Generate (int seed, District district)
-    {        
+    {
+        // Seed random
+        Random.InitState(seed);
+
         List<Block> blocks = new List<Block>();
         List<Vector2> controlPoints = new List<Vector2>();
         Vector3 min = district.BoundingBox.min;
@@ -33,8 +39,13 @@ public class BlockGenerator : MonoBehaviour
         {
             for (int j = Mathf.FloorToInt(min.z); j < max.z; j += Mathf.FloorToInt(distanceBetweenControlPoints))
             {
+                // Offset this value by the jitter amount
+                float xOffset = Random.Range(0, jitter) * distanceBetweenControlPoints;
+                float yOffset = Random.Range(0, jitter) * distanceBetweenControlPoints;
+
+                Vector2 point = new Vector2 (i + xOffset, j + yOffset);
+
                 // Check if control point is within the actual polygon
-                Vector2 point = new Vector2(i, j);
                 if (district.ContainsPoint(point))
                 {
                     controlPoints.Add(point);

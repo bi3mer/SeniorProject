@@ -4,8 +4,8 @@ using System.Collections;
 public class CityController : MonoBehaviour 
 {
     [SerializeField]
-    [Tooltip("Generation seed to construct the city.")]
-    private int seed;
+    [Tooltip("Generation seed to construct the city. Set to 0 to use the value confifured in the settings.")]
+    private int seed = 0;
     [SerializeField]
     [Tooltip("Bounds defnining the size of the city.")]
     private Bounds cityBounds;
@@ -23,7 +23,15 @@ public class CityController : MonoBehaviour
         districtGenerator = GetComponent<DistrictGenerator>();
         blockGenerator = GetComponent<BlockGenerator>();
 
-        Game.Instance.CityInstance = GenerateCity();
+        // Check to see if the seed has been configured in the inspector
+        if (seed == 0)
+        {
+            // If not, use the value configured in the settings.
+            seed = Game.Instance.GameSettingsInstance.ProceduralCityGenerationSeed;
+        }
+
+        // Start city generation
+        Game.Instance.CityInstance = GenerateCity(seed);
 	}
 	
     /// <summary>
@@ -37,7 +45,7 @@ public class CityController : MonoBehaviour
     /// <summary>
     /// Generate the city by generating districts, populating them with blocks, and filling the blocks with buildings.
     /// </summary>
-    private City GenerateCity ()
+    private City GenerateCity (int seed)
     {
         District[] districts = districtGenerator.Generate(seed, cityBounds);
 
