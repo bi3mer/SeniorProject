@@ -1,0 +1,6 @@
+{06f5421b-ff58-4e12-899b-ffbac1c96194} event:/Character/Land/Aesthetic_Jump
+{026996ad-27e4-471c-b39a-b37cf04a86a1} event:/Character/Water/Dive
+{f11aa2b1-64f8-4557-b76b-e9e732bcc7c7} event:/Items/FishingRod/Cast
+{c0b2c10b-f575-46fe-b38e-a781def998b7} bus:/
+{a9e31d85-8bf6-465e-ab51-95bf499f0d77} bus:/Reverb
+{c873c750-0754-4434-b93a-e8a7687621a6} bank:/Master Bank
