@@ -3,6 +3,8 @@ using System.Collections;
 
 /// <summary>
 /// Goes on the window washer prefab, handles the ropes on the washer, moving it up with the water, and teleporting the player.
+/// 
+/// TODO: Change window washer to not teleport and jump up and down, but to travel up and down over time carrying the player with it.
 /// </summary>
 public class WindowWasher : MonoBehaviour
 {
