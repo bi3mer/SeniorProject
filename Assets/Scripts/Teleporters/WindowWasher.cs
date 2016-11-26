@@ -116,7 +116,6 @@ public class WindowWasher : MonoBehaviour
     /// <summary>
     /// When the player enters the trigger zone located on the window washer.
     /// </summary>
-    /// <param name="other"></param>
     void OnTriggerEnter(Collider other)
     {
         if(other.tag == playerTag)
@@ -128,7 +127,6 @@ public class WindowWasher : MonoBehaviour
     /// <summary>
     /// When the player leaves the window washer
     /// </summary>
-    /// <param name="other"></param>
     void OnTriggerExit(Collider other)
     {
         if(other.tag == playerTag)
