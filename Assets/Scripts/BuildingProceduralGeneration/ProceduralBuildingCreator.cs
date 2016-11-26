@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-
 /// <summary>
 /// Defines all the buildings for each district and allows for the creation of builings in those districts.
+/// 
+/// TODO: Make all instances of Random.Range utalize the random generation seed.
 /// </summary>
 public class ProceduralBuildingCreator : MonoBehaviour
 {
