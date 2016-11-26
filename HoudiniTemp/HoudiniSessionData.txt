@@ -1,3 +1,0 @@
-ServerProcessID = 106864
-ServerSessionID = 644092256
-HoudiniSceneExists = true

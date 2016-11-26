@@ -1,11 +1,15 @@
 ﻿public class Game 
 {
     private static Game instance;
+    private bool debugMode;
 
     private Game ()
     {
         PlayerInstance = new Player();
 		WeatherInstance = new WeatherSystem();
+        Radio RadioInstance = new Radio();
+        RadioInstance.currentWeather = WeatherInstance;
+		PauseInstance = new PauseSystem();
     }
  
     /// <summary>
@@ -41,6 +45,27 @@
         set;
     }
 
+    /// Turns on debug mode.
+    /// </summary>
+    public bool DebugMode
+    {
+        get
+        {
+            return debugMode;
+        }
+        set
+        {
+            debugMode = value;
+            if (DebugModeSubscription != null)
+            {
+                DebugModeSubscription();
+            }
+        }
+    }
+
+    public delegate void DebugModeDelegate();
+    public event DebugModeDelegate DebugModeSubscription;
+
 	/// <summary>
 	/// Gets the weather instance.
 	/// </summary>
@@ -64,5 +89,10 @@
 
 			return this.clockInstance;
 		}
+	}
+	public PauseSystem PauseInstance
+	{
+		get;
+		private set;
 	}
 }

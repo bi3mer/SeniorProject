@@ -1,11 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// TODO: Find a way to add a pause functionality to this. For now
-//       this update is out of scope. But this should be figured
-//       out before the alpha is released. It may be that a second
-//       by second update will be required instead of this every 30
-//       second option.
 public class Clock : MonoBehaviour
 {
 	/// <summary>
@@ -48,7 +43,10 @@ public class Clock : MonoBehaviour
 	/// </summary>
 	public void Start () 
 	{
-		StartCoroutine(this.updateTime());
+		// subscribe to delegate
+		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
+
+		this.Resume();
 	}
 
 	/// <summary>
@@ -58,7 +56,7 @@ public class Clock : MonoBehaviour
 	/// <returns>The time.</returns>
 	private IEnumerator updateTime()
 	{
-		while(true)
+		while(!Game.Instance.PauseInstance.IsPaused)
 		{
 			yield return new WaitForSeconds(Clock.Tick);
 
@@ -113,25 +111,11 @@ public class Clock : MonoBehaviour
 		}
 	}
 
-	// TODO: the subscribed delegates will probably have to be 
-	//       notified for both of these functions. So it's looking
-	//       like the clock will have a boolean for if its running 
-	//       or not. On each delegate call, the delegates will check
-	//       if the clock is running. If it is not, they'll know to 
-	//       shutdown until they are told otherwise by the same method.
-	/// <summary>
-	/// Pause the clock running.
-	/// </summary>
-	public void Pause()
-	{
-		// to be implemented
-	}
-
 	/// <summary>
 	/// Resume the clock running.
 	/// </summary>
 	public void Resume()
 	{
-		// to be implemented
+		StartCoroutine(this.updateTime());
 	}
 }

@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private ControlScheme controlScheme;
     [SerializeField]
     private float groundedThreshold;
+    [SerializeField]
+    private Animator playerAnimator;
 
     [Header("Tag Settings")]
     [SerializeField]
@@ -24,8 +26,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float waterWarmthReductionRate;
 
+    [Header("DebugMode Settings")]
+    [SerializeField]
+    private float verticalSpeed;
+    [SerializeField]
+    private KeyCode debugFlightUp;
+    [SerializeField]
+    private KeyCode debugFlightDown;
+
     private bool isGrounded;
     private bool updateStats;
+    private bool isFlying;
 
     private InteractableObject interactable;
 
@@ -34,8 +45,8 @@ public class PlayerController : MonoBehaviour
     private WaterMovement waterMovement;
 
     private Tool equippedTool;
-
     private CameraController playerCamera;
+    private Rigidbody playerRigidbody;
 
     public Animator PlayerAnimator
     {
@@ -44,8 +55,6 @@ public class PlayerController : MonoBehaviour
             return playerAnimator;
         }
     }
-    [SerializeField]
-    private Animator playerAnimator;
 
     /// <summary>
     /// Set up player movement
@@ -60,15 +69,24 @@ public class PlayerController : MonoBehaviour
         waterMovement = GetComponent<WaterMovement>();
         movement = landMovement;
 
+        // update accessable player transform
+        Game.Instance.PlayerInstance.WorldTransform = transform;
+
         // set up tools
         equippedTool = GetComponentInChildren<FishingRod>();
 
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();
 
+        // set up rigidbody
+        playerRigidbody = GetComponent<Rigidbody>();
+
         // start reducing hunger & cold
         StartCoroutine(ReduceHunger(hungerReductionRate));
         StartCoroutine(ReduceHunger(waterWarmthReductionRate));
+
+        // subscribe to events
+        Game.Instance.DebugModeSubscription += this.toggleDebugMode;
 	}
 
     /// <summary>
@@ -106,15 +124,16 @@ public class PlayerController : MonoBehaviour
     {
         UpdatePlayerStats();
 
+        // check for camera related input
         if (Input.GetKeyDown(controlScheme.CameraLeft))
         {
             playerCamera.RotateLeft();
         }
-
         if (Input.GetKeyDown(controlScheme.CameraRight))
         {
             playerCamera.RotateRight();
         }
+        playerCamera.Zoom(Input.GetAxis(controlScheme.CameraZoomAxis));
         
         // if the player has a tool equipped
         if (equippedTool != null)
@@ -144,9 +163,24 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (isGrounded && Input.GetKeyDown(controlScheme.Jump))
+        // can't jump while in debug mode
+        if (isGrounded && !Game.Instance.DebugMode && Input.GetKeyDown(controlScheme.Jump))
         {
             movement.Jump(playerAnimator);
+        }
+
+        // Debug mode flight controls
+        if (Game.Instance.DebugMode)
+        {
+            if (Input.GetKey(debugFlightUp))
+            {
+                playerRigidbody.transform.Translate(Vector3.up * verticalSpeed);
+            }
+
+            if (Input.GetKey(debugFlightDown))
+            {
+                playerRigidbody.transform.Translate(Vector3.down * verticalSpeed);
+            }
         }
     }
 	
@@ -320,5 +354,20 @@ public class PlayerController : MonoBehaviour
     public bool IsOnRaft
     {
         get { return movement is RaftMovement; }
+    }
+
+    /// <summary>
+    /// Set up or tear down any configuration neccisary for debug mode.
+    /// </summary>
+    private void toggleDebugMode()
+    {
+        if (Game.Instance.DebugMode)
+        {
+            playerRigidbody.useGravity = false;
+        }
+        else
+        {
+            playerRigidbody.useGravity = true;
+        }
     }
 }
