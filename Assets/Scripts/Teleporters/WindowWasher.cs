@@ -2,14 +2,13 @@
 using System.Collections;
 
 /// <summary>
-/// Goes on the window washer, handles the ropes on the washer, moving it up with the water, and teleporting the player.
+/// Goes on the window washer prefab, handles the ropes on the washer, moving it up with the water, and teleporting the player.
 /// </summary>
 public class WindowWasher : MonoBehaviour
 {
-    //Teleportation Variabls
+    // Teleportation Variabls
     [SerializeField]
     private TeleportPlayer teleportLocations;
-
 
     public float MaxLowerDistance;
     [SerializeField]
@@ -28,7 +27,7 @@ public class WindowWasher : MonoBehaviour
     // When the window washer needs to move up, this is the Y position it moves to.
     private const float upYPosition = -0.03200006f;
 
-    //Rope Variables
+    // Rope Variables
     [SerializeField]
     private LineRenderer ropeRenderer;
     [SerializeField]
@@ -40,6 +39,32 @@ public class WindowWasher : MonoBehaviour
     [Tooltip ("Set point 0 and 1 to the first rope, set point 2 and 3 to the second rope")]
     private Transform[] ropeLocations;
     private Material ropeMaterial;
+
+    // Placement Variables
+    [SerializeField]
+    [Tooltip ("The length of the window washer's base, set this properly to prevant it from hanging off the edge of a building")]
+    private float washerBaseLength;
+    public float WasherBaseLength
+    {
+        get
+        {
+            return washerBaseLength;
+        }
+    }
+    [SerializeField]
+    [Tooltip ("The raycast center for placing the washer")]
+    private GameObject placementCenter;
+    public GameObject PlacementCenter
+    {
+       get
+       {
+            return placementCenter;
+       }
+    }
+
+    // Does the washer start in the up position?
+    public bool StartUp;
+
 
     /// <summary>
     /// Set up the rope material on start.
@@ -58,6 +83,15 @@ public class WindowWasher : MonoBehaviour
         if(water == null)
         {
             water = GameObject.FindGameObjectWithTag("Water");
+        }
+
+        if(StartUp == true)
+        {
+            isUp = true;
+        }
+        else
+        {
+            isUp = false;
         }
     }
 
