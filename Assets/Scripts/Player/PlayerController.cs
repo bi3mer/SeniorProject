@@ -6,8 +6,6 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField]
-    private ControlScheme controlScheme;
-    [SerializeField]
     private float groundedThreshold;
     [SerializeField]
     private Animator playerAnimator;
@@ -25,6 +23,14 @@ public class PlayerController : MonoBehaviour
     private float hungerReductionRate;
     [SerializeField]
     private float waterWarmthReductionRate;
+
+	[Header("HUD Settings")]
+	[SerializeField]
+	private UnityEvent hungerUpdatedEvent;
+	[SerializeField]
+	private UnityEvent healthUpdatedEvent;
+	[SerializeField]
+	private UnityEvent warmthUpdatedEvent;
 
     [Header("DebugMode Settings")]
     [SerializeField]
@@ -47,6 +53,9 @@ public class PlayerController : MonoBehaviour
     private Tool equippedTool;
     private CameraController playerCamera;
     private Rigidbody playerRigidbody;
+
+	[SerializeField]
+	private ControlScheme controlScheme;
 
     public Animator PlayerAnimator
     {
@@ -84,6 +93,10 @@ public class PlayerController : MonoBehaviour
         // start reducing hunger & cold
         StartCoroutine(ReduceHunger(hungerReductionRate));
         StartCoroutine(ReduceHunger(waterWarmthReductionRate));
+
+		// Link this to the player instance
+		Game.Instance.PlayerInstance.Controller = this;
+		controlScheme = Game.Instance.Scheme;
 
         // subscribe to events
         Game.Instance.DebugModeSubscription += this.toggleDebugMode;
@@ -210,7 +223,7 @@ public class PlayerController : MonoBehaviour
             direction += getDirection(-playerCamera.CurrentView.forward);
         }
         if (Input.GetKey(controlScheme.Left) 
-            || Input.GetKey(controlScheme.LeftSecodary))
+            || Input.GetKey(controlScheme.LeftSecondary))
         {
             direction += getDirection(-playerCamera.CurrentView.right);
         }
@@ -246,6 +259,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             player.Health -= (int) movement.CurrentFallDammage;
+			healthUpdatedEvent.Invoke ();
         }
     }
 
@@ -255,6 +269,7 @@ public class PlayerController : MonoBehaviour
         {
             yield return new WaitForSeconds(depletionRate);
             --Game.Instance.PlayerInstance.Hunger;
+			hungerUpdatedEvent.Invoke ();
         }
     }
 
@@ -266,7 +281,10 @@ public class PlayerController : MonoBehaviour
             if (IsInWater)
             {
                 --Game.Instance.PlayerInstance.Warmth;
+
             }
+
+			warmthUpdatedEvent.Invoke ();
         }
     }
 
