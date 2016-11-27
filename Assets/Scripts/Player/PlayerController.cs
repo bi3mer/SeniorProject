@@ -28,14 +28,8 @@ public class PlayerController : MonoBehaviour
 	private float shelterWarmthIncreaseRate;
     [SerializeField]
     private float fireWarmthIncreaseRate;
-
-    [Header("Current Resource Settings")]
-	[SerializeField]
-	private float currentWarmthReductionRate;
-	[SerializeField]
-	private float currentWarmthIncreaseRate;
-	[SerializeField]
-	private float currentHungerReductionRate;
+    [SerializeField]
+    private float hungerReductionRate;
 
 	[Header("HUD Settings")]
 	[SerializeField]
@@ -56,6 +50,11 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool updateStats;
     private bool isFlying;
+    private bool isInShelter;
+    private bool isByFire;
+
+    private float currentWarmthChangeRate;
+    private float currentHungerChangeRate;
 
     private InteractableObject interactable;
 
@@ -87,17 +86,15 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = false;
         updateStats = true;
+        isInShelter = false;
+        isByFire = false;
 
         // set up movement components
         landMovement = GetComponent<LandMovement>();
         waterMovement = GetComponent<WaterMovement>();
         movement = landMovement;
 
-        // update accessable player transform
-        Game.Instance.PlayerInstance.WorldTransform = transform;
-
         // set up tools
-
 		fishingRod = GetComponentInChildren<FishingRod>();
         equippedTool = null;
 
@@ -105,26 +102,24 @@ public class PlayerController : MonoBehaviour
         playerCamera = Camera.main.GetComponent<CameraController>();
 
         // start reducing hunger
-        StartCoroutine(ReduceHunger());
+        currentHungerChangeRate = hungerReductionRate;
+        StartCoroutine(UpdateHunger());
 
-		// subscribe to delegate
-		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
-		Game.Instance.PauseInstance.PauseUpdate += this.Pause;
+        // start updating warmth
+        currentWarmthChangeRate = outsideWarmthReductionRate;
+        StartCoroutine(UpdateWarmth());
 
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
 
-		// start reducing hunger
-		StartCoroutine(ReduceHunger());
-
 		// Link this to the player instance
+        // and update accessable player transform
+        Game.Instance.PlayerInstance.WorldTransform = transform;
 		Game.Instance.PlayerInstance.Controller = this;
 		controlScheme = Game.Instance.Scheme;
 
         // subscribe to events
         Game.Instance.DebugModeSubscription += this.toggleDebugMode;
-
-		// subscribe to delegate
 		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
 		Game.Instance.PauseInstance.PauseUpdate += this.Pause;
 	}
@@ -138,7 +133,9 @@ public class PlayerController : MonoBehaviour
         // enter into the range of an interactable item
         if (other.CompareTag(interactiveTag))
         {
-            interactable = other.GetComponent<InteractableObject>();
+            // Accounts for triggers working as compound colliders where the scripts are located in a parent object.
+            GameObject actualTriggerObject = other.GetComponentInParent<Rigidbody>().gameObject;
+            interactable = actualTriggerObject.GetComponent<InteractableObject>();
             interactable.Show = true;
         }
     }
@@ -306,61 +303,48 @@ public class PlayerController : MonoBehaviour
 			healthUpdatedEvent.Invoke ();
         }
 
-		if (IsInShelter) 
-		{
-			currentWarmthIncreaseRate = shelterWarmthIncreaseRate;
-			StopCoroutine (ReduceWarmth());
-			StartCoroutine(IncreaseWarmth ());
-
-		} 
-		else 
-		{
-			currentWarmthReductionRate = outsideWarmthReductionRate;
-			StopCoroutine (IncreaseWarmth());
-			StartCoroutine(ReduceWarmth ());
-		}
-
-        if (IsByFire)
+        // check if we're in water
+        if (IsInWater)
         {
-            currentWarmthIncreaseRate = fireWarmthIncreaseRate;
-            StopCoroutine(ReduceWarmth());
-            StartCoroutine(IncreaseWarmth());
-        }
-        else 
-        {
-            currentWarmthReductionRate = outsideWarmthReductionRate;
-            StopCoroutine(IncreaseWarmth());
-            StartCoroutine(ReduceWarmth());
+            currentWarmthChangeRate = waterWarmthReductionRate;
         }
     }
 
-    private IEnumerator ReduceHunger ()
+    private IEnumerator UpdateHunger ()
     {
         while (updateStats)
         {
-			yield return new WaitForSeconds(currentHungerReductionRate);
-            --Game.Instance.PlayerInstance.Hunger;
+			yield return new WaitForSeconds(Mathf.Abs(currentHungerChangeRate));
+
+            if (currentHungerChangeRate > 0)
+            {
+                ++Game.Instance.PlayerInstance.Hunger;
+            }
+            else
+            {
+                --Game.Instance.PlayerInstance.Hunger;
+            }
+            
 			hungerUpdatedEvent.Invoke ();
         }
     }
 
-	private IEnumerator ReduceWarmth()
+	private IEnumerator UpdateWarmth()
 	{
 		while (updateStats)
 		{
-			yield return new WaitForSeconds(currentWarmthReductionRate);
-			--Game.Instance.PlayerInstance.Warmth;
-		}
-			
-		warmthUpdatedEvent.Invoke ();
-	}
+			yield return new WaitForSeconds(Mathf.Abs(currentWarmthChangeRate));
 
-	private IEnumerator IncreaseWarmth()
-	{
-		while (updateStats & IsInShelter) 
-		{
-			yield return new WaitForSeconds (currentWarmthIncreaseRate);
-			++Game.Instance.PlayerInstance.Warmth;
+            if (currentWarmthChangeRate > 0)
+            {
+                ++Game.Instance.PlayerInstance.Warmth;
+            }
+            else
+            {
+                --Game.Instance.PlayerInstance.Warmth;
+            }
+			
+            warmthUpdatedEvent.Invoke();
 		}
 	}
 
@@ -455,8 +439,24 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	public bool IsInShelter 
 	{
-		get;
-		set;
+        get
+        {
+            return isInShelter;
+        }
+        set
+        {
+            // Set warmth rates to the proper value
+            if (value)
+            {
+                currentWarmthChangeRate = shelterWarmthIncreaseRate;
+            }
+            else
+            {
+                currentWarmthChangeRate = outsideWarmthReductionRate;
+            }
+
+            isInShelter = value;
+        }
 	}
 
     /// <summary>
@@ -464,8 +464,23 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public bool IsByFire
     {
-        get;
-        set;
+        get
+        {
+            return IsByFire;
+        }
+        set
+        {
+            if (value)
+            {
+                currentWarmthChangeRate = fireWarmthIncreaseRate;
+            }
+            else
+            {
+                currentWarmthChangeRate = outsideWarmthReductionRate;
+            }
+
+            isInShelter = value;
+        }
     }
 
     /// <summary>
@@ -473,7 +488,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void Resume()
 	{
-		// TODO: Resume any stat changes coroutines
+        updateStats = true;
+        
+        // TODO: Resume any other stopped preccesses
 	}
 
 	/// <summary>
@@ -481,7 +498,9 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	public void Pause()
 	{
-		// TODO: Stop any stat changes coroutines
+        updateStats = false;
+
+        // TODO: Stop any needed processes
 	}
 
     /// <summary>

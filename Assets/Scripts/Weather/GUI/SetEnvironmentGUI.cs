@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class SetWeatherGUI : MonoBehaviour 
+public class SetEnvironmentGUI : MonoBehaviour 
 {
+	[SerializeField]
+	private Text clock;
+
 	[SerializeField]
 	private Text pressure;
 	private string pressureString;
@@ -52,9 +56,6 @@ public class SetWeatherGUI : MonoBehaviour
 		this.relativeHumidityString   = this.relativeHumidity.text;
 		this.relativeDewPointString   = this.relativeDewPoint.text;
 		this.precipitationString      = this.precipitation.text;
-
-		// TODO: update this to use game instance in the future
-		this.playerPosition = GameObject.FindGameObjectWithTag("Player").transform;
 	}
 
 	/// <summary>
@@ -62,10 +63,8 @@ public class SetWeatherGUI : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-		// update the weather instance data
-		Game.Instance.WeatherInstance.UpdateWeather(this.playerPosition.position);
-
 		// update fields
+		this.clock.text              = Game.Instance.ClockInstance.FormattedTime;
 		this.pressure.text           = this.pressureString + " " + 
 		                               Game.Instance.WeatherInstance.WeatherInformation[(int) Weather.Pressure].ToString();
 		this.temperature.text        = this.temperatureString + " " + 
