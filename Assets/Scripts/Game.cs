@@ -38,6 +38,14 @@
         private set;
     }
 
+    /// <summary>
+    /// The current city. Returns null if the city has not yet been populated.
+    /// </summary>
+    public City CityInstance
+    {
+        get;
+        set;
+    }
 
 	/// <summary>
 	/// Turns on debug mode.

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 /// It holds things like the building pieces the district contains, that districts materials, window types, etc.
 /// </summary>
 [System.Serializable]
-public class District
+public class DistrictDefinition
 {
     // Procedural Building Art Code
 
@@ -197,80 +197,80 @@ public class District
     // District positioning code
 
     private Vector2[] edgeVerticies;
-	private Vector2   cityCenter;
+    private Vector2 cityCenter;
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="AssemblyCSharp.District"/> class.
-	/// </summary>
-	/// <param name="center">Center point of the city as determined by DistrictsGenerator.</param>
-	public District (Vector2 center)
-	{
-		cityCenter = center;
-	}
-		
-	/// <summary>
-	/// Gets or sets the verticies.
-	/// </summary>
-	/// <value>The verticies.</value>
-	public Vector2[] Verticies
-	{ 
-		get
-		{ 
-			return edgeVerticies;
-		} 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AssemblyCSharp.District"/> class.
+    /// </summary>
+    /// <param name="center">Center point of the city as determined by DistrictsGenerator.</param>
+    public DistrictDefinition(Vector2 center)
+    {
+        cityCenter = center;
+    }
 
-		set 
-		{
-			edgeVerticies = value;
-		}
-	}
+    /// <summary>
+    /// Gets or sets the verticies.
+    /// </summary>
+    /// <value>The verticies.</value>
+    public Vector2[] Verticies
+    {
+        get
+        {
+            return edgeVerticies;
+        }
 
-	/// <summary>
-	/// Gets or sets the name.
-	/// </summary>
-	/// <value>The name.</value>
-	public String Name
-	{
-		get 
-		{
-			return districtName;
-		}
+        set
+        {
+            edgeVerticies = value;
+        }
+    }
 
-		set
-		{
-			districtName = value;
-		}
-	}
+    /// <summary>
+    /// Gets or sets the name.
+    /// </summary>
+    /// <value>The name.</value>
+    public String Name
+    {
+        get
+        {
+            return districtName;
+        }
 
-	/// <summary>
-	/// Checks whether the point is within the bounds of the district.
-	/// </summary>
-	/// <returns><c>true</c>, if point is within district, <c>false</c> otherwise.</returns>
-	/// <param name="point">Point to be checked.</param>
-	public bool ContainsPoint(Vector2 point)
-	{
+        set
+        {
+            districtName = value;
+        }
+    }
 
-		// check whether this point's x value is between the district's edges & the city center
-		if (point.x < edgeVerticies [0].x && point.x < edgeVerticies [1].x && point.x < cityCenter.x) 
-		{
-			return false;
-		}
-		if (point.x > edgeVerticies [0].x && point.x > edgeVerticies [1].x && point.x > cityCenter.x) 
-		{
-			return false;
-		}
+    /// <summary>
+    /// Checks whether the point is within the bounds of the district.
+    /// </summary>
+    /// <returns><c>true</c>, if point is within district, <c>false</c> otherwise.</returns>
+    /// <param name="point">Point to be checked.</param>
+    public bool ContainsPoint(Vector2 point)
+    {
 
-		// check whether this point's x value is between the district's edges & the city center
-		if (point.y < edgeVerticies [0].y && point.y < edgeVerticies [1].y && point.y < cityCenter.y) 
-		{
-			return false;
-		}
+        // check whether this point's x value is between the district's edges & the city center
+        if (point.x < edgeVerticies[0].x && point.x < edgeVerticies[1].x && point.x < cityCenter.x)
+        {
+            return false;
+        }
+        if (point.x > edgeVerticies[0].x && point.x > edgeVerticies[1].x && point.x > cityCenter.x)
+        {
+            return false;
+        }
 
-		if (point.y > edgeVerticies [0].y && point.y > edgeVerticies [1].y && point.y > cityCenter.y) 
-		{
-			return false;
-		}
+        // check whether this point's x value is between the district's edges & the city center
+        if (point.y < edgeVerticies[0].y && point.y < edgeVerticies[1].y && point.y < cityCenter.y)
+        {
+            return false;
+        }
 
-		return true;
-	}
+        if (point.y > edgeVerticies[0].y && point.y > edgeVerticies[1].y && point.y > cityCenter.y)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

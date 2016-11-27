@@ -10,7 +10,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
 {
     // All of the different districts, and all of their procedural building assets
     [SerializeField]
-    private District[] districts;
+    private DistrictDefinition[] districts;
 
     // Per building base Enums
     public enum HeightType
@@ -98,7 +98,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// Creates all the procedural materials for a single district.
     /// </summary>
     /// <param name="district"></param>
-    void CreateMaterialsForDistrict(District district)
+    void CreateMaterialsForDistrict(DistrictDefinition district)
     {
         district.districtProceduralMaterials.Clear();
         district.districtProceduralWindowMaterials.Clear();
@@ -163,7 +163,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// <summary>
     /// Populates a new proceduralbuilding class and spawns it in the world.
     /// </summary>
-    public ProceduralBuildingInstance CreateBuilding(District district, BaseSize size, float attatchmentPercentage, int storiesTall)
+    public ProceduralBuildingInstance CreateBuilding(DistrictDefinition district, BaseSize size, float attatchmentPercentage, int storiesTall)
     {
         // Check to see if we need new materials.
         if (district.districtProceduralMaterials.Count == 0 || district.districtProceduralWindowMaterials.Count == 0)
@@ -208,7 +208,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// <summary>
     /// Called during building creation, spawns a base building and roof.
     /// </summary>
-    private void createBase(ProceduralBuildingInstance newBuilding, District district, BaseSize size, float attatchmentPercentage, int storiesTall, List<MeshRenderer> buildingMeshes)
+    private void createBase(ProceduralBuildingInstance newBuilding, DistrictDefinition district, BaseSize size, float attatchmentPercentage, int storiesTall, List<MeshRenderer> buildingMeshes)
     {
         // Set buildingbase
         ProceduralBuildingBase newBase = district.SizeXDefinitions[(int)size].DistrictSizeXBases[GetNewBuilding(district, size, BuildingParts.Base)];         
@@ -255,7 +255,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// <summary>
     /// Returns a random building piece by district, size and type
     /// </summary>
-    private int GetNewBuilding(District thisDistrict, BaseSize size, BuildingParts part)
+    private int GetNewBuilding(DistrictDefinition thisDistrict, BaseSize size, BuildingParts part)
     {
         for (int i = 0; i < thisDistrict.SizeXDefinitions.Length; ++i)
         {
@@ -271,7 +271,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// <summary>
     /// Called during building creation, spawns attachments for a building base and spawns roofs for all attachements.
     /// </summary>
-    private void createAttachments(ProceduralBuildingInstance newBuilding, District district, BaseSize size, float attatchmentPercentage, int storiesTall, List<MeshRenderer> buildingMeshes)
+    private void createAttachments(ProceduralBuildingInstance newBuilding, DistrictDefinition district, BaseSize size, float attatchmentPercentage, int storiesTall, List<MeshRenderer> buildingMeshes)
     {
         // Set Attatchments
         if (district.DistrictAttachments.Length > 0 && attatchmentPercentage > 0f && newBuilding.BuildingBase.AttachmentPoints.Length > 0)
@@ -328,7 +328,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// <summary>
     /// handles the placing, and / or addition of roofs to attachments and to building bases.
     /// </summary>
-    private ProceduralBuildingRoof placeRoof(Transform roofLocation, District district, BaseSize roofSize, int storiesTall, List<MeshRenderer> buildingMeshes, ProceduralBuildingRoof hasRoof = null)
+    private ProceduralBuildingRoof placeRoof(Transform roofLocation, DistrictDefinition district, BaseSize roofSize, int storiesTall, List<MeshRenderer> buildingMeshes, ProceduralBuildingRoof hasRoof = null)
     {
         ProceduralBuildingRoof newRoof;
         GameObject roofObject;
@@ -368,7 +368,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// <summary>
     /// Called during building creation, adds windows to either a base or to attachments.
     /// </summary>
-    private void addWindows(ProceduralBuildingInstance newBuilding, District district, BaseSize size, float attatchmentPercentage, int storiesTall, List<MeshRenderer> windowMeshes)
+    private void addWindows(ProceduralBuildingInstance newBuilding, DistrictDefinition district, BaseSize size, float attatchmentPercentage, int storiesTall, List<MeshRenderer> windowMeshes)
     {
         // grab a window to use for all the windows on the building.
         ProceduralBuildingWindow newWindow = district.DistrictWindows[Random.Range(0, district.DistrictWindows.Length)];
