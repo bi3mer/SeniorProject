@@ -64,7 +64,7 @@ public class Player
     {
         get
         {
-            return warmth;
+            return health;
         }
         set
         {
