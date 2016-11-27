@@ -61,12 +61,12 @@ public class ProceduralBuildingCreator : MonoBehaviour
     private const float attachmentRotationMod = 0f;
     // Rotation mod of all windows.
     private const float attachmentWindowRotationMod = 90f;
-
     // The string name to access the standard shader's smoothness value
     private const string StandardShaderSmoothness = "_GlossMapScale";
-
     // The number of tries to try any potentially failing random generation.
     private const int numberOfTries = 5;
+    // A float representing a distance taller than roofs, to insure we can start a raycast from above them.
+    private const float aboveRoofHeight = 5f;
 
     // Test Variables.
     public int TestDistrict;
@@ -439,7 +439,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 {
                     bool canSpawn = true;
                     // For each window attatchment, make sure it's not parented to a used attachmentpoint.
-                    for (int j = 0; j < usedPoints.Count; j++)
+                    for (int j = 0; j < usedPoints.Count; ++j)
                     {
                         if (newBuilding.BuildingBase.AttachmentPoints[usedPoints[j]] == newBuilding.BuildingBase.WindowPoints[i].parent)
                         {
@@ -660,7 +660,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 RaycastHit placementHit;
                 // Raycast above the building where the washer is straight down 
                 if (Physics.Raycast(newWashersPrefab.PlacementCenter.transform.position + newWasher.transform.position
-                    + new Vector3(0f, storiesTall * (storyHeightUnits + 5), 0f), Vector3.down, out placementHit))
+                    + new Vector3(0f, storiesTall * (storyHeightUnits + aboveRoofHeight), 0f), Vector3.down, out placementHit))
                 {
                     newWasher.transform.position += new Vector3(0f, placementHit.point.y, 0f);
                 }
@@ -670,6 +670,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 }
 
                 // Set max lower distance based on the animation curve.
+                // Again this curve is only evaluated between 0 and 1 on the X axis.
                 newWasher.MaxLowerDistance = district.WindowWasherMaxLengthCurve.Evaluate(Random.Range(0f, 1f));
                 // Set if the new washer starts up or not. This is a percent chance so we use a range of 0-100 to evaluate.
                 if(Random.Range(0f,100f) <= district.WindowWasherStartUpChance)
