@@ -26,8 +26,10 @@ public class PlayerController : MonoBehaviour
 	private float outsideWarmthReductionRate;
 	[SerializeField]
 	private float shelterWarmthIncreaseRate;
+    [SerializeField]
+    private float fireWarmthIncreaseRate;
 
-	[Header("Current Resource Settings")]
+    [Header("Current Resource Settings")]
 	[SerializeField]
 	private float currentWarmthReductionRate;
 	[SerializeField]
@@ -317,6 +319,19 @@ public class PlayerController : MonoBehaviour
 			StopCoroutine (IncreaseWarmth());
 			StartCoroutine(ReduceWarmth ());
 		}
+
+        if (IsByFire)
+        {
+            currentWarmthIncreaseRate = fireWarmthIncreaseRate;
+            StopCoroutine(ReduceWarmth());
+            StartCoroutine(IncreaseWarmth());
+        }
+        else 
+        {
+            currentWarmthReductionRate = outsideWarmthReductionRate;
+            StopCoroutine(IncreaseWarmth());
+            StartCoroutine(ReduceWarmth());
+        }
     }
 
     private IEnumerator ReduceHunger ()
@@ -444,10 +459,19 @@ public class PlayerController : MonoBehaviour
 		set;
 	}
 
-	/// <summary>
-	/// Resume stat changes.
-	/// </summary>
-	public void Resume()
+    /// <summary>
+    /// Returns true if the player is currently by a fire.
+    /// </summary>
+    public bool IsByFire
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Resume stat changes.
+    /// </summary>
+    public void Resume()
 	{
 		// TODO: Resume any stat changes coroutines
 	}
