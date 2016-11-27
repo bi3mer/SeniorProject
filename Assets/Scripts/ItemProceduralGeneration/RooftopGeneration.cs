@@ -40,7 +40,7 @@ public class RooftopGeneration
 	/// <param name="doorChance">Likelihood of a roof having a door in addition to objects.</param>
 	public RooftopGeneration(float generationChance)
 	{
-		List<BaseItem> generatableItems = GetGeneratableItems();
+		List<BaseItem> generatableItems = getGeneratableItems();
 		chanceOfGeneration = generationChance;
 		chanceOfDoor = 0;
 
@@ -54,7 +54,7 @@ public class RooftopGeneration
 			itemTemplates.Add(factory.CreateInteractableItem(generatableItems[j], 1));
 		}
 
-		itemExtents = GetItemExtents(itemTemplates);
+		itemExtents = getItemExtents(itemTemplates);
 
 		Random.InitState (seed);
 	}
@@ -67,7 +67,7 @@ public class RooftopGeneration
 	public void AddDoors(List<GameObject> doors, float doorChance)
 	{
 		doorTemplates = doors;
-		doorExtents.AddRange(GetItemExtents(doors));
+		doorExtents.AddRange(getItemExtents(doors));
 		chanceOfDoor = doorChance;
 	}
 
@@ -78,7 +78,7 @@ public class RooftopGeneration
 	public void AddShelterTemplates(List<GameObject> shelters)
 	{
 		itemTemplates.AddRange(shelters);
-		itemExtents.AddRange(GetItemExtents(shelters));
+		itemExtents.AddRange(getItemExtents(shelters));
 	}
 
 	/// <summary>
@@ -88,7 +88,7 @@ public class RooftopGeneration
 	public void AddFireRemplates(List<GameObject> fires)
 	{
 		itemTemplates.AddRange(fires);
-		itemExtents.AddRange(GetItemExtents(fires));
+		itemExtents.AddRange(getItemExtents(fires));
 	}
 
 	/// <summary>
@@ -122,7 +122,7 @@ public class RooftopGeneration
 			if (points.Count > 0) 
 			{
 				// for now, all roofs with items will have doors
-				GenerateObjects(hasDoor, points);
+				generateObjects(hasDoor, points);
 			}
 		}
 	}
@@ -134,7 +134,7 @@ public class RooftopGeneration
 	/// </summary>
 	/// <param name="hasDoor">If set to <c>true</c>, there is a door that needs to be created.</param>
 	/// <param name="points">Points.</param>
-	public void GenerateObjects(bool hasDoor, List<ItemPlacementSamplePoint> points)
+	private void generateObjects(bool hasDoor, List<ItemPlacementSamplePoint> points)
 	{
 		int startingIndex = 0;
 		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
@@ -164,7 +164,7 @@ public class RooftopGeneration
 	/// </summary>
 	/// <returns>The extents of the items.</returns>
 	/// <param name="items">Items.</param>
-	public List<float> GetItemExtents(List<GameObject> items)
+	private List<float> getItemExtents(List<GameObject> items)
 	{
 		List<float> extents = new List<float>();
 		Renderer renderer;
@@ -187,7 +187,7 @@ public class RooftopGeneration
 	/// TODO: Take into account the rarity of an item when items are generated
 	/// </summary>
 	/// <returns>The represented items.</returns>
-	public List<BaseItem> GetGeneratableItems()
+	private List<BaseItem> getGeneratableItems()
 	{
 		ItemFactory factory = Game.Instance.ItemFactoryInstance;
 		List<GeneratableItemInfoModel> possibleItems = factory.GeneratableItemList;
