@@ -351,17 +351,13 @@ public class WeatherSystem
 		this.setWindSpeedVector(position, center);
 	}
 
-	// TODO this will be removed very soon. Keeping it nearby to remember.
-	private Transform playerPosition;
 	/// <summary>
 	/// Updates the weather and internal pressure systems.
 	/// </summary>
 	public void UpdateSystem()
 	{
 		this.WeatherPressureSystems.UpdatePressureSystem();
-
-		// TODO this will be updated with Gabby's code
-		this.UpdateWeather(this.playerPosition.position);
+		this.UpdateWeather(Game.Instance.PlayerInstance.WorldTransform.position);
 	}
 
 	/// <summary>
@@ -371,8 +367,5 @@ public class WeatherSystem
 	{
 		this.WeatherInformation = new float[Weather.GetNames(typeof(Weather)).Length];
 		this.WeatherPressureSystems = new PressureSystems();
-
-		// TODO this will be removed in the near future
-		this.playerPosition = GameObject.FindGameObjectWithTag("Player").transform;
 	}
 }

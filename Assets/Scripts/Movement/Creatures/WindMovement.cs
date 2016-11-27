@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof (Rigidbody))]
+[RequireComponent (typeof (Collider))]
 public class WindMovement : MonoBehaviour 
 {
 	[SerializeField]
-	private float windMitigationConstant = 200f;
+	private float windMitigation = 200f;
 
 	private Rigidbody rb;
 
@@ -22,6 +24,6 @@ public class WindMovement : MonoBehaviour
 	void FixedUpdate()
 	{
 		// reduce intensity of wind vector on jelly fish
-		this.rb.velocity = Game.Instance.WeatherInstance.WindDirection3d / windMitigationConstant;
+		this.rb.velocity = Game.Instance.WeatherInstance.WindDirection3d / this.windMitigation;
 	}
 }
