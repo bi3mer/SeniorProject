@@ -40,7 +40,6 @@ public class InventoryUIBehavior : MonoBehaviour
 	/// </summary>
 	public void LoadInventory()
 	{
-		targetInventory.LoadInventory ();
 		Stack[] inventoryInfo = targetInventory.GetInventory ();
 
 		for (int i = 0; i < inventoryInfo.Length; ++i) 
