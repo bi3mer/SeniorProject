@@ -3,9 +3,6 @@
     private static Game instance;
 	private bool debugMode;
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="Game"/> class.
-	/// </summary>
     private Game ()
     {
         PlayerInstance = new Player();
@@ -72,10 +69,6 @@
 		private set;
 	}
 
-	/// <summary>
-	/// Gets a value indicating whether this instance is radio active.
-	/// </summary>
-	/// <value><c>true</c> if this instance is radio active; otherwise, <c>false</c>.</value>
     public bool IsRadioActive
     {
         get
@@ -84,16 +77,15 @@
         }
     }
 
-    /// <summary>
-    /// Gets or sets the radio instance.
-    /// </summary>
-    /// <value>The radio instance.</value>
     public Radio RadioInstance
     {
         get;
         set;
     }
 
+	/// <summary>
+	/// The clock instance.
+	/// </summary>
 	private Clock clockInstance;
 
 	/// <summary>
@@ -107,6 +99,7 @@
 			if(this.clockInstance == null)
 			{
 				this.clockInstance = UnityEngine.MonoBehaviour.FindObjectOfType<Clock>();
+				this.clockInstance.Start();
 			}
 
 			return this.clockInstance;
