@@ -87,6 +87,9 @@ public class GenerationUtility
             startX = endX; startY = endY;
             endPoint = polygon[i++];
             endX = endPoint.x; endY = endPoint.y;
+
+            // series of boolean operations to determine what side of 
+            // the line between two verticies the point is on
             inside ^= (endY > pointY ^ startY > pointY) &&
                       ((pointX - endX) < (pointY - endY) * (startX - endX) / (startY - endY));
         }
@@ -158,6 +161,11 @@ public class GenerationUtility
         }
 
         // Check to see which point is closest
-        return (firstOffset.sqrMagnitude < secondOffset.sqrMagnitude) ? 1 : -1;
+        if (firstOffset.sqrMagnitude < secondOffset.sqrMagnitude) 
+        {
+            return 1; 
+        }
+        
+        return -1;
     }
 }

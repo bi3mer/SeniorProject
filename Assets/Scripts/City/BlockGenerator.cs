@@ -34,10 +34,13 @@ public class BlockGenerator : MonoBehaviour
         Vector3 max = district.BoundingBox.max;
         Vector3 size = district.BoundingBox.size;
 
+        int increment = Mathf.FloorToInt(distanceBetweenControlPoints);
+        int start = Mathf.FloorToInt(min.z);
+
         // create a grid of points inside the bounds along the y-axis
-        for (int i = Mathf.FloorToInt(min.x); i < max.x; i += Mathf.FloorToInt(distanceBetweenControlPoints))
+        for (int i = Mathf.FloorToInt(min.x); i < max.x; i += increment)
         {
-            for (int j = Mathf.FloorToInt(min.z); j < max.z; j += Mathf.FloorToInt(distanceBetweenControlPoints))
+            for (int j = start; j < max.z; j += increment)
             {
                 // Offset this value by the jitter amount
                 float xOffset = Random.Range(0, jitter) * distanceBetweenControlPoints;

@@ -15,8 +15,6 @@ public class CityController : MonoBehaviour
 
     /// <summary>
     /// Grabs other generators and starts generation.
-    /// 
-    /// If debugger is set up, show debug view.
     /// </summary>
 	void Start () 
     {
