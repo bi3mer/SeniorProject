@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour 
@@ -147,9 +148,13 @@ public class PlayerController : MonoBehaviour
         {
 			if (Input.GetKeyDown(controlScheme.UseTool) && Game.Instance.PlayerInstance.HasTool)
             {
-                // TODO: Check to see if Use returns and item
-                // if so maybe show it off then put it in the player's inventory
-                equippedTool.Use();
+				// Check if the mouse was clicked over a UI element
+            	if(!EventSystem.current.IsPointerOverGameObject())
+            	{
+	                // TODO: Check to see if Use returns and item
+	                // if so maybe show it off then put it in the player's inventory
+	                equippedTool.Use();
+	            }
                 
                 // TODO: Don't let player move when using tools 
             }
