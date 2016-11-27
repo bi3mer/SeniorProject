@@ -58,7 +58,6 @@ public class RecipePageBehavior : MonoBehaviour
 	/// </summary>
 	void Start()
 	{
-		Instance = this;
 		itemFactory = Game.Instance.ItemFactoryInstance;
 		ResetCraftingPanel ();
 	}

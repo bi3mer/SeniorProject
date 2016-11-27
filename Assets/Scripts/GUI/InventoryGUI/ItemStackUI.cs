@@ -113,7 +113,6 @@ public class ItemStackUI : MonoBehaviour
 			// to the original stack
 			originalStack.Amount += targetStack.Amount;
 		}
-
 		else if(targetStack.Item.DiscardFlag)
 		{
 			InventoryUI.Instance.ItemsToDiscard.Add(targetStack);

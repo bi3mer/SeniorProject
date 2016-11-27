@@ -36,14 +36,35 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	[SerializeField]
 	private ItemActionButtonUI SubActionButtonUI;
 
-	// pool of attributes
-	private List<ItemAttributeUI> attributes;
+	/// <summary>
+	/// Gets the attributes.
+	/// </summary>
+	/// <value>The attributes.</value>
+	public List<ItemAttributeUI> Attributes 
+	{
+		get;
+		private set;
+	}
 
-	// pool of possible actions
-	private List<ItemActionButtonUI> possibleActions;
+	/// <summary>
+	/// Gets the possible actions.
+	/// </summary>
+	/// <value>The possible actions.</value>
+	public List<ItemActionButtonUI> PossibleActions
+	{
+		get;
+		private set;
+	}
 
-	// pool of possible sub-actions by action name
-	private Dictionary<string, List<ItemActionButtonUI>> possibleSubActions;
+	/// <summary>
+	/// Gets the possible sub actions.
+	/// </summary>
+	/// <value>The possible sub actions.</value>
+	public Dictionary<string, List<ItemActionButtonUI>> PossibleSubActions
+	{
+		get;
+		private set;
+	}
 
 	// current selected item
 	private ItemStackUI selected;
@@ -54,16 +75,19 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	void Start()
 	{
 		Instance = this;
-		attributes = new List<ItemAttributeUI> ();
-		possibleActions = new List<ItemActionButtonUI> ();
-		possibleSubActions = new Dictionary<string, List<ItemActionButtonUI>> ();
+		Attributes = new List<ItemAttributeUI> ();
+		PossibleActions = new List<ItemActionButtonUI> ();
+		PossibleSubActions = new Dictionary<string, List<ItemActionButtonUI>> ();
 	}
 
 	/// <summary>
 	/// Clears the attributes and actions.
 	/// </summary>
-	private void ClearAttributesAndActions()
+	public void ClearAttributesAndActions()
 	{
+		Attributes.Clear();
+		PossibleActions.Clear ();
+		PossibleSubActions.Clear ();
 		RemoveChildElementsFromParent(AttributeScroll);
 		RemoveChildElementsFromParent(ActionButtonPanel);
 		RemoveChildElementsFromParent(SubActionButtonPanel);
@@ -94,8 +118,9 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		// TODO : refactor to account for singleton use
 		Instance = this;
 
-		attributes.Clear();
-		possibleActions.Clear ();
+		Attributes.Clear();
+		PossibleActions.Clear ();
+		PossibleSubActions.Clear ();
 
 		// create duplicate of object that might be affected by entered changes
 		selected = item.GetComponent<ItemStackUI>();
@@ -111,9 +136,9 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	public void ClosePanel()
 	{
 		ClearAttributesAndActions();
-		attributes.Clear();
-		possibleActions.Clear ();
-		possibleSubActions.Clear ();
+		Attributes.Clear();
+		PossibleActions.Clear ();
+		PossibleSubActions.Clear ();
 		selected.CheckForModification ();
 		InventoryUI.Instance.RefreshInventoryPanel ();
 		EventSystem.current.SetSelectedGameObject(null);
@@ -134,7 +159,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 			stat.gameObject.SetActive (true);
 			stat.SetAttributeName (attr[i].Name);
 			stat.SetAttributeValue (attr[i].Value);
-			attributes.Add (stat);
+			Attributes.Add (stat);
 		}
 
 		List<ItemAction> possibleItemActions = selected.GetPossibleActions ();
@@ -152,7 +177,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 				action.SetAction (possibleItemActions[i].AssignedAction, possibleItemActions[i].ActionName);
 				action.transform.SetParent(ActionButtonPanel.transform, false);
 				action.gameObject.SetActive (true);
-				possibleActions.Add (action);
+				PossibleActions.Add (action);
 			}
 			else 
 			{
@@ -172,7 +197,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 
 				action.transform.SetParent(ActionButtonPanel.transform, false);
 				action.gameObject.SetActive (true);
-				possibleActions.Add (action);
+				PossibleActions.Add (action);
 			}
 		}
 
@@ -189,8 +214,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 
 		for(int i = 0; i < attr.Count; ++i)
 		{
-			//Debug.Log (attributes.Find (n => n.AttributeName.text.Equals(attr[i].Name)));
-			attributes.Find(n => n.AttributeName.text.Equals(attr[i].Name)).GetComponent<ItemAttributeUI> ().SetAttributeValue (attr [i].Value);
+			Attributes.Find(n => n.AttributeName.text.Equals(attr[i].Name)).GetComponent<ItemAttributeUI> ().SetAttributeValue (attr [i].Value);
 		}
 
 		List<ItemAction> acts = selected.GetPossibleActions ();
@@ -202,9 +226,9 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 			ItemActionButtonUI act;
 
 			// if there are unused buttons in the pool that are ready to be reused
-			if (buttonUsed < possibleActions.Count) 
+			if (buttonUsed < PossibleActions.Count) 
 			{
-				act = possibleActions [buttonUsed];
+				act = PossibleActions [buttonUsed];
 				act.gameObject.SetActive (true);
 				buttonUsed++;
 			} 
@@ -214,21 +238,18 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 				act = GameObject.Instantiate (ActionButtonUI);
 				act.transform.SetParent(ActionButtonPanel.transform, false);
 				act.gameObject.SetActive (true);
-				//act.transform.localScale = Vector3.one;
-				possibleActions.Add (act);
+				PossibleActions.Add (act);
 			}
 
 			// if action has no subaction, simply set the action to the button
 			if (acts[i].SubActions.Count < 1) 
 			{
 				act.GetComponent<ItemActionButtonUI> ().SetAction (acts [i].AssignedAction, acts[i].ActionName);
-
 			}
 			else 
 			{
 				// otherwise set the sub action to be ShowSubActions and set the subaction that need to be shown
 				// on button click
-
 				ItemActionButtonUI button = act.GetComponent<ItemActionButtonUI> ();
 				UnityAction showSubAction = new UnityAction (button.ShowSubActions);
 				button.SetAction (showSubAction, acts[i].ActionName);
@@ -238,11 +259,11 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 
 		// if the number of action buttons used is less than the total created thus far
 		// then just recyle an unsed action button instead of creating a new one
-		if (buttonUsed < possibleActions.Count) 
+		if (buttonUsed < PossibleActions.Count) 
 		{
-			for (int j = buttonUsed; j < possibleActions.Count; ++j) 
+			for (int j = buttonUsed; j < PossibleActions.Count; ++j) 
 			{
-				possibleActions [j].gameObject.SetActive (false);
+				PossibleActions [j].gameObject.SetActive (false);
 			}
 		}
 	}

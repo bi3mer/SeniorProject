@@ -142,7 +142,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Opens the panel containing information about the selected item..
+	/// Opens the panel containing information about the selected item.
 	/// </summary>
 	public void OpenItemInfoPanel()
 	{
@@ -154,6 +154,8 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		attributesAndActionPanel.SetActive (true);
 
 		// display attributes and actions
+		// TODO : fix issue where item panel keeps adding attributes and actions from previously clicked item
+		//InventoryUI.Instance.DisableItemStackButtons();
 		ItemStackDetailPanelBehavior.Instance.SetItemData(selectedItem, currentAmount);
 	}
 }
