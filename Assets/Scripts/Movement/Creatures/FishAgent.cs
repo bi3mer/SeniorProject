@@ -105,7 +105,7 @@ public class FishAgent : MonoBehaviour
             }
             
             // Look center
-            result = result - this.transform.position;
+            result -= this.transform.position;
 
             result.Normalize();
         }
