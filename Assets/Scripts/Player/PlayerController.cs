@@ -129,7 +129,9 @@ public class PlayerController : MonoBehaviour
         // enter into the range of an interactable item
         if (other.CompareTag(interactiveTag))
         {
-            interactable = other.GetComponent<InteractableObject>();
+            // Accounts for triggers working as compound colliders where the scripts are located in a parent object.
+            GameObject actualTriggerObject = other.GetComponentInParent<Rigidbody>().gameObject;
+            interactable = actualTriggerObject.GetComponent<InteractableObject>();
             interactable.Show = true;
         }
     }
