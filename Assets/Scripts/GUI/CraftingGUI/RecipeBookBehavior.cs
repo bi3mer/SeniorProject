@@ -16,15 +16,9 @@ public class RecipeBookBehavior : MonoBehaviour
 	[Tooltip("filename for yaml that contains the recipe information")]
 	public string RecipeFileName;
 
-	[Tooltip("filename for the yaml that contains the item information")]
-	public string ItemFileName;
-
 	private Dictionary<string, Recipe> recipes;
 
 	private RecipeYamlSerializer parser;
-
-	public ItemFactory ItemFactory;
-
 
 	/// <summary>
 	/// Start the instance of the recipe book and get recipes from yaml.
@@ -33,10 +27,7 @@ public class RecipeBookBehavior : MonoBehaviour
 	{
 		instance = this;
 		parser = new RecipeYamlSerializer(RecipeFileName);
-		ItemFactory = new ItemFactory(ItemFileName);
-
 		LoadRecipes ();
-
 	}
 
 	/// <summary>

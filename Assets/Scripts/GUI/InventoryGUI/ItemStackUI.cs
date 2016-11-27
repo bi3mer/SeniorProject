@@ -104,7 +104,7 @@ public class ItemStackUI : MonoBehaviour
 		// if some number of the item has been modified and the modified items are not flagged for removal (possible through eating or discarding)
 		if (targetStack.Item.GetNumberOfActionsCompleted() > originalStack.Item.GetNumberOfActionsCompleted() && targetStack.Amount > 0 && !targetStack.Item.RemovalFlag) 
 		{
-			InventoryWrapper.instance.internalInventory.AddItem (targetStack.Item, targetStack.Amount);
+			Game.Instance.PlayerInstance.InventoryInstance.AddItem (targetStack.Item, targetStack.Amount);
 		} 
 		else if(!targetStack.Item.RemovalFlag)
 		{
@@ -117,7 +117,7 @@ public class ItemStackUI : MonoBehaviour
 
 		if(targetStack.Amount <= 0)
 		{
-			InventoryWrapper.instance.internalInventory.RemoveStack(targetStack);
+			Game.Instance.PlayerInstance.InventoryInstance.RemoveStack(targetStack);
 		}
 	}
 

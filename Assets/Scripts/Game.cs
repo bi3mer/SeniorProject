@@ -117,16 +117,6 @@
 	}
 
 	/// <summary>
-	/// Gets or sets the main inventory instance.
-	/// </summary>
-	/// <value>The main inventory instance.</value>
-	public Inventory MainInventoryInstance 
-	{
-		get;
-		set;
-	}
-
-	/// <summary>
 	/// Gets the game settings instance.
 	/// </summary>
 	/// <value>The game settings instance.</value>

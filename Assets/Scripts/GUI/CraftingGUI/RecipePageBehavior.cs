@@ -6,8 +6,6 @@ using System.Collections.Generic;
 
 public class RecipePageBehavior : MonoBehaviour 
 {
-	public static RecipePageBehavior instance;
-
 	[SerializeField]
 	private Text RecipeNameText;
 
@@ -44,7 +42,7 @@ public class RecipePageBehavior : MonoBehaviour
 	[SerializeField]
 	private Button CancelCraftButton;
 
-	private ItemFactory itemFactory;
+	public static RecipePageBehavior Instance;
 	private Recipe recipe;
 	private string recipeChoiceName;
 	private string currentReqChoice;
@@ -52,13 +50,17 @@ public class RecipePageBehavior : MonoBehaviour
 	private List<Ingredient> itemsSelected;
 	private Image currentHighlightedItem;
 	private int currentStep;
+	private const string selectItemTypeTitleHeader = "Select ";
+	private ItemFactory itemFactory;
 
 	/// <summary>
 	/// Start this instance of RecipePageBehavior.
 	/// </summary>
 	void Start()
 	{
-		instance = this;
+		Instance = this;
+		itemFactory = new ItemFactory ("ItemListYAML.yml"); // delete after overworld PR is done
+		//itemFactory = Game.Instance.ItemFactoryInstance; // after overworld PR is done
 		ResetCraftingPanel ();
 	}
 
@@ -68,9 +70,9 @@ public class RecipePageBehavior : MonoBehaviour
 	/// <param name="pageRecipe">Page recipe.</param>
 	public void SetUpRecipePage(Recipe pageRecipe)
 	{
-		instance = this;
+		Instance = this;
 		itemsSelected = new List<Ingredient> ();
-		instance.recipe = pageRecipe;
+		Instance.recipe = pageRecipe;
 		RecipeNameText.text = recipe.RecipeName;
 
 		// add all requirements to requirement scroll view
@@ -103,10 +105,10 @@ public class RecipePageBehavior : MonoBehaviour
 	/// </summary>
 	public void ResetCraftingPanel()
 	{
-		instance.BeginCraftingButton.gameObject.SetActive (true);
-		instance.CancelCraftButton.gameObject.SetActive (false);
-		instance.CraftingPanel.gameObject.SetActive (false);
-		instance.CraftButton.gameObject.SetActive (false);
+		Instance.BeginCraftingButton.gameObject.SetActive (true);
+		Instance.CancelCraftButton.gameObject.SetActive (false);
+		Instance.CraftingPanel.gameObject.SetActive (false);
+		Instance.CraftButton.gameObject.SetActive (false);
 		EventSystem.current.SetSelectedGameObject(null);
 	}
 
@@ -132,10 +134,10 @@ public class RecipePageBehavior : MonoBehaviour
 	/// <summary>
 	/// Displays the possible items.
 	/// </summary>
-	/// <param name="step">Step.</param>
-	public void DisplayPossibleItems(int step)
+	/// <param name="stepInCraftingProcess">Step in crafting process.</param>
+	public void DisplayPossibleItems(int stepInCraftingProcess)
 	{
-		currentStep = step;
+		currentStep = stepInCraftingProcess;
 
 		// continue button should be deactivated until an item has been selected for this step
 		NextStepButton.interactable = false;
@@ -148,10 +150,7 @@ public class RecipePageBehavior : MonoBehaviour
 		string itemTag = recipe.Requirements [currentStep].ItemType;
 
 		// changes prompt to tell you to select a category of item
-		itemTypeName.text = "Select " + itemTag;
-
-		// total number of viable items
-		int totalPossible = 0;
+		itemTypeName.text = selectItemTypeTitleHeader + itemTag;
 
 		Transform child;
 		// clears the item select UI panel to prepare for the next set of items to be displayed there
@@ -160,30 +159,30 @@ public class RecipePageBehavior : MonoBehaviour
 			child = IngredientsScrollPanel.transform.GetChild (j);
 			if (!child.gameObject.name.Equals(IngredientUI.name) && !child.gameObject.name.Equals(noValidItemText.name) ) 
 			{
+				// TODO: make object pool of each item type's ingredients for the sake of performance
 				Destroy(child.gameObject);
 			}
 		}
 
-		List<BaseItem> validItems = InventoryWrapper.instance.internalInventory.GetAllItemsWithTag(itemTag);
-
-		for(int i = 0; i < validItems.Count; ++i)
-		{
-			// if the item has the appropriate tag, then it is a valid item to be used in this step of the recipe
-			// and a gameobject that represents it will be created and placed in the item select ui
-
-			Button itm = GameObject.Instantiate (IngredientUI);
-			itm.transform.SetParent(IngredientsScrollPanel.transform, false);
-
-			itm.GetComponentInChildren<Text> ().text = validItems[i].ItemName;
-			itm.name = itm.GetComponentInChildren<Text> ().text;
-			itm.gameObject.SetActive (true);
-			totalPossible++;
-		}
+		List<BaseItem> validItems = Game.Instance.PlayerInstance.InventoryInstance.GetAllItemsWithTag(itemTag);
 
 		// if there are no valid items for this step, show text that states this recipe can not be completed
-		if (totalPossible == 0) 
+		if (validItems.Count == 0) 
 		{
 			noValidItemText.gameObject.SetActive (true);
+		} 
+		else 
+		{
+			for (int i = 0; i < validItems.Count; ++i) 
+			{
+				// if the item has the appropriate tag, then it is a valid item to be used in this step of the recipe
+				// and a gameobject that represents it will be created and placed in the item select ui
+				Button item = GameObject.Instantiate (IngredientUI);
+				item.transform.SetParent (IngredientsScrollPanel.transform, false);
+				item.GetComponentInChildren<Text> ().text = validItems [i].ItemName;
+				item.name = item.GetComponentInChildren<Text> ().text;
+				item.gameObject.SetActive (true);
+			}
 		}
 	}
 
@@ -238,14 +237,18 @@ public class RecipePageBehavior : MonoBehaviour
 
 		for (int i = 0; i < itemsSelected.Count; ++i) 
 		{
-			ingredients.Add(InventoryWrapper.instance.internalInventory.GetStack(itemsSelected[i].IngredientName, itemsSelected[i].Amount)[0].Item);
+			string ingredientName = itemsSelected [i].IngredientName;
+			int ingredientAmount = itemsSelected [i].Amount;
+			BaseItem itemToAdd = Game.Instance.PlayerInstance.InventoryInstance.GetStack (ingredientName, ingredientAmount) [0].Item;
+			ingredients.Add(itemToAdd);
 		}
 
 		// call the CraftingRecipeFactory which will create the resulting item given the
 		// name of the recipe and ingredients selected
-		RecipeBookBehavior.instance.ItemFactory.Craft (recipe, ingredients, InventoryWrapper.instance.internalInventory);
+		itemFactory.Craft (recipe, ingredients, Game.Instance.PlayerInstance.InventoryInstance); // delete after overworld PR is done
+		//Game.Instance.ItemFactoryInstance.Craft (recipe, ingredients, Game.Instance.PlayerInstance.InventoryInstance); // add in after overworld PR is done
 
-		InventoryWrapper.instance.RefreshInventory ();
+		InventoryUI.Instance.RefreshInventoryPanel ();
 
 		// close the item select ui panel
 		EndCraftingAttempt ();

@@ -27,6 +27,12 @@ public class Player
 		set;
 	}
 
+	public Inventory InventoryInstance 
+	{
+		get;
+		set;
+	}
+
     /// <summary>
     /// Returns true if the player is instantiated in the game scene.
     /// </summary>

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 /// </summary>
 public class ItemStackDetailPanelBehavior : MonoBehaviour 
 {
-	public static ItemStackDetailPanelBehavior instance;
+	public static ItemStackDetailPanelBehavior Instance;
 
 	[Tooltip("the scroll bar section that contains the attributes")]
 	[SerializeField]
@@ -53,7 +53,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	void Start()
 	{
-		instance = this;
+		Instance = this;
 		attributes = new List<ItemAttributeUI> ();
 		possibleActions = new List<ItemActionButtonUI> ();
 		possibleSubActions = new Dictionary<string, List<ItemActionButtonUI>> ();
@@ -64,28 +64,22 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	private void ClearAttributesAndActions()
 	{
-		// clear the panels if filled with previous item's objects
-		for (int i = 0; i < AttributeScroll.transform.childCount; ++i) 
-		{
-			if (AttributeScroll.transform.GetChild (i).gameObject != null) 
-			{
-				GameObject.Destroy (AttributeScroll.transform.GetChild (i).gameObject);
-			}
-		}
+		RemoveChildElementsFromParent(AttributeScroll);
+		RemoveChildElementsFromParent(ActionButtonPanel);
+		RemoveChildElementsFromParent(SubActionButtonPanel);
+	}
 
-		for (int i = 0; i < ActionButtonPanel.transform.childCount; ++i) 
+	/// <summary>
+	/// Removes the child elements from parent.
+	/// </summary>
+	/// <param name="parentObject">Parent object.</param>
+	private void RemoveChildElementsFromParent(GameObject parentObject)
+	{
+		for (int i = 0; i < parentObject.transform.childCount; ++i) 
 		{
-			if (ActionButtonPanel.transform.GetChild (i).gameObject != null) 
+			if (parentObject.transform.GetChild (i).gameObject != null) 
 			{
-				GameObject.Destroy (ActionButtonPanel.transform.GetChild (i).gameObject);
-			}
-		}
-
-		for (int i = 0; i < SubActionButtonPanel.transform.childCount; ++i) 
-		{
-			if (SubActionButtonPanel.transform.GetChild (i).gameObject != null) 
-			{
-				GameObject.Destroy (SubActionButtonPanel.transform.GetChild (i).gameObject);
+				GameObject.Destroy (parentObject.transform.GetChild (i).gameObject);
 			}
 		}
 	}
@@ -95,18 +89,20 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	/// <param name="item">Item.</param>
 	/// <param name="numToModify">Number to modify.</param>
-	public void SetItemData(GameObject item, int numToModify)
+	public void SetItemData(GameObject item, int numberOfStacksToModify)
 	{
-		//ClearAttributesAndActions();
+		// TODO : refactor to account for singleton use
+		Instance = this;
+
 		attributes.Clear();
 		possibleActions.Clear ();
 
 		// create duplicate of object that might be affected by entered changes
 		selected = item.GetComponent<ItemStackUI>();
-		selected.PreserveOriginal (numToModify);
+		selected.PreserveOriginal (numberOfStacksToModify);
 
 		// display attributes and actions
-		GetAttributesAndAction();
+		DisplayAttributesAndAction();
 	}
 
 	/// <summary>
@@ -119,14 +115,14 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		possibleActions.Clear ();
 		possibleSubActions.Clear ();
 		selected.CheckForModification ();
-		InventoryWrapper.instance.RefreshInventory ();
+		InventoryUI.Instance.RefreshInventoryPanel ();
 		EventSystem.current.SetSelectedGameObject(null);
 	}
 
 	/// <summary>
-	/// Gets the attributes and action.
+	/// Displays the attributes and action.
 	/// </summary>
-	public void GetAttributesAndAction()
+	public void DisplayAttributesAndAction()
 	{
 		List<Attribute> attr = selected.GetItemAttributes ();
 
@@ -187,7 +183,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void RefreshItemPanel()
 	{
-		ItemAmountAffectPanelBehavior.instance.ItemNameDisplay.text = selected.GetItemName ();
+		ChooseItemAmountPanelBehavior.Instance.ItemNameDisplay.text = selected.GetItemName ();
 
 		List<Attribute> attr = selected.GetItemAttributes ();
 
@@ -234,8 +230,8 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 				// on button click
 
 				ItemActionButtonUI button = act.GetComponent<ItemActionButtonUI> ();
-				UnityAction subAct = new UnityAction (button.ShowSubActions);
-				button.SetAction (subAct, acts[i].ActionName);
+				UnityAction showSubAction = new UnityAction (button.ShowSubActions);
+				button.SetAction (showSubAction, acts[i].ActionName);
 				button.SubActions = acts[i].SubActions;
 			}
 		}

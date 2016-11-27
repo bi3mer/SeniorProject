@@ -6,20 +6,20 @@ using System.Collections.Generic;
 
 public class ItemActionButtonUI : MonoBehaviour 
 {
-	private UnityAction action;
 	[SerializeField]
 	private Text buttonLabel;
+	private UnityAction action;
 	private List<ItemAction> subActions;
 
 	/// <summary>
 	/// Sets the action that will be completed when the button is clicked.
 	/// </summary>
-	/// <param name="a">The action that will completed.</param>
+	/// <param name="actionToSet">The action that will completed.</param>
 	/// <param name="name">Name of the action.</param>
-	public void SetAction(UnityAction act, string name)
+	public void SetAction(UnityAction actionToSet, string name)
 	{
 		buttonLabel.text = name;
-		action = act;
+		action = actionToSet;
 	}
 
 	/// <summary>
@@ -27,9 +27,9 @@ public class ItemActionButtonUI : MonoBehaviour
 	/// </summary>
 	public void PerformAction()
 	{
-		ItemStackDetailPanelBehavior.instance.ClearSubActionPanel ();
+		ItemStackDetailPanelBehavior.Instance.ClearSubActionPanel ();
 		action ();
-		ItemStackDetailPanelBehavior.instance.RefreshItemPanel ();
+		ItemStackDetailPanelBehavior.Instance.RefreshItemPanel ();
 	}
 
 
@@ -57,6 +57,6 @@ public class ItemActionButtonUI : MonoBehaviour
 	/// </summary>
 	public void ShowSubActions()
 	{
-		ItemStackDetailPanelBehavior.instance.CreateSubAction (subActions);
+		ItemStackDetailPanelBehavior.Instance.CreateSubAction (subActions);
 	}
 }

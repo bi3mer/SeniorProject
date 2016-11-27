@@ -6,7 +6,7 @@ using System.Collections;
 /// <summary>
 /// Item amount affect panel behavior.
 /// </summary>
-public class ItemAmountAffectPanelBehavior : MonoBehaviour 
+public class ChooseItemAmountPanelBehavior : MonoBehaviour 
 {
 	[Tooltip("number displayed that shows how many units will be affected by default it is 1")]
 	[SerializeField]
@@ -48,14 +48,14 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 	// the current selected item from the inventory
 	private GameObject selectedItem;
 
-	public static ItemAmountAffectPanelBehavior instance;
+	public static ChooseItemAmountPanelBehavior Instance;
 
 	/// <summary>
 	/// Start this instance of itemAmountAffectPanelBehavior.
 	/// </summary>
 	void Start()
 	{
-		instance = this;
+		Instance = this;
 	}
 
 	/// <summary>
@@ -87,25 +87,15 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 			// if the plus button is disabled but should not be then enable it
 			Plus.gameObject.SetActive (true);
 		}
-	}
 
-	/// <summary>
-	/// Gets or sets the current amount.
-	/// </summary>
-	/// <value>The current amount.</value>
-	public int CurrentAmount 
-	{
-		get;
-		set;
-	}
-
-	/// <summary>
-	/// Sets the max amount of units that can be selected.
-	/// </summary>
-	/// <param name="max">Max number of units availabe for a given item.</param>
-	public void SetMaxAmount(int max)
-	{
-		maxAmount = max;
+		if (currentAmount == 0) 
+		{
+			Ok.gameObject.SetActive (false);
+		} 
+		else 
+		{
+			Ok.gameObject.SetActive (true);
+		}
 	}
 
 	/// <summary>
@@ -115,11 +105,11 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 	/// <param name="selected">The item selected.</param>
 	public void OpenPanel(GameObject selected)
 	{
-		this.Plus.gameObject.SetActive (true);
-		this.Minus.gameObject.SetActive (true);
-		this.Ok.gameObject.SetActive (true);
-		this.Cancel.gameObject.SetActive (true);
-		this.Close.gameObject.SetActive (false);
+		Plus.gameObject.SetActive (true);
+		Minus.gameObject.SetActive (true);
+		Ok.gameObject.SetActive (true);
+		Cancel.gameObject.SetActive (true);
+		Close.gameObject.SetActive (false);
 
 		itemStackDetailPanel.SetActive (true);
 		itemAmountAffectPanel.SetActive (true);
@@ -156,15 +146,14 @@ public class ItemAmountAffectPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void OpenItemInfoPanel()
 	{
-		this.Plus.gameObject.SetActive (false);
-		this.Minus.gameObject.SetActive (false);
-		this.Ok.gameObject.SetActive (false);
-		this.Cancel.gameObject.SetActive (false);
-		this.Close.gameObject.SetActive (true);
-
+		Plus.gameObject.SetActive (false);
+		Minus.gameObject.SetActive (false);
+		Ok.gameObject.SetActive (false);
+		Cancel.gameObject.SetActive (false);
+		Close.gameObject.SetActive (true);
 		attributesAndActionPanel.SetActive (true);
 
 		// display attributes and actions
-		ItemStackDetailPanelBehavior.instance.SetItemData(selectedItem, currentAmount);
+		ItemStackDetailPanelBehavior.Instance.SetItemData(selectedItem, currentAmount);
 	}
 }
