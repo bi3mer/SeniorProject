@@ -102,19 +102,17 @@ public class ItemCategory : CollectableItem
 	{
 		for (int i = 0; i < Actions.Count; ++i) 
 		{
-			if(Actions[i].SubActions.Count > 0)
-			{
-				for(int j = 0; j < Actions[i].SubActions.Count; ++j)
-				{
-					if(Actions [i].SubActions[j].ActionName.Equals (name)) 
-					{
-						Actions [i].ActionComplete = true;
-					}
-				}
-			}
-			else if (Actions [i].ActionName.Equals (name)) 
+			if(Actions [i].ActionName.Equals (name)) 
 			{
 				Actions [i].ActionComplete = true;
+
+				if(Actions[i].SubActions.Count > 0)
+				{
+					for(int j = 0; j < Actions[i].SubActions.Count; ++j)
+					{
+						Actions[i].SubActions[j].ActionComplete = true;
+					}
+				}
 			}
 		}
 	}
@@ -135,6 +133,33 @@ public class ItemCategory : CollectableItem
 		}
 
 		return new Attribute(name, 0);
+	}
+
+	/// <summary>
+	/// Finishs the duplication of the category by copying over the Actions and Attributes.
+	/// </summary>
+	/// <param name="newCategory">New category.</param>
+	protected void finishDuplication(ItemCategory newCategory)
+	{
+		for (int i = 0; i < Actions.Count; ++i) 
+		{
+			newCategory.Actions[i].Conditions = Actions[i].Conditions;
+			newCategory.Actions[i].ActionComplete = Actions[i].ActionComplete;
+
+			if(newCategory.Actions[i].SubActions.Count > 0)
+			{
+				for(int j = 0; j < Actions[i].SubActions.Count; ++j)
+				{
+					newCategory.Actions[i].SubActions[j].Conditions = Actions[i].SubActions[j].Conditions;
+					newCategory.Actions[i].SubActions[j].ActionComplete = Actions[i].SubActions[j].ActionComplete;
+				}
+			}
+		}
+
+		for(int i = 0; i < Attributes.Count; ++i)
+		{
+			newCategory.Attributes.Add (Attributes [i].GetDuplicate());
+		}
 	}
 }
 

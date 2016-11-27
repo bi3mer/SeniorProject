@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 /// <summary>
 ///  UI class that handles the panel that pops up when an item in the inventory is clicked.
@@ -127,7 +128,7 @@ public class EnterAmountBehavior : MonoBehaviour
 	{
 		currentAnimationState = closeState;
 		anim.SetInteger (animatorStateVariable, currentAnimationState);
-
+		EventSystem.current.SetSelectedGameObject(null);
 	}
 
 	/// <summary>

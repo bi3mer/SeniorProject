@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
@@ -152,15 +151,17 @@ public class PlantCategory : ItemCategory
 		category.Actions = new List<ItemAction> ();
 		category.Attributes = new List<Attribute> ();
 
-		for (int i = 0; i < Actions.Count; ++i) 
-		{
-			category.Actions.Add (Actions [i]);
-		}
+		ItemAction cook = new ItemAction (cookActName, new UnityAction(category.Cook));
+		ItemAction dry = new ItemAction (dryActName, new UnityAction(category.Dry));
+		ItemAction eat = new ItemAction (eatActName, new UnityAction(category.Eat));
 
-		for(int i = 0; i < Attributes.Count; ++i)
-		{
-			category.Attributes.Add (Attributes [i]);
-		}
+		// the actions must be added in the same order as they were in the original copy of the category
+		// unable to pass along UnityAction delegate, as that will continue to point to the original copy of the item category
+		category.Actions.Add (cook);
+		category.Actions.Add (dry);
+		category.Actions.Add (eat);
+
+		finishDuplication(category);
 
 		return category;
 	}
@@ -216,6 +217,7 @@ public class PlantCategory : ItemCategory
 			baseItem.ChangeName(defaultCookedNameAddition + baseItem.ItemName);
 		}
 
+		baseItem.DirtyFlag = true;
 		SetActionComplete (cookActName);
 	}
 
@@ -232,6 +234,7 @@ public class PlantCategory : ItemCategory
 
 		baseItem.ChangeName(defaultDryNameAddition + " " + baseItem.ItemName);
 
+		baseItem.DirtyFlag = true;
 		SetActionComplete (dryActName);
 	}
 

@@ -99,6 +99,7 @@ public class FishingRod : Tool
     public override void Unequip ()
     {
         // TODO: Run unequip animation
+        WasCast = false;
     }
 
     private void Reel ()
