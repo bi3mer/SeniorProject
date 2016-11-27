@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class Clock : MonoBehaviour
@@ -12,9 +13,12 @@ public class Clock : MonoBehaviour
 	public const int HalfHour        = 30;
 	public const int Tick            = 1;
 
-	public const float HourDivisor = 60.0f;
-
 	private int currentTime = 0;
+
+	/// <summary>
+	/// Gets the current time.
+	/// </summary>
+	/// <value>The current time.</value>
 	public int CurrentTime
 	{
 		get
@@ -23,15 +27,22 @@ public class Clock : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Gets the current game time in hours.
+	/// </summary>
+	/// <value>The current game time in hours.</value>
 	public float CurrentGameTimeInHours
 	{
 		get
 		{
-			return this.currentTime / (float) Clock.HourDivisor;
+			return this.currentTime / (float) Clock.Hour;
 		}
 	}
 
 	// delegates for updates
+	public delegate void SecondDelegateUpdate();
+	public event SecondDelegateUpdate SecondUpdate;
+
 	public delegate void HalfHourDelegateUpdate();
 	public event HalfHourDelegateUpdate HalfHourUpdate;
 
@@ -41,12 +52,30 @@ public class Clock : MonoBehaviour
 	/// <summary>
 	/// Start the update time loop. 
 	/// </summary>
-	public void Start () 
+	void Awake() 
 	{
 		// subscribe to delegate
 		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
 
 		this.Resume();
+	}
+
+	/// <summary>
+	/// Gets the formatted time of the game clock.
+	/// </summary>
+	/// <value>The formatted time.</value>
+	public string FormattedTime
+	{
+		get
+		{
+			// get hours and minutes
+			int hours = Mathf.FloorToInt(this.CurrentGameTimeInHours);
+			int minutes = this.CurrentTime - (hours * Clock.Hour);
+
+			// format time
+			DateTime date = new DateTime(1, 1, 1, hours, minutes, 0, 0);
+			return date.ToString("HH:mm");
+		}
 	}
 
 	/// <summary>
@@ -62,9 +91,19 @@ public class Clock : MonoBehaviour
 
 			// update time
 			this.currentTime += Clock.Tick;
-			if(this.CurrentTime == Clock.TwentyFourHours)
+			if(this.CurrentTime >= Clock.TwentyFourHours)
 			{
 				this.currentTime = 0;
+			}
+
+			// TODO find a way to get non monobehaviour scripts to subscribe to
+			//      the seconds instance. This will have to do for now.
+			Game.Instance.WeatherInstance.UpdateSystem();
+
+			// notify second long subscribed delegates
+			if(this.SecondUpdate != null)
+			{
+				this.SecondUpdate();
 			}
 
 			// Notify thirty minute long subscribed delegates

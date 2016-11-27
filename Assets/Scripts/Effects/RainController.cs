@@ -16,7 +16,7 @@ using System.Collections;
 public class RainController : MonoBehaviour
 {
     // Turn this on for testing. Ideally in the future other scripts will call functions in this script to change the weather
-    public bool UpdateEveryFrame;
+    public bool UseCustomValues;
 
     // I'm setting these systems as public so that the script can run in Edit Mode.
     // The main rain drops.
@@ -92,18 +92,21 @@ public class RainController : MonoBehaviour
         MainRainRenderer = MainRain.GetComponent<ParticleSystemRenderer>();
     }
 
-    /// <summary>
-    /// In editor we want to check for updates every frame, everywhere else that's no good.
-    /// </summary>
-    #if (UNITY_EDITOR)
+	/// <summary>
+	/// Update this instance.
+	/// </summary>
     void Update()
     {
-        if (UpdateEveryFrame)
+		if (UseCustomValues)
         {
             UpdateParticleSystem();
         }
+        else
+        {
+        	this.WindVectorXZ = Game.Instance.WeatherInstance.WindDirection2d;
+        	this.RainLevel    = Game.Instance.WeatherInstance.WeatherInformation[(int) Weather.Precipitation];
+        }
     }
-    #endif
 
     /// <summary>
     /// Sets values in the associated particle systems based off of public values on the script.

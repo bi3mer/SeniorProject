@@ -101,7 +101,6 @@
 			if(this.clockInstance == null)
 			{
 				this.clockInstance = UnityEngine.MonoBehaviour.FindObjectOfType<Clock>();
-				this.clockInstance.Start();
 			}
 
 			return this.clockInstance;
