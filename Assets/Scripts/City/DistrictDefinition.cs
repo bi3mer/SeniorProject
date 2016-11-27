@@ -194,6 +194,61 @@ public class DistrictDefinition
     public List<Material> districtProceduralMaterials = new List<Material>();
     public List<Material> districtProceduralWindowMaterials = new List<Material>();
 
+    [SerializeField]
+    [Range(0f, 100f)]
+    private float windowWasherChance = 30f;
+    /// <summary>
+    /// On any given building in this district it has this percent of a chance of having a window washer on it (if the building is compatible)
+    /// </summary>
+    public float WindowWasherChance
+    {
+        get
+        {
+            return windowWasherChance;
+        }
+    }
+
+    [SerializeField]
+    private WindowWasher[] districtWindowWashers;
+    /// <summary>
+    /// Window washers (if any) that can be spawned in this District
+    /// </summary>
+    public WindowWasher[] DistrictWindowWashers
+    {
+        get
+        {
+            return districtWindowWashers;
+        }
+    }
+
+    [SerializeField]
+    [Tooltip("X is evaluated between 0 and 1, Y is evaluated between 0 and Positive Infinity")]
+    private AnimationCurve windowWasherMaxLengthCurve;
+    /// <summary>
+    /// A curve between 0 and 1 that defines the max length of window washers in the district.
+    /// </summary>
+    public AnimationCurve WindowWasherMaxLengthCurve
+    {
+        get
+        {
+            return windowWasherMaxLengthCurve;
+        }
+    }
+
+    [SerializeField]
+    [Range(0f, 100f)]
+    private float windowWasherStartUpChance = 30f;
+    /// <summary>
+    /// The percent chance that a window washer in this district will start in the up position.
+    /// </summary>
+    public float WindowWasherStartUpChance
+    {
+        get
+        {
+            return windowWasherStartUpChance;
+        }
+    }
+
     // District positioning code
 
     private Vector2[] edgeVerticies;

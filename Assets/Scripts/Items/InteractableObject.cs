@@ -8,7 +8,7 @@ public class InteractableObject : MonoBehaviour
     [SerializeField]
     private string text;
     [SerializeField]
-    private UnityAction action;
+    private UnityEvent action;
 
     private TextMesh display;
 
@@ -17,7 +17,8 @@ public class InteractableObject : MonoBehaviour
     /// </summary>
     void Start()
     {
-        SetUp();
+        display = GetComponentInChildren<TextMesh>();
+        Show = false;
     }
 
     /// <summary>
@@ -35,19 +36,7 @@ public class InteractableObject : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets up the InteractableObject.
-    /// </summary>
-    public void SetUp()
-    {
-    	if(display == null)
-    	{
-			display = GetComponentInChildren<TextMesh>();
-		}
-        Show = false;
-    }
-
-    /// <summary>
-    /// Shows or hieds text describing the interactable object action to the player.
+    /// Shows or hides text describing the interactable object action to the player.
     /// </summary>
     public bool Show
     {
@@ -86,10 +75,7 @@ public class InteractableObject : MonoBehaviour
     /// </summary>
     public void PerformAction()
     {
-    	if(action != null)
-    	{
-        	action();
-        }
+        action.Invoke();
     }
 
     /// <summary>
@@ -98,6 +84,7 @@ public class InteractableObject : MonoBehaviour
     /// <param name="newAction">The action to be performed.</param>
     public void SetAction(UnityAction newAction)
     {
-        action = newAction;
+        action.RemoveAllListeners();
+        action.AddListener(newAction);
     }
 }
