@@ -5,6 +5,8 @@ public class Player
     private const int maxHealth = 100;
     private const int maxWarmth = 100;
     private const int maxHunger = 100;
+    private const string playerInventoryName = "player";
+    private const string inventoryFileName = "InventoryYaml.yml";
 
     /// <summary>
     /// Player constructor.
@@ -15,6 +17,39 @@ public class Player
         Health = MaxHealth = maxHealth;
         Warmth = MaxWarmth = maxWarmth;
         Hunger = MaxHunger = maxHunger;
+		Inventory = new Inventory (playerInventoryName, inventoryFileName);
+		EquippedTool = "";
+    }
+
+	/// <summary>
+	/// Gets or sets the player controller if we are in a scene with the player controller.
+	/// </summary>
+	/// <value>The controller</value>
+	public PlayerController Controller 
+	{
+		get;
+		set;
+	}
+
+    /// <summary>
+    /// Returns true if the player is instantiated in the game scene.
+    /// </summary>
+    public bool IsInWorld
+    {
+        get
+        {
+            return (WorldTransform != null);
+        }
+    }
+
+    /// <summary>
+    /// Player's transform in the game world.
+    /// Returns null if the player is not in the scene, check IsInWorld before using the value directly.
+    /// </summary>
+    public Transform WorldTransform
+    {
+        get;
+        set;
     }
 
     /// <summary>
@@ -75,5 +110,37 @@ public class Player
     {
         get;
         private set;
+    }
+
+    /// <summary>
+    /// Gets the player's on-person intenvory.
+    /// </summary>
+    /// <value>The player's intenvory.</value>
+    public Inventory Inventory
+    {
+    	get;
+    	private set;
+    }
+
+    /// <summary>
+    /// Gets or sets the equipped tool.
+    /// </summary>
+    /// <value>The equipped tool.</value>
+    public string EquippedTool
+    {
+    	get;
+    	set;
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether this instance has a tool equipped.
+    /// </summary>
+    /// <value><c>true</c> if this instance has tool; otherwise, <c>false</c>.</value>
+    public bool HasTool
+    {
+    	get
+    	{
+    		return !EquippedTool.Equals("");
+    	}
     }
 }

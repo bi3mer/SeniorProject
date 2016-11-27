@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 340180cbb35886e47844cdb268a24a8a
-timeCreated: 1479550247
+timeCreated: 1480204862
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -45,6 +45,12 @@ TextureImporter:
     21300076: GUI_ITM_CookedFish
     21300078: GUI_ITM_RiverWeed
     21300080: GUI_ITM_Rope
+    21300082: GUI_ITM_FishingHook
+    21300084: GUI_ITM_Axe
+    21300086: GUI_ITM_Bucket
+    21300088: GUI_ITM_ScrapMetal
+    21300090: GUI_ITM_Pipe
+    21300092: GUI_ITM_PipeCorner
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -385,6 +391,84 @@ TextureImporter:
         serializedVersion: 2
         x: 1536
         y: 1280
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GUI_ITM_FishingHook
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 1280
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.68630505, y: 0.8245306}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GUI_ITM_Axe
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1024
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GUI_ITM_Bucket
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1024
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GUI_ITM_ScrapMetal
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1024
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GUI_ITM_Pipe
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1024
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GUI_ITM_PipeCorner
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1024
         width: 256
         height: 256
       alignment: 0
