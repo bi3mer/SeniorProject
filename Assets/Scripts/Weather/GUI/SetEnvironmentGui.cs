@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class SetEnvironmentGui : MonoBehaviour 
+public class SetEnvironmentGUI : MonoBehaviour 
 {
 	[SerializeField]
 	private Text clock;

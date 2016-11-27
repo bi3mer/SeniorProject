@@ -6,9 +6,12 @@ using System.Collections.Generic;
 [RequireComponent (typeof (Collider))]
 public class FishAgent : MonoBehaviour 
 {
-    public Vector3 velocity;
+	/// <summary>
+	/// The velocity of the agent
+	/// </summary>
+    public Vector3 Velocity;
 
-	// Move towards wehn wondering
+	// Move towards when wondering
 	private Vector3 WanderTarget;
     
     // Rigid body
@@ -19,13 +22,16 @@ public class FishAgent : MonoBehaviour
 	protected LayerMask agentLayer;
 	protected FishAgentConfig config;
 
+	private const string predatorLayerString   = "Predator";
+	private const string fisghAgentLayerString = "Agent";
+
 	protected virtual void setLayers()
 	{
 		// Get predator layer
-		this.predatorLayer = LayerMask.GetMask(new string[] {"Predator"});
+		this.predatorLayer = LayerMask.GetMask(new string[] {FishAgent.predatorLayerString});
 		
 		// Get agent layer
-		this.agentLayer = LayerMask.GetMask(new string[] {"Agent"});
+		this.agentLayer = LayerMask.GetMask(new string[] {FishAgent.predatorLayerString});
 	}
 
     /// <summary>
@@ -33,15 +39,17 @@ public class FishAgent : MonoBehaviour
     /// </summary>
     void Start ()
     {
-        // Start with random velocity
-        this.velocity = new Vector3(Random.Range(-2, 2), Random.Range(-2, 2), Random.Range(-2,2));
-
-		// set layers
+   		// set layers
 		this.setLayers();
 
 		// Get configuration
 		this.config = this.GetComponent<FishAgentConfig>();
 		this.config.RandomizeSelf();
+
+		// Start with random velocity
+		this.Velocity = new Vector3(Random.Range(-this.config.MaxVelocity, this.config.MaxVelocity), 
+			                        Random.Range(-this.config.MaxVelocity, this.config.MaxVelocity), 
+			                        Random.Range(-this.config.MaxVelocity, this.config.MaxVelocity));
 	}
 	
     /// <summary>
@@ -53,17 +61,17 @@ public class FishAgent : MonoBehaviour
         this.acceleration = Vector3.ClampMagnitude(this.Combine(), this.config.MaxAcceleration);
 
         // Euler Forward Integration
-        this.velocity = Vector3.ClampMagnitude(this.velocity + this.acceleration * Time.deltaTime, this.config.MaxVelocity);
+		this.Velocity = Vector3.ClampMagnitude(this.Velocity + this.acceleration * Time.deltaTime, this.config.MaxVelocity);
 
         // Set new position
-        this.transform.position = this.transform.position + (Vector3) (this.velocity * Time.deltaTime);
+		this.transform.position = this.transform.position + (Vector3) (this.Velocity * Time.deltaTime);
 
         // TODO I'm keeping this around in case we want to add this in the future.
         // Keep agent in world bounds
 //        this.transform.position = World.Instance.WrapAround(this.transform.position);
 
         // set rotation
-		transform.rotation = Quaternion.LookRotation(this.velocity + this.transform.position);// Quaternion.AngleAxis(angle, this.velocity);
+		transform.rotation = Quaternion.LookRotation(this.Velocity + this.transform.position);// Quaternion.AngleAxis(angle, this.velocity);
 	}
 
     /// <summary>
@@ -99,11 +107,9 @@ public class FishAgent : MonoBehaviour
             // Look center
             result = result - this.transform.position;
 
-            // normalize vector
             result.Normalize();
         }
 
-        // Return result
         return result;
     }
 
@@ -142,7 +148,7 @@ public class FishAgent : MonoBehaviour
     /// Rotate in direction of movement
     /// </summary>
     /// <returns></returns>
-    public Vector3 Allignment()
+	public Vector3 Alignment()
     {
         Vector3 result = new Vector3();
 
@@ -154,7 +160,8 @@ public class FishAgent : MonoBehaviour
         {
             for (int i = 0; i < neighbors.Length; ++i)
             {
-				result += neighbors[i].gameObject.GetComponent<FishAgent>().velocity;
+            	// TODO add id system to reduce runtime hit
+				result += neighbors[i].gameObject.GetComponent<FishAgent>().Velocity;
             }
 
             // Nomalize vector
@@ -195,7 +202,8 @@ public class FishAgent : MonoBehaviour
 		this.WanderTarget *= this.config.WanderRadius;
 		Vector3 targetInLocalSpace = this.WanderTarget + new Vector3(0, 0, this.config.WanderDistanceRadius);
 		Vector3 targetInWorldSpace = this.transform.TransformPoint(targetInLocalSpace);
-		return (targetInWorldSpace - this.transform.position).normalized;
+		Vector3 wanderTarget = (targetInWorldSpace - this.transform.position);
+		return wanderTarget.normalized;
 	}
 
     /// <summary>
@@ -206,7 +214,7 @@ public class FishAgent : MonoBehaviour
     {
         return this.config.CohesionWeight * this.Cohesion() 
              + this.config.SeparationWeight * this.Separation()
-             + this.config.AllignmentWeight * this.Allignment()
+			 + this.config.AllignmentWeight * this.Alignment()
              + this.config.WanderWeight * this.Wander();
 //			 + this.config.AvoidWeight * this.AvoidEnemies();
     }
@@ -218,7 +226,7 @@ public class FishAgent : MonoBehaviour
     /// <returns></returns>
     public bool InFieldOfView(Vector3 agent)
     {
-        return Vector3.Angle(this.velocity, agent - this.transform.position) <= this.config.MaxFieldOfViewAngle;
+		return Vector3.Angle(this.Velocity, agent - this.transform.position) <= this.config.MaxFieldOfViewAngle;
     } 
 
 	/// <summary>
@@ -238,6 +246,6 @@ public class FishAgent : MonoBehaviour
     public Vector3 Flee(Vector3 targ)
     {
         Vector3 desiredVel = (this.transform.position - targ).normalized * this.config.MaxVelocity;
-        return desiredVel - this.velocity;
+		return desiredVel - this.Velocity;
     }
 }

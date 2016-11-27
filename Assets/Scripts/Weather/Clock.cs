@@ -72,7 +72,7 @@ public class Clock : MonoBehaviour
 			int hours = Mathf.FloorToInt(this.CurrentGameTimeInHours);
 			int minutes = this.CurrentTime - (hours * Clock.Hour);
 
-			// 
+			// format time
 			DateTime date = new DateTime(1, 1, 1, hours, minutes, 0, 0);
 			return date.ToString("HH:mm");
 		}
