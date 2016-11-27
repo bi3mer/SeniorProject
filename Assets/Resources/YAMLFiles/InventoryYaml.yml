@@ -4,12 +4,17 @@
    - stackId: 0
      itemAmount: 4
      item: 
-      itemName: "river reed"
+      itemName: "River Reed"
       inventorySprite: ""
-      worldModel: ""
+      worldModel: "ITM/Plants/ITM_RiverWeed"
       types:
        - "edible"
       flavorText: ""
+      modifyingActionNames:
+       - "Weave Rope"
+      actionModifiedModels:
+       - "ITM/Ropes/ITM_Rope"
+      actionModifiedSprites:
      itemCategories: 
        - !!solid
          flexibility: 1.0
@@ -31,12 +36,15 @@
    - stackId: 1
      itemAmount: 2
      item: 
-      itemName: "stick"
+      itemName: "Stick"
       inventorySprite: ""
-      worldModel: ""
+      worldModel: "ITM/Rods/Stick"
       types:
         - "rod"
       flavorText: ""
+      modifyingActionNames:
+      actionModifiedModels:
+      actionModifiedSprites:
      itemCategories:
        - !!solid
          flexibility: 0.2
@@ -58,12 +66,15 @@
    - stackId: 2
      itemAmount: 2
      item: 
-      itemName: "hook"
+      itemName: "Empty Can"
       inventorySprite: ""
-      worldModel: ""
+      worldModel: "ITM/Small Containers/EmptyTinCan"
       types:
        - "hook"
       flavorText: ""
+      modifyingActionNames:
+      actionModifiedModels:
+      actionModifiedSprites:
      itemCategories: 
        - !!solid
          flexibility: 0.2

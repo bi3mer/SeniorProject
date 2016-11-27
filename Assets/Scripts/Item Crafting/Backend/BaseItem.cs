@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 /// <summary>
 /// Class attached to all items. Handles getting information from the various Item Categories.
@@ -60,6 +61,36 @@ public class BaseItem : CollectableItem
     }
 
 	/// <summary>
+	/// Gets or sets sprite that should be displayed when the item is woven into a basket.
+	/// </summary>
+	/// <value>The weave basket model.</value>
+	public List<string> ActionModifiedSprites
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
+	/// Gets or sets model that should be displayed when the item is woven into a rope.
+	/// </summary>
+	/// <value>The weave basket model.</value>
+	public List<string> ModifyingActionNames
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
+	/// Gets or sets sprite that should be displayed when the item is woven into a rope.
+	/// </summary>
+	/// <value>The weave basket model.</value>
+	public List<string> ActionModifiedModels
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
 	/// Delegate function that takes in a baseItem
 	/// </summary>
 	public delegate void UpdateItemEvent (BaseItem item); 
@@ -80,10 +111,20 @@ public class BaseItem : CollectableItem
 	private List<Attribute> itemAttributes;
 
 	/// <summary>
-	/// flag checked by the InventoryItemBehavior to see if the BaseItem should actually be removed
-	/// when checking for modifications
+	/// If the item has been changed, DirtyFlag is true.
+	/// </summary>
+	public bool DirtyFlag = false;
+
+	/// <summary>
+	/// flag checked by the InventoryItemBehavior to see if the BaseItem should actually be removed from the inventory
+	/// due to being consumed or otherwise used when checking for modifications
 	/// </summary>
 	public bool RemovalFlag = false;
+
+	/// <summary>
+	/// Flag checked by InventoryItemBehavior to see if the BaseItem should be discarded into the overworld
+	/// </summary>
+	public bool DiscardFlag = false;
 
 	/// <summary>
 	/// Initializaer only used during Yaml Deserialization
@@ -112,6 +153,9 @@ public class BaseItem : CollectableItem
 		ItemName = original.ItemName;
 		categoryList = new List<ItemCategory> ();
 		Types = new List<string> ();
+		FlavorText = original.FlavorText;
+		InventorySprite = original.InventorySprite;
+		WorldModel = original.WorldModel;
 
 		for (int i = 0; i < original.categoryList.Count; ++i) 
 		{
@@ -125,8 +169,20 @@ public class BaseItem : CollectableItem
 				Types.Add (original.Types [i]);
 			}
 		}
+
+		ModifyingActionNames = original.ModifyingActionNames;
+		ActionModifiedModels = original.ActionModifiedModels;
+		ActionModifiedSprites = original.ActionModifiedSprites; 
 			
-		SetUpBaseItem ();
+		itemAttributes = new List<Attribute>();
+
+		// Each Item Category is linked to the one before it
+		// The Base Item will retain a link to the last category
+		for (int i = 0; i < categoryList.Count; ++i) 
+		{
+			categoryList [i].SetBaseItem (this);
+			itemAttributes.AddRange(categoryList[i].Attributes);
+		}
 	}
 
 	/// <summary>
@@ -190,6 +246,8 @@ public class BaseItem : CollectableItem
 	public override List<ItemAction> GetPossibleActions()
 	{
 		List<ItemAction> possibleActions = new List<ItemAction>();
+		string discardActionName = "Discard";
+		possibleActions.Add(new ItemAction(discardActionName, new UnityAction(Discard)));
 
 		for(int i = 0; i < categoryList.Count; ++i)
 		{
@@ -301,7 +359,6 @@ public class BaseItem : CollectableItem
 		return new BaseItem (this);
 	}
 		
-
 	/// <summary>
 	/// Removes values from the attributes list.
 	/// </summary>
@@ -330,5 +387,13 @@ public class BaseItem : CollectableItem
 		}
 
 		return new Attribute(name, 0);
+	}
+
+	/// <summary>
+	/// Marks that this BaseItem should be discarded.
+	/// </summary>
+	public void Discard()
+	{
+		DiscardFlag = true;
 	}
 }

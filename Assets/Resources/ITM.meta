@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/ITM.meta
+guid: 6215404224c054898aa77d5e1cb68074
+folderAsset: yes
+timeCreated: 1479965473
+=======
 guid: 10dff0382189a48e48a1b8cb7fe6e65f
 folderAsset: yes
 timeCreated: 1479977661
+>>>>>>> master:Assets/Resources/ITM.meta
 licenseType: Free
 DefaultImporter:
   userData: 

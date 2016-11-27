@@ -5,6 +5,8 @@ public class Player
     private const int maxHealth = 100;
     private const int maxWarmth = 100;
     private const int maxHunger = 100;
+    private const string playerInventoryName = "player";
+    private const string inventoryFileName = "InventoryYaml.yml";
 
     /// <summary>
     /// Player constructor.
@@ -15,6 +17,8 @@ public class Player
         Health = MaxHealth = maxHealth;
         Warmth = MaxWarmth = maxWarmth;
         Hunger = MaxHunger = maxHunger;
+		Inventory = new Inventory (playerInventoryName, inventoryFileName);
+		EquippedTool = "";
     }
 
 	/// <summary>
@@ -106,5 +110,37 @@ public class Player
     {
         get;
         private set;
+    }
+
+    /// <summary>
+    /// Gets the player's on-person intenvory.
+    /// </summary>
+    /// <value>The player's intenvory.</value>
+    public Inventory Inventory
+    {
+    	get;
+    	private set;
+    }
+
+    /// <summary>
+    /// Gets or sets the equipped tool.
+    /// </summary>
+    /// <value>The equipped tool.</value>
+    public string EquippedTool
+    {
+    	get;
+    	set;
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether this instance has a tool equipped.
+    /// </summary>
+    /// <value><c>true</c> if this instance has tool; otherwise, <c>false</c>.</value>
+    public bool HasTool
+    {
+    	get
+    	{
+    		return !EquippedTool.Equals("");
+    	}
     }
 }
