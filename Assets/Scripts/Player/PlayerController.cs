@@ -362,7 +362,9 @@ public class PlayerController : MonoBehaviour
                 Transform target = interactablesInRadius[i].transform;
                 Vector3 targetDir = (target.position - playerAnimator.transform.position).normalized;
 
-                // check if angle between item is within view angle
+                // check if angle between item is within view angle. The view angle divided by 2 should make up the 
+                // the negative and postive of the view angle, so if the angle is less than half the view angle than 
+                // it is in view.
                 if (Vector3.Angle(playerAnimator.transform.forward, targetDir) < ViewAngle / 2)
                 {
                     float targetDist = Vector3.Distance(playerAnimator.transform.position, target.position);
