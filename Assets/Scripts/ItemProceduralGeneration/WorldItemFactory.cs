@@ -22,6 +22,9 @@ public class WorldItemFactory : MonoBehaviour
 	/// </summary>
 	private GameObject triggerObjectPrefab;
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="WorldItemFactory"/> class.
+	/// </summary>
 	public WorldItemFactory()
 	{
 		worldItemTemplates = new Dictionary<string, GameObject>();

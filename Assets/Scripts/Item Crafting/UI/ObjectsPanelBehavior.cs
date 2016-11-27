@@ -12,6 +12,9 @@ public class ObjectsPanelBehavior : MonoBehaviour
 
 	private Animator anim;
 
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	void Start()
 	{
 		anim = GetComponent<Animator>();
