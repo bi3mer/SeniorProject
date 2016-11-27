@@ -20,7 +20,16 @@ public class InventoryUI : MonoBehaviour
 	private List<Stack> slots = new List<Stack> ();
 	private List<ItemStackUI> itemStackUIList = new List<ItemStackUI> ();
 	private bool showInventory = true;
-	private Inventory internalInventory;
+
+	/// <summary>
+	/// Gets or sets the items to discard.
+	/// </summary>
+	/// <value>The items to discard.</value>
+	public List<Stack> ItemsToDiscard
+	{
+		get;
+		set;
+	}
 
 	/// <summary>
 	/// Start this instance of Inventory Wrapper.
@@ -28,14 +37,12 @@ public class InventoryUI : MonoBehaviour
 	void Start () 
 	{
 		Instance = this;
-		internalInventory = new Inventory (inventoryName, inventoryFile);
-		internalInventory.LoadInventory ();
-		Game.Instance.PlayerInstance.InventoryInstance = internalInventory;
-		Stack[] contents = internalInventory.GetInventory ();
+		ItemsToDiscard = new List<Stack>();
+
+		Stack[] contents = Game.Instance.PlayerInstance.Inventory.GetInventory ();
 
 		// create empty slots
-		//for (int i = 0; i < slotsX * slotsY; ++i) 
-		for (int i = 0; i < internalInventory.InventorySize; ++i) 
+		for (int i = 0; i < Game.Instance.PlayerInstance.Inventory.InventorySize; ++i) 
 		{
 			slots.Add (new Stack());
 			inventory.Add (new Stack ());
@@ -48,7 +55,7 @@ public class InventoryUI : MonoBehaviour
 		}
 
 		// set stack items 
-		for (int i = 0; i < internalInventory.InventorySize; ++i) 
+		for (int i = 0; i < Game.Instance.PlayerInstance.Inventory.InventorySize; ++i) 
 		{
 			if (contents [i] != null)
 			{
@@ -64,7 +71,7 @@ public class InventoryUI : MonoBehaviour
 	/// </summary>
 	public void DisplayInventory()
 	{
-		for (int i = 0; i < internalInventory.InventorySize; ++i) 
+		for (int i = 0; i < Game.Instance.PlayerInstance.Inventory.InventorySize; ++i) 
 		{
 			slots [i] = inventory [i];
 			if (slots [i].Item != null) 
@@ -80,7 +87,7 @@ public class InventoryUI : MonoBehaviour
 	/// </summary>
 	public void RefreshInventoryPanel()
 	{
-		Stack[] newContents = internalInventory.GetInventory ();
+		Stack[] newContents = Game.Instance.PlayerInstance.Inventory.GetInventory ();
 
 		for (int i = 0; i < newContents.Length; ++i) 
 		{

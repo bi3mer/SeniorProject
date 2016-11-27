@@ -51,7 +51,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	public static ChooseItemAmountPanelBehavior Instance;
 
 	/// <summary>
-	/// Start this instance of itemAmountAffectPanelBehavior.
+	/// Start this instance of ChooseItemAmountPanelBehavior.
 	/// </summary>
 	void Start()
 	{

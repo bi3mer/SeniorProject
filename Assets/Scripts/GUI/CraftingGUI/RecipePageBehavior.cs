@@ -59,8 +59,7 @@ public class RecipePageBehavior : MonoBehaviour
 	void Start()
 	{
 		Instance = this;
-		itemFactory = new ItemFactory ("ItemListYAML.yml"); // delete after overworld PR is done
-		//itemFactory = Game.Instance.ItemFactoryInstance; // after overworld PR is done
+		itemFactory = Game.Instance.ItemFactoryInstance;
 		ResetCraftingPanel ();
 	}
 
@@ -164,7 +163,7 @@ public class RecipePageBehavior : MonoBehaviour
 			}
 		}
 
-		List<BaseItem> validItems = Game.Instance.PlayerInstance.InventoryInstance.GetAllItemsWithTag(itemTag);
+		List<BaseItem> validItems = Game.Instance.PlayerInstance.Inventory.GetAllItemsWithTag(itemTag);
 
 		// if there are no valid items for this step, show text that states this recipe can not be completed
 		if (validItems.Count == 0) 
@@ -239,14 +238,14 @@ public class RecipePageBehavior : MonoBehaviour
 		{
 			string ingredientName = itemsSelected [i].IngredientName;
 			int ingredientAmount = itemsSelected [i].Amount;
-			BaseItem itemToAdd = Game.Instance.PlayerInstance.InventoryInstance.GetStack (ingredientName, ingredientAmount) [0].Item;
+			BaseItem itemToAdd = Game.Instance.PlayerInstance.Inventory.GetStack (ingredientName, ingredientAmount) [0].Item;
 			ingredients.Add(itemToAdd);
 		}
 
 		// call the CraftingRecipeFactory which will create the resulting item given the
 		// name of the recipe and ingredients selected
-		itemFactory.Craft (recipe, ingredients, Game.Instance.PlayerInstance.InventoryInstance); // delete after overworld PR is done
-		//Game.Instance.ItemFactoryInstance.Craft (recipe, ingredients, Game.Instance.PlayerInstance.InventoryInstance); // add in after overworld PR is done
+		itemFactory.Craft (recipe, ingredients, Game.Instance.PlayerInstance.Inventory); // delete after overworld PR is done
+		//Game.Instance.ItemFactoryInstance.Craft (recipe, ingredients, Game.Instance.PlayerInstance.Inventory); // add in after overworld PR is done
 
 		InventoryUI.Instance.RefreshInventoryPanel ();
 
