@@ -12,13 +12,15 @@ using YamlDotNet.RepresentationModel;
 
 public class ItemSerializer: CraftingSystemSerializer
 {
+	string naturallyOccuringListFileName;
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ItemSerializer"/> class.
 	/// </summary>
 	/// <param name="file">File.</param>
-	public ItemSerializer(string file)
+	public ItemSerializer(string itemListFile, string naturallyOccuringListFile)
 	{
-		Filename = file;
+		Filename = itemListFile;
+		naturallyOccuringListFileName = naturallyOccuringListFile;
 
 		categoryNames = new List<string> ();
 		categoryTypes = new List<Type> ();
@@ -62,4 +64,19 @@ public class ItemSerializer: CraftingSystemSerializer
 
 		return itemDatabase;
 	}
+
+	/// <summary>
+	/// Deserializes the data for objects that can be found in the world. That is items that do not require crafting to obtain.
+	/// </summary>
+	/// <returns>The naturally occuring item data.</returns>
+	public List<GeneratableItemInfoModel> DeserializeNaturallyOccuringItemData()
+	{
+		string fileyaml = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + naturallyOccuringListFileName;
+
+		string itemListYAML = File.ReadAllText (fileyaml);
+		StringReader input = new StringReader(itemListYAML);
+		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
+
+		return deserializer.Deserialize<List<GeneratableItemInfoModel>> (input);
+	} 
 }

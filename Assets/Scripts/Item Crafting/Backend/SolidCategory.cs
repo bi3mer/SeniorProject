@@ -119,7 +119,7 @@ public class SolidCategory : ItemCategory
 	/// <summary>
 	/// string added to item name by default when item has been sharpened
 	/// </summary>
-	private const string defualtSharpenNameAddtion = "Sharpened";
+	private const string defaultSharpenNameAddtion = "Sharpened";
 
 	/// <summary>
 	/// string added to item name when item is sharp enough to be a blade
@@ -157,16 +157,18 @@ public class SolidCategory : ItemCategory
 		category.Actions = new List<ItemAction> ();
 		category.Attributes = new List<Attribute> ();
 
-		for (int i = 0; i < Actions.Count; ++i) 
-		{
-			category.Actions.Add (Actions [i]);
-		}
+		ItemAction sharpen = new ItemAction (sharpenActionName, new UnityAction (category.Sharpen));
+		ItemAction weave = new ItemAction (weaveActionName, null);
+		ItemAction weaveRope = new ItemAction (weaveRopeActName, new UnityAction (category.WeaveRope));
+		ItemAction weaveBasket = new ItemAction (weaveBasketActName, new UnityAction (category.WeaveBasket));
 
-		for(int i = 0; i < Attributes.Count; ++i)
-		{
-			category.Attributes.Add (Attributes [i]);
-		}
-			
+		weave.SubActions.Add (weaveRope);
+		weave.SubActions.Add (weaveBasket);
+
+		category.Actions.Add (sharpen);
+		category.Actions.Add (weave);
+
+		finishDuplication(category);
 		return category;
 	}
 
@@ -217,7 +219,7 @@ public class SolidCategory : ItemCategory
 	{
 		string name;
 
-		if (Thickness > threadWidthThreshold) 
+		if (Thickness < threadWidthThreshold) 
 		{
 			name = baseItem.ItemName + " " + threadNameAddtion;
 		} 
@@ -225,9 +227,6 @@ public class SolidCategory : ItemCategory
 		{
 			name = baseItem.ItemName + " " + defaultRopeNameAddition;
 		}
-			
-		baseItem.ChangeName(name);
-		baseItem.Types.Add (ItemTypes.Rope);
 
 		// durability of the woven object is determined by averaging the durability and elasticity of the item
 		// as tightly weaving something won't work as well with less elastic objects
@@ -235,8 +234,28 @@ public class SolidCategory : ItemCategory
 
 		Thickness = Thickness * weaveRopeThicknessRate;
 
+		baseItem.ChangeName(name);
+		baseItem.Types.Add (ItemTypes.Rope);
+
+		int newModelIndex = baseItem.ModifyingActionNames.IndexOf(weaveRopeActName);
+
+
+		if(newModelIndex >= 0)
+		{
+			if(baseItem.ActionModifiedModels != null && baseItem.ActionModifiedModels.Count > newModelIndex)
+			{
+				baseItem.WorldModel = baseItem.ActionModifiedModels[newModelIndex];
+			}
+
+			if(baseItem.ActionModifiedSprites != null && baseItem.ActionModifiedSprites.Count > newModelIndex)
+			{
+				baseItem.InventorySprite = baseItem.ActionModifiedSprites[newModelIndex];
+			}
+		}
+
 		baseItem.RemoveCategoriesExcluding (new List<string> () {GetType ().Name});
-		SetActionComplete(weaveRopeActName);
+		baseItem.DirtyFlag = true;
+		SetActionComplete(weaveActionName);
 	}
 
 	/// <summary>
@@ -258,9 +277,27 @@ public class SolidCategory : ItemCategory
 		GetAttribute (thickAttrName).Value = Thickness;
 
 		baseItem.ChangeName(name);
+		baseItem.Types.Add(ItemTypes.Container);
+		int newModelIndex = baseItem.ModifyingActionNames.IndexOf(weaveBasketActName);
+
+
+		if(newModelIndex >= 0)
+		{
+			if(baseItem.ActionModifiedModels != null && baseItem.ActionModifiedModels.Count > newModelIndex)
+			{
+				baseItem.WorldModel = baseItem.ActionModifiedModels[newModelIndex];
+			}
+
+			if(baseItem.ActionModifiedSprites != null && baseItem.ActionModifiedSprites.Count > newModelIndex)
+			{
+				baseItem.InventorySprite = baseItem.ActionModifiedSprites[newModelIndex];
+			}
+		}
 
 		baseItem.RemoveCategoriesExcluding (new List<string> (){GetType ().Name});
-		SetActionComplete(weaveBasketActName);
+		baseItem.DirtyFlag = true;
+		// setting the parent action as complete marks all subactions as complete as well
+		SetActionComplete(weaveActionName);
 	}
 
 	/// <summary>
@@ -277,11 +314,12 @@ public class SolidCategory : ItemCategory
 		} 
 		else 
 		{
-			baseItem.ChangeName (defualtSharpenNameAddtion + " " + baseItem.ItemName);
+			baseItem.ChangeName (defaultSharpenNameAddtion + " " + baseItem.ItemName);
 		}
 
 		Sharpness = Sharpness * sharpenRate;
 		GetAttribute (sharpAttrName).Value = Sharpness;
+		baseItem.DirtyFlag = true;
 		SetActionComplete(sharpenActionName);
 	}
 }

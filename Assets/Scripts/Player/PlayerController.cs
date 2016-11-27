@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour 
@@ -18,11 +19,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private string waterTag;
 
-    [Header("Resource Settings")]
-    [SerializeField]
-    private float hungerReductionRate;
+    [Header("Environmental Resource Settings")]
     [SerializeField]
     private float waterWarmthReductionRate;
+	[SerializeField]
+	private float outsideWarmthReductionRate;
+	[SerializeField]
+	private float shelterWarmthIncreaseRate;
+
+	[Header("Current Resource Settings")]
+	[SerializeField]
+	private float currentWarmthReductionRate;
+	[SerializeField]
+	private float currentWarmthIncreaseRate;
+	[SerializeField]
+	private float currentHungerReductionRate;
 
 	[Header("HUD Settings")]
 	[SerializeField]
@@ -54,6 +65,8 @@ public class PlayerController : MonoBehaviour
     private CameraController playerCamera;
     private Rigidbody playerRigidbody;
 
+    private Tool fishingRod;
+
 	[SerializeField]
 	private ControlScheme controlScheme;
 
@@ -82,17 +95,25 @@ public class PlayerController : MonoBehaviour
         Game.Instance.PlayerInstance.WorldTransform = transform;
 
         // set up tools
-        equippedTool = GetComponentInChildren<FishingRod>();
+
+		fishingRod = GetComponentInChildren<FishingRod>();
+        equippedTool = null;
 
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();
 
+        // start reducing hunger
+        StartCoroutine(ReduceHunger());
+
+		// subscribe to delegate
+		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
+		Game.Instance.PauseInstance.PauseUpdate += this.Pause;
+
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
 
-        // start reducing hunger & cold
-        StartCoroutine(ReduceHunger(hungerReductionRate));
-        StartCoroutine(ReduceHunger(waterWarmthReductionRate));
+		// start reducing hunger
+		StartCoroutine(ReduceHunger());
 
 		// Link this to the player instance
 		Game.Instance.PlayerInstance.Controller = this;
@@ -100,6 +121,10 @@ public class PlayerController : MonoBehaviour
 
         // subscribe to events
         Game.Instance.DebugModeSubscription += this.toggleDebugMode;
+
+		// subscribe to delegate
+		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
+		Game.Instance.PauseInstance.PauseUpdate += this.Pause;
 	}
 
     /// <summary>
@@ -125,8 +150,11 @@ public class PlayerController : MonoBehaviour
         // leaving the range of an interactable item
         if (other.CompareTag(interactiveTag))
         {
-            interactable.Show = false;
-            interactable = null;
+        	if(interactable != null)
+        	{
+	            interactable.Show = false;
+	            interactable = null;
+	        }
         }
     }
 
@@ -151,21 +179,35 @@ public class PlayerController : MonoBehaviour
         // if the player has a tool equipped
         if (equippedTool != null)
         {
-            if (Input.GetKeyDown(controlScheme.UseTool))
+			if (Input.GetKeyDown(controlScheme.UseTool) && Game.Instance.PlayerInstance.HasTool)
             {
-                // TODO: Check to see if Use returns and item
-                // if so maybe show it off then put it in the player's inventory
-                equippedTool.Use();
+				// Check if the mouse was clicked over a UI element
+            	if(!EventSystem.current.IsPointerOverGameObject())
+            	{
+	                // TODO: Check to see if Use returns and item
+	                // if so maybe show it off then put it in the player's inventory
+	                equippedTool.Use();
+	            }
                 
                 // TODO: Don't let player move when using tools 
             }
+			else if(!Game.Instance.PlayerInstance.HasTool)
+            {
+            	// unequip the tool
+				equippedTool.Unequip();
+            	equippedTool = null;
+            }
 
             // don't check for other input since we are currently using a tool
-            if (equippedTool.InUse) 
+            if (equippedTool != null && equippedTool.InUse) 
             {
                 return;
             }
         }
+		else if(Game.Instance.PlayerInstance.HasTool)
+		{
+			equippedTool = fishingRod;
+		}
 
         // if the player is near an interactable item
         if (interactable != null)
@@ -261,32 +303,51 @@ public class PlayerController : MonoBehaviour
             player.Health -= (int) movement.CurrentFallDammage;
 			healthUpdatedEvent.Invoke ();
         }
+
+		if (IsInShelter) 
+		{
+			currentWarmthIncreaseRate = shelterWarmthIncreaseRate;
+			StopCoroutine (ReduceWarmth());
+			StartCoroutine(IncreaseWarmth ());
+
+		} 
+		else 
+		{
+			currentWarmthReductionRate = outsideWarmthReductionRate;
+			StopCoroutine (IncreaseWarmth());
+			StartCoroutine(ReduceWarmth ());
+		}
     }
 
-    private IEnumerator ReduceHunger (float depletionRate)
+    private IEnumerator ReduceHunger ()
     {
         while (updateStats)
         {
-            yield return new WaitForSeconds(depletionRate);
+			yield return new WaitForSeconds(currentHungerReductionRate);
             --Game.Instance.PlayerInstance.Hunger;
 			hungerUpdatedEvent.Invoke ();
         }
     }
 
-    private IEnumerator ReduceWarmth(float depletionRate)
-    {
-        while (updateStats)
-        {
-            yield return new WaitForSeconds(depletionRate);
-            if (IsInWater)
-            {
-                --Game.Instance.PlayerInstance.Warmth;
+	private IEnumerator ReduceWarmth()
+	{
+		while (updateStats)
+		{
+			yield return new WaitForSeconds(currentWarmthReductionRate);
+			--Game.Instance.PlayerInstance.Warmth;
+		}
+			
+		warmthUpdatedEvent.Invoke ();
+	}
 
-            }
-
-			warmthUpdatedEvent.Invoke ();
-        }
-    }
+	private IEnumerator IncreaseWarmth()
+	{
+		while (updateStats & IsInShelter) 
+		{
+			yield return new WaitForSeconds (currentWarmthIncreaseRate);
+			++Game.Instance.PlayerInstance.Warmth;
+		}
+	}
 
     private void CheckGround ()
     {
@@ -373,6 +434,31 @@ public class PlayerController : MonoBehaviour
     {
         get { return movement is RaftMovement; }
     }
+
+	/// <summary>
+	/// Returns true if the player is currently in a shelter
+	/// </summary>
+	public bool IsInShelter 
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
+	/// Resume stat changes.
+	/// </summary>
+	public void Resume()
+	{
+		// TODO: Resume any stat changes coroutines
+	}
+
+	/// <summary>
+	/// Pause stat changes.
+	/// </summary>
+	public void Pause()
+	{
+		// TODO: Stop any stat changes coroutines
+	}
 
     /// <summary>
     /// Set up or tear down any configuration neccisary for debug mode.

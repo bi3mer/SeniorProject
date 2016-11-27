@@ -8,7 +8,7 @@ public class InteractableObject : MonoBehaviour
     [SerializeField]
     private string text;
     [SerializeField]
-    private UnityEvent action;
+    private UnityAction action;
 
     private TextMesh display;
 
@@ -17,8 +17,7 @@ public class InteractableObject : MonoBehaviour
     /// </summary>
     void Start()
     {
-        display = GetComponentInChildren<TextMesh>();
-        Show = false;
+        SetUp();
     }
 
     /// <summary>
@@ -33,6 +32,18 @@ public class InteractableObject : MonoBehaviour
             transform.forward = Camera.main.transform.forward;
             transform.Rotate(30, 0, -45);
         }
+    }
+
+    /// <summary>
+    /// Sets up the InteractableObject.
+    /// </summary>
+    public void SetUp()
+    {
+    	if(display == null)
+    	{
+			display = GetComponentInChildren<TextMesh>();
+		}
+        Show = false;
     }
 
     /// <summary>
@@ -75,7 +86,10 @@ public class InteractableObject : MonoBehaviour
     /// </summary>
     public void PerformAction()
     {
-        action.Invoke();
+    	if(action != null)
+    	{
+        	action();
+        }
     }
 
     /// <summary>
@@ -84,7 +98,6 @@ public class InteractableObject : MonoBehaviour
     /// <param name="newAction">The action to be performed.</param>
     public void SetAction(UnityAction newAction)
     {
-        action.RemoveAllListeners();
-        action.AddListener(newAction);
+        action = newAction;
     }
 }
