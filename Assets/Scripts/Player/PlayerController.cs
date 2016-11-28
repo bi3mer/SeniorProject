@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private float shelterWarmthIncreaseRate;
     [SerializeField]
+    private float fireWarmthIncreaseRate;
+    [SerializeField]
     private float hungerReductionRate;
 
 	[Header("HUD Settings")]
@@ -49,6 +51,7 @@ public class PlayerController : MonoBehaviour
     private bool updateStats;
     private bool isFlying;
     private bool isInShelter;
+    private bool isByFire;
 
     private float currentWarmthChangeRate;
     private float currentHungerChangeRate;
@@ -84,6 +87,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = false;
         updateStats = true;
         isInShelter = false;
+        IsByFire = false;
 
         // set up movement components
         landMovement = GetComponent<LandMovement>();
@@ -157,7 +161,7 @@ public class PlayerController : MonoBehaviour
     void Update ()
     {
         UpdatePlayerStats();
-
+        
         // check for camera related input
         if (Input.GetKeyDown(controlScheme.CameraLeft))
         {
@@ -453,10 +457,34 @@ public class PlayerController : MonoBehaviour
         }
 	}
 
-	/// <summary>
-	/// Resume stat changes.
-	/// </summary>
-	public void Resume()
+    /// <summary>
+    /// If the player is near a fire it returns true.
+    /// </summary>
+    public bool IsByFire
+    {
+        get
+        {
+            return isByFire;
+        }
+        set
+        {
+            if (value)
+            {
+                currentWarmthChangeRate = fireWarmthIncreaseRate;
+            }
+            else
+            {
+                currentWarmthChangeRate = outsideWarmthReductionRate;
+            }
+
+            isByFire = value;
+        }
+    }
+
+    /// <summary>
+    /// Resume stat changes.
+    /// </summary>
+    public void Resume()
 	{
         updateStats = true;
         
