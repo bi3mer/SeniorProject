@@ -15,7 +15,7 @@ public class City
     {
         Districts = districts;
         BoundingBox = boundingBox;
-        cityCenter = cityCenter;
+        Center = cityCenter;
     }
 
     /// <summary>
