@@ -89,7 +89,6 @@ public class RooftopGeneration
 	/// <param name="fires">Fire gameobjects that can be generated.</param>
 	public void AddFireRemplates(List<GameObject> fires)
 	{
-		Debug.Log(fires);
 		itemTemplates.AddRange(fires);
 		itemExtents.AddRange(getItemExtents(fires));
 	}
