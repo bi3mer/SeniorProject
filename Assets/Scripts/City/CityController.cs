@@ -12,6 +12,16 @@ public class CityController : MonoBehaviour
     [Tooltip("Bounds defnining the size of the city.")]
     private Bounds cityBounds;
 
+    // TEMP! TO PLACE PLAYER
+    [SerializeField]
+    private int districtIndex;
+    [SerializeField]
+    private int blockIndex;
+    [SerializeField]
+    private int buildingIndex;
+    [SerializeField]
+    private GameObject player;
+
     [SerializeField]
     [Tooltip("Chance of generating items on a building.")]
     private float itemGenerationChance;
@@ -49,7 +59,12 @@ public class CityController : MonoBehaviour
 
         // Start city generation
         Game.Instance.CityInstance = GenerateCity(seed);
-	}
+
+        // TEMP TO PLACE PLAYER
+        Building b = Game.Instance.CityInstance.Districts[districtIndex].Blocks[blockIndex].Buildings[buildingIndex];
+        Vector3 p = b.RootPosition + new Vector3(0, b.BoundingBox.extents.y, 0);
+        player.transform.position = p;
+ 	}
 	
     /// <summary>
     /// Updates the city.
