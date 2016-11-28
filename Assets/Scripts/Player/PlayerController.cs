@@ -26,10 +26,21 @@ public class PlayerController : MonoBehaviour
 	private float outsideWarmthReductionRate;
 	[SerializeField]
 	private float shelterWarmthIncreaseRate;
+<<<<<<< HEAD
     [SerializeField]
     private float fireWarmthIncreaseRate;
     [SerializeField]
     private float hungerReductionRate;
+=======
+
+	[Header("Current Resource Settings")]
+	[SerializeField]
+	private float currentWarmthReductionRate;
+	[SerializeField]
+	private float currentWarmthIncreaseRate;
+	[SerializeField]
+	private float currentHungerReductionRate;
+>>>>>>> parent of abd5405... Updated some player stats code (#228)
 
 	[Header("HUD Settings")]
 	[SerializeField]
@@ -50,11 +61,14 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool updateStats;
     private bool isFlying;
+<<<<<<< HEAD
     private bool isInShelter;
     private bool isByFire;
 
     private float currentWarmthChangeRate;
     private float currentHungerChangeRate;
+=======
+>>>>>>> parent of abd5405... Updated some player stats code (#228)
 
     private InteractableObject interactable;
 
@@ -86,15 +100,22 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = false;
         updateStats = true;
+<<<<<<< HEAD
         isInShelter = false;
         isByFire = false;
+=======
+>>>>>>> parent of abd5405... Updated some player stats code (#228)
 
         // set up movement components
         landMovement = GetComponent<LandMovement>();
         waterMovement = GetComponent<WaterMovement>();
         movement = landMovement;
 
+        // update accessable player transform
+        Game.Instance.PlayerInstance.WorldTransform = transform;
+
         // set up tools
+
 		fishingRod = GetComponentInChildren<FishingRod>();
         equippedTool = null;
 
@@ -102,24 +123,26 @@ public class PlayerController : MonoBehaviour
         playerCamera = Camera.main.GetComponent<CameraController>();
 
         // start reducing hunger
-        currentHungerChangeRate = hungerReductionRate;
-        StartCoroutine(UpdateHunger());
+        StartCoroutine(ReduceHunger());
 
-        // start updating warmth
-        currentWarmthChangeRate = outsideWarmthReductionRate;
-        StartCoroutine(UpdateWarmth());
+		// subscribe to delegate
+		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
+		Game.Instance.PauseInstance.PauseUpdate += this.Pause;
 
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
 
+		// start reducing hunger
+		StartCoroutine(ReduceHunger());
+
 		// Link this to the player instance
-        // and update accessable player transform
-        Game.Instance.PlayerInstance.WorldTransform = transform;
 		Game.Instance.PlayerInstance.Controller = this;
 		controlScheme = Game.Instance.Scheme;
 
         // subscribe to events
         Game.Instance.DebugModeSubscription += this.toggleDebugMode;
+
+		// subscribe to delegate
 		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
 		Game.Instance.PauseInstance.PauseUpdate += this.Pause;
 	}
@@ -303,48 +326,48 @@ public class PlayerController : MonoBehaviour
 			healthUpdatedEvent.Invoke ();
         }
 
-        // check if we're in water
-        if (IsInWater)
-        {
-            currentWarmthChangeRate = waterWarmthReductionRate;
-        }
+		if (IsInShelter) 
+		{
+			currentWarmthIncreaseRate = shelterWarmthIncreaseRate;
+			StopCoroutine (ReduceWarmth());
+			StartCoroutine(IncreaseWarmth ());
+
+		} 
+		else 
+		{
+			currentWarmthReductionRate = outsideWarmthReductionRate;
+			StopCoroutine (IncreaseWarmth());
+			StartCoroutine(ReduceWarmth ());
+		}
     }
 
-    private IEnumerator UpdateHunger ()
+    private IEnumerator ReduceHunger ()
     {
         while (updateStats)
         {
-			yield return new WaitForSeconds(Mathf.Abs(currentHungerChangeRate));
-
-            if (currentHungerChangeRate > 0)
-            {
-                ++Game.Instance.PlayerInstance.Hunger;
-            }
-            else
-            {
-                --Game.Instance.PlayerInstance.Hunger;
-            }
-            
+			yield return new WaitForSeconds(currentHungerReductionRate);
+            --Game.Instance.PlayerInstance.Hunger;
 			hungerUpdatedEvent.Invoke ();
         }
     }
 
-	private IEnumerator UpdateWarmth()
+	private IEnumerator ReduceWarmth()
 	{
 		while (updateStats)
 		{
-			yield return new WaitForSeconds(Mathf.Abs(currentWarmthChangeRate));
-
-            if (currentWarmthChangeRate > 0)
-            {
-                ++Game.Instance.PlayerInstance.Warmth;
-            }
-            else
-            {
-                --Game.Instance.PlayerInstance.Warmth;
-            }
+			yield return new WaitForSeconds(currentWarmthReductionRate);
+			--Game.Instance.PlayerInstance.Warmth;
+		}
 			
-            warmthUpdatedEvent.Invoke();
+		warmthUpdatedEvent.Invoke ();
+	}
+
+	private IEnumerator IncreaseWarmth()
+	{
+		while (updateStats & IsInShelter) 
+		{
+			yield return new WaitForSeconds (currentWarmthIncreaseRate);
+			++Game.Instance.PlayerInstance.Warmth;
 		}
 	}
 
@@ -439,24 +462,8 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	public bool IsInShelter 
 	{
-        get
-        {
-            return isInShelter;
-        }
-        set
-        {
-            // Set warmth rates to the proper value
-            if (value)
-            {
-                currentWarmthChangeRate = shelterWarmthIncreaseRate;
-            }
-            else
-            {
-                currentWarmthChangeRate = outsideWarmthReductionRate;
-            }
-
-            isInShelter = value;
-        }
+		get;
+		set;
 	}
 
     /// <summary>
@@ -488,9 +495,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void Resume()
 	{
-        updateStats = true;
-        
-        // TODO: Resume any other stopped preccesses
+		// TODO: Resume any stat changes coroutines
 	}
 
 	/// <summary>
@@ -498,9 +503,7 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	public void Pause()
 	{
-        updateStats = false;
-
-        // TODO: Stop any needed processes
+		// TODO: Stop any stat changes coroutines
 	}
 
     /// <summary>
