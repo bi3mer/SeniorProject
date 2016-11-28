@@ -646,7 +646,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 }
             }
 
-            //If a position and rotation was found then spawn the prefab.
+            // If a position and rotation was found then spawn the prefab.
             if (washerPosition != Vector3.zero && washerRotation != Vector3.zero)
             {
                 // Pick a window washer prefab to use
