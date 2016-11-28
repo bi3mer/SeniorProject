@@ -1,14 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CityController : MonoBehaviour 
 {
     [SerializeField]
     [Tooltip("Generation seed to construct the city. Set to 0 to use the value confifured in the settings.")]
     private int seed = 0;
+
     [SerializeField]
     [Tooltip("Bounds defnining the size of the city.")]
     private Bounds cityBounds;
+
+    [SerializeField]
+    [Tooltip("Chance of generating items on a building.")]
+    private float itemGenerationChance;
+
+    [SerializeField]
+    private GameObject doorTemplate;
+    [SerializeField]
+    private GameObject fireTemplate;
+    [SerializeField]
+    private GameObject shelterTemplate;
+
+    [SerializeField]
+    private float doorGenerationChance;
+
 
     private DistrictGenerator districtGenerator;
     private BlockGenerator blockGenerator;
@@ -51,6 +68,11 @@ public class CityController : MonoBehaviour
 
         // TODO: calculate true city center
         Vector3 cityCenter = Vector3.zero;
+
+        RooftopGeneration itemGenerator = new RooftopGeneration(itemGenerationChance);
+        itemGenerator.AddDoors(new List<GameObject>(new GameObject[]{doorTemplate}), doorGenerationChance);
+        itemGenerator.AddFireRemplates(new List<GameObject>(new GameObject[]{ fireTemplate }));
+        itemGenerator.AddShelterTemplates(new List<GameObject>(new GameObject[] { shelterTemplate }));
 
         // Generate blocks in each district
         for (int i = 0; i < districts.Length; ++i)

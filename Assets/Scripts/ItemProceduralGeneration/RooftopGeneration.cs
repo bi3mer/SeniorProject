@@ -67,7 +67,7 @@ public class RooftopGeneration
 	public void AddDoors(List<GameObject> doors, float doorChance)
 	{
 		doorTemplates = doors;
-		doorExtents.AddRange(getItemExtents(doors));
+		doorExtents = getItemExtents(doors);
 		chanceOfDoor = doorChance;
 	}
 
