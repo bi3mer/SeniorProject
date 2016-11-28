@@ -47,6 +47,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private KeyCode debugFlightDown;
 
+    [Header("Field of View Setting")]
+    // public so the editor can touch them
+    public float ViewRadius;
+    [Range(0, 360)]
+    public float ViewAngle;
+    [SerializeField]
+    private LayerMask interactablesMask;
+    [SerializeField]
+    [Tooltip("Any object that blocks player's view to interactable object.")]
+    private LayerMask obstacleMask;
+
     private bool isGrounded;
     private bool updateStats;
     private bool isFlying;
@@ -57,6 +68,13 @@ public class PlayerController : MonoBehaviour
     private float currentHungerChangeRate;
 
     private InteractableObject interactable;
+
+    // the closest interactable as well as the distance
+    private Collider closestInteractable;
+    private float closestDistance;
+
+    // the previous closest collider
+    private Collider prevInteractable;
 
     private Movement movement;
     private LandMovement landMovement;
@@ -88,6 +106,9 @@ public class PlayerController : MonoBehaviour
         updateStats = true;
         isInShelter = false;
         IsByFire = false;
+
+        // set the closest distance as nothing
+        closestDistance = 0;
 
         // set up movement components
         landMovement = GetComponent<LandMovement>();
@@ -125,13 +146,14 @@ public class PlayerController : MonoBehaviour
 	}
 
     /// <summary>
-    /// When colliding with a trigger. Used for interactable object interaction.
+    /// When colliding with a trigger. Used for interactable object interaction. For raft interactions.
     /// </summary>
     /// <param name="other">Collider with trigger</param>
     void OnTriggerEnter(Collider other)
     {
-        // enter into the range of an interactable item
-        if (other.CompareTag(interactiveTag))
+        // enter into the range of an interactable item 
+        // TODO: Figure out why the player can't find the raft when on board with cone view.
+        if (IsOnRaft && other.CompareTag(interactiveTag))
         {
             interactable = other.GetComponent<InteractableObject>();
             interactable.Show = true;
@@ -139,13 +161,13 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// When leaving the trigger area. Used to signal an interactable object is not in range.
+    /// When leaving the trigger area. Used to signal an interactable object is not in range.For raft interactions.
     /// </summary>
     /// <param name="other">Collider with trigger</param>
     void OnTriggerExit(Collider other)
     {
         // leaving the range of an interactable item
-        if (other.CompareTag(interactiveTag))
+        if (IsOnRaft && other.CompareTag(interactiveTag))
         {
         	if(interactable != null)
         	{
@@ -161,7 +183,8 @@ public class PlayerController : MonoBehaviour
     void Update ()
     {
         UpdatePlayerStats();
-        
+        FindVisibleInteractables();
+
         // check for camera related input
         if (Input.GetKeyDown(controlScheme.CameraLeft))
         {
@@ -430,6 +453,103 @@ public class PlayerController : MonoBehaviour
     public bool IsOnRaft
     {
         get { return movement is RaftMovement; }
+    }
+
+    /// <summary>
+    /// Finds all the interactable objects within the player's field of view
+    /// </summary>
+    void FindVisibleInteractables()
+    {
+        if (IsOnLand)
+        {
+            // find the interactable objects within a sphere around the character
+            Collider[] interactablesInRadius = Physics.OverlapSphere(playerAnimator.transform.position, ViewRadius, interactablesMask);
+
+            // check all the items within the radius 
+            for (int i = 0; i < interactablesInRadius.Length; ++i)
+            {
+                // get the direction to the interactable
+                Transform target = interactablesInRadius[i].transform;
+                Vector3 targetDir = (target.position - playerAnimator.transform.position).normalized;
+
+                // check if angle between item is within view angle. The view angle divided by 2 should make up the 
+                // the negative and postive of the view angle, so if the angle is less than half the view angle than 
+                // it is in view.
+                if (Vector3.Angle(playerAnimator.transform.forward, targetDir) < ViewAngle / 2)
+                {
+                    float targetDist = Vector3.Distance(playerAnimator.transform.position, target.position);
+
+                    // check that the interactable object is not behind a non-interactable object
+                    if (!Physics.Raycast(playerAnimator.transform.position, targetDir, targetDist, obstacleMask))
+                    {
+                        CheckClosestInteractable(interactablesInRadius[i], targetDist);
+                    }
+                }
+            }
+
+            // show item if closest item and stop showing previous item
+            if (closestInteractable != prevInteractable)
+            {
+
+                // only stop showing if there was a previous collider
+                if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag))
+                {
+                    interactable.Show = false;
+                    interactable = null;
+                }
+
+                if (closestInteractable != null && closestInteractable.CompareTag(interactiveTag))
+                {
+                    interactable = closestInteractable.GetComponent<InteractableObject>();
+                    interactable.Show = true;
+                }
+            }
+
+            closestDistance = 0;
+            prevInteractable = closestInteractable;
+            closestInteractable = null;
+        }
+    }
+
+    /// <summary>
+    /// Check if an interactable is the closest interactable in view.
+    /// </summary>
+    /// <param name="interactable"></param>
+    /// <param name="distance"></param>
+    public void CheckClosestInteractable(Collider target, float targetDist)
+    {
+        Collider prevTarget;
+        // set first found interactable object as the closest item
+        if (closestDistance == 0)
+        {
+            // set previous interactable
+            prevTarget = closestInteractable;
+
+            closestInteractable = target;
+            closestDistance = targetDist;
+        }
+
+        // if an interactable object is closer than previous closest object, set it as the closest
+        else if (targetDist < closestDistance)
+        {
+            // set previous interactable
+            prevTarget = closestInteractable;
+
+            closestInteractable = target;
+            closestDistance = targetDist;
+        }
+    }
+
+    /// <summary>
+    /// Gets the direction of the angle. Used for editor mode to see how big the field of view will be.
+    /// </summary>
+    /// <param name="angleInDegrees"></param>
+    /// <returns></returns>
+    public Vector3 DirFromAngle(float angleInDegrees)
+    {
+        // shifts the angle to the front of the character.
+        angleInDegrees += transform.eulerAngles.y;
+        return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
     }
 
 	/// <summary>
