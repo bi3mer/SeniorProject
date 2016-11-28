@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour
     void Update ()
     {
         UpdatePlayerStats();
-
+        
         // check for camera related input
         if (Input.GetKeyDown(controlScheme.CameraLeft))
         {
