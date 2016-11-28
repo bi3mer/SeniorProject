@@ -41,15 +41,22 @@ public class Building
         }
     }
 
-    public Building (Vector3 position, GameObject buildingInstance)
+    public float Height
+    {
+        get;
+        private set;
+    }
+
+    public Building (Vector3 position, GameObject buildingInstance, float height)
     {
         RootPosition = position;
         Instance = buildingInstance;
+        Height = height;
     }
 
     private Bounds calculateBounds()
     {
         // TODO: Actually calculate bounds
-        return new Bounds(Vector3.zero, new Vector3(1f, 1f, 1f));
+        return new Bounds(Vector3.zero, new Vector3(5f, Height * 2f, 5f));
     }
 }

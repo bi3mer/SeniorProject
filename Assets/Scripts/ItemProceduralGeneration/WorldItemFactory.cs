@@ -2,9 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class WorldItemFactory : MonoBehaviour 
+public class WorldItemFactory
 {
-
 	private Dictionary<string, GameObject> worldItemTemplates;
 
 	/// <summary>

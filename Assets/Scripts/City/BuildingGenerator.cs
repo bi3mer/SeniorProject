@@ -89,7 +89,7 @@ public class BuildingGenerator : MonoBehaviour
                     GameObject buildingInstance = buildingCreator.CreateBuilingInstance(position, numberOfFloors);
 
                     // Create and add the final building
-                    buildings.Add(new Building(position, buildingInstance));
+                    buildings.Add(new Building(position, buildingInstance, numberOfFloors));
                 }
             }
         }
