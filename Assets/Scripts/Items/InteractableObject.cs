@@ -42,8 +42,8 @@ public class InteractableObject : MonoBehaviour
     	if(display == null)
     	{
 			display = GetComponentInChildren<TextMesh>();
+        	Show = false;
 		}
-        Show = false;
     }
 
     /// <summary>

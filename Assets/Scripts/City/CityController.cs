@@ -91,7 +91,7 @@ public class CityController : MonoBehaviour
                     Building building = buildings[k];
 
                     // TODO: Call Laura's item placement code
-
+                    itemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition);
                     block.Buildings.Add(building);
                 }
 
