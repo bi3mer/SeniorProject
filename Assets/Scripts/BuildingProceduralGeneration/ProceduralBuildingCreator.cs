@@ -217,9 +217,30 @@ public class ProceduralBuildingCreator : MonoBehaviour
         }
         if (windowMeshes.Count > 1)
         {
+            MeshFilter[] windowMeshFilters = new MeshFilter[windowMeshes.Count];
             for (int i = 0; i < windowMeshes.Count; ++i)
             {
-                windowMeshes[i].material = windowMaterial;
+                windowMeshFilters[i] = windowMeshes[i].GetComponent<MeshFilter>();
+            }
+
+            // Combine all the window meshes
+            CombineInstance[] combine = new CombineInstance[windowMeshFilters.Length];
+            for (int i = 0; i < windowMeshFilters.Length; ++i)
+            {
+                combine[i].mesh = windowMeshFilters[i].sharedMesh;
+                combine[i].transform = windowMeshes[i].transform.localToWorldMatrix;
+                windowMeshFilters[i].gameObject.SetActive(false);
+            }
+            newBuilding.gameObject.AddComponent<MeshFilter>().sharedMesh = new Mesh();
+            MeshRenderer windowRenderer = newBuilding.gameObject.AddComponent<MeshRenderer>();
+            windowRenderer.material = windowMaterial;
+            newBuilding.transform.GetComponent<MeshFilter>().sharedMesh.CombineMeshes(combine);
+            newBuilding.transform.gameObject.SetActive(true);
+
+            // Delete old windows
+            for (int i = windowMeshes.Count - 1; i >= 0; i--)
+            {
+                DestroyImmediate(windowMeshes[i].gameObject);
             }
         }
         return newBuilding;
