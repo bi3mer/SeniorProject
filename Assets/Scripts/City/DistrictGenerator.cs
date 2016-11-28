@@ -9,10 +9,13 @@ public class DistrictGenerator : MonoBehaviour
     [SerializeField]
     [Tooltip("Minimum distance between the seed points for poison distribution")]
     private float distanceBetweenSeedPoints;
+
+    [SerializeField]
+    [Tooltip("Array of district configurations to choose from.")]
+    private DistrictConfiguration[] configurations;
     
     /// <summary>
     /// Generate the districts.
-    /// 
     /// 
     /// </summary>
     /// <param name="seed">The city generation seed.</param>
@@ -20,6 +23,12 @@ public class DistrictGenerator : MonoBehaviour
     /// <returns></returns>
     public District[] Generate (int seed, Bounds cityBounds)
     {
+        // check if we have at least one configuration
+        if (configurations.Length < 1)
+        {
+            Debug.LogError("DistrcitGenerator requires at least one district configuration.");
+        }
+        
         // Seed the generation
         Random.InitState(seed);
 
@@ -71,14 +80,16 @@ public class DistrictGenerator : MonoBehaviour
                     edgeVerticies.Add (GenerationUtility.ToAlignedVector3 (verts[j]));
                 }
 
-                // TODO: Determine other district features
+                // Select a district configuration
+                // Assigns configurations in order so we know we have an even distribution.
+                DistrictConfiguration configuration = configurations[i % configurations.Length];
 
                 // Construct the district
                 districts.Add(new District
                     (
                         GenerationUtility.ToAlignedVector3(seedPoint), 
                         edgeVerticies.ToArray(),
-                        "Example District" // TODO: Real district name
+                        configuration
                     ));
             }
         }

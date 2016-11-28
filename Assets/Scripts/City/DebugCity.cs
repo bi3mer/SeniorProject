@@ -59,7 +59,7 @@ public class DebugCity : MonoBehaviour
                     if (showBlockPerimeter)
                     {
                         Gizmos.color = Color.magenta;
-                        drawPolygon(block.Vertices);
+                        drawPolygon(block.Verticies);
                     }
 
                     // Show control points

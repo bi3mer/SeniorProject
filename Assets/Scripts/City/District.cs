@@ -12,12 +12,12 @@ public class District
     /// </summary>
     /// <param name="seedPoint">The seed point that created the district.</param>
     /// <param name="verticies">The edge verticies defining the district.</param>
-    /// <param name="name">The name of the district.</param>
-	public District (Vector3 seedPoint, Vector3[] verticies, string name)
+    /// <param name="configuration">The configuration object defining district characterisitics.</param>
+	public District (Vector3 seedPoint, Vector3[] verticies, DistrictConfiguration configuration)
 	{
         SeedPoint = seedPoint;
         EdgeVerticies = verticies;
-        Name = name;
+        Configuration = configuration;
         Blocks = new List<Block>();
 	}
 
@@ -45,8 +45,10 @@ public class District
 	/// <value>The name.</value>
     public String Name
     {
-        get;
-        private set;
+        get
+        {
+            return Configuration.Name;
+        }
     }
 
     /// <summary>
@@ -72,6 +74,15 @@ public class District
             }
             return bounds;
         }
+    }
+
+    /// <summary>
+    /// The configuration for constructing buildings in this district.
+    /// </summary>
+    public DistrictConfiguration Configuration
+    {
+        get;
+        private set;
     }
 
 	/// <summary>
