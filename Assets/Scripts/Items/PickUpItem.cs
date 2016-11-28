@@ -6,6 +6,12 @@ public class PickUpItem : InteractableObject
 {
 	private BaseItem item;
 
+	void Start()
+	{
+		SetUp();
+		SetUpPickUp();
+	}
+
 	/// <summary>
 	/// Gets or sets the base item that this object should pick up.
 	/// </summary>
@@ -47,6 +53,6 @@ public class PickUpItem : InteractableObject
 	private void pickUp()
 	{
 		Game.Instance.PlayerInstance.Inventory.AddItem(Item, Amount);
-		GameObject.Destroy(this.transform.parent.gameObject);
+		GameObject.Destroy(this.gameObject);
 	}
 }

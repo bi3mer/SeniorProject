@@ -41,7 +41,7 @@ public class RainController : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Rain Ammount can only accept values between 0 and 100");
+                Debug.LogError("Rain Amount can only accept values between 0 and 100");
             }
         }
     }

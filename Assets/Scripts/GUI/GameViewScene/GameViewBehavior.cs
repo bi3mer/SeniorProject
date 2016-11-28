@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class GameViewBehavior : MonoBehaviour 
 {
@@ -83,6 +84,11 @@ public class GameViewBehavior : MonoBehaviour
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
 		craftingPanel.SetActive (false);
+
+		if(InventoryUI.Instance != null)
+		{
+			InventoryUI.Instance.RefreshInventoryPanel();
+		}
 	}
 
 	/// <summary>
@@ -106,6 +112,15 @@ public class GameViewBehavior : MonoBehaviour
 		inventoryPanel.SetActive (false);
 		radioPanel.SetActive (false);
 		craftingPanel.SetActive (false);
+
+		ItemDiscarder discarder = new ItemDiscarder();
+		discarder.DiscardItems(InventoryUI.Instance.ItemsToDiscard);
+
+		//InventoryUIBehavior.instance.ItemsToDiscard.Clear(); // Old UI
+		InventoryUI.Instance.ItemsToDiscard.Clear();
+
+		// deselects all ui components to prevent space bar from firing them off
+		EventSystem.current.SetSelectedGameObject(null);
 	}
 
 	/// <summary>

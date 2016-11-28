@@ -26,6 +26,8 @@ public class RooftopGeneration
 	/// </summary>
 	private List<GameObject> itemTemplates;
 
+	private List<BaseItem> generatableItems;
+
 	private List<float> doorExtents;
 
 	private List<float> itemExtents;
@@ -40,7 +42,7 @@ public class RooftopGeneration
 	/// <param name="doorChance">Likelihood of a roof having a door in addition to objects.</param>
 	public RooftopGeneration(float generationChance)
 	{
-		List<BaseItem> generatableItems = getGeneratableItems();
+		generatableItems = getGeneratableItems();
 		chanceOfGeneration = generationChance;
 		chanceOfDoor = 0;
 
@@ -139,6 +141,7 @@ public class RooftopGeneration
 	private void generateObjects(bool hasDoor, List<ItemPlacementSamplePoint> points)
 	{
 		int startingIndex = 0;
+		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
 
 		// if there is a door, it will always be the first point returned
 		if (hasDoor) 
@@ -154,10 +157,20 @@ public class RooftopGeneration
 		for (int i = startingIndex; i < points.Count; ++i) 
 		{
 			// TODO: Make the amount found in one stack to be a variable number
-			GameObject item = GameObject.Instantiate(itemTemplates[points[i].ItemIndex]);
+			GameObject item = null;
+
+			if(points[i].ItemIndex < generatableItems.Count)
+			{
+				item = factory.CreateInteractableItem(generatableItems[points[i].ItemIndex], 1);
+			}
+			else
+			{
+				item = GameObject.Instantiate(itemTemplates[points[i].ItemIndex]);
+			}
+
+			item.SetActive(true);
 			item.transform.position = points [i].WorldSpaceLocation;
 			item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
-			item.SetActive(true);
 		}
 	}
 

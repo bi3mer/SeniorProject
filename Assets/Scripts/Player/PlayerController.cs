@@ -146,38 +146,6 @@ public class PlayerController : MonoBehaviour
 	}
 
     /// <summary>
-    /// When colliding with a trigger. Used for interactable object interaction. For raft interactions.
-    /// </summary>
-    /// <param name="other">Collider with trigger</param>
-    void OnTriggerEnter(Collider other)
-    {
-        // enter into the range of an interactable item 
-        // TODO: Figure out why the player can't find the raft when on board with cone view.
-        if (IsOnRaft && other.CompareTag(interactiveTag))
-        {
-            interactable = other.GetComponent<InteractableObject>();
-            interactable.Show = true;
-        }
-    }
-
-    /// <summary>
-    /// When leaving the trigger area. Used to signal an interactable object is not in range.For raft interactions.
-    /// </summary>
-    /// <param name="other">Collider with trigger</param>
-    void OnTriggerExit(Collider other)
-    {
-        // leaving the range of an interactable item
-        if (IsOnRaft && other.CompareTag(interactiveTag))
-        {
-        	if(interactable != null)
-        	{
-	            interactable.Show = false;
-	            interactable = null;
-	        }
-        }
-    }
-
-    /// <summary>
     /// Get player input and update accordingly.
     /// </summary>
     void Update ()
@@ -464,7 +432,7 @@ public class PlayerController : MonoBehaviour
         {
             // find the interactable objects within a sphere around the character
             Collider[] interactablesInRadius = Physics.OverlapSphere(playerAnimator.transform.position, ViewRadius, interactablesMask);
-
+       
             // check all the items within the radius 
             for (int i = 0; i < interactablesInRadius.Length; ++i)
             {
@@ -478,7 +446,6 @@ public class PlayerController : MonoBehaviour
                 if (Vector3.Angle(playerAnimator.transform.forward, targetDir) < ViewAngle / 2)
                 {
                     float targetDist = Vector3.Distance(playerAnimator.transform.position, target.position);
-
                     // check that the interactable object is not behind a non-interactable object
                     if (!Physics.Raycast(playerAnimator.transform.position, targetDir, targetDist, obstacleMask))
                     {
@@ -490,7 +457,6 @@ public class PlayerController : MonoBehaviour
             // show item if closest item and stop showing previous item
             if (closestInteractable != prevInteractable)
             {
-
                 // only stop showing if there was a previous collider
                 if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag))
                 {

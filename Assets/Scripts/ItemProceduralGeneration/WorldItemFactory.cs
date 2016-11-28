@@ -9,7 +9,7 @@ public class WorldItemFactory
 	/// <summary>
 	/// The location of the prefab that contains the trigger collider and text mesh needed for interactable objects
 	/// </summary>
-	private const string triggerObjectLocation = "ItemGeneration/InteractableTrigger";
+	private const string triggerObjectLocation = "ItemGeneration/InteractableText";
 
 	/// <summary>
 	/// The name of the item file. All yaml files must be placed under "Resources/YAMLFiles"
@@ -66,13 +66,11 @@ public class WorldItemFactory
 		GameObject item = GameObject.Instantiate (worldItemTemplates[itemToCreate.ItemName]);
 
 		// creates the trigger object that will handle interaction with player
-		GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
-		triggerObject.GetComponent<BoxCollider>().size = item.GetComponent<BoxCollider>().size;
-		triggerObject.GetComponent<BoxCollider>().center = item.GetComponent<BoxCollider>().center;
-		triggerObject.transform.SetParent(item.transform);
-		triggerObject.transform.localPosition = Vector3.zero;
+		GameObject textObject = GameObject.Instantiate(triggerObjectPrefab);
+		textObject.transform.SetParent(item.transform);
+		textObject.transform.localPosition = Vector3.zero;
 
-		PickUpItem pickup = triggerObject.AddComponent<PickUpItem>();
+		PickUpItem pickup = item.AddComponent<PickUpItem>();
 		pickup.SetUp();
 		pickup.SetUpPickUp();
 		pickup.Item = itemToCreate;

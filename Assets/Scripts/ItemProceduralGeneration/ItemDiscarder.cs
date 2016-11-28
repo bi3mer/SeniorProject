@@ -32,7 +32,6 @@ public class ItemDiscarder
 												  centerPos.y,
 												  centerPos.z + discardRadius * Mathf.Sin(Mathf.Deg2Rad * (angleIncrementations * currentDiscardSlot)));
 			item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
-
 			++ currentDiscardSlot;
 
 			if(currentDiscardSlot > maxDiscardSlots)

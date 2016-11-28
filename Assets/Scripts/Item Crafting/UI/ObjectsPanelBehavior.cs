@@ -43,6 +43,7 @@ public class ObjectsPanelBehavior : MonoBehaviour
 
 		ItemDiscarder discarder = new ItemDiscarder();
 		//discarder.DiscardItems(InventoryUIBehavior.instance.ItemsToDiscard); // Old UI
+		Debug.Log("let's discard");
 		discarder.DiscardItems(InventoryUI.Instance.ItemsToDiscard);
 
 		//InventoryUIBehavior.instance.ItemsToDiscard.Clear(); // Old UI
