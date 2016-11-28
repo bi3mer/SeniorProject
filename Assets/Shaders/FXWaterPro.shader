@@ -25,7 +25,8 @@ Properties {
 
 Subshader {
 	Tags { "WaterMode"="Refractive"  "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
-	Blend SrcAlpha OneMinusSrcAlpha
+	ZWrite Off
+	Blend SrcAlpha OneMinusSrcAlpha 
 	Pass {
 CGPROGRAM
 
