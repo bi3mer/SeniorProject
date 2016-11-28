@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
         // enter into the range of an interactable item
         if (other.CompareTag(interactiveTag))
         {
-            interactable = other.GetComponent<InteractableObject>();
+            interactable = other.GetComponentInParent<InteractableObject>();
             interactable.Show = true;
         }
     }
