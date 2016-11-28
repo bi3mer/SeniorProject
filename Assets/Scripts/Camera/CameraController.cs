@@ -52,13 +52,21 @@ public class CameraController : MonoBehaviour
 	void Update ()
     {
         float curveVal = scaleRangeForAnimationCurve(ZoomLevel, minZoomLevel, maxZoomLevel);
-        Vector3 targetPosition = Vector3.LerpUnclamped(target.position + CameraPositions[currentView].localPosition + CameraPositions[currentView].transform.forward * zoomZPositionCurve.Evaluate(curveVal) +
-            new Vector3(0f, zoomYPositionCurve.Evaluate(curveVal),0f), target.position, ZoomLevel);
+        Vector3 targetPosition = updateTargetPosition(curveVal);
         transform.position = Vector3.Lerp(transform.position, targetPosition, cameraTransitionSpeed);
         transform.rotation = Quaternion.Slerp(transform.rotation,
             Quaternion.Euler(zoomXRotationCurve.Evaluate(curveVal),
             CameraPositions[currentView].eulerAngles.y, CameraPositions[currentView].eulerAngles.z), cameraTransitionSpeed);
 	}
+
+    /// <summary>
+    /// Returns the target position for the camera to move to.
+    /// </summary>
+    private Vector3 updateTargetPosition(float curveVal)
+    {
+       return Vector3.LerpUnclamped(target.position + CameraPositions[currentView].localPosition + CameraPositions[currentView].transform.forward * zoomZPositionCurve.Evaluate(curveVal) +
+            new Vector3(0f, zoomYPositionCurve.Evaluate(curveVal), 0f), target.position, ZoomLevel);
+    }
 
     /// <summary>
     /// Gets the transform of the camera's current target view.
