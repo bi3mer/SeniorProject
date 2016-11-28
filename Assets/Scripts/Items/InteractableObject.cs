@@ -8,7 +8,7 @@ public class InteractableObject : MonoBehaviour
     [SerializeField]
     private string text;
     [SerializeField]
-    private UnityAction action;
+    private UnityEvent action;
 
     private TextMesh display;
 
@@ -88,7 +88,7 @@ public class InteractableObject : MonoBehaviour
     {
     	if(action != null)
     	{
-        	action();
+        	action.Invoke();
         }
     }
 
@@ -98,6 +98,12 @@ public class InteractableObject : MonoBehaviour
     /// <param name="newAction">The action to be performed.</param>
     public void SetAction(UnityAction newAction)
     {
-        action = newAction;
+    	if(action == null)
+    	{
+    		action = new UnityEvent();
+    	}
+
+        action.RemoveAllListeners();
+        action.AddListener(newAction);
     }
 }

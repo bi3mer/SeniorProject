@@ -38,7 +38,7 @@ public class PickUpItem : InteractableObject
 	/// </summary>
 	public void SetUpPickUp()
 	{
-		SetAction(new UnityAction(pickUp));
+		SetAction(delegate { pickUp(); });
 	}
 
 	/// <summary>
