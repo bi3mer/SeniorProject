@@ -20,17 +20,6 @@ public enum Weather
 
 public class WeatherSystem 
 {
-	private const int highPressureIndex = 1;
-	private const int lowPressureIndex  = 0;
-
-	private Vector2[] stormCenterLocations;
-	private float[] StormCenterPressure;
-	public float[] WeatherInformation
-	{
-		get;
-		private set;
-	}
-
 	// For these constants below please view
 	// https://github.com/bi3mer/WeatherForecasting/blob/master/Lorenz%20Simulation.ipynb
 	// to see how they are used in the context of graphs
@@ -74,23 +63,61 @@ public class WeatherSystem
 	private const float temperatureCoefficient    = 17.625f;
 
 	/// <summary>
+	/// Gets the wind direction in 2d.
+	/// </summary>
+	/// <value>The wind direction.</value>
+	public Vector2 WindDirection2d
+	{
+		get
+		{
+			return new Vector2(this.WeatherInformation[(int) Weather.WindSpeedX],
+			                   this.WeatherInformation[(int) Weather.WindSpeedY]);
+		}
+	}
+
+	/// <summary>
+	/// Gets the wind direction in 3d.
+	/// </summary>
+	/// <value>The wind direction3d.</value>
+	public Vector3 WindDirection3d
+	{
+		get
+		{
+			return new Vector3(this.WeatherInformation[(int) Weather.WindSpeedX],
+			                   0,
+			                   this.WeatherInformation[(int) Weather.WindSpeedY]);
+		}
+	}
+
+	public PressureSystems WeatherPressureSystems
+	{
+		get;
+		private set;
+	}
+
+	public float[] WeatherInformation
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
 	/// Gets the pressure based on the player from the pressure centers
 	/// </summary>
 	/// <returns>The pressure.</returns>
 	/// <param name="position">Position.</param>
-	/// <param name="centerIndex">Center index.</param>
-	private float getPressure(Vector2 position, int centerIndex)
+	/// <param name="center">Center.</param>
+	private float getPressure(Vector2 position, PressureSystem center)
 	{
 		// Get multiplier for kind of pressure system
 		int multiplier = 1;
-		if(centerIndex == WeatherSystem.highPressureIndex)
+		if(center.IsHighPressure)
 		{
 			multiplier = -1;
 		}
 
 		// calculate pressure system
-		return StormCenterPressure[centerIndex] + 
-			   multiplier * Vector2.Distance(position, this.stormCenterLocations[centerIndex]);
+		return center.Pressure + (multiplier * Vector2.Distance(position, center.Position));
 	}
 
 
@@ -164,23 +191,22 @@ public class WeatherSystem
 	/// <summary>
 	/// Calculates the position on slope and direction of wind vector.
 	/// </summary>
-	/// <returns>The position on slope and direciton.</returns>
+	/// <returns>The position on slope and direction.</returns>
 	/// <param name="position">Position.</param>
 	/// <param name="center">Center.</param>
 	/// <param name="yIntercept">Y intercept.</param>
 	/// <param name="slope">Slope.</param>
-	/// <param name="centerIndex">Center index.</param>
-	private Vector2 calculatePositionOnSlopeAndDirection(Vector2 position, Vector2 center, float yIntercept, float slope, int centerIndex)
+	private Vector2 calculatePositionOnSlopeAndDirection(Vector2 position, PressureSystem center, float yIntercept, float slope)
 	{
 		// get x and y coord in direction of the wind force
 		Vector2 newPosition = position;
-		if(center.y == position.y)
+		if(center.Position.y == position.y)
 		{
 			// this is the case where the line is either going straight up
 			// or striaght down
-			if(center.x >= position.x)
+			if(center.Position.x >= position.x)
 			{
-				if(this.isHighPressure(centerIndex))
+				if(center.IsHighPressure)
 				{
 					newPosition.y += 1;
 				}
@@ -191,7 +217,7 @@ public class WeatherSystem
 			}
 			else
 			{
-				if(this.isHighPressure(centerIndex))
+				if(center.IsHighPressure)
 				{
 					newPosition.y -= 1;
 				}
@@ -203,9 +229,9 @@ public class WeatherSystem
 		}
 		else
 		{
-			if(center.y > position.y)
+			if(center.Position.y > position.y)
 			{
-				if(this.isHighPressure(centerIndex))
+				if(center.IsHighPressure)
 				{
 					newPosition.x += 1;
 				}
@@ -216,7 +242,7 @@ public class WeatherSystem
 			}
 			else
 			{
-				if(this.isHighPressure(centerIndex))
+				if(center.IsHighPressure)
 				{
 					newPosition.x -= 1;
 				}
@@ -234,21 +260,19 @@ public class WeatherSystem
 	}
 
 	/// <summary>
-	/// Sets the wind speed vector.
-	/// TODO: this needs to broken up into multiple functions
+	/// Sets the wind speed vector based on wind magnitude and pressure system type.
 	/// </summary>
 	/// <param name="position">Position.</param>
-	/// <param name="centerIndex">Center index.</param>
-	private void setWindSpeedVector(Vector2 position, int centerIndex)
+	/// <param name="center">Center.</param>
+	private void setWindSpeedVector(Vector2 position, PressureSystem center)
 	{
-		Vector2 center = this.stormCenterLocations[centerIndex];
-		float perpindicularSlope = VectorUtility.GetPerpindicularSlope(position, center);
+		float perpindicularSlope = VectorUtility.GetPerpindicularSlope(position, center.Position);
 
 		// calculate y intercept
 		float yIntercept = position.y - (perpindicularSlope * position.x);
 
 		// get position of point on the line in correct direction
-		Vector2 newPosition = this.calculatePositionOnSlopeAndDirection(position, center, yIntercept, perpindicularSlope, centerIndex);
+		Vector2 newPosition = this.calculatePositionOnSlopeAndDirection(position, center, yIntercept, perpindicularSlope);
 
 		// get angle of the wind
 		float windAngle = VectorUtility.GetAngle(newPosition, position);
@@ -256,16 +280,7 @@ public class WeatherSystem
 		// add forces to weatherInformation
 		this.WeatherInformation[(int) Weather.WindSpeedX] = Mathf.Sin(windAngle) * this.WeatherInformation[(int) Weather.WindSpeedMagnitude];
 		this.WeatherInformation[(int) Weather.WindSpeedY] = Mathf.Cos(windAngle) * this.WeatherInformation[(int) Weather.WindSpeedMagnitude];
-}
-
-	/// <summary>
-	/// Gets the wind speed vector from the weather informaiton
-	/// </summary>
-	public Vector2 GetWindSpeedVector()
-	{
-		return new Vector2(this.WeatherInformation[(int) Weather.WindSpeedX], 
-			               this.WeatherInformation[(int) Weather.WindSpeedY]);
-	} 
+	}
 
 	/// <summary>
 	/// Gets the relative humidity using linear regression constants
@@ -318,17 +333,6 @@ public class WeatherSystem
 	}
 
 	/// <summary>
-	/// Gets the index of the center closest to the posiiton
-	/// </summary>
-	/// <returns>The center index.</returns>
-	/// <param name="position">Position.</param>
-	public int GetCenterIndex(Vector2 position)
-	{
-		// TODO: Update this for a future build
-		return WeatherSystem.highPressureIndex;
-	}
-
-	/// <summary>
 	/// Updates the weather array variable
 	/// </summary>
 	/// <param name="position">Position.</param>
@@ -336,17 +340,24 @@ public class WeatherSystem
 	{
 		// convert position to vector2
 		Vector2 position = new Vector2(positionVector.x, positionVector.z);
+		PressureSystem center = this.WeatherPressureSystems.GetClosestPressureSystem(position);
 
-		// TODO: update this for a future build
-		int centerIndex = WeatherSystem.highPressureIndex;
-
-		this.WeatherInformation[(int) Weather.Pressure]           = this.getPressure(position, centerIndex);
+		this.WeatherInformation[(int) Weather.Pressure]           = this.getPressure(position, center);
 		this.WeatherInformation[(int) Weather.Temperature]        = this.getTemperature() + DiurnalTemperatureVariance.TemperatureVariance;
 		this.WeatherInformation[(int) Weather.WindSpeedMagnitude] = this.getWindSpeed();
 		this.WeatherInformation[(int) Weather.RelativeHumidity]   = this.getRelativeHumidity();
 		this.WeatherInformation[(int) Weather.RelativeDewPoint]   = this.getRelativeDewPoint();
 		this.WeatherInformation[(int) Weather.Precipitation]      = this.getPrecipitation();
-		this.setWindSpeedVector(position, centerIndex);
+		this.setWindSpeedVector(position, center);
+	}
+
+	/// <summary>
+	/// Updates the weather and internal pressure systems.
+	/// </summary>
+	public void UpdateSystem()
+	{
+		this.WeatherPressureSystems.UpdatePressureSystem();
+		this.UpdateWeather(Game.Instance.PlayerInstance.WorldTransform.position);
 	}
 
 	/// <summary>
@@ -354,21 +365,7 @@ public class WeatherSystem
 	/// </summary>
 	public WeatherSystem()
 	{
-		// eight is the size of the array needed 
-		// based on the number of enums present in
-		// Weather
 		this.WeatherInformation = new float[Weather.GetNames(typeof(Weather)).Length];
-
-		// TODO: this needs to be updated to be dynamic but
-		//       for now it creates an example of how the 
-		//       weather works. So please ignore the magic
-		//       numbers for now
-		this.stormCenterLocations    = new Vector2[2];
-		this.stormCenterLocations[0] = Vector2.left*10;
-		this.stormCenterLocations[0] = Vector2.right*10;
-
-		this.StormCenterPressure = new float[2];
-		this.StormCenterPressure[0] = 1000;
-		this.StormCenterPressure[1] = 1013;
+		this.WeatherPressureSystems = new PressureSystems();
 	}
 }

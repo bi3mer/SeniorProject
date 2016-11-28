@@ -11,7 +11,7 @@ public class RooftopPointGenerator
 	private const int maximumAttempts = 10;
 
 	// Maxmimum items to be placed
-	private const int maximumItems = 8;
+	private const int maximumItems = 5;
 
 	// The maximum distance away from the doorway in which the door being there will affect whether or not objects may be placed there
 	// This will be multiplied against the short side of the surface
@@ -43,7 +43,7 @@ public class RooftopPointGenerator
 	/// </summary>
 	/// <returns>The valid points.</returns>
 	/// <param name="target">Target.</param>
-	public List<ItemPlacementSamplePoint> GetValidPoints(GameObject target, List<float> doorExtents, List<float> itemExtents)
+	public List<ItemPlacementSamplePoint> GetValidPoints(GameObject target, List<float> doorExtents, List<float> itemExtents, bool hasDoor = false)
 	{
 		generatableDoorExtents = doorExtents;
 		generatableObjectExtents = itemExtents;
@@ -70,7 +70,18 @@ public class RooftopPointGenerator
 
 		// Generates points to place objects, as well a door object.
 		// TODO: Function that generates points without taking a door into consideration
-		List<ItemPlacementSamplePoint> samplingPoints = generatePointsWithDoor (target, targetMesh, width, depth, height);
+
+		List<ItemPlacementSamplePoint> samplingPoints;
+
+		if(hasDoor)
+		{
+			samplingPoints = generatePoints (target, generatableDoorExtents, hasDoor, targetMesh, width, depth, height);
+		}
+		else
+		{
+			samplingPoints = generatePoints (target, generatableObjectExtents, hasDoor, targetMesh, width, depth, height);
+		}
+
 		float initialRayStartHeight = height + rayOffset;
 
 		RaycastHit hit;
@@ -107,11 +118,52 @@ public class RooftopPointGenerator
 	/// </summary>
 	/// <returns>The points with door.</returns>
 	/// <param name="target">Target.</param>
+	/// <param name="firstPointExtents"> The list of extents that should be used. Either for door or for gneratable objects.</param>
+	/// <param name="hasDoor"> Whether or not these point generation should take into account a door object. </param>
 	/// <param name="targetMesh">Target mesh.</param>
 	/// <param name="width">Width.</param>
 	/// <param name="depth">Depth.</param>
 	/// <param name="height">Height.</param>
-	private List<ItemPlacementSamplePoint> generatePointsWithDoor(GameObject target, Mesh targetMesh, float width, float depth, float height)
+	private List<ItemPlacementSamplePoint> generatePoints(GameObject target, List<float> firstPointExtents, bool hasDoor, Mesh targetMesh, float width, float depth, float height)
+	{
+		float shorterLength = width;
+		float maxDoorwayEffectArea = maxDoorwayEffectPercent * shorterLength;
+
+		if (width > depth) 
+		{
+			shorterLength = depth;
+		}
+
+		// generate the first point randomly away from the doorway
+		ItemPlacementSamplePoint firstPoint = new ItemPlacementSamplePoint();
+		firstPoint.ItemIndex = Random.Range(0, firstPointExtents.Count);
+		firstPoint.PointOnTargetSurface = createFirstPoint (width, depth, height, target, firstPoint.ItemIndex, firstPointExtents);
+		firstPoint.GridPoint = PointToGrid(firstPoint.PointOnTargetSurface);
+		firstPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, firstPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea, hasDoor);
+		firstPoint.Size = firstPointExtents[firstPoint.ItemIndex];
+
+		// Building failed to have any sample points after attempting the maximum attempts
+		// not a good building, skip
+		if (firstPoint.PointOnTargetSurface.Equals (Vector2.zero)) 
+		{
+			return new List<ItemPlacementSamplePoint>();
+		}
+
+		return generateSubsequentPoints(target, targetMesh, width, depth, height, firstPoint, hasDoor); 
+	}
+
+	/// <summary>
+	/// Generates sampling points for object while taking into account a door object.
+	/// Items should avoid being placed near the door.
+	/// </summary>
+	/// <returns>The points with door.</returns>
+	/// <param name="target">Target.</param>
+	/// <param name="targetMesh">Target mesh.</param>
+	/// <param name="width">Width.</param>
+	/// <param name="depth">Depth.</param>
+	/// <param name="height">Height.</param>
+	private List<ItemPlacementSamplePoint> generateSubsequentPoints(GameObject target, Mesh targetMesh, float width, float depth, float height, 
+														  ItemPlacementSamplePoint firstPoint, bool useGaussianMinDistance)
 	{
 		float shorterLength = width;
 		float maxDoorwayEffectArea = maxDoorwayEffectPercent * shorterLength;
@@ -127,21 +179,6 @@ public class RooftopPointGenerator
 		List<ItemPlacementSamplePoint> processList = new List<ItemPlacementSamplePoint>();
 
 		List<ItemPlacementSamplePoint> samplePoints = new List<ItemPlacementSamplePoint>();
-
-		// generate the first point randomly away from the doorway
-		ItemPlacementSamplePoint firstPoint = new ItemPlacementSamplePoint();
-		firstPoint.ItemIndex = Random.Range(0, generatableDoorExtents.Count);
-		firstPoint.PointOnTargetSurface = createDoor (width, depth, height, target, firstPoint.ItemIndex);
-		firstPoint.GridPoint = PointToGrid(firstPoint.PointOnTargetSurface);
-		firstPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, firstPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea);
-		firstPoint.Size = generatableDoorExtents[firstPoint.ItemIndex];
-
-		// Building failed to have any sample points after attempting the maximum attempts
-		// not a good building, skip
-		if (firstPoint.PointOnTargetSurface.Equals (Vector2.zero)) 
-		{
-			return samplePoints;
-		}
 
 		grid[(int) firstPoint.GridPoint.x, (int) firstPoint.GridPoint.y] = firstPoint;
 
@@ -166,7 +203,7 @@ public class RooftopPointGenerator
 				newPoint.ItemIndex = Random.Range(0, generatableObjectExtents.Count);
 
 				newPoint.PointOnTargetSurface = generateRandomPointAround(point.PointOnTargetSurface, point.MinDistance + point.Size);
-				newPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, newPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea);
+				newPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, newPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea, useGaussianMinDistance);
 				newPoint.GridPoint = PointToGrid(newPoint.PointOnTargetSurface);
 				newPoint.Size = generatableObjectExtents[newPoint.ItemIndex];
 
@@ -176,7 +213,7 @@ public class RooftopPointGenerator
 				while (tries < maximumAttempts && (!inRangeOfBuilding (newPoint.PointOnTargetSurface, width, depth, newPoint.Size) || HasOverlappingNeighbors(newPoint)))
 				{
 					newPoint.PointOnTargetSurface = generateRandomPointAround (point.PointOnTargetSurface, point.MinDistance + point.Size);
-					newPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, newPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea);
+					newPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, newPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea, useGaussianMinDistance);
 					newPoint.GridPoint = PointToGrid(newPoint.PointOnTargetSurface);
 					++tries;
 				}
@@ -248,9 +285,15 @@ public class RooftopPointGenerator
 	/// <returns>The minimum distance.</returns>
 	/// <param name="door">Door.</param>
 	/// <param name="currentPosition">Current position.</param>
-	private float getMinDistance(Vector2 door, Vector2 currentPosition, float maxDistanceAway, float maxDoorwayEffectArea)
+	private float getMinDistance(Vector2 door, Vector2 currentPosition, float maxDistanceAway, float maxDoorwayEffectArea, bool useGaussian)
 	{
-		return Mathf.Clamp (defaultMinDistanceAway + maxDistanceAway * (1 - Vector2.Distance (door, currentPosition) / maxDoorwayEffectArea), defaultMinDistanceAway, maxDistanceAway);
+		if(useGaussian)
+		{
+			return Mathf.Clamp (defaultMinDistanceAway + maxDistanceAway * (1 - Vector2.Distance (door, currentPosition) / maxDoorwayEffectArea), 
+								defaultMinDistanceAway, maxDistanceAway);
+		}
+
+		return defaultMinDistanceAway;
 	}
 
 	/// <summary>
@@ -263,18 +306,18 @@ public class RooftopPointGenerator
 	/// <param name="depth">Depth of building.</param>
 	/// <param name="height">Height of building.</param>
 	/// <param name="target">Target building.</param>
-	private Vector2 createDoor(float width, float depth, float height, GameObject target, int doorIndex)
+	private Vector2 createFirstPoint(float width, float depth, float height, GameObject target, int itemIndex, List<float> generatableExtents)
 	{
-		float size = generatableDoorExtents[doorIndex];
+		float size = generatableExtents[itemIndex];
 
 		// Generates a point within the bounds and converts it to a global location
-		Vector2 doorLocation = new Vector2(Random.Range(width * borderPercent + size, width - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, depth - (depth * borderPercent + size)));
-		Vector2 doorGlobalLocation = convertToWorldSpace(doorLocation, target.transform.position, width, depth);
+		Vector2 objectLocation = new Vector2(Random.Range(width * borderPercent + size, width - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, depth - (depth * borderPercent + size)));
+		Vector2 objectGlobalLocation = convertToWorldSpace(objectLocation, target.transform.position, width, depth);
 		float rayOffset = 1f;
 		float initialRayStartHeight = height + rayOffset;
 
 		RaycastHit hit;
-		Physics.Raycast (new Vector3 (doorGlobalLocation.x, initialRayStartHeight, doorGlobalLocation.y), Vector3.down, out hit, initialRayStartHeight);
+		Physics.Raycast (new Vector3 (objectGlobalLocation.x, initialRayStartHeight, objectGlobalLocation.y), Vector3.down, out hit, initialRayStartHeight);
 		int tries = 0;
 
 		// It will continue trying to place a point for the door so long as
@@ -284,21 +327,21 @@ public class RooftopPointGenerator
 		// 4) the angle of the surface that the raycast hits exceeds the maxAngle
 		while (tries < maximumAttempts && (hit.transform == null || !hit.transform.gameObject.Equals (target) || (Mathf.Abs (Mathf.Acos (Vector3.Dot (hit.normal, Vector3.up))) > maxAngle))) 
 		{
-			doorLocation = new Vector2(Random.Range(width * borderPercent + size, 1 - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, 1 - (depth * borderPercent + size)));
+			objectLocation = new Vector2(Random.Range(width * borderPercent + size, 1 - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, 1 - (depth * borderPercent + size)));
 
-			doorGlobalLocation = convertToWorldSpace(doorLocation, target.transform.position, width, depth);
+			objectGlobalLocation = convertToWorldSpace(objectLocation, target.transform.position, width, depth);
 
-			Physics.Raycast (new Vector3 (doorGlobalLocation.x, initialRayStartHeight, doorGlobalLocation.y), Vector3.down, out hit, height);
+			Physics.Raycast (new Vector3 (objectGlobalLocation.x, initialRayStartHeight, objectGlobalLocation.y), Vector3.down, out hit, height);
 		
 			++tries;
 		}
 
 		if (tries == maximumAttempts)
 		{
-			doorLocation = Vector3.zero;
+			objectLocation = Vector3.zero;
 		}
 
-		return doorLocation;
+		return objectLocation;
 	}
 
 	/// <summary>

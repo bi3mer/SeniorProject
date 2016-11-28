@@ -16,7 +16,17 @@ public class ItemFactory
 	/// </summary>
 	public delegate void CraftItem(List<BaseItem> ingredients);
 
-	private Dictionary<string, BaseItem> itemDatabase;
+	public List<GeneratableItemInfoModel> GeneratableItemList
+	{
+		get;
+		private set;
+	}
+
+	public Dictionary<string, BaseItem> ItemDatabase
+	{
+		get;
+		private set;
+	}
 
 	// the different result tiers of craftable items
 	private string[] itemLevels = new string[3] { "Poor", "Good", "Excellent" };
@@ -26,15 +36,29 @@ public class ItemFactory
 	private ItemSerializer itemParser;
 
 	/// <summary>
+	/// The name of the item file. All yaml files must be placed under "Resources/YAMLFiles"
+	/// </summary>
+	private const string itemFileName = "ItemListYaml.yml";
+	private const string naturallyOccuringFileName = "GeneratableItemInformation.yml";
+
+	/// <summary>
 	/// Start this instance. 
 	/// Loading in the craftingList by YAML.
 	/// </summary>
-	public ItemFactory (string itemFile) 
+	public ItemFactory () 
 	{
-		itemDatabase = new Dictionary<string, BaseItem> ();
-		itemParser = new ItemSerializer(itemFile);
-
+		ItemDatabase = new Dictionary<string, BaseItem> ();
+		itemParser = new ItemSerializer(itemFileName, naturallyOccuringFileName);
 		LoadItemInformation ();
+	}
+
+	/// <summary>
+	/// Gets the blueprints for every item and stores if in the itemDatabase.
+	/// </summary>
+	private void LoadItemInformation()
+	{
+		ItemDatabase = itemParser.DeserializeItemInformation ();
+		GeneratableItemList = itemParser.DeserializeNaturallyOccuringItemData();
 	}
 
 	/// <summary>
@@ -90,21 +114,13 @@ public class ItemFactory
 	}
 
 	/// <summary>
-	/// Gets the blueprints for every item and stores if in the itemDatabase.
-	/// </summary>
-	public void LoadItemInformation()
-	{
-		itemDatabase = itemParser.DeserializeItemInformation ();
-	}
-
-	/// <summary>
 	/// Sorts the ingredients by their tag, which determines which part of the recipe
 	/// the ingredient fulfills.
 	/// </summary>
 	/// <returns>The ingredients by tag.</returns>
 	/// <param name="tags">Tags.</param>
 	/// <param name="ingredients">Ingredients.</param>
-	public Dictionary<string, List<BaseItem>> SortIngredientsByTag(List<string> tags, List<BaseItem> ingredients)
+	private Dictionary<string, List<BaseItem>> SortIngredientsByTag(List<string> tags, List<BaseItem> ingredients)
 	{
 		Dictionary<string, List<BaseItem>> ingredientsByType = new Dictionary<string, List<BaseItem>> ();
 
@@ -139,7 +155,7 @@ public class ItemFactory
 	/// <returns>The resulting item level.</returns>
 	/// <param name="recipe">Recipe.</param>
 	/// <param name="ingredientsByType">Ingredients sorted by type.</param>
-	public int GetResultingItemLevel(Recipe recipe, Dictionary<string, List<BaseItem>> ingredientsByType)
+	private int GetResultingItemLevel(Recipe recipe, Dictionary<string, List<BaseItem>> ingredientsByType)
 	{
 		// level starts at highest level, and decreases as the crafting stat fails to reach the threshold value
 		// highest level is the number of levels - 1 since 0 is the lowest level
@@ -191,9 +207,9 @@ public class ItemFactory
 	/// <param name="item">Item.</param>
 	public BaseItem GetBaseItem(InventoryItemYAMLModel item)
 	{
-		if (itemDatabase.ContainsKey (item.Item.ItemName)) 
+		if (ItemDatabase.ContainsKey (item.Item.ItemName)) 
 		{
-			return itemDatabase [item.Item.ItemName];
+			return ItemDatabase [item.Item.ItemName];
 		} 
 
 		return null;
@@ -206,9 +222,9 @@ public class ItemFactory
 	/// <param name="itemName">Item name.</param>
 	public BaseItem GetBaseItem(string itemName)
 	{
-		if (itemDatabase.ContainsKey (itemName)) 
+		if (ItemDatabase.ContainsKey (itemName)) 
 		{
-			return itemDatabase [itemName];
+			return ItemDatabase [itemName];
 		}
 
 		return null;

@@ -2,7 +2,7 @@
 
 Shader "FX/Water" {
 Properties {
-	_WaveScale ("Wave scale", Range (0.02,0.15)) = 0.063
+	_WaveScale ("Wave scale", Range (0.02,1)) = 0.063
 	_ReflDistort ("Reflection distort", Range (0,1.5)) = 0.44
 	_RefrDistort ("Refraction distort", Range (0,1.5)) = 0.40
 	_RefrColor ("Refraction color", COLOR)  = ( .34, .85, .92, 1)
@@ -24,12 +24,15 @@ Properties {
 
 
 Subshader {
-	Tags { "WaterMode"="Refractive" "RenderType"="Opaque" }
+	Tags { "WaterMode"="Refractive"  "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+	ZWrite Off
+	Blend SrcAlpha OneMinusSrcAlpha 
 	Pass {
 CGPROGRAM
+
 #pragma vertex vert
 #pragma fragment frag
-#pragma multi_compile_fog
+//#pragma multi_compile_fog
 #pragma multi_compile WATER_REFRACTIVE WATER_REFLECTIVE WATER_SIMPLE
 
 #if defined (WATER_REFLECTIVE) || defined (WATER_REFRACTIVE)
@@ -161,6 +164,7 @@ half4 frag( v2f i ) : SV_Target
 	#if defined(WATER_REFRACTIVE)
 	half fresnel = UNITY_SAMPLE_1CHANNEL( _Fresnel, float2(fresnelFac,fresnelFac) );
 	color = lerp( refr, refl, fresnel);
+	color.a = 1;
 	#endif
 	
 	#if defined(WATER_REFLECTIVE)
@@ -174,7 +178,7 @@ half4 frag( v2f i ) : SV_Target
 	color.rgb = lerp( water.rgb, _HorizonColor.rgb, water.a );
 	color.a = _HorizonColor.a;
 	#endif
-	
+
 	#if defined(HAS_FOAM)
 	float sceneZ = LinearEyeDepth (tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.ref)).r);
 	float objectZ = i.ref.z;

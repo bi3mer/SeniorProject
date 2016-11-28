@@ -4,10 +4,6 @@ using System.Collections.Generic;
 
 public class InventoryUIBehavior : MonoBehaviour 
 {
-
-	[Tooltip("the inventory that will be shown")]
-	public string TargetInventoryName;
-
 	[Tooltip("prefab that will be used as a template to populate the inventory")]
 	public GameObject InventoryItemTemplate;
 
@@ -21,8 +17,11 @@ public class InventoryUIBehavior : MonoBehaviour
 
 	public Inventory targetInventory;
 
-	[Tooltip("the yaml file containing inventory information")]
-	public string inventoryFile;
+	public List<Stack> ItemsToDiscard
+	{
+		get;
+		set;
+	}
 
 	/// <summary>
 	/// Start this instance.
@@ -30,8 +29,10 @@ public class InventoryUIBehavior : MonoBehaviour
 	void Start()
 	{
 		instance = this;
-		targetInventory = new Inventory (TargetInventoryName, inventoryFile);
+		targetInventory = Game.Instance.PlayerInstance.Inventory;
 		inventoryUI = new InventoryItemBehavior[targetInventory.InventorySize];
+		ItemsToDiscard = new List<Stack>();
+		LoadInventory();
 	}
 
 	/// <summary>

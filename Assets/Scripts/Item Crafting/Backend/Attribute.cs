@@ -20,4 +20,13 @@ public class Attribute
 		get;
 		set;
 	}
+
+	/// <summary>
+	/// Gets the duplicate of the attribute
+	/// </summary>
+	/// <returns>The duplicate.</returns>
+	public Attribute GetDuplicate()
+	{
+		return new Attribute(Name, Value);
+	}
 }

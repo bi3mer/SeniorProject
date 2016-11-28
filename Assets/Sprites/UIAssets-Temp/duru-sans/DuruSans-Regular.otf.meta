@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ca2664431f81249c8b0fcc7c2ea85425
+guid: bb45a1afed2a14bd986d6fe655cc0f2d
 timeCreated: 1479587114
 licenseType: Free
 TrueTypeFontImporter:
@@ -11,7 +11,8 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - Duru Sans
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: ca2664431f81249c8b0fcc7c2ea85425, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

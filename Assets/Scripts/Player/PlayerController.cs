@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour 
@@ -18,11 +19,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private string waterTag;
 
-    [Header("Resource Settings")]
-    [SerializeField]
-    private float hungerReductionRate;
+    [Header("Environmental Resource Settings")]
     [SerializeField]
     private float waterWarmthReductionRate;
+	[SerializeField]
+	private float outsideWarmthReductionRate;
+	[SerializeField]
+	private float shelterWarmthIncreaseRate;
+    [SerializeField]
+    private float fireWarmthIncreaseRate;
+    [SerializeField]
+    private float hungerReductionRate;
 
 	[Header("HUD Settings")]
 	[SerializeField]
@@ -43,6 +50,11 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool updateStats;
     private bool isFlying;
+    private bool isInShelter;
+    private bool isByFire;
+
+    private float currentWarmthChangeRate;
+    private float currentHungerChangeRate;
 
     private InteractableObject interactable;
 
@@ -53,6 +65,8 @@ public class PlayerController : MonoBehaviour
     private Tool equippedTool;
     private CameraController playerCamera;
     private Rigidbody playerRigidbody;
+
+    private Tool fishingRod;
 
 	[SerializeField]
 	private ControlScheme controlScheme;
@@ -72,34 +86,42 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = false;
         updateStats = true;
+        isInShelter = false;
+        IsByFire = false;
 
         // set up movement components
         landMovement = GetComponent<LandMovement>();
         waterMovement = GetComponent<WaterMovement>();
         movement = landMovement;
 
-        // update accessable player transform
-        Game.Instance.PlayerInstance.WorldTransform = transform;
-
         // set up tools
-        equippedTool = GetComponentInChildren<FishingRod>();
+		fishingRod = GetComponentInChildren<FishingRod>();
+        equippedTool = null;
 
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();
 
+        // start reducing hunger
+        currentHungerChangeRate = hungerReductionRate;
+        StartCoroutine(UpdateHunger());
+
+        // start updating warmth
+        currentWarmthChangeRate = outsideWarmthReductionRate;
+        StartCoroutine(UpdateWarmth());
+
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
 
-        // start reducing hunger & cold
-        StartCoroutine(ReduceHunger(hungerReductionRate));
-        StartCoroutine(ReduceHunger(waterWarmthReductionRate));
-
 		// Link this to the player instance
+        // and update accessable player transform
+        Game.Instance.PlayerInstance.WorldTransform = transform;
 		Game.Instance.PlayerInstance.Controller = this;
 		controlScheme = Game.Instance.Scheme;
 
         // subscribe to events
         Game.Instance.DebugModeSubscription += this.toggleDebugMode;
+		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
+		Game.Instance.PauseInstance.PauseUpdate += this.Pause;
 	}
 
     /// <summary>
@@ -125,8 +147,11 @@ public class PlayerController : MonoBehaviour
         // leaving the range of an interactable item
         if (other.CompareTag(interactiveTag))
         {
-            interactable.Show = false;
-            interactable = null;
+        	if(interactable != null)
+        	{
+	            interactable.Show = false;
+	            interactable = null;
+	        }
         }
     }
 
@@ -136,7 +161,7 @@ public class PlayerController : MonoBehaviour
     void Update ()
     {
         UpdatePlayerStats();
-
+        
         // check for camera related input
         if (Input.GetKeyDown(controlScheme.CameraLeft))
         {
@@ -151,21 +176,35 @@ public class PlayerController : MonoBehaviour
         // if the player has a tool equipped
         if (equippedTool != null)
         {
-            if (Input.GetKeyDown(controlScheme.UseTool))
+			if (Input.GetKeyDown(controlScheme.UseTool) && Game.Instance.PlayerInstance.HasTool)
             {
-                // TODO: Check to see if Use returns and item
-                // if so maybe show it off then put it in the player's inventory
-                equippedTool.Use();
+				// Check if the mouse was clicked over a UI element
+            	if(!EventSystem.current.IsPointerOverGameObject())
+            	{
+	                // TODO: Check to see if Use returns and item
+	                // if so maybe show it off then put it in the player's inventory
+	                equippedTool.Use();
+	            }
                 
                 // TODO: Don't let player move when using tools 
             }
+			else if(!Game.Instance.PlayerInstance.HasTool)
+            {
+            	// unequip the tool
+				equippedTool.Unequip();
+            	equippedTool = null;
+            }
 
             // don't check for other input since we are currently using a tool
-            if (equippedTool.InUse) 
+            if (equippedTool != null && equippedTool.InUse) 
             {
                 return;
             }
         }
+		else if(Game.Instance.PlayerInstance.HasTool)
+		{
+			equippedTool = fishingRod;
+		}
 
         // if the player is near an interactable item
         if (interactable != null)
@@ -261,32 +300,51 @@ public class PlayerController : MonoBehaviour
             player.Health -= (int) movement.CurrentFallDammage;
 			healthUpdatedEvent.Invoke ();
         }
+
+        // check if we're in water
+        if (IsInWater)
+        {
+            currentWarmthChangeRate = waterWarmthReductionRate;
+        }
     }
 
-    private IEnumerator ReduceHunger (float depletionRate)
+    private IEnumerator UpdateHunger ()
     {
         while (updateStats)
         {
-            yield return new WaitForSeconds(depletionRate);
-            --Game.Instance.PlayerInstance.Hunger;
+			yield return new WaitForSeconds(Mathf.Abs(currentHungerChangeRate));
+
+            if (currentHungerChangeRate > 0)
+            {
+                ++Game.Instance.PlayerInstance.Hunger;
+            }
+            else
+            {
+                --Game.Instance.PlayerInstance.Hunger;
+            }
+            
 			hungerUpdatedEvent.Invoke ();
         }
     }
 
-    private IEnumerator ReduceWarmth(float depletionRate)
-    {
-        while (updateStats)
-        {
-            yield return new WaitForSeconds(depletionRate);
-            if (IsInWater)
+	private IEnumerator UpdateWarmth()
+	{
+		while (updateStats)
+		{
+			yield return new WaitForSeconds(Mathf.Abs(currentWarmthChangeRate));
+
+            if (currentWarmthChangeRate > 0)
+            {
+                ++Game.Instance.PlayerInstance.Warmth;
+            }
+            else
             {
                 --Game.Instance.PlayerInstance.Warmth;
-
             }
-
-			warmthUpdatedEvent.Invoke ();
-        }
-    }
+			
+            warmthUpdatedEvent.Invoke();
+		}
+	}
 
     private void CheckGround ()
     {
@@ -373,6 +431,75 @@ public class PlayerController : MonoBehaviour
     {
         get { return movement is RaftMovement; }
     }
+
+	/// <summary>
+	/// Returns true if the player is currently in a shelter
+	/// </summary>
+	public bool IsInShelter 
+	{
+        get
+        {
+            return isInShelter;
+        }
+        set
+        {
+            // Set warmth rates to the proper value
+            if (value)
+            {
+                currentWarmthChangeRate = shelterWarmthIncreaseRate;
+            }
+            else
+            {
+                currentWarmthChangeRate = outsideWarmthReductionRate;
+            }
+
+            isInShelter = value;
+        }
+	}
+
+    /// <summary>
+    /// If the player is near a fire it returns true.
+    /// </summary>
+    public bool IsByFire
+    {
+        get
+        {
+            return isByFire;
+        }
+        set
+        {
+            if (value)
+            {
+                currentWarmthChangeRate = fireWarmthIncreaseRate;
+            }
+            else
+            {
+                currentWarmthChangeRate = outsideWarmthReductionRate;
+            }
+
+            isByFire = value;
+        }
+    }
+
+    /// <summary>
+    /// Resume stat changes.
+    /// </summary>
+    public void Resume()
+	{
+        updateStats = true;
+        
+        // TODO: Resume any other stopped preccesses
+	}
+
+	/// <summary>
+	/// Pause stat changes.
+	/// </summary>
+	public void Pause()
+	{
+        updateStats = false;
+
+        // TODO: Stop any needed processes
+	}
 
     /// <summary>
     /// Set up or tear down any configuration neccisary for debug mode.

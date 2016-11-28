@@ -8,6 +8,8 @@
         PlayerInstance = new Player();
 		WeatherInstance = new WeatherSystem();
 		PauseInstance = new PauseSystem();
+		WorldItemFactoryInstance = new WorldItemFactory();
+		ItemFactoryInstance = new ItemFactory();
 		GameSettingsInstance = new GameSettings ();
 		Scheme = GameSettingsInstance.Scheme;
     }
@@ -107,7 +109,6 @@
 			if(this.clockInstance == null)
 			{
 				this.clockInstance = UnityEngine.MonoBehaviour.FindObjectOfType<Clock>();
-				this.clockInstance.Start();
 			}
 
 			return this.clockInstance;
@@ -125,6 +126,15 @@
 	}
 
 	/// <summary>
+	/// Gets the item factory instance which stores all data about items.
+	/// </summary>
+	/// <value>The item factory instance.</value>
+	public ItemFactory ItemFactoryInstance
+	{
+		get;
+		private set;
+	}
+
 	/// Gets the game settings instance.
 	/// </summary>
 	/// <value>The game settings instance.</value>
@@ -134,6 +144,15 @@
 		private set;
 	}
 
+	/// <summary>
+	/// Gets the item factory instance which creates items in the world.
+	/// </summary>
+	/// <value>The world item factory instance.</value>
+	public WorldItemFactory WorldItemFactoryInstance
+	{
+		get;
+		private set;
+	}
 
 	/// <summary>
 	/// Gets the control scheme configured for the game.
