@@ -466,7 +466,7 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
-            return IsByFire;
+            return isByFire;
         }
         set
         {
@@ -479,7 +479,7 @@ public class PlayerController : MonoBehaviour
                 currentWarmthChangeRate = outsideWarmthReductionRate;
             }
 
-            isInShelter = value;
+            isByFire = value;
         }
     }
 

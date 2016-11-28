@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Fire : MonoBehaviour {
-
+public class Fire : MonoBehaviour
+{
 	/// <summary>
     /// When next to fire set IsByFire bool to true.
     /// </summary>
