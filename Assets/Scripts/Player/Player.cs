@@ -8,6 +8,10 @@ public class Player
     private const string playerInventoryName = "player";
     private const string inventoryFileName = "InventoryYaml.yml";
 
+    private int health;
+    private int warmth;
+    private int hunger;
+
     /// <summary>
     /// Player constructor.
     /// Initializes all fields to full.
@@ -58,8 +62,21 @@ public class Player
     /// </summary>
     public int Health
     {
-        get;
-        set;
+        get
+        {
+            return health;
+        }
+        set
+        {
+            value = Mathf.Clamp(value, 0, MaxHealth);
+
+            if (value <= 0)
+            {
+                // TODO: Game over
+            }
+
+            health = value;
+        }
     }
 
     /// <summary>
@@ -78,8 +95,21 @@ public class Player
     /// </summary>
     public int Warmth
     {
-        get;
-        set;
+        get
+        {
+            return warmth;
+        }
+        set
+        {
+            value = Mathf.Clamp(value, 0, MaxWarmth);
+
+            if (value <= 0)
+            {
+                // TODO: Decrease health?
+            }
+
+            warmth = value;
+        }
     }
 
     /// <summary>
@@ -98,8 +128,21 @@ public class Player
     /// </summary>
     public int Hunger
     {
-        get;
-        set;
+        get
+        {
+            return hunger;
+        }
+        set
+        {
+            value = Mathf.Clamp(value, 0, MaxHunger);
+
+            if (value <= 0)
+            {
+                // TODO: Decrease health?
+            }
+
+            hunger = value;
+        }
     }
 
     /// <summary>
