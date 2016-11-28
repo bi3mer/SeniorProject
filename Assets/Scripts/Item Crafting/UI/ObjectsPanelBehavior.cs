@@ -42,9 +42,11 @@ public class ObjectsPanelBehavior : MonoBehaviour
 		anim.SetInteger (animatorStateVariable, currentAnimationState);
 
 		ItemDiscarder discarder = new ItemDiscarder();
-		discarder.DiscardItems(InventoryUIBehavior.instance.ItemsToDiscard);
+		//discarder.DiscardItems(InventoryUIBehavior.instance.ItemsToDiscard); // Old UI
+		discarder.DiscardItems(InventoryUI.Instance.ItemsToDiscard);
 
-		InventoryUIBehavior.instance.ItemsToDiscard.Clear();
+		//InventoryUIBehavior.instance.ItemsToDiscard.Clear(); // Old UI
+		InventoryUI.Instance.ItemsToDiscard.Clear();
 
 		// deselects all ui components to prevent space bar from firing them off
 		EventSystem.current.SetSelectedGameObject(null);
