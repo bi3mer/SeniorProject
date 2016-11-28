@@ -21,6 +21,13 @@ public class Stack
 	}
 
 	/// <summary>
+	/// Initializes a new instance of the <see cref="Stack"/> class.
+	/// </summary>
+	public Stack()
+	{
+	}
+
+	/// <summary>
 	/// Gets or sets the item.
 	/// </summary>
 	/// <value>The item.</value>

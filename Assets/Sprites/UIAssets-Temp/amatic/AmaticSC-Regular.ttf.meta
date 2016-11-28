@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3e62df796cb7c4c948c56a9d9b28f748
+guid: ccf390f5c3d274c3c8eec17bd2d337d5
 timeCreated: 1479530977
 licenseType: Free
 TrueTypeFontImporter:
@@ -11,7 +11,8 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - Amatic SC
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 3e62df796cb7c4c948c56a9d9b28f748, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

@@ -33,6 +33,7 @@ public class Inventory
 		inventoryName = name;
 
 		parser = new InventoryYamlParser(inventoryFile);
+		LoadInventory();
 	}
 
 	/// <summary>

@@ -1,7 +1,19 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<< HEAD
+guid: f667095b98acc4ab083cb2ba4935494c
+folderAsset: yes
+timeCreated: 1479423981
+=======
 guid: 4d83aab1ac5574d92a4d7dd479722682
 folderAsset: yes
 timeCreated: 1476763826
+>>>>>>> item-crafting-inventory
+=======
+guid: 4d83aab1ac5574d92a4d7dd479722682
+folderAsset: yes
+timeCreated: 1476763826
+>>>>>>> master
 licenseType: Free
 DefaultImporter:
   userData: 

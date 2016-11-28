@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using Crosstales.RTVoice;
 
@@ -7,6 +8,16 @@ public enum RadioChannel {Music, Weather, Mystery, Null};
 
 public class Radio : MonoBehaviour
 {
+	// set sound sources
+	[SerializeField]
+	private AudioSource music;
+	[SerializeField]
+	private AudioSource weather;
+	[SerializeField]
+	private AudioSource mystery;
+	[SerializeField]
+	private Text radioScreenText;
+
     private bool isOn;
     private RadioChannel CurrentChannel { get; set; }
     private string announcement;
@@ -16,14 +27,6 @@ public class Radio : MonoBehaviour
 
     //counter for how many times weather played
     private int weatherCounter;
-
-    // set sound sources
-	[SerializeField]
-    private AudioSource music;
-	[SerializeField]
-    private AudioSource weather;
-	[SerializeField]
-	private AudioSource mystery;
 
     /// <summary>
     /// Sets up radio for usage.
@@ -49,18 +52,27 @@ public class Radio : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (isOn)
-        {
-            //when music channel selected
-            if (!music.isPlaying && CurrentChannel == RadioChannel.Music)
-            {
-                music.Play();
-            }
-            if (!mystery.isPlaying && CurrentChannel == RadioChannel.Mystery)
-            {
-                mystery.Play();
-            }
-        }
+		if (isOn) 
+		{
+			radioScreenText.text = "Radio is On";
+			//when music channel selected
+			if (!music.isPlaying && CurrentChannel == RadioChannel.Music) 
+			{
+				music.Play ();
+			}
+			if (!mystery.isPlaying && CurrentChannel == RadioChannel.Mystery) 
+			{
+				mystery.Play ();
+			}
+			if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather) 
+			{
+				weather.Play ();
+			}
+		} 
+		else 
+		{
+			radioScreenText.text = "Radio is Off";
+		}
     }
 
     /// <summary>

@@ -1,6 +1,16 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Models/ENV_Models/Posters/Materials/lambert2.mat.meta
+<<<<<<< HEAD
+guid: ebfc8bcf5e07b4f1a97d80524f32157b
+timeCreated: 1479423428
+=======
+guid: 3d0a77c4de6fc4d8e80751aec36d70c3
+timeCreated: 1479328649
+>>>>>>> master
+=======
 guid: 8809892a3f601d2438496c2ff8678cb9
 timeCreated: 1480199301
+>>>>>>> master:Assets/Resources/ITM/Small Containers/ITM_Bucket.prefab.meta
 licenseType: Free
 NativeFormatImporter:
   userData: 

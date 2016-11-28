@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private float shelterWarmthIncreaseRate;
     [SerializeField]
+    private float fireWarmthIncreaseRate;
+    [SerializeField]
     private float hungerReductionRate;
 
 	[Header("HUD Settings")]
@@ -60,6 +62,7 @@ public class PlayerController : MonoBehaviour
     private bool updateStats;
     private bool isFlying;
     private bool isInShelter;
+    private bool isByFire;
 
     private float currentWarmthChangeRate;
     private float currentHungerChangeRate;
@@ -102,6 +105,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = false;
         updateStats = true;
         isInShelter = false;
+        IsByFire = false;
 
         // set the closest distance as nothing
         closestDistance = 0;
@@ -151,9 +155,7 @@ public class PlayerController : MonoBehaviour
         // TODO: Figure out why the player can't find the raft when on board with cone view.
         if (IsOnRaft && other.CompareTag(interactiveTag))
         {
-            // Accounts for triggers working as compound colliders where the scripts are located in a parent object.
-            GameObject actualTriggerObject = other.GetComponentInParent<Rigidbody>().gameObject;
-            interactable = actualTriggerObject.GetComponent<InteractableObject>();
+            interactable = other.GetComponent<InteractableObject>();
             interactable.Show = true;
         }
     }
@@ -575,10 +577,34 @@ public class PlayerController : MonoBehaviour
         }
 	}
 
-	/// <summary>
-	/// Resume stat changes.
-	/// </summary>
-	public void Resume()
+    /// <summary>
+    /// If the player is near a fire it returns true.
+    /// </summary>
+    public bool IsByFire
+    {
+        get
+        {
+            return isByFire;
+        }
+        set
+        {
+            if (value)
+            {
+                currentWarmthChangeRate = fireWarmthIncreaseRate;
+            }
+            else
+            {
+                currentWarmthChangeRate = outsideWarmthReductionRate;
+            }
+
+            isByFire = value;
+        }
+    }
+
+    /// <summary>
+    /// Resume stat changes.
+    /// </summary>
+    public void Resume()
 	{
         updateStats = true;
         
