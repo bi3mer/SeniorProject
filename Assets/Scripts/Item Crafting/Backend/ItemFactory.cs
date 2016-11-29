@@ -38,8 +38,8 @@ public class ItemFactory
 	/// <summary>
 	/// The name of the item file. All yaml files must be placed under "Resources/YAMLFiles"
 	/// </summary>
-	private const string itemFileName = "ItemListYaml.yml";
-	private const string naturallyOccuringFileName = "GeneratableItemInformation.yml";
+	private const string itemFileName = "ItemListYaml";
+	private const string naturallyOccuringFileName = "GeneratableItemInformation";
 
 	/// <summary>
 	/// Start this instance. 

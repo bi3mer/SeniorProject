@@ -9,6 +9,7 @@ using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
+using UnityEngine;
 
 public class ItemSerializer: CraftingSystemSerializer
 {
@@ -34,11 +35,11 @@ public class ItemSerializer: CraftingSystemSerializer
 	/// <returns>The item information.</returns>
 	public Dictionary<string, BaseItem> DeserializeItemInformation()
 	{
-		string fileyaml = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + Filename;
+		string file = "YAMLFiles/" + Filename;
 		Dictionary<string, BaseItem> itemDatabase = new Dictionary<string, BaseItem> ();
 
-		string itemListYAML = File.ReadAllText (fileyaml);
-		StringReader input = new StringReader(itemListYAML);
+		TextAsset itemListYaml = (TextAsset) Resources.Load(file, typeof(TextAsset));
+		StringReader input = new StringReader(itemListYaml.text);
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
 		for (int x = 0; x < categoryNames.Count; ++x) 
@@ -71,10 +72,10 @@ public class ItemSerializer: CraftingSystemSerializer
 	/// <returns>The naturally occuring item data.</returns>
 	public List<GeneratableItemInfoModel> DeserializeNaturallyOccuringItemData()
 	{
-		string fileyaml = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + naturallyOccuringListFileName;
+		string file = "YAMLFiles/" + naturallyOccuringListFileName;
 
-		string itemListYAML = File.ReadAllText (fileyaml);
-		StringReader input = new StringReader(itemListYAML);
+		TextAsset itemListYaml = (TextAsset) Resources.Load(file, typeof(TextAsset));
+		StringReader input = new StringReader(itemListYaml.text);
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
 		return deserializer.Deserialize<List<GeneratableItemInfoModel>> (input);

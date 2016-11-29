@@ -6,6 +6,7 @@ using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
+using UnityEngine;
 
 public class RecipeYamlSerializer : CraftingSystemSerializer 
 {
@@ -23,11 +24,11 @@ public class RecipeYamlSerializer : CraftingSystemSerializer
 	/// <returns>The recipes.</returns>
 	public Dictionary<string, Recipe> LoadRecipes()
 	{
-		string fileyaml = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + Filename;
+		string file = "YAMLFiles/" + Filename;
 		Dictionary<string, Recipe> recipeDatabase = new Dictionary<string, Recipe> ();
 
-		string itemListYAML = File.ReadAllText (fileyaml);
-		StringReader input = new StringReader(itemListYAML);
+		TextAsset recipeListYaml = (TextAsset) Resources.Load(file, typeof(TextAsset));
+		StringReader input = new StringReader(recipeListYaml.text);
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
 		List<Recipe> itemYamlInfo = deserializer.Deserialize<List<Recipe>> (input);
