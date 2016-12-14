@@ -47,6 +47,6 @@ public class PickUpItem : InteractableObject
 	private void pickUp()
 	{
 		Game.Instance.PlayerInstance.Inventory.AddItem(Item, Amount);
-		GameObject.Destroy(this.transform.parent.gameObject);
+		GameObject.Destroy(this.gameObject);
 	}
 }
