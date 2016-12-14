@@ -83,7 +83,7 @@ public class Inventory
 	/// </summary>
 	/// <param name="name">Name of item.</param>
 	/// <param name="amt">Amount of item to use.</param>
-	public void UseItem(BaseItem item, int amt)
+	public void UseItem(string item, int amt)
 	{
 		int amountLeft = amt;
 		int stackAmount;
@@ -92,7 +92,7 @@ public class Inventory
 		{
 			if(contents[i] != null)
 			{
-				if (contents[i].Item.ItemName.Equals(item.ItemName)) 
+				if (contents[i].Item.ItemName.Equals(item)) 
 				{
 					stackAmount = contents[i].Amount;
 					contents[i].Amount -= amountLeft;
@@ -119,7 +119,7 @@ public class Inventory
 	/// </summary>
 	/// <returns>The item.</returns>
 	/// <param name="name">Name.</param>
-	public List<Stack> GetStack(string name, int amt)
+	public List<Stack> GetStacks(string name, int amt)
 	{
 		int currentAmount = 0;
 		List<Stack> stacksNeeded = new List<Stack> ();
@@ -142,6 +142,30 @@ public class Inventory
 		}
 
 		return stacksNeeded;
+	}
+
+	/// <summary>
+	/// Gets the BaseItem of an item in the inventory by its name
+	/// </summary>
+	/// <returns>The inventory item.</returns>
+	/// <param name="name">Name.</param>
+	public BaseItem GetInventoryBaseItem(string name)
+	{
+		BaseItem item = null;
+
+		for (int i = 0; i < contents.Length; ++i) 
+		{
+			if(contents[i] != null)
+			{
+				if (contents [i].Item.ItemName.Equals (name)) 
+				{
+					item = contents [i].Item;
+					break;
+				}
+			}
+		}
+
+		return item;
 	}
 
 	/// <summary>
