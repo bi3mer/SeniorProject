@@ -26,6 +26,8 @@ public class RooftopGeneration
 	/// </summary>
 	private List<GameObject> itemTemplates;
 
+	private List<BaseItem> generatableItems;
+
 	private List<float> doorExtents;
 
 	private List<float> itemExtents;
@@ -40,18 +42,20 @@ public class RooftopGeneration
 	/// <param name="doorChance">Likelihood of a roof having a door in addition to objects.</param>
 	public RooftopGeneration(float generationChance)
 	{
-		List<BaseItem> generatableItems = getGeneratableItems();
+		generatableItems = getGeneratableItems();
 		chanceOfGeneration = generationChance;
 		chanceOfDoor = 0;
 
 		generator = new RooftopPointGenerator ();
 
-		List<GameObject> itemTemplates = new List<GameObject>();
+		itemTemplates = new List<GameObject>();
 		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
 
 		for(int j = 0; j < generatableItems.Count; ++j)
 		{
 			itemTemplates.Add(factory.CreateInteractableItem(generatableItems[j], 1));
+			itemTemplates[j].GetComponentInChildren<InteractableObject>().Show = true;
+			itemTemplates[j].SetActive(false);
 		}
 
 		itemExtents = getItemExtents(itemTemplates);
@@ -67,7 +71,7 @@ public class RooftopGeneration
 	public void AddDoors(List<GameObject> doors, float doorChance)
 	{
 		doorTemplates = doors;
-		doorExtents.AddRange(getItemExtents(doors));
+		doorExtents = getItemExtents(doors);
 		chanceOfDoor = doorChance;
 	}
 
@@ -143,6 +147,7 @@ public class RooftopGeneration
 		if (hasDoor) 
 		{
 			GameObject door = GameObject.Instantiate (doorTemplates [points[0].ItemIndex]);
+			door.SetActive(true);
 			Transform doorTransform = door.transform;
 			doorTransform.position = points [0].WorldSpaceLocation;
 			doorTransform.rotation = Quaternion.Euler(doorTransform.eulerAngles.x, Random.Range(0, 3) * 90, doorTransform.eulerAngles.z);
@@ -152,7 +157,18 @@ public class RooftopGeneration
 		for (int i = startingIndex; i < points.Count; ++i) 
 		{
 			// TODO: Make the amount found in one stack to be a variable number
-			GameObject item = GameObject.Instantiate(itemTemplates[points[i].ItemIndex]);
+			GameObject item = null;
+
+			if(points[i].ItemIndex < generatableItems.Count)
+			{
+				item = factory.CreateInteractableItem(generatableItems[points[i].ItemIndex], 1);
+			}
+			else
+			{
+				item = GameObject.Instantiate(itemTemplates[points[i].ItemIndex]);
+			}
+
+			item.SetActive(true);
 			item.transform.position = points [i].WorldSpaceLocation;
 			item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
 		}
@@ -173,10 +189,29 @@ public class RooftopGeneration
 		{
 			renderer = items[i].GetComponent<Renderer>();
 
-			// the extents of the item for the purposes of the procedural generation is half of either the depth or width
-			// this number will be used to determine how far the minDistance between points must be to avoid objects overlapping
-			// since the pivots are generally in the center, the size is halved
-			extents.Add(Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.z)/2f);
+			if(renderer != null)
+			{
+				// the extents of the item for the purposes of the procedural generation is half of either the depth or width
+				// this number will be used to determine how far the minDistance between points must be to avoid objects overlapping
+				// since the pivots are generally in the center, the size is halved
+				extents.Add(Mathf.Max(renderer.bounds.size.x, renderer.bounds.size.z)/2f);
+			}
+			else
+			{
+				MeshRenderer[] meshes = items[i].GetComponentsInChildren<MeshRenderer>();
+
+				if(meshes.Length > 0)
+				{
+					Bounds combinedBounds = meshes[0].bounds;
+
+					for(int j = 1; j < meshes.Length; ++j)
+					{
+						combinedBounds.Encapsulate(meshes[j].bounds);
+					}
+
+					extents.Add(Mathf.Max(combinedBounds.size.x, combinedBounds.size.z)/2f);
+				}
+			}
 		}
 
 		return extents;
