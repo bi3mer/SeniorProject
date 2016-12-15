@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Net;
+using System.IO;
+using UnityEngine;
 
 public class GoogleDrive
 {
-	public static string GoogleURL = "http://www.google.com";
-	public static string GetterURL = "https://glassprisongames-googlegetter.herokuapp.com";
+	public static string GoogleURL  = "http://www.google.com";
+	public static string GetterURL  = "https://glassprisongames-googlegetter.herokuapp.com";
+	public static string MethodType = "GET";
 
 	/// <summary>
 	/// Checks if connected to internet.
@@ -29,7 +32,7 @@ public class GoogleDrive
 	/// <param name="fileName">File name.</param>
 	private static string getLocalDocument(string fileName)
 	{
-		SystemLogger.Write("Pulling local document");
+		SystemLogger.Write("Pulling local document instead.");
 
 		return "empty for now. This will be updated soon.";
 	}
@@ -40,25 +43,55 @@ public class GoogleDrive
 	/// </summary>
 	/// <returns>The drive document.</returns>
 	/// <param name="fileName">File name.</param>
-	private static string getDriveDocument(string fileName)
+	private static string getOnlineDriveDocument(string fileName)
 	{
-		SystemLogger.Write("Pulling remote document");
+		string url = GoogleDrive.GetterURL + "/" + fileName;
 
-		/*
-		if(retrievedDocument.status == 200)
-		{
+		SystemLogger.Write("Pulling remote document from " + url);
 
-		}
-		else if (retrievedDocument.status == multiple instance status)
-		{
+		// variables for code
+		string content           = "";
+		HttpWebResponse response = null;
+		HttpWebRequest request   = null;
+		bool webError           = false;
 
-		}
-		else
+		try
 		{
-			// no instance found
+			// create request and set method type
+			request = (HttpWebRequest)HttpWebRequest.Create(url);
+            request.Method = GoogleDrive.MethodType;
+
+            // get response from the server
+            response = (HttpWebResponse)request.GetResponse();
+
+			// read in data
+			StreamReader sr = new StreamReader(response.GetResponseStream());
+            content = sr.ReadToEnd();
 		}
-		*/
-		return GoogleDrive.getLocalDocument(fileName);
+		catch (WebException e)
+		{
+			// if this happens this means the server has returned an error in 
+			// the form of a status code of 404. The text associated can be
+			// found on the webpage which will be opened if this is being
+			// run in the unity editor
+			webError = true;
+		}
+
+        // on error, tell the user what went wrong and return a version of
+        // the local document if possible.
+        if(webError)
+        {
+        	// if this is the unity editor open the webpage so the developer 
+        	// can see what is wrong.
+			#if UNITY_EDITOR
+        	UnityEngine.Application.OpenURL(url);
+        	#endif
+
+        	SystemLogger.Write("Remote document unable to be found.");
+			content = GoogleDrive.getLocalDocument(fileName);
+        }
+
+       	return content;	
 	}
 
 	/// <summary>
@@ -67,20 +100,25 @@ public class GoogleDrive
 	/// </summary>
 	/// <returns>The drive document.</returns>
 	/// <param name="fileName">File name.</param>
-	public static string getDriveDoc(string fileName)
+	public static string GetDriveDocument(string fileName)
 	{
 		SystemLogger.Write("Getting file from google drive");
 
 		string fileContents = null;
 
+		#if UNITY_EDITOR
 		if(GoogleDrive.ConnectedToInternet())
 		{
-			Debug.Log("I'm connected!");
+			fileContents = GoogleDrive.getOnlineDriveDocument(fileName);
 		}
 		else
 		{
 			fileContents = GoogleDrive.getLocalDocument(fileName);
 		}
+		#else
+		// pull local contents when this is a real build
+		fileContents = GoogleDrive.getLocalDocument(fileName);
+		#endif
 
 		return fileContents;
 	}
