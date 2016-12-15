@@ -26,15 +26,35 @@ public class GoogleDrive
 	}
 
 	/// <summary>
-	/// Gets the the file from a local resource
+	/// Saves content to the file
+	/// </summary>
+	/// <returns>The file.</returns>
+	/// <param name="fileName">File name.</param>
+	/// <param name="content">Content.</param>
+	private static void saveFile(string fileName, string content)
+	{
+		StreamWriter writer = new StreamWriter(fileName, false, System.Text.Encoding.UTF8);
+		writer.WriteLine(content);
+		writer.Close();
+	}
+
+	/// <summary>
+	/// Gets the the file from a local resource.
+	///
+	/// This will throw an exception if the file does not exist. 
+	/// This is as on purpose as the game will throw an exception 
+	/// elsewhere if an empty file is found. Therefore, if this
+	/// exception is thrown the system logger will make it easy
+	/// for debuggers to find that this is the problem spot.
 	/// </summary>
 	/// <returns>The local document.</returns>
 	/// <param name="fileName">File name.</param>
 	private static string getLocalDocument(string fileName)
 	{
-		SystemLogger.Write("Pulling local document instead.");
+		SystemLogger.Write("Pulling local document.");
 
-		return "empty for now. This will be updated soon.";
+		StreamReader reader = new StreamReader(fileName, System.Text.Encoding.UTF8);
+		return reader.ReadToEnd();
 	}
 
 	/// <summary>
@@ -67,6 +87,9 @@ public class GoogleDrive
 			// read in data
 			StreamReader sr = new StreamReader(response.GetResponseStream());
             content = sr.ReadToEnd();
+
+            // save content to file for usage in case internet is lost
+            GoogleDrive.saveFile(fileName, content);
 		}
 		catch (WebException e)
 		{
@@ -81,7 +104,7 @@ public class GoogleDrive
         // the local document if possible.
         if(webError)
         {
-        	// if this is the unity editor open the webpage so the developer 
+        	// if this is the unity editor, open the webpage so the developer 
         	// can see what is wrong.
 			#if UNITY_EDITOR
         	UnityEngine.Application.OpenURL(url);
@@ -116,7 +139,10 @@ public class GoogleDrive
 			fileContents = GoogleDrive.getLocalDocument(fileName);
 		}
 		#else
-		// pull local contents when this is a real build
+		// pull local contents when this is a real build to avoid 
+		// a mishap where someone accidentally deletes the google
+		// drive file and corrupts anyone soul who wants to play
+		// this game.
 		fileContents = GoogleDrive.getLocalDocument(fileName);
 		#endif
 
