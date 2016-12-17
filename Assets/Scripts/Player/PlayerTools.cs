@@ -29,12 +29,7 @@ public class PlayerTools
     {
         get
         {
-            if (EquippedTool == null)
-            {
-                return true;
-            }
-
-            return false;
+            return (EquippedTool != null);
         }
     }
 
