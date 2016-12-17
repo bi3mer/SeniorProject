@@ -192,7 +192,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
         {
             if((int)size == i &&  district.SizeXDefinitions[i].GetTypeLengthByType(part) > 0)
             {
-                return district.SizeXDefinitions[i].getRandomEntryByType(size, part).PartNumber;
+                return district.SizeXDefinitions[i].GetRandomEntryByType(size, part).PartNumber;
             }
         }
         Debug.LogError(district.Name + " has no buildings of size " + size + ". Your building was not properly created!");

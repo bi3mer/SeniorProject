@@ -99,7 +99,7 @@ public class DistrictConfiguration
         /// <summary>
         /// Gets a random entry in the district's building array by its type. Returns a struct of that buildings size, and position in the enum.
         /// </summary>
-        public buildingIndex getRandomEntryByType(BaseSize size, BuildingParts partType)
+        public buildingIndex GetRandomEntryByType(BaseSize size, BuildingParts partType)
         {
             buildingIndex index = new buildingIndex();
             index.BuildingSize = (int)size;
