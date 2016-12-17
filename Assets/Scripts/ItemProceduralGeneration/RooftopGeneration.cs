@@ -32,19 +32,18 @@ public class RooftopGeneration
 
 	private List<float> itemExtents;
 
-	private int seed = 3;
+	private float seed;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RooftopGeneration"/> class.
 	/// </summary>
-	/// <param name="doors">Door template object.</param>
 	/// <param name="generationChance">Likelihood of a roof having objects.</param>
 	/// <param name="doorChance">Likelihood of a roof having a door in addition to objects.</param>
-	public RooftopGeneration(float generationChance)
+	public RooftopGeneration(float generationChance, float doorChance)
 	{
 		generatableItems = getGeneratableItems();
 		chanceOfGeneration = generationChance;
-		chanceOfDoor = 0;
+		chanceOfDoor = doorChance;
 
 		generator = new RooftopPointGenerator ();
 
@@ -59,8 +58,6 @@ public class RooftopGeneration
 		}
 
 		itemExtents = getItemExtents(itemTemplates);
-
-		Random.InitState (seed);
 	}
 
 	/// <summary>
@@ -83,16 +80,6 @@ public class RooftopGeneration
 	{
 		itemTemplates.AddRange(shelters);
 		itemExtents.AddRange(getItemExtents(shelters));
-	}
-
-	/// <summary>
-	/// Adds the fires as something that can be generated on a roof.
-	/// </summary>
-	/// <param name="fires">Fire gameobjects that can be generated.</param>
-	public void AddFireRemplates(List<GameObject> fires)
-	{
-		itemTemplates.AddRange(fires);
-		itemExtents.AddRange(getItemExtents(fires));
 	}
 
 	/// <summary>
@@ -135,6 +122,7 @@ public class RooftopGeneration
 	/// Generates the objects that needs to be placed on the building's surface.
 	/// TODO: The list of objects passed in should take into account weights so that certain objects are generated more often than others
 	/// TODO: should also take into account location
+	/// TODO: Poisson generation code should be moved to a wrapper class
 	/// </summary>
 	/// <param name="hasDoor">If set to <c>true</c>, there is a door that needs to be created.</param>
 	/// <param name="points">Points.</param>
