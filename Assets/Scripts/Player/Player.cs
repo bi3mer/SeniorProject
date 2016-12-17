@@ -18,7 +18,6 @@ public class Player
         Warmth = MaxWarmth = maxWarmth;
         Hunger = MaxHunger = maxHunger;
 		Inventory = new Inventory (playerInventoryName, inventoryFileName);
-		EquippedTool = "";
     }
 
 	/// <summary>
@@ -123,24 +122,11 @@ public class Player
     }
 
     /// <summary>
-    /// Gets or sets the equipped tool.
+    /// Controls the player's tools.
     /// </summary>
-    /// <value>The equipped tool.</value>
-    public string EquippedTool
+    public PlayerTools Toolbox
     {
-    	get;
-    	set;
-    }
-
-    /// <summary>
-    /// Gets a value indicating whether this instance has a tool equipped.
-    /// </summary>
-    /// <value><c>true</c> if this instance has tool; otherwise, <c>false</c>.</value>
-    public bool HasTool
-    {
-    	get
-    	{
-    		return !EquippedTool.Equals("");
-    	}
+        get;
+        set;
     }
 }

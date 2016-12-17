@@ -26,6 +26,7 @@ public class FishingRod : Tool
         fishingLure.ReelingSpeed = reelingSpeed;
         line = GetComponent<BezierLine>();
         WasCast = false;
+        ToolType = ToolTypes.FishingRod;
 	}
 
     /// <summary>
