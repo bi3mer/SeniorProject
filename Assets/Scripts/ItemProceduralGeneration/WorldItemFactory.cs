@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class WorldItemFactory
+public class WorldItemFactory : MonoBehaviour 
 {
+
 	private Dictionary<string, GameObject> worldItemTemplates;
 
 	/// <summary>
@@ -82,4 +83,20 @@ public class WorldItemFactory
 
 		return item;
 	}
+
+	/// <summary>
+	/// Gets the gameobject that will be copied when the specified item needs to be created in the world.
+	/// </summary>
+	/// <returns>The item template.</returns>
+	/// <param name="itemName">Item name.</param>
+	public GameObject GetItemTemplate(string itemName)
+	{
+		if (worldItemTemplates.ContainsKey (itemName)) 
+		{
+			return worldItemTemplates [itemName];
+		}
+
+		return null;
+	}
+
 }
