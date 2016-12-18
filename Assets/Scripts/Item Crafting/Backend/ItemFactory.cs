@@ -186,13 +186,8 @@ public class ItemFactory
 				// requirement by using a mix of different items of the same type.
 
 				// The contribution from the type of item is the average of the values from each of the items, scaled depending on how much of that
-				// item was used to fulfill the recipe.
-
-				// For example, the recipe calls for 3 rope type items. The user choose to use 2 River Reeds Ropes, and 1 Steel Thread.
-				// If the crafting stat being checked was for durability, and the "Rope" type items contribute to the caluclations of that stat, then
-				// the final calculated contribution to the "durability" of the crafted item by the Rope type items is the average of the durability
-				// of the River Reed Rope and the Steel Thread. However, the River Reed Rope's durability stat affects the final contribution twice
-				// as much as the Steel Thread, as there were twice as many River Reed Ropes used in the crafting process.
+				// item was used to fulfill the recipe. So if 2 of one item was used, and only 1 of another, then the first will affect the final
+				// contribution twice as much as the second object.
 				for (int z = 0; z < ingredientsByType [affectingItems [y]].Count; ++z) 
 				{
 					currentItem = inventory.GetInventoryBaseItem(ingredientsByType [affectingItems [y]] [z].IngredientName);
