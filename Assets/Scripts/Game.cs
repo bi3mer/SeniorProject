@@ -116,6 +116,28 @@
 	}
 
 	/// <summary>
+	/// The flood water instance.
+	/// </summary>
+	private FloodWater floodWaterInstance;
+
+	/// <summary>
+	/// Gets the height of the water level.
+	/// </summary>
+	/// <value>The height of the water level.</value>
+	public float WaterLevelHeight
+	{
+		get
+		{
+			if(this.floodWaterInstance == null)
+			{
+				this.floodWaterInstance = UnityEngine.MonoBehaviour.FindObjectOfType<FloodWater>();
+			}
+
+			return this.floodWaterInstance.WaterLevelHeight;
+		}
+	}
+
+	/// <summary>
 	/// Gets or private sets the pause instance.
 	/// </summary>
 	/// <value>The pause instance.</value>
