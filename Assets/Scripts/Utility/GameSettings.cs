@@ -9,6 +9,7 @@
 		this.VolumeValue = 3.0f;
 		this.ProceduralCityGenerationSeed = 1;
 		this.Scheme = new ControlScheme ();
+
 		setInitialControlScheme ();
 	}
 

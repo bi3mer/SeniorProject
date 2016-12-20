@@ -23,6 +23,12 @@ public class CameraController : MonoBehaviour
     private float maxZoomLevel;
     [SerializeField]
     private float initialZoomLevel;
+    [SerializeField]
+    private AnimationCurve zoomYPositionCurve;
+    [SerializeField]
+    private AnimationCurve zoomZPositionCurve;
+    [SerializeField]
+    private AnimationCurve zoomXRotationCurve;
 
     private int currentView;
     private Camera camera;
@@ -30,7 +36,8 @@ public class CameraController : MonoBehaviour
     /// <summary>
     /// Initialize camera based on starting view specified.
     /// </summary>
-	void Start () {
+	void Start ()
+    {
         // in case a starting position is entered that is out of the range
         currentView = startingView % CameraPositions.Length;
         // grab the camera
@@ -42,19 +49,34 @@ public class CameraController : MonoBehaviour
     /// <summary>
     /// Translates the camera smoothly betwteen camera positions.
     /// </summary>
-	void Update () {
-        Vector3 targetPosition = Vector3.LerpUnclamped(target.position + CameraPositions[currentView].localPosition, target.position, ZoomLevel);
+	void Update ()
+    {
+        float curveVal = scaleRangeForAnimationCurve(ZoomLevel, minZoomLevel, maxZoomLevel);
+        Vector3 targetPosition = updateTargetPosition(curveVal);
         transform.position = Vector3.Lerp(transform.position, targetPosition, cameraTransitionSpeed);
         transform.rotation = Quaternion.Slerp(transform.rotation,
-            CameraPositions[currentView].rotation, cameraTransitionSpeed);
+            Quaternion.Euler(zoomXRotationCurve.Evaluate(curveVal),
+            CameraPositions[currentView].eulerAngles.y, CameraPositions[currentView].eulerAngles.z), cameraTransitionSpeed);
 	}
+
+    /// <summary>
+    /// Returns the target position for the camera to move to.
+    /// </summary>
+    private Vector3 updateTargetPosition(float curveVal)
+    {
+       return Vector3.LerpUnclamped(target.position + CameraPositions[currentView].localPosition + CameraPositions[currentView].transform.forward * zoomZPositionCurve.Evaluate(curveVal) +
+            new Vector3(0f, zoomYPositionCurve.Evaluate(curveVal), 0f), target.position, ZoomLevel);
+    }
 
     /// <summary>
     /// Gets the transform of the camera's current target view.
     /// </summary>
     public Transform CurrentView
     {
-        get { return CameraPositions[currentView]; }
+        get
+        {
+            return CameraPositions[currentView];
+        }
     }
 
     /// <summary>
@@ -103,5 +125,13 @@ public class CameraController : MonoBehaviour
         {
             ZoomLevel = minZoomLevel;
         }
+    }
+
+    /// <summary>
+    /// Normalizes the zoom level to values between 0-1 which is used for Animation curves
+    /// </summary>
+    private float scaleRangeForAnimationCurve(float rawValue, float min, float max)
+    {
+        return (rawValue - min) / (max - min);
     }
 }

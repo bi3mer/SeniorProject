@@ -26,14 +26,10 @@ public class PlayerController : MonoBehaviour
 	private float outsideWarmthReductionRate;
 	[SerializeField]
 	private float shelterWarmthIncreaseRate;
-
-	[Header("Current Resource Settings")]
-	[SerializeField]
-	private float currentWarmthReductionRate;
-	[SerializeField]
-	private float currentWarmthIncreaseRate;
-	[SerializeField]
-	private float currentHungerReductionRate;
+    [SerializeField]
+    private float fireWarmthIncreaseRate;
+    [SerializeField]
+    private float hungerReductionRate;
 
 	[Header("HUD Settings")]
 	[SerializeField]
@@ -51,11 +47,34 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private KeyCode debugFlightDown;
 
+    [Header("Field of View Setting")]
+    // public so the editor can touch them
+    public float ViewRadius;
+    [Range(0, 360)]
+    public float ViewAngle;
+    [SerializeField]
+    private LayerMask interactablesMask;
+    [SerializeField]
+    [Tooltip("Any object that blocks player's view to interactable object.")]
+    private LayerMask obstacleMask;
+
     private bool isGrounded;
     private bool updateStats;
     private bool isFlying;
+    private bool isInShelter;
+    private bool isByFire;
+
+    private float currentWarmthChangeRate;
+    private float currentHungerChangeRate;
 
     private InteractableObject interactable;
+
+    // the closest interactable as well as the distance
+    private Collider closestInteractable;
+    private float closestDistance;
+
+    // the previous closest collider
+    private Collider prevInteractable;
 
     private Movement movement;
     private LandMovement landMovement;
@@ -85,17 +104,18 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = false;
         updateStats = true;
+        isInShelter = false;
+        IsByFire = false;
+
+        // set the closest distance as nothing
+        closestDistance = 0;
 
         // set up movement components
         landMovement = GetComponent<LandMovement>();
         waterMovement = GetComponent<WaterMovement>();
         movement = landMovement;
 
-        // update accessable player transform
-        Game.Instance.PlayerInstance.WorldTransform = transform;
-
         // set up tools
-
 		fishingRod = GetComponentInChildren<FishingRod>();
         equippedTool = null;
 
@@ -103,38 +123,37 @@ public class PlayerController : MonoBehaviour
         playerCamera = Camera.main.GetComponent<CameraController>();
 
         // start reducing hunger
-        StartCoroutine(ReduceHunger());
+        currentHungerChangeRate = hungerReductionRate;
+        StartCoroutine(UpdateHunger());
 
-		// subscribe to delegate
-		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
-		Game.Instance.PauseInstance.PauseUpdate += this.Pause;
+        // start updating warmth
+        currentWarmthChangeRate = outsideWarmthReductionRate;
+        StartCoroutine(UpdateWarmth());
 
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
 
-		// start reducing hunger
-		StartCoroutine(ReduceHunger());
-
 		// Link this to the player instance
+        // and update accessable player transform
+        Game.Instance.PlayerInstance.WorldTransform = transform;
 		Game.Instance.PlayerInstance.Controller = this;
 		controlScheme = Game.Instance.Scheme;
 
         // subscribe to events
         Game.Instance.DebugModeSubscription += this.toggleDebugMode;
-
-		// subscribe to delegate
 		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
 		Game.Instance.PauseInstance.PauseUpdate += this.Pause;
 	}
 
     /// <summary>
-    /// When colliding with a trigger. Used for interactable object interaction.
+    /// When colliding with a trigger. Used for interactable object interaction. For raft interactions.
     /// </summary>
     /// <param name="other">Collider with trigger</param>
     void OnTriggerEnter(Collider other)
     {
-        // enter into the range of an interactable item
-        if (other.CompareTag(interactiveTag))
+        // enter into the range of an interactable item 
+        // TODO: Figure out why the player can't find the raft when on board with cone view.
+        if (IsOnRaft && other.CompareTag(interactiveTag))
         {
             interactable = other.GetComponent<InteractableObject>();
             interactable.Show = true;
@@ -142,13 +161,13 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// When leaving the trigger area. Used to signal an interactable object is not in range.
+    /// When leaving the trigger area. Used to signal an interactable object is not in range.For raft interactions.
     /// </summary>
     /// <param name="other">Collider with trigger</param>
     void OnTriggerExit(Collider other)
     {
         // leaving the range of an interactable item
-        if (other.CompareTag(interactiveTag))
+        if (IsOnRaft && other.CompareTag(interactiveTag))
         {
         	if(interactable != null)
         	{
@@ -164,6 +183,7 @@ public class PlayerController : MonoBehaviour
     void Update ()
     {
         UpdatePlayerStats();
+        FindVisibleInteractables();
 
         // check for camera related input
         if (Input.GetKeyDown(controlScheme.CameraLeft))
@@ -304,48 +324,48 @@ public class PlayerController : MonoBehaviour
 			healthUpdatedEvent.Invoke ();
         }
 
-		if (IsInShelter) 
-		{
-			currentWarmthIncreaseRate = shelterWarmthIncreaseRate;
-			StopCoroutine (ReduceWarmth());
-			StartCoroutine(IncreaseWarmth ());
-
-		} 
-		else 
-		{
-			currentWarmthReductionRate = outsideWarmthReductionRate;
-			StopCoroutine (IncreaseWarmth());
-			StartCoroutine(ReduceWarmth ());
-		}
+        // check if we're in water
+        if (IsInWater)
+        {
+            currentWarmthChangeRate = waterWarmthReductionRate;
+        }
     }
 
-    private IEnumerator ReduceHunger ()
+    private IEnumerator UpdateHunger ()
     {
         while (updateStats)
         {
-			yield return new WaitForSeconds(currentHungerReductionRate);
-            --Game.Instance.PlayerInstance.Hunger;
+			yield return new WaitForSeconds(Mathf.Abs(currentHungerChangeRate));
+
+            if (currentHungerChangeRate > 0)
+            {
+                ++Game.Instance.PlayerInstance.Hunger;
+            }
+            else
+            {
+                --Game.Instance.PlayerInstance.Hunger;
+            }
+            
 			hungerUpdatedEvent.Invoke ();
         }
     }
 
-	private IEnumerator ReduceWarmth()
+	private IEnumerator UpdateWarmth()
 	{
 		while (updateStats)
 		{
-			yield return new WaitForSeconds(currentWarmthReductionRate);
-			--Game.Instance.PlayerInstance.Warmth;
-		}
-			
-		warmthUpdatedEvent.Invoke ();
-	}
+			yield return new WaitForSeconds(Mathf.Abs(currentWarmthChangeRate));
 
-	private IEnumerator IncreaseWarmth()
-	{
-		while (updateStats & IsInShelter) 
-		{
-			yield return new WaitForSeconds (currentWarmthIncreaseRate);
-			++Game.Instance.PlayerInstance.Warmth;
+            if (currentWarmthChangeRate > 0)
+            {
+                ++Game.Instance.PlayerInstance.Warmth;
+            }
+            else
+            {
+                --Game.Instance.PlayerInstance.Warmth;
+            }
+			
+            warmthUpdatedEvent.Invoke();
 		}
 	}
 
@@ -435,21 +455,160 @@ public class PlayerController : MonoBehaviour
         get { return movement is RaftMovement; }
     }
 
+    /// <summary>
+    /// Finds all the interactable objects within the player's field of view
+    /// </summary>
+    void FindVisibleInteractables()
+    {
+        if (IsOnLand)
+        {
+            // find the interactable objects within a sphere around the character
+            Collider[] interactablesInRadius = Physics.OverlapSphere(playerAnimator.transform.position, ViewRadius, interactablesMask);
+
+            // check all the items within the radius 
+            for (int i = 0; i < interactablesInRadius.Length; ++i)
+            {
+                // get the direction to the interactable
+                Transform target = interactablesInRadius[i].transform;
+                Vector3 targetDir = (target.position - playerAnimator.transform.position).normalized;
+
+                // check if angle between item is within view angle. The view angle divided by 2 should make up the 
+                // the negative and postive of the view angle, so if the angle is less than half the view angle than 
+                // it is in view.
+                if (Vector3.Angle(playerAnimator.transform.forward, targetDir) < ViewAngle / 2)
+                {
+                    float targetDist = Vector3.Distance(playerAnimator.transform.position, target.position);
+
+                    // check that the interactable object is not behind a non-interactable object
+                    if (!Physics.Raycast(playerAnimator.transform.position, targetDir, targetDist, obstacleMask))
+                    {
+                        CheckClosestInteractable(interactablesInRadius[i], targetDist);
+                    }
+                }
+            }
+
+            // show item if closest item and stop showing previous item
+            if (closestInteractable != prevInteractable)
+            {
+
+                // only stop showing if there was a previous collider
+                if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag))
+                {
+                    interactable.Show = false;
+                    interactable = null;
+                }
+
+                if (closestInteractable != null && closestInteractable.CompareTag(interactiveTag))
+                {
+                    interactable = closestInteractable.GetComponent<InteractableObject>();
+                    interactable.Show = true;
+                }
+            }
+
+            closestDistance = 0;
+            prevInteractable = closestInteractable;
+            closestInteractable = null;
+        }
+    }
+
+    /// <summary>
+    /// Check if an interactable is the closest interactable in view.
+    /// </summary>
+    /// <param name="interactable"></param>
+    /// <param name="distance"></param>
+    public void CheckClosestInteractable(Collider target, float targetDist)
+    {
+        Collider prevTarget;
+        // set first found interactable object as the closest item
+        if (closestDistance == 0)
+        {
+            // set previous interactable
+            prevTarget = closestInteractable;
+
+            closestInteractable = target;
+            closestDistance = targetDist;
+        }
+
+        // if an interactable object is closer than previous closest object, set it as the closest
+        else if (targetDist < closestDistance)
+        {
+            // set previous interactable
+            prevTarget = closestInteractable;
+
+            closestInteractable = target;
+            closestDistance = targetDist;
+        }
+    }
+
+    /// <summary>
+    /// Gets the direction of the angle. Used for editor mode to see how big the field of view will be.
+    /// </summary>
+    /// <param name="angleInDegrees"></param>
+    /// <returns></returns>
+    public Vector3 DirFromAngle(float angleInDegrees)
+    {
+        // shifts the angle to the front of the character.
+        angleInDegrees += transform.eulerAngles.y;
+        return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+    }
+
 	/// <summary>
 	/// Returns true if the player is currently in a shelter
 	/// </summary>
 	public bool IsInShelter 
 	{
-		get;
-		set;
+        get
+        {
+            return isInShelter;
+        }
+        set
+        {
+            // Set warmth rates to the proper value
+            if (value)
+            {
+                currentWarmthChangeRate = shelterWarmthIncreaseRate;
+            }
+            else
+            {
+                currentWarmthChangeRate = outsideWarmthReductionRate;
+            }
+
+            isInShelter = value;
+        }
 	}
 
-	/// <summary>
-	/// Resume stat changes.
-	/// </summary>
-	public void Resume()
+    /// <summary>
+    /// If the player is near a fire it returns true.
+    /// </summary>
+    public bool IsByFire
+    {
+        get
+        {
+            return isByFire;
+        }
+        set
+        {
+            if (value)
+            {
+                currentWarmthChangeRate = fireWarmthIncreaseRate;
+            }
+            else
+            {
+                currentWarmthChangeRate = outsideWarmthReductionRate;
+            }
+
+            isByFire = value;
+        }
+    }
+
+    /// <summary>
+    /// Resume stat changes.
+    /// </summary>
+    public void Resume()
 	{
-		// TODO: Resume any stat changes coroutines
+        updateStats = true;
+        
+        // TODO: Resume any other stopped preccesses
 	}
 
 	/// <summary>
@@ -457,7 +616,9 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	public void Pause()
 	{
-		// TODO: Stop any stat changes coroutines
+        updateStats = false;
+
+        // TODO: Stop any needed processes
 	}
 
     /// <summary>
