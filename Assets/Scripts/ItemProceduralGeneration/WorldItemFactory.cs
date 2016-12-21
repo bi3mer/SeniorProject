@@ -7,6 +7,8 @@ public class WorldItemFactory : MonoBehaviour
 
 	private Dictionary<string, GameObject> worldItemTemplates;
 
+	private List<BaseItem> possibleBaseItems;
+
 	/// <summary>
 	/// The location of the prefab that contains the trigger collider and text mesh needed for interactable objects
 	/// </summary>
@@ -22,12 +24,15 @@ public class WorldItemFactory : MonoBehaviour
 	/// </summary>
 	private GameObject triggerObjectPrefab;
 
+	private RangeAttribute itemAmountRange = new RangeAttribute((int) 1, (int) 10);
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WorldItemFactory"/> class.
 	/// </summary>
 	public WorldItemFactory()
 	{
 		worldItemTemplates = new Dictionary<string, GameObject>();
+		possibleBaseItems = new List<BaseItem>();
 		triggerObjectPrefab = (GameObject) Resources.Load(triggerObjectLocation);
 		LoadTemplates();
 	}
@@ -47,6 +52,7 @@ public class WorldItemFactory : MonoBehaviour
 		for(int i = 0; i < keys.Count; ++i)
 		{
 			worldItemTemplates.Add(itemDatabase[keys[i]].ItemName, (GameObject) Resources.Load(itemDatabase[keys[i]].WorldModel));
+			possibleBaseItems.Add(itemDatabase[keys[i]]);
 		}
 	}
 
@@ -61,6 +67,7 @@ public class WorldItemFactory : MonoBehaviour
 		if(!worldItemTemplates.ContainsKey(itemToCreate.ItemName))
 		{
 			worldItemTemplates.Add(itemToCreate.ItemName, (GameObject) Resources.Load(itemToCreate.WorldModel));
+			possibleBaseItems.Add(itemToCreate);
 		}
 
 		// create the object with the model
@@ -80,6 +87,34 @@ public class WorldItemFactory : MonoBehaviour
 
 		// TODO: Make the amount found in one stack to be a variable number
 		pickup.Amount = amount;
+
+		return item;
+	}
+
+	/// <summary>
+	/// Creates a random interactable item that is ready to be placed in the world.
+	/// </summary>
+	/// <returns>A random interactable item.</returns>
+	public GameObject CreateRandomInteractableItem()
+	{
+		// create the object with the model
+		BaseItem baseItem = possibleBaseItems[Random.Range(0, possibleBaseItems.Count)];
+		GameObject item = GameObject.Instantiate (worldItemTemplates[baseItem.ItemName]);
+
+		// creates the trigger object that will handle interaction with player
+		GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
+		triggerObject.GetComponent<BoxCollider>().size = item.GetComponent<BoxCollider>().size;
+		triggerObject.GetComponent<BoxCollider>().center = item.GetComponent<BoxCollider>().center;
+		triggerObject.transform.SetParent(item.transform);
+		triggerObject.transform.localPosition = Vector3.zero;
+
+		PickUpItem pickup = triggerObject.AddComponent<PickUpItem>();
+		pickup.SetUp();
+		pickup.SetUpPickUp();
+		pickup.Item = baseItem;
+
+		// TODO: Make the amount found in one stack to be a variable number
+		pickup.Amount = (int) Random.Range(itemAmountRange.min, itemAmountRange.max);
 
 		return item;
 	}
