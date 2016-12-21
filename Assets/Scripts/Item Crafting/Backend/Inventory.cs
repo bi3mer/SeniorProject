@@ -81,11 +81,11 @@ public class Inventory
 	/// Uses the item. This means that the number of units in an item will decrease. 
 	/// If there are no units of the item left, then the item is removed from the inventory.
 	/// </summary>
-	/// <param name="name">Name of item.</param>
-	/// <param name="amt">Amount of item to use.</param>
-	public void UseItem(string item, int amt)
+	/// <param name="item">Name of item.</param>
+	/// <param name="amount">Amount of item to use.</param>
+	public void UseItem(string item, int amount)
 	{
-		int amountLeft = amt;
+		int amountLeft = amount;
 		int stackAmount;
 
 		for (int i = 0; i < contents.Length; ++i) 
@@ -115,11 +115,12 @@ public class Inventory
 	}
 
 	/// <summary>
-	/// Gets stacks with the specified item name. Returns as many stacks as needed to fulfill the amount desired.
+	///  Gets stacks with the specified item name. Returns as many stacks as needed to fulfill the amount desired.
 	/// </summary>
-	/// <returns>The item.</returns>
-	/// <param name="name">Name.</param>
-	public List<Stack> GetStacks(string name, int amt)
+	/// <returns>The stacks.</returns>
+	/// <param name="name">Name of the item.</param>
+	/// <param name="amount">Amount of the item to get.</param>
+	public List<Stack> GetStacks(string name, int amount)
 	{
 		int currentAmount = 0;
 		List<Stack> stacksNeeded = new List<Stack> ();
@@ -134,7 +135,7 @@ public class Inventory
 					currentAmount += contents [i].Amount;
 				}
 
-				if(currentAmount >= amt)
+				if(currentAmount >= amount)
 				{
 					break;
 				}
