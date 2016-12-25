@@ -121,6 +121,18 @@
 	private FloodWater floodWaterInstance;
 
 	/// <summary>
+	/// Gets a value indicating whether this <see cref="Game"/> water instance is null.
+	/// </summary>
+	/// <value><c>true</c> if water instance null; otherwise, <c>false</c>.</value>
+	public bool WaterInstanceNull
+	{
+		get
+		{
+			return this.floodWaterInstance == null;
+		}
+	}
+
+	/// <summary>
 	/// Gets the height of the water level.
 	/// </summary>
 	/// <value>The height of the water level.</value>
