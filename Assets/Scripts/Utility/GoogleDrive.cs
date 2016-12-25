@@ -65,7 +65,8 @@ public class GoogleDrive
 	/// <param name="fileName">File name.</param>
 	private static string getOnlineDriveDocument(string fileName)
 	{
-		string url = GoogleDrive.GetterURL + "/" + fileName;
+		// create url
+		string url = Path.Combine(GoogleDrive.GetterURL,fileName);
 
 		SystemLogger.Write("Pulling remote document from " + url);
 
@@ -73,12 +74,12 @@ public class GoogleDrive
 		string content           = "";
 		HttpWebResponse response = null;
 		HttpWebRequest request   = null;
-		bool webError           = false;
+		bool webError            = false;
 
 		try
 		{
 			// create request and set method type
-			request = (HttpWebRequest)HttpWebRequest.Create(url);
+			request        = (HttpWebRequest)HttpWebRequest.Create(url);
             request.Method = GoogleDrive.MethodType;
 
             // get response from the server
@@ -86,7 +87,7 @@ public class GoogleDrive
 
 			// read in data
 			StreamReader sr = new StreamReader(response.GetResponseStream());
-            content = sr.ReadToEnd();
+            content         = sr.ReadToEnd();
 
             // save content to file for usage in case internet is lost
             GoogleDrive.saveFile(fileName, content);
