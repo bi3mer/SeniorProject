@@ -38,6 +38,15 @@ public class BuildingGenerator : MonoBehaviour
     [Tooltip("The maximum number of times a building is attempted to be placed before ending placemet.")]
     private int maxPlacementTries;
 
+    /// <summary>
+    /// Generates a building.
+    /// </summary>
+    /// <param name="seed">The procedutral generation seed</param>
+    /// <param name="block">The block in which the building is to be generated.</param>
+    /// <param name="configuration">The building configuration for this distruct.</param>
+    /// <param name="cityBounds">The bounds of the city.</param>
+    /// <param name="cityCenter">The center of the city.</param>
+    /// <returns></returns>
     public Building[] Generate (int seed, Block block, DistrictConfiguration configuration, Bounds cityBounds, Vector3 cityCenter)
     {
         // Seed random

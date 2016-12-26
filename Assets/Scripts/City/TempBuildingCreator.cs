@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+ /// <summary>
+ /// Temporary class to be replaced with actual building generation code.
+ /// </summary>
 public class TempBuildingCreator : MonoBehaviour 
 {
     public GameObject BuildingTemplete;

@@ -73,7 +73,7 @@ public class Block
         {
             edges[i] = GenerationUtility.ToAlignedVector2(Verticies[i]);
         }
-        return GenerationUtility.IsPointInPolygon(point, edges);
+        return GenerationUtility.IsPointInPolygon(point, ref edges);
     }
 
     /// <summary>

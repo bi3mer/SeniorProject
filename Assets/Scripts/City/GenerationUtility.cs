@@ -69,7 +69,7 @@ public class GenerationUtility
     /// <param name="point"></param>
     /// <param name="polygon"></param>
     /// <returns></returns>
-    public static bool IsPointInPolygon(Vector2 point, Vector2[] polygon)
+    public static bool IsPointInPolygon(Vector2 point, ref Vector2[] polygon)
     {
         int polygonLength = polygon.Length;
         int i = 0;

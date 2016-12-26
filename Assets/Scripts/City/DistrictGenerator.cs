@@ -23,10 +23,13 @@ public class DistrictGenerator : MonoBehaviour
     /// <returns></returns>
     public District[] Generate (int seed, Bounds cityBounds)
     {
-        // check if we have at least one configuration
+        // Check if we have at least one configuration
         if (configurations.Length < 1)
         {
             Debug.LogError("DistrcitGenerator requires at least one district configuration.");
+
+            // Return an empty array
+            return new District[0];
         }
         
         // Seed the generation

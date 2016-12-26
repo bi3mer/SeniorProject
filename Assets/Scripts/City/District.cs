@@ -97,7 +97,7 @@ public class District
         {
             edges[i] = GenerationUtility.ToAlignedVector2(EdgeVerticies[i]);
         }
-        return GenerationUtility.IsPointInPolygon(point, edges);
+        return GenerationUtility.IsPointInPolygon(point, ref edges);
 	}
 
     /// <summary>

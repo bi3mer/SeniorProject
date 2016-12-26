@@ -41,12 +41,21 @@ public class Building
         }
     }
 
+    /// <summary>
+    /// Gets the height of the building.
+    /// </summary>
     public float Height
     {
         get;
         private set;
     }
 
+    /// <summary>
+    /// Creates and instantiates a new building.
+    /// </summary>
+    /// <param name="position">The location of the root of the building.</param>
+    /// <param name="buildingInstance">The building template.</param>
+    /// <param name="height">The height of the builing to instantiate.</param>
     public Building (Vector3 position, GameObject buildingInstance, float height)
     {
         RootPosition = position;
@@ -54,6 +63,10 @@ public class Building
         Height = height;
     }
 
+    /// <summary>
+    /// Calculates the bounds of the building.
+    /// </summary>
+    /// <returns></returns>
     private Bounds calculateBounds()
     {
         // TODO: Actually calculate bounds
