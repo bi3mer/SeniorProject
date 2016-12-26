@@ -14,12 +14,12 @@ public class WorldItemFactory
 	/// <summary>
 	/// The name of the item file. All yaml files must be placed under "Resources/YAMLFiles"
 	/// </summary>
-	private const string itemFileName = "ItemListYaml";
+	private const string itemFileName = "ItemListYaml.yml";
 
 	/// <summary>
 	/// The name of the layer that items generated to the world by this factory should be.
 	/// </summary>
-	private const string layerName = "Collision Disabled Interactables";
+	private const string layerName = "PassInteractable";
 
 	/// <summary>
 	/// The name of the tag that items generated to the world by this factory should have.
