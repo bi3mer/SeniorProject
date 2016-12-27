@@ -8,14 +8,14 @@ public class ProceduralBuildingBase : MonoBehaviour
 {
     // Base
     [SerializeField]
-    private ProceduralBuildingCreator.BaseSize baseSize;
+    private BaseSize baseSize;
 
     [SerializeField]
-    private ProceduralBuildingCreator.HeightType heightType;
+    private HeightType heightType;
     /// <summary>
     /// The way that this building handles growing vertically.
     /// </summary>
-    public ProceduralBuildingCreator.HeightType HeightType
+    public HeightType HeightType
     {
         get
         {

@@ -3,15 +3,19 @@ using System.Collections;
 
 public class City
 {
+    private Vector3 cityCenter;
+
     /// <summary>
     /// Creates a city.
     /// </summary>
     /// <param name="districts">The list of districts conatined in the city.</param>
     /// <param name="boundingBox">The bounding box that defines the size of the city.</param>
-    public City (District[] districts, Bounds boundingBox)
+    /// <param name="cityCenter">The location of the city center.</param>
+    public City (District[] districts, Bounds boundingBox, Vector3 cityCenter)
     {
         Districts = districts;
         BoundingBox = boundingBox;
+        Center = cityCenter;
     }
 
     /// <summary>
@@ -32,5 +36,12 @@ public class City
         private set;
     }
 
-    // TODO: Implement city center
+    /// <summary>
+    /// The position of the center of the city.
+    /// </summary>
+    public Vector3 Center
+    {
+        get;
+        private set;
+    }
 }
