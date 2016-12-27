@@ -109,6 +109,15 @@
 			if(this.clockInstance == null)
 			{
 				this.clockInstance = UnityEngine.MonoBehaviour.FindObjectOfType<Clock>();
+
+				// check if clock instance was found
+				if(this.clockInstance == null)
+				{
+					UnityEngine.Debug.LogError("No clock instance found in scene.");
+					
+					// throw error if not found
+					throw new System.NullReferenceException();
+				}
 			}
 
 			return this.clockInstance;
@@ -121,18 +130,6 @@
 	private FloodWater floodWaterInstance;
 
 	/// <summary>
-	/// Gets a value indicating whether this <see cref="Game"/> water instance is null.
-	/// </summary>
-	/// <value><c>true</c> if water instance null; otherwise, <c>false</c>.</value>
-	public bool WaterInstanceNull
-	{
-		get
-		{
-			return this.floodWaterInstance == null;
-		}
-	}
-
-	/// <summary>
 	/// Gets the height of the water level.
 	/// </summary>
 	/// <value>The height of the water level.</value>
@@ -143,6 +140,15 @@
 			if(this.floodWaterInstance == null)
 			{
 				this.floodWaterInstance = UnityEngine.MonoBehaviour.FindObjectOfType<FloodWater>();
+
+				// check if object was found in scene 
+				if(this.floodWaterInstance == null)
+				{
+					UnityEngine.Debug.LogError("No flood water instance found in scene.");
+
+					// throw error
+					throw new System.NullReferenceException();
+				}
 			}
 
 			return this.floodWaterInstance.WaterLevelHeight;
