@@ -32,8 +32,6 @@ public class RooftopGeneration
 
 	private List<float> itemExtents;
 
-	private int seed;
-
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RooftopGeneration"/> class.
 	/// </summary>
@@ -230,7 +228,6 @@ public class RooftopGeneration
 	/// <param name="newSeed">Seed.</param>
 	public void SetSeed(int newSeed)
 	{
-		seed = newSeed;
-		Random.InitState(seed);
+		Random.InitState(newSeed);
 	}
 }
