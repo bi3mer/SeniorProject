@@ -223,7 +223,7 @@ public class RooftopGeneration
 	}
 
 	/// <summary>
-	/// Sets the seed.
+	/// Sets the initseed of Random with the desired seed.
 	/// </summary>
 	/// <param name="newSeed">Seed.</param>
 	public void SetSeed(int newSeed)
