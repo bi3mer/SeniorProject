@@ -26,11 +26,20 @@ public class RooftopGeneration
 	/// </summary>
 	private List<GameObject> itemTemplates;
 
+	/// <summary>
+	/// The list of items that may be generated in the world
+	/// </summary>
 	private List<BaseItem> generatableItems;
 
-	private List<float> doorExtents;
-
+	/// <summary>
+	/// The size of the items
+	/// </summary>
 	private List<float> itemExtents;
+
+	/// <summary>
+	/// The size of the doors
+	/// </summary>
+	private List<float> doorExtents;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RooftopGeneration"/> class.
