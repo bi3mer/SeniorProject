@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class DummyGenerator : MonoBehaviour
 {
 	// This is a dummy class just for purposes of testing this works please ignore this class file
-
 	public List<Renderer> buildings;
 
 	// Use this for initialization
