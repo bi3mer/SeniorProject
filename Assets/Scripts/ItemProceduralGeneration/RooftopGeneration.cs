@@ -31,14 +31,8 @@ public class RooftopGeneration
 	/// </summary>
 	private List<BaseItem> generatableItems;
 
-	/// <summary>
-	/// The size of the items
-	/// </summary>
 	private List<float> itemExtents;
 
-	/// <summary>
-	/// The size of the doors
-	/// </summary>
 	private List<float> doorExtents;
 
 	/// <summary>
