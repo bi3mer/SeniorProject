@@ -20,7 +20,17 @@ public class PressureSystemVisualization : MonoBehaviour
 			Vector3 center = new Vector3(system.LocalPressureSystems[i].Position.x,
 			                             this.defaultHeight,
 			                             system.LocalPressureSystems[i].Position.y);
-			Gizmos.color = Color.red;
+
+			// set color of pressure system
+			if(system.LocalPressureSystems[i].IsHighPressure)
+			{
+				Gizmos.color = Color.red;
+			} 
+			else
+			{
+				Gizmos.color = Color.blue;
+			}
+
 			Gizmos.DrawSphere(center, this.defaultRadius);
 		}
 	}
