@@ -11,7 +11,7 @@ public static class SystemLogger
 #if UNITY_EDITOR
     public static bool LogToFile = true;
 #else
-	public static bool logToFile = false;
+	public static bool LogToFile = false;
 #endif
 
     // Initializes FileStream for output into specified log file
@@ -23,7 +23,7 @@ public static class SystemLogger
     /// <param name="output"></param>
     public static void Write(string output)
     {
-        if (LogToFile)
+        if (SystemLogger.LogToFile)
         {
             StackTrace st = new StackTrace(true);
             int lineNumber = st.GetFrame(1).GetFileLineNumber();

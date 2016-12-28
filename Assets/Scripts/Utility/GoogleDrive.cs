@@ -26,6 +26,16 @@ public class GoogleDrive
 	}
 
 	/// <summary>
+	/// Builds the path.
+	/// </summary>
+	/// <returns>The path.</returns>
+	/// <param name="fileName">File name.</param>
+	private static string buildPath(string fileName)
+	{
+		return Path.Combine(Application.persistentDataPath, fileName);
+	}
+
+	/// <summary>
 	/// Saves content to the file
 	/// </summary>
 	/// <returns>The file.</returns>
@@ -33,7 +43,7 @@ public class GoogleDrive
 	/// <param name="content">Content.</param>
 	private static void saveFile(string fileName, string content)
 	{
-		StreamWriter writer = new StreamWriter(fileName, false, System.Text.Encoding.UTF8);
+		StreamWriter writer = new StreamWriter(GoogleDrive.buildPath(fileName), false, System.Text.Encoding.UTF8);
 		writer.WriteLine(content);
 		writer.Close();
 	}
@@ -53,7 +63,7 @@ public class GoogleDrive
 	{
 		SystemLogger.Write("Pulling local document.");
 
-		StreamReader reader = new StreamReader(fileName, System.Text.Encoding.UTF8);
+		StreamReader reader = new StreamReader(GoogleDrive.buildPath(fileName), System.Text.Encoding.UTF8);
 		return reader.ReadToEnd();
 	}
 
