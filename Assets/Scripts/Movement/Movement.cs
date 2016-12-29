@@ -18,7 +18,6 @@ public abstract class Movement : MonoBehaviour
     public abstract void Idle(Animator playerAnimator);
     public abstract void Move(Vector3 direction, bool sprinting, Animator playerAnimator);
     public abstract void Jump(Animator playerAnimator);
-    // TODO: Climb
 
     /// <summary>
     /// Gets accumulated fall damage and resets to 0

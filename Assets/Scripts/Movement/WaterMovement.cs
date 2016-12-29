@@ -9,13 +9,27 @@ public class WaterMovement : Movement
     private float minFallDamageVelocity;
     [SerializeField]
     private float fallDamageModifier;
+    private CharacterController controller;
+
+    [SerializeField]
+    [Tooltip("The distance between both hands when grabbing a ledge. About shoulder length apart.")]
+    // This value is also used in raycasting to help the player face a wall.
+    private float handSpacing = 0.386f;
+
+    /// <summary>
+    /// Get the character controller so we can call move functions
+    /// </summary>
+    void Start()
+    {
+        controller = GetComponent<CharacterController>();
+    }
 
     /// <summary>
     /// Calculates accumulated fall dammage
     /// </summary>
     void FixedUpdate ()
     {
-        if (RigidBody.velocity.y < -minFallDamageVelocity)
+        if (controller.velocity.y < -minFallDamageVelocity)
         {
             AccumulatedFallDammage += fallDamageModifier;
         }
@@ -40,10 +54,12 @@ public class WaterMovement : Movement
         {
             transform.rotation = Quaternion.LookRotation(direction);
         }
-        RigidBody.velocity = direction.normalized * swimmingSpeed;
+
+        controller.Move(direction.normalized * swimmingSpeed * Time.fixedDeltaTime);
 
         // Needs to be factored out.
         Vector3 facingRotation = Vector3.Normalize(new Vector3(RigidBody.velocity.x, 0f, RigidBody.velocity.z));
+       
         if (facingRotation != Vector3.zero)
         {
             playerAnimator.transform.forward = facingRotation;
@@ -57,4 +73,6 @@ public class WaterMovement : Movement
     {
         // TODO: run dive animation
     }
+
+
 }

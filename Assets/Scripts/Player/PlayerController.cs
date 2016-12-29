@@ -2,6 +2,7 @@
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System.Collections;
+using RootMotion.FinalIK;
 
 public class PlayerController : MonoBehaviour 
 {
@@ -96,6 +97,11 @@ public class PlayerController : MonoBehaviour
             return playerAnimator;
         }
     }
+
+    public BipedIK PlayerIKSetUp;
+    public LayerMask ClimbingRaycastMask;
+
+    public bool FreezePlayer;
 
     /// <summary>
     /// Set up player movement
@@ -238,12 +244,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // can't jump while in debug mode
-        if (isGrounded && !Game.Instance.DebugMode && Input.GetKeyDown(controlScheme.Jump))
-        {
-            movement.Jump(playerAnimator);
-        }
-
         // Debug mode flight controls
         if (Game.Instance.DebugMode)
         {
@@ -264,8 +264,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
 	void FixedUpdate () 
     {
-        // don't move if a tool is currently in use
-        if (equippedTool != null && equippedTool.InUse)
+        // don't move if a tool is currently in use or if the player is set to be frozen.
+        if (equippedTool != null && equippedTool.InUse || FreezePlayer)
         {
             return;
         }
@@ -304,6 +304,14 @@ public class PlayerController : MonoBehaviour
         {
             movement.Idle(playerAnimator);
         }
+
+
+        // can't jump while in debug mode
+        if (isGrounded && !Game.Instance.DebugMode && Input.GetKeyDown(controlScheme.Jump))
+        {
+            movement.Jump(playerAnimator);
+        }
+
     }
 
     private Vector3 getDirection(Vector3 direction)
