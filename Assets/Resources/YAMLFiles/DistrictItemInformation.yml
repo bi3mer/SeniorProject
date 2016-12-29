@@ -1,0 +1,10 @@
+﻿---
+- districtName: "shopping"
+  items:
+   - "Stick"
+- districtName: "business"
+  items:
+   - "River Reed"
+- districtName: "residential"
+  items:
+   - "Empty Can"

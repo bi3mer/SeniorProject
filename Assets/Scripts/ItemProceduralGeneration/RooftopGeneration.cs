@@ -5,11 +5,6 @@ using System.Collections.Generic;
 public class RooftopGeneration
 {
 	/// <summary>
-	/// Objects that can be used as door objects
-	/// </summary>
-	private List<GameObject> doorTemplates;
-
-	/// <summary>
 	/// likelihood of a building having something on its roof
 	/// </summary>
 	private float chanceOfGeneration;
@@ -24,13 +19,16 @@ public class RooftopGeneration
 	/// <summary>
 	/// The item templates used to create the objects in the world
 	/// </summary>
-	private List<GameObject> itemTemplates;
+	private Dictionary<string, List<GameObject>> itemTemplates;
 
-	private List<BaseItem> generatableItems;
+	private Dictionary<string, List<float>> doorExtents;
 
-	private List<float> doorExtents;
+	private Dictionary<string, List<float>> itemExtents;
 
-	private List<float> itemExtents;
+	/// <summary>
+	/// Objects that can be used as door objects
+	/// </summary>
+	private Dictionary<string, List<GameObject>> doorTemplates;
 
 	private float seed;
 
@@ -41,23 +39,18 @@ public class RooftopGeneration
 	/// <param name="doorChance">Likelihood of a roof having a door in addition to objects.</param>
 	public RooftopGeneration(float generationChance, float doorChance)
 	{
-		generatableItems = getGeneratableItems();
 		chanceOfGeneration = generationChance;
 		chanceOfDoor = doorChance;
 
 		generator = new RooftopPointGenerator ();
 
-		itemTemplates = new List<GameObject>();
-		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
+		itemTemplates = getGeneratableItemTemplates();
+		itemExtents = new Dictionary<string, List<float>>();
 
-		for(int j = 0; j < generatableItems.Count; ++j)
+		foreach(string key in itemTemplates.Keys)
 		{
-			itemTemplates.Add(factory.CreateInteractableItem(generatableItems[j], 1));
-			itemTemplates[j].GetComponentInChildren<InteractableObject>().Show = true;
-			itemTemplates[j].SetActive(false);
+			itemExtents.Add(key, getItemExtents(itemTemplates[key]));
 		}
-
-		itemExtents = getItemExtents(itemTemplates);
 	}
 
 	/// <summary>
@@ -65,21 +58,45 @@ public class RooftopGeneration
 	/// </summary>
 	/// <param name="doors">Door objects that can be generated.</param>
 	/// <param name="doorChance">Chance of a door being generated on a roof. 0 to 1.</param>
-	public void AddDoors(List<GameObject> doors, float doorChance)
+	/// <param name="district">Name of the district that these doors should appear in.</param>
+	public void AddDoors(List<GameObject> doors, float doorChance, string district)
 	{
-		doorTemplates = doors;
-		doorExtents = getItemExtents(doors);
+		if(doorExtents.ContainsKey(district))
+		{
+			doorExtents[district].AddRange(getItemExtents(doors));
+			doorTemplates[district].AddRange(doors);
+		}
+		else
+		{
+			doorExtents.Add(district, getItemExtents(doors));
+			doorTemplates.Add(district, doors);
+		}
+
 		chanceOfDoor = doorChance;
 	}
 
-	/// <summary>
-	/// Adds shelters as something that can be generated on a roof.
-	/// </summary>
-	/// <param name="shelters">Shelter gameobjects that can be generated.</param>
-	public void AddShelterTemplates(List<GameObject> shelters)
+	private Dictionary<string, List<GameObject>> getGeneratableItemTemplates()
 	{
-		itemTemplates.AddRange(shelters);
-		itemExtents.AddRange(getItemExtents(shelters));
+		Dictionary<string, List<string>> itemsByLocation = Game.Instance.ItemFactoryInstance.ItemsByLocation;
+		Dictionary<string, List<GameObject>> itemTemplates = new Dictionary<string, List<GameObject>>();
+
+		ItemFactory itemFactory = Game.Instance.ItemFactoryInstance;
+		WorldItemFactory worldFactory = Game.Instance.WorldItemFactoryInstance;
+
+		foreach(string key in itemsByLocation.Keys)
+		{
+			itemTemplates.Add(key, new List<GameObject>());
+
+			for(int i = 0; i < itemsByLocation[key].Count; ++i)
+			{
+				GameObject item = worldFactory.CreateInteractableItem(itemFactory.GetBaseItem(itemsByLocation[key][i]), 1);
+				item.GetComponentInChildren<InteractableObject>().Show = true;
+				item.SetActive(false);
+				itemTemplates[key].Add(item);
+			}
+		}
+
+		return itemTemplates;
 	}
 
 	/// <summary>
@@ -87,7 +104,8 @@ public class RooftopGeneration
 	/// </summary>
 	/// <param name="bound">Bound of building.</param>
 	/// <param name="center">Center position of building.</param>
-	public void PopulateRoof(Bounds bound, Vector3 center)
+	/// <param name="district">District this building belongs to.</param>
+	public void PopulateRoof(Bounds bound, Vector3 center, string district)
 	{
 		float genChance;
 		float doorChance;
@@ -102,18 +120,18 @@ public class RooftopGeneration
 		{
 			if(doorChance < chanceOfDoor)
 			{
-				points = generator.GetValidPoints (bound, center, doorExtents, itemExtents, true);
+				points = generator.GetValidPoints (bound, center, doorExtents[district], itemExtents[district], true);
 				hasDoor = true;
 			}
 			else
 			{
-				points = generator.GetValidPoints (bound, center, null, itemExtents, false);
+				points = generator.GetValidPoints (bound, center, null, itemExtents[district], false);
 			}
 
 			if (points.Count > 0) 
 			{
 				// for now, all roofs with items will have doors
-				generateObjects(hasDoor, points);
+				generateObjects(hasDoor, district, points);
 			}
 		}
 	}
@@ -125,8 +143,9 @@ public class RooftopGeneration
 	/// TODO: Poisson generation code should be moved to a wrapper class
 	/// </summary>
 	/// <param name="hasDoor">If set to <c>true</c>, there is a door that needs to be created.</param>
+	/// <param name="district">Name of the district for which generation is occuring.</param>
 	/// <param name="points">Points.</param>
-	private void generateObjects(bool hasDoor, List<ItemPlacementSamplePoint> points)
+	private void generateObjects(bool hasDoor, string district, List<ItemPlacementSamplePoint> points)
 	{
 		int startingIndex = 0;
 		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
@@ -134,7 +153,7 @@ public class RooftopGeneration
 		// if there is a door, it will always be the first point returned
 		if (hasDoor) 
 		{
-			GameObject door = GameObject.Instantiate (doorTemplates [points[0].ItemIndex]);
+			GameObject door = GameObject.Instantiate (doorTemplates[district] [points[0].ItemIndex]);
 			door.SetActive(true);
 			Transform doorTransform = door.transform;
 			doorTransform.position = points [0].WorldSpaceLocation;
@@ -145,20 +164,14 @@ public class RooftopGeneration
 		for (int i = startingIndex; i < points.Count; ++i) 
 		{
 			// TODO: Make the amount found in one stack to be a variable number
-			GameObject item = null;
 
-			if(points[i].ItemIndex < generatableItems.Count)
+			if(points[i].ItemIndex < itemTemplates[district].Count)
 			{
-				item = factory.CreateInteractableItem(generatableItems[points[i].ItemIndex], 1);
+				GameObject item = GameObject.Instantiate(itemTemplates[district][points[i].ItemIndex]);
+				item.SetActive(true);
+				item.transform.position = points [i].WorldSpaceLocation;
+				item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
 			}
-			else
-			{
-				item = GameObject.Instantiate(itemTemplates[points[i].ItemIndex]);
-			}
-
-			item.SetActive(true);
-			item.transform.position = points [i].WorldSpaceLocation;
-			item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
 		}
 	}
 
@@ -203,25 +216,6 @@ public class RooftopGeneration
 		}
 
 		return extents;
-	}
-
-	/// <summary>
-	/// Gets the items that can be generated naturally in the world.
-	/// TODO: Take into account the rarity of an item when items are generated
-	/// </summary>
-	/// <returns>The represented items.</returns>
-	private List<BaseItem> getGeneratableItems()
-	{
-		ItemFactory factory = Game.Instance.ItemFactoryInstance;
-		List<GeneratableItemInfoModel> possibleItems = factory.GeneratableItemList;
-		List<BaseItem> items = new List<BaseItem>();
-
-		for(int i = 0; i < possibleItems.Count; ++i)
-		{
-			items.Add(factory.GetBaseItem(possibleItems[i].ItemName));
-		}
-
-		return items;
 	}
 
 	/// <summary>
