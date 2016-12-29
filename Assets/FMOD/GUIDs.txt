@@ -1,0 +1,4 @@
+{b3531194-cd83-4241-813f-cc94df417c39} event:/Rain
+{a16b3185-5d34-4f38-881d-32416b8a3d19} bus:/
+{98e94324-eef5-491d-b458-99a2365b8898} bus:/Reverb
+{fca8391a-849a-4108-b957-324c4238d21e} bank:/Master Bank
