@@ -1,0 +1,7 @@
+---
+- susie1
+  text: "Hi Susie. What's up? My mom said that I can't come visit until the water levels go down a few more feet, but I'm really excited to meet you."
+  type: letter
+- jane1
+  text: "Hey Jane, no worries. My parents are worried about the water levels too. I'm excited to finally meet you!"
+  type: bottleLetter
