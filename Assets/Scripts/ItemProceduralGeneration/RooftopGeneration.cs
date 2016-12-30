@@ -19,16 +19,7 @@ public class RooftopGeneration
 	/// <summary>
 	/// The item templates used to create the objects in the world
 	/// </summary>
-	private Dictionary<string, List<GameObject>> itemTemplates;
-
-	private Dictionary<string, List<float>> doorExtents;
-
-	private Dictionary<string, List<float>> itemExtents;
-
-	/// <summary>
-	/// Objects that can be used as door objects
-	/// </summary>
-	private Dictionary<string, List<GameObject>> doorTemplates;
+	private Dictionary<string, DistrictItemInfo> districtItemInfo;
 
 	private float seed;
 
@@ -43,13 +34,15 @@ public class RooftopGeneration
 		chanceOfDoor = doorChance;
 
 		generator = new RooftopPointGenerator ();
+		districtItemInfo = new Dictionary<string, DistrictItemInfo>();
 
-		itemTemplates = getGeneratableItemTemplates();
-		itemExtents = new Dictionary<string, List<float>>();
+		Dictionary<string, List<GameObject>> itemTemplates = getGeneratableItemTemplates();
 
 		foreach(string key in itemTemplates.Keys)
 		{
-			itemExtents.Add(key, getItemExtents(itemTemplates[key]));
+			districtItemInfo.Add(key, new DistrictItemInfo());
+			districtItemInfo[key].ItemTemplates = itemTemplates[key];
+			districtItemInfo[key].ItemExtents = getItemExtents(itemTemplates[key]);
 		}
 	}
 
@@ -61,15 +54,15 @@ public class RooftopGeneration
 	/// <param name="district">Name of the district that these doors should appear in.</param>
 	public void AddDoors(List<GameObject> doors, float doorChance, string district)
 	{
-		if(doorExtents.ContainsKey(district))
+		if(districtItemInfo[district].DoorExtents.Count > 0)
 		{
-			doorExtents[district].AddRange(getItemExtents(doors));
-			doorTemplates[district].AddRange(doors);
+			districtItemInfo[district].DoorExtents.AddRange(getItemExtents(doors));
+			districtItemInfo[district].DoorTemplates.AddRange(doors);
 		}
 		else
 		{
-			doorExtents.Add(district, getItemExtents(doors));
-			doorTemplates.Add(district, doors);
+			districtItemInfo[district].DoorExtents = getItemExtents(doors);
+			districtItemInfo[district].DoorTemplates = doors;
 		}
 
 		chanceOfDoor = doorChance;
@@ -120,12 +113,12 @@ public class RooftopGeneration
 		{
 			if(doorChance < chanceOfDoor)
 			{
-				points = generator.GetValidPoints (bound, center, doorExtents[district], itemExtents[district], true);
+				points = generator.GetValidPoints (bound, center, districtItemInfo[district].DoorExtents, districtItemInfo[district].ItemExtents, true);
 				hasDoor = true;
 			}
 			else
 			{
-				points = generator.GetValidPoints (bound, center, null, itemExtents[district], false);
+				points = generator.GetValidPoints (bound, center, null, districtItemInfo[district].ItemExtents, false);
 			}
 
 			if (points.Count > 0) 
@@ -153,7 +146,7 @@ public class RooftopGeneration
 		// if there is a door, it will always be the first point returned
 		if (hasDoor) 
 		{
-			GameObject door = GameObject.Instantiate (doorTemplates[district] [points[0].ItemIndex]);
+			GameObject door = GameObject.Instantiate (districtItemInfo[district].DoorTemplates [points[0].ItemIndex]);
 			door.SetActive(true);
 			Transform doorTransform = door.transform;
 			doorTransform.position = points [0].WorldSpaceLocation;
@@ -165,9 +158,9 @@ public class RooftopGeneration
 		{
 			// TODO: Make the amount found in one stack to be a variable number
 
-			if(points[i].ItemIndex < itemTemplates[district].Count)
+			if(points[i].ItemIndex < districtItemInfo[district].ItemTemplates.Count)
 			{
-				GameObject item = GameObject.Instantiate(itemTemplates[district][points[i].ItemIndex]);
+				GameObject item = GameObject.Instantiate(districtItemInfo[district].ItemTemplates[points[i].ItemIndex]);
 				item.SetActive(true);
 				item.transform.position = points [i].WorldSpaceLocation;
 				item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
