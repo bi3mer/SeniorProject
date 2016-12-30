@@ -230,20 +230,9 @@ public class RecipePageBehavior : MonoBehaviour
 	/// </summary>
 	public void Craft()
 	{
-		// gets the list of items needed by the recipe from the Inventory
-		List<BaseItem> ingredients = new List<BaseItem> ();
-
-		for (int i = 0; i < itemsSelected.Count; ++i) 
-		{
-			string ingredientName = itemsSelected [i].IngredientName;
-			int ingredientAmount = itemsSelected [i].Amount;
-			BaseItem itemToAdd = Game.Instance.PlayerInstance.Inventory.GetStack (ingredientName, ingredientAmount) [0].Item;
-			ingredients.Add(itemToAdd);
-		}
-
 		// call the CraftingRecipeFactory which will create the resulting item given the
 		// name of the recipe and ingredients selected
-		itemFactory.Craft (recipe, ingredients, Game.Instance.PlayerInstance.Inventory); // delete after overworld PR is done
+		itemFactory.Craft (recipe, itemsSelected, Game.Instance.PlayerInstance.Inventory); // delete after overworld PR is done
 		//Game.Instance.ItemFactoryInstance.Craft (recipe, ingredients, Game.Instance.PlayerInstance.Inventory); // add in after overworld PR is done
 
 		InventoryUI.Instance.RefreshInventoryPanel ();

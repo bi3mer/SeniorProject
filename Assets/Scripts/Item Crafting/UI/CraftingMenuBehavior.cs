@@ -283,17 +283,9 @@ public class CraftingMenuBehavior : MonoBehaviour
 	/// </summary>
 	public void Craft()
 	{
-		// gets the list of items needed by the recipe from the Inventory
-		List<BaseItem> ingredients = new List<BaseItem> ();
-
-		for (int i = 0; i < itemsSelected.Count; ++i) 
-		{
-			ingredients.Add(InventoryUIBehavior.instance.targetInventory.GetStack(itemsSelected[i].IngredientName, itemsSelected[i].Amount)[0].Item);
-		}
-
 		// call the CraftingRecipeFactory which will create the resulting item given the
 		// name of the recipe and ingredients selected
-		itemFactory.Craft (recipes[recipeChoice], ingredients, InventoryUIBehavior.instance.targetInventory);
+		itemFactory.Craft (recipes[recipeChoice], itemsSelected, InventoryUIBehavior.instance.targetInventory);
 
 		InventoryUIBehavior.instance.RefreshInventory ();
 
