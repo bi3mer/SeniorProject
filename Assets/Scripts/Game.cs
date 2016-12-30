@@ -109,9 +109,49 @@
 			if(this.clockInstance == null)
 			{
 				this.clockInstance = UnityEngine.MonoBehaviour.FindObjectOfType<Clock>();
+
+				// check if clock instance was found
+				if(this.clockInstance == null)
+				{
+					UnityEngine.Debug.LogError("No clock instance found in scene.");
+					
+					// throw error if not found
+					throw new System.NullReferenceException();
+				}
 			}
 
 			return this.clockInstance;
+		}
+	}
+
+	/// <summary>
+	/// The flood water instance.
+	/// </summary>
+	private FloodWater floodWaterInstance;
+
+	/// <summary>
+	/// Gets the height of the water level.
+	/// </summary>
+	/// <value>The height of the water level.</value>
+	public float WaterLevelHeight
+	{
+		get
+		{
+			if(this.floodWaterInstance == null)
+			{
+				this.floodWaterInstance = UnityEngine.MonoBehaviour.FindObjectOfType<FloodWater>();
+
+				// check if object was found in scene 
+				if(this.floodWaterInstance == null)
+				{
+					UnityEngine.Debug.LogError("No flood water instance found in scene.");
+
+					// throw error
+					throw new System.NullReferenceException();
+				}
+			}
+
+			return this.floodWaterInstance.WaterLevelHeight;
 		}
 	}
 

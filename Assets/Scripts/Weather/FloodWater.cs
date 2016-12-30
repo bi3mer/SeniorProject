@@ -11,6 +11,18 @@ public class FloodWater : MonoBehaviour
 	private Vector3 dayPosition;
 
 	/// <summary>
+	/// Gets the height of the water level.
+	/// </summary>
+	/// <value>The height of the water level.</value>
+	public float WaterLevelHeight
+	{
+		get
+		{
+			return this.transform.position.y;
+		}
+	}
+
+	/// <summary>
 	/// Gets the level of the tide based on current game time.
 	/// </summary>
 	private Vector3 getTideLevel()
