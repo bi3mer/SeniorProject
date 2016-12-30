@@ -90,10 +90,11 @@ public class PressureSystems
 				// calculate vector differences between index i and j
 				Vector2 force = normalizedIVector - normalizedJVector;
 
-				// if this is not the same kind of pressure system
+				// if this is not the same kind of pressure system, apply a rotational force
+				// rather than detracting force
 				if(this.LocalPressureSystems[i].IsHighPressure != this.LocalPressureSystems[j].IsHighPressure)
 				{
-					force = this.calculatePerpindicularVector(-force);
+					force = this.calculatePerpendicularVector(-force);
 				}
 
 				// apply force to current acting forces on the pressure system
@@ -147,10 +148,10 @@ public class PressureSystems
 	/// </summary>
 	/// <returns>The perpindicular vector.</returns>
 	/// <param name="vec">Vec.</param>
-	private Vector2 calculatePerpindicularVector(Vector2 vec)
+	private Vector2 calculatePerpendicularVector(Vector2 vector)
 	{
 		// http://mathworld.wolfram.com/PerpendicularVector.html
-		return new Vector2(-vec.y, vec.x);
+		return new Vector2(-vector.y, vector.x);
 	}
 
 	/// <summary>
@@ -160,18 +161,7 @@ public class PressureSystems
 	/// <param name="coordiante">Coordiante.</param>
 	private float boundCoordinate(float coordinate)
 	{
-		if(coordinate < PressureSystems.boundaryLength && coordinate > -PressureSystems.boundaryLength)
-		{
-			return coordinate;
-		}
-		else if(coordinate < 0)
-		{
-			return -PressureSystems.boundaryLength;
-		}
-		else
-		{
-			return PressureSystems.boundaryLength;
-		}
+		return Mathf.Clamp(coordinate, -PressureSystems.boundaryLength, PressureSystems.boundaryLength);
 	}
 
 	/// <summary>
@@ -179,9 +169,9 @@ public class PressureSystems
 	/// </summary>
 	/// <returns>The vector.</returns>
 	/// <param name="vec">Vec.</param>
-	private Vector2 boundVector(Vector2 vec)
+	private Vector2 boundVector(Vector2 vector)
 	{
-		return new Vector2(this.boundCoordinate(vec.x), this.boundCoordinate(vec.y));
+		return new Vector2(this.boundCoordinate(vector.x), this.boundCoordinate(vector.y));
 	}
 
 	/// <summary>
@@ -203,9 +193,7 @@ public class PressureSystems
 	/// <param name="index">Index.</param>
 	private void setVectorPressure(int index)
 	{
-		// random probability of being true or false. .5 is half way between
-		// 0 and 1.
-		if(Random.value > .5)
+		if(RandomUtility.RandomBool)
 		{
 			// high pressure
 			this.LocalPressureSystems[index].IsHighPressure = true;
