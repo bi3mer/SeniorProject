@@ -8,16 +8,36 @@ using System.Collections.Generic;
 /// It holds things like the building pieces the district contains, that districts materials, window types, etc.
 /// </summary>
 [System.Serializable]
-public class DistrictDefinition
+public class DistrictConfiguration
 {
-    // Procedural Building Art Code
+    [SerializeField]
+    [Range(0, 100)]
+    private float minAttachmentChance;
+    public float MinAttachmentChance
+    {
+        get
+        {
+            return minAttachmentChance;
+        }
+    }
+
+    [SerializeField]
+    [Range(0,100)]
+    private float maxAttachmentChance;
+    public float MaxAttachmentChance
+    {
+        get
+        {
+            return maxAttachmentChance;
+        }
+    }
 
     [SerializeField]
     private string districtName;
     /// <summary>
-    /// The name of the district, used to make the inspector more clear, or used to create buildings by name.
+    /// The name of the district.
     /// </summary>
-    public string DistrictName
+    public string Name
     {
         get
         {
@@ -60,13 +80,13 @@ public class DistrictDefinition
         /// <summary>
         ///  Gets the lengths of this district sizes bases or roofs.
         /// </summary>
-        public int GetTypeLengthByType(ProceduralBuildingCreator.BuildingParts partType)
+        public int GetTypeLengthByType(BuildingParts partType)
         {
-            if (partType == ProceduralBuildingCreator.BuildingParts.Base)
+            if (partType == BuildingParts.Base)
             {
                 return this.districtSizeXBases.Length;
             }
-            else if (partType == ProceduralBuildingCreator.BuildingParts.Roof)
+            else if (partType == BuildingParts.Roof)
             {
                 return this.districtSizeXRoofs.Length;
             }
@@ -79,16 +99,16 @@ public class DistrictDefinition
         /// <summary>
         /// Gets a random entry in the district's building array by its type. Returns a struct of that buildings size, and position in the enum.
         /// </summary>
-        public ProceduralBuildingCreator.buildingIndex getRandomEntryByType(ProceduralBuildingCreator.BaseSize size, ProceduralBuildingCreator.BuildingParts partType)
+        public buildingIndex GetRandomEntryByType(BaseSize size, BuildingParts partType)
         {
-            ProceduralBuildingCreator.buildingIndex index = new ProceduralBuildingCreator.buildingIndex();
+            buildingIndex index = new buildingIndex();
             index.BuildingSize = (int)size;
 
-            if (partType == ProceduralBuildingCreator.BuildingParts.Base)
+            if (partType == BuildingParts.Base)
             {
                 index.PartNumber = UnityEngine.Random.Range(0, this.districtSizeXBases.Length);
             }
-            else if (partType == ProceduralBuildingCreator.BuildingParts.Roof)
+            else if (partType == BuildingParts.Roof)
             {
                 index.PartNumber = UnityEngine.Random.Range(0, this.districtSizeXRoofs.Length);
             }
@@ -193,139 +213,4 @@ public class DistrictDefinition
 
     public List<Material> districtProceduralMaterials = new List<Material>();
     public List<Material> districtProceduralWindowMaterials = new List<Material>();
-
-    [SerializeField]
-    [Range(0f, 100f)]
-    private float windowWasherChance = 30f;
-    /// <summary>
-    /// On any given building in this district it has this percent of a chance of having a window washer on it (if the building is compatible)
-    /// </summary>
-    public float WindowWasherChance
-    {
-        get
-        {
-            return windowWasherChance;
-        }
-    }
-
-    [SerializeField]
-    private WindowWasher[] districtWindowWashers;
-    /// <summary>
-    /// Window washers (if any) that can be spawned in this District
-    /// </summary>
-    public WindowWasher[] DistrictWindowWashers
-    {
-        get
-        {
-            return districtWindowWashers;
-        }
-    }
-
-    [SerializeField]
-    [Tooltip("X is evaluated between 0 and 1, Y is evaluated between 0 and Positive Infinity")]
-    private AnimationCurve windowWasherMaxLengthCurve;
-    /// <summary>
-    /// A curve between 0 and 1 that defines the max length of window washers in the district.
-    /// </summary>
-    public AnimationCurve WindowWasherMaxLengthCurve
-    {
-        get
-        {
-            return windowWasherMaxLengthCurve;
-        }
-    }
-
-    [SerializeField]
-    [Range(0f, 100f)]
-    private float windowWasherStartUpChance = 30f;
-    /// <summary>
-    /// The percent chance that a window washer in this district will start in the up position.
-    /// </summary>
-    public float WindowWasherStartUpChance
-    {
-        get
-        {
-            return windowWasherStartUpChance;
-        }
-    }
-
-    // District positioning code
-
-    private Vector2[] edgeVerticies;
-    private Vector2 cityCenter;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AssemblyCSharp.District"/> class.
-    /// </summary>
-    /// <param name="center">Center point of the city as determined by DistrictsGenerator.</param>
-    public DistrictDefinition(Vector2 center)
-    {
-        cityCenter = center;
-    }
-
-    /// <summary>
-    /// Gets or sets the verticies.
-    /// </summary>
-    /// <value>The verticies.</value>
-    public Vector2[] Verticies
-    {
-        get
-        {
-            return edgeVerticies;
-        }
-
-        set
-        {
-            edgeVerticies = value;
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the name.
-    /// </summary>
-    /// <value>The name.</value>
-    public String Name
-    {
-        get
-        {
-            return districtName;
-        }
-
-        set
-        {
-            districtName = value;
-        }
-    }
-
-    /// <summary>
-    /// Checks whether the point is within the bounds of the district.
-    /// </summary>
-    /// <returns><c>true</c>, if point is within district, <c>false</c> otherwise.</returns>
-    /// <param name="point">Point to be checked.</param>
-    public bool ContainsPoint(Vector2 point)
-    {
-
-        // check whether this point's x value is between the district's edges & the city center
-        if (point.x < edgeVerticies[0].x && point.x < edgeVerticies[1].x && point.x < cityCenter.x)
-        {
-            return false;
-        }
-        if (point.x > edgeVerticies[0].x && point.x > edgeVerticies[1].x && point.x > cityCenter.x)
-        {
-            return false;
-        }
-
-        // check whether this point's x value is between the district's edges & the city center
-        if (point.y < edgeVerticies[0].y && point.y < edgeVerticies[1].y && point.y < cityCenter.y)
-        {
-            return false;
-        }
-
-        if (point.y > edgeVerticies[0].y && point.y > edgeVerticies[1].y && point.y > cityCenter.y)
-        {
-            return false;
-        }
-
-        return true;
-    }
 }
