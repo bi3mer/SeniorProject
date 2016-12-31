@@ -69,7 +69,7 @@ public class GenerationUtility
     /// <param name="point"></param>
     /// <param name="polygon"></param>
     /// <returns></returns>
-    public static bool IsPointInPolygon(Vector2 point, Vector2[] polygon)
+    public static bool IsPointInPolygon(Vector2 point, ref Vector2[] polygon)
     {
         int polygonLength = polygon.Length;
         int i = 0;
@@ -87,9 +87,6 @@ public class GenerationUtility
             startX = endX; startY = endY;
             endPoint = polygon[i++];
             endX = endPoint.x; endY = endPoint.y;
-
-            // series of boolean operations to determine what side of 
-            // the line between two verticies the point is on
             inside ^= (endY > pointY ^ startY > pointY) &&
                       ((pointX - endX) < (pointY - endY) * (startX - endX) / (startY - endY));
         }
@@ -161,11 +158,6 @@ public class GenerationUtility
         }
 
         // Check to see which point is closest
-        if (firstOffset.sqrMagnitude < secondOffset.sqrMagnitude) 
-        {
-            return 1; 
-        }
-        
-        return -1;
+        return (firstOffset.sqrMagnitude < secondOffset.sqrMagnitude) ? 1 : -1;
     }
 }
