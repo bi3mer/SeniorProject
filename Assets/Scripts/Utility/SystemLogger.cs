@@ -9,21 +9,21 @@ public static class SystemLogger
     private static string outputFilePath = "logfile.txt";
 
 #if UNITY_EDITOR
-    public static bool logToFile = true;
+    public static bool LogToFile = true;
 #else
-	public static bool logToFile = false;
+	public static bool LogToFile = false;
 #endif
 
     // Initializes FileStream for output into specified log file
-    private static StreamWriter writer = new StreamWriter(outputFilePath, false, System.Text.Encoding.UTF8);
+	private static StreamWriter writer = new StreamWriter(outputFilePath, false, System.Text.Encoding.UTF8);
 
     /// <summary>
     ///     Writes event to log file specified above.
     /// </summary>
     /// <param name="output"></param>
-    public static void write(string output)
+    public static void Write(string output)
     {
-        if (logToFile)
+        if (SystemLogger.LogToFile)
         {
             StackTrace st = new StackTrace(true);
             int lineNumber = st.GetFrame(1).GetFileLineNumber();
