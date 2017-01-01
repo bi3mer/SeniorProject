@@ -5,14 +5,13 @@ public class FloatBehavior : MonoBehaviour
 {
 	private const string waterLayer = "Water";
 	private float floatHeight = 1f;
-	private float waterLevel = 5f;
 	private float bounceDamp = 0.5f;
 
-	private Rigidbody rigidbody;
+	private Rigidbody rigidBody;
 
 	void Awake()
 	{
-		rigidbody = GetComponent<Rigidbody>();
+		rigidBody = GetComponent<Rigidbody>();
 	}
 
 	/// <summary>
@@ -31,12 +30,12 @@ public class FloatBehavior : MonoBehaviour
 	{
 		while(true)
 		{
-			float forceFactor = 1f - ((transform.position.y - waterLevel) / floatHeight);
+			float forceFactor = 1f - ((transform.position.y - Game.Instance.WaterLevelHeight) / floatHeight);
 			
 			if (forceFactor > 0f) 
 			{
-				Vector3 uplift = -Physics.gravity * (forceFactor - rigidbody.velocity * bounceDamp);
-				rigidbody.AddForceAtPosition(uplift, transform.position);
+				Vector3 uplift = -Physics.gravity * (forceFactor - rigidBody.velocity.y * bounceDamp);
+				rigidBody.AddForceAtPosition(uplift, transform.position);
 			}
 
 			yield return null;
@@ -45,7 +44,7 @@ public class FloatBehavior : MonoBehaviour
 
 	void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject.layer.CompareTo(LayerMask.NameToLayer(waterLayer)))
+		if(other.gameObject.layer == LayerMask.NameToLayer(waterLayer))
 		{
 			StartCoroutine(applyFloatPhysics());
 		}
@@ -53,7 +52,7 @@ public class FloatBehavior : MonoBehaviour
 
 	void OnTriggerExit(Collider other)
 	{
-		if(other.gameObject.layer.CompareTo(LayerMask.NameToLayer(waterLayer)))
+		if(other.gameObject.layer == LayerMask.NameToLayer(waterLayer))
 		{
 			StopCoroutine(applyFloatPhysics());
 		}
