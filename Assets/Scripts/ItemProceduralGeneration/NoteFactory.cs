@@ -50,5 +50,40 @@ public class NoteFactory : MonoBehaviour
 		// }
 	}
 
+	/// <summary>
+	/// Creates the interactable item that is ready to be placed in the world.
+	/// </summary>
+	/// <returns>The interactable item.</returns>
+	/// <param name="noteToCreate">Note to create.</param>
+	public GameObject CreateInteractableItem(Note noteToCreate)
+	{
+		if(!worldNoteTemplates.ContainsKey(noteToCreate.Type))
+		{
+			worldNoteTemplates.Add(noteToCreate.Type, (GameObject) Resources.Load(noteToCreate.WorldModel));
+		}
+
+		// create the object with the model for the given note type
+		GameObject item = GameObject.Instantiate (worldNoteTemplates(noteToCreate.Type));
+
+		// // creates the trigger object that will handle interaction with player
+		// GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
+		// triggerObject.GetComponent<BoxCollider>().size = item.GetComponent<BoxCollider>().size;
+		// triggerObject.GetComponent<BoxCollider>().center = item.GetComponent<BoxCollider>().center;
+		// triggerObject.transform.SetParent(item.transform);
+		// triggerObject.transform.localPosition = Vector3.zero;
+
+        // TODO: replace with note pick up.
+		// PickUpItem pickup = triggerObject.AddComponent<PickUpItem>();
+		// pickup.SetUp();
+		// pickup.SetUpPickUp();
+		// pickup.Item = itemToCreate;
+
+        // Currently not allowing notes to be stacked.
+		// pickup.Amount = 1;
+
+		// return item;
+	}
+}
+
 
 }
