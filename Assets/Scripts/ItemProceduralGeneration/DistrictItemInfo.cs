@@ -6,35 +6,58 @@ public class DistrictItemInfo
 {
 	private List<WeightedPair> weightedPairs;
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="DistrictItemInfo"/> class.
+	/// </summary>
 	public DistrictItemInfo()
 	{
 		weightedPairs = new List<WeightedPair>();
 	}
 
+	/// <summary>
+	/// Gets or sets the item templates that will be duplicated to create objects.
+	/// </summary>
+	/// <value>The item templates.</value>
 	public List<GameObject> ItemTemplates
 	{
 		get;
 		set;
 	}
 
+	/// <summary>
+	/// Gets or sets the door extents.
+	/// </summary>
+	/// <value>The door extents.</value>
 	public List<float> DoorExtents
 	{
 		get;
 		set;
 	}
 
+	/// <summary>
+	/// Gets or sets the item extents.
+	/// </summary>
+	/// <value>The item extents.</value>
 	public List<float> ItemExtents
 	{
 		get;
 		set;
 	}
 
+	/// <summary>
+	/// Gets or sets the door templates.
+	/// </summary>
+	/// <value>The door templates.</value>
 	public List<GameObject> DoorTemplates
 	{
 		get;
 		set;
 	}
 
+	/// <summary>
+	/// Gets a random index corresponding to an item that is weighted according to the rarity of the item.
+	/// </summary>
+	/// <returns>A weighted random index.</returns>
 	public int GetWeightedRandomIndex()
 	{
 		int fair = Random.Range(0, weightedPairs.Count);
@@ -48,6 +71,10 @@ public class DistrictItemInfo
 		return weightedPairs[fair].Second;
 	}
 
+	/// <summary>
+	/// Sets up the information needed to use vose alias for weighted random generation.
+	/// </summary>
+	/// <param name="rarityWeights">The values assigned to rarities. The smaller the rarer.</param>
 	public void SetUpVoseAlias(List<float> rarityWeights)
 	{
 		List<float> weights = new List<float>();

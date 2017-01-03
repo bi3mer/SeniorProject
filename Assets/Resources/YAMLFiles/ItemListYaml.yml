@@ -1,8 +1,8 @@
 ---
 - itemName: "River Reed"
-  rarity: "common"
   baseItem: 
    itemName: "River Reed"
+   rarity: "common"
    inventorySprite: ""
    worldModel: "ITM/Plants/ITM_RiverWeed"
    types:
@@ -32,9 +32,9 @@
       stomachEffect: 0.0
       pneumoniaEffect: 0.0
 - itemName: "Stick"
-  rarity: "common"
   baseItem: 
    itemName: "Stick"
+   rarity: "common"
    inventorySprite: ""
    worldModel: "ITM/Rods/Stick"
    types:
@@ -62,9 +62,9 @@
       stomachEffect: 0.0
       pneumoniaEffect: 0.0
 - itemName: "Empty Can"
-  rarity: "common"
   baseItem: 
    itemName: "Empty Can"
+   rarity: "common"
    inventorySprite: ""
    worldModel: "ITM/Small Containers/EmptyTinCan"
    types:
@@ -82,11 +82,11 @@
       thickness: 0.4
       sharpness: 0.3
 - itemName: "Poor Fishing Rod"
-  rarity: "common"
   baseItem:
    inventorySprite: ""
    worldModel: "ITM/Fishing Rods/BadFishingRod"
    itemName: "Poor Fishing Rod"
+   rarity: "common"
    types:
     - "Advanced Tool"
    flavorText: "Not a very good fishing rod. Breaks easily."
@@ -104,9 +104,9 @@
     - !!fishingRod
       equiped: 0
 - itemName: "Good Fishing Rod"
-  rarity: "uncommon"
   baseItem: 
    itemName: "Good Fishing Rod"
+   rarity: "uncommon"
    inventorySprite: ""
    worldModel: "ITM/Fishing Rods/MediumFishingRod"
    types:
@@ -126,9 +126,9 @@
     - !!fishingRod
       equiped: 0
 - itemName: "Excellent Fishing Rod"
-  rarity: "rare"
   baseItem: 
    itemName: "Excellent Fishing Rod"
+   rarity: "rare"
    inventorySprite: ""
    worldModel: "ITM/Fishing Rods/GoodFishingRod"
    types:
