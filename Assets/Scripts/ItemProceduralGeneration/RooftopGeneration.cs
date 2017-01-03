@@ -26,13 +26,14 @@ public class RooftopGeneration
 	/// </summary>
 	private List<GameObject> itemTemplates;
 
+	/// <summary>
+	/// The list of items that may be generated in the world
+	/// </summary>
 	private List<BaseItem> generatableItems;
-
-	private List<float> doorExtents;
 
 	private List<float> itemExtents;
 
-	private float seed;
+	private List<float> doorExtents;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RooftopGeneration"/> class.
@@ -225,11 +226,11 @@ public class RooftopGeneration
 	}
 
 	/// <summary>
-	/// Sets the seed.
+	/// Sets the InitState of Random with the desired seed.
 	/// </summary>
 	/// <param name="newSeed">Seed.</param>
 	public void SetSeed(int newSeed)
 	{
-		seed = newSeed;
+		Random.InitState(newSeed);
 	}
 }
