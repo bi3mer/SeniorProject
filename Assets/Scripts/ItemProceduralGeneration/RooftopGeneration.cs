@@ -38,11 +38,13 @@ public class RooftopGeneration
 
 		Dictionary<string, List<GameObject>> itemTemplates = getGeneratableItemTemplates();
 
+		// get ditrict name here
 		foreach(string key in itemTemplates.Keys)
 		{
 			districtItemInfo.Add(key, new DistrictItemInfo());
 			districtItemInfo[key].ItemTemplates = itemTemplates[key];
 			districtItemInfo[key].ItemExtents = getItemExtents(itemTemplates[key]);
+			districtItemInfo[key].SetUpVoseAlias(getRarityInformation(key));
 		}
 	}
 
@@ -70,11 +72,12 @@ public class RooftopGeneration
 
 	private Dictionary<string, List<GameObject>> getGeneratableItemTemplates()
 	{
-		Dictionary<string, List<string>> itemsByLocation = Game.Instance.ItemFactoryInstance.ItemsByLocation;
-		Dictionary<string, List<GameObject>> itemTemplates = new Dictionary<string, List<GameObject>>();
-
 		ItemFactory itemFactory = Game.Instance.ItemFactoryInstance;
 		WorldItemFactory worldFactory = Game.Instance.WorldItemFactoryInstance;
+
+		Dictionary<string, List<string>> itemsByLocation = itemFactory.ItemsByLocation;
+		Dictionary<string, List<GameObject>> itemTemplates = new Dictionary<string, List<GameObject>>();
+
 
 		foreach(string key in itemsByLocation.Keys)
 		{
@@ -113,12 +116,12 @@ public class RooftopGeneration
 		{
 			if(doorChance < chanceOfDoor)
 			{
-				points = generator.GetValidPoints (bound, center, districtItemInfo[district].DoorExtents, districtItemInfo[district].ItemExtents, true);
+				points = generator.GetValidPoints (bound, center, districtItemInfo[district], true);
 				hasDoor = true;
 			}
 			else
 			{
-				points = generator.GetValidPoints (bound, center, null, districtItemInfo[district].ItemExtents, false);
+				points = generator.GetValidPoints (bound, center, districtItemInfo[district], false);
 			}
 
 			if (points.Count > 0) 
@@ -166,6 +169,26 @@ public class RooftopGeneration
 				item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
 			}
 		}
+	}
+
+	/// <summary>
+	/// Gets the rarity information all items in a district.
+	/// </summary>
+	/// <returns>The rarity information.</returns>
+	/// <param name="district">District that the items belong to.</param>
+	private List<float> getRarityInformation(string district)
+	{
+		ItemFactory itemFactory = Game.Instance.ItemFactoryInstance;
+		List<string> itemsInDistrict = itemFactory.ItemsByLocation[district];
+		List<float> rarityValues = new List<float>();
+
+
+		for(int i = 0; i < itemsInDistrict.Count; ++i)
+		{
+			rarityValues.Add(ItemRarity.GetRarity(itemFactory.GetBaseItem(itemsInDistrict[i]).Rarity));
+		}
+
+		return rarityValues;
 	}
 
 	/// <summary>

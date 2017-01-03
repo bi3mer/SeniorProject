@@ -32,14 +32,4 @@ public class ItemYAMLMap
 		get; 
 		set; 
 	}
-
-	/// <summary>
-	/// Gets or sets the rarity.
-	/// </summary>
-	/// <value>The rarity.</value>
-	public string Rarity
-	{
-		get;
-		set;
-	}
 }

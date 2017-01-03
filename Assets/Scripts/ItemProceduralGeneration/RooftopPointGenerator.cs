@@ -47,10 +47,10 @@ public class RooftopPointGenerator
 	/// <param name="doorExtents">Door extents.</param>
 	/// <param name="itemExtents">Item extents.</param>
 	/// <param name="hasDoor">If set to <c>true</c> has door.</param>
-	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, List<float> doorExtents, List<float> itemExtents, bool hasDoor = false)
+	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, DistrictItemInfo itemInfo, bool hasDoor = false)
 	{
-		generatableDoorExtents = doorExtents;
-		generatableObjectExtents = itemExtents;
+		generatableDoorExtents = itemInfo.DoorExtents;
+		generatableObjectExtents = itemInfo.ItemExtents;
 
 		Vector3 max = targetBound.max;
 		Vector3 min = targetBound.min;
@@ -78,11 +78,11 @@ public class RooftopPointGenerator
 
 		if(hasDoor)
 		{
-			samplingPoints = generatePoints (targetCenter, generatableDoorExtents, hasDoor, width, depth, height);
+			samplingPoints = generatePoints (targetCenter, generatableDoorExtents, itemInfo, hasDoor, width, depth, height);
 		}
 		else
 		{
-			samplingPoints = generatePoints (targetCenter, generatableObjectExtents, hasDoor, width, depth, height);
+			samplingPoints = generatePoints (targetCenter, generatableObjectExtents,itemInfo, hasDoor, width, depth, height);
 		}
 
 		float initialRayStartHeight = height + rayOffset;
@@ -123,7 +123,7 @@ public class RooftopPointGenerator
 	/// <param name="width">Width.</param>
 	/// <param name="depth">Depth.</param>
 	/// <param name="height">Height.</param>
-	private List<ItemPlacementSamplePoint> generatePoints(Vector3 center, List<float> firstPointExtents, bool hasDoor, float width, float depth, float height)
+	private List<ItemPlacementSamplePoint> generatePoints(Vector3 center, List<float> firstPointExtents, DistrictItemInfo itemInfo, bool hasDoor, float width, float depth, float height)
 	{
 		float shorterLength = width;
 		float maxDoorwayEffectArea = maxDoorwayEffectPercent * shorterLength;
@@ -135,7 +135,7 @@ public class RooftopPointGenerator
 
 		// generate the first point randomly away from the doorway
 		ItemPlacementSamplePoint firstPoint = new ItemPlacementSamplePoint();
-		firstPoint.ItemIndex = Random.Range(0, firstPointExtents.Count);
+		firstPoint.ItemIndex = itemInfo.GetWeightedRandomIndex();
 		firstPoint.PointOnTargetSurface = createFirstPoint (center, width, depth, height, firstPoint.ItemIndex, firstPointExtents);
 		firstPoint.GridPoint = PointToGrid(firstPoint.PointOnTargetSurface);
 		firstPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, firstPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea, hasDoor);
