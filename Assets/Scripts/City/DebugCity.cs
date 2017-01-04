@@ -47,8 +47,6 @@ public class DebugCity : MonoBehaviour
                 if (showDistrictSeedPoint)
                 {
                     Gizmos.color = Color.black;
-
-                    // Draw large sphere
                     Gizmos.DrawSphere(district.SeedPoint, 0.5f);
                 }
 
@@ -61,15 +59,13 @@ public class DebugCity : MonoBehaviour
                     if (showBlockPerimeter)
                     {
                         Gizmos.color = Color.magenta;
-                        drawPolygon(block.Vertices);
+                        drawPolygon(block.Verticies);
                     }
 
                     // Show control points
                     if (showBlockControlPoint)
                     {
                         Gizmos.color = Color.black;
-
-                        // Draw small sphere
                         Gizmos.DrawSphere(block.Center, 0.2f);
                     }
 
