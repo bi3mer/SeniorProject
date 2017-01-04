@@ -82,16 +82,4 @@ public class Dial : MonoBehaviour
         //reset mouseRef to keep from turning when knob is clicked again
         mouseRef = new Vector3(0, 0, 0);
     }
-
-    //public void ChangeChannel(float knobRotation)
-    //{
-    //    if ((knobRotation > 175 && knobRotation < 180) || (knobRotation < -5 && knobRotation >= 0))
-    //    {
-    //        currentRadio.SetChannel(RadioChannel.Music);
-    //    }
-    //    else
-    //    {
-    //        currentRadio.SetChannel(RadioChannel.Null);
-    //    }
-    //}
 }

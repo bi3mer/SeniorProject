@@ -72,10 +72,10 @@ public class Radio : MonoBehaviour
 			{
 				weather.Play ();
 			}
-            //if (!statics.isPlaying && CurrentChannel == RadioChannel.Null)
-            //{
-            //    statics.Play();
-            //}
+            if (!statics.isPlaying && CurrentChannel == RadioChannel.Null)
+            {
+                statics.Play();
+            }
 		} 
 		else 
 		{
@@ -172,19 +172,22 @@ public class Radio : MonoBehaviour
 			{
 				weather.Stop ();
 				mystery.Stop ();
+                statics.Stop();
 				this.CurrentChannel = channel;
 			} 
 			else if (channel == RadioChannel.Weather) 
 			{
 				music.Stop ();
 				mystery.Stop ();
-				this.CurrentChannel = channel;
+                statics.Stop();
+                this.CurrentChannel = channel;
 			} 
 			else if (channel == RadioChannel.Mystery) 
 			{
 				music.Stop ();
 				weather.Stop ();
-				this.CurrentChannel = channel;
+                statics.Stop();
+                this.CurrentChannel = channel;
 			}
             else if (channel == RadioChannel.Null)
             {
@@ -195,6 +198,10 @@ public class Radio : MonoBehaviour
 		}
     }
 
+    /// <summary>
+    /// Change the radio channel based on dial position.
+    /// </summary>
+    /// <param name="knobRotation"></param>
     public void ChangeChannel(float knobRotation)
     {
         if (knobRotation > 89 && knobRotation < 91)
