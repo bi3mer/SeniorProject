@@ -8,15 +8,6 @@ using UnityEngine.Events;
 /// </summary>
 public class Note 
 {
-    /// <summary>
-	/// Gets or sets the type of the note
-	/// </summary>
-	/// <value>The type of the note</value>
-	public string Type 
-	{
-		get; 
-		set;
-	}
 
     /// <summary>
 	/// Gets or sets the title of the note
@@ -28,6 +19,16 @@ public class Note
 		set;
 	}
 
+    /// <summary>
+	/// Gets or sets the type of the note
+	/// </summary>
+	/// <value>The type of the note</value>
+	public string Type 
+	{
+		get; 
+		set;
+	}
+	
 	/// <summary>
 	/// Gets or sets the body text of the note
 	/// </summary>

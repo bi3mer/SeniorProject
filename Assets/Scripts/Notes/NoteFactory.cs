@@ -8,7 +8,7 @@ public class NoteFactory : MonoBehaviour
 	private Dictionary<string, GameObject> worldNoteTemplates;
 
 	private const string triggerObjectLocation = "ItemGeneration/InteractableTrigger";
-	private const string itemFileName = "NoteListYaml.yml";
+	private const string noteFileName = "NoteListYaml.yml";
 	private GameObject triggerObjectPrefab;
 
 	/// <summary>
@@ -29,13 +29,14 @@ public class NoteFactory : MonoBehaviour
 	/// </summary>
 	public void LoadTemplates()  
 	{
-		// ItemSerializer itemParser = new ItemSerializer(itemFileName, "");
-		// Dictionary<string, BaseItem> itemDatabase = itemParser.DeserializeItemInformation();
-		// List<string> keys = new List<string>(itemDatabase.Keys);
-		// for(int i = 0; i < keys.Count; ++i)
-		// {
-		// 	worldItemTemplates.Add(itemDatabase[keys[i]].ItemName, (GameObject) Resources.Load(itemDatabase[keys[i]].WorldModel));
-		// }
+		NoteYAMLParser noteParser = new NoteYAMLParser(noteFileName);
+		Dictionary<string, Note> noteDatabase = noteParser.LoadNotes();
+
+		List<string> keys = new List<string>(noteDatabase.Keys);
+		for(int i = 0; i < keys.Count; ++i)
+		{
+			worldNoteTemplates.Add(noteDatabase[keys[i]].Title, (GameObject) Resources.Load(noteDatabase[keys[i]].WorldModel));
+		}
 	}
 
 	/// <summary>
@@ -60,7 +61,7 @@ public class NoteFactory : MonoBehaviour
 		triggerObject.transform.SetParent(item.transform);
 		triggerObject.transform.localPosition = Vector3.zero;
 
-        // TODO: replace with note pick up.
+        // TODO: replace with note pick up object.
 		// PickUpItem pickup = triggerObject.AddComponent<PickUpItem>();
 		// pickup.SetUp();
 		// pickup.SetUpPickUp();

@@ -28,16 +28,16 @@ public class NoteYAMLParser
 		string fileyaml = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + Filename;
 		Dictionary<string, Note> noteDatabase = new Dictionary<string, Note> ();
 
-		// string itemListYAML = File.ReadAllText (fileyaml);
-		// StringReader input = new StringReader(itemListYAML);
-		// Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
+		string noteList = File.ReadAllText (fileyaml);
+		StringReader input = new StringReader(noteList);
+		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
-		// List<Recipe> itemYamlInfo = deserializer.Deserialize<List<Recipe>> (input);
-
-		// for (int i = 0; i < itemYamlInfo.Count; ++i) 
-		// {
-		// 	recipeDatabase.Add (itemYamlInfo [i].RecipeName, itemYamlInfo [i]);
-		// }
+		List<Note> noteYamlInfo = deserializer.Deserialize<List<Note>>(input);
+		
+		for (int i = 0; i < noteYamlInfo.Count; ++i) 
+		{
+			noteDatabase.Add (noteYamlInfo [i].Title, noteYamlInfo [i]);
+		}
 
 		return noteDatabase;
 	}

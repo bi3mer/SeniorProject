@@ -13,16 +13,6 @@ public class ItemYAMLMap
 		set; 
 	}
 
-    /// <summary>
-	/// Gets or sets the text of the note.
-	/// </summary>
-	/// <value>The text of the note.</value>
-	public string Text
-	{ 
-		get; 
-		set; 
-	}
-
 	/// <summary>
 	/// Gets or sets the sprite representation of the item in the inventory.
 	/// </summary>
@@ -42,4 +32,14 @@ public class ItemYAMLMap
     	get;
     	set;
     }
+
+    /// <summary>
+	/// Gets or sets the text of the note.
+	/// </summary>
+	/// <value>The text of the note.</value>
+	public string Text
+	{ 
+		get; 
+		set; 
+	}
 }
