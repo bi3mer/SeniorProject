@@ -15,8 +15,12 @@ public class Radio : MonoBehaviour
 	private AudioSource weather;
 	[SerializeField]
 	private AudioSource mystery;
-	[SerializeField]
+    [SerializeField]
+    private AudioSource statics;
+    [SerializeField]
 	private Text radioScreenText;
+    [SerializeField]
+    private Dial dial;
 
     private bool isOn;
     private RadioChannel CurrentChannel { get; set; }
@@ -54,7 +58,7 @@ public class Radio : MonoBehaviour
     {
 		if (isOn) 
 		{
-			radioScreenText.text = "Radio is On";
+			//radioScreenText.text = "Radio is On";
 			//when music channel selected
 			if (!music.isPlaying && CurrentChannel == RadioChannel.Music) 
 			{
@@ -68,11 +72,17 @@ public class Radio : MonoBehaviour
 			{
 				weather.Play ();
 			}
+            //if (!statics.isPlaying && CurrentChannel == RadioChannel.Null)
+            //{
+            //    statics.Play();
+            //}
 		} 
 		else 
 		{
-			radioScreenText.text = "Radio is Off";
+			//radioScreenText.text = "Radio is Off";
 		}
+        Debug.Log(dial.dialSlider.value);
+        ChangeChannel(dial.dialSlider.value);
     }
 
     /// <summary>
@@ -176,7 +186,33 @@ public class Radio : MonoBehaviour
 				weather.Stop ();
 				this.CurrentChannel = channel;
 			}
+            else if (channel == RadioChannel.Null)
+            {
+                music.Stop();
+                weather.Stop();
+                this.CurrentChannel = channel;
+            }
 		}
+    }
+
+    public void ChangeChannel(float knobRotation)
+    {
+        if (knobRotation > 89 && knobRotation < 91)
+        {
+            SetChannel(RadioChannel.Music);
+        }
+        else if (knobRotation > 179 && knobRotation < 181)
+        {
+            SetChannel(RadioChannel.Weather);
+        }
+        else if (knobRotation > 269 && knobRotation < 271)
+        {
+            SetChannel(RadioChannel.Mystery);
+        }
+        else
+        {
+            SetChannel(RadioChannel.Null);
+        }
     }
 
     /// <summary>
