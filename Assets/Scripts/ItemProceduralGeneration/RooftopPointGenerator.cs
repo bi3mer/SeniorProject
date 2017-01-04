@@ -37,6 +37,8 @@ public class RooftopPointGenerator
 
 	private List<float> generatableDoorExtents;
 
+	private const string waterTag = "Water";
+
 	/// <summary>
 	/// Takes the sampling points and checks to see if they are on locations that are not at too steep an incline on the building's surface.
 	/// Then converts the sampling points to their world coordinates.
@@ -100,7 +102,7 @@ public class RooftopPointGenerator
 
 			if (Physics.Raycast (new Vector3(globalPosition.x, initialRayStartHeight, globalPosition.y), Vector3.down, out hit, initialRayStartHeight)) 
 			{
-				if (Mathf.Abs (Mathf.Acos (Vector3.Dot (hit.normal, Vector3.up))) < maxAngle) 
+				if (!hit.collider.CompareTag(waterTag) && Mathf.Abs (Mathf.Acos (Vector3.Dot (hit.normal, Vector3.up))) < maxAngle) 
 				{
 					// the point in which the ray comes into contact with the surface of the building is where the object should be placed
 					samplingPoints[i].WorldSpaceLocation = hit.point;
@@ -268,6 +270,7 @@ public class RooftopPointGenerator
 	/// <param name="samplingPoint">Sampling point that contains a location relative to the building to be checked against.</param>
 	/// <param name="width">Width of building.</param>
 	/// <param name="depth">Depth of building.</param>
+	/// <param name="size">Size of object in sampling point.</param> 
 	private bool inRangeOfBuilding(Vector2 samplingPoint, float width, float depth, float size)
 	{
 		float widthBorder = width * borderPercent;
@@ -326,7 +329,7 @@ public class RooftopPointGenerator
 		// 2) the raycast is not hitting anything
 		// 3) the raycast is not hitting the target gamebobject
 		// 4) the angle of the surface that the raycast hits exceeds the maxAngle
-		while (tries < maximumAttempts && (hit.transform == null || (Mathf.Abs (Mathf.Acos (Vector3.Dot (hit.normal, Vector3.up))) > maxAngle))) 
+		while (tries < maximumAttempts && (hit.transform == null || (Mathf.Abs (Mathf.Acos (Vector3.Dot (hit.normal, Vector3.up))) > maxAngle) || hit.collider.CompareTag(waterTag))) 
 		{
 			objectLocation = new Vector2(Random.Range(width * borderPercent + size, 1 - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, 1 - (depth * borderPercent + size)));
 
@@ -358,6 +361,7 @@ public class RooftopPointGenerator
 	{
 		// to convert to worldSpace, add the target object's position, then subtract half the width so that "0" is the left bound rather than the center
 		// and subtract half of the depth so that "0" is the bottom bound rather than the center
+
 		return new Vector2(surfacePosition.x + targetPosition.x - targetWidth/2f, surfacePosition.y + targetPosition.z - targetDepth/2f);
 	}
 

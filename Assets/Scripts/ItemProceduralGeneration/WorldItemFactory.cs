@@ -2,20 +2,29 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class WorldItemFactory : MonoBehaviour 
+public class WorldItemFactory
 {
-
 	private Dictionary<string, GameObject> worldItemTemplates;
 
 	/// <summary>
 	/// The location of the prefab that contains the trigger collider and text mesh needed for interactable objects
 	/// </summary>
-	private const string triggerObjectLocation = "ItemGeneration/InteractableTrigger";
+	private const string triggerObjectLocation = "ItemGeneration/InteractableText";
 
 	/// <summary>
 	/// The name of the item file. All yaml files must be placed under "Resources/YAMLFiles"
 	/// </summary>
 	private const string itemFileName = "ItemListYaml.yml";
+
+	/// <summary>
+	/// The name of the layer that items generated to the world by this factory should be.
+	/// </summary>
+	private const string layerName = "PassInteractable";
+
+	/// <summary>
+	/// The name of the tag that items generated to the world by this factory should have.
+	/// </summary>
+	private const string tagName = "Interactable";
 
 	/// <summary>
 	/// the prefab that contains the trigger collider and text mesh needed for interactable objects
@@ -65,15 +74,15 @@ public class WorldItemFactory : MonoBehaviour
 
 		// create the object with the model
 		GameObject item = GameObject.Instantiate (worldItemTemplates[itemToCreate.ItemName]);
+		item.layer = LayerMask.NameToLayer(layerName);
+		item.tag = tagName;
 
 		// creates the trigger object that will handle interaction with player
-		GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
-		triggerObject.GetComponent<BoxCollider>().size = item.GetComponent<BoxCollider>().size;
-		triggerObject.GetComponent<BoxCollider>().center = item.GetComponent<BoxCollider>().center;
-		triggerObject.transform.SetParent(item.transform);
-		triggerObject.transform.localPosition = Vector3.zero;
+		GameObject textObject = GameObject.Instantiate(triggerObjectPrefab);
+		textObject.transform.SetParent(item.transform);
+		textObject.transform.localPosition = Vector3.zero;
 
-		PickUpItem pickup = triggerObject.AddComponent<PickUpItem>();
+		PickUpItem pickup = item.AddComponent<PickUpItem>();
 		pickup.SetUp();
 		pickup.SetUpPickUp();
 		pickup.Item = itemToCreate;

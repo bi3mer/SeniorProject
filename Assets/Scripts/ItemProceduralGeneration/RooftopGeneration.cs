@@ -21,8 +21,6 @@ public class RooftopGeneration
 	/// </summary>
 	private Dictionary<string, DistrictItemInfo> districtItemInfo;
 
-	private float seed;
-
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RooftopGeneration"/> class.
 	/// </summary>
@@ -240,6 +238,6 @@ public class RooftopGeneration
 	/// <param name="newSeed">Seed.</param>
 	public void SetSeed(int newSeed)
 	{
-		seed = newSeed;
+		Random.InitState(newSeed);
 	}
 }

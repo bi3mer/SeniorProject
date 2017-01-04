@@ -70,6 +70,6 @@ public class Building
     private Bounds calculateBounds()
     {
         // TODO: Actually calculate bounds
-        return new Bounds(Vector3.zero, new Vector3(5f, Height * 2f, 5f));
+        return new Bounds(Vector3.zero, new Vector3(3f, Height * 2f + 10f, 3f));
     }
 }
