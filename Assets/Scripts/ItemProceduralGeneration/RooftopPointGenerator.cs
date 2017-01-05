@@ -137,7 +137,7 @@ public class RooftopPointGenerator
 
 		// generate the first point randomly away from the doorway
 		ItemPlacementSamplePoint firstPoint = new ItemPlacementSamplePoint();
-		firstPoint.ItemIndex = itemInfo.GetWeightedRandomIndex();
+		firstPoint.ItemIndex = itemInfo.GetWeightedRandomItemIndex();
 		firstPoint.PointOnTargetSurface = createFirstPoint (center, width, depth, height, firstPoint.ItemIndex, firstPointExtents);
 		firstPoint.GridPoint = PointToGrid(firstPoint.PointOnTargetSurface);
 		firstPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, firstPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea, hasDoor);
@@ -150,7 +150,7 @@ public class RooftopPointGenerator
 			return new List<ItemPlacementSamplePoint>();
 		}
 
-		return generateSubsequentPoints(width, depth, height, firstPoint, hasDoor); 
+		return generateSubsequentPoints(width, depth, height, firstPoint, itemInfo, hasDoor); 
 	}
 
 	/// <summary>
@@ -162,9 +162,10 @@ public class RooftopPointGenerator
 	/// <param name="depth">Depth.</param>
 	/// <param name="height">Height.</param>
 	/// <param name="firstPoint">First point.</param>
+	/// <param name="itemInfo"> District item info. </param> 
 	/// <param name="useGaussianMinDistance">If set to <c>true</c> use gaussian minimum distance.</param>
 	private List<ItemPlacementSamplePoint> generateSubsequentPoints(float width, float depth, float height, 
-														  ItemPlacementSamplePoint firstPoint, bool useGaussianMinDistance)
+														  ItemPlacementSamplePoint firstPoint, DistrictItemInfo itemInfo, bool useGaussianMinDistance)
 	{
 		float shorterLength = width;
 		float maxDoorwayEffectArea = maxDoorwayEffectPercent * shorterLength;
@@ -201,7 +202,7 @@ public class RooftopPointGenerator
 			for (int i = 0; i < newPointsPerSamplingPoint; ++i)
 			{
 				newPoint = new ItemPlacementSamplePoint ();
-				newPoint.ItemIndex = Random.Range(0, generatableObjectExtents.Count);
+				newPoint.ItemIndex = itemInfo.GetWeightedRandomItemIndex();
 
 				newPoint.PointOnTargetSurface = generateRandomPointAround(point.PointOnTargetSurface, point.MinDistance + point.Size);
 				newPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, newPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea, useGaussianMinDistance);

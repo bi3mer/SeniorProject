@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class DistrictItemInfo
 {
 	private List<WeightedPair> weightedPairs;
+	private const float floatingPointAccuracy = 0.0001f;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="DistrictItemInfo"/> class.
@@ -58,7 +59,7 @@ public class DistrictItemInfo
 	/// Gets a random index corresponding to an item that is weighted according to the rarity of the item.
 	/// </summary>
 	/// <returns>A weighted random index.</returns>
-	public int GetWeightedRandomIndex()
+	public int GetWeightedRandomItemIndex()
 	{
 		int fair = Random.Range(0, weightedPairs.Count);
 		float flip = Random.Range(0f, 1f);
@@ -73,13 +74,15 @@ public class DistrictItemInfo
 
 	/// <summary>
 	/// Sets up the information needed to use vose alias for weighted random generation.
+	/// Random generation using this method involves generating random numbers at unequal rates depending on the weights assigned to the number.
+	/// In this case, the index number associated with an item, and the weights are dependent on the rarity level of the item.
+	/// To achieve this in constant time, weighted pairs are created and put into a list. Then a random weighted pair is picked from that list,
+	/// and one of the parts of the weighted pair is returned.
+	/// For a more thorough explanation of this method please go to this link: http://www.keithschwarz.com/darts-dice-coins/
 	/// </summary>
 	/// <param name="rarityWeights">The values assigned to rarities. The smaller the rarer.</param>
 	public void SetUpVoseAlias(List<float> rarityWeights)
 	{
-		List<float> weights = new List<float>();
-
-		weightedPairs = new List<WeightedPair>();
 		List<int> largeIndices = new List<int>();
 		List<int> smallIndices = new List<int>();
 
@@ -91,20 +94,20 @@ public class DistrictItemInfo
 			cumulative += rarityWeights[i];
 		}
 
-		for(int j = 0; j < rarityWeights.Count; ++j)
-		{
-			weights.Add(rarityWeights[j]/cumulative);
-		}
+		// the desired total value that each weighted pair should have
+		referencePerfectWeight = cumulative / (float)rarityWeights.Count;
 
-		referencePerfectWeight = cumulative / rarityWeights.Count;
-
-		for(int k = 0; k < weights.Count; ++k)
+		// splits off into rarity weights into 3 categories
+		// weights that are too small and need to be added to reach the desired total
+		// weights that are too large and need to be subtracted from
+		// weights that are already at the desired total, and thus will make up a weighted pair by themselves
+		for(int k = 0; k < rarityWeights.Count; ++k)
 		{
-			if(weights[k] == referencePerfectWeight)
+			if(rarityWeights[k] == referencePerfectWeight)
 			{
-				weightedPairs.Add(new WeightedPair(k, k, 0));
+				weightedPairs.Add(new WeightedPair(k, k, 1));
 			}
-			else if(weights[k] < referencePerfectWeight)
+			else if(rarityWeights[k] < referencePerfectWeight)
 			{
 				smallIndices.Add(k);
 			}
@@ -114,9 +117,10 @@ public class DistrictItemInfo
 			}
 		}
 
+		// creates weighted pairs
 		while(smallIndices.Count > 0 || largeIndices.Count > 0)
 		{
-			if(smallIndices.Count > 0 && largeIndices.Count >0)
+			if(smallIndices.Count > 0 && largeIndices.Count > 0)
 			{
 				int small = smallIndices[0];
 				int large = largeIndices[0];
@@ -124,45 +128,33 @@ public class DistrictItemInfo
 				smallIndices.RemoveAt(0);
 				largeIndices.RemoveAt(0);
 
-				weightedPairs.Add(new WeightedPair(small, large, weights[small]));
-				float remainder = weights[small] + weights[large] - referencePerfectWeight;
+				weightedPairs.Add(new WeightedPair(small, large, rarityWeights[small]/referencePerfectWeight));
 
-				if(remainder > referencePerfectWeight)
+				float remainder = rarityWeights[large] - (referencePerfectWeight - rarityWeights[small]);
+
+				rarityWeights[large] = remainder;
+
+				if(Mathf.Abs(remainder - referencePerfectWeight) > floatingPointAccuracy)
 				{
-					largeIndices.Add(large);
+					if(remainder > referencePerfectWeight)
+					{
+						largeIndices.Add(large);
+					}
+					else if(remainder < referencePerfectWeight)
+					{
+						smallIndices.Add(large);
+					}
 				}
 				else
 				{
-					smallIndices.Add(large);
+					weightedPairs.Add(new WeightedPair(large, large, 1f));
 				}
 			}
-			else if(smallIndices.Count > 0)
+			else
 			{
-				if(smallIndices.Count > 1)
-				{
-					weightedPairs.Add(new WeightedPair(smallIndices[0], smallIndices[1], weights[smallIndices[0]]));
-					smallIndices.RemoveAt(0);
-					smallIndices.RemoveAt(1);
-				}
-				else
-				{
-					weightedPairs.Add(new WeightedPair(smallIndices[0], smallIndices[0], 0));
-					smallIndices.RemoveAt(0);
-				}
-			}
-			else if(largeIndices.Count > 0)
-			{
-				if(largeIndices.Count > 1)
-				{
-					weightedPairs.Add(new WeightedPair(largeIndices[0], largeIndices[1], weights[largeIndices[0]]));
-					largeIndices.RemoveAt(0);
-					largeIndices.RemoveAt(1);
-				}
-				else
-				{
-					weightedPairs.Add(new WeightedPair(largeIndices[0], largeIndices[0], 0));
-					largeIndices.RemoveAt(0);
-				}
+				// Theoretically, the code should never reach this point
+				// But just in case, to prevent infinite loops, this is in place
+				break;
 			}
 		}
 	}

@@ -34,7 +34,7 @@
 - itemName: "Stick"
   baseItem: 
    itemName: "Stick"
-   rarity: "common"
+   rarity: "uncommon"
    inventorySprite: ""
    worldModel: "ITM/Rods/Stick"
    types:
@@ -64,7 +64,7 @@
 - itemName: "Empty Can"
   baseItem: 
    itemName: "Empty Can"
-   rarity: "common"
+   rarity: "rare"
    inventorySprite: ""
    worldModel: "ITM/Small Containers/EmptyTinCan"
    types:

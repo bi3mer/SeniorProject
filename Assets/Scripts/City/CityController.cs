@@ -61,7 +61,7 @@ public class CityController : MonoBehaviour
 
         // TODO: calculate true city center
         Vector3 cityCenter = Vector3.zero;
-        RooftopGeneration generator = new RooftopGeneration(itemGenerationChance, doorGenerationChance);
+        RooftopGeneration rooftopItemGenerator = new RooftopGeneration(itemGenerationChance, doorGenerationChance);
 
         // Generate blocks in each district
         for (int i = 0; i < districts.Length; ++i)
@@ -79,7 +79,7 @@ public class CityController : MonoBehaviour
                 {
                     Building building = buildings[k];
            
-                    generator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name);
+                    rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name);
                     
                     block.Buildings.Add(building);
                 }

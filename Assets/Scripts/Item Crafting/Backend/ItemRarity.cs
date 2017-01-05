@@ -8,7 +8,7 @@ public class ItemRarity
 	public static string Legendary = "legendary";
 
 	private static List<string> rarityNames = new List<string> {Common, Uncommon, Rare, Legendary};
-	private static List<float> rarityValues = new List<float> {1f, 0.5f, 0.1f, 0.5f};
+	private static List<float> rarityValues = new List<float> {5f, 2f, 0.5f, 0.05f};
 
 	/// <summary>
 	/// Gets the rarity value given a rarity string value.
@@ -18,8 +18,7 @@ public class ItemRarity
 	public static float GetRarity(string rarity)
 	{
 		int index = rarityNames.IndexOf(rarity);
-
-		if(index > 0 && index < rarityValues.Count)
+		if(index >= 0 && index < rarityValues.Count)
 		{
 			return rarityValues[index];
 		}

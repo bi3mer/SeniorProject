@@ -38,7 +38,7 @@
      itemAmount: 2
      item: 
       itemName: "Stick"
-      rarity: "common"
+      rarity: "uncommon"
       inventorySprite: ""
       worldModel: "ITM/Rods/Stick"
       types:
@@ -69,7 +69,7 @@
      itemAmount: 2
      item: 
       itemName: "Empty Can"
-      rarity: "common"
+      rarity: "rare"
       inventorySprite: ""
       worldModel: "ITM/Small Containers/EmptyTinCan"
       types:
