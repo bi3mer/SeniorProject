@@ -23,8 +23,8 @@ public class WeatherSystem
 	// For these constants below please view
 	// https://github.com/bi3mer/WeatherForecasting/blob/master/Lorenz%20Simulation.ipynb
 	// to see how they are used in the context of graphs
-	private const float airDensity                = 3.4f;
-	private const float kelvinConverter           = 273.15f; 
+	private const float airDensity         = 3.4f;
+	private const float kelvinConverter    = 273.15f; 
 
 	// constants for celcius to farenheight
 	private const float celciusNumerator   = 9.0f;
