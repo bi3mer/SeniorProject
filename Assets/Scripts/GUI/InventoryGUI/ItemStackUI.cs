@@ -115,7 +115,7 @@ public class ItemStackUI : MonoBehaviour
 		}
 		else if(targetStack.Item.DiscardFlag)
 		{
-			InventoryUI.Instance.ItemsToDiscard.Add(targetStack);
+			InstanceManagerGUI.InventoryUiInstance.ItemsToDiscard.Add(targetStack);
 		}
 
 		targetStack = originalStack;

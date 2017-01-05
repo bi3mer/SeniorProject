@@ -48,14 +48,12 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	// the current selected item from the inventory
 	private GameObject selectedItem;
 
-	public static ChooseItemAmountPanelBehavior Instance;
-
 	/// <summary>
 	/// Start this instance of ChooseItemAmountPanelBehavior.
 	/// </summary>
 	void Start()
 	{
-		Instance = this;
+		InstanceManagerGUI.ItemAmountPanelInstance = this;
 	}
 
 	/// <summary>
@@ -156,6 +154,6 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		// display attributes and actions
 		// TODO : fix issue where item panel keeps adding attributes and actions from previously clicked item
 		//InventoryUI.Instance.DisableItemStackButtons();
-		ItemStackDetailPanelBehavior.Instance.SetItemData(selectedItem, currentAmount);
+		InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
 	}
 }

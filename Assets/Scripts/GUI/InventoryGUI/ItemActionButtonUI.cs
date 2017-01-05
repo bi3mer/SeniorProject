@@ -27,9 +27,9 @@ public class ItemActionButtonUI : MonoBehaviour
 	/// </summary>
 	public void PerformAction()
 	{
-		ItemStackDetailPanelBehavior.Instance.ClearSubActionPanel ();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel ();
 		action ();
-		ItemStackDetailPanelBehavior.Instance.RefreshItemPanel ();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.RefreshItemPanel ();
 	}
 
 
@@ -57,6 +57,6 @@ public class ItemActionButtonUI : MonoBehaviour
 	/// </summary>
 	public void ShowSubActions()
 	{
-		ItemStackDetailPanelBehavior.Instance.CreateSubAction (subActions);
+		InstanceManagerGUI.ItemStackDetailPanelInstance.CreateSubAction (subActions);
 	}
 }

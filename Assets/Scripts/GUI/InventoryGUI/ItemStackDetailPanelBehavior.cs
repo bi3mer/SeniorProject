@@ -10,8 +10,6 @@ using System.Collections.Generic;
 /// </summary>
 public class ItemStackDetailPanelBehavior : MonoBehaviour 
 {
-	public static ItemStackDetailPanelBehavior Instance;
-
 	[Tooltip("the scroll bar section that contains the attributes")]
 	[SerializeField]
 	private GameObject AttributeScroll;
@@ -74,7 +72,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	void Start()
 	{
-		Instance = this;
+		InstanceManagerGUI.ItemStackDetailPanelInstance = this;
 		Attributes = new List<ItemAttributeUI> ();
 		PossibleActions = new List<ItemActionButtonUI> ();
 		PossibleSubActions = new Dictionary<string, List<ItemActionButtonUI>> ();
@@ -115,9 +113,6 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// <param name="numToModify">Number to modify.</param>
 	public void SetItemData(GameObject item, int numberOfStacksToModify)
 	{
-		// TODO : refactor to account for singleton use
-		Instance = this;
-
 		Attributes.Clear();
 		PossibleActions.Clear ();
 		PossibleSubActions.Clear ();
@@ -140,7 +135,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		PossibleActions.Clear ();
 		PossibleSubActions.Clear ();
 		selected.CheckForModification ();
-		InventoryUI.Instance.RefreshInventoryPanel ();
+		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
 		EventSystem.current.SetSelectedGameObject(null);
 	}
 
@@ -208,7 +203,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void RefreshItemPanel()
 	{
-		ChooseItemAmountPanelBehavior.Instance.ItemNameDisplay.text = selected.GetItemName ();
+		InstanceManagerGUI.ItemAmountPanelInstance.ItemNameDisplay.text = selected.GetItemName ();
 
 		List<Attribute> attr = selected.GetItemAttributes ();
 
