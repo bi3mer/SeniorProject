@@ -55,6 +55,11 @@ public class ProceduralBuildingCreator : MonoBehaviour
     // The string name to access the standard shader's smoothness value
     private const string StandardShaderSmoothness = "_GlossMapScale";
 
+    // The number of tries to try any potentially failing random generation.
+    private const int numberOfTries = 5;
+    // A float representing a distance taller than roofs, to insure we can start a raycast from above them.
+    private const float aboveRoofHeight = 5f;
+
     public DistrictConfiguration TestDistrict;
     public BaseSize TestSize;
     public float TestAttatchmentPercentage;
