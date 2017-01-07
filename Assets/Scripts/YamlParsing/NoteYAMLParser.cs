@@ -25,7 +25,7 @@ public class NoteYAMLParser
 	/// <returns>The notes.</returns>
 	public Dictionary<string, Note> LoadNotes()
 	{
-		string fileyaml = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + Filename;
+		string fileyaml = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + filename;
 		Dictionary<string, Note> noteDatabase = new Dictionary<string, Note> ();
 
 		string noteList = File.ReadAllText (fileyaml);

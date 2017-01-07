@@ -52,7 +52,7 @@ public class NoteFactory : MonoBehaviour
 		}
 
 		// create the object with the model for the given note type
-		GameObject item = GameObject.Instantiate (worldNoteTemplates(noteToCreate.Type));
+		GameObject item = GameObject.Instantiate (worldNoteTemplates[noteToCreate.Type]);
 
 		// creates the trigger object that will handle interaction with player
 		GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
@@ -70,7 +70,7 @@ public class NoteFactory : MonoBehaviour
 
 		return item;
 	}
-}
+
 
 
 }

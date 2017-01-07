@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ItemYAMLMap
+public class NoteYAMLMap
 {
 	/// <summary>
 	/// Gets or sets the name of the note.
