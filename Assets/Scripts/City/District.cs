@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,12 +12,12 @@ public class District
     /// </summary>
     /// <param name="seedPoint">The seed point that created the district.</param>
     /// <param name="verticies">The edge verticies defining the district.</param>
-    /// <param name="name">The name of the district.</param>
-	public District (Vector3 seedPoint, Vector3[] verticies, string name)
+    /// <param name="configuration">The configuration object defining district characterisitics.</param>
+	public District (Vector3 seedPoint, Vector3[] verticies, DistrictConfiguration configuration)
 	{
         SeedPoint = seedPoint;
         EdgeVerticies = verticies;
-        Name = name;
+        Configuration = configuration;
         Blocks = new List<Block>();
 	}
 
@@ -45,8 +45,10 @@ public class District
 	/// <value>The name.</value>
     public String Name
     {
-        get;
-        private set;
+        get
+        {
+            return Configuration.Name;
+        }
     }
 
     /// <summary>
@@ -74,6 +76,15 @@ public class District
         }
     }
 
+    /// <summary>
+    /// The configuration for constructing buildings in this district.
+    /// </summary>
+    public DistrictConfiguration Configuration
+    {
+        get;
+        private set;
+    }
+
 	/// <summary>
 	/// Checks whether the point is within the bounds of the district.
 	/// </summary>
@@ -86,7 +97,7 @@ public class District
         {
             edges[i] = GenerationUtility.ToAlignedVector2(EdgeVerticies[i]);
         }
-        return GenerationUtility.IsPointInPolygon(point, edges);
+        return GenerationUtility.IsPointInPolygon(point, ref edges);
 	}
 
     /// <summary>
