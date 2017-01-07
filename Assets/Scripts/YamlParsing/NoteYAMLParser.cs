@@ -33,7 +33,9 @@ public class NoteYAMLParser
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
 		List<Note> noteYamlInfo = deserializer.Deserialize<List<Note>>(input);
-		
+
+		int x = 0;
+
 		for (int i = 0; i < noteYamlInfo.Count; ++i) 
 		{
 			noteDatabase.Add (noteYamlInfo [i].Title, noteYamlInfo [i]);

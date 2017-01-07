@@ -48,4 +48,14 @@ public class Note
     	get;
     	set;
     }
+
+	/// <summary>
+	/// Gets or sets the model that represents the item in the inventory.
+	/// </summary>
+	/// <value>The inventory sprite model.</value>
+	public string InventorySprite
+	{
+		get;
+		set;
+	}
 }
