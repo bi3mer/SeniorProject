@@ -11,7 +11,7 @@ public class ItemSpawner : InteractableObject
 
 	public float SpawnRadius;
 
-	[Tooltip("Do not wait for other function to call spawning of items after prespawnActions have been executed")]
+	[Tooltip("If true, spawns items after actions are executed. If false, waits for other code to calls the spawn action.")]
 	public bool SpawnAfterActions;
 
 	[Tooltip("Items should appear around the object without need for interaction.")]
@@ -76,7 +76,7 @@ public class ItemSpawner : InteractableObject
 		// a circle has 360 degrees, so the number of points is equal to 360 divided by the amount in which the angle increments
 		// however, at 360, the player has looped back to 0, so subtract the last slot, which will be considered to be 360, which equals 0
 		int maxSpawnSlots = Mathf.FloorToInt(360 / angleIncrementations) - 1;
-		Vector3 centerPos = Game.Instance.PlayerInstance.WorldTransform.position;
+		Vector3 centerPos = transform.position;
 		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
 
 		int numberToSpawn = (int) Random.Range(MinSpawnNumber, MaxSpawnNumber);

@@ -86,8 +86,10 @@ public class InteractableObject : MonoBehaviour
     /// </summary>
     public void PerformAction()
     {
+    	Debug.Log("invoke it");
     	if(action != null)
     	{
+    		Debug.Log("invoked");
         	action.Invoke();
         }
     }

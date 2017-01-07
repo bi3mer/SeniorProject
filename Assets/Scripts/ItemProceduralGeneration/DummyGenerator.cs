@@ -6,11 +6,13 @@ public class DummyGenerator : MonoBehaviour
 {
 	// This is a dummy class just for purposes of testing this works please ignore this class file
 	public List<Renderer> buildings;
+	public List<GameObject> doors;
 
 	// Use this for initialization
 	void Start () 
 	{
 		RooftopGeneration generator = new RooftopGeneration(1f, 0f);
+		generator.AddDoors(doors, 1f);
 
 		for(int i = 0; i < buildings.Count; ++i)
 		{

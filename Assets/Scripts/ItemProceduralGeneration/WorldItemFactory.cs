@@ -112,8 +112,6 @@ public class WorldItemFactory
 
 		// creates the trigger object that will handle interaction with player
 		GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
-		triggerObject.GetComponent<BoxCollider>().size = item.GetComponent<BoxCollider>().size;
-		triggerObject.GetComponent<BoxCollider>().center = item.GetComponent<BoxCollider>().center;
 		triggerObject.transform.SetParent(item.transform);
 		triggerObject.transform.localPosition = Vector3.zero;
 
