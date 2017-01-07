@@ -33,14 +33,11 @@ public struct buildingIndex
 /// </summary>
 public class ProceduralBuildingCreator : MonoBehaviour
 {
-    // Aditional colors building's albedo can take on to increase building variability.
-    [SerializeField]
-    private Gradient materialAlbedoColors;
 
     [SerializeField]
     private ProceduralBuildingInstance proceduralBuildingTemplate;
 
-    // The number of material instances to make per material.
+    [Tooltip("The number of material instances to make per material, higher numbers lead to more varied cities but more memory usage.")]
     [SerializeField]
     private int materialInstances = 1;
 
@@ -58,6 +55,16 @@ public class ProceduralBuildingCreator : MonoBehaviour
     // The string name to access the standard shader's smoothness value
     private const string StandardShaderSmoothness = "_GlossMapScale";
 
+    public DistrictConfiguration TestDistrict;
+    public BaseSize TestSize;
+    public float TestAttatchmentPercentage;
+    [ContextMenu("CreateTestBuilding")]
+    public void CreateTestBuilding()
+    {
+        CreateBuilding(TestDistrict, TestSize, TestAttatchmentPercentage, 5);
+    }
+
+
     /// <summary>
     /// Creates all the procedural materials for a single district.
     /// </summary>
@@ -73,8 +80,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {
                 Material newMaterial = new Material(district.DistrictMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictMaterials[i]);
-                // Setting all the material's smoothess to 5 to reduce glossiness.
+                // Setting all the material's smoothess to .5 to reduce glossiness.
                 newMaterial.SetFloat(StandardShaderSmoothness, .5f);
+                newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.Range(0f, 1f));
                 district.districtProceduralMaterials.Add(newMaterial);
             }
         }
@@ -85,7 +93,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {
                 Material newMaterial = new Material(district.DistrictWindowMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictWindowMaterials[i]);
-                newMaterial.color = materialAlbedoColors.Evaluate(Random.Range(0f, 1f));
+                newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.Range(0f, 1f));
                 district.districtProceduralWindowMaterials.Add(newMaterial);
             }
         }

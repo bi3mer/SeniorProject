@@ -211,6 +211,20 @@ public class DistrictConfiguration
         }
     }
 
+   
+    [SerializeField]
+    private Gradient materialAlbedoColors;
+    /// <summary>
+    /// Aditional colors building's albedo can take on to increase building variability.
+    /// </summary>
+    public Gradient MaterialAlbedoColors
+    {
+        get
+        {
+            return materialAlbedoColors;
+        }
+    }
+
     public List<Material> districtProceduralMaterials = new List<Material>();
     public List<Material> districtProceduralWindowMaterials = new List<Material>();
 }
