@@ -14,6 +14,7 @@ using UnityEngine;
 public class ItemSerializer: CraftingSystemSerializer
 {
 	string naturallyOccuringListFileName;
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ItemSerializer"/> class.
 	/// </summary>
@@ -35,11 +36,10 @@ public class ItemSerializer: CraftingSystemSerializer
 	/// <returns>The item information.</returns>
 	public Dictionary<string, BaseItem> DeserializeItemInformation()
 	{
-		string file = "YAMLFiles/" + Filename;
+		string file = GoogleDrive.GetDriveDocument(Filename);
 		Dictionary<string, BaseItem> itemDatabase = new Dictionary<string, BaseItem> ();
 
-		TextAsset itemListYaml = (TextAsset) Resources.Load(file, typeof(TextAsset));
-		StringReader input = new StringReader(itemListYaml.text);
+		StringReader input = new StringReader(file);
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
 		for (int x = 0; x < categoryNames.Count; ++x) 
@@ -72,10 +72,9 @@ public class ItemSerializer: CraftingSystemSerializer
 	/// <returns>The naturally occuring item data.</returns>
 	public List<GeneratableItemInfoModel> DeserializeNaturallyOccuringItemData()
 	{
-		string file = "YAMLFiles/" + naturallyOccuringListFileName;
+		string file = GoogleDrive.GetDriveDocument(naturallyOccuringListFileName);
 
-		TextAsset itemListYaml = (TextAsset) Resources.Load(file, typeof(TextAsset));
-		StringReader input = new StringReader(itemListYaml.text);
+		StringReader input = new StringReader(file);
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
 		return deserializer.Deserialize<List<GeneratableItemInfoModel>> (input);

@@ -32,9 +32,8 @@ public class InventoryYamlParser : CraftingSystemSerializer
 	/// </summary>
 	public void LoadInventories()
 	{
-		string file = "YAMLFiles/" + Filename;
-		TextAsset itemListYaml = (TextAsset) Resources.Load(file, typeof(TextAsset));
-		StringReader input = new StringReader(itemListYaml.text);
+		string file = GoogleDrive.GetDriveDocument(Filename);
+		StringReader input = new StringReader(file);
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
 		for (int x = 0; x < categoryNames.Count; ++x) 

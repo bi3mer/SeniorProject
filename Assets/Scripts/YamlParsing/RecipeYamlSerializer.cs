@@ -24,11 +24,10 @@ public class RecipeYamlSerializer : CraftingSystemSerializer
 	/// <returns>The recipes.</returns>
 	public Dictionary<string, Recipe> LoadRecipes()
 	{
-		string file = "YAMLFiles/" + Filename;
+		string file = GoogleDrive.GetDriveDocument(Filename);
 		Dictionary<string, Recipe> recipeDatabase = new Dictionary<string, Recipe> ();
 
-		TextAsset recipeListYaml = (TextAsset) Resources.Load(file, typeof(TextAsset));
-		StringReader input = new StringReader(recipeListYaml.text);
+		StringReader input = new StringReader(file);
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
 		List<Recipe> itemYamlInfo = deserializer.Deserialize<List<Recipe>> (input);
