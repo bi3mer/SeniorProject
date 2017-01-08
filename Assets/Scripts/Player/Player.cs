@@ -6,7 +6,7 @@ public class Player
     private const int maxWarmth = 100;
     private const int maxHunger = 100;
     private const string playerInventoryName = "player";
-    private const string inventoryFileName = "InventoryYaml";
+    private const string inventoryFileName = "InventoryYaml.yml";
 
     /// <summary>
     /// Player constructor.
