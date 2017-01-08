@@ -76,14 +76,14 @@ public class RooftopGeneration
 		Dictionary<string, List<string>> itemsByLocation = itemFactory.ItemsByLocation;
 		Dictionary<string, List<GameObject>> itemTemplates = new Dictionary<string, List<GameObject>>();
 
-
 		foreach(string key in itemsByLocation.Keys)
 		{
 			itemTemplates.Add(key, new List<GameObject>());
 
 			for(int i = 0; i < itemsByLocation[key].Count; ++i)
 			{
-				GameObject item = worldFactory.CreateInteractableItem(itemFactory.GetBaseItem(itemsByLocation[key][i]), 1);
+				// this will only be copied, never activated, thus the amount can be zero as it will never be collected
+				GameObject item = worldFactory.CreateInteractableItem(itemFactory.GetBaseItem(itemsByLocation[key][i]), 0);
 				item.GetComponentInChildren<InteractableObject>().Show = true;
 				item.SetActive(false);
 				itemTemplates[key].Add(item);
@@ -106,8 +106,8 @@ public class RooftopGeneration
 		List<ItemPlacementSamplePoint> points;
 
 		// check to see if this building will have objects on its roof
-		genChance = Random.Range (0f, 1f);
-		doorChance = Random.Range(0f, 1f);
+		genChance = Random.value;
+		doorChance = Random.value;
 		bool hasDoor = false;
 
 		if (genChance < chanceOfGeneration) 

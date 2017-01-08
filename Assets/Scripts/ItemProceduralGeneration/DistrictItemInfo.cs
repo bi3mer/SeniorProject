@@ -62,7 +62,7 @@ public class DistrictItemInfo
 	public int GetWeightedRandomItemIndex()
 	{
 		int fair = Random.Range(0, weightedPairs.Count);
-		float flip = Random.Range(0f, 1f);
+		float flip = Random.value;
 
 		if(flip < weightedPairs[fair].Threshold)
 		{

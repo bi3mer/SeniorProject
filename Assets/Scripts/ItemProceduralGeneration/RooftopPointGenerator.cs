@@ -330,7 +330,8 @@ public class RooftopPointGenerator
 		// 2) the raycast is not hitting anything
 		// 3) the raycast is not hitting the target gamebobject
 		// 4) the angle of the surface that the raycast hits exceeds the maxAngle
-		while (tries < maximumAttempts && (hit.transform == null || (Mathf.Abs (Mathf.Acos (Vector3.Dot (hit.normal, Vector3.up))) > maxAngle) || hit.collider.CompareTag(waterTag))) 
+		while (tries < maximumAttempts && (hit.transform == null || 
+			   (Mathf.Abs (Mathf.Acos (Vector3.Dot (hit.normal, Vector3.up))) > maxAngle) || hit.collider.CompareTag(waterTag))) 
 		{
 			objectLocation = new Vector2(Random.Range(width * borderPercent + size, 1 - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, 1 - (depth * borderPercent + size)));
 
