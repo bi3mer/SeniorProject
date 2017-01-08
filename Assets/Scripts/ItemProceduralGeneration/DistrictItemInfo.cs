@@ -154,6 +154,7 @@ public class DistrictItemInfo
 			{
 				// Theoretically, the code should never reach this point
 				// But just in case, to prevent infinite loops, this is in place
+				Debug.LogError("Vose Alias set up failed");
 				break;
 			}
 		}
