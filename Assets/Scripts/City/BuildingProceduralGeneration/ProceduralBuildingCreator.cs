@@ -92,7 +92,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictMaterials[i]);
                 // Setting all the material's smoothess to .5 to reduce glossiness.
                 newMaterial.SetFloat(StandardShaderSmoothness, .5f);
-                newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.Range(0f, 1f));
+                newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.value);
                 district.districtProceduralMaterials.Add(newMaterial);
             }
         }
@@ -103,7 +103,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {
                 Material newMaterial = new Material(district.DistrictWindowMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictWindowMaterials[i]);
-                newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.Range(0f, 1f));
+                newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.value);
                 district.districtProceduralWindowMaterials.Add(newMaterial);
             }
         }
