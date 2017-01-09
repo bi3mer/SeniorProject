@@ -24,12 +24,11 @@ public class DistrictItemInfo
 		get;
 		set;
 	}
-
 	/// <summary>
-	/// Gets or sets the door extents.
+	/// Gets or sets the door templates.
 	/// </summary>
-	/// <value>The door extents.</value>
-	public List<float> DoorExtents
+	/// <value>The door templates.</value>
+	public List<GameObject> DoorTemplates
 	{
 		get;
 		set;
@@ -46,10 +45,10 @@ public class DistrictItemInfo
 	}
 
 	/// <summary>
-	/// Gets or sets the door templates.
+	/// Gets or sets the door extents.
 	/// </summary>
-	/// <value>The door templates.</value>
-	public List<GameObject> DoorTemplates
+	/// <value>The door extents.</value>
+	public List<float> DoorExtents
 	{
 		get;
 		set;
@@ -61,7 +60,11 @@ public class DistrictItemInfo
 	/// <returns>A weighted random index.</returns>
 	public int GetWeightedRandomItemIndex()
 	{
+		// randomly chooses a weighted pair to "flip"
 		int fair = Random.Range(0, weightedPairs.Count);
+
+		// random number between 0 and 1 which will determine which of the weighted pair will be selected
+		// liken to a coin flip
 		float flip = Random.value;
 
 		if(flip < weightedPairs[fair].Threshold)

@@ -33,10 +33,9 @@ public class RooftopGeneration
 
 		generator = new RooftopPointGenerator ();
 		districtItemInfo = new Dictionary<string, DistrictItemInfo>();
-
 		Dictionary<string, List<GameObject>> itemTemplates = getGeneratableItemTemplates();
 
-		// get ditrict name here
+		// get district name here
 		foreach(string key in itemTemplates.Keys)
 		{
 			districtItemInfo.Add(key, new DistrictItemInfo());
@@ -57,7 +56,8 @@ public class RooftopGeneration
 		if(districtItemInfo[district].DoorExtents.Count > 0)
 		{
 			districtItemInfo[district].DoorExtents.AddRange(getItemExtents(doors));
-			districtItemInfo[district].DoorTemplates.AddRange(doors);
+			districtItemInfo[district].
+			DoorTemplates.AddRange(doors);
 		}
 		else
 		{
@@ -101,16 +101,16 @@ public class RooftopGeneration
 	/// <param name="district">District this building belongs to.</param>
 	public void PopulateRoof(Bounds bound, Vector3 center, string district)
 	{
-		float genChance;
+		float itemGenerationChance;
 		float doorChance;
 		List<ItemPlacementSamplePoint> points;
 
 		// check to see if this building will have objects on its roof
-		genChance = Random.value;
+		itemGenerationChance = Random.value;
 		doorChance = Random.value;
 		bool hasDoor = false;
 
-		if (genChance < chanceOfGeneration) 
+		if (itemGenerationChance < chanceOfGeneration) 
 		{
 			if(doorChance < chanceOfDoor)
 			{
