@@ -10,9 +10,9 @@ public abstract class Tool : MonoBehaviour
     public abstract void Unequip();
 
     /// <summary>
-    /// The name of the tool type, eg. "fishing rod"
+    /// The name of the tool, eg. "fishing rod"
     /// </summary>
-    public string ToolType
+    public string ToolName
     {
         get;
         protected set;
@@ -25,16 +25,5 @@ public abstract class Tool : MonoBehaviour
     {
         get;
         protected set;
-    }
-
-    /// <summary>
-    /// Compares to another Tool to check equality. 
-    /// Tools are equal if they have the same type.
-    /// </summary>
-    /// <param name="tool">Tool to compare to.</param>
-    /// <returns>True if the tools arre equal.</returns>
-    public bool Equals (Tool tool)
-    {
-        return (this.ToolType.Equals(tool.ToolType));
     }
 }

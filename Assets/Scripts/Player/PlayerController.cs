@@ -115,12 +115,6 @@ public class PlayerController : MonoBehaviour
         // set up tools
         Tool[] tools = GetComponentsInChildren<Tool>();
         Game.Instance.PlayerInstance.Toolbox = new PlayerTools(tools);
-        
-        // TODO: Load state of toolbox
-        // For now, just set it to the fishing rod
-        PlayerTools toolbox = Game.Instance.PlayerInstance.Toolbox;
-        toolbox.AddTool(ToolTypes.FishingRod);
-        toolbox.EquippedTool = toolbox.AvailableTools[0];
 
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();

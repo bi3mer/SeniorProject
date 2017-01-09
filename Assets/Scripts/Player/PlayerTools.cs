@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 
 /// <summary>
-/// Used for keeping track of tools the player has, 
-/// what they currently have equipped, and switching tools.
+/// Used for keeping track of implementation of tools in the game scene.
 /// </summary>
 public class PlayerTools
 {
@@ -18,7 +17,17 @@ public class PlayerTools
     {
         equippedTool = null;
         possibleTools = possibleToolsList;
-        AvailableTools = new List<Tool>();
+
+        // Subscribe to equipped item events
+        PlayerInventory inventory = Game.Instance.PlayerInstance.Inventory;
+        inventory.ItemEquippedSubscription += (item) =>
+        {
+            EquippedTool = GetToolByBaseItem(item);
+        };
+        inventory.ItemUnequippedSubscription += () =>
+        {
+            EquippedTool = null;
+        };
     }
 
     /// <summary>
@@ -42,7 +51,8 @@ public class PlayerTools
         {
             return equippedTool;
         }
-        set
+        
+        private set
         {
             // Unequip and equip the tools.
             switchTool(equippedTool, value);
@@ -52,37 +62,11 @@ public class PlayerTools
     }
 
     /// <summary>
-    /// List of tools available to the player to equip.
+    /// Iterates through tools and checks for an implementation of the BaseItem.
     /// </summary>
-    public List<Tool> AvailableTools
-    {
-        get;
-        private set;
-    }
-
-    /// <summary>
-    /// Load a list of tool types, and equips the current tool.
-    /// </summary>
-    /// <param name="toolTypes">List of tool types to load.</param>
-    public void LoadTools (string currentlyEquippedTool, List<string> toolTypes)
-    {
-        for (int i = 0; i < toolTypes.Count; ++i)
-        {
-            Tool tool = AddTool(toolTypes[i]);
-            if (tool.ToolType.Equals(currentlyEquippedTool))
-            {
-                EquippedTool = tool;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Add a tool of the given type to the list of tools 
-    /// available to the player.
-    /// </summary>
-    /// <param name="toolType">The type of tool.</param>
-    /// <returns>The tool functionality.</returns>
-    public Tool AddTool (string toolType)
+    /// <param name="item">The BaseItem to find.</param>
+    /// <returns>The implemenation, or null if the item has not been implemented.</returns>
+    public Tool GetToolByBaseItem(BaseItem item)
     {
         Tool tool = null;
 
@@ -91,42 +75,20 @@ public class PlayerTools
         for (int i = 0; i < possibleTools.Length && tool == null; ++i)
         {
             Tool potentialTool = possibleTools[i];
-            if (potentialTool.ToolType.Equals(toolType))
+            if (potentialTool.ToolName.Equals(item.ItemName))
             {
                 tool = potentialTool;
             }
         }
-  
-        if (tool != null)
+
+        // Error if we didin't yet account for this tooltype
+        if (tool == null)
         {
-            // Add to the list of available tools
-            AvailableTools.Add(tool);
-        }
-        else
-        {
-            // Error if we didin't yet account for this tooltype
-            Debug.LogError("Tool type " + toolType + " not implemented.");
+            Debug.LogError("Tool type " + item.ItemName + " not implemented.");
         }
 
         return tool;
-    }
-
-    /// <summary>
-    /// Remove instance of tool type from the list of available tools.
-    /// </summary>
-    /// <param name="toolType">The tool type to remove.</param>
-    public void RemoveTool (string toolType)
-    {
-        for (int i = 0; i < AvailableTools.Count; ++i)
-        {
-            Tool tool = AvailableTools[i];
-
-            if (tool.ToolType.Equals(toolType))
-            {
-                AvailableTools.Remove(tool);
-            }
-        }
-    }
+    } 
 
     /// <summary>
     /// Run sequence of unequipped previous tool and equipping current tool.

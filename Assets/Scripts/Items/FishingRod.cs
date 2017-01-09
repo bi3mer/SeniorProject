@@ -4,6 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(BezierLine))]
 public class FishingRod : Tool
 {
+    [SerializeField]
+    private string toolName;
+
     // TODO: Animations
 
     [Header("Casting Settings")]
@@ -26,7 +29,7 @@ public class FishingRod : Tool
         fishingLure.ReelingSpeed = reelingSpeed;
         line = GetComponent<BezierLine>();
         WasCast = false;
-        ToolType = ToolTypes.FishingRod;
+        ToolName = toolName;
 	}
 
     /// <summary>

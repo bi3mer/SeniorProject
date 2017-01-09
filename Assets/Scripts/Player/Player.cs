@@ -17,7 +17,7 @@ public class Player
         Health = MaxHealth = maxHealth;
         Warmth = MaxWarmth = maxWarmth;
         Hunger = MaxHunger = maxHunger;
-		Inventory = new Inventory (playerInventoryName, inventoryFileName);
+		Inventory = new PlayerInventory (playerInventoryName, inventoryFileName);
     }
 
 	/// <summary>
@@ -115,7 +115,7 @@ public class Player
     /// Gets the player's on-person intenvory.
     /// </summary>
     /// <value>The player's intenvory.</value>
-    public Inventory Inventory
+    public PlayerInventory Inventory
     {
     	get;
     	private set;
