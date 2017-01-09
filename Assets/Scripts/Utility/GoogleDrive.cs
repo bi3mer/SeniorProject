@@ -77,7 +77,6 @@ public class GoogleDrive
 	{
 		// create url
 		string url = Path.Combine(GoogleDrive.GetterURL,fileName);
-
 		SystemLogger.Write("Pulling remote document from " + url);
 
 		// variables for code

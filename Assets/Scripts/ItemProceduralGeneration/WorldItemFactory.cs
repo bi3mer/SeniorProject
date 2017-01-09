@@ -14,7 +14,7 @@ public class WorldItemFactory
 	/// <summary>
 	/// The name of the item file. All yaml files must be placed under "Resources/YAMLFiles"
 	/// </summary>
-	private const string itemFileName = "ItemListYaml";
+	private const string itemFileName = "ItemListYaml.yml";
 
 	/// <summary>
 	/// The name of the layer that items generated to the world by this factory should be.
