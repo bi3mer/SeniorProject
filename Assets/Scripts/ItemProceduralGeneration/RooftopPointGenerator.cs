@@ -48,8 +48,8 @@ public class RooftopPointGenerator
 	/// <param name="targetCenter">Target center.</param>
 	/// <param name="doorExtents">Door extents.</param>
 	/// <param name="itemExtents">Item extents.</param>
-	/// <param name="hasDoor">If set to <c>true</c> has door.</param>
-	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, DistrictItemInfo itemInfo, bool hasDoor = false)
+	/// <param name="hasDoor">If set to <c>true</c> has door. (optional)</param>
+	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, DistrictItemConfiguration itemInfo, bool hasDoor = false)
 	{
 		generatableDoorExtents = itemInfo.DoorExtents;
 		generatableObjectExtents = itemInfo.ItemExtents;
@@ -102,7 +102,7 @@ public class RooftopPointGenerator
 
 			if (Physics.Raycast (new Vector3(globalPosition.x, initialRayStartHeight, globalPosition.y), Vector3.down, out hit, initialRayStartHeight)) 
 			{
-				if (!hit.collider.CompareTag(waterTag) && Mathf.Abs (Mathf.Acos (Vector3.Dot (hit.normal, Vector3.up))) < maxAngle) 
+				if (verifyRaycastHit(hit)) 
 				{
 					// the point in which the ray comes into contact with the surface of the building is where the object should be placed
 					samplingPoints[i].WorldSpaceLocation = hit.point;
@@ -121,11 +121,12 @@ public class RooftopPointGenerator
 	/// <returns>The points.</returns>
 	/// <param name="center">Center.</param>
 	/// <param name="firstPointExtents">First point extents.</param>
+	/// <param name="itemInfo">The information about the district the rooftop belongs to.</param>
 	/// <param name="hasDoor">If set to <c>true</c> has door.</param>
 	/// <param name="width">Width.</param>
 	/// <param name="depth">Depth.</param>
 	/// <param name="height">Height.</param>
-	private List<ItemPlacementSamplePoint> generatePoints(Vector3 center, List<float> firstPointExtents, DistrictItemInfo itemInfo, bool hasDoor, float width, float depth, float height)
+	private List<ItemPlacementSamplePoint> generatePoints(Vector3 center, List<float> firstPointExtents, DistrictItemConfiguration itemInfo, bool hasDoor, float width, float depth, float height)
 	{
 		float shorterLength = width;
 		float maxDoorwayEffectArea = maxDoorwayEffectPercent * shorterLength;
@@ -165,7 +166,7 @@ public class RooftopPointGenerator
 	/// <param name="itemInfo"> District item info. </param> 
 	/// <param name="useGaussianMinDistance">If set to <c>true</c> use gaussian minimum distance.</param>
 	private List<ItemPlacementSamplePoint> generateSubsequentPoints(float width, float depth, float height, 
-														  ItemPlacementSamplePoint firstPoint, DistrictItemInfo itemInfo, bool useGaussianMinDistance)
+														  ItemPlacementSamplePoint firstPoint, DistrictItemConfiguration itemInfo, bool useGaussianMinDistance)
 	{
 		float shorterLength = width;
 		float maxDoorwayEffectArea = maxDoorwayEffectPercent * shorterLength;
@@ -330,8 +331,7 @@ public class RooftopPointGenerator
 		// 2) the raycast is not hitting anything
 		// 3) the raycast is not hitting the target gamebobject
 		// 4) the angle of the surface that the raycast hits exceeds the maxAngle
-		while (tries < maximumAttempts && (hit.transform == null || 
-			   (Mathf.Abs (Mathf.Acos (Vector3.Dot (hit.normal, Vector3.up))) > maxAngle) || hit.collider.CompareTag(waterTag))) 
+		while (tries < maximumAttempts && (hit.transform == null || !verifyRaycastHit(hit)))
 		{
 			objectLocation = new Vector2(Random.Range(width * borderPercent + size, 1 - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, 1 - (depth * borderPercent + size)));
 
@@ -348,6 +348,24 @@ public class RooftopPointGenerator
 		}
 
 		return objectLocation;
+	}
+
+	/// <summary>
+	/// Verifies that the raycastHit hits a point that is not water and not at an inclination greater than the maxAngle.
+	/// </summary>
+	/// <returns><c>true</c>, if raycast hits a point that meets specifications <c>false</c> otherwise.</returns>
+	/// <param name="hit">Hit.</param>
+	private bool verifyRaycastHit(RaycastHit hit)
+	{
+		if(!hit.collider.CompareTag(waterTag))
+		{
+			if((Mathf.Abs (Mathf.Acos (Vector3.Dot (hit.normal, Vector3.up))) <= maxAngle))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/// <summary>

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class DistrictItemInfo
+public class DistrictItemConfiguration
 {
 	private List<WeightedPair> weightedPairs;
 	private const float floatingPointAccuracy = 0.0001f;
@@ -10,7 +10,7 @@ public class DistrictItemInfo
 	/// <summary>
 	/// Initializes a new instance of the <see cref="DistrictItemInfo"/> class.
 	/// </summary>
-	public DistrictItemInfo()
+	public DistrictItemConfiguration()
 	{
 		weightedPairs = new List<WeightedPair>();
 	}

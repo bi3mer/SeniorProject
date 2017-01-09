@@ -16,7 +16,8 @@ public class ItemSerializer: CraftingSystemSerializer
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ItemSerializer"/> class.
 	/// </summary>
-	/// <param name="file">File.</param>
+	/// <param name="itemListFile">File that contains all items.</param>
+	/// <param name="districtItemFile">File that contains what items appear in each district.</param>
 	public ItemSerializer(string itemListFile, string districtItemFile)
 	{
 		Filename = itemListFile;

@@ -12,17 +12,10 @@ public class CityController : MonoBehaviour
     [Tooltip("Bounds defnining the size of the city.")]
     private Bounds cityBounds;
 
-	[SerializeField]
-    [Tooltip("Likelihood of a rooftop having items, from 0 to 1")]
-    private float itemGenerationChance;
-
-	[SerializeField]
-    [Tooltip("Likelihood of a rooftop having a door, from 0 to 1")]
-    private float doorGenerationChance;
-
     private DistrictGenerator districtGenerator;
     private BlockGenerator blockGenerator;
     private BuildingGenerator buildingGenerator;
+    private RooftopGeneration rooftopItemGenerator;
 
     /// <summary>
     /// Grabs other generators and starts generation.
@@ -32,6 +25,7 @@ public class CityController : MonoBehaviour
         districtGenerator = GetComponent<DistrictGenerator>();
         blockGenerator = GetComponent<BlockGenerator>();
         buildingGenerator = GetComponent<BuildingGenerator>();
+        rooftopItemGenerator = GetComponent<RooftopGeneration>();
 
         // Check to see if the seed has been configured in the inspector
         if (seed == 0)
@@ -61,7 +55,6 @@ public class CityController : MonoBehaviour
 
         // TODO: calculate true city center
         Vector3 cityCenter = Vector3.zero;
-        RooftopGeneration rooftopItemGenerator = new RooftopGeneration(itemGenerationChance, doorGenerationChance);
 
         // Generate blocks in each district
         for (int i = 0; i < districts.Length; ++i)

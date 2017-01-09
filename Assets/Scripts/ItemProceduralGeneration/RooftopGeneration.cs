@@ -2,14 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class RooftopGeneration
+public class RooftopGeneration: MonoBehaviour
 {
-	/// <summary>
-	/// likelihood of a building having something on its roof
-	/// </summary>
-	private float chanceOfGeneration;
+	[SerializeField]
+    [Tooltip("Likelihood of a rooftop having items, from 0 to 1")]
+	[Range(0, 1)]
+    private float itemGenerationChance;
 
-	private float chanceOfDoor;
+	[SerializeField]
+    [Tooltip("Likelihood of a rooftop having a door, from 0 to 1")]
+	[Range(0, 1)]
+    private float doorGenerationChance;
 
 	/// <summary>
 	/// Generator that creates the points to place objects
@@ -19,26 +22,23 @@ public class RooftopGeneration
 	/// <summary>
 	/// The item templates used to create the objects in the world
 	/// </summary>
-	private Dictionary<string, DistrictItemInfo> districtItemInfo;
+	private Dictionary<string, DistrictItemConfiguration> districtItemInfo;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RooftopGeneration"/> class.
 	/// </summary>
 	/// <param name="generationChance">Likelihood of a roof having objects.</param>
 	/// <param name="doorChance">Likelihood of a roof having a door in addition to objects.</param>
-	public RooftopGeneration(float generationChance, float doorChance)
+	void Awake()
 	{
-		chanceOfGeneration = generationChance;
-		chanceOfDoor = doorChance;
-
 		generator = new RooftopPointGenerator ();
-		districtItemInfo = new Dictionary<string, DistrictItemInfo>();
+		districtItemInfo = new Dictionary<string, DistrictItemConfiguration>();
 		Dictionary<string, List<GameObject>> itemTemplates = getGeneratableItemTemplates();
 
 		// get district name here
 		foreach(string key in itemTemplates.Keys)
 		{
-			districtItemInfo.Add(key, new DistrictItemInfo());
+			districtItemInfo.Add(key, new DistrictItemConfiguration());
 			districtItemInfo[key].ItemTemplates = itemTemplates[key];
 			districtItemInfo[key].ItemExtents = getItemExtents(itemTemplates[key]);
 			districtItemInfo[key].SetUpVoseAlias(getRarityInformation(key));
@@ -65,7 +65,7 @@ public class RooftopGeneration
 			districtItemInfo[district].DoorTemplates = doors;
 		}
 
-		chanceOfDoor = doorChance;
+		doorGenerationChance = doorChance;
 	}
 
 	private Dictionary<string, List<GameObject>> getGeneratableItemTemplates()
@@ -101,18 +101,18 @@ public class RooftopGeneration
 	/// <param name="district">District this building belongs to.</param>
 	public void PopulateRoof(Bounds bound, Vector3 center, string district)
 	{
-		float itemGenerationChance;
+		float itemChance;
 		float doorChance;
 		List<ItemPlacementSamplePoint> points;
 
 		// check to see if this building will have objects on its roof
-		itemGenerationChance = Random.value;
+		itemChance = Random.value;
 		doorChance = Random.value;
 		bool hasDoor = false;
 
-		if (itemGenerationChance < chanceOfGeneration) 
+		if (itemChance < itemGenerationChance) 
 		{
-			if(doorChance < chanceOfDoor)
+			if(doorChance < doorGenerationChance)
 			{
 				points = generator.GetValidPoints (bound, center, districtItemInfo[district], true);
 				hasDoor = true;
