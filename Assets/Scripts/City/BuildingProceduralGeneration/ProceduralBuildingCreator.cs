@@ -54,6 +54,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
 
     // The string name to access the standard shader's smoothness value
     private const string StandardShaderSmoothness = "_GlossMapScale";
+    //How smooth building materials should be.
+    [Range(0f, 1f)]
+    private float materialSmoothness = .5f;
 
     // The number of tries to try any potentially failing random generation.
     private const int numberOfTries = 5;
@@ -62,6 +65,8 @@ public class ProceduralBuildingCreator : MonoBehaviour
     private const float aboveRoofHeight = 5f;
     // A float for if an object needs to be rotated to be placed properly.
     private const float adjustmentAngle = 90f;
+
+
 
     public DistrictConfiguration TestDistrict;
     public BaseSize TestSize;
@@ -81,6 +86,12 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// <param name="district"></param>
     void CreateMaterialsForDistrict(DistrictConfiguration district)
     {
+        //15 is a fairly large number for material instances. We'll probably settle around 5-10.
+        if(materialInstances > 15)
+        {
+            Debug.LogWarning("materialInstances may be too high. Consider lowering it to improve performance");
+        }
+
         district.districtProceduralMaterials.Clear();
         district.districtProceduralWindowMaterials.Clear();
 
@@ -90,8 +101,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {
                 Material newMaterial = new Material(district.DistrictMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictMaterials[i]);
-                // Setting all the material's smoothess to .5 to reduce glossiness.
-                newMaterial.SetFloat(StandardShaderSmoothness, .5f);
+                newMaterial.SetFloat(StandardShaderSmoothness, materialSmoothness);
                 newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.value);
                 district.districtProceduralMaterials.Add(newMaterial);
             }
@@ -103,6 +113,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {
                 Material newMaterial = new Material(district.DistrictWindowMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictWindowMaterials[i]);
+                newMaterial.SetFloat(StandardShaderSmoothness, materialSmoothness);
                 newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.value);
                 district.districtProceduralWindowMaterials.Add(newMaterial);
             }
