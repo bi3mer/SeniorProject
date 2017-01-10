@@ -15,8 +15,11 @@ public class BaseItemPopup : PropertyDrawer
         if (start)
         {
             ItemFactory itemFactory = new ItemFactory();
-            // TODO: limit by category
+
+            // TODO: limit items by category
+
             choices = (new List<string>(itemFactory.ItemDatabase.Keys)).ToArray();
+            start = false;
         }
 
         int selected = Array.IndexOf(choices, property.stringValue);
