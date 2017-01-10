@@ -11,12 +11,12 @@ public class DummyGenerator : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		RooftopGeneration generator = new RooftopGeneration(1f, 0f);
-		generator.AddDoors(doors, 1f);
+		RooftopGeneration generator = GetComponent<RooftopGeneration>();
+		generator.AddDoors(doors, 1f, "residential");
 
 		for(int i = 0; i < buildings.Count; ++i)
 		{
-			generator.PopulateRoof(buildings[i].bounds, buildings[i].transform.position);
+			generator.PopulateRoof(buildings[i].bounds, buildings[i].transform.position, "residential");
 		}
 	}
 }
