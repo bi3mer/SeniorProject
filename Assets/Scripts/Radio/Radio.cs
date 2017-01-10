@@ -58,8 +58,8 @@ public class Radio : MonoBehaviour
     {
 		if (isOn) 
 		{
-			//radioScreenText.text = "Radio is On";
-			//when music channel selected
+			radioScreenText.text = "Radio is On";
+			// When music channel selected
 			if (!music.isPlaying && CurrentChannel == RadioChannel.Music) 
 			{
 				music.Play ();
@@ -79,7 +79,7 @@ public class Radio : MonoBehaviour
 		} 
 		else 
 		{
-			//radioScreenText.text = "Radio is Off";
+			radioScreenText.text = "Radio is Off";
 		}
         Debug.Log(dial.dialSlider.value);
         ChangeChannel(dial.dialSlider.value);

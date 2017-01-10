@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class Dial : MonoBehaviour
 {
 	//[SerializeField]
-	//private Radio currentRadio;
+	// Private Radio currentRadio;
     [SerializeField]
     private Vector3 knobRotation;
 
@@ -22,35 +22,34 @@ public class Dial : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        //set up radio with game instance
-        //currentRadio = Game.Instance.RadioInstance;
-
         knob = GameObject.FindGameObjectWithTag("Knob");
         dial = GameObject.FindGameObjectWithTag("Dial");
         dialSlider = dial.GetComponent<Slider>();
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Check for if the knob is rotating, then rotate the knob.
+    /// </summary>
     void Update()
     {
-        //Move knob if is rotating is true
+        // Move knob if is rotating is true
         if (isRotating == true)
         {
-            //stop the button from turning when first clicked
-            if (mouseRef != new Vector3(0,0,0))
+            // Stop the button from turning when first clicked
+            if (mouseRef != Vector3.zero)
             {
-                //get the difference b/w mouse position and previous position
+                // Get the difference b/w mouse position and previous position
                 mouseOffset = Input.mousePosition - mouseRef;
 
-                //use the difference's x value to determine rotation increase
+                // Use the difference's x value to determine rotation increase
                 knobRotation.z = -mouseOffset.x;
                         
                 knob.transform.Rotate(knobRotation);
 
-                //change the dial - if knob rotation is negative make it positive
+                // Change the dial - if knob rotation is negative make it positive
                 if (knob.transform.eulerAngles.z > 0)
                 {
-                    //subtract from 360 (a circle's total degrees) since numbers are reversed
+                    // Subtract from 360 (a circle's total degrees) since numbers are reversed
                     dialSlider.value = 360 - knob.transform.eulerAngles.z;
                 }
                 else
@@ -59,7 +58,7 @@ public class Dial : MonoBehaviour
                 }
             }
 
-            //update previous mouse position
+            // Update previous mouse position
             mouseRef = Input.mousePosition;
         }
     }
@@ -79,7 +78,7 @@ public class Dial : MonoBehaviour
     {
         isRotating = false;
 
-        //reset mouseRef to keep from turning when knob is clicked again
-        mouseRef = new Vector3(0, 0, 0);
+        // Reset mouseRef to keep from turning when knob is clicked again
+        mouseRef = Vector2.zero;
     }
 }
