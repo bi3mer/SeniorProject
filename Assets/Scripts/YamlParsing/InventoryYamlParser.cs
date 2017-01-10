@@ -7,6 +7,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
 using System;
+using UnityEngine;
 
 public class InventoryYamlParser : CraftingSystemSerializer 
 {
@@ -31,10 +32,8 @@ public class InventoryYamlParser : CraftingSystemSerializer
 	/// </summary>
 	public void LoadInventories()
 	{
-		string file = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + Filename;
-
-		string itemListYAML = File.ReadAllText (file);
-		StringReader input = new StringReader(itemListYAML);
+		string file = GoogleDrive.GetDriveDocument(Filename);
+		StringReader input = new StringReader(file);
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
 		for (int x = 0; x < categoryNames.Count; ++x) 
@@ -72,6 +71,7 @@ public class InventoryYamlParser : CraftingSystemSerializer
 
 	/// <summary>
 	/// Serializes the contents of inventoryYamlData and updates the YAML file.
+	/// TODO: Get it to actually write to a file, may require saving inventory data to player prefs
 	/// </summary>
 	public void SaveInventoriesToFile()
 	{
@@ -87,7 +87,7 @@ public class InventoryYamlParser : CraftingSystemSerializer
 			yamlMap.Add (mapping);
 		}
 
-		string file = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + Filename;
+		string file = "YAMLFiles/" + Filename;
 		File.WriteAllText (file, yamlMap.ToString ());
 	}
 
