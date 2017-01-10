@@ -5,6 +5,7 @@
      itemAmount: 4
      item: 
       itemName: "River Reed"
+      rarity: "common"
       inventorySprite: ""
       worldModel: "ITM/Plants/ITM_RiverWeed"
       types:
@@ -37,6 +38,7 @@
      itemAmount: 2
      item: 
       itemName: "Stick"
+      rarity: "uncommon"
       inventorySprite: ""
       worldModel: "ITM/Rods/Stick"
       types:
@@ -67,6 +69,7 @@
      itemAmount: 2
      item: 
       itemName: "Empty Can"
+      rarity: "rare"
       inventorySprite: ""
       worldModel: "ITM/Small Containers/EmptyTinCan"
       types:

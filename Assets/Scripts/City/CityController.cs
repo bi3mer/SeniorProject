@@ -15,6 +15,7 @@ public class CityController : MonoBehaviour
     private DistrictGenerator districtGenerator;
     private BlockGenerator blockGenerator;
     private BuildingGenerator buildingGenerator;
+    private RooftopGeneration rooftopItemGenerator;
 
     /// <summary>
     /// Grabs other generators and starts generation.
@@ -24,6 +25,7 @@ public class CityController : MonoBehaviour
         districtGenerator = GetComponent<DistrictGenerator>();
         blockGenerator = GetComponent<BlockGenerator>();
         buildingGenerator = GetComponent<BuildingGenerator>();
+        rooftopItemGenerator = GetComponent<RooftopGeneration>();
 
         // Check to see if the seed has been configured in the inspector
         if (seed == 0)
@@ -69,8 +71,8 @@ public class CityController : MonoBehaviour
                 for (int k = 0; k < buildings.Length; ++k)
                 {
                     Building building = buildings[k];
-                    
-                    // TODO: Call item generation on each building
+           
+                    rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name);
                     
                     block.Buildings.Add(building);
                 }

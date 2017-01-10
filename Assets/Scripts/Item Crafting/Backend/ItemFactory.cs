@@ -16,13 +16,13 @@ public class ItemFactory
 	/// </summary>
 	public delegate void CraftItem(List<BaseItem> ingredients);
 
-	public List<GeneratableItemInfoModel> GeneratableItemList
+	public Dictionary<string, BaseItem> ItemDatabase
 	{
 		get;
 		private set;
 	}
 
-	public Dictionary<string, BaseItem> ItemDatabase
+	public Dictionary<string, List<string>> ItemsByLocation
 	{
 		get;
 		private set;
@@ -39,7 +39,7 @@ public class ItemFactory
 	/// The name of the item file. All yaml files must be placed under "Resources/YAMLFiles"
 	/// </summary>
 	private const string itemFileName = "ItemListYaml.yml";
-	private const string naturallyOccuringFileName = "GeneratableItemInformation.yml";
+	private const string districtItemFileName = "DistrictItemConfiguration.yml";
 
 	/// <summary>
 	/// Start this instance. 
@@ -48,7 +48,9 @@ public class ItemFactory
 	public ItemFactory () 
 	{
 		ItemDatabase = new Dictionary<string, BaseItem> ();
-		itemParser = new ItemSerializer(itemFileName, naturallyOccuringFileName);
+		ItemsByLocation = new Dictionary<string, List<string>>();
+
+		itemParser = new ItemSerializer(itemFileName, districtItemFileName);
 		LoadItemInformation ();
 	}
 
@@ -58,7 +60,7 @@ public class ItemFactory
 	private void LoadItemInformation()
 	{
 		ItemDatabase = itemParser.DeserializeItemInformation ();
-		GeneratableItemList = itemParser.DeserializeNaturallyOccuringItemData();
+		ItemsByLocation = itemParser.DeserializeDistrictItemData();
 	}
 
 	/// <summary>
