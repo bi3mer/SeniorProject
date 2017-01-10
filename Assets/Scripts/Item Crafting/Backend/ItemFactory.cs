@@ -28,6 +28,12 @@ public class ItemFactory
 		private set;
 	}
 
+	public Dictionary<string, DistrictItemRarityConfiguration> districtItemRarityInfo
+	{
+		get;
+		private set;
+	}
+
 	// the different result tiers of craftable items
 	private string[] itemLevels = new string[3] { "Poor", "Good", "Excellent" };
 
@@ -52,6 +58,7 @@ public class ItemFactory
 
 		itemParser = new ItemSerializer(itemFileName, districtItemFileName);
 		LoadItemInformation ();
+		loadItemRarityInformation();
 	}
 
 	/// <summary>
@@ -263,5 +270,34 @@ public class ItemFactory
 		}
 
 		return null;
+	}
+
+	public void loadItemRarityInformation()
+	{
+		List<float> rarityValues = new List<float>();
+		districtItemRarityInfo = new Dictionary<string, DistrictItemRarityConfiguration>();
+
+		foreach(string key in ItemsByLocation.Keys)
+		{
+			for(int i = 0; i < ItemsByLocation[key].Count; ++i)
+			{
+				rarityValues.Add(ItemRarity.GetRarity(GetBaseItem(ItemsByLocation[key][i]).Rarity));
+			}
+
+			districtItemRarityInfo.Add(key, new DistrictItemRarityConfiguration());
+			districtItemRarityInfo[key].SetUpVoseAlias(rarityValues);
+			rarityValues.Clear();
+		}
+	}
+
+	public int GetWeightedRandomItemIndex(string district)
+	{
+		return districtItemRarityInfo[district].GetWeightedRandomItemIndex();
+	}
+
+	public BaseItem GetWeightedRandomBaseItem(string district)
+	{
+		int index = GetWeightedRandomItemIndex(district);
+		return ItemDatabase[ItemsByLocation[district][index]];
 	}
 }

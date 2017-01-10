@@ -6,8 +6,6 @@ public class WorldItemFactory
 {
 	private Dictionary<string, GameObject> worldItemTemplates;
 
-	private List<BaseItem> possibleBaseItems;
-
 	/// <summary>
 	/// The location of the prefab that contains the trigger collider and text mesh needed for interactable objects
 	/// </summary>
@@ -41,7 +39,6 @@ public class WorldItemFactory
 	public WorldItemFactory()
 	{
 		worldItemTemplates = new Dictionary<string, GameObject>();
-		possibleBaseItems = new List<BaseItem>();
 		triggerObjectPrefab = (GameObject) Resources.Load(triggerObjectLocation);
 		LoadTemplates();
 	}
@@ -61,7 +58,6 @@ public class WorldItemFactory
 		for(int i = 0; i < keys.Count; ++i)
 		{
 			worldItemTemplates.Add(itemDatabase[keys[i]].ItemName, (GameObject) Resources.Load(itemDatabase[keys[i]].WorldModel));
-			possibleBaseItems.Add(itemDatabase[keys[i]]);
 		}
 	}
 
@@ -76,7 +72,6 @@ public class WorldItemFactory
 		if(!worldItemTemplates.ContainsKey(itemToCreate.ItemName))
 		{
 			worldItemTemplates.Add(itemToCreate.ItemName, (GameObject) Resources.Load(itemToCreate.WorldModel));
-			possibleBaseItems.Add(itemToCreate);
 		}
 
 		// create the object with the model
@@ -104,10 +99,10 @@ public class WorldItemFactory
 	/// Creates a random interactable item that is ready to be placed in the world.
 	/// </summary>
 	/// <returns>A random interactable item.</returns>
-	public GameObject CreateRandomInteractableItem()
+	public GameObject CreateRandomInteractableItem(string district)
 	{
 		// create the object with the model
-		BaseItem baseItem = possibleBaseItems[Random.Range(0, possibleBaseItems.Count)];
+		BaseItem baseItem = Game.Instance.ItemFactoryInstance.GetWeightedRandomBaseItem(district);
 		GameObject item = GameObject.Instantiate (worldItemTemplates[baseItem.ItemName]);
 
 		// creates the trigger object that will handle interaction with player

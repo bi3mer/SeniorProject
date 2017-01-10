@@ -41,7 +41,6 @@ public class RooftopGeneration: MonoBehaviour
 			districtItemInfo.Add(key, new DistrictItemConfiguration());
 			districtItemInfo[key].ItemTemplates = itemTemplates[key];
 			districtItemInfo[key].ItemExtents = getItemExtents(itemTemplates[key]);
-			districtItemInfo[key].SetUpVoseAlias(getRarityInformation(key));
 		}
 	}
 
@@ -114,12 +113,12 @@ public class RooftopGeneration: MonoBehaviour
 		{
 			if(doorChance < doorGenerationChance)
 			{
-				points = generator.GetValidPoints (bound, center, districtItemInfo[district], true);
+				points = generator.GetValidPoints (bound, center, districtItemInfo[district], district, true);
 				hasDoor = true;
 			}
 			else
 			{
-				points = generator.GetValidPoints (bound, center, districtItemInfo[district], false);
+				points = generator.GetValidPoints (bound, center, districtItemInfo[district], district, false);
 			}
 
 			if (points.Count > 0) 
@@ -253,7 +252,7 @@ public class RooftopGeneration: MonoBehaviour
 	public void generateDoor(int doorIndex, Vector3 location, string district)
 	{
 		GameObject door = GameObject.Instantiate(districtItemInfo[district].DoorTemplates[doorIndex]);
-		door.GetComponent<ItemSpawner>().SetUpSpawner(calculateBounds(door));
+		door.GetComponent<ItemSpawner>().SetUpSpawner(calculateBounds(door), district);
 
 		door.SetActive(true);
 		Transform doorTransform = door.transform;

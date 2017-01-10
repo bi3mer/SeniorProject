@@ -49,7 +49,7 @@ public class RooftopPointGenerator
 	/// <param name="doorExtents">Door extents.</param>
 	/// <param name="itemExtents">Item extents.</param>
 	/// <param name="hasDoor">If set to <c>true</c> has door. (optional)</param>
-	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, DistrictItemConfiguration itemInfo, bool hasDoor = false)
+	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, DistrictItemConfiguration itemInfo, string district, bool hasDoor = false)
 	{
 		generatableDoorExtents = itemInfo.DoorExtents;
 		generatableObjectExtents = itemInfo.ItemExtents;
@@ -80,11 +80,11 @@ public class RooftopPointGenerator
 
 		if(hasDoor)
 		{
-			samplingPoints = generatePoints (targetCenter, generatableDoorExtents, itemInfo, hasDoor, width, depth, height);
+			samplingPoints = generatePoints (targetCenter, generatableDoorExtents, itemInfo, district, hasDoor, width, depth, height);
 		}
 		else
 		{
-			samplingPoints = generatePoints (targetCenter, generatableObjectExtents,itemInfo, hasDoor, width, depth, height);
+			samplingPoints = generatePoints (targetCenter, generatableObjectExtents,itemInfo, district, hasDoor, width, depth, height);
 		}
 
 		float initialRayStartHeight = height + rayOffset;
@@ -126,7 +126,7 @@ public class RooftopPointGenerator
 	/// <param name="width">Width.</param>
 	/// <param name="depth">Depth.</param>
 	/// <param name="height">Height.</param>
-	private List<ItemPlacementSamplePoint> generatePoints(Vector3 center, List<float> firstPointExtents, DistrictItemConfiguration itemInfo, bool hasDoor, float width, float depth, float height)
+	private List<ItemPlacementSamplePoint> generatePoints(Vector3 center, List<float> firstPointExtents, DistrictItemConfiguration itemInfo, string district, bool hasDoor, float width, float depth, float height)
 	{
 		float shorterLength = width;
 		float maxDoorwayEffectArea = maxDoorwayEffectPercent * shorterLength;
@@ -145,7 +145,7 @@ public class RooftopPointGenerator
 		}
 		else
 		{
-			firstPoint.ItemIndex = itemInfo.GetWeightedRandomItemIndex();
+			firstPoint.ItemIndex = Game.Instance.ItemFactoryInstance.districtItemRarityInfo[district].GetWeightedRandomItemIndex();
 		}
 
 		firstPoint.PointOnTargetSurface = createFirstPoint (center, width, depth, height, firstPoint.ItemIndex, firstPointExtents);
@@ -160,7 +160,7 @@ public class RooftopPointGenerator
 			return new List<ItemPlacementSamplePoint>();
 		}
 
-		return generateSubsequentPoints(width, depth, height, firstPoint, itemInfo, hasDoor); 
+		return generateSubsequentPoints(width, depth, height, firstPoint, itemInfo, district, hasDoor); 
 	}
 
 	/// <summary>
@@ -175,7 +175,7 @@ public class RooftopPointGenerator
 	/// <param name="itemInfo"> District item info. </param> 
 	/// <param name="useGaussianMinDistance">If set to <c>true</c> use gaussian minimum distance.</param>
 	private List<ItemPlacementSamplePoint> generateSubsequentPoints(float width, float depth, float height, 
-														  ItemPlacementSamplePoint firstPoint, DistrictItemConfiguration itemInfo, bool useGaussianMinDistance)
+														  ItemPlacementSamplePoint firstPoint, DistrictItemConfiguration itemInfo, string district, bool useGaussianMinDistance)
 	{
 		float shorterLength = width;
 		float maxDoorwayEffectArea = maxDoorwayEffectPercent * shorterLength;
@@ -199,6 +199,8 @@ public class RooftopPointGenerator
 		processList.Add(firstPoint);
 		samplePoints.Add(firstPoint);
 
+		ItemFactory itemFactory = Game.Instance.ItemFactoryInstance;
+
 		// generate other points from points in queue.
 		while (processList.Count != 0)
 		{
@@ -212,7 +214,7 @@ public class RooftopPointGenerator
 			for (int i = 0; i < newPointsPerSamplingPoint; ++i)
 			{
 				newPoint = new ItemPlacementSamplePoint ();
-				newPoint.ItemIndex = itemInfo.GetWeightedRandomItemIndex();
+				newPoint.ItemIndex = itemFactory.districtItemRarityInfo[district].GetWeightedRandomItemIndex();
 
 				newPoint.PointOnTargetSurface = generateRandomPointAround(point.PointOnTargetSurface, point.MinDistance + point.Size);
 				newPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, newPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea, useGaussianMinDistance);

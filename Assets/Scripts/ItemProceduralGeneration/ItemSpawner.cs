@@ -25,13 +25,16 @@ public class ItemSpawner : InteractableObject
 
 	private float centralItemSize;
 
+	private string district;
+
 	/// <summary>
 	/// Sets up spawner. Sets the action as the interactable object action, and gets the size of the item around which items should be spawned. 
 	/// </summary>
 	/// <param name="centralItem">The bounds of the gameobject this script is attached to..</param>
-	public void SetUpSpawner(Bounds centralItem)
+	public void SetUpSpawner(Bounds centralItem, string districtName)
 	{
 		centralItemSize = Mathf.Max(centralItem.size.x, centralItem.size.z)/2f;
+		district = districtName;
 
 		// if items should be spawned around central item without need for interaction, spawn here
 		// otherwise set the action upon interaction be spawning
@@ -83,7 +86,7 @@ public class ItemSpawner : InteractableObject
 
 		for (int i = 0; i < numberToSpawn  ; ++i)
 		{
-			GameObject item = factory.CreateRandomInteractableItem();
+			GameObject item = factory.CreateRandomInteractableItem(district);
 			item.transform.position = new Vector3(centerPos.x + spawnLocationRadius * Mathf.Cos(Mathf.Deg2Rad *(angleIncrementations * currentSpawnSlot)),
 												  centerPos.y,
 												  centerPos.z + spawnLocationRadius * Mathf.Sin(Mathf.Deg2Rad * (angleIncrementations * currentSpawnSlot)));
