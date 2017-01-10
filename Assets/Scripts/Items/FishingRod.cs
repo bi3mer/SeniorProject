@@ -5,6 +5,7 @@ using UnityEngine;
 public class FishingRod : Tool
 {
     [SerializeField]
+    [BaseItemPopup]
     private string toolName;
 
     // TODO: Animations
