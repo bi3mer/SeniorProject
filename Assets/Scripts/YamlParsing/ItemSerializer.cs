@@ -9,10 +9,12 @@ using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
+using UnityEngine;
 
 public class ItemSerializer: CraftingSystemSerializer
 {
 	private string districtItemFileName;
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ItemSerializer"/> class.
 	/// </summary>
@@ -35,11 +37,10 @@ public class ItemSerializer: CraftingSystemSerializer
 	/// <returns>The item information.</returns>
 	public Dictionary<string, BaseItem> DeserializeItemInformation()
 	{
-		string fileyaml = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + Filename;
+		string file = GoogleDrive.GetDriveDocument(Filename);
 		Dictionary<string, BaseItem> itemDatabase = new Dictionary<string, BaseItem> ();
 
-		string itemListYAML = File.ReadAllText (fileyaml);
-		StringReader input = new StringReader(itemListYAML);
+		StringReader input = new StringReader(file);
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
 		for (int x = 0; x < categoryNames.Count; ++x) 
@@ -68,10 +69,10 @@ public class ItemSerializer: CraftingSystemSerializer
 
 	public Dictionary<string, List<string>> DeserializeDistrictItemData()
 	{
-		string fileyaml = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + districtItemFileName;
+		string file = GoogleDrive.GetDriveDocument(districtItemFileName);
 
-		string districtItemYAML = File.ReadAllText (fileyaml);
-		StringReader input = new StringReader(districtItemYAML);
+		StringReader input = new StringReader(file);
+
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
 		List<ItemDistrictModel> itemDistrictData = deserializer.Deserialize<List<ItemDistrictModel>> (input);
