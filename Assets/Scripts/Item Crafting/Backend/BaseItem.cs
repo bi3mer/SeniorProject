@@ -91,6 +91,16 @@ public class BaseItem : CollectableItem
 	}
 
 	/// <summary>
+	/// Gets or sets the rarity.
+	/// </summary>
+	/// <value>The rarity.</value>
+	public string Rarity
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
 	/// Delegate function that takes in a baseItem
 	/// </summary>
 	public delegate void UpdateItemEvent (BaseItem item); 
