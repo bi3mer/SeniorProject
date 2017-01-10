@@ -81,8 +81,7 @@ public class Radio : MonoBehaviour
 		{
 			radioScreenText.text = "Radio is Off";
 		}
-        Debug.Log(dial.dialSlider.value);
-        ChangeChannel(dial.dialSlider.value);
+        ChangeChannel(dial.DialSlider.value);
     }
 
     /// <summary>

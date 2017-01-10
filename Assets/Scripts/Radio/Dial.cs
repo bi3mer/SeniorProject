@@ -11,21 +11,13 @@ public class Dial : MonoBehaviour
     [SerializeField]
     private Vector3 knobRotation;
 
-    public Slider dialSlider;
-    private GameObject dial;
+    public Slider DialSlider;
+    [SerializeField]
     private GameObject knob;
 
     private bool isRotating;
     private Vector3 mouseRef;
     private Vector3 mouseOffset;
-
-    // Use this for initialization
-    void Start ()
-    {
-        knob = GameObject.FindGameObjectWithTag("Knob");
-        dial = GameObject.FindGameObjectWithTag("Dial");
-        dialSlider = dial.GetComponent<Slider>();
-    }
 
     /// <summary>
     /// Check for if the knob is rotating, then rotate the knob.
@@ -50,11 +42,11 @@ public class Dial : MonoBehaviour
                 if (knob.transform.eulerAngles.z > 0)
                 {
                     // Subtract from 360 (a circle's total degrees) since numbers are reversed
-                    dialSlider.value = 360 - knob.transform.eulerAngles.z;
+                    DialSlider.value = 360 - knob.transform.eulerAngles.z;
                 }
                 else
                 {
-                    dialSlider.value = -(knob.transform.eulerAngles.z);
+                    DialSlider.value = -(knob.transform.eulerAngles.z);
                 }
             }
 
