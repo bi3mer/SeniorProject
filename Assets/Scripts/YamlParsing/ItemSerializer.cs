@@ -13,16 +13,17 @@ using UnityEngine;
 
 public class ItemSerializer: CraftingSystemSerializer
 {
-	string naturallyOccuringListFileName;
+	private string districtItemFileName;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ItemSerializer"/> class.
 	/// </summary>
-	/// <param name="file">File.</param>
-	public ItemSerializer(string itemListFile, string naturallyOccuringListFile)
+	/// <param name="itemListFile">File that contains all items.</param>
+	/// <param name="districtItemFile">File that contains what items appear in each district.</param>
+	public ItemSerializer(string itemListFile, string districtItemFile)
 	{
 		Filename = itemListFile;
-		naturallyOccuringListFileName = naturallyOccuringListFile;
+		districtItemFileName = districtItemFile;
 
 		categoryNames = new List<string> ();
 		categoryTypes = new List<Type> ();
@@ -66,17 +67,23 @@ public class ItemSerializer: CraftingSystemSerializer
 		return itemDatabase;
 	}
 
-	/// <summary>
-	/// Deserializes the data for objects that can be found in the world. That is items that do not require crafting to obtain.
-	/// </summary>
-	/// <returns>The naturally occuring item data.</returns>
-	public List<GeneratableItemInfoModel> DeserializeNaturallyOccuringItemData()
+	public Dictionary<string, List<string>> DeserializeDistrictItemData()
 	{
-		string file = GoogleDrive.GetDriveDocument(naturallyOccuringListFileName);
+		string file = GoogleDrive.GetDriveDocument(districtItemFileName);
 
 		StringReader input = new StringReader(file);
+
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
-		return deserializer.Deserialize<List<GeneratableItemInfoModel>> (input);
-	} 
+		List<ItemDistrictModel> itemDistrictData = deserializer.Deserialize<List<ItemDistrictModel>> (input);
+
+		Dictionary<string, List<string>> itemDistrictSortedData = new Dictionary<string, List<string>>();
+
+		for(int i = 0; i < itemDistrictData.Count; ++i)
+		{
+			itemDistrictSortedData.Add(itemDistrictData[i].DistrictName, itemDistrictData[i].Items);
+		}
+
+		return itemDistrictSortedData;
+	}
 }

@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/YAMLFiles/GeneratableItemInformation.yml.meta
+guid: b4b8efe081b1f472b901da19e26a4543
+timeCreated: 1483781806
+=======
+guid: 277000ab4620c4bdca7d8fcc3fdf6bb0
+timeCreated: 1483010694
+>>>>>>> master:Assets/Scenes/Procedural Generation/GenerationTest.unity.meta~HEAD
+licenseType: Free
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
