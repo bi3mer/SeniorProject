@@ -38,16 +38,16 @@ public class FishingRodCategory : EquipableCategory
 	public override void ReadyCategory()
 	{
 		Attributes = new List<Attribute> ();
-		Attributes.Add(new Attribute(equipedAttrName, Equiped));
+		Attributes.Add(new Attribute(equipedAttributeName, Equiped));
 
 		Actions = new List<ItemAction> ();
 		ItemAction equip = new ItemAction (equipActionName, new UnityAction(Equip));
 
 		// the equiped attribute acts as a boolean, so the threshold is 1
-		equip.Conditions.Add(new ItemCondition(equipedAttrName, 1f, new BooleanOperator.BooleanOperatorDelegate(BooleanOperator.Less)));
+		equip.Conditions.Add(new ItemCondition(equipedAttributeName, 1f, new BooleanOperator.BooleanOperatorDelegate(BooleanOperator.Less)));
 
 		ItemAction unequip = new ItemAction(unequipActionName, new UnityAction(UnEquip));
-		unequip.Conditions.Add(new ItemCondition(equipedAttrName, 1f, new BooleanOperator.BooleanOperatorDelegate(BooleanOperator.GreaterOrEqual)));
+		unequip.Conditions.Add(new ItemCondition(equipedAttributeName, 1f, new BooleanOperator.BooleanOperatorDelegate(BooleanOperator.GreaterOrEqual)));
 
 		Actions.Add(equip);
 		Actions.Add(unequip);
