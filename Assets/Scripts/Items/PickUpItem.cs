@@ -43,7 +43,13 @@ public class PickUpItem : InteractableObject
 	/// </summary>
 	public void SetUpPickUp()
 	{
-		SetAction(delegate { pickUp(); });
+		SetAction
+		(
+			delegate 
+			{ 
+				pickUp(); 
+			}
+		);
 	}
 
 	/// <summary>

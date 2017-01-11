@@ -226,7 +226,9 @@ public class RooftopGeneration: MonoBehaviour
 		door.SetActive(true);
 		Transform doorTransform = door.transform;
 		doorTransform.position = location;
-		doorTransform.rotation = Quaternion.Euler(doorTransform.eulerAngles.x, Random.Range(0, 3) * 90, doorTransform.eulerAngles.z);
+
+		// door will only be rotated in 4 ways -- 0, 90, 180, and 270 degrees. A random number from 0 to 3 is generated and multiplied by 90  degrees
+		doorTransform.rotation = Quaternion.Euler(doorTransform.eulerAngles.x, Random.Range(0, 4) * 90, doorTransform.eulerAngles.z);
 
 		// since spawning of items may occur immediately, make sure that door is positioned properly before spawner set up is called
 		door.GetComponent<ItemSpawner>().SetUpSpawner(calculateBounds(door), district);

@@ -27,11 +27,13 @@ public class ItemSpawner : InteractableObject
 	[Tooltip("Min number of items to spawn")]
 	public int MinSpawnNumber;
 
-	private float centralItemSize;
+	private float centralItemRadius;
 
 	private string district;
 
 	private bool spawned;
+
+	private const float angleIncrementations = 40f;
 
 	/// <summary>
 	/// Sets up spawner. Sets the action as the interactable object action, and gets the size of the item around which items should be spawned. 
@@ -39,7 +41,8 @@ public class ItemSpawner : InteractableObject
 	/// <param name="centralItem">The bounds of the gameobject this script is attached to..</param>
 	public void SetUpSpawner(Bounds centralItem, string districtName)
 	{
-		centralItemSize = Mathf.Max(centralItem.size.x, centralItem.size.z)/2f;
+		// the radius of the item is half the size
+		centralItemRadius = Mathf.Max(centralItem.size.x, centralItem.size.z)/2f;
 		district = districtName;
 
 		// if items should be spawned around central item without need for interaction, spawn here
@@ -50,7 +53,13 @@ public class ItemSpawner : InteractableObject
 		}
 		else
 		{
-			SetAction(delegate { startSpawn(); });
+			SetAction
+			(
+				delegate 
+				{ 
+					startSpawn(); 
+				}
+			);
 		}
 	}
 
@@ -81,10 +90,9 @@ public class ItemSpawner : InteractableObject
 	/// </summary>
 	private void spawnItems()
 	{
-		float spawnLocationRadius = centralItemSize + SpawnRadius;
+		float spawnLocationRadius = centralItemRadius + SpawnRadius;
 
 		float currentSpawnSlot = 0;
-		float angleIncrementations = 40;
 
 		// maxDiscardSlots is how points on the circle there are given the amount in which the angle increments
 		// a circle has 360 degrees, so the number of points is equal to 360 divided by the amount in which the angle increments
