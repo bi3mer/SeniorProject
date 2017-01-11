@@ -48,12 +48,20 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	// the current selected item from the inventory
 	private GameObject selectedItem;
 
+	public ItemActionTracker ActionTracker;
+
 	/// <summary>
 	/// Start this instance of ChooseItemAmountPanelBehavior.
 	/// </summary>
 	void Start()
 	{
 		InstanceManagerGUI.ItemAmountPanelInstance = this;
+		ActionTracker = new ItemActionTracker ();
+	}
+
+	public int GetCurrentChosenAmount()
+	{
+		return currentAmount;
 	}
 
 	/// <summary>
@@ -135,6 +143,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	{
 		itemAmountAffectPanel.SetActive (false);
 		attributesAndActionPanel.SetActive (true);
+		ActionTracker.ExecuteAction = false;
 		EventSystem.current.SetSelectedGameObject(null);
 	}
 
@@ -148,6 +157,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void OpenItemInfoPanel()
 	{
+		ActionTracker.ExecuteAction = true;
 		Plus.gameObject.SetActive (false);
 		Minus.gameObject.SetActive (false);
 		Ok.gameObject.SetActive (false);
@@ -191,6 +201,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		// the plus sign should not be displayed
 		Change (0);
 
+		ActionTracker.ExecuteAction = false;
 		InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
 		attributesAndActionPanel.SetActive (true);
 	}
@@ -198,5 +209,6 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	public void ChooseNumOfItemsToAffect()
 	{
 		itemAmountAffectPanel.SetActive (true);
+		ActionTracker.ExecuteAction = false;
 	}
 }

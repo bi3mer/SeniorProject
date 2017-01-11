@@ -28,7 +28,21 @@ public class ItemActionButtonUI : MonoBehaviour
 	public void PerformAction()
 	{
 		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel ();
-		action ();
+
+		if (InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.PerformThisAction != this) 
+		{
+			InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.PerformThisAction = this;
+		}
+
+		//action ();
+		Debug.Log(InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ExecuteAction);
+		Debug.Log(InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.PerformThisAction.name.ToString());
+		if (InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ExecuteAction) 
+		{
+			//action ();
+			InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.PerformThisAction.action();
+		}
+
 		InstanceManagerGUI.ItemStackDetailPanelInstance.RefreshItemPanel ();
 	}
 
