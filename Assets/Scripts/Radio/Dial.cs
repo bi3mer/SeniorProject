@@ -6,8 +6,6 @@ using UnityEngine.EventSystems;
 
 public class Dial : MonoBehaviour
 {
-	//[SerializeField]
-	// Private Radio currentRadio;
     [SerializeField]
     private Vector3 knobRotation;
 

@@ -97,6 +97,7 @@ public class Radio : MonoBehaviour
             music.Stop();
             weather.Stop();
 			mystery.Stop();
+            statics.Stop();
         }
 
         //Turn on the radio
