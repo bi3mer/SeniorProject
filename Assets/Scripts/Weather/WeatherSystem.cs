@@ -63,7 +63,7 @@ public class WeatherSystem
 	private const float percentageDivisor         = 100f;
 	private const float temperatureCoefficient    = 17.625f;
 
-	// Precipitation flag for storm and delegates for begging of storm and end
+	// Precipitation flag for storm and delegates for beginning of storm and end
 	private const float minPrecipitationForStorm = 20f;
 
 	public delegate void StormDelegateStart();
