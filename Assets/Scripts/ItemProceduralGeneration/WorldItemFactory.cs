@@ -88,6 +88,7 @@ public class WorldItemFactory
 		pickup.SetUp();
 		pickup.SetUpPickUp();
 		pickup.Item = itemToCreate;
+		pickup.Show = true;
 
 		// TODO: Make the amount found in one stack to be a variable number
 		pickup.Amount = amount;
@@ -110,10 +111,11 @@ public class WorldItemFactory
 		triggerObject.transform.SetParent(item.transform);
 		triggerObject.transform.localPosition = Vector3.zero;
 
-		PickUpItem pickup = triggerObject.AddComponent<PickUpItem>();
+		PickUpItem pickup = item.AddComponent<PickUpItem>();
 		pickup.SetUp();
 		pickup.SetUpPickUp();
 		pickup.Item = baseItem;
+		pickup.Show = true;
 
 		// TODO: Make the amount found in one stack to be a variable number
 		pickup.Amount = (int) Random.Range(itemAmountRange.min, itemAmountRange.max);
@@ -122,17 +124,40 @@ public class WorldItemFactory
 	}
 
 	/// <summary>
-	/// Gets the gameobject that will be copied when the specified item needs to be created in the world.
+	/// Gets all interactable items by district. GetRandomItemIndex can be used to get a random item from the Dictionary returned by this function.
 	/// </summary>
-	/// <returns>The item template.</returns>
-	/// <param name="itemName">Item name.</param>
-	public GameObject GetItemTemplate(string itemName)
+	/// <returns>The all interactable items by district.</returns>
+	/// <param name="setActive">If set to <c>true</c>, gameobjects are active when created.</param>
+	public Dictionary<string, List<GameObject>> GetAllInteractableItemsByDistrict(bool setActive)
 	{
-		if (worldItemTemplates.ContainsKey (itemName)) 
+		ItemFactory itemFactory = Game.Instance.ItemFactoryInstance;
+		Dictionary<string, List<string>> interactableItemNamesByDistrict = itemFactory.ItemsByLocation;
+		Dictionary<string, List<GameObject>> interactableItemsByDistrict = new Dictionary<string, List<GameObject>>();
+
+		int i;
+
+		foreach(string key in interactableItemNamesByDistrict.Keys)
 		{
-			return worldItemTemplates [itemName];
+			interactableItemsByDistrict.Add(key, new List<GameObject>());
+
+			for(i = 0; i < interactableItemNamesByDistrict[key].Count; ++i)
+			{
+				// since these will only be used for templates, there is not need for an amount
+				interactableItemsByDistrict[key].Add(CreateInteractableItem(itemFactory.GetBaseItem(interactableItemNamesByDistrict[key][i]), 0));
+				interactableItemsByDistrict[key][i].SetActive(setActive);
+			}
 		}
 
-		return null;
+		return interactableItemsByDistrict;
+	}
+
+	/// <summary>
+	/// Gets the random index that can be used to access items in a district. Order is by the Dictionary returned by GetAllInteractableItemsByDistrict.
+	/// </summary>
+	/// <returns>The random item index.</returns>
+	/// <param name="district">District.</param>
+	public int GetRandomItemIndex(string district)
+	{
+		return Game.Instance.ItemFactoryInstance.GetWeightedRandomItemIndex(district);
 	}
 }

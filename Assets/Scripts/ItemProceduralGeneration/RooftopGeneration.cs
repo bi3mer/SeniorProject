@@ -33,7 +33,7 @@ public class RooftopGeneration: MonoBehaviour
 	{
 		generator = new RooftopPointGenerator ();
 		districtItemInfo = new Dictionary<string, DistrictItemConfiguration>();
-		Dictionary<string, List<GameObject>> itemTemplates = getGeneratableItemTemplates();
+		Dictionary<string, List<GameObject>> itemTemplates = Game.Instance.WorldItemFactoryInstance.GetAllInteractableItemsByDistrict(false);
 
 		// get district name here
 		foreach(string key in itemTemplates.Keys)
@@ -50,7 +50,7 @@ public class RooftopGeneration: MonoBehaviour
 	/// <param name="doors">Door objects that can be generated.</param>
 	/// <param name="doorChance">Chance of a door being generated on a roof. 0 to 1.</param>
 	/// <param name="district">Name of the district that these doors should appear in.</param>
-	public void AddDoors(List<GameObject> doors, float doorChance, string district)
+	public void AddDoors(List<GameObject> doors, string district)
 	{
 		if(districtItemInfo[district].DoorExtents.Count > 0)
 		{
@@ -63,33 +63,6 @@ public class RooftopGeneration: MonoBehaviour
 			districtItemInfo[district].DoorExtents = getItemExtents(doors);
 			districtItemInfo[district].DoorTemplates = doors;
 		}
-
-		doorGenerationChance = doorChance;
-	}
-
-	private Dictionary<string, List<GameObject>> getGeneratableItemTemplates()
-	{
-		ItemFactory itemFactory = Game.Instance.ItemFactoryInstance;
-		WorldItemFactory worldFactory = Game.Instance.WorldItemFactoryInstance;
-
-		Dictionary<string, List<string>> itemsByLocation = itemFactory.ItemsByLocation;
-		Dictionary<string, List<GameObject>> itemTemplates = new Dictionary<string, List<GameObject>>();
-
-		foreach(string key in itemsByLocation.Keys)
-		{
-			itemTemplates.Add(key, new List<GameObject>());
-
-			for(int i = 0; i < itemsByLocation[key].Count; ++i)
-			{
-				// this will only be copied, never activated, thus the amount can be zero as it will never be collected
-				GameObject item = worldFactory.CreateInteractableItem(itemFactory.GetBaseItem(itemsByLocation[key][i]), 0);
-				item.GetComponentInChildren<InteractableObject>().Show = true;
-				item.SetActive(false);
-				itemTemplates[key].Add(item);
-			}
-		}
-
-		return itemTemplates;
 	}
 
 	/// <summary>
@@ -241,22 +214,30 @@ public class RooftopGeneration: MonoBehaviour
 	}
 
 	/// <summary>
+	/// Generates a door gameobject and places it in the world.
+	/// </summary>
+	/// <param name="doorIndex">Door index.</param>
+	/// <param name="location">Location.</param>
+	/// <param name="district">District.</param>
+	public void generateDoor(int doorIndex, Vector3 location, string district)
+	{
+		GameObject door = GameObject.Instantiate(districtItemInfo[district].DoorTemplates[doorIndex]);
+
+		door.SetActive(true);
+		Transform doorTransform = door.transform;
+		doorTransform.position = location;
+		doorTransform.rotation = Quaternion.Euler(doorTransform.eulerAngles.x, Random.Range(0, 3) * 90, doorTransform.eulerAngles.z);
+
+		// since spawning of items may occur immediately, make sure that door is positioned properly before spawner set up is called
+		door.GetComponent<ItemSpawner>().SetUpSpawner(calculateBounds(door), district);
+	}
+
+	/// <summary>
 	/// Sets the seed.
 	/// </summary>
 	/// <param name="newSeed">Seed.</param>
 	public void SetSeed(int newSeed)
 	{
 		Random.InitState(newSeed);
-	}
-
-	public void generateDoor(int doorIndex, Vector3 location, string district)
-	{
-		GameObject door = GameObject.Instantiate(districtItemInfo[district].DoorTemplates[doorIndex]);
-		door.GetComponent<ItemSpawner>().SetUpSpawner(calculateBounds(door), district);
-
-		door.SetActive(true);
-		Transform doorTransform = door.transform;
-		doorTransform.position = location;
-		doorTransform.rotation = Quaternion.Euler(doorTransform.eulerAngles.x, Random.Range(0, 3) * 90, doorTransform.eulerAngles.z);
 	}
 }

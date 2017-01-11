@@ -145,7 +145,7 @@ public class RooftopPointGenerator
 		}
 		else
 		{
-			firstPoint.ItemIndex = Game.Instance.ItemFactoryInstance.districtItemRarityInfo[district].GetWeightedRandomItemIndex();
+			firstPoint.ItemIndex = Game.Instance.WorldItemFactoryInstance.GetRandomItemIndex(district);
 		}
 
 		firstPoint.PointOnTargetSurface = createFirstPoint (center, width, depth, height, firstPoint.ItemIndex, firstPointExtents);
@@ -199,7 +199,7 @@ public class RooftopPointGenerator
 		processList.Add(firstPoint);
 		samplePoints.Add(firstPoint);
 
-		ItemFactory itemFactory = Game.Instance.ItemFactoryInstance;
+		WorldItemFactory itemFactory = Game.Instance.WorldItemFactoryInstance;
 
 		// generate other points from points in queue.
 		while (processList.Count != 0)
@@ -214,7 +214,7 @@ public class RooftopPointGenerator
 			for (int i = 0; i < newPointsPerSamplingPoint; ++i)
 			{
 				newPoint = new ItemPlacementSamplePoint ();
-				newPoint.ItemIndex = itemFactory.districtItemRarityInfo[district].GetWeightedRandomItemIndex();
+				newPoint.ItemIndex = itemFactory.GetRandomItemIndex(district);
 
 				newPoint.PointOnTargetSurface = generateRandomPointAround(point.PointOnTargetSurface, point.MinDistance + point.Size);
 				newPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, newPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea, useGaussianMinDistance);

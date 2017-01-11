@@ -6,6 +6,11 @@ public class PickUpItem : InteractableObject
 {
 	private BaseItem item;
 
+	void Awake()
+	{
+		SetUpPickUp();
+	}
+
 	/// <summary>
 	/// Gets or sets the base item that this object should pick up.
 	/// </summary>

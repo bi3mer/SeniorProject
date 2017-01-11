@@ -9,13 +9,17 @@ public class ItemSpawner : InteractableObject
 	[SerializeField]
 	private UnityEvent prespawnActions;
 
+	[Tooltip("Can spawn again if interacted with again")]
+	[SerializeField]
+	private bool spawnsMultipleTimes;
+
 	public float SpawnRadius;
 
 	[Tooltip("If true, spawns items after actions are executed. If false, waits for other code to calls the spawn action.")]
 	public bool SpawnAfterActions;
 
 	[Tooltip("Items should appear around the object without need for interaction.")]
-	public bool SpawnImmediate;
+	public bool SpawnWithoutInteraction;
 
 	[Tooltip("Max number of items to spawn")]
 	public int MaxSpawnNumber;
@@ -26,6 +30,8 @@ public class ItemSpawner : InteractableObject
 	private float centralItemSize;
 
 	private string district;
+
+	private bool spawned;
 
 	/// <summary>
 	/// Sets up spawner. Sets the action as the interactable object action, and gets the size of the item around which items should be spawned. 
@@ -38,7 +44,7 @@ public class ItemSpawner : InteractableObject
 
 		// if items should be spawned around central item without need for interaction, spawn here
 		// otherwise set the action upon interaction be spawning
-		if(SpawnImmediate)
+		if(SpawnWithoutInteraction)
 		{
 			spawnItems();
 		}
@@ -54,14 +60,19 @@ public class ItemSpawner : InteractableObject
 	/// </summary>
 	private void startSpawn()
 	{
-		if(prespawnActions != null)
-    	{
-			prespawnActions.Invoke();
-		}
-
-		if(SpawnAfterActions)
+		if(!spawned || spawnsMultipleTimes)
 		{
-			spawnItems();
+			if(prespawnActions != null)
+	    	{
+				prespawnActions.Invoke();
+			}
+
+			if(SpawnAfterActions)
+			{
+				spawnItems();
+			}
+
+			spawned = true;
 		}
 	}
 

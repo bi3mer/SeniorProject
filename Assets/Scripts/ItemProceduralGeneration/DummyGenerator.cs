@@ -12,7 +12,7 @@ public class DummyGenerator : MonoBehaviour
 	void Start () 
 	{
 		RooftopGeneration generator = GetComponent<RooftopGeneration>();
-		generator.AddDoors(doors, 1f, "residential");
+		generator.AddDoors(doors, "residential");
 
 		for(int i = 0; i < buildings.Count; ++i)
 		{
