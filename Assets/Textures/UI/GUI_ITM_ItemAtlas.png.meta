@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 340180cbb35886e47844cdb268a24a8a
-timeCreated: 1482293243
+timeCreated: 1484000975
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -59,6 +59,7 @@ TextureImporter:
     21300104: GUI_ITM_Shovel
     21300106: GUI_ITM_Spear
     21300108: GUI_ITM_WoodPlank
+    21300110: GUI_ITM_NoteBook
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -580,6 +581,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1024
+        y: 768
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GUI_ITM_NoteBook
+      rect:
+        serializedVersion: 2
+        x: 1280
         y: 768
         width: 256
         height: 256
