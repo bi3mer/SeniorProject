@@ -35,7 +35,8 @@ public class NoteFactory : MonoBehaviour
 		List<string> keys = new List<string>(noteDatabase.Keys);
 		for(int i = 0; i < keys.Count; ++i)
 		{
-			worldNoteTemplates.Add(noteDatabase[keys[i]].Title, (GameObject) Resources.Load(noteDatabase[keys[i]].WorldModel));
+			Debug.Log ("LOAD A TEMPLATE");
+			worldNoteTemplates.Add (noteDatabase [keys [i]].Title, (GameObject)Resources.Load (noteDatabase [keys [i]].WorldModel));
 		}
 	}
 
@@ -46,9 +47,9 @@ public class NoteFactory : MonoBehaviour
 	/// <param name="noteToCreate">Note to create.</param>
 	public GameObject CreateInteractableItem(Note noteToCreate)
 	{
-		if(!worldNoteTemplates.ContainsKey(noteToCreate.Type))
+		if(!worldNoteTemplates.ContainsKey(noteToCreate.WorldModel))
 		{
-			worldNoteTemplates.Add(noteToCreate.Type, (GameObject) Resources.Load(noteToCreate.WorldModel));
+			worldNoteTemplates.Add(noteToCreate.WorldModel, (GameObject) Resources.Load(noteToCreate.WorldModel));
 		}
 
 		// create the object with the model for the given note type
@@ -60,6 +61,8 @@ public class NoteFactory : MonoBehaviour
 		triggerObject.GetComponent<BoxCollider>().center = item.GetComponent<BoxCollider>().center;
 		triggerObject.transform.SetParent(item.transform);
 		triggerObject.transform.localPosition = Vector3.zero;
+
+		Debug.Log ("created object");
 
         // TODO: replace with note pick up object.
 		// PickUpItem pickup = triggerObject.AddComponent<PickUpItem>();

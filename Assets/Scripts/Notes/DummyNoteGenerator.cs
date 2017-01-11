@@ -15,7 +15,16 @@ public class DummyNoteGenerator : MonoBehaviour
 
 		NoteYAMLParser parser = new NoteYAMLParser("NoteListYaml.yml");
 		Dictionary<string, Note> noteDict = parser.LoadNotes ();
-//		Debug.Log("yay");
+		NoteFactory factory = new NoteFactory ();
+		Debug.Log ("WE LOADED EM");
+
+//		foreach (KeyValuePair<string, Note> note in noteDict) 
+//		{
+//			Debug.Log ("key value pair hit");
+//			factory.CreateInteractableItem (note.Value);
+//
+//		}
+//			
 //		Debug.Log ("Note generator:" + noteDict.Count);
 //		Debug.Log("yay2");
 	}

@@ -6,6 +6,7 @@ using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
+using UnityEngine;
 
 public class NoteYAMLParser 
 {
@@ -35,10 +36,16 @@ public class NoteYAMLParser
 		List<Note> noteYamlInfo = deserializer.Deserialize<List<Note>>(input);
 
 		int x = 0;
+		Debug.Log (noteYamlInfo.Count);
 
 		for (int i = 0; i < noteYamlInfo.Count; ++i) 
 		{
-			noteDatabase.Add (noteYamlInfo [i].Title, noteYamlInfo [i]);
+			Debug.Log ("Adding " + noteYamlInfo [i].WorldModel);
+
+			if (!noteDatabase.ContainsKey (noteYamlInfo [i].WorldModel)) 
+			{
+				noteDatabase.Add (noteYamlInfo [i].WorldModel, noteYamlInfo [i]);
+			}
 		}
 
 		return noteDatabase;
