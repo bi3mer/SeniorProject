@@ -131,12 +131,16 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	/// <summary>
 	/// Close the panel.
 	/// </summary>
-	public void ClosePanel()
+	public void CancelChosenAmount()
 	{
 		itemAmountAffectPanel.SetActive (false);
-		itemStackDetailPanel.SetActive (false);
-		attributesAndActionPanel.SetActive (false);
+		attributesAndActionPanel.SetActive (true);
 		EventSystem.current.SetSelectedGameObject(null);
+	}
+
+	public void CloseEntirePanel()
+	{
+		itemStackDetailPanel.SetActive (false);
 	}
 
 	/// <summary>
@@ -150,10 +154,49 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		Cancel.gameObject.SetActive (false);
 		Close.gameObject.SetActive (true);
 		attributesAndActionPanel.SetActive (true);
+		InstanceManagerGUI.ItemStackDetailPanelInstance.ClosePanel ();
 
 		// display attributes and actions
 		// TODO : fix issue where item panel keeps adding attributes and actions from previously clicked item
 		//InventoryUI.Instance.DisableItemStackButtons();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
+	}
+
+	///////////////
+	public void OpenItemDetailPanel(GameObject selected)
+	{
+		selectedItem = selected;
+		InstanceManagerGUI.ItemStackDetailPanelInstance.SetSelectedItem (selectedItem.gameObject);
+		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearAttributesAndActions();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel();
+
+		Plus.gameObject.SetActive (true);
+		Minus.gameObject.SetActive (true);
+		Ok.gameObject.SetActive (true);
+		Cancel.gameObject.SetActive (true);
+		Close.gameObject.SetActive (true);
+
+		itemStackDetailPanel.SetActive (true);
+		itemAmountAffectPanel.SetActive (false);
+		attributesAndActionPanel.SetActive (true);
+
+		ItemNameDisplay.text = selectedItem.GetComponent<ItemStackUI>().ItemName.text;
+		maxAmount = (int)selectedItem.GetComponent<ItemStackUI>().GetStack().Amount;
+		currentAmount = 0;
+		NumDisplay.text = currentAmount.ToString();
+
+		// checks to see if the buttons should be activated or not
+		// by default they are activated since 1 is the default number of
+		// units, however if there is only 1 unit of that item, then 
+		// the plus sign should not be displayed
+		Change (0);
+
+		InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
+		attributesAndActionPanel.SetActive (true);
+	}
+
+	public void ChooseNumOfItemsToAffect()
+	{
+		itemAmountAffectPanel.SetActive (true);
 	}
 }

@@ -78,6 +78,11 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		PossibleSubActions = new Dictionary<string, List<ItemActionButtonUI>> ();
 	}
 
+	public void SetSelectedItem(GameObject selectedItem)
+	{
+		this.selected = selectedItem.GetComponent<ItemStackUI>();
+	}
+
 	/// <summary>
 	/// Clears the attributes and actions.
 	/// </summary>
@@ -113,9 +118,11 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// <param name="numToModify">Number to modify.</param>
 	public void SetItemData(GameObject item, int numberOfStacksToModify)
 	{
+		//ClearAttributesAndActions();
 		Attributes.Clear();
 		PossibleActions.Clear ();
 		PossibleSubActions.Clear ();
+		//selected.CheckForModification ();
 
 		// create duplicate of object that might be affected by entered changes
 		selected = item.GetComponent<ItemStackUI>();
@@ -146,7 +153,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	{
 		List<Attribute> attr = selected.GetItemAttributes ();
 
-		// removes the attributes from the attribute section
+		// adds attributes
 		for(int i = 0; i < attr.Count; ++i)
 		{
 			ItemAttributeUI stat = GameObject.Instantiate (StatElementUI);
