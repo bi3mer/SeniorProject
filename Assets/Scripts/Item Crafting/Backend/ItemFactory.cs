@@ -58,7 +58,7 @@ public class ItemFactory
 
 		itemParser = new ItemSerializer(itemFileName, districtItemFileName);
 		LoadItemInformation ();
-		loadItemRarityInformation();
+		LoadItemRarityInformation();
 	}
 
 	/// <summary>
@@ -272,7 +272,10 @@ public class ItemFactory
 		return null;
 	}
 
-	public void loadItemRarityInformation()
+	/// <summary>
+	/// Loads the item rarity information.
+	/// </summary>
+	public void LoadItemRarityInformation()
 	{
 		List<float> rarityValues = new List<float>();
 		districtItemRarityInfo = new Dictionary<string, DistrictItemRarityConfiguration>();
@@ -290,11 +293,21 @@ public class ItemFactory
 		}
 	}
 
+	/// <summary>
+	/// Gets the index of the weighted random item in a district.
+	/// </summary>
+	/// <returns>The weighted random item index.</returns>
+	/// <param name="district">District.</param>
 	public int GetWeightedRandomItemIndex(string district)
 	{
 		return districtItemRarityInfo[district].GetWeightedRandomItemIndex();
 	}
 
+	/// <summary>
+	/// Gets a weighted random base item in a district.
+	/// </summary>
+	/// <returns>The weighted random base item.</returns>
+	/// <param name="district">District.</param>
 	public BaseItem GetWeightedRandomBaseItem(string district)
 	{
 		int index = GetWeightedRandomItemIndex(district);
