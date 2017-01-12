@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class WaterMovement : Movement 
 {
@@ -10,11 +11,13 @@ public class WaterMovement : Movement
     [SerializeField]
     private float fallDamageModifier;
     private CharacterController controller;
-
     [SerializeField]
-    [Tooltip("The distance between both hands when grabbing a ledge. About shoulder length apart.")]
-    // This value is also used in raycasting to help the player face a wall.
-    private float handSpacing = 0.386f;
+    [Tooltip("The maximum height above the player a ledge can be that the player can still reach")]
+    private float climbHeight = 0.356f;
+
+    private const string playerAnimatorForward = "Forward";
+    private const string playerAnimatorClimb = "Climb";
+    private const float playerAnimatorIdle = 0f;
 
     /// <summary>
     /// Get the character controller so we can call move functions
@@ -40,7 +43,7 @@ public class WaterMovement : Movement
     /// </summary>
     public override void Idle(Animator playerAnimator)
     {
-        //Idle Swim Animation Code
+        playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorIdle);
     }
 
 
@@ -50,20 +53,20 @@ public class WaterMovement : Movement
     /// <param name="direction">The direction in which the player swims.</param>
     public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
-        if (direction.magnitude != 0.0f)
-        {
-            transform.rotation = Quaternion.LookRotation(direction);
-        }
+        float speed = 0f;
+   
+        speed = swimmingSpeed;
 
-        controller.Move(direction.normalized * swimmingSpeed * Time.fixedDeltaTime);
+        playerAnimator.SetFloat(playerAnimatorForward, speed);
 
-        // Needs to be factored out.
-        Vector3 facingRotation = Vector3.Normalize(new Vector3(RigidBody.velocity.x, 0f, RigidBody.velocity.z));
-       
+        controller.Move((direction.normalized * speed + Physics.gravity) * Time.fixedDeltaTime);
+
+        Vector3 facingRotation = Vector3.Normalize(new Vector3(controller.velocity.x, 0f, controller.velocity.z));
         if (facingRotation != Vector3.zero)
         {
             playerAnimator.transform.forward = facingRotation;
         }
+
     }
 
     /// <summary>
@@ -74,5 +77,20 @@ public class WaterMovement : Movement
         // TODO: run dive animation
     }
 
+    /// <summary>
+    /// The player's climb animation plays
+    /// </summary>
+    public override void Climb(Animator playerAnimator)
+    {
+       playerAnimator.SetTrigger(playerAnimatorClimb);
+    }
+
+    /// <summary>
+    /// The height the player can climb while in this movement state
+    /// </summary>
+    public override float GetClimbHeight()
+    {
+        return climbHeight;
+    }
 
 }
