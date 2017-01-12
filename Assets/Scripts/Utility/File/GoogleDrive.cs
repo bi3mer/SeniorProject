@@ -1,4 +1,5 @@
-﻿using System;
+
+using System;
 using System.Net;
 using System.Net.Security;
 using System.IO;
@@ -29,54 +30,12 @@ public class GoogleDrive
 	}
 
 	/// <summary>
-	/// Builds the path.
-	/// </summary>
-	/// <returns>The path.</returns>
-	/// <param name="fileName">File name.</param>
-	private static string buildPath(string fileName)
-	{
-		return Path.Combine(Application.persistentDataPath, fileName);
-	}
-
-	/// <summary>
-	/// Saves content to the file
-	/// </summary>
-	/// <returns>The file.</returns>
-	/// <param name="fileName">File name.</param>
-	/// <param name="content">Content.</param>
-	private static void saveFile(string fileName, string content)
-	{
-		StreamWriter writer = new StreamWriter(GoogleDrive.buildPath(fileName), false, System.Text.Encoding.UTF8);
-		writer.WriteLine(content);
-		writer.Close();
-	}
-
-	/// <summary>
-	/// Gets the the file from a local resource.
-	///
-	/// This will throw an exception if the file does not exist. 
-	/// This is as on purpose as the game will throw an exception 
-	/// elsewhere if an empty file is found. Therefore, if this
-	/// exception is thrown the system logger will make it easy
-	/// for debuggers to find that this is the problem spot.
-	/// </summary>
-	/// <returns>The local document.</returns>
-	/// <param name="fileName">File name.</param>
-	private static string getLocalDocument(string fileName)
-	{
-		SystemLogger.Write("Pulling local document.");
-
-		StreamReader reader = new StreamReader(GoogleDrive.buildPath(fileName), System.Text.Encoding.UTF8);
-		return reader.ReadToEnd();
-	}
-
-	/// <summary>
 	/// Gets google drive document if file found. On fail this will return the local
 	/// document. 
 	/// </summary>
 	/// <returns>The drive document.</returns>
 	/// <param name="fileName">File name.</param>
-	private static string getOnlineDriveDocument(string fileName)
+	public static string GetOnlineDriveDocument(string fileName)
 	{
 		// create url
         Uri uri;
@@ -108,18 +67,26 @@ public class GoogleDrive
             content         = sr.ReadToEnd();
 
             // save content to file for usage in case internet is lost
-            GoogleDrive.saveFile(fileName, content);
+            FileManager.SaveFile(fileName, content);
 		}
 		catch (WebException e)
 		{
-			// if this happens this means the server has returned an error in 
-			// the form of a status code of 404. The text associated can be
-			// found on the webpage which will be opened if this is being
-			// run in the unity editor
+            if (e.Status == WebExceptionStatus.ProtocolError && e.Response != null)
+            {
+                var resp = (HttpWebResponse)e.Response;
+                if (resp.StatusCode == HttpStatusCode.NotFound)
+                {
+                    // if this happens this means the server has returned an error in 
+                    // the form of a status code of 404. The text associated can be
+                    // found on the webpage which will be opened if this is being
+                    // run in the unity editor
+                    webError = true;
+                }
+            }
 
             Debug.LogError(e);
-			webError = true;
 		}
+
 
         // on error, tell the user what went wrong and return a version of
         // the local document if possible.
@@ -132,42 +99,10 @@ public class GoogleDrive
         	#endif
 
         	SystemLogger.Write("Remote document unable to be found.");
-			content = GoogleDrive.getLocalDocument(fileName);
+        	content = null;
         }
 
        	return content;	
-	}
-
-	/// <summary>
-	/// Gets a file from google drive or returns a local version. If neither of these 
-	/// options are available than null will be returned. 
-	/// </summary>
-	/// <returns>The drive document.</returns>
-	/// <param name="fileName">File name.</param>
-	public static string GetDriveDocument(string fileName)
-	{
-		SystemLogger.Write("Getting file from google drive");
-
-		string fileContents = null;
-
-		#if UNITY_EDITOR
-		if(GoogleDrive.ConnectedToInternet())
-		{
-			fileContents = GoogleDrive.getOnlineDriveDocument(fileName);
-		}
-		else
-		{
-			fileContents = GoogleDrive.getLocalDocument(fileName);
-		}
-		#else
-		// pull local contents when this is a real build to avoid 
-		// a mishap where someone accidentally deletes the google
-		// drive file and corrupts anyone soul who wants to play
-		// this game.
-		fileContents = GoogleDrive.getLocalDocument(fileName);
-		#endif
-
-		return fileContents;
 	}
 
     /// <summary>
