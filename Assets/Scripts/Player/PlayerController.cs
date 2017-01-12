@@ -80,11 +80,8 @@ public class PlayerController : MonoBehaviour
     private LandMovement landMovement;
     private WaterMovement waterMovement;
 
-    private Tool equippedTool;
     private CameraController playerCamera;
     private Rigidbody playerRigidbody;
-
-    private Tool fishingRod;
 
 	[SerializeField]
 	private ControlScheme controlScheme;
@@ -116,8 +113,8 @@ public class PlayerController : MonoBehaviour
         movement = landMovement;
 
         // set up tools
-		fishingRod = GetComponentInChildren<FishingRod>();
-        equippedTool = null;
+        Tool[] tools = GetComponentsInChildren<Tool>();
+        Game.Instance.PlayerInstance.Toolbox = new PlayerTools(tools);
 
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();
@@ -197,37 +194,26 @@ public class PlayerController : MonoBehaviour
         playerCamera.Zoom(Input.GetAxis(controlScheme.CameraZoomAxis));
         
         // if the player has a tool equipped
-        if (equippedTool != null)
+        PlayerTools toolbox = Game.Instance.PlayerInstance.Toolbox;
+        if (toolbox.HasEquipped)
         {
-			if (Input.GetKeyDown(controlScheme.UseTool) && Game.Instance.PlayerInstance.HasTool)
+			if (Input.GetKeyDown(controlScheme.UseTool))
             {
 				// Check if the mouse was clicked over a UI element
             	if(!EventSystem.current.IsPointerOverGameObject())
             	{
 	                // TODO: Check to see if Use returns and item
 	                // if so maybe show it off then put it in the player's inventory
-	                equippedTool.Use();
+	                toolbox.EquippedTool.Use();
 	            }
-                
-                // TODO: Don't let player move when using tools 
-            }
-			else if(!Game.Instance.PlayerInstance.HasTool)
-            {
-            	// unequip the tool
-				equippedTool.Unequip();
-            	equippedTool = null;
             }
 
             // don't check for other input since we are currently using a tool
-            if (equippedTool != null && equippedTool.InUse) 
+            if (toolbox.EquippedTool.InUse) 
             {
                 return;
             }
         }
-		else if(Game.Instance.PlayerInstance.HasTool)
-		{
-			equippedTool = fishingRod;
-		}
 
         // if the player is near an interactable item
         if (interactable != null)
@@ -263,9 +249,10 @@ public class PlayerController : MonoBehaviour
     /// Get player input and update accordingly
     /// </summary>
 	void FixedUpdate () 
-    {
+    {      
         // don't move if a tool is currently in use
-        if (equippedTool != null && equippedTool.InUse)
+        PlayerTools toolbox = Game.Instance.PlayerInstance.Toolbox;
+        if (toolbox.HasEquipped && toolbox.EquippedTool.InUse)
         {
             return;
         }
