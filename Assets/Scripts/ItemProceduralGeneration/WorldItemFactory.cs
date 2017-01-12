@@ -31,7 +31,7 @@ public class WorldItemFactory
 	/// </summary>
 	private GameObject triggerObjectPrefab;
 
-	private RangeAttribute itemAmountRange = new RangeAttribute((int) 1, (int) 10);
+	private RangeAttribute itemAmountRange = new RangeAttribute(1, 10);
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WorldItemFactory"/> class.
@@ -86,7 +86,6 @@ public class WorldItemFactory
 
 		PickUpItem pickup = item.AddComponent<PickUpItem>();
 		pickup.SetUp();
-		pickup.SetUpPickUp();
 		pickup.Item = itemToCreate;
 		pickup.Show = true;
 
@@ -113,7 +112,6 @@ public class WorldItemFactory
 
 		PickUpItem pickup = item.AddComponent<PickUpItem>();
 		pickup.SetUp();
-		pickup.SetUpPickUp();
 		pickup.Item = baseItem;
 		pickup.Show = true;
 

@@ -48,7 +48,6 @@ public class RooftopGeneration: MonoBehaviour
 	/// Adds doors as something that can be generated on a roof.
 	/// </summary>
 	/// <param name="doors">Door objects that can be generated.</param>
-	/// <param name="doorChance">Chance of a door being generated on a roof. 0 to 1.</param>
 	/// <param name="district">Name of the district that these doors should appear in.</param>
 	public void AddDoors(List<GameObject> doors, string district)
 	{
@@ -219,7 +218,7 @@ public class RooftopGeneration: MonoBehaviour
 	/// <param name="doorIndex">Door index.</param>
 	/// <param name="location">Location.</param>
 	/// <param name="district">District.</param>
-	public void generateDoor(int doorIndex, Vector3 location, string district)
+	private void generateDoor(int doorIndex, Vector3 location, string district)
 	{
 		GameObject door = GameObject.Instantiate(districtItemInfo[district].DoorTemplates[doorIndex]);
 

@@ -45,6 +45,7 @@ public class RooftopPointGenerator
 	/// </summary>
 	/// <returns>The valid points.</returns>
 	/// <param name="targetBound">Target bound.</param>
+	/// <param name="itemInfo">Information about the district configuration.</param>
 	/// <param name="targetCenter">Target center.</param>
 	/// <param name="doorExtents">Door extents.</param>
 	/// <param name="itemExtents">Item extents.</param>
@@ -122,6 +123,7 @@ public class RooftopPointGenerator
 	/// <param name="center">Center.</param>
 	/// <param name="firstPointExtents">First point extents.</param>
 	/// <param name="itemInfo">The information about the district the rooftop belongs to.</param>
+	/// <param name="district">The district this generating for.</param></param>
 	/// <param name="hasDoor">If set to <c>true</c> has door.</param>
 	/// <param name="width">Width.</param>
 	/// <param name="depth">Depth.</param>
@@ -173,6 +175,7 @@ public class RooftopPointGenerator
 	/// <param name="height">Height.</param>
 	/// <param name="firstPoint">First point.</param>
 	/// <param name="itemInfo"> District item info. </param> 
+	/// <param name="district">District this belongs to.</param>
 	/// <param name="useGaussianMinDistance">If set to <c>true</c> use gaussian minimum distance.</param>
 	private List<ItemPlacementSamplePoint> generateSubsequentPoints(float width, float depth, float height, 
 														  ItemPlacementSamplePoint firstPoint, DistrictItemConfiguration itemInfo, string district, bool useGaussianMinDistance)

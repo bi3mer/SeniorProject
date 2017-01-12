@@ -28,7 +28,7 @@ public class ItemFactory
 		private set;
 	}
 
-	public Dictionary<string, DistrictItemRarityConfiguration> districtItemRarityInfo
+	public Dictionary<string, DistrictItemRarityConfiguration> DistrictItemRarityInfo
 	{
 		get;
 		private set;
@@ -57,14 +57,14 @@ public class ItemFactory
 		ItemsByLocation = new Dictionary<string, List<string>>();
 
 		itemParser = new ItemSerializer(itemFileName, districtItemFileName);
-		LoadItemInformation ();
-		LoadItemRarityInformation();
+		loadItemInformation ();
+		loadItemRarityInformation();
 	}
 
 	/// <summary>
 	/// Gets the blueprints for every item and stores if in the itemDatabase.
 	/// </summary>
-	private void LoadItemInformation()
+	private void loadItemInformation()
 	{
 		ItemDatabase = itemParser.DeserializeItemInformation ();
 		ItemsByLocation = itemParser.DeserializeDistrictItemData();
@@ -275,10 +275,10 @@ public class ItemFactory
 	/// <summary>
 	/// Loads the item rarity information.
 	/// </summary>
-	public void LoadItemRarityInformation()
+	private void loadItemRarityInformation()
 	{
 		List<float> rarityValues = new List<float>();
-		districtItemRarityInfo = new Dictionary<string, DistrictItemRarityConfiguration>();
+		DistrictItemRarityInfo = new Dictionary<string, DistrictItemRarityConfiguration>();
 
 		foreach(string key in ItemsByLocation.Keys)
 		{
@@ -287,8 +287,8 @@ public class ItemFactory
 				rarityValues.Add(ItemRarity.GetRarity(GetBaseItem(ItemsByLocation[key][i]).Rarity));
 			}
 
-			districtItemRarityInfo.Add(key, new DistrictItemRarityConfiguration());
-			districtItemRarityInfo[key].SetUpVoseAlias(rarityValues);
+			DistrictItemRarityInfo.Add(key, new DistrictItemRarityConfiguration());
+			DistrictItemRarityInfo[key].SetUpVoseAlias(rarityValues);
 			rarityValues.Clear();
 		}
 	}
@@ -300,7 +300,7 @@ public class ItemFactory
 	/// <param name="district">District.</param>
 	public int GetWeightedRandomItemIndex(string district)
 	{
-		return districtItemRarityInfo[district].GetWeightedRandomItemIndex();
+		return DistrictItemRarityInfo[district].GetWeightedRandomItemIndex();
 	}
 
 	/// <summary>

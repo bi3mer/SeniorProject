@@ -13,6 +13,7 @@ public class ItemSpawner : InteractableObject
 	[SerializeField]
 	private bool spawnsMultipleTimes;
 
+	[Tooltip("Distance away from the outer edge of the central object that items will be generated.")]
 	public float SpawnRadius;
 
 	[Tooltip("If true, spawns items after actions are executed. If false, waits for other code to calls the spawn action.")]
@@ -42,7 +43,7 @@ public class ItemSpawner : InteractableObject
 	public void SetUpSpawner(Bounds centralItem, string districtName)
 	{
 		// the radius of the item is half the size
-		centralItemRadius = Mathf.Max(centralItem.size.x, centralItem.size.z)/2f;
+		centralItemRadius = Mathf.Max(centralItem.extents.x, centralItem.extents.z);
 		district = districtName;
 
 		// if items should be spawned around central item without need for interaction, spawn here

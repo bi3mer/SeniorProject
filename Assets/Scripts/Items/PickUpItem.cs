@@ -8,7 +8,7 @@ public class PickUpItem : InteractableObject
 
 	void Awake()
 	{
-		SetUpPickUp();
+		SetUp();
 	}
 
 	/// <summary>
@@ -41,8 +41,10 @@ public class PickUpItem : InteractableObject
 	/// <summary>
 	/// Sets pick up as an action that should fire off when PerformAction is called.
 	/// </summary>
-	public void SetUpPickUp()
+	public void SetUp()
 	{
+		base.SetUp();
+
 		SetAction
 		(
 			delegate 
