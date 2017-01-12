@@ -32,7 +32,7 @@ public class InventoryYamlParser : CraftingSystemSerializer
 	/// </summary>
 	public void LoadInventories()
 	{
-		string file = GoogleDrive.GetDriveDocument(Filename);
+		string file = FileManager.GetDocument(Filename);
 		StringReader input = new StringReader(file);
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
