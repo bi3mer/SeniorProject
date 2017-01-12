@@ -60,9 +60,7 @@ public class GoogleDrive
             // save content to file for usage in case internet is lost
             FileManager.SaveFile(fileName, content);
 		}
-		#pragma warning disable 0168 // diable warning for unused variable
-		catch(WebException e)
-		#pragma warning restore 0168
+		catch
 		{
 			// if this happens this means the server has returned an error in 
 			// the form of a status code of 404. The text associated can be
