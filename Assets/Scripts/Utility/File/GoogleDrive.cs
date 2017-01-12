@@ -1,6 +1,10 @@
-﻿using UnityEngine;
+
+using System;
 using System.Net;
+using System.Net.Security;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
+using UnityEngine;
 
 public class GoogleDrive
 {
@@ -34,9 +38,11 @@ public class GoogleDrive
 	public static string GetOnlineDriveDocument(string fileName)
 	{
 		// create url
-		string url = Path.Combine(GoogleDrive.GetterURL,fileName);
+        Uri uri;
+        Uri.TryCreate(GoogleDrive.GetterURL, UriKind.Absolute, out uri);
+        Uri.TryCreate(uri, fileName, out uri);
 
-		SystemLogger.Write("Pulling remote document from " + url);
+        SystemLogger.Write("Pulling remote document from " + uri.AbsoluteUri);
 
 		// variables for code
 		string content           = "";
@@ -46,8 +52,11 @@ public class GoogleDrive
 
 		try
 		{
+            // set certificates
+            ServicePointManager.ServerCertificateValidationCallback = CertificateValidationCallback;
+
 			// create request and set method type
-			request        = (HttpWebRequest)HttpWebRequest.Create(url);
+			request        = (HttpWebRequest)HttpWebRequest.Create(uri.AbsoluteUri);
             request.Method = GoogleDrive.MethodType;
 
             // get response from the server
@@ -60,13 +69,22 @@ public class GoogleDrive
             // save content to file for usage in case internet is lost
             FileManager.SaveFile(fileName, content);
 		}
-		catch
+		catch (WebException e)
 		{
-			// if this happens this means the server has returned an error in 
-			// the form of a status code of 404. The text associated can be
-			// found on the webpage which will be opened if this is being
-			// run in the unity editor
-			webError = true;
+            if (e.Status == WebExceptionStatus.ProtocolError && e.Response != null)
+            {
+                var resp = (HttpWebResponse)e.Response;
+                if (resp.StatusCode == HttpStatusCode.NotFound)
+                {
+                    // if this happens this means the server has returned an error in 
+                    // the form of a status code of 404. The text associated can be
+                    // found on the webpage which will be opened if this is being
+                    // run in the unity editor
+                    webError = true;
+                }
+            }
+
+            Debug.LogError(e);
 		}
 
 
@@ -77,7 +95,7 @@ public class GoogleDrive
         	// if this is the unity editor, open the webpage so the developer 
         	// can see what is wrong.
 			#if UNITY_EDITOR
-        	UnityEngine.Application.OpenURL(url);
+        	UnityEngine.Application.OpenURL(uri.AbsoluteUri);
         	#endif
 
         	SystemLogger.Write("Remote document unable to be found.");
@@ -86,4 +104,34 @@ public class GoogleDrive
 
        	return content;	
 	}
+
+    /// <summary>
+    /// Validates certification errors that can occur on Windows.
+    /// </summary>
+    public static bool CertificateValidationCallback(System.Object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+    {
+        bool isOk = true;
+
+        // If there are errors in the certificate chain, look at each error to determine the cause.
+        if (sslPolicyErrors != SslPolicyErrors.None)
+        {
+            for (int i = 0; i < chain.ChainStatus.Length; ++i)
+            {
+                if (chain.ChainStatus[i].Status != X509ChainStatusFlags.RevocationStatusUnknown)
+                {
+                    chain.ChainPolicy.RevocationFlag = X509RevocationFlag.EntireChain;
+                    chain.ChainPolicy.RevocationMode = X509RevocationMode.Online;
+                    chain.ChainPolicy.UrlRetrievalTimeout = new TimeSpan(0, 1, 0);
+                    chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllFlags;
+                    bool chainIsValid = chain.Build((X509Certificate2)certificate);
+                    if (!chainIsValid)
+                    {
+                        isOk = false;
+                    }
+                }
+            }
+        }
+
+        return isOk;
+    }
 }
