@@ -8,6 +8,8 @@ using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
 using UnityEngine;
 
+
+// Takes list of notes from yaml file and loads them into Note objects.
 public class NoteYAMLParser 
 {
     private string filename = "";
@@ -21,33 +23,20 @@ public class NoteYAMLParser
 	}
 
 	/// <summary>
-	/// Loads the notes from the yaml file.
+	/// Loads the notes from the yaml file into list
 	/// </summary>
-	/// <returns>The notes.</returns>
-	public Dictionary<string, Note> LoadNotes()
+	/// <returns>The notes in list of Note objects.</returns>
+	public List<Note> LoadNotes()
 	{
+		// read in the yaml file and deserialize the input
 		string fileyaml = UnityEngine.Application.dataPath + "/Resources/YAMLFiles/" + filename;
-		Dictionary<string, Note> noteDatabase = new Dictionary<string, Note> ();
-
 		string noteList = File.ReadAllText (fileyaml);
 		StringReader input = new StringReader(noteList);
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
+		// create a list of notes based on the yaml info and return them
 		List<Note> noteYamlInfo = deserializer.Deserialize<List<Note>>(input);
 
-		int x = 0;
-		Debug.Log (noteYamlInfo.Count);
-
-		for (int i = 0; i < noteYamlInfo.Count; ++i) 
-		{
-			Debug.Log ("Adding " + noteYamlInfo [i].WorldModel);
-
-			if (!noteDatabase.ContainsKey (noteYamlInfo [i].WorldModel)) 
-			{
-				noteDatabase.Add (noteYamlInfo [i].WorldModel, noteYamlInfo [i]);
-			}
-		}
-
-		return noteDatabase;
+		return noteYamlInfo;
 	}
 }

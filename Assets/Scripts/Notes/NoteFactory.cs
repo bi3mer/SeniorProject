@@ -6,8 +6,7 @@ using System.Collections.Generic;
 public class NoteFactory : MonoBehaviour 
 {
 	private Dictionary<string, GameObject> worldNoteTemplates;
-
-	private const string triggerObjectLocation = "ItemGeneration/InteractableTrigger";
+	private const string triggerObjectLocation = "ItemGeneration/InteractableText";
 	private const string noteFileName = "NoteListYaml.yml";
 	private GameObject triggerObjectPrefab;
 
@@ -30,13 +29,11 @@ public class NoteFactory : MonoBehaviour
 	public void LoadTemplates()  
 	{
 		NoteYAMLParser noteParser = new NoteYAMLParser(noteFileName);
-		Dictionary<string, Note> noteDatabase = noteParser.LoadNotes();
+		List<Note> noteDatabase = noteParser.LoadNotes();
 
-		List<string> keys = new List<string>(noteDatabase.Keys);
-		for(int i = 0; i < keys.Count; ++i)
+		for(int i = 0; i < noteDatabase.Count; ++i)
 		{
-			Debug.Log ("LOAD A TEMPLATE");
-			worldNoteTemplates.Add (noteDatabase [keys [i]].Title, (GameObject)Resources.Load (noteDatabase [keys [i]].WorldModel));
+			worldNoteTemplates.Add (noteDatabase[i].Title, (GameObject)Resources.Load (noteDatabase [i].WorldModel));
 		}
 	}
 
@@ -51,9 +48,10 @@ public class NoteFactory : MonoBehaviour
 		{
 			worldNoteTemplates.Add(noteToCreate.WorldModel, (GameObject) Resources.Load(noteToCreate.WorldModel));
 		}
-
-		// create the object with the model for the given note type
-		GameObject item = GameObject.Instantiate (worldNoteTemplates[noteToCreate.Type]);
+			
+		// create the object with the model
+		GameObject item = GameObject.Instantiate (worldNoteTemplates[noteToCreate.WorldModel]);
+		item.name = noteToCreate.Title;
 
 		// creates the trigger object that will handle interaction with player
 		GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
@@ -62,9 +60,7 @@ public class NoteFactory : MonoBehaviour
 		triggerObject.transform.SetParent(item.transform);
 		triggerObject.transform.localPosition = Vector3.zero;
 
-		Debug.Log ("created object");
-
-        // TODO: replace with note pick up object.
+        // TODO: replace with note pick up object and set text based on note text
 		// PickUpItem pickup = triggerObject.AddComponent<PickUpItem>();
 		// pickup.SetUp();
 		// pickup.SetUpPickUp();
