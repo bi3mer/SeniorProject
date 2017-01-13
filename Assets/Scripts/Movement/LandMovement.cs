@@ -22,6 +22,9 @@ public class LandMovement : Movement
     private const float playerAnimatorWalk = .5f;
     private const float playerAnimatorIdle = 0f;
 
+	FMOD.Studio.EventInstance eventEmitter;
+
+
     /// <summary>
     /// Calculate accumulated fall damage
     /// </summary>
@@ -39,6 +42,11 @@ public class LandMovement : Movement
     /// <param name="direction">The direction to walk the player.</param>
     public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
+
+		Debug.Log ("Player move");
+
+		StartWalkingSound ();
+
         float speed = 0f;
         // Walking
         if (!sprinting)
@@ -66,7 +74,9 @@ public class LandMovement : Movement
     /// Plays the idle animation
     /// </summary>
     public override void Idle(Animator playerAnimator)
-    {
+	{
+		Debug.Log ("Player no move");
+		StopWalkingSound ();
         playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorIdle);
     }
 
@@ -84,5 +94,34 @@ public class LandMovement : Movement
     {
         RigidBody.AddForce(Vector3.up * jumpForce);
     }
+
+
+	public void StartWalkingSound(){
+
+
+		FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
+
+		Debug.Log ("START");
+		if (eventEmitter == null) {
+
+
+			eventEmitter = FMODUnity.RuntimeManager.CreateInstance ("event:/Player/Movement/Walking/Concrete");
+			eventEmitter.setParameterValue ("Frequency", 30);
+		}
+
+		eventEmitter.getPlaybackState (out state);
+
+		if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING){
+			eventEmitter.start ();
+		}
+
+	}
+
+	public void StopWalkingSound() {
+
+		if (eventEmitter != null) {
+			eventEmitter.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+		}
+	}
 
 }
