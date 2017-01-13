@@ -66,11 +66,25 @@ public class WeatherSystem
 	// Precipitation flag for storm and delegates for beginning of storm and end
 	private const float minPrecipitationForStorm = 20f;
 
-	public delegate void StormDelegateStart();
-	public event StormDelegateStart StormStartUpdate;
+	/// <summary>
+	/// Delegate for storm beginning
+	/// </summary>
+	public delegate void stormDelegateStart();
 
-	public delegate void StormDelegateEnd();
-	public event StormDelegateEnd StormEndUpdate;
+	/// <summary>
+	/// Occurs when storm begins.
+	/// </summary>
+	public event stormDelegateStart StormStartUpdate;
+
+	/// <summary>
+	/// Delegate for storm ending.
+	/// </summary>
+	public delegate void stormDelegateEnd();
+
+	/// <summary>
+	/// Occurs when storm ends.
+	/// </summary>
+	public event stormDelegateEnd StormEndUpdate;
 
 	private bool ongoingStorm = false;
 
@@ -351,14 +365,28 @@ public class WeatherSystem
 	{
 		if(this.ongoingStorm)
 		{
-			if(this.WeatherInformation[(int) Weather.Precipitation] < WeatherSystem.minPrecipitationForStorm && this.StormEndUpdate != null)
+			if(this.WeatherInformation[(int) Weather.Precipitation] < WeatherSystem.minPrecipitationForStorm)
 			{
-				this.StormEndUpdate();
+				this.ongoingStorm = false;
+
+				// check if any subscribed delegates for storm ending
+				if(this.StormEndUpdate != null)
+				{
+					// updated subscribed
+					this.StormEndUpdate();
+				}
 			}
 		}
-		else if(this.WeatherInformation[(int) Weather.Precipitation] >= WeatherSystem.minPrecipitationForStorm && this.StormStartUpdate != null)
+		else if(this.WeatherInformation[(int) Weather.Precipitation] >= WeatherSystem.minPrecipitationForStorm)
 		{
-			this.StormStartUpdate();
+			this.ongoingStorm = true;
+
+			// check for any subscribed delegates for storm starting
+			if(this.StormStartUpdate != null)
+			{
+				// update subscribed
+				this.StormStartUpdate();
+			}
 		}
 	}
 
