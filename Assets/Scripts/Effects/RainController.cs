@@ -34,15 +34,17 @@ public class RainController : MonoBehaviour
         }
         set
         {
-            if (0f <= value && value <= 100f)
-            {
-                rainLevel = value;
-                UpdateParticleSystem();
-            }
-            else
-            {
-                Debug.LogError("Rain Ammount can only accept values between 0 and 100");
-            }
+        	if(value < 0f)
+        	{
+        		value = 0f;
+        	}
+        	else if(value > 100f)
+        	{
+        		value = 100;
+        	}
+
+            rainLevel = value;
+            UpdateParticleSystem();
         }
     }
 
