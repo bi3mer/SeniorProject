@@ -45,6 +45,11 @@ public class RainController : MonoBehaviour
             }
         }
     }
+
+    [SerializeField]
+    [Range(0,20)]
+    private float windMitigation = 8f;
+
     [SerializeField]
     [Range(0, 100)]
     private float rainLevel;
@@ -103,7 +108,7 @@ public class RainController : MonoBehaviour
         }
         else
         {
-        	this.WindVectorXZ = Game.Instance.WeatherInstance.WindDirection2d;
+			this.WindVectorXZ = Game.Instance.WeatherInstance.WindDirection2d / this.windMitigation;
         	this.RainLevel    = Game.Instance.WeatherInstance.WeatherInformation[(int) Weather.Precipitation];
         }
     }
