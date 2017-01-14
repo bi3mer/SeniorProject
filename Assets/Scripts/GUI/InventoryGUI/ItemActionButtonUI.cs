@@ -27,23 +27,25 @@ public class ItemActionButtonUI : MonoBehaviour
 	/// </summary>
 	public void PerformAction()
 	{
-		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel ();
+//		//if (!InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.Action.Equals(new UnityEvent(this.action))) 
+//		if (InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ActionName != this.buttonLabel.text) 
+//		{
+//			InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ActionSubscription += this.action;
+//			InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ActionName = this.buttonLabel.text;
+//		}
 
-		if (InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.PerformThisAction != this) 
-		{
-			InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.PerformThisAction = this;
-		}
 
-		//action ();
-		Debug.Log(InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ExecuteAction);
-		Debug.Log(InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.PerformThisAction.name.ToString());
-		if (InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ExecuteAction) 
-		{
-			//action ();
-			InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.PerformThisAction.action();
-		}
+		Debug.Log (this.action);
 
-		InstanceManagerGUI.ItemStackDetailPanelInstance.RefreshItemPanel ();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.FireActionAsync ((UnityAction)this.action.Clone ());
+
+
+
+		//Debug.Log(InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ExecuteAction);
+		//Debug.Log(InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ActionName);
+
+
+		//InstanceManagerGUI.ItemStackDetailPanelInstance.RefreshItemPanel ();
 	}
 
 

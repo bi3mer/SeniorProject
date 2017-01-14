@@ -164,11 +164,13 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		Cancel.gameObject.SetActive (false);
 		Close.gameObject.SetActive (true);
 		attributesAndActionPanel.SetActive (true);
-		InstanceManagerGUI.ItemStackDetailPanelInstance.ClosePanel ();
-
-		// display attributes and actions
-		// TODO : fix issue where item panel keeps adding attributes and actions from previously clicked item
-		//InventoryUI.Instance.DisableItemStackButtons();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearAttributesAndActions();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.Attributes.Clear();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleActions.Clear ();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleSubActions.Clear ();
+		selectedItem.GetComponent<ItemStackUI>().CheckForModification ();
+		//InstanceManagerGUI.ItemStackDetailPanelInstance.
+		//InstanceManagerGUI.ItemStackDetailPanelInstance.ClosePanel ();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
 	}
 

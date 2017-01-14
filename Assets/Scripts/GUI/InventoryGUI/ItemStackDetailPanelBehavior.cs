@@ -196,6 +196,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 
 				action.SetAction (subAction, possibleItemActions[i].ActionName);
 				action.SubActions = possibleItemActions[i].SubActions;
+				//InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ExecuteAction = true;
 
 				action.transform.SetParent(ActionButtonPanel.transform, false);
 				action.gameObject.SetActive (true);
@@ -301,5 +302,24 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		{
 			GameObject.Destroy (children [j]);
 		}
+	}
+
+	public void FireActionAsync (UnityAction action) 
+	{
+		StartCoroutine ("WaitForAmount", action);
+	}
+
+	private IEnumerator WaitForAmount (UnityAction action) 
+	{
+		while (!InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ExecuteAction) 
+		{
+			yield return new WaitForSeconds (1);
+		} 
+
+		Debug.Log ("Fired action");
+		Debug.Log (action);
+		action ();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel ();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.RefreshItemPanel ();
 	}
 }

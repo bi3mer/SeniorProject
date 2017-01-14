@@ -7,6 +7,8 @@ using UnityEngine.Events;
 /// </summary>
 public class ItemActionTracker
 {
-	public ItemActionButtonUI PerformThisAction;
+	public string ActionName;
+	public delegate Event ActionDelegate();
+	public ActionDelegate ActionSubscription;
 	public bool ExecuteAction;
 }

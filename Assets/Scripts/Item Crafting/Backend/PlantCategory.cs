@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using UnityEngine;
 
 /// <summary>
 /// Contains attributes and actions that befit a plant category item.
@@ -202,6 +203,8 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public void Cook()
 	{
+		Debug.Log ("Here I am once again.");
+
 		Toughness = Toughness * cookingWaterIncreaseRate;
 		WaterContent = WaterContent * cookingWaterIncreaseRate;
 
