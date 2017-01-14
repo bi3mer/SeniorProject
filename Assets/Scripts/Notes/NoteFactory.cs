@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 // loads and places notes from yaml file in world
-public class NoteFactory : MonoBehaviour 
+public class NoteFactory 
 {
 	private Dictionary<string, GameObject> worldNoteTemplates;
 	private const string triggerObjectLocation = "ItemGeneration/InteractableText";
