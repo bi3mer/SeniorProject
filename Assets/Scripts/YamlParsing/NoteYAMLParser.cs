@@ -13,14 +13,14 @@ using UnityEngine;
 /// </summary>
 public class NoteYAMLParser 
 {
-    private string filename;
+    private string fileName;
 
 	/// <summary>
 	/// Awake this instance.
 	/// </summary>
 	public NoteYAMLParser (string file) 
 	{
-		filename = file;
+		fileName = file;
 	}
 
 	/// <summary>
@@ -30,9 +30,8 @@ public class NoteYAMLParser
 	public List<Note> LoadNotes()
 	{
 		// read in the yaml file and deserialize the input
-		string fileyaml = Path.Combine("/Resources/YAMLFiles/",filename);
-		string noteList = File.ReadAllText (fileyaml);
-		StringReader input = new StringReader(noteList);
+		string file = FileManager.GetDocument(fileName);
+		StringReader input = new StringReader(file);
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
 		// create a list of notes based on the yaml info and return them
