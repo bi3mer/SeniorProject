@@ -42,13 +42,14 @@ public class WeatherSystem
 	private const float relativeHumidityIntercept         = 402.68743138357206f;
 
 	// precipitation
-	private readonly float[] precipitationCoefficients = {0.00000000e+00f,  -0.00000000e+00f,  -0.00000000e+00f,
-                                                         -0.00000000e+00f,   0.00000000e+00f,   0.00000000e+00f,
-                                                         -4.46876693e-06f,   2.07456756e-07f,   1.50875127e-07f,
-                                                          9.82522088e-04f,  -3.10613821e-07f,  -0.00000000e+00f,
-                                                         -0.00000000e+00f,   0.00000000e+00f,  -0.00000000e+00f,
-                                                         -0.00000000e+00f,   0.00000000e+00f,  -0.00000000e+00f,
-                                                         -0.00000000e+00f,   0.00000000e+00f,   0.00000000e+00f};
+	private readonly float[] precipitationCoefficients = { 0f,0f,0f,
+	                                                       0f,0f,0f,
+		                                                  -3.85205537e-06f, -5.77718149e-09f,  4.79910109e-08f,
+		                                                   9.82160232e-04f, -7.69745423e-08f, 0f,
+		                                                   9.82160232e-04f, -7.69745423e-08f, 0f,
+		                                                   0f,0f,0f,
+		                                                   0f,0f,0f,
+		                                                   0f,0f,0f};
 	private readonly int[,] precipitationPowers        = {{0, 0, 0, 0, 0},{1, 0, 0, 0, 0},{0, 1, 0, 0, 0},{0, 0, 1, 0, 0},
 		                                                  {0, 0, 0, 1, 0},{0, 0, 0, 0, 1},{2, 0, 0, 0, 0},{1, 1, 0, 0, 0},
 		                                                  {1, 0, 1, 0, 0},{1, 0, 0, 1, 0},{1, 0, 0, 0, 1},{0, 2, 0, 0, 0},
@@ -61,6 +62,31 @@ public class WeatherSystem
 	private const float relativeHumidityConstant  = 243.04f;
 	private const float percentageDivisor         = 100f;
 	private const float temperatureCoefficient    = 17.625f;
+
+	// Precipitation flag for storm and delegates for beginning of storm and end
+	private const float minPrecipitationForStorm = 20f;
+
+	/// <summary>
+	/// Delegate for storm beginning
+	/// </summary>
+	public delegate void stormDelegateStart();
+
+	/// <summary>
+	/// Occurs when storm begins.
+	/// </summary>
+	public event stormDelegateStart StormStartUpdate;
+
+	/// <summary>
+	/// Delegate for storm ending.
+	/// </summary>
+	public delegate void stormDelegateEnd();
+
+	/// <summary>
+	/// Occurs when storm ends.
+	/// </summary>
+	public event stormDelegateEnd StormEndUpdate;
+
+	private bool ongoingStorm = false;
 
 	/// <summary>
 	/// Gets the wind direction in 2d.
@@ -333,6 +359,38 @@ public class WeatherSystem
 	}
 
 	/// <summary>
+	/// Updates the delegates.
+	/// </summary>
+	private void updateStormDelegates()
+	{
+		if(this.ongoingStorm)
+		{
+			if(this.WeatherInformation[(int) Weather.Precipitation] < WeatherSystem.minPrecipitationForStorm)
+			{
+				this.ongoingStorm = false;
+
+				// check if any subscribed delegates for storm ending
+				if(this.StormEndUpdate != null)
+				{
+					// updated subscribed
+					this.StormEndUpdate();
+				}
+			}
+		}
+		else if(this.WeatherInformation[(int) Weather.Precipitation] >= WeatherSystem.minPrecipitationForStorm)
+		{
+			this.ongoingStorm = true;
+
+			// check for any subscribed delegates for storm starting
+			if(this.StormStartUpdate != null)
+			{
+				// update subscribed
+				this.StormStartUpdate();
+			}
+		}
+	}
+
+	/// <summary>
 	/// Updates the weather array variable
 	/// </summary>
 	/// <param name="position">Position.</param>
@@ -349,6 +407,8 @@ public class WeatherSystem
 		this.WeatherInformation[(int) Weather.RelativeDewPoint]   = this.getRelativeDewPoint();
 		this.WeatherInformation[(int) Weather.Precipitation]      = this.getPrecipitation();
 		this.setWindSpeedVector(position, center);
+
+		this.updateStormDelegates();
 	}
 
 	/// <summary>
