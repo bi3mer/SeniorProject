@@ -6,11 +6,12 @@ using System.Collections.Generic;
 public class NoteFactory 
 {
 	private Dictionary<string, GameObject> worldNoteTemplates;
-	private const string triggerObjectLocation = "ITM/Notes/ITM_NoteBook";
+	private const string worldObjectLocation = "ITM/Notes/ITM_NoteBook";
+	private const string triggerObjectLocation = "ItemGeneration/InteractableText";
 	private const string noteFileName = "NoteListYaml.yml";
+
 	private GameObject triggerObjectPrefab;
 
-	int factor = 1;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="NoteFactory"/> class.
@@ -23,6 +24,7 @@ public class NoteFactory
         // initialize the list of world models to be used
 		worldNoteTemplates = new Dictionary<string, GameObject>();
 		LoadTemplates();
+
 	}
 
 	/// <summary>
@@ -56,16 +58,11 @@ public class NoteFactory
 		item.name = noteToCreate.Title;
 
 		// creates the trigger object that will handle interaction with player
-		GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
-		triggerObject.GetComponent<BoxCollider>().size = item.GetComponent<BoxCollider>().size;
-		triggerObject.GetComponent<BoxCollider>().center = item.GetComponent<BoxCollider>().center;
-		triggerObject.transform.SetParent(item.transform);
-		triggerObject.transform.localPosition = Vector3.one * factor;
+		GameObject textObject = GameObject.Instantiate(triggerObjectPrefab);
+		textObject.transform.SetParent(item.transform);
+		textObject.transform.localPosition = Vector3.zero;
 
-
-		factor = factor + 1;
-
-		triggerObject.SetActive (true);
+		item.GetComponent<Note> ().SetUp ();
 
 		return item;
 	}

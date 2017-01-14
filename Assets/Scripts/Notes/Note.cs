@@ -6,8 +6,35 @@ using UnityEngine.Events;
 /// <summary>
 /// Base class for all notes.
 /// </summary>
-public class Note 
+public class Note : InteractableObject
 {
+
+	void Awake()
+	{
+		SetUp();
+	}
+
+	public void SetUp()
+	{
+		base.SetUp();
+
+
+		SetAction
+		(
+			delegate 
+			{ 
+				Read(); 
+			}
+		);
+
+	}
+
+	public void Read()
+	{
+		Debug.Log ("read that shit");
+	}
+
+
     /// <summary>
 	/// Gets or sets the title of the note
 	/// </summary>
