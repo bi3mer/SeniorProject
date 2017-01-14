@@ -6,6 +6,11 @@ public class PickUpItem : InteractableObject
 {
 	private BaseItem item;
 
+	void Awake()
+	{
+		SetUp();
+	}
+
 	/// <summary>
 	/// Gets or sets the base item that this object should pick up.
 	/// </summary>
@@ -36,9 +41,17 @@ public class PickUpItem : InteractableObject
 	/// <summary>
 	/// Sets pick up as an action that should fire off when PerformAction is called.
 	/// </summary>
-	public void SetUpPickUp()
+	public void SetUp()
 	{
-		SetAction(delegate { pickUp(); });
+		base.SetUp();
+
+		SetAction
+		(
+			delegate 
+			{ 
+				pickUp(); 
+			}
+		);
 	}
 
 	/// <summary>

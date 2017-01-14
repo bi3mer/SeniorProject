@@ -43,6 +43,7 @@ public class InteractableObject : MonoBehaviour
     	{
 			display = GetComponentInChildren<TextMesh>();
 		}
+
         Show = false;
     }
 

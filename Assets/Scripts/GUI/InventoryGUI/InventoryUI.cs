@@ -19,7 +19,6 @@ public class InventoryUI : MonoBehaviour
 	private List<Stack> inventory = new List<Stack>();
 	private List<Stack> slots = new List<Stack> ();
 	private List<ItemStackUI> itemStackUIList = new List<ItemStackUI> ();
-	private bool showInventory = true;
 
 	/// <summary>
 	/// Gets or sets the items to discard.

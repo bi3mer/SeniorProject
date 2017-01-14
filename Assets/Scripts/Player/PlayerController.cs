@@ -479,7 +479,7 @@ public class PlayerController : MonoBehaviour
             {
 
                 // only stop showing if there was a previous collider
-                if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag))
+                if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag) && interactable != null)
                 {
                     interactable.Show = false;
                     interactable = null;
