@@ -60,12 +60,7 @@ public class NoteFactory : MonoBehaviour
 		triggerObject.transform.SetParent(item.transform);
 		triggerObject.transform.localPosition = Vector3.zero;
 
-        // TODO: replace with note pick up object and set text based on note text
-		// PickUpItem pickup = triggerObject.AddComponent<PickUpItem>();
-		// pickup.SetUp();
-		// pickup.SetUpPickUp();
-		// pickup.Item = itemToCreate;
-		// pickup.Amount = 1;
+        // TODO: add note pick up object? and set text based on note text
 
 		return item;
 	}

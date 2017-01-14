@@ -8,7 +8,6 @@ using UnityEngine.Events;
 /// </summary>
 public class Note 
 {
-
     /// <summary>
 	/// Gets or sets the title of the note
 	/// </summary>
