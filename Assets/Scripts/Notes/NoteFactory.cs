@@ -6,9 +6,11 @@ using System.Collections.Generic;
 public class NoteFactory 
 {
 	private Dictionary<string, GameObject> worldNoteTemplates;
-	private const string triggerObjectLocation = "ItemGeneration/InteractableText";
+	private const string triggerObjectLocation = "ITM/Notes/ITM_NoteBook";
 	private const string noteFileName = "NoteListYaml.yml";
 	private GameObject triggerObjectPrefab;
+
+	int factor = 1;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="NoteFactory"/> class.
@@ -58,9 +60,12 @@ public class NoteFactory
 		triggerObject.GetComponent<BoxCollider>().size = item.GetComponent<BoxCollider>().size;
 		triggerObject.GetComponent<BoxCollider>().center = item.GetComponent<BoxCollider>().center;
 		triggerObject.transform.SetParent(item.transform);
-		triggerObject.transform.localPosition = Vector3.zero;
+		triggerObject.transform.localPosition = Vector3.one * factor;
 
-        // TODO: add note pick up object? and set text based on note text
+
+		factor = factor + 1;
+
+		triggerObject.SetActive (true);
 
 		return item;
 	}

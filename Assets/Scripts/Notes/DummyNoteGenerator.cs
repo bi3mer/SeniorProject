@@ -3,12 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
+using UnityEngine.UI;
+
 // Test class for generating notes from NoteListYaml file
 public class DummyNoteGenerator : MonoBehaviour
 {
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
+	/// 
 	void Start()
 	{
 		loadNotes();
@@ -24,9 +27,13 @@ public class DummyNoteGenerator : MonoBehaviour
 		NoteFactory factory = new NoteFactory ();
 
 		for (int i = 0; i < noteList.Count; ++i) 
-		{
+		{ 
 			factory.CreateInteractableItem (noteList[i]);
 		}
+	
+		// TODO: Replace this with code that references a not yet made extension of Shreya's GUI classes for notes
+		NoteUIController.instance.SetText (noteList[0].Text + " -- " + noteList[0].Title);
+
 	}
 }
 
