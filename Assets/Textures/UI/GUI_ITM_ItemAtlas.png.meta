@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 340180cbb35886e47844cdb268a24a8a
-timeCreated: 1484000975
+timeCreated: 1484428343
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -60,6 +60,8 @@ TextureImporter:
     21300106: GUI_ITM_Spear
     21300108: GUI_ITM_WoodPlank
     21300110: GUI_ITM_NoteBook
+    21300112: GUI_ITM_WeatherVane
+    21300114: GUI_ITM_PaperScrap
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -594,6 +596,32 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1280
+        y: 768
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GUI_ITM_WeatherVane
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 769
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GUI_ITM_PaperScrap
+      rect:
+        serializedVersion: 2
+        x: 1792
         y: 768
         width: 256
         height: 256
