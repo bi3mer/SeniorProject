@@ -42,6 +42,7 @@ public class ItemStackUI : MonoBehaviour
 	public void HandleItemNameTextChangeEvent(BaseItem item)
 	{
 		ItemName.text = item.ItemName;
+		Debug.Log ("itemName changed");
 	}
 
 	/// <summary>

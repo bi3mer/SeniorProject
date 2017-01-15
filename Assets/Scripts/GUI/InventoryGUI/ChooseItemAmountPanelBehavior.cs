@@ -168,15 +168,18 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		InstanceManagerGUI.ItemStackDetailPanelInstance.Attributes.Clear();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleActions.Clear ();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleSubActions.Clear ();
-		selectedItem.GetComponent<ItemStackUI>().CheckForModification ();
+		ItemStackUI selectedItemStackUi = selectedItem.GetComponent<ItemStackUI> ();
+		selectedItemStackUi.CheckForModification ();
 		//InstanceManagerGUI.ItemStackDetailPanelInstance.
 		//InstanceManagerGUI.ItemStackDetailPanelInstance.ClosePanel ();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
+		//InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
 	}
 
 	///////////////
 	public void OpenItemDetailPanel(GameObject selected)
 	{
+		//ItemStackUI s = selected.GetComponent<ItemStackUI> ();
 		selectedItem = selected;
 		InstanceManagerGUI.ItemStackDetailPanelInstance.SetSelectedItem (selectedItem.gameObject);
 		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearAttributesAndActions();
@@ -204,8 +207,16 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		Change (0);
 
 		ActionTracker.ExecuteAction = false;
-		InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
-		attributesAndActionPanel.SetActive (true);
+		//InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
+		InstanceManagerGUI.ItemStackDetailPanelInstance.Attributes.Clear();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleActions.Clear ();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleSubActions.Clear ();
+		//selectedItem.GetComponent<ItemStackUI>().PreserveOriginal (currentAmount);
+		InstanceManagerGUI.ItemStackDetailPanelInstance.DisplayAttributesAndAction();
+
+
+		//attributesAndActionPanel.SetActive (true);
+
 	}
 
 	public void ChooseNumOfItemsToAffect()

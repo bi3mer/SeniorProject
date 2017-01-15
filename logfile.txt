@@ -1,12 +1,12 @@
-﻿00:01.469 :: "FileManager" (Line: 56) :: Getting file from google drive
-00:01.471 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
-00:01.472 :: "FileManager" (Line: 42) :: Pulling local document.
-00:01.559 :: "FileManager" (Line: 56) :: Getting file from google drive
-00:01.559 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
-00:01.560 :: "FileManager" (Line: 42) :: Pulling local document.
-00:01.604 :: "FileManager" (Line: 56) :: Getting file from google drive
-00:01.604 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
-00:01.605 :: "FileManager" (Line: 42) :: Pulling local document.
-00:01.638 :: "FileManager" (Line: 56) :: Getting file from google drive
-00:01.638 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
-00:01.639 :: "FileManager" (Line: 42) :: Pulling local document.
+﻿00:01.641 :: "FileManager" (Line: 56) :: Getting file from google drive
+00:01.642 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
+00:09.504 :: "GoogleDrive" (Line: 45) :: Pulling remote document from https://glassprisongames-googlegetter.herokuapp.com/InventoryYaml.yml
+00:18.589 :: "FileManager" (Line: 56) :: Getting file from google drive
+00:18.589 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
+00:20.620 :: "GoogleDrive" (Line: 45) :: Pulling remote document from https://glassprisongames-googlegetter.herokuapp.com/ItemListYaml.yml
+00:22.546 :: "FileManager" (Line: 56) :: Getting file from google drive
+00:22.546 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
+00:25.265 :: "GoogleDrive" (Line: 45) :: Pulling remote document from https://glassprisongames-googlegetter.herokuapp.com/ItemListYaml.yml
+00:27.245 :: "FileManager" (Line: 56) :: Getting file from google drive
+00:27.246 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
+01:32.320 :: "GoogleDrive" (Line: 45) :: Pulling remote document from https://glassprisongames-googlegetter.herokuapp.com/DistrictItemConfiguration.yml

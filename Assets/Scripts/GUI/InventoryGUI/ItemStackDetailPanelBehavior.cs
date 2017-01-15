@@ -65,7 +65,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	}
 
 	// current selected item
-	private ItemStackUI selected;
+	public ItemStackUI Selected_;
 
 	/// <summary>
 	/// Start this instance of itemStackPanelBehavior.
@@ -80,7 +80,8 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 
 	public void SetSelectedItem(GameObject selectedItem)
 	{
-		this.selected = selectedItem.GetComponent<ItemStackUI>();
+		this.Selected_ = selectedItem.GetComponent<ItemStackUI>();
+		Debug.Log ("dnfgdfuighdfuigdbf");
 	}
 
 	/// <summary>
@@ -125,8 +126,8 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		//selected.CheckForModification ();
 
 		// create duplicate of object that might be affected by entered changes
-		selected = item.GetComponent<ItemStackUI>();
-		selected.PreserveOriginal (numberOfStacksToModify);
+		Selected_ = item.GetComponent<ItemStackUI>();
+		Selected_.PreserveOriginal (numberOfStacksToModify);
 
 		// display attributes and actions
 		DisplayAttributesAndAction();
@@ -141,7 +142,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		Attributes.Clear();
 		PossibleActions.Clear ();
 		PossibleSubActions.Clear ();
-		selected.CheckForModification ();
+		Selected_.CheckForModification ();
 		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
 		EventSystem.current.SetSelectedGameObject(null);
 	}
@@ -151,7 +152,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void DisplayAttributesAndAction()
 	{
-		List<Attribute> attr = selected.GetItemAttributes ();
+		List<Attribute> attr = Selected_.GetItemAttributes ();
 
 		// adds attributes
 		for(int i = 0; i < attr.Count; ++i)
@@ -164,7 +165,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 			Attributes.Add (stat);
 		}
 
-		List<ItemAction> possibleItemActions = selected.GetPossibleActions ();
+		List<ItemAction> possibleItemActions = Selected_.GetPossibleActions ();
 		// adds the actions to the action section
 		// each key is the category name of the action
 		// actions that are not part of a category of action
@@ -211,16 +212,16 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void RefreshItemPanel()
 	{
-		InstanceManagerGUI.ItemAmountPanelInstance.ItemNameDisplay.text = selected.GetItemName ();
+		InstanceManagerGUI.ItemAmountPanelInstance.ItemNameDisplay.text = Selected_.GetItemName ();
 
-		List<Attribute> attr = selected.GetItemAttributes ();
+		List<Attribute> attr = Selected_.GetItemAttributes ();
 
 		for(int i = 0; i < attr.Count; ++i)
 		{
 			Attributes.Find(n => n.AttributeName.text.Equals(attr[i].Name)).GetComponent<ItemAttributeUI> ().SetAttributeValue (attr [i].Value);
 		}
 
-		List<ItemAction> acts = selected.GetPossibleActions ();
+		List<ItemAction> acts = Selected_.GetPossibleActions ();
 
 		int buttonUsed = 0;
 
@@ -317,7 +318,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		} 
 
 		Debug.Log ("Fired action");
-		Debug.Log (action);
+		//Debug.Log (action);
 		action ();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel ();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.RefreshItemPanel ();
