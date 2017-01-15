@@ -41,6 +41,7 @@ public class WaterMovement : Movement
     /// <summary>
     /// Will run the idle swim animation in the future
     /// </summary>
+    /// <param name="playerAnimator">The player's animator</param>
     public override void Idle(Animator playerAnimator)
     {
         playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorIdle);
@@ -50,16 +51,14 @@ public class WaterMovement : Movement
     /// <summary>
     /// Player swims in the specified direction.
     /// </summary>
-    /// <param name="direction">The direction in which the player swims.</param>
+    /// <param name="direction">The player's move direction</param>
+    /// <param name="sprinting">Is the player sprinting</param>
+    /// <param name="playerAnimator">The player's animator</param>
     public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
-        float speed = 0f;
-   
-        speed = swimmingSpeed;
+        playerAnimator.SetFloat(playerAnimatorForward, swimmingSpeed);
 
-        playerAnimator.SetFloat(playerAnimatorForward, speed);
-
-        controller.Move((direction.normalized * speed + Physics.gravity) * Time.fixedDeltaTime);
+        controller.Move((direction.normalized * swimmingSpeed + Physics.gravity) * Time.fixedDeltaTime);
 
         Vector3 facingRotation = Vector3.Normalize(new Vector3(controller.velocity.x, 0f, controller.velocity.z));
         if (facingRotation != Vector3.zero)
@@ -72,6 +71,7 @@ public class WaterMovement : Movement
     /// <summary>
     /// Player dives into water.
     /// </summary>
+    /// <param name="playerAnimator">The player's animator</param>
     public override void Jump(Animator playerAnimator)
     {
         // TODO: run dive animation
@@ -80,6 +80,7 @@ public class WaterMovement : Movement
     /// <summary>
     /// The player's climb animation plays
     /// </summary>
+    /// <param name="playerAnimator">The player's animator</param>
     public override void Climb(Animator playerAnimator)
     {
        playerAnimator.SetTrigger(playerAnimatorClimb);

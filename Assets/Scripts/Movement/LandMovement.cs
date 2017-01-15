@@ -81,6 +81,7 @@ public class LandMovement : Movement
     /// <summary>
     /// Plays the idle animation
     /// </summary>
+    /// <param name="playerAnimator">The player's animator</param>
     public override void Idle(Animator playerAnimator)
     {
         playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorIdle);
@@ -90,6 +91,7 @@ public class LandMovement : Movement
     /// <summary>
     /// The player aesthetic jumps
     /// </summary>
+    /// <param name="playerAnimator">The player's animator</param>
     public override void Jump(Animator playerAnimator)
     {
         playerAnimator.SetTrigger(playerAnimatorJump);
@@ -98,6 +100,7 @@ public class LandMovement : Movement
     /// <summary>
     /// The player's climb animation plays
     /// </summary>
+    /// <param name="playerAnimator">The player's animator</param>
     public override void Climb(Animator playerAnimator)
     {
         // TODO: Switch this to the climb animation.
