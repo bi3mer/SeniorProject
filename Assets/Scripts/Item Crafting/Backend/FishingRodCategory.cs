@@ -25,10 +25,16 @@ public class FishingRodCategory : EquipableCategory
 
 		ItemAction equip = new ItemAction (equipActionName, new UnityAction(category.Equip));
 		ItemAction unequip = new ItemAction (unequipActionName, new UnityAction(category.UnEquip));
+
+		equip.Conditions.Add(new ItemCondition(equipedAttributeName, 1f, new BooleanOperator.BooleanOperatorDelegate(BooleanOperator.Less)));
+		unequip.Conditions.Add(new ItemCondition(equipedAttributeName, 1f, new BooleanOperator.BooleanOperatorDelegate(BooleanOperator.GreaterOrEqual)));
+
 		category.Actions.Add(equip);
 		category.Actions.Add(unequip);
 
 		finishDuplication(category);
+		category.GetAttribute(equipedAttributeName).Value = 0f;
+
 		return category;
 	}
 

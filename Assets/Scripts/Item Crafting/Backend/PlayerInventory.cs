@@ -10,7 +10,7 @@ public class PlayerInventory : Inventory
     /// </summary>
     /// <param name="name">Name of inventory.</param>
     /// <param name="inventoryFile">File to load invetory from.</param>
-    public PlayerInventory(string name, string inventoryFile) : base(name, inventoryFile)
+    public PlayerInventory(string name, string inventoryFile, int size) : base(name, inventoryFile, size)
     {
         // TODO: load previous state
         equipedItem = null;

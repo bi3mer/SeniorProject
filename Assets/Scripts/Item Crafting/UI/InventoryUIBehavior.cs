@@ -88,5 +88,49 @@ public class InventoryUIBehavior : MonoBehaviour
 			}
 		}
 	}
+
+	/// <summary>
+	/// Loads a new inventory into the ui panel.
+	/// </summary>
+	/// <param name="newInventory">New inventory.</param>
+	public void LoadNewInventory(Inventory newInventory)
+	{
+		InventoryItemBehavior[]  newInventoryUI = new InventoryItemBehavior[newInventory.GetInventory().Length];
+
+		int slotsToCheck = Mathf.Max(inventoryUI.Length, newInventoryUI.Length);
+		int oldSize = inventoryUI.Length;
+		int newSize = newInventoryUI.Length;
+
+		Stack[] inventoryInfo = newInventory.GetInventory();
+
+		for(int i = 0; i < slotsToCheck; ++i)
+		{
+			if(inventoryInfo[i] != null)
+			{
+				if(i < oldSize && i < newSize)
+				{
+					// the stack object already exists and there's a new stack of items that can take its place
+					inventoryUI[i].RefreshInventoryItem(inventoryInfo[i]);
+					newInventoryUI[i] = inventoryUI[i];
+				}
+				else if(i < oldSize)
+				{
+					// the stack object exists, but there is nothing to take its place
+					GameObject.Destroy(inventoryUI[i].gameObject);
+				}
+				else if(i < newSize)
+				{
+					// the stack object does not exist, but a new one is ready to be added on
+					InventoryItemBehavior item = GameObject.Instantiate(InventoryItemTemplate).GetComponent<InventoryItemBehavior>();
+					item.SetUpInventoryItem(inventoryInfo[i]);
+					item.gameObject.SetActive(true);
+					item.transform.SetParent(ItemParent.transform);
+					newInventoryUI[i] = item;
+				}
+			}
+		}
+
+		inventoryUI = newInventoryUI;
+	}
 }
 

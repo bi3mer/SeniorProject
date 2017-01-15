@@ -14,6 +14,8 @@ public class GameViewBehavior : MonoBehaviour
 	private GameObject craftingPanel;
 	private ControlScheme controlScheme;
 
+	public static GameViewBehavior instance;
+
 	/// <summary>
 	/// Start the Game View with all other menu panels disabled.
 	/// </summary>
@@ -24,6 +26,7 @@ public class GameViewBehavior : MonoBehaviour
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
 		craftingPanel.SetActive (false);
+		instance = this;
 	}
 
 	/// <summary>
@@ -79,6 +82,11 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	public void OnInventoryClick()
 	{
+		if(InventoryUIBehavior.instance.targetInventory != Game.Instance.PlayerInstance.Inventory)
+		{
+			InventoryUIBehavior.instance.LoadNewInventory(Game.Instance.PlayerInstance.Inventory);
+		}
+
 		inventoryPanel.SetActive (true);
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
