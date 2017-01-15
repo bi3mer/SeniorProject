@@ -1,12 +1,12 @@
-﻿00:01.641 :: "FileManager" (Line: 56) :: Getting file from google drive
-00:01.642 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
-00:09.504 :: "GoogleDrive" (Line: 45) :: Pulling remote document from https://glassprisongames-googlegetter.herokuapp.com/InventoryYaml.yml
-00:18.589 :: "FileManager" (Line: 56) :: Getting file from google drive
-00:18.589 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
-00:20.620 :: "GoogleDrive" (Line: 45) :: Pulling remote document from https://glassprisongames-googlegetter.herokuapp.com/ItemListYaml.yml
-00:22.546 :: "FileManager" (Line: 56) :: Getting file from google drive
-00:22.546 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
-00:25.265 :: "GoogleDrive" (Line: 45) :: Pulling remote document from https://glassprisongames-googlegetter.herokuapp.com/ItemListYaml.yml
-00:27.245 :: "FileManager" (Line: 56) :: Getting file from google drive
-00:27.246 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
-01:32.320 :: "GoogleDrive" (Line: 45) :: Pulling remote document from https://glassprisongames-googlegetter.herokuapp.com/DistrictItemConfiguration.yml
+﻿00:01.993 :: "FileManager" (Line: 56) :: Getting file from google drive
+00:01.994 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
+00:02.017 :: "FileManager" (Line: 42) :: Pulling local document.
+00:02.127 :: "FileManager" (Line: 56) :: Getting file from google drive
+00:02.127 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
+00:02.128 :: "FileManager" (Line: 42) :: Pulling local document.
+00:02.175 :: "FileManager" (Line: 56) :: Getting file from google drive
+00:02.175 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
+00:02.176 :: "FileManager" (Line: 42) :: Pulling local document.
+00:02.209 :: "FileManager" (Line: 56) :: Getting file from google drive
+00:02.209 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
+00:02.210 :: "FileManager" (Line: 42) :: Pulling local document.

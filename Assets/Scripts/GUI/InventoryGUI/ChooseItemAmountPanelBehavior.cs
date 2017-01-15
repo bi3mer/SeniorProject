@@ -168,12 +168,12 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		InstanceManagerGUI.ItemStackDetailPanelInstance.Attributes.Clear();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleActions.Clear ();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleSubActions.Clear ();
-		ItemStackUI selectedItemStackUi = selectedItem.GetComponent<ItemStackUI> ();
-		selectedItemStackUi.CheckForModification ();
+		//ItemStackUI selectedItemStackUi = selectedItem.GetComponent<ItemStackUI> ();
+		//selectedItemStackUi.CheckForModification ();
 		//InstanceManagerGUI.ItemStackDetailPanelInstance.
 		//InstanceManagerGUI.ItemStackDetailPanelInstance.ClosePanel ();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
-		//InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
+		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
 	}
 
 	///////////////
@@ -204,7 +204,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		// by default they are activated since 1 is the default number of
 		// units, however if there is only 1 unit of that item, then 
 		// the plus sign should not be displayed
-		Change (0);
+		//Change (0);
 
 		ActionTracker.ExecuteAction = false;
 		//InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
@@ -212,11 +212,8 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleActions.Clear ();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleSubActions.Clear ();
 		//selectedItem.GetComponent<ItemStackUI>().PreserveOriginal (currentAmount);
+		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.DisplayAttributesAndAction();
-
-
-		//attributesAndActionPanel.SetActive (true);
-
 	}
 
 	public void ChooseNumOfItemsToAffect()
