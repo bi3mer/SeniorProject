@@ -403,9 +403,6 @@ public class PlayerController : MonoBehaviour
         // update raft's interactivity
         interactable.Text = raftMovement.DisembarkRaftText;
         interactable.SetAction(delegate { DisembarkRaft(raftMovement); });
-
-        // set parent
-        this.gameObject.transform.SetParent(raftMovement.gameObject.transform);
     }
 
     /// <summary>
@@ -419,9 +416,6 @@ public class PlayerController : MonoBehaviour
         // update raft's interactivity
         interactable.Text = raftMovement.BoardRaftText;
         interactable.SetAction(delegate { BoardRaft(raftMovement); });
-
-        // remove from raft parentage
-        this.gameObject.transform.parent = null;
     }
 
     /// <summary>

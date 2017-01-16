@@ -34,16 +34,8 @@ public class RainController : MonoBehaviour
         }
         set
         {
-        	if(value < 0f)
-        	{
-        		value = 0f;
-        	}
-        	else if(value > 100f)
-        	{
-        		value = 100;
-        	}
-
-            rainLevel = value;
+			// keep value between 0 and 100
+			rainLevel = Mathf.Clamp(value, 0f, 100f);
             UpdateParticleSystem();
         }
     }

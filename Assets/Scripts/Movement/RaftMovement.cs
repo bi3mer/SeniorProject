@@ -25,8 +25,12 @@ public class RaftMovement : Movement
     public string DisembarkRaftText;
 
 	[SerializeField]
+	[Tooltip("Time till coroutine ends and FixedUpdate checks if the raft is stopped again.")]
     private float updateIsStoppedTimer = 2.0f;
-    private bool isStopped = false;
+	private bool isStopped = false;
+
+    [SerializeField]
+    private float updatePlayerPositionTimer = 2.0f;
     private bool updatingPlayerMovement = false;
 
     /// <summary>
@@ -77,6 +81,7 @@ public class RaftMovement : Movement
     	yield return new WaitForSeconds(this.updateIsStoppedTimer);
     	this.isStopped = false;
     }
+
     /// <summary>
     /// Updates the players position on the raft.
     /// </summary>
@@ -87,7 +92,7 @@ public class RaftMovement : Movement
         //       one raft in the scene.
         while(Game.Instance.PlayerInstance.Controller.IsOnRaft)
         {
-        	yield return new WaitForSeconds(2.0f);
+			yield return new WaitForSeconds(this.updatePlayerPositionTimer);
         	Game.Instance.PlayerInstance.Controller.BoardRaft(this);
     	}
 
