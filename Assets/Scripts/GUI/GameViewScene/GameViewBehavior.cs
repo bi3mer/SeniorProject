@@ -118,6 +118,12 @@ public class GameViewBehavior : MonoBehaviour
 		inventoryPanel.SetActive (false);
 		radioPanel.SetActive (false);
 		craftingPanel.SetActive (false);
+
+		if(InventoryUI.Instance.ItemsToDiscard.Count > 0)
+		{
+			ItemDiscarder discarder = new ItemDiscarder();
+			discarder.DiscardItems(InventoryUI.Instance.ItemsToDiscard);
+		}
 	}
 
 	/// <summary>
