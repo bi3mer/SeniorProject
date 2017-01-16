@@ -12,7 +12,6 @@ public class FloatBehavior : MonoBehaviour
 	void Awake()
 	{
 		rigidBody = GetComponent<Rigidbody>();
-		StartCoroutine(applyFloatPhysics());
 	}
 
 	/// <summary>
@@ -24,22 +23,14 @@ public class FloatBehavior : MonoBehaviour
 		floatHeight = height;
 	}
 
-	/// <summary>
-	/// Updates the floating physics.
-	/// </summary>
-	IEnumerator applyFloatPhysics () 
+	void Update()
 	{
-		while(true)
-		{
-			float forceFactor = 1f - ((transform.position.y - Game.Instance.WaterLevelHeight) / floatHeight);
+		float forceFactor = 1f - ((transform.position.y - Game.Instance.WaterLevelHeight) / floatHeight);
 			
-			if (forceFactor > 0f) 
-			{
-				Vector3 uplift = -Physics.gravity * (forceFactor - rigidBody.velocity.y * bounceDamp);
-				rigidBody.AddForceAtPosition(uplift, transform.position);
-			}
-
-			yield return null;
+		if (forceFactor > 0f) 
+		{
+			Vector3 uplift = -Physics.gravity * (forceFactor - rigidBody.velocity.y * bounceDamp);
+			rigidBody.AddForceAtPosition(uplift, transform.position);
 		}
 	}
 }
