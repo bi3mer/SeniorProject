@@ -41,7 +41,7 @@ public class PickUpItem : InteractableObject
 	/// <summary>
 	/// Sets pick up as an action that should fire off when PerformAction is called.
 	/// </summary>
-	public void SetUp()
+	public override void SetUp()
 	{
 		base.SetUp();
 
