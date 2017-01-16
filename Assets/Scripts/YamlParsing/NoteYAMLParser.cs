@@ -27,7 +27,7 @@ public class NoteYAMLParser
 	/// Loads the notes from the yaml file into list
 	/// </summary>
 	/// <returns>The notes in list of Note objects.</returns>
-	public List<Note> LoadNotes()
+	public List<NoteData> LoadNotes()
 	{
 		// read in the yaml file and deserialize the input
 		string file = FileManager.GetDocument(fileName);
@@ -35,7 +35,7 @@ public class NoteYAMLParser
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
 		// create a list of notes based on the yaml info and return them
-		List<Note> noteYamlInfo = deserializer.Deserialize<List<Note>>(input);
+		List<NoteData> noteYamlInfo = deserializer.Deserialize<List<NoteData>>(input);
 
 		return noteYamlInfo;
 	}

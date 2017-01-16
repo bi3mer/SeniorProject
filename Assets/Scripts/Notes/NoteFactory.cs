@@ -12,7 +12,6 @@ public class NoteFactory
 
 	private GameObject triggerObjectPrefab;
 
-
 	/// <summary>
 	/// Initializes a new instance of the <see cref="NoteFactory"/> class.
 	/// </summary>
@@ -24,7 +23,6 @@ public class NoteFactory
         // initialize the list of world models to be used
 		worldNoteTemplates = new Dictionary<string, GameObject>();
 		LoadTemplates();
-
 	}
 
 	/// <summary>
@@ -33,7 +31,7 @@ public class NoteFactory
 	public void LoadTemplates()  
 	{
 		NoteYAMLParser noteParser = new NoteYAMLParser(noteFileName);
-		List<Note> noteDatabase = noteParser.LoadNotes();
+		List<NoteData> noteDatabase = noteParser.LoadNotes();
 
 		for(int i = 0; i < noteDatabase.Count; ++i)
 		{
@@ -46,7 +44,7 @@ public class NoteFactory
 	/// </summary>
 	/// <returns>The interactable item.</returns>
 	/// <param name="noteToCreate">Note to create.</param>
-	public GameObject CreateInteractableItem(Note noteToCreate)
+	public GameObject CreateInteractableItem(NoteData noteToCreate)
 	{
 		if(!worldNoteTemplates.ContainsKey(noteToCreate.WorldModel))
 		{
@@ -62,11 +60,10 @@ public class NoteFactory
 		textObject.transform.SetParent(item.transform);
 		textObject.transform.localPosition = Vector3.zero;
 
+		// Set up the interactable note
+		item.GetComponent<Note>().DisplayText = noteToCreate.Text;
 		item.GetComponent<Note> ().SetUp ();
 
 		return item;
 	}
-
-
-
 }

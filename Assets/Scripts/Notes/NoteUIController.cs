@@ -8,7 +8,9 @@ public class NoteUIController : MonoBehaviour {
 	public GameObject NoteUIPanel;
 	public Text NoteText;
 
-	// Use this for initialization
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	void Start () 
 	{
 		instance = this;
@@ -20,6 +22,10 @@ public class NoteUIController : MonoBehaviour {
 
 	}
 
+	/// <summary>
+	/// Sets the text.
+	/// </summary>
+	/// <param name="text">Text.</param>
 	public void SetText(string text)
 	{
 		NoteText.text = text;
