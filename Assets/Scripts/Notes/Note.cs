@@ -31,6 +31,18 @@ public class Note : InteractableObject
 
 	public void Read()
 	{
+
+		if (NoteUIController.instance.NoteUIPanel.activeSelf) 
+		{
+			NoteUIController.instance.NoteUIPanel.SetActive (false);
+		} 
+
+		else 
+		{
+
+			NoteUIController.instance.NoteUIPanel.SetActive (true);
+		}
+
 		Debug.Log ("read that shit");
 	}
 
