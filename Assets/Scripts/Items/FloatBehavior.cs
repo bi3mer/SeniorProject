@@ -12,6 +12,7 @@ public class FloatBehavior : MonoBehaviour
 	void Awake()
 	{
 		rigidBody = GetComponent<Rigidbody>();
+		StartCoroutine(applyFloatPhysics());
 	}
 
 	/// <summary>
@@ -39,22 +40,6 @@ public class FloatBehavior : MonoBehaviour
 			}
 
 			yield return null;
-		}
-	}
-
-	void OnTriggerEnter(Collider other)
-	{
-		if(other.gameObject.layer == LayerMask.NameToLayer(waterLayer))
-		{
-			StartCoroutine(applyFloatPhysics());
-		}
-	}
-
-	void OnTriggerExit(Collider other)
-	{
-		if(other.gameObject.layer == LayerMask.NameToLayer(waterLayer))
-		{
-			StopCoroutine(applyFloatPhysics());
 		}
 	}
 }
