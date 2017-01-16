@@ -158,7 +158,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	public void OpenItemInfoPanel()
 	{
 		ActionTracker.ExecuteAction = true;
-		Plus.gameObject.SetActive (false);
+		Plus.gameObject.SetActive (false); 
 		Minus.gameObject.SetActive (false);
 		Ok.gameObject.SetActive (false);
 		Cancel.gameObject.SetActive (false);
@@ -173,7 +173,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		//InstanceManagerGUI.ItemStackDetailPanelInstance.
 		//InstanceManagerGUI.ItemStackDetailPanelInstance.ClosePanel ();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
-		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
+		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();	
 	}
 
 	///////////////
@@ -212,7 +212,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleActions.Clear ();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleSubActions.Clear ();
 		//selectedItem.GetComponent<ItemStackUI>().PreserveOriginal (currentAmount);
-		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
+		//InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.DisplayAttributesAndAction();
 	}
 

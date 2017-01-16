@@ -123,7 +123,6 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		Attributes.Clear();
 		PossibleActions.Clear ();
 		PossibleSubActions.Clear ();
-		//selected.CheckForModification ();
 
 		// create duplicate of object that might be affected by entered changes
 		Selected_ = item.GetComponent<ItemStackUI>();
@@ -320,7 +319,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		Debug.Log ("Fired action");
 		//Debug.Log (action);
 		action ();
-		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel ();
+		//InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel ();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.RefreshItemPanel ();
 	}
 }
