@@ -515,7 +515,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void FindVisibleInteractables()
     {
-        if (IsOnLand)
+        if (IsOnLand || IsInWater)
         {
             // find the interactable objects within a sphere around the character
             Collider[] interactablesInRadius = Physics.OverlapSphere(playerAnimator.transform.position, ViewRadius, interactablesMask);
