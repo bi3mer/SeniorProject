@@ -203,4 +203,14 @@
 		get;
 		set;
 	}
+
+	/// <summary>
+	/// Gets or sets the game view instance.
+	/// </summary>
+	/// <value>The game view instance.</value>
+    public GameViewBehavior GameViewInstance
+    {
+    	get;
+    	set;
+    }
 }

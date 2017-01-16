@@ -41,10 +41,6 @@ public class ObjectsPanelBehavior : MonoBehaviour
 		currentAnimationState = closeState;
 		anim.SetInteger (animatorStateVariable, currentAnimationState);
 
-		ItemDiscarder discarder = new ItemDiscarder();
-		//discarder.DiscardItems(InventoryUIBehavior.instance.ItemsToDiscard); // Old UI
-		discarder.DiscardItems(InventoryUI.Instance.ItemsToDiscard);
-
 		//InventoryUIBehavior.instance.ItemsToDiscard.Clear(); // Old UI
 		InventoryUI.Instance.ItemsToDiscard.Clear();
 

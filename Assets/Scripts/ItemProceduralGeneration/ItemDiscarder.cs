@@ -27,7 +27,7 @@ public class ItemDiscarder
 
 		for (int i = 0; i < itemsToDiscard.Count; ++i)
 		{
-			GameObject item = factory.CreateInteractableItem(itemsToDiscard[i].Item, itemsToDiscard[i].Amount);
+			GameObject item = factory.CreatePickUpInteractableItem(itemsToDiscard[i].Item, itemsToDiscard[i].Amount);
 			item.transform.position = new Vector3(centerPos.x + discardRadius * Mathf.Cos(Mathf.Deg2Rad *(angleIncrementations * currentDiscardSlot)),
 												  centerPos.y,
 												  centerPos.z + discardRadius * Mathf.Sin(Mathf.Deg2Rad * (angleIncrementations * currentDiscardSlot)));

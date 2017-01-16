@@ -30,7 +30,7 @@ public class CraftingStat
 	/// failing to reach either of these values will result in a "poor" item
 	/// </summary>
 	/// <value>The threshold.</value>
-	public List<int> QualityThreshold 
+	public List<float> QualityThreshold 
 	{ 
 		get; 
 		set;

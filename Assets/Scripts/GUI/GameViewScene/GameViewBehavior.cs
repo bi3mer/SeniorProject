@@ -24,6 +24,8 @@ public class GameViewBehavior : MonoBehaviour
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
 		craftingPanel.SetActive (false);
+
+		Game.Instance.GameViewInstance = this;
 	}
 
 	/// <summary>
@@ -79,6 +81,16 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	public void OnInventoryClick()
 	{
+		if(InventoryUI.Instance.TargetInventory != Game.Instance.PlayerInstance.Inventory)
+		{
+			InventoryUI.Instance.LoadNewInventory(Game.Instance.PlayerInstance.Inventory);
+		}
+
+		OnInventoryOpen();
+	}
+
+	public void OnInventoryOpen()
+	{
 		inventoryPanel.SetActive (true);
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
@@ -106,6 +118,12 @@ public class GameViewBehavior : MonoBehaviour
 		inventoryPanel.SetActive (false);
 		radioPanel.SetActive (false);
 		craftingPanel.SetActive (false);
+
+		if(InventoryUI.Instance.ItemsToDiscard.Count > 0)
+		{
+			ItemDiscarder discarder = new ItemDiscarder();
+			discarder.DiscardItems(InventoryUI.Instance.ItemsToDiscard);
+		}
 	}
 
 	/// <summary>

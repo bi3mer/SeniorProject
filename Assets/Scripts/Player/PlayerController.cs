@@ -515,7 +515,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void FindVisibleInteractables()
     {
-        if (IsOnLand)
+        if (IsOnLand || IsInWater)
         {
             // find the interactable objects within a sphere around the character
             Collider[] interactablesInRadius = Physics.OverlapSphere(playerAnimator.transform.position, ViewRadius, interactablesMask);
@@ -654,6 +654,54 @@ public class PlayerController : MonoBehaviour
 
             isByFire = value;
         }
+    }
+
+	/// <summary>
+    /// Gets or sets the fire warmth increase rate.
+    /// </summary>
+    /// <value>The fire warmth increase rate.</value>
+    public float FireWarmthIncreaseRate
+    {
+    	get
+    	{
+    		return fireWarmthIncreaseRate;
+    	}
+    	set
+    	{
+    		fireWarmthIncreaseRate = value;
+    	}
+    }
+
+    /// <summary>
+    /// Gets or sets the outside warmth increase rate.
+    /// </summary>
+    /// <value>The outside warmth increase rate.</value>
+    public float OutsideWarmthIncreaseRate
+    {
+    	get
+    	{
+    		return outsideWarmthReductionRate;
+    	}
+    	set
+    	{
+    		outsideWarmthReductionRate = value;
+    	}
+    }
+
+    /// <summary>
+    /// Gets or sets the shelter warmth increase rate.
+    /// </summary>
+    /// <value>The shelter warmth increase rate.</value>
+    public float ShelterWarmthIncreaseRate
+    {
+    	get
+    	{
+    		return shelterWarmthIncreaseRate;
+    	}
+    	set
+    	{
+    		shelterWarmthIncreaseRate = value;
+    	}
     }
 
     /// <summary>

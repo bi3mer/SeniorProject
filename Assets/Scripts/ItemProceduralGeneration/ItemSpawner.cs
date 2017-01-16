@@ -106,7 +106,7 @@ public class ItemSpawner : InteractableObject
 
 		for (int i = 0; i < numberToSpawn  ; ++i)
 		{
-			GameObject item = factory.CreateRandomInteractableItem(district);
+			GameObject item = factory.CreateRandomPickupInteractableItem(district);
 			item.transform.position = new Vector3(centerPos.x + spawnLocationRadius * Mathf.Cos(Mathf.Deg2Rad *(angleIncrementations * currentSpawnSlot)),
 												  centerPos.y,
 												  centerPos.z + spawnLocationRadius * Mathf.Sin(Mathf.Deg2Rad * (angleIncrementations * currentSpawnSlot)));

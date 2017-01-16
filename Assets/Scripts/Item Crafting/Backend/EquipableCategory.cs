@@ -23,6 +23,8 @@
 	{
         Game.Instance.PlayerInstance.Inventory.EquipedItem = baseItem;
         Equiped = 1f;
+		GetAttribute(equipedAttributeName).Value = Equiped;
+		baseItem.UpdateExitingFlag = true;
 	}
 
 	/// <summary>
@@ -34,6 +36,8 @@
         {
             Game.Instance.PlayerInstance.Inventory.EquipedItem = null;
             Equiped = 0f;
+			GetAttribute(equipedAttributeName).Value = Equiped;
+			baseItem.UpdateExitingFlag = true;
         }
 	}
 }
