@@ -20,10 +20,11 @@ public class PressureSystems
 {
 	// Values found at: http://www.theweatherprediction.com/habyhints2/410/ and can 
 	// be accessed by enumeration PressureConstants
-	private readonly float[] pressureConstants     = {1086f, 1020f, 1000f, 1000f, 980f, 870f};
-	private const int startNumberOfPressureSystems = 4;
-	private const int boundaryLength               = 10;
-	private const float centerAttractorForce       = 2f;
+	private readonly float[] pressureConstants           = {1086f, 1020f, 1000f, 1000f, 980f, 870f};
+	private const int startNumberOfPressureSystems       = 10;
+	private const int boundaryLength                     = 100;
+	private const float highPressureCenterAttractorForce = 2f;
+	private const float lowPressureCenterAttractorForce  = 4f;
 
 	/// <summary>
 	/// Gets the local pressure systems.
@@ -104,7 +105,15 @@ public class PressureSystems
 			// apply forces applied by center of map.
 			// Note: this assumes the center is at 0,0. This can be easily updated 
 			//       in the future.
-			forces += -normalizedIVector * PressureSystems.centerAttractorForce;
+			if(this.LocalPressureSystems[i].IsHighPressure)
+			{
+				forces += -normalizedIVector * PressureSystems.highPressureCenterAttractorForce;
+			}
+			else
+			{
+				forces += -normalizedIVector * PressureSystems.lowPressureCenterAttractorForce;
+			}
+
 
 			// add system to list
 			newPressureSystem.Add(this.LocalPressureSystems[i]);

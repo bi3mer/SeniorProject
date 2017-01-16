@@ -14,15 +14,15 @@
 	protected string toolType;
 	protected const string equipActionName = "Equip";
 	protected const string unequipActionName = "Unequip";
-
-	protected const string equipedAttrName = "equiped";
+    protected const string equipedAttributeName = "equiped";
 
 	/// <summary>
 	/// Equip this item.
 	/// </summary>
 	public void Equip()
 	{
-		changePlayerEquiped(toolType, 1);
+        Game.Instance.PlayerInstance.Inventory.EquipedItem = baseItem;
+        Equiped = 1f;
 	}
 
 	/// <summary>
@@ -30,18 +30,10 @@
 	/// </summary>
 	public void UnEquip()
 	{
-		changePlayerEquiped("", 0);
-	}
-
-	/// <summary>
-	/// Changes whether or not the item is the 
-	/// </summary>
-	/// <param name="equipString">Equip string.</param>
-	private void changePlayerEquiped(string equipString, float equipedVal)
-	{
-		Game.Instance.PlayerInstance.EquippedTool = equipString;
-		Equiped = equipedVal;
-		GetAttribute(equipedAttrName).Value = Equiped;
-		baseItem.DirtyFlag = true;
+        if (Game.Instance.PlayerInstance.Inventory.EquipedItem == baseItem)
+        {
+            Game.Instance.PlayerInstance.Inventory.EquipedItem = null;
+            Equiped = 0f;
+        }
 	}
 }
