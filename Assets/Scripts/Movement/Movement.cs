@@ -5,7 +5,9 @@ public abstract class Movement : MonoBehaviour
 {
     protected Rigidbody RigidBody;
     protected float AccumulatedFallDammage;
-
+    [SerializeField]
+    [Tooltip("The maximum height above the player a ledge can be that the player can still reach")]
+    protected float climbHeight = 0.356f;
     /// <summary>
     /// Set up common movement variables.
     /// </summary>

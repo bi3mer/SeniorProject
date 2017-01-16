@@ -11,9 +11,6 @@ public class WaterMovement : Movement
     [SerializeField]
     private float fallDamageModifier;
     private CharacterController controller;
-    [SerializeField]
-    [Tooltip("The maximum height above the player a ledge can be that the player can still reach")]
-    private float climbHeight = 0.356f;
 
     private const string playerAnimatorForward = "Forward";
     private const string playerAnimatorClimb = "Climb";

@@ -16,10 +16,6 @@ public class LandMovement : Movement
     private float minFallDamageVelocity;
     [SerializeField]
     private float fallDamageModifier;
-    [SerializeField]
-    [Tooltip("The maximum height above the player a ledge can be that the player can still reach")]
-    private float climbHeight = 0.356f;
-
 
     private const string playerAnimatorTurn = "Turn";
     private const string playerAnimatorForward = "Forward";
