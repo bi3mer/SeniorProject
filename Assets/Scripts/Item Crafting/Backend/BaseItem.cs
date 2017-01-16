@@ -413,7 +413,10 @@ public class BaseItem : CollectableItem
 		DiscardFlag = true;
 	}
 
-
+	/// <summary>
+	/// Changes the model and sprite used to represent the item as specified by ActionModifiedModels and ActionModifiedSprites.
+	/// </summary>
+	/// <param name="newModelIndex">Index number of the new model.</param>
 	public void SetNewModel(int newModelIndex)
 	{
 		if(newModelIndex >= 0)

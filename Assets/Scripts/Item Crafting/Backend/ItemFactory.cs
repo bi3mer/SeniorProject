@@ -176,7 +176,9 @@ public class ItemFactory
 		int qualityLevel = levels - 1;
 		BaseItem currentItem;
 		Inventory inventory = Game.Instance.PlayerInstance.Inventory;
-		bool decreasingBetter = false;
+
+		// flag that indicates whether or not a smaller stat results in a higher quality item
+		bool smallerStatsPreferred = false;
 
 		// checks each crafting stat that is marked as a stat to check when considering the item's quality level
 		for (int x = 0; x < recipe.StatsToCheck.Count; ++x) 
@@ -189,7 +191,7 @@ public class ItemFactory
 			{
 				if(recipe.StatsToCheck[x].QualityThreshold[0] > recipe.StatsToCheck[x].QualityThreshold[1])
 				{
-					decreasingBetter = true;
+					smallerStatsPreferred = true;
 				}
 			}
 
@@ -229,28 +231,18 @@ public class ItemFactory
 			{
 				// a single crafting stat sum may decrease the level multiple times
 
-				if(decreasingBetter)
+				if(smallerStatsPreferred)
 				{
-					while (result > recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
+					while (result > recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1] && qualityLevel > 0) 
 					{
 						--qualityLevel;
-
-						if (qualityLevel <= 0) 
-						{
-							break;
-						}
 					}
 				}
 				else
 				{
-					while (result < recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
+					while (result < recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1] && qualityLevel > 0) 
 					{
 						--qualityLevel;
-
-						if (qualityLevel <= 0) 
-						{
-							break;
-						}
 					}
 				}
 			} 

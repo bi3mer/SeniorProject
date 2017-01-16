@@ -108,6 +108,12 @@ public class WorldItemFactory
 		return item;
 	}
 
+	/// <summary>
+	/// Creates a generic interactable item. Does not add on the interactable script, but sets up item with assumption that player will attach one.
+	/// </summary>
+	/// <returns>The generic interactable item.</returns>
+	/// <param name="itemToCreate">Item to create.</param>
+	/// <param name="amount">Amount.</param>
 	public GameObject CreateGenericInteractableItem(BaseItem itemToCreate, int amount)
 	{
 		if(!worldItemTemplates.ContainsKey(itemToCreate.ItemName))

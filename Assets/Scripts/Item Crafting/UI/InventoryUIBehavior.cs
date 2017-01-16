@@ -28,7 +28,6 @@ public class InventoryUIBehavior : MonoBehaviour
 	/// </summary>
 	void Start()
 	{
-		Debug.Log("heyo");
 		instance = this;
 		targetInventory = Game.Instance.PlayerInstance.Inventory;
 		inventoryUI = new InventoryItemBehavior[targetInventory.InventorySize];

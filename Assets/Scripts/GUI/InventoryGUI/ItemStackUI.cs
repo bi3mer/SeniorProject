@@ -25,6 +25,16 @@ public class ItemStackUI : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Unsubscribe this instance from all event subscriptions. Must be called before destroying this structure!
+	/// Unable to use destructor due to significant lag.
+	/// </summary>
+	public void Unsubscribe(Stack baseStack)
+	{
+		baseStack.Item.UpdateItemInformation -= HandleItemNameTextChangeEvent;
+		baseStack.UpdateStackAmount -= HandleItemAmountTextChangeEvent;
+	}
+
+	/// <summary>
 	/// Refreshs the inventory item with new information from stack
 	/// </summary>
 	/// <param name="baseStack">Base stack.</param>

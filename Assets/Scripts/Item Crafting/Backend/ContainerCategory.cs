@@ -6,7 +6,7 @@ using System;
 
 public class ContainerCategory : ItemCategory
 {
-	public float Size 
+	public int Size 
 	{
 		get;
 		set;
@@ -49,6 +49,9 @@ public class ContainerCategory : ItemCategory
 		Actions.Add(setDown);
 	}
 
+	/// <summary>
+	/// Sets down the container in the world. Drops it where the player stands.
+	/// </summary>
 	public void SetDown()
 	{
 		// create the object with the model

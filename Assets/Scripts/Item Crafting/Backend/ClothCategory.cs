@@ -6,24 +6,40 @@ using System.Collections.Generic;
 
 public class ClothCategory : ItemCategory
 {
+	/// <summary>
+	/// Gets or sets the thread density.
+	/// </summary>
+	/// <value>The thread density.</value>
 	public float ThreadDensity
 	{
 		get;
 		set;
 	}
 
+	/// <summary>
+	/// Gets or sets the fabric thickness.
+	/// </summary>
+	/// <value>The fabric thickness.</value>
 	public float FabricThickness
 	{
 		get;
 		set;
 	}
 
+	/// <summary>
+	/// Gets or sets the impermiability.
+	/// </summary>
+	/// <value>The impermiability.</value>
 	public float Impermiability
 	{
 		get;
 		set;
 	}
 
+	/// <summary>
+	/// Gets or sets the on player.
+	/// </summary>
+	/// <value>The on player.</value>
 	public float OnPlayer
 	{
 		get;
@@ -46,6 +62,10 @@ public class ClothCategory : ItemCategory
 
 	protected const string onPlayerAttributeName = "onPlayer";
 
+	/// <summary>
+	/// Gets a copy of the ItemCategory.
+	/// </summary>
+	/// <returns>The duplicate.</returns>
 	public override ItemCategory GetDuplicate()
 	{
 		ClothCategory category = new ClothCategory();
@@ -68,6 +88,9 @@ public class ClothCategory : ItemCategory
 		return category;
 	}
 
+	/// <summary>
+	/// Preps the category for use by loading attributes and actions into lists.
+	/// </summary>
 	public override void ReadyCategory()
 	{
 		Attributes = new List<Attribute> ();
@@ -90,6 +113,10 @@ public class ClothCategory : ItemCategory
 		Actions.Add (takeOff);
 	}
 
+	/// <summary>
+	/// Puts on the cloth item.
+	/// TODO: Make this similar to how equipping works.
+	/// </summary>
 	public void PutOn()
 	{
 		PlayerController player = Game.Instance.PlayerInstance.Controller;
@@ -107,6 +134,10 @@ public class ClothCategory : ItemCategory
 		baseItem.UpdateExitingFlag = true;
 	}
 
+	/// <summary>
+	/// Takes the cloth item off.
+	/// TODO: Make this similar to how unequipping works.
+	/// </summary>
 	public void TakeOff()
 	{
 		PlayerController player = Game.Instance.PlayerInstance.Controller;

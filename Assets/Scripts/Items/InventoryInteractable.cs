@@ -43,6 +43,6 @@ public class InventoryInteractable : InteractableObject
 	private void openInventory()
 	{
 		InventoryUI.Instance.LoadNewInventory(AttachedInventory);
-		GameViewBehavior.instance.OnInventoryOpen();
+		Game.Instance.GameViewInstance.OnInventoryOpen();
 	}
 }

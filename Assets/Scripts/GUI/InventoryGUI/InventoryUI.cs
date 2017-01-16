@@ -20,6 +20,9 @@ public class InventoryUI : MonoBehaviour
 	private List<Stack> slots = new List<Stack> ();
 	private List<ItemStackUI> itemStackUIList = new List<ItemStackUI> ();
 
+	/// <summary>
+	/// The target inventory that will be shown by the UI.
+	/// </summary>
 	public Inventory TargetInventory;
 
 	/// <summary>
@@ -144,19 +147,24 @@ public class InventoryUI : MonoBehaviour
 	{
 		Stack[] contents = newInventory.GetInventory ();
 
-		// create empty slots
-
 		if(itemStackUIList.Count > 0)
 		{
 			for (int i = 0; i < itemStackUIList.Count; ++i) 
 			{
+				if (inventory[i] != null && inventory [i].Item != null) 
+				{
+					// unsubscribes from events to avoid being triggered later
+					itemStackUIList [i].Unsubscribe(inventory[i]);
+				}
+
 				GameObject.Destroy(itemStackUIList[i].gameObject);
 			}
-
-			itemStackUIList.Clear();
-			slots.Clear();
-			inventory.Clear();
 		}
+
+		// create empty slots
+		slots.Clear();
+		inventory.Clear();
+		itemStackUIList.Clear();
 
 		for (int i = 0; i < newInventory.InventorySize; ++i) 
 		{

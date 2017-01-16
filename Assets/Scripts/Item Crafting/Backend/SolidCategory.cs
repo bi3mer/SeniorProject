@@ -275,7 +275,7 @@ public class SolidCategory : ItemCategory
 		ContainerCategory container = new ContainerCategory();
 
 		// TODO: Determine a way to decide container size
-		container.Size = 1f;
+		container.Size = 1;
 		baseItem.AddItemCategory(container);
 
 		baseItem.DirtyFlag = true;

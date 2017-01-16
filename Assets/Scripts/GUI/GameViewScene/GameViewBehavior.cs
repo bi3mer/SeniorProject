@@ -14,8 +14,6 @@ public class GameViewBehavior : MonoBehaviour
 	private GameObject craftingPanel;
 	private ControlScheme controlScheme;
 
-	public static GameViewBehavior instance;
-
 	/// <summary>
 	/// Start the Game View with all other menu panels disabled.
 	/// </summary>
@@ -26,7 +24,8 @@ public class GameViewBehavior : MonoBehaviour
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
 		craftingPanel.SetActive (false);
-		instance = this;
+
+		Game.Instance.GameViewInstance = this;
 	}
 
 	/// <summary>
