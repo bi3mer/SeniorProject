@@ -182,7 +182,7 @@ public class Inventory
 	/// <summary>
 	/// Removes the item from the inventory.
 	/// </summary>
-	/// <param name="item">Item to remove.</param>
+	/// <param name="stack">Item to remove.</param>
 	public void RemoveStack(Stack stack)
 	{
 		for (int i = 0; i < contents.Length; ++i) 
