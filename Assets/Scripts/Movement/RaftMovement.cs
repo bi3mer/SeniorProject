@@ -68,4 +68,20 @@ public class RaftMovement : Movement
     {
        
     }
+
+    /// <summary>
+    /// Doesn't do anything on boats for now
+    /// </summary>
+    public override void Climb(Animator playerAnimator)
+    {
+       
+    }
+
+    /// <summary>
+    /// The height the player can climb while in this movement state (which is 0!)
+    /// </summary>
+    public override float GetClimbHeight()
+    {
+        return 0f;
+    }
 }

@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using DG.Tweening;
 
-public class LandMovement : Movement 
+[RequireComponent(typeof(CharacterController))]
+public class LandMovement : Movement
 {
     [SerializeField]
     private float walkingSpeed;
@@ -18,16 +20,26 @@ public class LandMovement : Movement
     private const string playerAnimatorTurn = "Turn";
     private const string playerAnimatorForward = "Forward";
     private const string playerAnimatorJump = "Jump";
+    private const string playerAnimatorClimb = "Climb";
     private const float playerAnimatorSprint = 1f;
     private const float playerAnimatorWalk = .5f;
     private const float playerAnimatorIdle = 0f;
+    private CharacterController controller;
+
+    /// <summary>
+    /// Get the character controller so we can call move functions
+    /// </summary>
+    void Start()
+    {
+        controller = GetComponent<CharacterController>();
+    }
 
     /// <summary>
     /// Calculate accumulated fall damage
     /// </summary>
     void FixedUpdate()
     {
-        if (RigidBody.velocity.y < -minFallDamageVelocity)
+        if (controller.velocity.y < -minFallDamageVelocity)
         {
             AccumulatedFallDammage += fallDamageModifier;
         }
@@ -52,10 +64,10 @@ public class LandMovement : Movement
             speed = sprintingSpeed;
             playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorSprint);
         }
-  
-        RigidBody.velocity = direction.normalized * speed + Vector3.up * RigidBody.velocity.y;
 
-        Vector3 facingRotation = Vector3.Normalize(new Vector3(RigidBody.velocity.x, 0f, RigidBody.velocity.z));
+        controller.Move((direction.normalized * speed + Physics.gravity ) * Time.fixedDeltaTime);
+
+        Vector3 facingRotation = Vector3.Normalize(new Vector3(controller.velocity.x, 0f, controller.velocity.z));
         if (facingRotation != Vector3.zero)
         {
             playerAnimator.transform.forward = facingRotation;
@@ -65,24 +77,46 @@ public class LandMovement : Movement
     /// <summary>
     /// Plays the idle animation
     /// </summary>
+    /// <param name="playerAnimator">The player's animator</param>
     public override void Idle(Animator playerAnimator)
     {
         playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorIdle);
+        controller.SimpleMove(Physics.gravity * Time.fixedDeltaTime);
     }
 
     /// <summary>
-    /// The player aesthetic jumps.
+    /// The player aesthetic jumps
     /// </summary>
+    /// <param name="playerAnimator">The player's animator</param>
     public override void Jump(Animator playerAnimator)
     {
         playerAnimator.SetTrigger(playerAnimatorJump);
     }
+
+    /// <summary>
+    /// The player's climb animation plays
+    /// </summary>
+    /// <param name="playerAnimator">The player's animator</param>
+    public override void Climb(Animator playerAnimator)
+    {
+        // TODO: Switch this to the climb animation.
+        playerAnimator.SetTrigger(playerAnimatorClimb);
+    }
+
     /// <summary>
     /// The player's rigidbody gets the jump force applied. Called via the animator.
     /// </summary>
     public void JumpForce()
     {
-        RigidBody.AddForce(Vector3.up * jumpForce);
+        controller.Move(Vector3.up * jumpForce);
+    }
+
+    /// <summary>
+    /// The height the player can climb while in this movement state
+    /// </summary>
+    public override float GetClimbHeight()
+    {
+        return climbHeight;
     }
 
 }
