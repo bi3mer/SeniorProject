@@ -32,6 +32,8 @@ public class FXSplashManager : MonoBehaviour
 	void Start ()
     {
         FillPool();
+        
+        // We set the parent to null so that the splashes don't move with the player. The rest of the weather effects need to.
         transform.SetParent(null);
 	}
 	
@@ -102,9 +104,9 @@ public class FXSplashManager : MonoBehaviour
     /// <summary>
     /// Plays a water splash effect. Called by the public methods.
     /// </summary>
-    /// <param name="position"></param>
-    /// <param name="scale"></param>
-    /// <param name="allowAddingToPool"></param>
+    /// <param name="position">The position of the new splash</param>
+    /// <param name="scale">The scale of the new splash</param>
+    /// <param name="allowAddingToPool">Can a new splash be added to the pool if there are no available splashes?</param>
     private void makeSplash(Vector3 position, Vector3 scale, bool allowAddingToPool)
     {
         // Find a splash to use in the pool... There's a few things we know that makes this easier.
@@ -129,14 +131,5 @@ public class FXSplashManager : MonoBehaviour
         {
             listIndex = 0;
         }      
-    }
-
-    // Code to test to make sure the splash lists dynamic changing works.
-    public int testSplashpool;
-    
-    [ContextMenu("TestPool")]
-    public void testSplashPool()
-    {
-        SplashPoolSize = testSplashpool;
     }
 }
