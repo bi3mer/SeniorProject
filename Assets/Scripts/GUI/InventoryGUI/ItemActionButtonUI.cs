@@ -34,18 +34,16 @@ public class ItemActionButtonUI : MonoBehaviour
 //			InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ActionName = this.buttonLabel.text;
 //		}
 
-
-		Debug.Log (this.action);
-
-		InstanceManagerGUI.ItemStackDetailPanelInstance.FireActionAsync ((UnityAction)this.action.Clone ());
-
+		//InstanceManagerGUI.ItemStackDetailPanelInstance.FireActionAsync ((UnityAction)this.action.Clone ());
+		//InstanceManagerGUI.ItemStackDetailPanelInstance.FireActionAsync ((UnityAction)this.action.Clone (), this.SubActions);
 
 
 		//Debug.Log(InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ExecuteAction);
 		//Debug.Log(InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ActionName);
 
-
-		//InstanceManagerGUI.ItemStackDetailPanelInstance.RefreshItemPanel ();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel();
+		action ();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.RefreshItemPanel ();
 	}
 
 

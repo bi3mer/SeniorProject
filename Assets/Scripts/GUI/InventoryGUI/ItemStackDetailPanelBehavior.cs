@@ -119,7 +119,6 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// <param name="numToModify">Number to modify.</param>
 	public void SetItemData(GameObject item, int numberOfStacksToModify)
 	{
-		//ClearAttributesAndActions();
 		Attributes.Clear();
 		PossibleActions.Clear ();
 		PossibleSubActions.Clear ();
@@ -142,7 +141,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		PossibleActions.Clear ();
 		PossibleSubActions.Clear ();
 		Selected_.CheckForModification ();
-		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
+		//InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
 		EventSystem.current.SetSelectedGameObject(null);
 	}
 
@@ -304,12 +303,12 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		}
 	}
 
-	public void FireActionAsync (UnityAction action) 
+	public void FireActionAsync (UnityAction action, List<ItemAction> subActions) 
 	{
-		StartCoroutine ("WaitForAmount", action);
+		StartCoroutine (WaitForAmount(action, subActions));
 	}
 
-	private IEnumerator WaitForAmount (UnityAction action) 
+	private IEnumerator WaitForAmount (UnityAction action, List<ItemAction> subActions) 
 	{
 		while (!InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ExecuteAction) 
 		{
@@ -317,9 +316,13 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		} 
 
 		Debug.Log ("Fired action");
-		//Debug.Log (action);
 		action ();
-		//InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel ();
+		if (subActions.Count > 0) 
+		{
+			Debug.Log ("this has subactions");
+			InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel ();
+		}
+
 		InstanceManagerGUI.ItemStackDetailPanelInstance.RefreshItemPanel ();
 	}
 }
