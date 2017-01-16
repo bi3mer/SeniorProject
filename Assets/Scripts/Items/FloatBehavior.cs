@@ -6,7 +6,7 @@ public class FloatBehavior : MonoBehaviour
 	/// <summary>
 	/// How high the object will float
 	/// </summary>
-	private const float floatHeight = 1f;
+	private float floatHeight = 1f;
 
 	/// <summary>
 	/// The damp on the bounce.

@@ -38,7 +38,6 @@ public class RaftMovement : Movement
     /// </summary>
     void FixedUpdate ()
     {
-		Debug.Log(Game.Instance.PlayerInstance.Controller.IsOnRaft);
         float speed = RigidBody.velocity.magnitude;
 
         // cap the speed of the raft
