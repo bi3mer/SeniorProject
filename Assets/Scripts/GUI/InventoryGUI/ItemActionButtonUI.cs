@@ -27,9 +27,23 @@ public class ItemActionButtonUI : MonoBehaviour
 	/// </summary>
 	public void PerformAction()
 	{
-		ItemStackDetailPanelBehavior.Instance.ClearSubActionPanel ();
+//		//if (!InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.Action.Equals(new UnityEvent(this.action))) 
+//		if (InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ActionName != this.buttonLabel.text) 
+//		{
+//			InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ActionSubscription += this.action;
+//			InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ActionName = this.buttonLabel.text;
+//		}
+
+		//InstanceManagerGUI.ItemStackDetailPanelInstance.FireActionAsync ((UnityAction)this.action.Clone ());
+		//InstanceManagerGUI.ItemStackDetailPanelInstance.FireActionAsync ((UnityAction)this.action.Clone (), this.SubActions);
+
+
+		//Debug.Log(InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ExecuteAction);
+		//Debug.Log(InstanceManagerGUI.ItemAmountPanelInstance.ActionTracker.ActionName);
+
+		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel();
 		action ();
-		ItemStackDetailPanelBehavior.Instance.RefreshItemPanel ();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.RefreshItemPanel ();
 	}
 
 
@@ -57,6 +71,6 @@ public class ItemActionButtonUI : MonoBehaviour
 	/// </summary>
 	public void ShowSubActions()
 	{
-		ItemStackDetailPanelBehavior.Instance.CreateSubAction (subActions);
+		InstanceManagerGUI.ItemStackDetailPanelInstance.CreateSubAction (subActions);
 	}
 }

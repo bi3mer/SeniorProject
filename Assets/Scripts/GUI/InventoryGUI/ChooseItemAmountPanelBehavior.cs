@@ -48,14 +48,20 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	// the current selected item from the inventory
 	private GameObject selectedItem;
 
-	public static ChooseItemAmountPanelBehavior Instance;
+	public ItemActionTracker ActionTracker;
 
 	/// <summary>
 	/// Start this instance of ChooseItemAmountPanelBehavior.
 	/// </summary>
 	void Start()
 	{
-		Instance = this;
+		InstanceManagerGUI.ItemAmountPanelInstance = this;
+		ActionTracker = new ItemActionTracker ();
+	}
+
+	public int GetCurrentChosenAmount()
+	{
+		return currentAmount;
 	}
 
 	/// <summary>
@@ -133,13 +139,48 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	/// <summary>
 	/// Close the panel.
 	/// </summary>
-	public void ClosePanel()
+	public void CancelChosenAmount()
+	{
+		itemAmountAffectPanel.SetActive (false);
+		//attributesAndActionPanel.SetActive (true);
+		itemStackDetailPanel.SetActive(false);
+		ActionTracker.ExecuteAction = false;
+		EventSystem.current.SetSelectedGameObject(null);
+	}
+
+	public void CloseEntirePanel()
 	{
 		itemAmountAffectPanel.SetActive (false);
 		itemStackDetailPanel.SetActive (false);
 		attributesAndActionPanel.SetActive (false);
+		ActionTracker.ExecuteAction = false;
 		EventSystem.current.SetSelectedGameObject(null);
+		Debug.Log ("close entire panel method");
 	}
+
+	/// <summary>
+	/// Opens the panel containing information about the selected item.
+	/// </summary>
+//	public void OpenItemInfoPanel()
+//	{
+//		ActionTracker.ExecuteAction = true;
+//		Plus.gameObject.SetActive (false); 
+//		Minus.gameObject.SetActive (false);
+//		Ok.gameObject.SetActive (false);
+//		Cancel.gameObject.SetActive (false);
+//		Close.gameObject.SetActive (true);
+//		attributesAndActionPanel.SetActive (true);
+//		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearAttributesAndActions();
+//		InstanceManagerGUI.ItemStackDetailPanelInstance.Attributes.Clear();
+//		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleActions.Clear ();
+//		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleSubActions.Clear ();
+//		//ItemStackUI selectedItemStackUi = selectedItem.GetComponent<ItemStackUI> ();
+//		//selectedItemStackUi.CheckForModification ();
+//		//InstanceManagerGUI.ItemStackDetailPanelInstance.
+//		//InstanceManagerGUI.ItemStackDetailPanelInstance.ClosePanel ();
+//		InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
+//		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();	
+//	}
 
 	/// <summary>
 	/// Opens the panel containing information about the selected item.
@@ -156,6 +197,52 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		// display attributes and actions
 		// TODO : fix issue where item panel keeps adding attributes and actions from previously clicked item
 		//InventoryUI.Instance.DisableItemStackButtons();
-		ItemStackDetailPanelBehavior.Instance.SetItemData(selectedItem, currentAmount);
+		InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
+	}
+
+	///////////////
+	public void OpenItemDetailPanel(GameObject selected)
+	{
+		//ItemStackUI s = selected.GetComponent<ItemStackUI> ();
+		selectedItem = selected;
+		InstanceManagerGUI.ItemStackDetailPanelInstance.SetSelectedItem (selectedItem.gameObject);
+		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearAttributesAndActions();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel();
+
+		Plus.gameObject.SetActive (true);
+		Minus.gameObject.SetActive (true);
+		Ok.gameObject.SetActive (true);
+		Cancel.gameObject.SetActive (true);
+		Close.gameObject.SetActive (true);
+
+		itemStackDetailPanel.SetActive (true);
+		itemAmountAffectPanel.SetActive (false);
+		attributesAndActionPanel.SetActive (true);
+
+		ItemNameDisplay.text = selectedItem.GetComponent<ItemStackUI>().ItemName.text;
+		maxAmount = (int)selectedItem.GetComponent<ItemStackUI>().GetStack().Amount;
+		currentAmount = 0;
+		NumDisplay.text = currentAmount.ToString();
+
+		// checks to see if the buttons should be activated or not
+		// by default they are activated since 1 is the default number of
+		// units, however if there is only 1 unit of that item, then 
+		// the plus sign should not be displayed
+		//Change (0);
+
+		ActionTracker.ExecuteAction = false;
+		//InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
+		InstanceManagerGUI.ItemStackDetailPanelInstance.Attributes.Clear();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleActions.Clear ();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.PossibleSubActions.Clear ();
+		////lectedItem.GetComponent<ItemStackUI>().PreserveOriginal (currentAmount);
+		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.DisplayAttributesAndAction();
+	}
+
+	public void ChooseNumOfItemsToAffect()
+	{
+		itemAmountAffectPanel.SetActive (true);
+		ActionTracker.ExecuteAction = false;
 	}
 }

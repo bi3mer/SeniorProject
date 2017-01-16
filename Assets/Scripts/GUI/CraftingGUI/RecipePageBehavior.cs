@@ -42,7 +42,6 @@ public class RecipePageBehavior : MonoBehaviour
 	[SerializeField]
 	private Button CancelCraftButton;
 
-	public static RecipePageBehavior Instance;
 	private Recipe recipe;
 	private string recipeChoiceName;
 	private string currentReqChoice;
@@ -68,9 +67,9 @@ public class RecipePageBehavior : MonoBehaviour
 	/// <param name="pageRecipe">Page recipe.</param>
 	public void SetUpRecipePage(Recipe pageRecipe)
 	{
-		Instance = this;
+		InstanceManagerGUI.RecipePageInstance = this;
 		itemsSelected = new List<Ingredient> ();
-		Instance.recipe = pageRecipe;
+		InstanceManagerGUI.RecipePageInstance.recipe = pageRecipe;
 		RecipeNameText.text = recipe.RecipeName;
 
 		// add all requirements to requirement scroll view
@@ -103,10 +102,10 @@ public class RecipePageBehavior : MonoBehaviour
 	/// </summary>
 	public void ResetCraftingPanel()
 	{
-		Instance.BeginCraftingButton.gameObject.SetActive (true);
-		Instance.CancelCraftButton.gameObject.SetActive (false);
-		Instance.CraftingPanel.gameObject.SetActive (false);
-		Instance.CraftButton.gameObject.SetActive (false);
+		InstanceManagerGUI.RecipePageInstance.BeginCraftingButton.gameObject.SetActive (true);
+		InstanceManagerGUI.RecipePageInstance.CancelCraftButton.gameObject.SetActive (false);
+		InstanceManagerGUI.RecipePageInstance.CraftingPanel.gameObject.SetActive (false);
+		InstanceManagerGUI.RecipePageInstance.CraftButton.gameObject.SetActive (false);
 		EventSystem.current.SetSelectedGameObject(null);
 	}
 
@@ -235,7 +234,7 @@ public class RecipePageBehavior : MonoBehaviour
 		itemFactory.Craft (recipe, itemsSelected, Game.Instance.PlayerInstance.Inventory); // delete after overworld PR is done
 		//Game.Instance.ItemFactoryInstance.Craft (recipe, ingredients, Game.Instance.PlayerInstance.Inventory); // add in after overworld PR is done
 
-		InventoryUI.Instance.RefreshInventoryPanel ();
+		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
 
 		// close the item select ui panel
 		EndCraftingAttempt ();

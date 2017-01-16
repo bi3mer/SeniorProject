@@ -15,7 +15,6 @@ public class InventoryUI : MonoBehaviour
 	[SerializeField]
 	private GameObject inventoryParentUI;
 
-	public static InventoryUI Instance;
 	private List<Stack> inventory = new List<Stack>();
 	private List<Stack> slots = new List<Stack> ();
 	private List<ItemStackUI> itemStackUIList = new List<ItemStackUI> ();
@@ -35,7 +34,7 @@ public class InventoryUI : MonoBehaviour
 	/// </summary>
 	void Start () 
 	{
-		Instance = this;
+		InstanceManagerGUI.InventoryUiInstance = this;
 		ItemsToDiscard = new List<Stack>();
 
 		Stack[] contents = Game.Instance.PlayerInstance.Inventory.GetInventory ();

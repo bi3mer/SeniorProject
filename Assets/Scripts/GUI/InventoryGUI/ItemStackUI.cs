@@ -42,6 +42,7 @@ public class ItemStackUI : MonoBehaviour
 	public void HandleItemNameTextChangeEvent(BaseItem item)
 	{
 		ItemName.text = item.ItemName;
+		Debug.Log ("itemName changed");
 	}
 
 	/// <summary>
@@ -115,7 +116,7 @@ public class ItemStackUI : MonoBehaviour
 		}
 		else if(targetStack.Item.DiscardFlag)
 		{
-			InventoryUI.Instance.ItemsToDiscard.Add(targetStack);
+			InstanceManagerGUI.InventoryUiInstance.ItemsToDiscard.Add(targetStack);
 		}
 
 		targetStack = originalStack;

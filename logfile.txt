@@ -1,0 +1,12 @@
+﻿00:01.611 :: "FileManager" (Line: 56) :: Getting file from google drive
+00:01.612 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
+00:04.656 :: "GoogleDrive" (Line: 45) :: Pulling remote document from https://glassprisongames-googlegetter.herokuapp.com/InventoryYaml.yml
+00:11.730 :: "FileManager" (Line: 56) :: Getting file from google drive
+00:11.730 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
+00:16.928 :: "GoogleDrive" (Line: 45) :: Pulling remote document from https://glassprisongames-googlegetter.herokuapp.com/ItemListYaml.yml
+00:19.172 :: "FileManager" (Line: 56) :: Getting file from google drive
+00:19.172 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
+00:22.387 :: "GoogleDrive" (Line: 45) :: Pulling remote document from https://glassprisongames-googlegetter.herokuapp.com/ItemListYaml.yml
+00:25.686 :: "FileManager" (Line: 56) :: Getting file from google drive
+00:25.686 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
+00:29.910 :: "GoogleDrive" (Line: 45) :: Pulling remote document from https://glassprisongames-googlegetter.herokuapp.com/DistrictItemConfiguration.yml
