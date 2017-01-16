@@ -59,9 +59,13 @@ public class ContainerCategory : ItemCategory
 		GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem, 1);
 		InventoryInteractable container = item.AddComponent<InventoryInteractable>();
 		container.SetUp();
+
 		// TODO: Make the amount found in one stack to be a variable number
-		container.AttachedInventory = new Inventory(baseItem.ItemName + " " + Guid.NewGuid().ToString("N"), (int) Size);
-		container.Text = "Check " + baseItem.ItemName;
+		string inventoryID = baseItem.ItemName + " " + Guid.NewGuid().ToString("N");
+		string containerPopUpText = "Check " + baseItem.ItemName;
+
+		container.AttachedInventory = new Inventory(inventoryID, (int) Size);
+		container.Text = containerPopUpText;
 		item.name = baseItem.ItemName;
 		item.transform.position = Game.Instance.PlayerInstance.WorldTransform.position;
 

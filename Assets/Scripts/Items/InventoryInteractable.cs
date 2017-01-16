@@ -22,7 +22,7 @@ public class InventoryInteractable : InteractableObject
 	}
 
 	/// <summary>
-	/// Sets pick up as an action that should fire off when PerformAction is called.
+	/// Sets openInventory as an action that should fire off when PerformAction is called.
 	/// </summary>
 	public override void SetUp()
 	{

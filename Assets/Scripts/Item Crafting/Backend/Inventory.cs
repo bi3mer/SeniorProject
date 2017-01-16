@@ -24,6 +24,11 @@ public class Inventory
 
 	private InventoryYamlParser parser;
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Inventory"/> class.
+	/// </summary>
+	/// <param name="name">Name.</param>
+	/// <param name="size">Size.</param>
 	public Inventory(string name, int size)
 	{
 		contents = new Stack[size];

@@ -172,14 +172,11 @@ public class InventoryUI : MonoBehaviour
 			inventory.Add (new Stack ());
 			ItemStackUI newItemUI = GameObject.Instantiate (baseItemUiTemplate);
 			itemStackUIList.Add(newItemUI);
+
 			// place empty ui slots in grid layout
 			newItemUI.gameObject.SetActive (true);
 			newItemUI.transform.SetParent (inventoryParentUI.transform);
-		}
 
-		// set stack items 
-		for (int i = 0; i < newInventory.InventorySize; ++i) 
-		{
 			if (contents [i] != null)
 			{
 				inventory[i] = contents[i];

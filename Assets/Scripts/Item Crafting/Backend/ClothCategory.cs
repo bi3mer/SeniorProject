@@ -105,6 +105,7 @@ public class ClothCategory : ItemCategory
 		ItemAction putOn = new ItemAction (putOnActName, new UnityAction(PutOn));
 		ItemAction takeOff = new ItemAction (takeOffActName, new UnityAction(TakeOff));
 
+		// threshold is 1f, which means that the cloth item is on the player
 		putOn.Conditions.Add(new ItemCondition(onPlayerAttributeName, 1f, new BooleanOperator.BooleanOperatorDelegate(BooleanOperator.Less)));
 		takeOff.Conditions.Add(new ItemCondition(onPlayerAttributeName, 1f, new BooleanOperator.BooleanOperatorDelegate(BooleanOperator.GreaterOrEqual)));
 
