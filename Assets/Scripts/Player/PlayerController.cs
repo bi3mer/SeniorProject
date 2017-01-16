@@ -127,10 +127,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Height, starting from the floor to raycast towards walls")]
     private float raycastHeight;
 
-    // Likely temp values to be replaced by hand animation.
-    [SerializeField]
-    [Tooltip("The height the player has to move up to be standing. Essentially the players height.")]
-    private float climbHeight = 0; // Might not use this value?
+
     [SerializeField]
     [Tooltip("How far forward to move the player after climbing")]
     private float climbForward;
