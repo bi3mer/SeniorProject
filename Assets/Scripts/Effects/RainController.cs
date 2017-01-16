@@ -92,6 +92,8 @@ public class RainController : MonoBehaviour
     // Used to create splashes on rain hits.
     [SerializeField]
     private FXSplashManager splashManager;
+    [SerializeField]
+    private float splashSize = .4f;
     private ParticleSystem particleSystem;
     private List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
 
@@ -162,10 +164,8 @@ public class RainController : MonoBehaviour
         ParticleVelocity.z = -WindVectorXZ.y * fogWindMod;
 
         // Set the rotation of the rain based on the wind.
-        MainRain.startRotation3D = new Vector3(Mathf.Deg2Rad*-WindVectorXZ.y, Mathf.Deg2Rad*-WindVectorXZ.x, 0f);
+        MainRain.startRotation3D = new Vector3(Mathf.Deg2Rad* -WindVectorXZ.y, Mathf.Deg2Rad* -WindVectorXZ.x, 0f);
     }
-
-
 
     /// <summary>
     /// Called when the rain hits something. Spawns a splash.
@@ -177,7 +177,7 @@ public class RainController : MonoBehaviour
 
         for (int i = 0; i < collisionEvents.Count; ++i)
         {
-            splashManager.CreateSplash(collisionEvents[0].intersection);
+            splashManager.CreateSplash(collisionEvents[0].intersection, splashSize);
         }
     }
 }
