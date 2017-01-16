@@ -12,13 +12,13 @@ public class ClothCategory : ItemCategory
 		set;
 	}
 
-	public float Impermiability
+	public float FabricThickness
 	{
 		get;
 		set;
 	}
 
-	public float FabricThickness
+	public float Impermiability
 	{
 		get;
 		set;
@@ -52,24 +52,18 @@ public class ClothCategory : ItemCategory
 		category.ThreadDensity = ThreadDensity;
 		category.Impermiability = Impermiability;
 		category.FabricThickness = FabricThickness;
+		category.OnPlayer = OnPlayer;
 
 		category.Actions = new List<ItemAction>();
 		category.Attributes = new List<Attribute>();
 
-		Attributes.Add(new Attribute(onPlayerAttributeName, 0f));
-		Attributes.Add(new Attribute(threadDenAttrName, ThreadDensity));
-
-		ItemAction putOn = new ItemAction (putOnActName, new UnityAction(PutOn));
-		ItemAction takeOff = new ItemAction(takeOffActName, new UnityAction(TakeOff));
-
-		putOn.Conditions.Add(new ItemCondition(onPlayerAttributeName, 1f, new BooleanOperator.BooleanOperatorDelegate(BooleanOperator.Less)));
-		takeOff.Conditions.Add(new ItemCondition(onPlayerAttributeName, 1f, new BooleanOperator.BooleanOperatorDelegate(BooleanOperator.GreaterOrEqual)));
+		ItemAction putOn = new ItemAction (putOnActName, new UnityAction(category.PutOn));
+		ItemAction takeOff = new ItemAction(takeOffActName, new UnityAction(category.TakeOff));
 
 		category.Actions.Add(putOn);
 		category.Actions.Add(takeOff);
 
 		finishDuplication(category);
-		category.GetAttribute(onPlayerAttributeName).Value = 0f;
 
 		return category;
 	}
@@ -107,6 +101,10 @@ public class ClothCategory : ItemCategory
 		player.FireWarmthIncreaseRate = player.FireWarmthIncreaseRate - fireWarmthDifference;
 		player.OutsideWarmthIncreaseRate = player.OutsideWarmthIncreaseRate - outsideWarmthDifference;
 		player.ShelterWarmthIncreaseRate = player.ShelterWarmthIncreaseRate - shelterWarmthDifference;
+
+		OnPlayer = 1f;
+		GetAttribute(onPlayerAttributeName).Value = OnPlayer;
+		baseItem.UpdateExitingFlag = true;
 	}
 
 	public void TakeOff()
@@ -116,5 +114,9 @@ public class ClothCategory : ItemCategory
 		player.FireWarmthIncreaseRate = player.FireWarmthIncreaseRate + fireWarmthDifference;
 		player.OutsideWarmthIncreaseRate = player.OutsideWarmthIncreaseRate + outsideWarmthDifference;
 		player.ShelterWarmthIncreaseRate = player.ShelterWarmthIncreaseRate + shelterWarmthDifference;
+
+		OnPlayer = 0f;
+		GetAttribute(onPlayerAttributeName).Value = OnPlayer;
+		baseItem.UpdateExitingFlag = true;
 	}
 }

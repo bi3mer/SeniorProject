@@ -44,7 +44,7 @@ public class ItemFactory
 	/// <summary>
 	/// The name of the item file. All yaml files must be placed under "Resources/YAMLFiles"
 	/// </summary>
-	private const string itemFileName = "ItemListYaml.yml";
+	private const string itemFileName = "ItemListYamlTest.yml";
 	private const string districtItemFileName = "DistrictItemConfiguration.yml";
 
 	/// <summary>
@@ -176,6 +176,7 @@ public class ItemFactory
 		int qualityLevel = levels - 1;
 		BaseItem currentItem;
 		Inventory inventory = Game.Instance.PlayerInstance.Inventory;
+		bool decreasingBetter = false;
 
 		// checks each crafting stat that is marked as a stat to check when considering the item's quality level
 		for (int x = 0; x < recipe.StatsToCheck.Count; ++x) 
@@ -183,6 +184,14 @@ public class ItemFactory
 			string stat = recipe.StatsToCheck [x].StatName;
 			List<string> affectingItems = recipe.StatsToCheck [x].StatAffectingItems;
 			float result = 0;
+
+			if(recipe.StatsToCheck[x].QualityThreshold.Count > 1)
+			{
+				if(recipe.StatsToCheck[x].QualityThreshold[0] > recipe.StatsToCheck[x].QualityThreshold[1])
+				{
+					decreasingBetter = true;
+				}
+			}
 
 			// checks each item type that is marked as an item that affects the outcome of the crafting stat
 			for (int y = 0; y < affectingItems.Count; ++y)
@@ -219,13 +228,29 @@ public class ItemFactory
 			if (qualityLevel > 0) 
 			{
 				// a single crafting stat sum may decrease the level multiple times
-				while (result < recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
-				{
-					--qualityLevel;
 
-					if (qualityLevel <= 0) 
+				if(decreasingBetter)
+				{
+					while (result > recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
 					{
-						break;
+						--qualityLevel;
+
+						if (qualityLevel <= 0) 
+						{
+							break;
+						}
+					}
+				}
+				else
+				{
+					while (result < recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
+					{
+						--qualityLevel;
+
+						if (qualityLevel <= 0) 
+						{
+							break;
+						}
 					}
 				}
 			} 

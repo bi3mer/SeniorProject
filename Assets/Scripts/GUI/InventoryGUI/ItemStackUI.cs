@@ -105,9 +105,18 @@ public class ItemStackUI : MonoBehaviour
 		if (targetStack.Item.DirtyFlag && targetStack.Amount > 0 && !targetStack.Item.RemovalFlag) 
 		{
 			targetStack.Item.DirtyFlag = false;
+
 			Game.Instance.PlayerInstance.Inventory.AddItem (targetStack.Item, targetStack.Amount);
+		}
+		else if(targetStack.Item.UpdateExitingFlag)
+		{
+			targetStack.Item.UpdateExitingFlag = false;
+			originalStack.Item = targetStack.Item;
+
+			// force update stack amount
+			originalStack.Amount = targetStack.Amount;
 		} 
-		else if(!targetStack.Item.RemovalFlag && !targetStack.Item.DiscardFlag)
+		else if(!targetStack.Item.RemovalFlag && !targetStack.Item.DiscardFlag )
 		{
 			// if no number of the item has been modified and items are not flagged for removal, add back on the items set aside for modifcations
 			// to the original stack

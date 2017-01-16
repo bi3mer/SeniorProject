@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using System;
 
 public class ContainerCategory : ItemCategory
 {
@@ -50,10 +51,19 @@ public class ContainerCategory : ItemCategory
 
 	public void SetDown()
 	{
-		GameObject container = Game.Instance.WorldItemFactoryInstance.CreateInteractableItem(baseItem, 1);
-		container.name = baseItem.ItemName;
-		container.transform.position = Game.Instance.PlayerInstance.WorldTransform.position;
+		// create the object with the model
+		// TODO: Get information about how many are to be
+		GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem, 1);
+		InventoryInteractable container = item.AddComponent<InventoryInteractable>();
+		container.SetUp();
+		// TODO: Make the amount found in one stack to be a variable number
+		container.AttachedInventory = new Inventory(baseItem.ItemName + " " + Guid.NewGuid().ToString("N"), (int) Size);
+		container.Text = "Check " + baseItem.ItemName;
+		item.name = baseItem.ItemName;
+		item.transform.position = Game.Instance.PlayerInstance.WorldTransform.position;
 
-		baseItem.DiscardFlag = true;
+		SetActionComplete(setDownActName);
+
+		baseItem.RemovalFlag = true;
 	}
 }

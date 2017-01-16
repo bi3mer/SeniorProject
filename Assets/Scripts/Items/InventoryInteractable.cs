@@ -3,37 +3,22 @@ using System.Collections;
 
 public class InventoryInteractable : InteractableObject 
 {
-	private Inventory attachedInventory;
-
-	void Awake()
-	{
-		SetUp();
-	}
-
 	/// <summary>
-	/// Gets or sets the base item that this object should pick up.
+	/// Gets or sets the attached inventory.
 	/// </summary>
-	/// <value>The item.</value>
+	/// <value>The attached inventory.</value>
 	public Inventory AttachedInventory
-	{
-		get
-		{
-			return attachedInventory;
-		}
-		set
-		{
-			attachedInventory = value;
-		}
-	}
-
-	/// <summary>
-	/// Gets or sets the size.
-	/// </summary>
-	/// <value>The size.</value>
-	public int Size
 	{
 		get;
 		set;
+	}
+
+	/// <summary>
+	/// Awake this instance.
+	/// </summary>
+	void Awake()
+	{
+		SetUp();
 	}
 
 	/// <summary>
@@ -57,6 +42,7 @@ public class InventoryInteractable : InteractableObject
 	/// </summary>
 	private void openInventory()
 	{
-		GameViewBehavior.instance.OnInventoryClick();
+		InventoryUI.Instance.LoadNewInventory(AttachedInventory);
+		GameViewBehavior.instance.OnInventoryOpen();
 	}
 }

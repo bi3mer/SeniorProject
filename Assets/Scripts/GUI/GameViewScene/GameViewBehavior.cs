@@ -82,11 +82,16 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	public void OnInventoryClick()
 	{
-		if(InventoryUIBehavior.instance.targetInventory != Game.Instance.PlayerInstance.Inventory)
+		if(InventoryUI.Instance.TargetInventory != Game.Instance.PlayerInstance.Inventory)
 		{
-			InventoryUIBehavior.instance.LoadNewInventory(Game.Instance.PlayerInstance.Inventory);
+			InventoryUI.Instance.LoadNewInventory(Game.Instance.PlayerInstance.Inventory);
 		}
 
+		OnInventoryOpen();
+	}
+
+	public void OnInventoryOpen()
+	{
 		inventoryPanel.SetActive (true);
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
