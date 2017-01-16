@@ -28,6 +28,12 @@ public class ItemFactory
 		private set;
 	}
 
+	public Dictionary<string, DistrictItemRarityConfiguration> DistrictItemRarityInfo
+	{
+		get;
+		private set;
+	}
+
 	// the different result tiers of craftable items
 	private string[] itemLevels = new string[3] { "Poor", "Good", "Excellent" };
 
@@ -51,13 +57,14 @@ public class ItemFactory
 		ItemsByLocation = new Dictionary<string, List<string>>();
 
 		itemParser = new ItemSerializer(itemFileName, districtItemFileName);
-		LoadItemInformation ();
+		loadItemInformation ();
+		loadItemRarityInformation();
 	}
 
 	/// <summary>
 	/// Gets the blueprints for every item and stores if in the itemDatabase.
 	/// </summary>
-	private void LoadItemInformation()
+	private void loadItemInformation()
 	{
 		ItemDatabase = itemParser.DeserializeItemInformation ();
 		ItemsByLocation = itemParser.DeserializeDistrictItemData();
@@ -263,5 +270,47 @@ public class ItemFactory
 		}
 
 		return null;
+	}
+
+	/// <summary>
+	/// Loads the item rarity information.
+	/// </summary>
+	private void loadItemRarityInformation()
+	{
+		List<float> rarityValues = new List<float>();
+		DistrictItemRarityInfo = new Dictionary<string, DistrictItemRarityConfiguration>();
+
+		foreach(string key in ItemsByLocation.Keys)
+		{
+			for(int i = 0; i < ItemsByLocation[key].Count; ++i)
+			{
+				rarityValues.Add(ItemRarity.GetRarity(GetBaseItem(ItemsByLocation[key][i]).Rarity));
+			}
+
+			DistrictItemRarityInfo.Add(key, new DistrictItemRarityConfiguration());
+			DistrictItemRarityInfo[key].SetUpVoseAlias(rarityValues);
+			rarityValues.Clear();
+		}
+	}
+
+	/// <summary>
+	/// Gets the index of the weighted random item in a district.
+	/// </summary>
+	/// <returns>The weighted random item index.</returns>
+	/// <param name="district">District.</param>
+	public int GetWeightedRandomItemIndex(string district)
+	{
+		return DistrictItemRarityInfo[district].GetWeightedRandomItemIndex();
+	}
+
+	/// <summary>
+	/// Gets a weighted random base item in a district.
+	/// </summary>
+	/// <returns>The weighted random base item.</returns>
+	/// <param name="district">District.</param>
+	public BaseItem GetWeightedRandomBaseItem(string district)
+	{
+		int index = GetWeightedRandomItemIndex(district);
+		return ItemDatabase[ItemsByLocation[district][index]];
 	}
 }

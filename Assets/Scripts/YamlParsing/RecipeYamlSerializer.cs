@@ -24,7 +24,7 @@ public class RecipeYamlSerializer : CraftingSystemSerializer
 	/// <returns>The recipes.</returns>
 	public Dictionary<string, Recipe> LoadRecipes()
 	{
-		string file = GoogleDrive.GetDriveDocument(Filename);
+		string file = FileManager.GetDocument(Filename);
 		Dictionary<string, Recipe> recipeDatabase = new Dictionary<string, Recipe> ();
 
 		StringReader input = new StringReader(file);
