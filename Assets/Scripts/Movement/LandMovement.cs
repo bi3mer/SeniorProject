@@ -22,6 +22,12 @@ public class LandMovement : Movement
     private const float playerAnimatorWalk = .5f;
     private const float playerAnimatorIdle = 0f;
 
+	// Float used to update walking sound pitch based on player speed
+	private float playerSpeed = 0f;
+
+	/// <summary>
+	/// The event emitter for player walking sounds.
+	/// </summary>
 	FMOD.Studio.EventInstance eventEmitter;
 
 
@@ -42,12 +48,8 @@ public class LandMovement : Movement
     /// <param name="direction">The direction to walk the player.</param>
     public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
-
-		Debug.Log ("Player move");
-
-		StartWalkingSound ();
-
         float speed = 0f;
+
         // Walking
         if (!sprinting)
         {
@@ -68,6 +70,15 @@ public class LandMovement : Movement
         {
             playerAnimator.transform.forward = facingRotation;
         }
+
+		StartWalkingSound ();
+
+		// update saved player speed for sound pitch
+		playerSpeed = speed;
+		if (eventEmitter != null) 
+		{
+			eventEmitter.setPitch (playerSpeed);
+		}
     }
 
     /// <summary>
@@ -75,7 +86,6 @@ public class LandMovement : Movement
     /// </summary>
     public override void Idle(Animator playerAnimator)
 	{
-		Debug.Log ("Player no move");
 		StopWalkingSound ();
         playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorIdle);
     }
@@ -95,31 +105,33 @@ public class LandMovement : Movement
         RigidBody.AddForce(Vector3.up * jumpForce);
     }
 
-
+	/// <summary>
+	/// Starts the walking sound.
+	/// </summary>
 	public void StartWalkingSound(){
-
 
 		FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
 
-		Debug.Log ("START");
-		if (eventEmitter == null) {
-
-
+		if (eventEmitter == null) 
+		{
 			eventEmitter = FMODUnity.RuntimeManager.CreateInstance ("event:/Player/Movement/Walking/Concrete");
-			eventEmitter.setParameterValue ("Frequency", 30);
 		}
 
 		eventEmitter.getPlaybackState (out state);
 
-		if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING){
+		if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+		{
 			eventEmitter.start ();
 		}
-
 	}
 
+	/// <summary>
+	/// Stops the walking sound.
+	/// </summary>
 	public void StopWalkingSound() {
 
-		if (eventEmitter != null) {
+		if (eventEmitter != null) 
+		{
 			eventEmitter.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 		}
 	}
