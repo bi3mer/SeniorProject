@@ -32,6 +32,24 @@ public class Radio : MonoBehaviour
     //counter for how many times weather played
     private int weatherCounter;
 
+    [Tooltip("The lowest degree of the range of the knob's rotation in which music will play")]
+    public float lowMusic;
+
+	[Tooltip("The highest degree of the range of the knob's rotation in which music will play")]
+    public float highMusic;
+
+	[Tooltip("The lowest degree of the range of the knob's rotation in which the mystery channel will play")]
+    public float lowMystery;
+
+	[Tooltip("The highest degree of the range of the knob's rotation in which the mystery channel will play")]
+    public float highMystery;
+
+	[Tooltip("The lowest degree of the range of the knob's rotation in which the weather will play")]
+    public float lowWeather;
+
+	[Tooltip("The highest degree of the range of the knob's rotation in which the weather will play")]
+    public float highWeather;
+
     /// <summary>
     /// Sets up radio for usage.
     /// </summary>
@@ -76,12 +94,13 @@ public class Radio : MonoBehaviour
             {
                 statics.Play();
             }
+
+			ChangeChannel(dial.DialSlider.value);
 		} 
 		else 
 		{
 			radioScreenText.text = "Radio is Off";
 		}
-        ChangeChannel(dial.DialSlider.value);
     }
 
     /// <summary>
@@ -204,15 +223,15 @@ public class Radio : MonoBehaviour
     /// <param name="knobRotation"></param>
     public void ChangeChannel(float knobRotation)
     {
-        if (knobRotation > 89 && knobRotation < 91)
+        if (knobRotation > lowMusic && knobRotation < highMusic)
         {
             SetChannel(RadioChannel.Music);
         }
-        else if (knobRotation > 179 && knobRotation < 181)
+        else if (knobRotation > lowWeather && knobRotation < highWeather)
         {
             SetChannel(RadioChannel.Weather);
         }
-        else if (knobRotation > 269 && knobRotation < 271)
+        else if (knobRotation > lowMystery && knobRotation < highMystery)
         {
             SetChannel(RadioChannel.Mystery);
         }
