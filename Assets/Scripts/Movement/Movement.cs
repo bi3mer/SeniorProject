@@ -4,7 +4,17 @@ using System.Collections;
 public abstract class Movement : MonoBehaviour 
 {
     protected Rigidbody RigidBody;
-    protected float AccumulatedFallDammage;
+    protected float AccumulatedFallDamage;
+
+	/// <summary>
+	/// Gets or sets the speed of the movement.
+	/// </summary>
+	/// <value>The speed.</value>
+	public float Speed 
+	{
+		get;
+		set;
+	}
 
     /// <summary>
     /// Set up common movement variables.
@@ -12,7 +22,7 @@ public abstract class Movement : MonoBehaviour
     void Start ()
     {
         RigidBody = gameObject.GetComponent<Rigidbody>();
-        AccumulatedFallDammage = 0;
+        AccumulatedFallDamage = 0;
     }
 
     public abstract void Idle(Animator playerAnimator);
@@ -27,8 +37,8 @@ public abstract class Movement : MonoBehaviour
     {
         get
         {
-            float dammage = AccumulatedFallDammage;
-            AccumulatedFallDammage = 0;
+            float dammage = AccumulatedFallDamage;
+            AccumulatedFallDamage = 0;
             return dammage;
         }
     }

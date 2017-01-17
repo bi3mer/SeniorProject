@@ -17,7 +17,7 @@ public class WaterMovement : Movement
     {
         if (RigidBody.velocity.y < -minFallDamageVelocity)
         {
-            AccumulatedFallDammage += fallDamageModifier;
+            AccumulatedFallDamage += fallDamageModifier;
         }
     }
 
