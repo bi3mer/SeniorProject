@@ -37,7 +37,7 @@ public class ItemSerializer: CraftingSystemSerializer
 	/// <returns>The item information.</returns>
 	public Dictionary<string, BaseItem> DeserializeItemInformation()
 	{
-		string file = GoogleDrive.GetDriveDocument(Filename);
+		string file = FileManager.GetDocument(Filename);
 		Dictionary<string, BaseItem> itemDatabase = new Dictionary<string, BaseItem> ();
 
 		StringReader input = new StringReader(file);
@@ -69,7 +69,7 @@ public class ItemSerializer: CraftingSystemSerializer
 
 	public Dictionary<string, List<string>> DeserializeDistrictItemData()
 	{
-		string file = GoogleDrive.GetDriveDocument(districtItemFileName);
+		string file = FileManager.GetDocument(districtItemFileName);
 
 		StringReader input = new StringReader(file);
 
