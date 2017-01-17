@@ -34,15 +34,19 @@ public class InventoryUI : MonoBehaviour
 		set;
 	}
 
+	void Awake()
+	{
+		InstanceManagerGUI.InventoryUiInstance = this;
+	}
+
 	/// <summary>
 	/// Start this instance of Inventory Wrapper.
 	/// </summary>
 	void Start () 
 	{
-		InstanceManagerGUI.InventoryUiInstance = this;
+		//InstanceManagerGUI.InventoryUiInstance = this;
 		ItemsToDiscard = new List<Stack>();
-		TargetInventory = Game.Instance.PlayerInstance.Inventory;
-
+		InstanceManagerGUI.InventoryUiInstance.TargetInventory = Game.Instance.PlayerInstance.Inventory;
 		Stack[] contents = TargetInventory.GetInventory ();
 
 		// create empty slots

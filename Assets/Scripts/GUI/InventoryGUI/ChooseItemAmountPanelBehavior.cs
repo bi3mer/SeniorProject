@@ -166,10 +166,6 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	public void OpenItemDetailPanel(GameObject selected)
 	{
 		selectedItem = selected;
-		InstanceManagerGUI.ItemStackDetailPanelInstance.SetSelectedItem (selectedItem.gameObject);
-		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearAttributesAndActions();
-		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel();
-
 		Plus.gameObject.SetActive (true);
 		Minus.gameObject.SetActive (true);
 		Ok.gameObject.SetActive (true);
@@ -191,6 +187,9 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		// the plus sign should not be displayed
 		Change (0);
 
+		InstanceManagerGUI.ItemStackDetailPanelInstance.SetSelectedItem (selectedItem.gameObject);
+		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearAttributesAndActions();
+		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
 		attributesAndActionPanel.SetActive (true);
 	}

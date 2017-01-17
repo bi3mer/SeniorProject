@@ -67,15 +67,24 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	// current selected item
 	private ItemStackUI selected;
 
-	/// <summary>
-	/// Start this instance of itemStackPanelBehavior.
-	/// </summary>
-	void Start()
+	void Awake()
 	{
 		InstanceManagerGUI.ItemStackDetailPanelInstance = this;
 		Attributes = new List<ItemAttributeUI> ();
 		PossibleActions = new List<ItemActionButtonUI> ();
 		PossibleSubActions = new Dictionary<string, List<ItemActionButtonUI>> ();
+	}
+
+	/// <summary>
+	/// Start this instance of itemStackPanelBehavior.
+	/// </summary>
+	void Start()
+	{
+//		InstanceManagerGUI.ItemStackDetailPanelInstance = this;
+//		Attributes = new List<ItemAttributeUI> ();
+//		PossibleActions = new List<ItemActionButtonUI> ();
+//		PossibleSubActions = new Dictionary<string, List<ItemActionButtonUI>> ();
+		Debug.Log ("itemstack detail panel set");
 	}
 
 	public void SetSelectedItem(GameObject selectedItem)

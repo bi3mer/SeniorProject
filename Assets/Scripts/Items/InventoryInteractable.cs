@@ -42,7 +42,7 @@ public class InventoryInteractable : InteractableObject
 	/// </summary>
 	private void openInventory()
 	{
-		InventoryUI.Instance.LoadNewInventory(AttachedInventory);
+		InstanceManagerGUI.InventoryUiInstance.LoadNewInventory(AttachedInventory);
 		Game.Instance.GameViewInstance.OnInventoryOpen();
 	}
 }

@@ -3,15 +3,10 @@ using System.Collections;
 
 public static class InstanceManagerGUI
 {
-//	// Instance manager singleton
-//	public static InstanceManagerGUI Instance;
-//	public InstanceManagerGUI()
-//	{
-//		Instance = this;
-//	}
-
 	// Crafting menu UI instances
 	public static RecipePageBehavior RecipePageInstance;
+
+	public static string test = "this exists";
 
 	// Inventory menu UI instances
 	public static InventoryUI InventoryUiInstance;
