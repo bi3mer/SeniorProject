@@ -108,11 +108,11 @@ public class RaftMovement : Movement
         RigidBody.AddForce(direction.normalized * acceleration);
         StartCoroutine(this.updateIsStopped());
 
-		if(!this.updatingPlayerMovement)
+		/*if(!this.updatingPlayerMovement)
 		{
 			this.updatingPlayerMovement = true;
 			StartCoroutine(this.updatePlayerRaftPosition());
-		}
+		}*/
     }
 
     /// <summary>

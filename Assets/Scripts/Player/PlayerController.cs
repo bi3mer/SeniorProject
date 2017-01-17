@@ -92,6 +92,8 @@ public class PlayerController : MonoBehaviour
 
     private Tool fishingRod;
 
+    private Transform defaultParent;
+
 	[SerializeField]
 	private ControlScheme controlScheme;
 
@@ -156,6 +158,8 @@ public class PlayerController : MonoBehaviour
         updateStats = true;
         isInShelter = false;
         IsByFire = false;
+
+        defaultParent = transform.parent;
 
         // set the closest distance as nothing
         closestDistance = 0;
@@ -460,13 +464,16 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void BoardRaft(RaftMovement raftMovement)
     {
-        movement.Idle(playerAnimator);
-        movement = raftMovement;
+		movement = raftMovement;
 
         // place player on raft
         Vector3 position = raftMovement.gameObject.transform.position;
         float raftHeight = raftMovement.gameObject.GetComponent<BoxCollider>().bounds.size.y;
-        transform.position = position + Vector3.up * raftHeight;
+        Vector3 targetPosition = position + Vector3.up * raftHeight;
+        transform.parent = raftMovement.transform;
+
+		freezePlayer = true;
+		StartCoroutine(ClimbIntoRaft(targetPosition));
 
         // update raft's interactivity
         interactable.Text = raftMovement.DisembarkRaftText;
@@ -480,6 +487,7 @@ public class PlayerController : MonoBehaviour
     public void DisembarkRaft(RaftMovement raftMovement)
     {
         movement = waterMovement;
+        transform.parent = defaultParent;
 
         // update raft's interactivity
         interactable.Text = raftMovement.BoardRaftText;
@@ -856,5 +864,54 @@ public class PlayerController : MonoBehaviour
             freezePlayer = false;
             movement.Jump(playerAnimator);
         }
+    }
+
+    IEnumerator ClimbIntoRaft(Vector3 targetPosition)
+    {
+		Transform lH, rH, handHolder;
+		rH = PlayerIKSetUp.GetGoalIK(AvatarIKGoal.RightHand).target;
+        rH.transform.localPosition = transform.right * handSpacing;
+        lH = PlayerIKSetUp.GetGoalIK(AvatarIKGoal.LeftHand).target;
+        lH.transform.localPosition = -transform.right * handSpacing;
+		handHolder = lH.parent;
+
+		// Call the animator to play the climb animation
+        movement.Climb(playerAnimator);
+
+        // We're not swimming anymore.
+        playerAnimator.SetBool(playerAnimatorSwimming, false);
+
+        // Move hand targets up!
+        lH.transform.position = new Vector3(lH.transform.position.x, targetPosition.y, lH.transform.position.z);
+        rH.transform.position = new Vector3(rH.transform.position.x, targetPosition.y, rH.transform.position.z);
+
+        // Code to move the players hands and the player forward to the wall.
+        DOTween.To(() => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.RightHand).IKPositionWeight, x => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.RightHand).IKPositionWeight = x, 1f, startClimbTime);
+        DOTween.To(() => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.LeftHand).IKPositionWeight, x => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.LeftHand).IKPositionWeight = x, 1f, startClimbTime);
+        Tween tween = transform.DOMove(targetPosition, startClimbTime);
+
+        yield return tween.WaitForCompletion();
+
+        // Unparent the hands so they don't move up with the player.
+        handHolder.SetParent(null);
+
+        // Move the player up like they're climbing.
+        // Height of the climb
+        tween = transform.DOMove(targetPosition, ClimbTime);
+        yield return tween.WaitForCompletion();
+
+        // Move the player forward and move the hand iks back to 0.
+        transform.DOMove(climbForward * playerAnimator.transform.forward + transform.position, endClimbTime);
+        DOTween.To(() => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.RightHand).IKPositionWeight, x => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.RightHand).IKPositionWeight = x, 0f, endClimbTime);
+        tween = DOTween.To(() => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.LeftHand).IKPositionWeight, x => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.LeftHand).IKPositionWeight = x, 0f, endClimbTime);
+
+        yield return tween.WaitForCompletion();
+
+        //Reparent the hands now that the player has moved up.
+        handHolder.SetParent(playerAnimator.transform);
+        handHolder.transform.localPosition = Vector3.zero;
+
+        freezePlayer = false;
+        landMovement.Idle(playerAnimator);	
     }
 }
