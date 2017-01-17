@@ -25,10 +25,12 @@ public class FishingRodCategory : EquipableCategory
 
 		ItemAction equip = new ItemAction (equipActionName, new UnityAction(category.Equip));
 		ItemAction unequip = new ItemAction (unequipActionName, new UnityAction(category.UnEquip));
+
 		category.Actions.Add(equip);
 		category.Actions.Add(unequip);
 
 		finishDuplication(category);
+
 		return category;
 	}
 
