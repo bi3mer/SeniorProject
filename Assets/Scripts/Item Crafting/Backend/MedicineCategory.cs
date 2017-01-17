@@ -17,6 +17,8 @@ public class MedicineCategory : ItemCategory
     private const string healthGainAttrName = "hungerGain";
 
     private const string healActName = "Heal";
+    private const string curePneumoniaActName = "Cure Pneumonia";
+    private const string cureFoodPoisoningActName = "Cure Food Poisoning";
 
     /// <summary>
     /// Creates a copy of this medicine category.
@@ -31,8 +33,12 @@ public class MedicineCategory : ItemCategory
         category.Attributes = new List<Attribute>();
 
         ItemAction heal = new ItemAction(healActName, new UnityAction(category.Heal));
+        ItemAction cureFoodPoisoning = new ItemAction(cureFoodPoisoningActName, new UnityAction(category.CureFoodPoisoning));
+        ItemAction curePneumonia = new ItemAction(curePneumoniaActName, new UnityAction(category.CurePneumonia));
 
         category.Actions.Add(heal);
+        category.Actions.Add(cureFoodPoisoning);
+        category.Actions.Add(curePneumonia);
 
         finishDuplication(category);
 
@@ -51,8 +57,12 @@ public class MedicineCategory : ItemCategory
         Actions = new List<ItemAction>();
 
         ItemAction heal = new ItemAction(healActName, new UnityAction(Heal));
+        ItemAction cureFoodPoisoning = new ItemAction(cureFoodPoisoningActName, new UnityAction(CureFoodPoisoning));
+        ItemAction curePneumonia = new ItemAction(curePneumoniaActName, new UnityAction(CurePneumonia));
 
         Actions.Add(heal);
+        Actions.Add(cureFoodPoisoning);
+        Actions.Add(curePneumonia);
     }
 
     /// <summary>
@@ -66,4 +76,27 @@ public class MedicineCategory : ItemCategory
         SetActionComplete(healActName);
     }
 
+    /// <summary>
+    /// Cures the player of pneumonia.
+    /// </summary>
+    public void CurePneumonia()
+    {
+        if (Game.Instance.PlayerInstance.HealthStatus.Contains(HealthStatuses.Pneumonia))
+        {
+            Game.Instance.PlayerInstance.HealthStatus.Remove(HealthStatuses.Pneumonia);
+        }
+        SetActionComplete(curePneumoniaActName);
+    }
+
+    /// <summary>
+    /// Cures the player of food poisoning.
+    /// </summary>
+    public void CureFoodPoisoning()
+    {
+        if (Game.Instance.PlayerInstance.HealthStatus.Contains(HealthStatuses.FoodPoisoning))
+        {
+            Game.Instance.PlayerInstance.HealthStatus.Remove(HealthStatuses.FoodPoisoning);
+        }
+        SetActionComplete(cureFoodPoisoningActName);
+    }
 }

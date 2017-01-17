@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.Generic;
+using System.Collections.Generic;
 
+// types of health statuses the player can get
 public enum HealthStatuses {FoodPoisoning, Pneumonia};
 
 public class Player
