@@ -37,12 +37,13 @@ public class InteractableObject : MonoBehaviour
     /// <summary>
     /// Sets up the InteractableObject.
     /// </summary>
-    public void SetUp()
+    public virtual void SetUp()
     {
     	if(display == null)
     	{
 			display = GetComponentInChildren<TextMesh>();
 		}
+
         Show = false;
     }
 

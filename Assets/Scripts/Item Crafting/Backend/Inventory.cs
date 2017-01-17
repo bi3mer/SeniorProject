@@ -23,16 +23,32 @@ public class Inventory
 	private Stack[] contents;
 
 	private InventoryYamlParser parser;
+
 	/// <summary>
-	/// Sets up the inventory
-	/// TODO: Remove the definition of the inventory
+	/// Initializes a new instance of the <see cref="Inventory"/> class.
 	/// </summary>
-	public Inventory(string name, string inventoryFile)
+	/// <param name="name">Name.</param>
+	/// <param name="size">Size.</param>
+	public Inventory(string name, int size)
+	{
+		contents = new Stack[size];
+		inventoryName = name;
+		InventorySize = size;
+	}
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Inventory"/> class.
+	/// </summary>
+	/// <param name="name">Name of inventory.</param>
+	/// <param name="inventoryFile">Inventory file.</param>
+	public Inventory(string name, string inventoryFile, int size)
 	{
 		contents = new Stack[inventorySize];
 		inventoryName = name;
 
 		parser = new InventoryYamlParser(inventoryFile);
+		InventorySize = size;
+
 		LoadInventory();
 	}
 
@@ -182,7 +198,7 @@ public class Inventory
 	/// <summary>
 	/// Removes the item from the inventory.
 	/// </summary>
-	/// <param name="item">Item to remove.</param>
+	/// <param name="stack">Item to remove.</param>
 	public void RemoveStack(Stack stack)
 	{
 		for (int i = 0; i < contents.Length; ++i) 
