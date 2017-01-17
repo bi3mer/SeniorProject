@@ -49,9 +49,9 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	private GameObject selectedItem;
 
 	/// <summary>
-	/// Start this instance of ChooseItemAmountPanelBehavior.
+	/// Awake this instance of ChooseItemAmountPanelBehavior.
 	/// </summary>
-	void Start()
+	void Awake()
 	{
 		InstanceManagerGUI.ItemAmountPanelInstance = this;
 	}

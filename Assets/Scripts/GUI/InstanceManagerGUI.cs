@@ -6,8 +6,6 @@ public static class InstanceManagerGUI
 	// Crafting menu UI instances
 	public static RecipePageBehavior RecipePageInstance;
 
-	public static string test = "this exists";
-
 	// Inventory menu UI instances
 	public static InventoryUI InventoryUiInstance;
 	public static ChooseItemAmountPanelBehavior ItemAmountPanelInstance;

@@ -82,10 +82,8 @@ public class GameViewBehavior : MonoBehaviour
 	public void OnInventoryClick()
 	{
 		OnInventoryOpen();
-		Debug.Log (InstanceManagerGUI.test);
 		if (InstanceManagerGUI.InventoryUiInstance != null) 
 		{
-			Debug.Log ("NOT NULL");
 			if (InstanceManagerGUI.InventoryUiInstance.TargetInventory != Game.Instance.PlayerInstance.Inventory) {
 				InstanceManagerGUI.InventoryUiInstance.LoadNewInventory (Game.Instance.PlayerInstance.Inventory);
 			}

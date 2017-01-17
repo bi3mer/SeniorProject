@@ -118,14 +118,22 @@ public class RecipePageBehavior : MonoBehaviour
 		// If this is the last step of the recipe, then the continue button used to continue to the 
 		// next step is disabled. Instead the "craft" button which is used to combine the items is activated.
 
-		int lastStep = recipe.Requirements.Count - 1;
-		if (currentStep + 1 >= lastStep) 
-		{
+//		int lastStep = recipe.Requirements.Count - 1;
+//		if (currentStep + 1 >= lastStep) 
+//		{
+//			NextStepButton.gameObject.SetActive (false);
+//			CraftButton.gameObject.SetActive (true);
+//		}
+
+		int lastStep = recipe.Requirements.Count;
+		if (currentStep + 1 >= lastStep) {
 			NextStepButton.gameObject.SetActive (false);
 			CraftButton.gameObject.SetActive (true);
+		} 
+		else 
+		{
+			DisplayPossibleItems(currentStep+1);
 		}
-
-		DisplayPossibleItems(currentStep+1);
 	}
 
 	/// <summary>
@@ -231,8 +239,8 @@ public class RecipePageBehavior : MonoBehaviour
 	{
 		// call the CraftingRecipeFactory which will create the resulting item given the
 		// name of the recipe and ingredients selected
-		itemFactory.Craft (recipe, itemsSelected, Game.Instance.PlayerInstance.Inventory); // delete after overworld PR is done
-		//Game.Instance.ItemFactoryInstance.Craft (recipe, ingredients, Game.Instance.PlayerInstance.Inventory); // add in after overworld PR is done
+		//itemFactory.Craft (recipe, itemsSelected, Game.Instance.PlayerInstance.Inventory); // delete after overworld PR is done
+		Game.Instance.ItemFactoryInstance.Craft (recipe, itemsSelected, Game.Instance.PlayerInstance.Inventory); // add in after overworld PR is done
 
 		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
 
