@@ -58,6 +58,7 @@ public class InteractableObject : MonoBehaviour
         }
         set 
         {
+        	Debug.Log("show iiiiit");
             display.gameObject.SetActive(value);
             display.text = text;
         }
