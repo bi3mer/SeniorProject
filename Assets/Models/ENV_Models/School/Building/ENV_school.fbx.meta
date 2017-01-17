@@ -81,6 +81,20 @@ ModelImporter:
     4300022: ENV_schoolFloor5
     4300024: ENV_schoolFloor6
     4300026: ENV_schoolFloor7
+    6400000: Cubicle
+    6400002: Cubicle 1
+    6400004: Door
+    6400006: Door 1
+    6400008: ENV_schoolFloor0
+    6400010: ENV_schoolFloor1
+    6400012: ENV_schoolFloor2
+    6400014: ENV_schoolFloor3
+    6400016: ENV_schoolFloor4
+    6400018: ENV_schoolFloor5
+    6400020: ENV_schoolFloor6
+    6400022: ENV_schoolFloor7
+    6400024: ENV_schoolRoof
+    6400026: TopSchoolDoor
     7400000: Take 001
     9500000: //RootNode
   materials:
@@ -109,7 +123,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 20
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
