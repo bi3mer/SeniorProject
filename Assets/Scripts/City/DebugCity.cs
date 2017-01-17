@@ -13,6 +13,8 @@ public class DebugCity : MonoBehaviour
     private bool showBlockPerimeter;
     [SerializeField]
     private bool showBlockControlPoint;
+    [SerializeField]
+    private bool showBuildingPositions;
 
     /// <summary>
     /// Draws city using Gizmos.
@@ -69,6 +71,15 @@ public class DebugCity : MonoBehaviour
                         Gizmos.DrawSphere(block.Center, 0.2f);
                     }
 
+                    if (showBuildingPositions)
+                    {
+                        // In each building
+                        for (int k = 0; k < block.Buildings.Count; ++k)
+                        {
+                            Gizmos.color = Color.black;
+                            Gizmos.DrawSphere(block.Buildings[k].RootPosition, 0.15f);
+                        }
+                    }
                 }
             }
         }
