@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Generic;
+
+public enum HealthStatuses {FoodPoisoning, Pneumonia};
 
 public class Player
 {
@@ -125,6 +128,15 @@ public class Player
     /// Controls the player's tools.
     /// </summary>
     public PlayerTools Toolbox
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Controls the player's health status.
+    /// </summary>
+    public List<HealthStatuses> HealthStatus
     {
         get;
         set;
