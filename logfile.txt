@@ -1,6 +1,0 @@
-﻿29:44.413 :: "FileManager" (Line: 56) :: Getting file from google drive
-29:44.418 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
-29:44.678 :: "GoogleDrive" (Line: 45) :: Pulling remote document from https://glassprisongames-googlegetter.herokuapp.com/InventoryYaml.yml
-29:52.671 :: "FileManager" (Line: 56) :: Getting file from google drive
-29:52.672 :: "GoogleDrive" (Line: 22) :: Checking if conneceted to internet
-29:52.823 :: "GoogleDrive" (Line: 45) :: Pulling remote document from https://glassprisongames-googlegetter.herokuapp.com/InventoryYaml.yml

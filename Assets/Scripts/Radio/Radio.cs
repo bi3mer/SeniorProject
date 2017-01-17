@@ -15,8 +15,12 @@ public class Radio : MonoBehaviour
 	private AudioSource weather;
 	[SerializeField]
 	private AudioSource mystery;
-	[SerializeField]
+    [SerializeField]
+    private AudioSource statics;
+    [SerializeField]
 	private Text radioScreenText;
+    [SerializeField]
+    private Dial dial;
 
     private bool isOn;
     private RadioChannel CurrentChannel { get; set; }
@@ -27,6 +31,24 @@ public class Radio : MonoBehaviour
 
     //counter for how many times weather played
     private int weatherCounter;
+
+    [Tooltip("The lowest degree of the range of the knob's rotation in which music will play")]
+    public float lowMusic;
+
+	[Tooltip("The highest degree of the range of the knob's rotation in which music will play")]
+    public float highMusic;
+
+	[Tooltip("The lowest degree of the range of the knob's rotation in which the mystery channel will play")]
+    public float lowMystery;
+
+	[Tooltip("The highest degree of the range of the knob's rotation in which the mystery channel will play")]
+    public float highMystery;
+
+	[Tooltip("The lowest degree of the range of the knob's rotation in which the weather will play")]
+    public float lowWeather;
+
+	[Tooltip("The highest degree of the range of the knob's rotation in which the weather will play")]
+    public float highWeather;
 
     /// <summary>
     /// Sets up radio for usage.
@@ -55,7 +77,7 @@ public class Radio : MonoBehaviour
 		if (isOn) 
 		{
 			radioScreenText.text = "Radio is On";
-			//when music channel selected
+			// When music channel selected
 			if (!music.isPlaying && CurrentChannel == RadioChannel.Music) 
 			{
 				music.Play ();
@@ -68,6 +90,12 @@ public class Radio : MonoBehaviour
 			{
 				weather.Play ();
 			}
+            if (!statics.isPlaying && CurrentChannel == RadioChannel.Null)
+            {
+                statics.Play();
+            }
+
+			ChangeChannel(dial.DialSlider.value);
 		} 
 		else 
 		{
@@ -88,6 +116,7 @@ public class Radio : MonoBehaviour
             music.Stop();
             weather.Stop();
 			mystery.Stop();
+            statics.Stop();
         }
 
         //Turn on the radio
@@ -162,21 +191,54 @@ public class Radio : MonoBehaviour
 			{
 				weather.Stop ();
 				mystery.Stop ();
+                statics.Stop();
 				this.CurrentChannel = channel;
 			} 
 			else if (channel == RadioChannel.Weather) 
 			{
 				music.Stop ();
 				mystery.Stop ();
-				this.CurrentChannel = channel;
+                statics.Stop();
+                this.CurrentChannel = channel;
 			} 
 			else if (channel == RadioChannel.Mystery) 
 			{
 				music.Stop ();
 				weather.Stop ();
-				this.CurrentChannel = channel;
+                statics.Stop();
+                this.CurrentChannel = channel;
 			}
+            else if (channel == RadioChannel.Null)
+            {
+                music.Stop();
+                weather.Stop();
+                this.CurrentChannel = channel;
+            }
 		}
+    }
+
+    /// <summary>
+    /// Change the radio channel based on dial position.
+    /// </summary>
+    /// <param name="knobRotation"></param>
+    public void ChangeChannel(float knobRotation)
+    {
+        if (knobRotation > lowMusic && knobRotation < highMusic)
+        {
+            SetChannel(RadioChannel.Music);
+        }
+        else if (knobRotation > lowWeather && knobRotation < highWeather)
+        {
+            SetChannel(RadioChannel.Weather);
+        }
+        else if (knobRotation > lowMystery && knobRotation < highMystery)
+        {
+            SetChannel(RadioChannel.Mystery);
+        }
+        else
+        {
+            SetChannel(RadioChannel.Null);
+        }
     }
 
     /// <summary>
