@@ -233,14 +233,14 @@ public class ItemFactory
 
 				if(smallerStatsPreferred)
 				{
-					while (result > recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1] && qualityLevel > 0) 
+					while (qualityLevel > 0 && result > recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
 					{
 						--qualityLevel;
 					}
 				}
 				else
 				{
-					while (result < recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1] && qualityLevel > 0) 
+					while (qualityLevel > 0 && result < recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
 					{
 						--qualityLevel;
 					}
