@@ -50,7 +50,7 @@ public class NoteFactory
 		{
 			worldNoteTemplates.Add(noteToCreate.WorldModel, (GameObject) Resources.Load(noteToCreate.WorldModel));
 		}
-			
+
 		// create the object with the model
 		GameObject item = GameObject.Instantiate (worldNoteTemplates[noteToCreate.WorldModel]);
 		item.name = noteToCreate.Title;
@@ -61,9 +61,11 @@ public class NoteFactory
 		textObject.transform.localPosition = Vector3.zero;
 
 		// Set up the interactable note
-		Note itemNote = item.GetComponent<Note>();
+		Note itemNote = item.AddComponent<Note>();
 		itemNote.DisplayText = noteToCreate.Text;
 		itemNote.SetUp ();
+		itemNote.Text = noteToCreate.Title;
+		itemNote.Show = false;
 
 		return item;
 	}

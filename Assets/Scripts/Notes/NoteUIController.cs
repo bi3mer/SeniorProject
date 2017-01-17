@@ -26,7 +26,7 @@ public class NoteUIController : MonoBehaviour
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
-	void Start () 
+	void Awake () 
 	{
 		Instance = this;
 		NoteUIPanel.SetActive (false);
