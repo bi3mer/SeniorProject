@@ -1,9 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Events;
-
-/// <summary>
+﻿/// <summary>
 /// Base class for all notes.
 /// </summary>
 public class NoteData

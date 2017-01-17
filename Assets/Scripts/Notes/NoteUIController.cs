@@ -2,10 +2,25 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class NoteUIController : MonoBehaviour {
+/// <summary>
+/// Note user interface controller.
+/// TODO: Make this a child of game UI
+/// </summary>
+public class NoteUIController : MonoBehaviour 
+{
+	/// <summary>
+	/// The instance.
+	/// </summary>
+	public static NoteUIController Instance;
 
-	public static NoteUIController instance;
+	/// <summary>
+	/// The note user interface panel.
+	/// </summary>
 	public GameObject NoteUIPanel;
+
+	/// <summary>
+	/// The note text.
+	/// </summary>
 	public Text NoteText;
 
 	/// <summary>
@@ -13,13 +28,8 @@ public class NoteUIController : MonoBehaviour {
 	/// </summary>
 	void Start () 
 	{
-		instance = this;
+		Instance = this;
 		NoteUIPanel.SetActive (false);
-	}
-
-	void Update ()
-	{
-
 	}
 
 	/// <summary>

@@ -48,15 +48,15 @@ public class Note : InteractableObject
 	/// </summary>
 	public void Read()
 	{
-		if (NoteUIController.instance.NoteUIPanel.activeSelf) 
+		if (NoteUIController.Instance.NoteUIPanel.activeSelf) 
 		{
-			NoteUIController.instance.NoteUIPanel.SetActive (false);
+			NoteUIController.Instance.NoteUIPanel.SetActive (false);
 		} 
 
 		else 
 		{
-			NoteUIController.instance.SetText (DisplayText);
-			NoteUIController.instance.NoteUIPanel.SetActive (true);
+			NoteUIController.Instance.SetText (DisplayText);
+			NoteUIController.Instance.NoteUIPanel.SetActive (true);
 		}
 	}
 }

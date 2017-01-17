@@ -61,8 +61,9 @@ public class NoteFactory
 		textObject.transform.localPosition = Vector3.zero;
 
 		// Set up the interactable note
-		item.GetComponent<Note>().DisplayText = noteToCreate.Text;
-		item.GetComponent<Note> ().SetUp ();
+		Note itemNote = item.GetComponent<Note>();
+		itemNote.DisplayText = noteToCreate.Text;
+		itemNote.SetUp ();
 
 		return item;
 	}
