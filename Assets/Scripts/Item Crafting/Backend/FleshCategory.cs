@@ -5,20 +5,10 @@ using UnityEngine.Events;
 public class FleshCategory : ItemCategory
 {
     /// <summary>
-    /// Gets or sets the toughness.
-    /// </summary>
-    /// <value>The stomach effect.</value>
-    public float Toughness
-    {
-        get;
-        set;
-    }
-
-    /// <summary>
     /// Gets or sets the stomach effect.
     /// </summary>
     /// <value>The stomach effect.</value>
-    public float StomachEffect
+    public float HealthEffect
     {
         get;
         set;
@@ -39,13 +29,13 @@ public class FleshCategory : ItemCategory
     /// </summary>
     private const string defaultCookedNameAddition = "Cooked";
 
-    private const string toughAttrName = "toughness";
+    private const string healthEffectAttrName = "healthEffect";
     private const string hungerGainAttrName = "hungerGain";
 
     private const string cookActName = "Cook";
     private const string eatActName = "Eat";
 
-    private const float stomachEffectDecreaseRate = 0.25f;
+    private const float healthEffectDecreaseRate = 0.25f;
 
     /// <summary>
     /// Creates a copy of this flesh category.
@@ -54,7 +44,7 @@ public class FleshCategory : ItemCategory
     public override ItemCategory GetDuplicate()
     {
         FleshCategory category = new FleshCategory();
-        category.StomachEffect = StomachEffect;
+        category.HealthEffect = HealthEffect;
         category.HungerGain = HungerGain;
 
         category.Actions = new List<ItemAction>();
@@ -79,7 +69,7 @@ public class FleshCategory : ItemCategory
         Attributes = new List<Attribute>();
 
         Attributes.Add(new Attribute(hungerGainAttrName, HungerGain));
-        Attributes.Add(new Attribute(toughAttrName, Toughness));
+        Attributes.Add(new Attribute(healthEffectAttrName, HealthEffect));
 
         Actions = new List<ItemAction>();
 
@@ -96,18 +86,19 @@ public class FleshCategory : ItemCategory
     /// </summary>
     public void Cook()
     {
-        //Toughness = Toughness * cookingWaterIncreaseRate;
-
-        GetAttribute(toughAttrName).Value = Toughness;
+        baseItem.ChangeName(defaultCookedNameAddition + baseItem.ItemName);
 
         SetActionComplete(cookActName);
     }
 
     public void Eat()
     {
-        if (StomachEffect < 0)
+        if (HealthEffect < 0)
         {
-            // TODO: stomach illness code
+            if (!(Game.Instance.PlayerInstance.HealthStatus.Contains(HealthStatuses.FoodPoisoning)))
+            {
+                Game.Instance.PlayerInstance.HealthStatus.Add(HealthStatuses.FoodPoisoning);
+            }
         }
 
         Game.Instance.PlayerInstance.Hunger += HungerGain;
