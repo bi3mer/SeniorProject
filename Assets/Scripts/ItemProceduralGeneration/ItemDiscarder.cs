@@ -7,7 +7,7 @@ public class ItemDiscarder
 	// <summary>
 	/// The radius at which points will be placed around the player for discarding items
 	/// </summary>
-	private float discardRadius = 1f;
+	private float discardRadius = 0.4f;
 
 	/// <summary>
 	/// Discards the items from the inventory and places them in the world.
