@@ -53,26 +53,32 @@ public class CityController : MonoBehaviour
     {
         District[] districts = districtGenerator.Generate(seed, cityBounds);
 
-        // TODO: calculate true city center
-        Vector3 cityCenter = Vector3.zero;
+        // Pick a vertex that is shared by the largest number of districts
+        // and create the talest builing there.
+        Vector3 cityCenter = GenerationUtility.GetMostCommonVertex(districts);
+        Building tallestBuilding = buildingGenerator.CreateCityCenterBuilding(cityCenter);
 
         // Generate blocks in each district
         for (int i = 0; i < districts.Length; ++i)
         {
             District district = districts[i];
             Block[] blocks = blockGenerator.Generate(seed, district);
-            
+
+            // Pick a block to generate the weenie building in
+            int weenieBlock = Random.Range(0, blocks.Length);
+
             // Generate buildings in each block and add the blocks to the district
             for (int j = 0; j < blocks.Length; ++j)
             {
                 Block block = blocks[j];
-                Building[] buildings = buildingGenerator.Generate(seed, block, district.Configuration, cityBounds, cityCenter);
+                Building[] buildings = buildingGenerator.Generate(seed, block, district.Configuration, cityBounds, cityCenter, (weenieBlock == j));
 
                 for (int k = 0; k < buildings.Length; ++k)
                 {
                     Building building = buildings[k];
-           
-                    rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name);
+
+					// TODO: uncomment when https://github.com/bi3mer/SeniorProject/issues/346 fixed.
+                    // rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name);
                     
                     block.Buildings.Add(building);
                 }
@@ -81,6 +87,6 @@ public class CityController : MonoBehaviour
             }
         }
 
-        return new City(districts, cityBounds, cityCenter);
+        return new City(districts, cityBounds, cityCenter, tallestBuilding);
     }
 }
