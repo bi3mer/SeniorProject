@@ -77,7 +77,7 @@ public class CityController : MonoBehaviour
                 {
                     Building building = buildings[k];
            
-                    //rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name);
+                    rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name);
                     
                     block.Buildings.Add(building);
                 }
