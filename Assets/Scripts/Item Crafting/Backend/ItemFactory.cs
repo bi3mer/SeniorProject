@@ -240,7 +240,7 @@ public class ItemFactory
 				}
 				else
 				{
-					while ( qualityLevel > 0 && result < recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
+					while (qualityLevel > 0 && result < recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
 					{
 						--qualityLevel;
 					}
