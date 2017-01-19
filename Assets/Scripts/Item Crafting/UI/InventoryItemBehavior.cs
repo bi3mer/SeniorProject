@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using UnityEditor.Events;
+using UnityEngine.Events;
 
 /// <summary>
 /// Attached to the buttons that represent the items in the Inventory UI

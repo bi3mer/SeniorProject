@@ -96,6 +96,8 @@ public class PlayerController : MonoBehaviour
 
     private Tool fishingRod;
 
+    private Transform defaultParent;
+
 	[SerializeField]
 	private ControlScheme controlScheme;
 
@@ -165,6 +167,8 @@ public class PlayerController : MonoBehaviour
         updateStats = true;
         isInShelter = false;
         IsByFire = false;
+
+        defaultParent = transform.parent;
 
         // set the closest distance as nothing
         closestDistance = 0;
@@ -476,14 +480,14 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void BoardRaft(RaftMovement raftMovement)
     {
-        movement.Idle(playerAnimator);
-        movement = raftMovement;
+		movement = raftMovement;
 
         // place player on raft
         Vector3 position = raftMovement.gameObject.transform.position;
         float raftHeight = raftMovement.gameObject.GetComponent<BoxCollider>().bounds.size.y;
         transform.position = position + Vector3.up * raftHeight;
-
+        transform.parent = raftMovement.transform;
+	
         // update raft's interactivity
         interactable.Text = raftMovement.DisembarkRaftText;
         interactable.SetAction(delegate { DisembarkRaft(raftMovement); });
@@ -496,6 +500,7 @@ public class PlayerController : MonoBehaviour
     public void DisembarkRaft(RaftMovement raftMovement)
     {
         movement = waterMovement;
+        transform.parent = defaultParent;
 
         // update raft's interactivity
         interactable.Text = raftMovement.BoardRaftText;

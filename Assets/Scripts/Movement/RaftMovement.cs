@@ -31,7 +31,6 @@ public class RaftMovement : Movement
 
     [SerializeField]
     private float updatePlayerPositionTimer = 2.0f;
-    private bool updatingPlayerMovement = false;
 
     /// <summary>
     /// Fixed update for physical movement of the raft
@@ -95,8 +94,6 @@ public class RaftMovement : Movement
 			Game.Instance.PlayerInstance.Controller.BoardRaft(this);
 			yield return new WaitForSeconds(this.updatePlayerPositionTimer);
     	}
-
-		this.updatingPlayerMovement = false;
     }
 
     /// <summary>
@@ -107,12 +104,6 @@ public class RaftMovement : Movement
     {
         RigidBody.AddForce(direction.normalized * acceleration);
         StartCoroutine(this.updateIsStopped());
-
-		if(!this.updatingPlayerMovement)
-		{
-			this.updatingPlayerMovement = true;
-			StartCoroutine(this.updatePlayerRaftPosition());
-		}
     }
 
     /// <summary>
