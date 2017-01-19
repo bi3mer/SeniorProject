@@ -81,16 +81,19 @@ public class FleshCategory : ItemCategory
     }
 
     /// <summary>
-    /// Cooks the item. Lowers toughness and increases water content. If the item 
-    ///has high enough water content, it becomes soup. Otherwise, it becomes Cooked X.
+    /// Cooks the item. Decreases health effect.
     /// </summary>
     public void Cook()
     {
         baseItem.ChangeName(defaultCookedNameAddition + baseItem.ItemName);
+        HealthEffect -= healthEffectDecreaseRate;
 
         SetActionComplete(cookActName);
     }
 
+    /// <summary>
+    /// Player eats item. If there is a health effect, the player will get food poisoning.
+    /// </summary>
     public void Eat()
     {
         if (HealthEffect < 0)

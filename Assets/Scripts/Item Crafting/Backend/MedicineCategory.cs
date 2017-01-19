@@ -14,11 +14,12 @@ public class MedicineCategory : ItemCategory
         set;
     }
 
-    private const string healthGainAttrName = "hungerGain";
+    private const string healthGainAttrName = "healthGain";
 
     private const string healActName = "Heal";
     private const string curePneumoniaActName = "Cure Pneumonia";
     private const string cureFoodPoisoningActName = "Cure Food Poisoning";
+    private const string cureAllActName = "Cure All";
 
     /// <summary>
     /// Creates a copy of this medicine category.
@@ -35,6 +36,7 @@ public class MedicineCategory : ItemCategory
         ItemAction heal = new ItemAction(healActName, new UnityAction(category.Heal));
         ItemAction cureFoodPoisoning = new ItemAction(cureFoodPoisoningActName, new UnityAction(category.CureFoodPoisoning));
         ItemAction curePneumonia = new ItemAction(curePneumoniaActName, new UnityAction(category.CurePneumonia));
+        ItemAction cureAll = new ItemAction(cureAllActName, new UnityAction(category.CureAll));
 
         category.Actions.Add(heal);
         category.Actions.Add(cureFoodPoisoning);
@@ -97,6 +99,30 @@ public class MedicineCategory : ItemCategory
         {
             Game.Instance.PlayerInstance.HealthStatus.Remove(HealthStatuses.FoodPoisoning);
         }
+
+        baseItem.RemovalFlag = true;
+
+        SetActionComplete(cureFoodPoisoningActName);
+    }
+
+    /// <summary>
+    /// Cures all illness and maxes health.
+    /// </summary>
+    public void CureAll()
+    {
+        if (Game.Instance.PlayerInstance.HealthStatus.Contains(HealthStatuses.FoodPoisoning))
+        {
+            Game.Instance.PlayerInstance.HealthStatus.Remove(HealthStatuses.FoodPoisoning);
+        }
+
+        if (Game.Instance.PlayerInstance.HealthStatus.Contains(HealthStatuses.Pneumonia))
+        {
+            Game.Instance.PlayerInstance.HealthStatus.Remove(HealthStatuses.Pneumonia);
+        }
+
+        Game.Instance.PlayerInstance.Health = Game.Instance.PlayerInstance.MaxHealth;
+        baseItem.RemovalFlag = true;
+
         SetActionComplete(cureFoodPoisoningActName);
     }
 }
