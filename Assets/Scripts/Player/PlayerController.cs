@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
 	[Header("Sound Settings")]
 	[SerializeField]
-	public string RoofFootstepSoundEvent = "event:/Player/Movement/Walking/Concrete";
+	private string roofFootstepSoundEvent = "event:/Player/Movement/Walking/Concrete";
 
     private bool isGrounded;
     private bool updateStats;
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
 	/// <summary>
 	/// The event emitter for player sounds.
 	/// </summary>
-	public FMOD.Studio.EventInstance eventEmitter;
+	private FMOD.Studio.EventInstance eventEmitter;
 
     public Animator PlayerAnimator
     {
