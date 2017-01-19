@@ -44,7 +44,6 @@ public class InventoryUI : MonoBehaviour
 	/// </summary>
 	void Start () 
 	{
-		//InstanceManagerGUI.InventoryUiInstance = this;
 		ItemsToDiscard = new List<Stack>();
 		InstanceManagerGUI.InventoryUiInstance.TargetInventory = Game.Instance.PlayerInstance.Inventory;
 		Stack[] contents = TargetInventory.GetInventory ();

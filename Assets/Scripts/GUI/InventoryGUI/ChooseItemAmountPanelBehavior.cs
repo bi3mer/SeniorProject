@@ -158,7 +158,6 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 
 		// display attributes and actions
 		// TODO : fix issue where item panel keeps adding attributes and actions from previously clicked item
-		//InventoryUI.Instance.DisableItemStackButtons();
 		InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
 	}
 

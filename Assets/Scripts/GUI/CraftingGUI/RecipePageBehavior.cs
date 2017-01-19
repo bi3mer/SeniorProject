@@ -102,12 +102,6 @@ public class RecipePageBehavior : MonoBehaviour
 	/// </summary>
 	public void ResetCraftingPanel()
 	{
-//		InstanceManagerGUI.RecipePageInstance.BeginCraftingButton.gameObject.SetActive (true);
-//		InstanceManagerGUI.RecipePageInstance.CancelCraftButton.gameObject.SetActive (false);
-//		InstanceManagerGUI.RecipePageInstance.CraftingPanel.gameObject.SetActive (false);
-//		InstanceManagerGUI.RecipePageInstance.CraftButton.gameObject.SetActive (false);
-//		EventSystem.current.SetSelectedGameObject(null);
-
 		BeginCraftingButton.gameObject.SetActive (true);
 		CancelCraftButton.gameObject.SetActive (false);
 		CraftingPanel.gameObject.SetActive (false);
@@ -123,14 +117,6 @@ public class RecipePageBehavior : MonoBehaviour
 	{
 		// If this is the last step of the recipe, then the continue button used to continue to the 
 		// next step is disabled. Instead the "craft" button which is used to combine the items is activated.
-
-//		int lastStep = recipe.Requirements.Count - 1;
-//		if (currentStep + 1 >= lastStep) 
-//		{
-//			NextStepButton.gameObject.SetActive (false);
-//			CraftButton.gameObject.SetActive (true);
-//		}
-
 		int lastStep = recipe.Requirements.Count;
 		if (currentStep + 1 >= lastStep) {
 			NextStepButton.gameObject.SetActive (false);

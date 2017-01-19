@@ -67,6 +67,9 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	// current selected item
 	private ItemStackUI selected;
 
+	/// <summary>
+	/// Setup ItemStackDetailPanelBehavior on awake
+	/// </summary>
 	void Awake()
 	{
 		InstanceManagerGUI.ItemStackDetailPanelInstance = this;
@@ -76,17 +79,9 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Start this instance of itemStackPanelBehavior.
+	/// Sets the selected item.
 	/// </summary>
-	void Start()
-	{
-//		InstanceManagerGUI.ItemStackDetailPanelInstance = this;
-//		Attributes = new List<ItemAttributeUI> ();
-//		PossibleActions = new List<ItemActionButtonUI> ();
-//		PossibleSubActions = new Dictionary<string, List<ItemActionButtonUI>> ();
-		Debug.Log ("itemstack detail panel set");
-	}
-
+	/// <param name="selectedItem">Selected item.</param>
 	public void SetSelectedItem(GameObject selectedItem)
 	{
 		this.selected = selectedItem.GetComponent<ItemStackUI>();
@@ -127,11 +122,9 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// <param name="numToModify">Number to modify.</param>
 	public void SetItemData(GameObject item, int numberOfStacksToModify)
 	{
-		//ClearAttributesAndActions();
 		Attributes.Clear();
 		PossibleActions.Clear ();
 		PossibleSubActions.Clear ();
-		//selected.CheckForModification ();
 
 		// create duplicate of object that might be affected by entered changes
 		selected = item.GetComponent<ItemStackUI>();
@@ -180,7 +173,6 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		// has a key of "base"
 		for(int i = 0; i < possibleItemActions.Count; ++i)
 		{
-			//Debug.Log(possibleItemActions [i].ActionName);
 			// "base" actions are directly added into the action section as clicking them do not open up more options
 			if (possibleItemActions[i].SubActions.Count < 1) 
 			{
