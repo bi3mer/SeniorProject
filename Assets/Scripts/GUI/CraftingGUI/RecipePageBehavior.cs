@@ -102,10 +102,16 @@ public class RecipePageBehavior : MonoBehaviour
 	/// </summary>
 	public void ResetCraftingPanel()
 	{
-		InstanceManagerGUI.RecipePageInstance.BeginCraftingButton.gameObject.SetActive (true);
-		InstanceManagerGUI.RecipePageInstance.CancelCraftButton.gameObject.SetActive (false);
-		InstanceManagerGUI.RecipePageInstance.CraftingPanel.gameObject.SetActive (false);
-		InstanceManagerGUI.RecipePageInstance.CraftButton.gameObject.SetActive (false);
+//		InstanceManagerGUI.RecipePageInstance.BeginCraftingButton.gameObject.SetActive (true);
+//		InstanceManagerGUI.RecipePageInstance.CancelCraftButton.gameObject.SetActive (false);
+//		InstanceManagerGUI.RecipePageInstance.CraftingPanel.gameObject.SetActive (false);
+//		InstanceManagerGUI.RecipePageInstance.CraftButton.gameObject.SetActive (false);
+//		EventSystem.current.SetSelectedGameObject(null);
+
+		BeginCraftingButton.gameObject.SetActive (true);
+		CancelCraftButton.gameObject.SetActive (false);
+		CraftingPanel.gameObject.SetActive (false);
+		CraftButton.gameObject.SetActive (false);
 		EventSystem.current.SetSelectedGameObject(null);
 	}
 
@@ -242,11 +248,10 @@ public class RecipePageBehavior : MonoBehaviour
 		//itemFactory.Craft (recipe, itemsSelected, Game.Instance.PlayerInstance.Inventory); // delete after overworld PR is done
 		Game.Instance.ItemFactoryInstance.Craft (recipe, itemsSelected, Game.Instance.PlayerInstance.Inventory); // add in after overworld PR is done
 
-		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
-
 		// close the item select ui panel
 		EndCraftingAttempt ();
 		ResetCraftingPanel ();
+		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
 	}
 
 	/// <summary>
