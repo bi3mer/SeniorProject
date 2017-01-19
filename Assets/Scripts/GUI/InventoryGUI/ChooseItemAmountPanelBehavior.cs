@@ -157,11 +157,13 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		InstanceManagerGUI.ItemStackDetailPanelInstance.ClosePanel ();
 
 		// display attributes and actions
-		// TODO : fix issue where item panel keeps adding attributes and actions from previously clicked item
 		InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem, currentAmount);
 	}
 
-	///////////////
+	/// <summary>
+	/// Opens the item detail panel.
+	/// </summary>
+	/// <param name="selected">Selected.</param>
 	public void OpenItemDetailPanel(GameObject selected)
 	{
 		selectedItem = selected;
@@ -193,6 +195,9 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		attributesAndActionPanel.SetActive (true);
 	}
 
+	/// <summary>
+	/// Chooses the number of items to affect.
+	/// </summary>
 	public void ChooseNumOfItemsToAffect()
 	{
 		itemAmountAffectPanel.SetActive (true);
