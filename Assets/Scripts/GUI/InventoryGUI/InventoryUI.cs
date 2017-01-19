@@ -34,6 +34,9 @@ public class InventoryUI : MonoBehaviour
 		set;
 	}
 
+	/// <summary>
+	/// Awake this instance of InventoryUi.
+	/// </summary>
 	void Awake()
 	{
 		InstanceManagerGUI.InventoryUiInstance = this;

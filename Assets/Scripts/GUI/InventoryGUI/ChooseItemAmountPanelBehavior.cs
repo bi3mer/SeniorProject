@@ -138,6 +138,9 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		EventSystem.current.SetSelectedGameObject(null);
 	}
 
+	/// <summary>
+	/// Closes the entire item info panel.
+	/// </summary>
 	public void CloseEntirePanel()
 	{
 		itemStackDetailPanel.SetActive (false);
@@ -174,11 +177,12 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		Close.gameObject.SetActive (true);
 
 		itemStackDetailPanel.SetActive (true);
-		itemAmountAffectPanel.SetActive (false);
 		attributesAndActionPanel.SetActive (true);
+		itemAmountAffectPanel.SetActive (false);
 
-		ItemNameDisplay.text = selectedItem.GetComponent<ItemStackUI>().ItemName.text;
-		maxAmount = (int)selectedItem.GetComponent<ItemStackUI>().GetStack().Amount;
+		ItemStackUI selectedItemUI = selectedItem.GetComponent<ItemStackUI> ();
+		ItemNameDisplay.text = selectedItemUI.ItemName.text;
+		maxAmount = (int)selectedItemUI.GetStack().Amount;
 		currentAmount = 0;
 		NumDisplay.text = currentAmount.ToString();
 
