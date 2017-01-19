@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using Crosstales.RTVoice;
 
-//radio stations
+// radio stations
 public enum RadioChannel {Music, Weather, Mystery, Null};
 
 public class Radio : MonoBehaviour
@@ -21,15 +21,22 @@ public class Radio : MonoBehaviour
 	private Text radioScreenText;
     [SerializeField]
     private Dial dial;
+    [SerializeField]
+    private Image radioScreen;
+    [SerializeField]
+    private Color radioOffColor;
+    [SerializeField]
+    private Color radioOnColor;
 
     private bool isOn;
+    private bool storm;
     private RadioChannel CurrentChannel { get; set; }
     private string announcement;
 
-    //set up weather
+    // set up weather
     public WeatherSystem currentWeather;
 
-    //counter for how many times weather played
+    // counter for how many times weather played
     private int weatherCounter;
 
     [Tooltip("The lowest degree of the range of the knob's rotation in which music will play")]
@@ -65,7 +72,11 @@ public class Radio : MonoBehaviour
 
 		CurrentChannel = RadioChannel.Null;
 
-        //update the weather and play if radio on
+        // set up storm flag
+        Game.Instance.WeatherInstance.StormStartUpdate += StormStartStatic;
+        Game.Instance.WeatherInstance.StormEndUpdate += StormEndStatic;
+
+        // update the weather and play if radio on
         StartCoroutine(updateWeather());
     }
 
@@ -108,7 +119,7 @@ public class Radio : MonoBehaviour
     /// </summary>
     public void Power()
     {
-        //Turn off the radio and all channels
+        // Turn off the radio and all channels
         if (isOn)
         {
             isOn = false;
@@ -117,12 +128,14 @@ public class Radio : MonoBehaviour
             weather.Stop();
 			mystery.Stop();
             statics.Stop();
+            radioScreen.color = radioOffColor;
         }
 
-        //Turn on the radio
+        // Turn on the radio
         else
         {
             isOn = true;
+            radioScreen.color = radioOnColor;
         }
     }
 
@@ -135,28 +148,28 @@ public class Radio : MonoBehaviour
         {
             if (isOn)
             {             
-                //check if the weather is not playing and if the radio is on the weather channel
+                // check if the weather is not playing and if the radio is on the weather channel
                 if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
                 {
-                    //Play the weather 3 times before restarting to 0 
+                    // Play the weather 3 times before restarting to 0 
                     if (weatherCounter == 3)
                     {
                         weatherCounter = 0;
                     }
 
-                    //update the weather when it has played 3 times or has just turned on
+                    // update the weather when it has played 3 times or has just turned on
                     if (weatherCounter == 0)
                     {
-                        //update weather
+                        // update weather
                         currentWeather = Game.Instance.WeatherInstance;
 
-                        //get new announcment
+                        // get new announcment
                         announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
                         Debug.Log(announcement);
-                        //send the announcement to the wave file
+                        // send the announcement to the wave file
                         Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather", .7f);
 
-                        //wait for the wave file to update
+                        // wait for the wave file to update
                         yield return new WaitForSeconds(2);
                     }
 
@@ -164,14 +177,14 @@ public class Radio : MonoBehaviour
                     weather.Play();
                 }
 
-                //don't do anything if the weather is still playing
+                // don't do anything if the weather is still playing
                 else
                 {
                     yield return null;
                 }
             }
 
-            //don't do anything if radio is not on
+            // don't do anything if radio is not on
             else
             {
                 yield return null;
@@ -187,32 +200,45 @@ public class Radio : MonoBehaviour
     {
 		if (isOn) 
 		{
-			if (channel == RadioChannel.Music) 
-			{
-				weather.Stop ();
-				mystery.Stop ();
-                statics.Stop();
-				this.CurrentChannel = channel;
-			} 
-			else if (channel == RadioChannel.Weather) 
-			{
-				music.Stop ();
-				mystery.Stop ();
-                statics.Stop();
-                this.CurrentChannel = channel;
-			} 
-			else if (channel == RadioChannel.Mystery) 
-			{
-				music.Stop ();
-				weather.Stop ();
-                statics.Stop();
-                this.CurrentChannel = channel;
-			}
-            else if (channel == RadioChannel.Null)
+            if (!storm)
+            {
+                if (channel == RadioChannel.Music)
+                {
+                    weather.Stop();
+                    mystery.Stop();
+                    statics.Stop();
+                    this.CurrentChannel = channel;
+                }
+                else if (channel == RadioChannel.Weather)
+                {
+                    music.Stop();
+                    mystery.Stop();
+                    statics.Stop();
+                    this.CurrentChannel = channel;
+                }
+                else if (channel == RadioChannel.Mystery)
+                {
+                    music.Stop();
+                    weather.Stop();
+                    statics.Stop();
+                    this.CurrentChannel = channel;
+                }
+                else if (channel == RadioChannel.Null)
+                {
+                    music.Stop();
+                    weather.Stop();
+                    mystery.Stop();
+                    this.CurrentChannel = channel;
+                }
+            }
+
+            // Set the current channel to null if a storm is starting.
+            else
             {
                 music.Stop();
                 weather.Stop();
-                this.CurrentChannel = channel;
+                mystery.Stop();
+                this.CurrentChannel = RadioChannel.Null;
             }
 		}
     }
@@ -287,6 +313,16 @@ public class Radio : MonoBehaviour
     {
         string newAnnouncement = "This is a mystery";
         return newAnnouncement;
+    }
+
+    public void StormStartStatic()
+    {
+        storm = true;
+    }
+
+    public void StormEndStatic()
+    {
+        storm = false;
     }
 }
 
