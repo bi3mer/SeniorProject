@@ -67,23 +67,10 @@ public class WorldItemFactory
 	/// <returns>The interactable item.</returns>
 	/// <param name="itemToCreate">Item to create.</param>
 	/// <param name="amount">Amount.</param>
-	public GameObject CreateInteractableItem(BaseItem itemToCreate, int amount)
+	public GameObject CreatePickUpInteractableItem(BaseItem itemToCreate, int amount)
 	{
-		if(!worldItemTemplates.ContainsKey(itemToCreate.ItemName))
-		{
-			worldItemTemplates.Add(itemToCreate.ItemName, (GameObject) Resources.Load(itemToCreate.WorldModel));
-		}
-
 		// create the object with the model
-		GameObject item = GameObject.Instantiate (worldItemTemplates[itemToCreate.ItemName]);
-		item.layer = LayerMask.NameToLayer(layerName);
-		item.tag = tagName;
-
-		// creates the trigger object that will handle interaction with player
-		GameObject textObject = GameObject.Instantiate(triggerObjectPrefab);
-		textObject.transform.SetParent(item.transform);
-		textObject.transform.localPosition = Vector3.zero;
-
+		GameObject item = CreateGenericInteractableItem(itemToCreate, amount);
 		PickUpItem pickup = item.AddComponent<PickUpItem>();
 		pickup.SetUp();
 		pickup.Item = itemToCreate;
@@ -99,7 +86,7 @@ public class WorldItemFactory
 	/// Creates a random interactable item that is ready to be placed in the world.
 	/// </summary>
 	/// <returns>A random interactable item.</returns>
-	public GameObject CreateRandomInteractableItem(string district)
+	public GameObject CreateRandomPickupInteractableItem(string district)
 	{
 		// create the object with the model
 		BaseItem baseItem = Game.Instance.ItemFactoryInstance.GetWeightedRandomBaseItem(district);
@@ -122,6 +109,33 @@ public class WorldItemFactory
 	}
 
 	/// <summary>
+	/// Creates a generic interactable item. Does not add on the interactable script, but sets up item with assumption that player will attach one.
+	/// </summary>
+	/// <returns>The generic interactable item.</returns>
+	/// <param name="itemToCreate">Item to create.</param>
+	/// <param name="amount">Amount.</param>
+	public GameObject CreateGenericInteractableItem(BaseItem itemToCreate, int amount)
+	{
+		if(!worldItemTemplates.ContainsKey(itemToCreate.ItemName))
+		{
+			worldItemTemplates.Add(itemToCreate.ItemName, (GameObject) Resources.Load(itemToCreate.WorldModel));
+		}
+
+		// create the object with the model
+		GameObject item = GameObject.Instantiate (worldItemTemplates[itemToCreate.ItemName]);
+		item.layer = LayerMask.NameToLayer(layerName);
+		item.tag = tagName;
+
+		// creates the trigger object that will handle interaction with player
+		GameObject textObject = GameObject.Instantiate(triggerObjectPrefab);
+		textObject.transform.SetParent(item.transform);
+		textObject.transform.localPosition = Vector3.zero;
+
+		return item;
+	}
+
+
+	/// <summary>
 	/// Gets all interactable items by district. GetRandomItemIndex can be used to get a random item from the Dictionary returned by this function.
 	/// </summary>
 	/// <returns>The all interactable items by district.</returns>
@@ -141,7 +155,7 @@ public class WorldItemFactory
 			for(i = 0; i < interactableItemNamesByDistrict[key].Count; ++i)
 			{
 				// since these will only be used for templates, there is not need for an amount
-				interactableItemsByDistrict[key].Add(CreateInteractableItem(itemFactory.GetBaseItem(interactableItemNamesByDistrict[key][i]), 0));
+				interactableItemsByDistrict[key].Add(CreatePickUpInteractableItem(itemFactory.GetBaseItem(interactableItemNamesByDistrict[key][i]), 0));
 				interactableItemsByDistrict[key][i].SetActive(setActive);
 			}
 		}

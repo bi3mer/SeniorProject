@@ -238,20 +238,7 @@ public class SolidCategory : ItemCategory
 		baseItem.Types.Add (ItemTypes.Rope);
 
 		int newModelIndex = baseItem.ModifyingActionNames.IndexOf(weaveRopeActName);
-
-
-		if(newModelIndex >= 0)
-		{
-			if(baseItem.ActionModifiedModels != null && baseItem.ActionModifiedModels.Count > newModelIndex)
-			{
-				baseItem.WorldModel = baseItem.ActionModifiedModels[newModelIndex];
-			}
-
-			if(baseItem.ActionModifiedSprites != null && baseItem.ActionModifiedSprites.Count > newModelIndex)
-			{
-				baseItem.InventorySprite = baseItem.ActionModifiedSprites[newModelIndex];
-			}
-		}
+		baseItem.SetNewModel(newModelIndex);
 
 		baseItem.RemoveCategoriesExcluding (new List<string> () {GetType ().Name});
 		baseItem.DirtyFlag = true;
@@ -278,23 +265,19 @@ public class SolidCategory : ItemCategory
 
 		baseItem.ChangeName(name);
 		baseItem.Types.Add(ItemTypes.Container);
+
 		int newModelIndex = baseItem.ModifyingActionNames.IndexOf(weaveBasketActName);
 
-
-		if(newModelIndex >= 0)
-		{
-			if(baseItem.ActionModifiedModels != null && baseItem.ActionModifiedModels.Count > newModelIndex)
-			{
-				baseItem.WorldModel = baseItem.ActionModifiedModels[newModelIndex];
-			}
-
-			if(baseItem.ActionModifiedSprites != null && baseItem.ActionModifiedSprites.Count > newModelIndex)
-			{
-				baseItem.InventorySprite = baseItem.ActionModifiedSprites[newModelIndex];
-			}
-		}
+		baseItem.SetNewModel(newModelIndex);
 
 		baseItem.RemoveCategoriesExcluding (new List<string> (){GetType ().Name});
+
+		ContainerCategory container = new ContainerCategory();
+
+		// TODO: Determine a way to decide container size
+		container.Size = 1;
+		baseItem.AddItemCategory(container);
+
 		baseItem.DirtyFlag = true;
 		// setting the parent action as complete marks all subactions as complete as well
 		SetActionComplete(weaveActionName);
