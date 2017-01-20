@@ -13,6 +13,9 @@ public class Clock : MonoBehaviour
 	public const int HalfHour        = 30;
 	public const int Tick            = 1;
 
+	// 1/1440 = x/360
+	public const float AnglePerSecond = 360f / Clock.TwentyFourHours;
+
 	private int currentTime = 0;
 
 	/// <summary>
