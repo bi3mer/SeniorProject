@@ -7,11 +7,14 @@ public class Clock : MonoBehaviour
 	/// <summary>
 	/// Twenty four hours in game time
 	/// </summary>
-	public const int TwentyFourHours = 1440;
-	public const int TwelveHours     = 720;
-	public const int Hour            = 60;
-	public const int HalfHour        = 30;
-	public const int Tick            = 1;
+	public const int TwentyFourHours  = 1440;
+	public const int TwelveHours      = 720;
+	public const int Hour             = 60;
+	public const int HalfHour         = 30;
+	public const int Tick             = 1;
+
+	// 1/1440 = x/360
+	public const float AnglePerSecond = 360f / Clock.TwentyFourHours;
 
 	private int currentTime = 0;
 
