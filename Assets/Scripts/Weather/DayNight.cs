@@ -9,6 +9,9 @@ public class DayNight : MonoBehaviour
 	[SerializeField] 
 	private Transform moon;
 
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	void Start()
 	{
 		Game.Instance.ClockInstance.SecondUpdate += this.updateTransforms;
