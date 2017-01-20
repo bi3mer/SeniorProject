@@ -208,7 +208,7 @@ public class PlayerController : MonoBehaviour
 		Game.Instance.PauseInstance.PauseUpdate += this.Pause;
 
 		// create event emitter
-		eventEmitter = FMODUnity.RuntimeManager.CreateInstance (RoofFootstepSoundEvent);
+		eventEmitter = FMODUnity.RuntimeManager.CreateInstance (roofFootstepSoundEvent);
 	}
 
     /// <summary>
