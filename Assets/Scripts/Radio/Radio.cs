@@ -165,7 +165,6 @@ public class Radio : MonoBehaviour
 
                         // get new announcment
                         announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
-                        Debug.Log(announcement);
                         // send the announcement to the wave file
                         Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather", .7f);
 
@@ -315,11 +314,18 @@ public class Radio : MonoBehaviour
         return newAnnouncement;
     }
 
+    /// <summary>
+    /// Set storm true when storm starts.
+    /// </summary>
     public void StormStartStatic()
     {
         storm = true;
     }
 
+
+    /// <summary>
+    /// Set storm to false when storm ends.
+    /// </summary>
     public void StormEndStatic()
     {
         storm = false;

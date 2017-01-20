@@ -64,6 +64,10 @@ public class PlayerController : MonoBehaviour
 
     private const float groundedRaycastHeight = 0.01f;
 
+	[Header("Sound Settings")]
+	[SerializeField]
+	private string roofFootstepSoundEvent = "event:/Player/Movement/Walking/Concrete";
+
     private bool isGrounded;
     private bool updateStats;
     private bool isFlying;
@@ -92,8 +96,15 @@ public class PlayerController : MonoBehaviour
 
     private Tool fishingRod;
 
+    private Transform defaultParent;
+
 	[SerializeField]
 	private ControlScheme controlScheme;
+
+	/// <summary>
+	/// The event emitter for player sounds.
+	/// </summary>
+	private FMOD.Studio.EventInstance eventEmitter;
 
     public Animator PlayerAnimator
     {
@@ -157,6 +168,8 @@ public class PlayerController : MonoBehaviour
         isInShelter = false;
         IsByFire = false;
 
+        defaultParent = transform.parent;
+
         // set the closest distance as nothing
         closestDistance = 0;
 
@@ -193,6 +206,9 @@ public class PlayerController : MonoBehaviour
         Game.Instance.DebugModeSubscription += this.toggleDebugMode;
 		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
 		Game.Instance.PauseInstance.PauseUpdate += this.Pause;
+
+		// create event emitter
+		eventEmitter = FMODUnity.RuntimeManager.CreateInstance (roofFootstepSoundEvent);
 	}
 
     /// <summary>
@@ -335,13 +351,17 @@ public class PlayerController : MonoBehaviour
             }
 
             CheckGround();
+
             if(direction!= Vector3.zero)
             { 
                 movement.Move(direction, sprinting, playerAnimator);
+				eventEmitter.setPitch (movement.Speed);
+				StartWalkingSound ();
             }
             else
             {
                 movement.Idle(playerAnimator);
+				StopWalkingSound ();
             }
 
 
@@ -460,14 +480,14 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void BoardRaft(RaftMovement raftMovement)
     {
-        movement.Idle(playerAnimator);
-        movement = raftMovement;
+		movement = raftMovement;
 
         // place player on raft
         Vector3 position = raftMovement.gameObject.transform.position;
         float raftHeight = raftMovement.gameObject.GetComponent<BoxCollider>().bounds.size.y;
         transform.position = position + Vector3.up * raftHeight;
-
+        transform.parent = raftMovement.transform;
+	
         // update raft's interactivity
         interactable.Text = raftMovement.DisembarkRaftText;
         interactable.SetAction(delegate { DisembarkRaft(raftMovement); });
@@ -480,6 +500,7 @@ public class PlayerController : MonoBehaviour
     public void DisembarkRaft(RaftMovement raftMovement)
     {
         movement = waterMovement;
+        transform.parent = defaultParent;
 
         // update raft's interactivity
         interactable.Text = raftMovement.BoardRaftText;
@@ -738,6 +759,34 @@ public class PlayerController : MonoBehaviour
             playerRigidbody.useGravity = true;
         }
     }
+
+	/// <summary>
+	/// Starts the walking sound.
+	/// </summary>
+	public void StartWalkingSound()
+	{
+		if (eventEmitter != null) 
+		{
+			FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
+			eventEmitter.getPlaybackState (out state);
+
+			if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) 
+			{
+				eventEmitter.start ();
+			}
+		}
+	}
+
+	/// <summary>
+	/// Stops the walking sound.
+	/// </summary>
+	public void StopWalkingSound() 
+	{
+		if (eventEmitter != null) 
+		{
+			eventEmitter.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+		}
+	}
 
     /// <summary>
     /// If the player can climb, we run code to get the player up the ledge
