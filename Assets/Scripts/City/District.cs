@@ -43,7 +43,7 @@ public class District
 	/// Gets or sets the name.
 	/// </summary>
 	/// <value>The name.</value>
-    public String Name
+    public string Name
     {
         get
         {
