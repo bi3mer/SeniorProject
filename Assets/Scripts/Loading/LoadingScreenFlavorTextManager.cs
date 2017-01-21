@@ -2,17 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class FlavorTextManager
+public class LoadingScreenFlavorTextManager
 {
-    private List<FlavorText> texts;
+    private List<LoadingScreenFlavorText> texts;
 
     /// <summary>
     /// Creates a new flvor text manager and loads flavor text in.
     /// </summary>
     /// <param name="filename">Location of file with flavor text.</param>
-    public FlavorTextManager (string filename)
+    public LoadingScreenFlavorTextManager (string filename)
     {
-        FlavorTextYAMLParser parser = new FlavorTextYAMLParser(filename);
+        LoadingScreenFlavorTextYAMLParser parser = new LoadingScreenFlavorTextYAMLParser(filename);
         texts = parser.Load();
     }
 
@@ -20,7 +20,7 @@ public class FlavorTextManager
     /// Returns the a random flavor text.
     /// </summary>
     /// <returns>A random flavor text.</returns>
-    public FlavorText GetRandom ()
+    public LoadingScreenFlavorText GetRandom ()
     {
         return texts[Random.Range(0, texts.Count)];
     }

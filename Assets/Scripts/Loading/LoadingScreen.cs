@@ -34,7 +34,7 @@ public class LoadingScreen : MonoBehaviour
     [Tooltip("Amount of time before the flavor text advances.")]
     private float flavorTextDisplayTime;
 
-    private FlavorTextManager flavorTextManager;
+    private LoadingScreenFlavorTextManager flavorTextManager;
     private float flavorTextTimer;
 
     private float testTimeout;
@@ -64,7 +64,7 @@ public class LoadingScreen : MonoBehaviour
 
         if (flavorText != null)
         {
-            flavorTextManager = new FlavorTextManager(flavorTextFilePath);
+            flavorTextManager = new LoadingScreenFlavorTextManager(flavorTextFilePath);
             flavorText.text = flavorTextManager.GetRandom().Text;
             flavorTextTimer = 0f;
         }

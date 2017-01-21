@@ -11,14 +11,14 @@ using UnityEngine;
 /// <summary>
 // Takes list of flavor text from yaml file and loads them into a list of flavor texts.
 /// </summary>
-public class FlavorTextYAMLParser
+public class LoadingScreenFlavorTextYAMLParser
 {
     private string fileName;
 
     /// <summary>
     /// Awake this instance.
     /// </summary>
-    public FlavorTextYAMLParser(string file)
+    public LoadingScreenFlavorTextYAMLParser(string file)
     {
         fileName = file;
     }
@@ -27,7 +27,7 @@ public class FlavorTextYAMLParser
     /// Loads the flavor texts from the yaml file into list
     /// </summary>
     /// <returns>The list of flavor texts.</returns>
-    public List<FlavorText> Load()
+    public List<LoadingScreenFlavorText> Load()
     {
         // read in the yaml file and deserialize the input
         string file = FileManager.GetDocument(fileName);
@@ -35,7 +35,7 @@ public class FlavorTextYAMLParser
         Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 
         // create a list of flavor text based on the yaml info and return them
-        List<FlavorText> texts = deserializer.Deserialize<List<FlavorText>>(input);
+        List<LoadingScreenFlavorText> texts = deserializer.Deserialize<List<LoadingScreenFlavorText>>(input);
 
         return texts;
     }
