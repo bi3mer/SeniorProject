@@ -78,7 +78,7 @@ public class LoadingScreen : MonoBehaviour
         // TEST VALUES WILL BE REMOVED
         if (testTimeout <= 0f)
         {
-            testTask.Complete += UnityEngine.Random.Range(0.05f, 0.3f);
+            testTask.PercentageComplete += UnityEngine.Random.Range(0.05f, 0.3f);
             testTimeout = UnityEngine.Random.Range(0.5f, 2f);
         }
 
@@ -87,12 +87,12 @@ public class LoadingScreen : MonoBehaviour
 
 	    if (progressText != null)
         {
-            progressText.text = GetPercentageString(Game.Instance.Loader.Complete);
+            progressText.text = GetPercentageString(Game.Instance.Loader.PercentageComplete);
         }
 
         if (progressBar != null)
         {
-            progressBar.value = Mathf.Lerp(progressBar.value, Game.Instance.Loader.Complete, progressBarEase);
+            progressBar.value = Mathf.Lerp(progressBar.value, Game.Instance.Loader.PercentageComplete, progressBarEase);
 
             // Close screen if we've loaded completely.
             // If we're lerping we won't get 100% of the way there.
