@@ -12,6 +12,7 @@
 		ItemFactoryInstance = new ItemFactory();
 		GameSettingsInstance = new GameSettings ();
 		Scheme = GameSettingsInstance.Scheme;
+        Loader = new GameLoader();
     }
  
     /// <summary>
@@ -212,5 +213,14 @@
     {
     	get;
     	set;
+    }
+
+    /// <summary>
+    /// Tracks and reports game loading.
+    /// </summary>
+    public GameLoader Loader
+    {
+        get;
+        private set;
     }
 }
