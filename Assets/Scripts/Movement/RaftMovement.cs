@@ -4,6 +4,14 @@ using System;
 
 public class RaftMovement : Movement 
 {
+	// TODO: this is to be used in the future when telling the raft movement
+	//       whether it is active or not.
+	[HideInInspector]
+	/// <summary>
+	/// Indicates whether the raft is active. Currently not in use.
+	/// </summary>
+	public bool IsActive = false;
+
     [SerializeField]
     private float acceleration;
     [SerializeField]
@@ -16,7 +24,18 @@ public class RaftMovement : Movement
     public string BoardRaftText;
     public string DisembarkRaftText;
 
-    void Update ()
+	[SerializeField]
+	[Tooltip("Time till coroutine ends and FixedUpdate checks if the raft is stopped again.")]
+    private float updateIsStoppedTimer = 2.0f;
+	private bool isStopped = false;
+
+    [SerializeField]
+    private float updatePlayerPositionTimer = 2.0f;
+
+    /// <summary>
+    /// Fixed update for physical movement of the raft
+    /// </summary>
+    void FixedUpdate ()
     {
         float speed = RigidBody.velocity.magnitude;
 
@@ -28,8 +47,9 @@ public class RaftMovement : Movement
 
         // if the speed of the raft is near zero, lock it to zero 
         // (so it doesn't drift unneccisarily)
-        if (speed < stopThreshold)
+        if (!this.isStopped && speed < stopThreshold)
         {
+        	this.isStopped = true;
             RigidBody.velocity = Vector3.zero;
         }
 
@@ -51,6 +71,30 @@ public class RaftMovement : Movement
          //Raft Idle animation code
     }
 
+    /// <summary>
+    /// Updates the is stopped.
+    /// </summary>
+    /// <returns>The is stopped.</returns>
+    private IEnumerator updateIsStopped()
+    {
+    	yield return new WaitForSeconds(this.updateIsStoppedTimer);
+    	this.isStopped = false;
+    }
+
+    /// <summary>
+    /// Updates the players position on the raft.
+    /// </summary>
+    /// <returns>The raft position.</returns>
+    private IEnumerator updatePlayerRaftPosition()
+    {
+		// TODO: update this in the future so it will work with more than 
+        //       one raft in the scene.
+        while(Game.Instance.PlayerInstance.Controller.IsOnRaft)
+        {
+			Game.Instance.PlayerInstance.Controller.BoardRaft(this);
+			yield return new WaitForSeconds(this.updatePlayerPositionTimer);
+    	}
+    }
 
     /// <summary>
     /// Applies a force the raft in the specified direction.
@@ -59,6 +103,7 @@ public class RaftMovement : Movement
     public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
         RigidBody.AddForce(direction.normalized * acceleration);
+        StartCoroutine(this.updateIsStopped());
     }
 
     /// <summary>
@@ -67,5 +112,21 @@ public class RaftMovement : Movement
     public override void Jump(Animator playerAnimator)
     {
        
+    }
+
+    /// <summary>
+    /// Doesn't do anything on boats for now
+    /// </summary>
+    public override void Climb(Animator playerAnimator)
+    {
+       
+    }
+
+    /// <summary>
+    /// The height the player can climb while in this movement state (which is 0!)
+    /// </summary>
+    public override float GetClimbHeight()
+    {
+        return 0f;
     }
 }

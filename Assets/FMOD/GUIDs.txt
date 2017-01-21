@@ -1,4 +1,8 @@
-{b3531194-cd83-4241-813f-cc94df417c39} event:/Rain
+{4a1d7bf3-1e76-41ae-a6c3-f1c39f8c95dc} event:/Ambient/Music/Basic_Music
+{0d2da684-d6d2-44b7-8a60-a1d130fa58a1} event:/Ambient/Weather/Basic_Rain
+{b785dbc8-1edc-450e-bc01-c195ec86261a} event:/Player/Movement/Walking/Concrete
+{27e72373-8dce-4b93-83c4-bab34195224b} event:/Player/Movement/Walking/Gravel
+{3cc801f5-f7d3-45be-8747-19004965e500} event:/Player/Movement/Walking/Raft
 {a16b3185-5d34-4f38-881d-32416b8a3d19} bus:/
 {98e94324-eef5-491d-b458-99a2365b8898} bus:/Reverb
 {fca8391a-849a-4108-b957-324c4238d21e} bank:/Master Bank

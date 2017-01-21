@@ -11,6 +11,7 @@ public class Player
     private const int maxHunger = 100;
     private const string playerInventoryName = "player";
     private const string inventoryFileName = "InventoryYaml.yml";
+    private const int playerInventorySize = 20;
 
     /// <summary>
     /// Player constructor.
@@ -21,7 +22,7 @@ public class Player
         Health = MaxHealth = maxHealth;
         Warmth = MaxWarmth = maxWarmth;
         Hunger = MaxHunger = maxHunger;
-		Inventory = new PlayerInventory (playerInventoryName, inventoryFileName);
+		Inventory = new PlayerInventory (playerInventoryName, inventoryFileName, playerInventorySize);
     }
 
 	/// <summary>

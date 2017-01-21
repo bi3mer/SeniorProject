@@ -7,9 +7,75 @@ using System.Collections.Generic;
 /// This class holds all the relevant info needed to define a district.
 /// It holds things like the building pieces the district contains, that districts materials, window types, etc.
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class DistrictConfiguration
 {
+    /// <summary>
+    /// Strcuture for accessing additional building placement configuration.
+    /// </summary>
+    [Serializable]
+    public class BuildingTemplatePlacement
+    {
+        /// <summary>
+        /// GameObject template for building to be placed.
+        /// </summary>
+        [Tooltip("Template for building to be placed.")]
+        public GameObject Building;
+
+        /// <summary>
+        /// Frequency of building placement on a scale of O to 1.
+        /// </summary>
+        [Tooltip("Frequency of building placement.")]
+        [Range(0f, 1f)]
+        public float PlacementFrequency = 0.5f;
+    }
+
+    [Tooltip("Name of district type.")]
+    [SerializeField]
+    [DistrictPopup]
+    private string districtName;
+
+    /// <summary>
+    /// The name of the district.
+    /// </summary>
+    public string Name
+    {
+        get
+        {
+            return districtName;
+        }
+    }
+
+
+    [Header("Template Building Placement")]
+
+    /// <summary>
+    /// The Weenie building template.
+    /// </summary>
+    [Tooltip("Template for the district Weenie Building. To be placed once.")]
+    public GameObject WeenieBuildingTemplate;
+
+    /// <summary>
+    /// Any additional building templates to be added to a district, to be placed according to the specified frequency.
+    /// </summary>
+    [Tooltip("Any additional building templates to be added to a district, to be placed according to the specified frequency.")]
+    public BuildingTemplatePlacement[] AdditionalBuildingTemplates;
+
+
+    [Header("Procedural Building Construction")]
+
+    /// <summary>
+    /// The maximum number of floors for buildings in this district.
+    /// </summary>
+    [Tooltip("The maximum number of floors for buildings in this district.")]
+    public int MaxFloors;
+
+    /// <summary>
+    /// The minimum number of floors for buildings in this district.
+    /// </summary>
+    [Tooltip("The minimum number of floors for buildings in this district.")]
+    public int MinFloors;
+
     [SerializeField]
     [Range(0, 100)]
     private float minAttachmentChance;
@@ -29,19 +95,6 @@ public class DistrictConfiguration
         get
         {
             return maxAttachmentChance;
-        }
-    }
-
-    [SerializeField]
-    private string districtName;
-    /// <summary>
-    /// The name of the district.
-    /// </summary>
-    public string Name
-    {
-        get
-        {
-            return districtName;
         }
     }
 

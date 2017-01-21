@@ -45,11 +45,12 @@ public class RooftopPointGenerator
 	/// </summary>
 	/// <returns>The valid points.</returns>
 	/// <param name="targetBound">Target bound.</param>
+	/// <param name="itemInfo">Information about the district configuration.</param>
 	/// <param name="targetCenter">Target center.</param>
 	/// <param name="doorExtents">Door extents.</param>
 	/// <param name="itemExtents">Item extents.</param>
 	/// <param name="hasDoor">If set to <c>true</c> has door. (optional)</param>
-	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, DistrictItemConfiguration itemInfo, bool hasDoor = false)
+	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, DistrictItemConfiguration itemInfo, string district, bool hasDoor = false)
 	{
 		generatableDoorExtents = itemInfo.DoorExtents;
 		generatableObjectExtents = itemInfo.ItemExtents;
@@ -80,11 +81,11 @@ public class RooftopPointGenerator
 
 		if(hasDoor)
 		{
-			samplingPoints = generatePoints (targetCenter, generatableDoorExtents, itemInfo, hasDoor, width, depth, height);
+			samplingPoints = generatePoints (targetCenter, generatableDoorExtents, itemInfo, district, hasDoor, width, depth, height);
 		}
 		else
 		{
-			samplingPoints = generatePoints (targetCenter, generatableObjectExtents,itemInfo, hasDoor, width, depth, height);
+			samplingPoints = generatePoints (targetCenter, generatableObjectExtents,itemInfo, district, hasDoor, width, depth, height);
 		}
 
 		float initialRayStartHeight = height + rayOffset;
@@ -122,11 +123,12 @@ public class RooftopPointGenerator
 	/// <param name="center">Center.</param>
 	/// <param name="firstPointExtents">First point extents.</param>
 	/// <param name="itemInfo">The information about the district the rooftop belongs to.</param>
+	/// <param name="district">The district this generating for.</param></param>
 	/// <param name="hasDoor">If set to <c>true</c> has door.</param>
 	/// <param name="width">Width.</param>
 	/// <param name="depth">Depth.</param>
 	/// <param name="height">Height.</param>
-	private List<ItemPlacementSamplePoint> generatePoints(Vector3 center, List<float> firstPointExtents, DistrictItemConfiguration itemInfo, bool hasDoor, float width, float depth, float height)
+	private List<ItemPlacementSamplePoint> generatePoints(Vector3 center, List<float> firstPointExtents, DistrictItemConfiguration itemInfo, string district, bool hasDoor, float width, float depth, float height)
 	{
 		float shorterLength = width;
 		float maxDoorwayEffectArea = maxDoorwayEffectPercent * shorterLength;
@@ -138,7 +140,16 @@ public class RooftopPointGenerator
 
 		// generate the first point randomly away from the doorway
 		ItemPlacementSamplePoint firstPoint = new ItemPlacementSamplePoint();
-		firstPoint.ItemIndex = itemInfo.GetWeightedRandomItemIndex();
+
+		if(hasDoor)
+		{
+			firstPoint.ItemIndex = Random.Range(0, firstPointExtents.Count);
+		}
+		else
+		{
+			firstPoint.ItemIndex = Game.Instance.WorldItemFactoryInstance.GetRandomItemIndex(district);
+		}
+
 		firstPoint.PointOnTargetSurface = createFirstPoint (center, width, depth, height, firstPoint.ItemIndex, firstPointExtents);
 		firstPoint.GridPoint = PointToGrid(firstPoint.PointOnTargetSurface);
 		firstPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, firstPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea, hasDoor);
@@ -151,7 +162,7 @@ public class RooftopPointGenerator
 			return new List<ItemPlacementSamplePoint>();
 		}
 
-		return generateSubsequentPoints(width, depth, height, firstPoint, itemInfo, hasDoor); 
+		return generateSubsequentPoints(width, depth, height, firstPoint, itemInfo, district, hasDoor); 
 	}
 
 	/// <summary>
@@ -164,9 +175,10 @@ public class RooftopPointGenerator
 	/// <param name="height">Height.</param>
 	/// <param name="firstPoint">First point.</param>
 	/// <param name="itemInfo"> District item info. </param> 
+	/// <param name="district">District this belongs to.</param>
 	/// <param name="useGaussianMinDistance">If set to <c>true</c> use gaussian minimum distance.</param>
 	private List<ItemPlacementSamplePoint> generateSubsequentPoints(float width, float depth, float height, 
-														  ItemPlacementSamplePoint firstPoint, DistrictItemConfiguration itemInfo, bool useGaussianMinDistance)
+														  ItemPlacementSamplePoint firstPoint, DistrictItemConfiguration itemInfo, string district, bool useGaussianMinDistance)
 	{
 		float shorterLength = width;
 		float maxDoorwayEffectArea = maxDoorwayEffectPercent * shorterLength;
@@ -190,6 +202,8 @@ public class RooftopPointGenerator
 		processList.Add(firstPoint);
 		samplePoints.Add(firstPoint);
 
+		WorldItemFactory itemFactory = Game.Instance.WorldItemFactoryInstance;
+
 		// generate other points from points in queue.
 		while (processList.Count != 0)
 		{
@@ -203,7 +217,7 @@ public class RooftopPointGenerator
 			for (int i = 0; i < newPointsPerSamplingPoint; ++i)
 			{
 				newPoint = new ItemPlacementSamplePoint ();
-				newPoint.ItemIndex = itemInfo.GetWeightedRandomItemIndex();
+				newPoint.ItemIndex = itemFactory.GetRandomItemIndex(district);
 
 				newPoint.PointOnTargetSurface = generateRandomPointAround(point.PointOnTargetSurface, point.MinDistance + point.Size);
 				newPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, newPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea, useGaussianMinDistance);

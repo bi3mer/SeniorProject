@@ -34,17 +34,16 @@ public class RainController : MonoBehaviour
         }
         set
         {
-            if (0f <= value && value <= 100f)
-            {
-                rainLevel = value;
-                UpdateParticleSystem();
-            }
-            else
-            {
-                Debug.LogError("Rain Ammount can only accept values between 0 and 100");
-            }
+			// keep value between 0 and 100
+			rainLevel = Mathf.Clamp(value, 0f, 100f);
+            UpdateParticleSystem();
         }
     }
+
+    [SerializeField]
+    [Range(0,20)]
+    private float windMitigation = 8f;
+
     [SerializeField]
     [Range(0, 100)]
     private float rainLevel;
@@ -103,7 +102,7 @@ public class RainController : MonoBehaviour
         }
         else
         {
-        	this.WindVectorXZ = Game.Instance.WeatherInstance.WindDirection2d;
+			this.WindVectorXZ = Game.Instance.WeatherInstance.WindDirection2d / this.windMitigation;
         	this.RainLevel    = Game.Instance.WeatherInstance.WeatherInformation[(int) Weather.Precipitation];
         }
     }
