@@ -4,14 +4,17 @@ using System.Collections;
 
 public class Clock : MonoBehaviour
 {
+	[SerializeField]
+	[Tooltip ("1 is where 1 minute is equal to one hour in game time.")]
+	private float tick = 1f;
+
 	private float twentyFourHours;
 	private float twelveHours;
 	private float hour;
 	private float halfHour;
-	[SerializeField]
-	[Tooltip ("1 is where 1 minute is equal to one hour in game time.")]
-	private float tick = 1f;
+
 	private const float addTick = 1f;
+
 
 	/// <summary>
 	/// Gets the angle per second based on time scale.
@@ -131,14 +134,16 @@ public class Clock : MonoBehaviour
 				this.SecondUpdate();
 			}
 
+			int integerTime = Mathf.FloorToInt(this.currentTime);
+
 			// Notify thirty minute long subscribed delegates
-			if(this.HalfHourUpdate != null && this.currentTime % this.halfHour == 0)
+			if(this.HalfHourUpdate != null && integerTime % Mathf.FloorToInt(this.halfHour) == 0)
 			{
 				this.HalfHourUpdate();
 			}
 
 			// notify hour long subscribed delegates
-			if(this.HourUpdate != null && this.currentTime % this.hour == 0)
+			if(this.HourUpdate != null && integerTime % Mathf.FloorToInt(this.hour) == 0)
 			{
 				this.HourUpdate();
 			}
@@ -167,11 +172,11 @@ public class Clock : MonoBehaviour
 	{
 		if(this.IsDay)
 		{
-			return this.CurrentTime/(float) this.twelveHours;
+			return this.CurrentTime / this.twelveHours;
 		}
 		else
 		{
-			return (this.CurrentTime - this.twelveHours)/(float)this.twelveHours;
+			return (this.CurrentTime - this.twelveHours) / this.twelveHours;
 		}
 	}
 
