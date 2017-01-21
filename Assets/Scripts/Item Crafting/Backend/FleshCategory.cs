@@ -5,9 +5,9 @@ using UnityEngine.Events;
 public class FleshCategory : ItemCategory
 {
     /// <summary>
-    /// Gets or sets the stomach effect.
+    /// Gets or sets the health effect.
     /// </summary>
-    /// <value>The stomach effect.</value>
+    /// <value>The health effect.</value>
     public float HealthEffect
     {
         get;
@@ -17,8 +17,8 @@ public class FleshCategory : ItemCategory
     /// <summary>
     /// Gets or sets the hunger gain.
     /// </summary>
-    /// <value>The stomach effect.</value>
-    public int HungerGain
+    /// <value>The hunger gain.</value>
+    public float HungerGain
     {
         get;
         set;
@@ -104,7 +104,7 @@ public class FleshCategory : ItemCategory
             }
         }
 
-        Game.Instance.PlayerInstance.Hunger += HungerGain;
+        Game.Instance.PlayerInstance.Hunger += (int)HungerGain;
         baseItem.RemovalFlag = true;
     }
 }

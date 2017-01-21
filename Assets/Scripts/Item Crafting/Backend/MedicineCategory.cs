@@ -5,10 +5,10 @@ using UnityEngine.Events;
 public class MedicineCategory : ItemCategory
 {
     /// <summary>
-    /// Gets or sets the spiciness.
+    /// Gets or sets the HealthGain.
     /// </summary>
-    /// <value>The spicy.</value>
-    public int HealthGain
+    /// <value>The health gain.</value>
+    public float HealthGain
     {
         get;
         set;
@@ -72,7 +72,7 @@ public class MedicineCategory : ItemCategory
     /// </summary>
     public void Heal()
     {
-        Game.Instance.PlayerInstance.Health += HealthGain;
+        Game.Instance.PlayerInstance.Health += (int)HealthGain;
         baseItem.RemovalFlag = true;
 
         SetActionComplete(healActName);
@@ -87,6 +87,9 @@ public class MedicineCategory : ItemCategory
         {
             Game.Instance.PlayerInstance.HealthStatus.Remove(HealthStatuses.Pneumonia);
         }
+
+        baseItem.RemovalFlag = true;
+
         SetActionComplete(curePneumoniaActName);
     }
 
