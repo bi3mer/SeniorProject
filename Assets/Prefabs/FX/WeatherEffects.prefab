@@ -96,6 +96,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1000012771175752
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000010874577160}
+  - 114: {fileID: 114000012391922068}
+  m_Layer: 0
+  m_Name: Splash Effects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1000013604240814
 GameObject:
   m_ObjectHideFlags: 1
@@ -145,7 +161,20 @@ Transform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000011601800120}
-  m_RootOrder: 3
+  m_RootOrder: 4
+--- !u!4 &4000010874577160
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012771175752}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 13.105606, y: -1.9740446, z: -6.411943}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4000011601800120}
+  m_RootOrder: 1
 --- !u!4 &4000011601800120
 Transform:
   m_ObjectHideFlags: 1
@@ -153,11 +182,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010414017512}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.7855706, y: 0.84, z: -0.4463066}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4000012960144162}
+  - {fileID: 4000010874577160}
   - {fileID: 4000012129241920}
   - {fileID: 4000014173833940}
   - {fileID: 4000010540230910}
@@ -175,7 +205,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000011601800120}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!4 &4000012904150958
 Transform:
   m_ObjectHideFlags: 1
@@ -229,7 +259,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000011601800120}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!23 &23000011015822898
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -385,11 +415,13 @@ MonoBehaviour:
   MainRain: {fileID: 198000010173776360}
   RainFog: {fileID: 198000011775040566}
   windMitigation: 8
-  rainLevel: 49.061394
+  rainLevel: 15.176254
   FogStartThreshold: 50
   fogMod: 0.5
-  windVectorXZ: {x: 1.4894749, y: 5.4838185}
+  windVectorXZ: {x: 0.49548292, y: -1.0333227}
   fogWindMod: 0.4
+  splashManager: {fileID: 114000012391922068}
+  splashSize: 0.4
 --- !u!114 &114000011642838568
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -417,6 +449,19 @@ MonoBehaviour:
   UsePositionY: 0
   UsePositionZ: 1
   Parent: {fileID: 0}
+--- !u!114 &114000012391922068
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012771175752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a1024f5199154a4b8585a0c153ab146, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splashFX: {fileID: 1000013776795558, guid: 43e6e1736e8dcae4b802d273232cbd40, type: 2}
+  splashPoolSize: 20
 --- !u!114 &114000013357707624
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -758,7 +803,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationX:
-      scalar: -0.09571069
+      scalar: 0.018034883
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -793,7 +838,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationY:
-      scalar: -0.025996242
+      scalar: -0.008647808
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -892,7 +937,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 98.12279
+      scalar: 30.352509
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1320,7 +1365,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 1.4894749
+      scalar: 0.49548292
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1345,7 +1390,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     y:
-      scalar: -5.4838185
+      scalar: 1.0333227
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2005,7 +2050,7 @@ ParticleSystem:
   CollisionModule:
     enabled: 1
     serializedVersion: 3
-    type: 0
+    type: 1
     collisionMode: 0
     plane0: {fileID: 4000012129241920}
     plane1: {fileID: 0}
@@ -2120,14 +2165,14 @@ ParticleSystem:
       minMaxState: 0
     minKillSpeed: 0
     maxKillSpeed: 10000
-    radiusScale: 0.28
+    radiusScale: 0.02
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 273
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 1
   TriggerModule:
@@ -4746,7 +4791,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 0.59578997
+      scalar: 0.19819318
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4796,7 +4841,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     z:
-      scalar: -2.1935275
+      scalar: 0.4133291
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5704,7 +5749,7 @@ ParticleSystemRenderer:
   m_SortingFudge: 0
   m_NormalDirection: 1
   m_RenderAlignment: 0
-  m_Pivot: {x: 0, y: 0, z: 0}
+  m_Pivot: {x: 0, y: -0.1, z: 0}
   m_Mesh: {fileID: 4300000, guid: 4b484a3c0b0b49d44b21209c7f91421f, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}

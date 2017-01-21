@@ -1,0 +1,146 @@
+fileFormatVersion: 2
+guid: 8dba37ec14bf1784e8653d0f9aa388fa
+timeCreated: 1484450378
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: FX_MOD_InnerSplash
+    100002: FX_MOD_OuterSplash
+    100004: //RootNode
+    100006: InnerSplashBottom
+    100008: InnerSplashTop
+    100010: OuterSplashBottom
+    100012: OuterSplashTop
+    400000: FX_MOD_InnerSplash
+    400002: FX_MOD_OuterSplash
+    400004: //RootNode
+    400006: InnerSplashBottom
+    400008: InnerSplashTop
+    400010: OuterSplashBottom
+    400012: OuterSplashTop
+    2300000: FX_MOD_InnerSplash
+    2300002: FX_MOD_OuterSplash
+    3300000: FX_MOD_InnerSplash
+    3300002: FX_MOD_OuterSplash
+    4300000: FX_MOD_InnerSplash
+    4300002: FX_MOD_OuterSplash
+    7400000: Splash
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: FX_MOD_InnerSplash
+    13700002: FX_MOD_OuterSplash
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Splash
+      takeName: Take 001
+      firstFrame: 10
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.99851644
+        functionName: Hide
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: c5337ec678e7c7d40a5b5d3ecce12955,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask:
+      - path: 
+        weight: 1
+      - path: FX_MOD_InnerSplash
+        weight: 1
+      - path: FX_MOD_OuterSplash
+        weight: 1
+      - path: InnerSplashBottom
+        weight: 1
+      - path: InnerSplashTop
+        weight: 1
+      - path: OuterSplashBottom
+        weight: 1
+      - path: OuterSplashTop
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 4
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 1
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
