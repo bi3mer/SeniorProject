@@ -26,18 +26,14 @@ public class Clock : MonoBehaviour
 		private set;
 	}
 
-	private float currentTime = 0;
-
 	/// <summary>
 	/// Gets the current time.
 	/// </summary>
 	/// <value>The current time.</value>
 	public float CurrentTime
 	{
-		get
-		{
-			return this.currentTime;
-		}
+		get;
+		private set;
 	}
 
 	/// <summary>
@@ -48,7 +44,7 @@ public class Clock : MonoBehaviour
 	{
 		get
 		{
-			return this.currentTime / this.hour;
+			return this.CurrentTime / this.hour;
 		}
 	}
 
@@ -107,8 +103,7 @@ public class Clock : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Update delegates for every half hour and hour 
-	/// long cycle.
+	/// Updates the time.
 	/// </summary>
 	/// <returns>The time.</returns>
 	private IEnumerator updateTime()
@@ -118,10 +113,10 @@ public class Clock : MonoBehaviour
 			yield return new WaitForSeconds(this.tick);
 
 			// update time
-			this.currentTime += Clock.addTick;
+			this.CurrentTime += Clock.addTick;
 			if(this.CurrentTime >= this.twentyFourHours)
 			{
-				this.currentTime = 0;
+				this.CurrentTime = 0;
 			}
 
 			// TODO find a way to get non monobehaviour scripts to subscribe to
@@ -134,7 +129,7 @@ public class Clock : MonoBehaviour
 				this.SecondUpdate();
 			}
 
-			int integerTime = Mathf.FloorToInt(this.currentTime);
+			int integerTime = Mathf.FloorToInt(this.CurrentTime);
 
 			// Notify thirty minute long subscribed delegates
 			if(this.HalfHourUpdate != null && integerTime % Mathf.FloorToInt(this.halfHour) == 0)
