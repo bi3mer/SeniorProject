@@ -55,7 +55,9 @@ public class DistrictConfiguration
     [Tooltip("Template for the district Weenie Building. To be placed once.")]
     public GameObject WeenieBuildingTemplate;
 
-	/// TODO: Find a better way to assign doors to generator
+    /// <summary>
+    /// The doors in the district.
+    /// </summary>
 	[Tooltip("Doors that may be generated in the district")]
     public List<GameObject> Doors;
 

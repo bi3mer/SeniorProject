@@ -50,9 +50,10 @@ public class RooftopPointGenerator
 	/// <param name="doorExtents">Door extents.</param>
 	/// <param name="itemExtents">Item extents.</param>
 	/// <param name="hasDoor">If set to <c>true</c> has door. (optional)</param>
-	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, DistrictItemConfiguration itemInfo, string district, bool hasDoor = false)
+	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, DistrictItemConfiguration itemInfo, 
+														 string district, List<float> doorExtents, List<GameObject> doorTemplates, bool hasDoor = false)
 	{
-		generatableDoorExtents = itemInfo.DoorExtents;
+		generatableDoorExtents = doorExtents;
 		generatableObjectExtents = itemInfo.ItemExtents;
 
 		Vector3 max = targetBound.max;
