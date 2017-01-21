@@ -24,7 +24,7 @@ public class DayNight : MonoBehaviour
 	private void updatePlanetaryObject(Transform planetaryObject)
 	{
 		// TODO: should the be able to rotate around something other than the origin?
-		planetaryObject.RotateAround(Vector3.zero, Vector3.right, Clock.AnglePerSecond);
+		planetaryObject.RotateAround(Vector3.zero, Vector3.right, Game.Instance.ClockInstance.AnglePerSecond);
 		planetaryObject.LookAt(Vector3.zero);
 	}
 
