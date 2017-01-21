@@ -545,6 +545,7 @@ public class PlayerController : MonoBehaviour
             // show item if closest item and stop showing previous item
             if (closestInteractable != prevInteractable)
             {
+            	Debug.Log("showw");
 
                 // only stop showing if there was a previous collider
                 if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag) && interactable != null)

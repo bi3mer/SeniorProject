@@ -36,6 +36,11 @@ public class ItemSpawner : InteractableObject
 
 	private const float angleIncrementations = 40f;
 
+	void Awake()
+	{
+		SetUp();
+	}
+
 	/// <summary>
 	/// Sets up spawner. Sets the action as the interactable object action, and gets the size of the item around which items should be spawned. 
 	/// </summary>
