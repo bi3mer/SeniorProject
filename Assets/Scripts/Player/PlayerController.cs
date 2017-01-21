@@ -545,8 +545,6 @@ public class PlayerController : MonoBehaviour
             // show item if closest item and stop showing previous item
             if (closestInteractable != prevInteractable)
             {
-            	Debug.Log("showw");
-
                 // only stop showing if there was a previous collider
                 if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag) && interactable != null)
                 {
@@ -574,13 +572,9 @@ public class PlayerController : MonoBehaviour
     /// <param name="distance"></param>
     public void CheckClosestInteractable(Collider target, float targetDist)
     {
-        Collider prevTarget;
         // set first found interactable object as the closest item
         if (closestDistance == 0)
         {
-            // set previous interactable
-            prevTarget = closestInteractable;
-
             closestInteractable = target;
             closestDistance = targetDist;
         }
@@ -588,9 +582,6 @@ public class PlayerController : MonoBehaviour
         // if an interactable object is closer than previous closest object, set it as the closest
         else if (targetDist < closestDistance)
         {
-            // set previous interactable
-            prevTarget = closestInteractable;
-
             closestInteractable = target;
             closestDistance = targetDist;
         }

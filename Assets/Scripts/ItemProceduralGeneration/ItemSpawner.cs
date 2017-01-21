@@ -36,6 +36,9 @@ public class ItemSpawner : InteractableObject
 
 	private const float angleIncrementations = 40f;
 
+	/// <summary>
+	/// Awake this instance.
+	/// </summary>
 	void Awake()
 	{
 		SetUp();
