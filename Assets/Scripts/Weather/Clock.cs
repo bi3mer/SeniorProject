@@ -48,7 +48,7 @@ public class Clock : MonoBehaviour
 	{
 		get
 		{
-			return this.currentTime / (float) this.hour;
+			return this.currentTime / this.hour;
 		}
 	}
 
