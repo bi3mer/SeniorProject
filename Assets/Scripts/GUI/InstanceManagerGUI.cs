@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class InstanceManagerGUI
+public static class GuiInstanceManager
 {
 	/// <summary>
 	/// The recipe page instance.

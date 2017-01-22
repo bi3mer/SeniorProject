@@ -82,15 +82,15 @@ public class GameViewBehavior : MonoBehaviour
 	public void OnInventoryClick()
 	{
 		OnInventoryOpen();
-		if (InstanceManagerGUI.InventoryUiInstance != null) 
+		if (GuiInstanceManager.InventoryUiInstance != null) 
 		{
-			if (InstanceManagerGUI.InventoryUiInstance.TargetInventory != Game.Instance.PlayerInstance.Inventory) 
+			if (GuiInstanceManager.InventoryUiInstance.TargetInventory != Game.Instance.PlayerInstance.Inventory) 
 			{
-				InstanceManagerGUI.InventoryUiInstance.LoadNewInventory (Game.Instance.PlayerInstance.Inventory);
+				GuiInstanceManager.InventoryUiInstance.LoadNewInventory (Game.Instance.PlayerInstance.Inventory);
 			}
 			else
 			{
-				InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel();
+				GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel();
 			}
 		}
 	}
@@ -125,10 +125,10 @@ public class GameViewBehavior : MonoBehaviour
 		radioPanel.SetActive (false);
 		craftingPanel.SetActive (false);
 
-		if(InstanceManagerGUI.InventoryUiInstance.ItemsToDiscard.Count > 0)
+		if(GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Count > 0)
 		{
 			ItemDiscarder discarder = new ItemDiscarder();
-			discarder.DiscardItems(InstanceManagerGUI.InventoryUiInstance.ItemsToDiscard);
+			discarder.DiscardItems(GuiInstanceManager.InventoryUiInstance.ItemsToDiscard);
 		}
 	}
 

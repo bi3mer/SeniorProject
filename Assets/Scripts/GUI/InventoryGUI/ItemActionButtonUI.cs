@@ -32,7 +32,7 @@ public class ItemActionButtonUI : MonoBehaviour
 		{
 			// this is a button which should execute an item action
 			// thus it should first allow the player to select how manny items should be affected by this action
-			InstanceManagerGUI.ItemAmountPanelInstance.ChooseNumOfItemsToAffect(this);
+			GuiInstanceManager.ItemAmountPanelInstance.ChooseNumOfItemsToAffect(this);
 		}
 		else
 		{
@@ -46,9 +46,9 @@ public class ItemActionButtonUI : MonoBehaviour
 	/// </summary>
 	public void PerformAction()
 	{
-		InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel ();
+		GuiInstanceManager.ItemStackDetailPanelInstance.ClearSubActionPanel ();
 		action ();
-		InstanceManagerGUI.ItemStackDetailPanelInstance.RefreshItemPanel ();
+		GuiInstanceManager.ItemStackDetailPanelInstance.RefreshItemPanel ();
 	}
 
 
@@ -76,6 +76,6 @@ public class ItemActionButtonUI : MonoBehaviour
 	/// </summary>
 	public void ShowSubActions()
 	{
-		InstanceManagerGUI.ItemStackDetailPanelInstance.CreateSubAction (subActions);
+		GuiInstanceManager.ItemStackDetailPanelInstance.CreateSubAction (subActions);
 	}
 }

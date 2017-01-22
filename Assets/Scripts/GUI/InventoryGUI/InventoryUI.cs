@@ -39,7 +39,7 @@ public class InventoryUI : MonoBehaviour
 	/// </summary>
 	void Awake()
 	{
-		InstanceManagerGUI.InventoryUiInstance = this;
+		GuiInstanceManager.InventoryUiInstance = this;
 	}
 
 	/// <summary>
@@ -48,7 +48,7 @@ public class InventoryUI : MonoBehaviour
 	void Start () 
 	{
 		ItemsToDiscard = new List<Stack>();
-		InstanceManagerGUI.InventoryUiInstance.TargetInventory = Game.Instance.PlayerInstance.Inventory;
+		GuiInstanceManager.InventoryUiInstance.TargetInventory = Game.Instance.PlayerInstance.Inventory;
 		Stack[] contents = TargetInventory.GetInventory ();
 
 		// create empty slots

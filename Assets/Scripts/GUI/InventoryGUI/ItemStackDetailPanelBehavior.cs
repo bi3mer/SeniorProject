@@ -72,7 +72,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	void Awake()
 	{
-		InstanceManagerGUI.ItemStackDetailPanelInstance = this;
+		GuiInstanceManager.ItemStackDetailPanelInstance = this;
 		Attributes = new List<ItemAttributeUI> ();
 		PossibleActions = new List<ItemActionButtonUI> ();
 		PossibleSubActions = new Dictionary<string, List<ItemActionButtonUI>> ();
@@ -148,7 +148,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	public void ClosePanel()
 	{
 		selected.CheckForModification ();
-		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
+		GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
 
 		ClearAttributesAndActions();
 		Attributes.Clear();
@@ -220,7 +220,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void RefreshItemPanel()
 	{
-		InstanceManagerGUI.ItemAmountPanelInstance.ItemNameDisplay.text = selected.GetItemName ();
+		GuiInstanceManager.ItemAmountPanelInstance.ItemNameDisplay.text = selected.GetItemName ();
 
 		List<Attribute> attr = selected.GetItemAttributes ();
 

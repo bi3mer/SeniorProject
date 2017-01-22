@@ -56,7 +56,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	/// </summary>
 	void Awake()
 	{
-		InstanceManagerGUI.ItemAmountPanelInstance = this;
+		GuiInstanceManager.ItemAmountPanelInstance = this;
 	}
 
 	/// <summary>
@@ -152,7 +152,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		attributesAndActionPanel.SetActive (true);
 
 		// display attributes and actions
-		InstanceManagerGUI.ItemStackDetailPanelInstance.ClosePanel ();
+		GuiInstanceManager.ItemStackDetailPanelInstance.ClosePanel ();
 	}
 
 	/// <summary>
@@ -180,10 +180,10 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 			// the plus sign should not be displayed
 			Change (0);
 
-			InstanceManagerGUI.ItemStackDetailPanelInstance.SetSelectedItem (selectedItem.gameObject);
-			InstanceManagerGUI.ItemStackDetailPanelInstance.ClearAttributesAndActions();
-			InstanceManagerGUI.ItemStackDetailPanelInstance.ClearSubActionPanel();
-			InstanceManagerGUI.ItemStackDetailPanelInstance.SetItemData(selectedItem);
+			GuiInstanceManager.ItemStackDetailPanelInstance.SetSelectedItem (selectedItem.gameObject);
+			GuiInstanceManager.ItemStackDetailPanelInstance.ClearAttributesAndActions();
+			GuiInstanceManager.ItemStackDetailPanelInstance.ClearSubActionPanel();
+			GuiInstanceManager.ItemStackDetailPanelInstance.SetItemData(selectedItem);
 			attributesAndActionPanel.SetActive (true);
 		}
 	}
@@ -200,7 +200,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 
 	public void FinalizeAction()
 	{
-		InstanceManagerGUI.ItemStackDetailPanelInstance.UpdateSelectedAmount(currentAmount);
+		GuiInstanceManager.ItemStackDetailPanelInstance.UpdateSelectedAmount(currentAmount);
 		selectedActionButton.PerformAction();
 		Close.gameObject.SetActive (true);
 		itemAmountAffectPanel.SetActive (false);

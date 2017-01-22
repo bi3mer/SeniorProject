@@ -65,9 +65,9 @@ public class RecipePageBehavior : MonoBehaviour
 	/// <param name="pageRecipe">Page recipe.</param>
 	public void SetUpRecipePage(Recipe pageRecipe)
 	{
-		InstanceManagerGUI.RecipePageInstance = this;
+		GuiInstanceManager.RecipePageInstance = this;
 		itemsSelected = new List<Ingredient> ();
-		InstanceManagerGUI.RecipePageInstance.recipe = pageRecipe;
+		GuiInstanceManager.RecipePageInstance.recipe = pageRecipe;
 		RecipeNameText.text = recipe.RecipeName;
 
 		// add all requirements to requirement scroll view
@@ -235,7 +235,7 @@ public class RecipePageBehavior : MonoBehaviour
 		// close the item select ui panel
 		EndCraftingAttempt ();
 		ResetCraftingPanel ();
-		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
+		GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
 	}
 
 	/// <summary>
