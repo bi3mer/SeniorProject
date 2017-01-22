@@ -25,10 +25,8 @@ public class RooftopGeneration: MonoBehaviour
 	private Dictionary<string, DistrictItemConfiguration> districtItemInfo;
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="RooftopGeneration"/> class.
+	/// Awakens this instance.
 	/// </summary>
-	/// <param name="generationChance">Likelihood of a roof having objects.</param>
-	/// <param name="doorChance">Likelihood of a roof having a door in addition to objects.</param>
 	void Awake()
 	{
 		generator = new RooftopPointGenerator ();
@@ -47,9 +45,11 @@ public class RooftopGeneration: MonoBehaviour
 	/// <summary>
 	/// Populates the rooftop of a building.
 	/// </summary>
-	/// <param name="bound">Bound of building.</param>
-	/// <param name="center">Center position of building.</param>
-	/// <param name="district">District this building belongs to.</param>
+	/// <param name="bound">Bound.</param>
+	/// <param name="center">Center.</param>
+	/// <param name="district">District.</param>
+	/// <param name="doorExtents">Door extents.</param>
+	/// <param name="doorTemplates">Door templates.</param>
 	public void PopulateRoof(Bounds bound, Vector3 center, string district, List<float> doorExtents, List<GameObject> doorTemplates)
 	{
 		float itemChance;
