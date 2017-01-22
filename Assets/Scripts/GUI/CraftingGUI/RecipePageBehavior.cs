@@ -50,14 +50,12 @@ public class RecipePageBehavior : MonoBehaviour
 	private Image currentHighlightedItem;
 	private int currentStep;
 	private const string selectItemTypeTitleHeader = "Select ";
-	private ItemFactory itemFactory;
 
 	/// <summary>
 	/// Start this instance of RecipePageBehavior.
 	/// </summary>
 	void Start()
 	{
-		itemFactory = Game.Instance.ItemFactoryInstance;
 		ResetCraftingPanel ();
 	}
 

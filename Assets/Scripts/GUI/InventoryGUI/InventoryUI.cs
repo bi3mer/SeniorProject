@@ -131,6 +131,14 @@ public class InventoryUI : MonoBehaviour
 	{
 		// get current item's sibling index in UI and then destroy it
 		int slotIndex = itemStackUIList[currentInventoryIndex].gameObject.transform.GetSiblingIndex();
+
+		if (inventory[currentInventoryIndex] != null && inventory [currentInventoryIndex].Item != null) 
+		{
+			// unsubscribes from events to avoid being triggered later
+			itemStackUIList [currentInventoryIndex].Unsubscribe(inventory[currentInventoryIndex]);
+			inventory[currentInventoryIndex] = null;
+		}
+
 		GameObject.Destroy(itemStackUIList[currentInventoryIndex].gameObject);
 
 		// add empty slot item at that index in ui list
@@ -202,6 +210,15 @@ public class InventoryUI : MonoBehaviour
 		// add slot item at that index in ui list
 		itemStackUIList [currentInventoryIndex].SetUpInventoryItem (newStackFromInventory);
 		slots [currentInventoryIndex] = newStackFromInventory;
+
+		if(inventory.Count > currentInventoryIndex)
+		{
+			inventory[currentInventoryIndex] = newStackFromInventory;
+		}
+		else
+		{
+			inventory.Add(newStackFromInventory);
+		}
 	}
 
 	/// <summary>
@@ -213,5 +230,14 @@ public class InventoryUI : MonoBehaviour
 	{
 		itemStackUIList[currentInventoryIndex].RefreshInventoryItem(updatedStackFromInventory);
 		slots [currentInventoryIndex] = updatedStackFromInventory;
+
+		if(inventory.Count > currentInventoryIndex)
+		{
+			inventory[currentInventoryIndex] = updatedStackFromInventory;
+		}
+		else
+		{
+			inventory.Add(updatedStackFromInventory);
+		}
 	}
 }

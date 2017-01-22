@@ -85,6 +85,11 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	public void SetSelectedItem(GameObject selectedItem)
 	{
 		this.selected = selectedItem.GetComponent<ItemStackUI>();
+
+		// creates a duplicate object that may be used to modify with actions
+		// created at 0, since no amount of the stack has been specified to be used
+		selected.PreserveOriginal (0);
+		
 	}
 
 	/// <summary>
@@ -119,8 +124,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// Sets the item data.
 	/// </summary>
 	/// <param name="item">Item.</param>
-	/// <param name="numToModify">Number to modify.</param>
-	public void SetItemData(GameObject item, int numberOfStacksToModify)
+	public void SetItemData(GameObject item)
 	{
 		Attributes.Clear();
 		PossibleActions.Clear ();
@@ -128,10 +132,14 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 
 		// create duplicate of object that might be affected by entered changes
 		selected = item.GetComponent<ItemStackUI>();
-		selected.PreserveOriginal (numberOfStacksToModify);
 
 		// display attributes and actions
 		DisplayAttributesAndAction();
+	}
+
+	public void UpdateSelectedAmount(int amountToModify)
+	{
+		selected.UpdateTargetStack (amountToModify);
 	}
 
 	/// <summary>
@@ -139,12 +147,13 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void ClosePanel()
 	{
+		selected.CheckForModification ();
+		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
+
 		ClearAttributesAndActions();
 		Attributes.Clear();
 		PossibleActions.Clear ();
 		PossibleSubActions.Clear ();
-		selected.CheckForModification ();
-		InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel ();
 		EventSystem.current.SetSelectedGameObject(null);
 	}
 

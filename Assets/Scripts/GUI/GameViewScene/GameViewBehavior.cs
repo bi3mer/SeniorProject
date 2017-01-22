@@ -88,6 +88,10 @@ public class GameViewBehavior : MonoBehaviour
 			{
 				InstanceManagerGUI.InventoryUiInstance.LoadNewInventory (Game.Instance.PlayerInstance.Inventory);
 			}
+			else
+			{
+				InstanceManagerGUI.InventoryUiInstance.RefreshInventoryPanel();
+			}
 		}
 	}
 
