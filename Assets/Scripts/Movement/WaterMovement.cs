@@ -31,7 +31,7 @@ public class WaterMovement : Movement
     {
         if (controller.velocity.y < -minFallDamageVelocity)
         {
-            AccumulatedFallDammage += fallDamageModifier;
+            AccumulatedFallDamage += fallDamageModifier;
         }
     }
 

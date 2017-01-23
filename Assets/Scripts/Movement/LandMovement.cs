@@ -41,7 +41,7 @@ public class LandMovement : Movement
     {
         if (controller.velocity.y < -minFallDamageVelocity)
         {
-            AccumulatedFallDammage += fallDamageModifier;
+            AccumulatedFallDamage += fallDamageModifier;
         }
     }
 
@@ -51,21 +51,22 @@ public class LandMovement : Movement
     /// <param name="direction">The direction to walk the player.</param>
     public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
-        float speed = 0f;
+        Speed = 0f;
+
         // Walking
         if (!sprinting)
         {
-            speed = walkingSpeed;
+			Speed = walkingSpeed;
             playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorWalk);
         }
         // Sprinting
         else
         {
-            speed = sprintingSpeed;
+			Speed = sprintingSpeed;
             playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorSprint);
         }
 
-        controller.Move((direction.normalized * speed + Physics.gravity ) * Time.fixedDeltaTime);
+        controller.Move((direction.normalized * Speed + Physics.gravity ) * Time.fixedDeltaTime);
 
         Vector3 facingRotation = Vector3.Normalize(new Vector3(controller.velocity.x, 0f, controller.velocity.z));
         if (facingRotation != Vector3.zero)
@@ -79,7 +80,7 @@ public class LandMovement : Movement
     /// </summary>
     /// <param name="playerAnimator">The player's animator</param>
     public override void Idle(Animator playerAnimator)
-    {
+	{
         playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorIdle);
         controller.SimpleMove(Physics.gravity * Time.fixedDeltaTime);
     }

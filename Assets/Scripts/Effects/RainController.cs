@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 
 /// <summary>
@@ -82,6 +83,14 @@ public class RainController : MonoBehaviour
     // The attribute associated with the particle shader that controlls the blend between the rain textures.
     private const string particleMaterialBlendAttribute = "_Opacity";
 
+    // Used to create splashes on rain hits.
+    [SerializeField]
+    private FXSplashManager splashManager;
+    [SerializeField]
+    private float splashSize = .4f;
+    private ParticleSystem particleSystem;
+    private List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
+
     /// <summary>
     /// Grab the renderer to set the material's blend amount.
     /// </summary>
@@ -89,6 +98,8 @@ public class RainController : MonoBehaviour
     {
         // Grab the renderer.
         MainRainRenderer = MainRain.GetComponent<ParticleSystemRenderer>();
+
+        particleSystem = GetComponent<ParticleSystem>();
     }
 
 	/// <summary>
@@ -147,6 +158,20 @@ public class RainController : MonoBehaviour
         ParticleVelocity.z = -WindVectorXZ.y * fogWindMod;
 
         // Set the rotation of the rain based on the wind.
-        MainRain.startRotation3D = new Vector3(Mathf.Deg2Rad*-WindVectorXZ.y, Mathf.Deg2Rad*-WindVectorXZ.x, 0f);
+        MainRain.startRotation3D = new Vector3(Mathf.Deg2Rad* -WindVectorXZ.y, Mathf.Deg2Rad* -WindVectorXZ.x, 0f);
+    }
+
+    /// <summary>
+    /// Called when the rain hits something. Spawns a splash.
+    /// </summary>
+    /// <param name="other"></param>
+    void OnParticleCollision(GameObject other)
+    {
+        particleSystem.GetCollisionEvents(other, collisionEvents);
+
+        for (int i = 0; i < collisionEvents.Count; ++i)
+        {
+            splashManager.CreateSplash(collisionEvents[0].intersection, splashSize);
+        }
     }
 }
