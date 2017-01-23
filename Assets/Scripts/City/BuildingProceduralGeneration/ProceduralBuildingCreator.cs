@@ -132,7 +132,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
         }
         
         ProceduralBuildingInstance newBuilding = (ProceduralBuildingInstance)Instantiate(proceduralBuildingTemplate, Vector3.zero, Quaternion.Euler(Vector3.zero));
-        newBuilding.IsVisible = true;
 
         // Choose a material for all the building bits
         Material buildingMaterial = (Material) district.districtProceduralMaterials[Random.Range(0, district.districtProceduralMaterials.Count)];
@@ -179,6 +178,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             MeshRenderer windowRenderer = newBuilding.gameObject.AddComponent<MeshRenderer>();
             windowRenderer.material = windowMaterial;
             newBuilding.transform.GetComponent<MeshFilter>().sharedMesh.CombineMeshes(combine);
+            newBuilding.gameObject.AddComponent<MeshCollider>().sharedMesh = newBuilding.transform.GetComponent<MeshFilter>().sharedMesh;
             newBuilding.transform.gameObject.SetActive(true);
 
             // Delete old windows
@@ -187,6 +187,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 DestroyImmediate(windowMeshes[i].gameObject);
             }
         }
+
         return newBuilding;
     }
 
