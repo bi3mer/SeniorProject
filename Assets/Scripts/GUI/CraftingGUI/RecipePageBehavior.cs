@@ -229,7 +229,6 @@ public class RecipePageBehavior : MonoBehaviour
 	{
 		// call the CraftingRecipeFactory which will create the resulting item given the
 		// name of the recipe and ingredients selected
-		//itemFactory.Craft (recipe, itemsSelected, Game.Instance.PlayerInstance.Inventory); // delete after overworld PR is done
 		Game.Instance.ItemFactoryInstance.Craft (recipe, itemsSelected, Game.Instance.PlayerInstance.Inventory); // add in after overworld PR is done
 
 		// close the item select ui panel

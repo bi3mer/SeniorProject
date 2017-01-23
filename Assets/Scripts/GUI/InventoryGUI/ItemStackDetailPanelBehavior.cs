@@ -137,6 +137,10 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		DisplayAttributesAndAction();
 	}
 
+	/// <summary>
+	/// Updates the selected amount.
+	/// </summary>
+	/// <param name="amountToModify">Amount to modify.</param>
 	public void UpdateSelectedAmount(int amountToModify)
 	{
 		selected.UpdateTargetStack (amountToModify);

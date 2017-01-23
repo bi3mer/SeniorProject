@@ -198,6 +198,9 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		selectedActionButton = actionButton;
 	}
 
+	/// <summary>
+	/// Executes the action.
+	/// </summary>
 	public void FinalizeAction()
 	{
 		GuiInstanceManager.ItemStackDetailPanelInstance.UpdateSelectedAmount(currentAmount);
