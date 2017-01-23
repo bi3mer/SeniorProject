@@ -129,4 +129,21 @@ public class RaftMovement : Movement
     {
         return 0f;
     }
+
+    /// <summary>
+    /// Called when the player enters the state.
+    /// </summary>
+    public override void OnStateEnter()
+    {
+
+    }
+
+    /// <summary>
+    /// Called when the player exits the state.
+    /// </summary>
+    public override void OnStateExit()
+    {
+
+    }
+
 }

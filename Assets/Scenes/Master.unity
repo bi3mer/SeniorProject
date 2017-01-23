@@ -1853,6 +1853,12 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 187866227}
+--- !u!114 &200652556 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000012391922068, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1568084899}
+  m_Script: {fileID: 11500000, guid: 5a1024f5199154a4b8585a0c153ab146, type: 3}
 --- !u!1 &230602165
 GameObject:
   m_ObjectHideFlags: 0
@@ -6524,6 +6530,16 @@ Prefab:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011980828570, guid: 4d0db4ff21e6e0448843b49e49cdab4b,
+        type: 2}
+      propertyPath: PlayerIKSetUp
+      value: 
+      objectReference: {fileID: 1304901477}
+    - target: {fileID: 114000012333483624, guid: 4d0db4ff21e6e0448843b49e49cdab4b,
+        type: 2}
+      propertyPath: SplashManager
+      value: 
+      objectReference: {fileID: 200652556}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4d0db4ff21e6e0448843b49e49cdab4b, type: 2}
   m_IsPrefabParent: 0
@@ -10591,6 +10607,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 966d2b798e0a0e044876ba6826f06a5b, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1304901477 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000010011769092, guid: 4d0db4ff21e6e0448843b49e49cdab4b,
+    type: 2}
+  m_PrefabInternal: {fileID: 764636067}
+  m_Script: {fileID: 11500000, guid: 6d406d8b892f54ccaa5b0ef4de59944a, type: 3}
 --- !u!1 &1305320864
 GameObject:
   m_ObjectHideFlags: 0
@@ -13362,38 +13384,44 @@ Prefab:
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationX.scalar
-      value: -0.03084583
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationY.scalar
-      value: -0.00040089252
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: EmissionModule.rate.scalar
-      value: 39.270985
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: 0.022969449
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.y.scalar
-      value: -1.7673359
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: 0.009187779
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.z.scalar
-      value: -0.7069344
+      value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012391922068, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: splashFX
+      value: 
+      objectReference: {fileID: 114000014038965494, guid: 43e6e1736e8dcae4b802d273232cbd40,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ecc262ca63bb3d54ba8476a9fa126d5c, type: 2}
   m_IsPrefabParent: 0
