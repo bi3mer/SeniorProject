@@ -32,7 +32,7 @@ public class GameLoader
     /// <summary>
     /// Get overall loading percentage complete.
     /// </summary>
-    public float Complete
+    public float PercentageComplete
     {
         get
         {
@@ -45,7 +45,7 @@ public class GameLoader
             float totalComplete = 0f;
             for (int i = 0; i < tasks.Count; ++i)
             {
-                totalComplete += tasks[i].Complete;
+                totalComplete += tasks[i].PercentageComplete;
             }
 
             return totalComplete / tasks.Count;

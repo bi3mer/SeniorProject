@@ -20,7 +20,7 @@ public class GameLoaderTask
     /// <summary>
     /// The percentage completeness of the task.
     /// </summary>
-    public float Complete
+    public float PercentageComplete
     {
         get
         {
