@@ -806,7 +806,7 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit1, hit2, hit3, heightPoint;
 
         // Raycasts to the wall, if any of these casts fail we can't climb...
-        //Raycast order is Right hand, left hand, player center, then we find out if the ledge's height is within our max climb height
+        // Raycast order is Right hand, left hand, player center, then we find out if the ledge's height is within our max climb height
         // The last cast uses a 9999f to represent a height above everything.
         if (Physics.Raycast(rH.transform.position + new Vector3(0f, raycastHeight, 0f), rH.transform.forward, out hit1, climbDistance, ClimbingRaycastMask) &&
             Physics.Raycast(lH.transform.position + new Vector3(0f, raycastHeight, 0f), lH.transform.forward, out hit3, climbDistance, ClimbingRaycastMask) &&
