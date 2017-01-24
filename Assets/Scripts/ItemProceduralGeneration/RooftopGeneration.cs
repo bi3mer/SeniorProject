@@ -25,10 +25,8 @@ public class RooftopGeneration: MonoBehaviour
 	private Dictionary<string, DistrictItemConfiguration> districtItemInfo;
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="RooftopGeneration"/> class.
+	/// Awakens this instance.
 	/// </summary>
-	/// <param name="generationChance">Likelihood of a roof having objects.</param>
-	/// <param name="doorChance">Likelihood of a roof having a door in addition to objects.</param>
 	void Awake()
 	{
 		generator = new RooftopPointGenerator ();
@@ -40,37 +38,19 @@ public class RooftopGeneration: MonoBehaviour
 		{
 			districtItemInfo.Add(key, new DistrictItemConfiguration());
 			districtItemInfo[key].ItemTemplates = itemTemplates[key];
-			districtItemInfo[key].ItemExtents = getItemExtents(itemTemplates[key]);
-		}
-	}
-
-	/// <summary>
-	/// Adds doors as something that can be generated on a roof.
-	/// </summary>
-	/// <param name="doors">Door objects that can be generated.</param>
-	/// <param name="district">Name of the district that these doors should appear in.</param>
-	public void AddDoors(List<GameObject> doors, string district)
-	{
-		if(districtItemInfo[district].DoorExtents.Count > 0)
-		{
-			districtItemInfo[district].DoorExtents.AddRange(getItemExtents(doors));
-			districtItemInfo[district].
-			DoorTemplates.AddRange(doors);
-		}
-		else
-		{
-			districtItemInfo[district].DoorExtents = getItemExtents(doors);
-			districtItemInfo[district].DoorTemplates = doors;
+			districtItemInfo[key].ItemExtents = GetItemExtents(itemTemplates[key]);
 		}
 	}
 
 	/// <summary>
 	/// Populates the rooftop of a building.
 	/// </summary>
-	/// <param name="bound">Bound of building.</param>
-	/// <param name="center">Center position of building.</param>
-	/// <param name="district">District this building belongs to.</param>
-	public void PopulateRoof(Bounds bound, Vector3 center, string district)
+	/// <param name="bound">Bound.</param>
+	/// <param name="center">Center.</param>
+	/// <param name="district">District.</param>
+	/// <param name="doorExtents">Door extents.</param>
+	/// <param name="doorTemplates">Door templates.</param>
+	public void PopulateRoof(Bounds bound, Vector3 center, string district, List<float> doorExtents, List<GameObject> doorTemplates)
 	{
 		float itemChance;
 		float doorChance;
@@ -83,34 +63,31 @@ public class RooftopGeneration: MonoBehaviour
 
 		if (itemChance < itemGenerationChance) 
 		{
-			if(doorChance < doorGenerationChance)
+			if(doorChance < doorGenerationChance && doorTemplates.Count > 0)
 			{
-				points = generator.GetValidPoints (bound, center, districtItemInfo[district], district, true);
+				points = generator.GetValidPoints (bound, center, districtItemInfo[district], district, doorExtents, doorTemplates, true);
 				hasDoor = true;
 			}
 			else
 			{
-				points = generator.GetValidPoints (bound, center, districtItemInfo[district], district, false);
+				points = generator.GetValidPoints (bound, center, districtItemInfo[district], district, doorExtents, doorTemplates, false);
 			}
 
 			if (points.Count > 0) 
 			{
 				// for now, all roofs with items will have doors
-				generateObjects(hasDoor, district, points);
+				generateObjects(hasDoor, district, points, doorTemplates);
 			}
 		}
 	}
 
 	/// <summary>
 	/// Generates the objects that needs to be placed on the building's surface.
-	/// TODO: The list of objects passed in should take into account weights so that certain objects are generated more often than others
-	/// TODO: should also take into account location
-	/// TODO: Poisson generation code should be moved to a wrapper class
 	/// </summary>
 	/// <param name="hasDoor">If set to <c>true</c>, there is a door that needs to be created.</param>
 	/// <param name="district">Name of the district for which generation is occuring.</param>
 	/// <param name="points">Points.</param>
-	private void generateObjects(bool hasDoor, string district, List<ItemPlacementSamplePoint> points)
+	private void generateObjects(bool hasDoor, string district, List<ItemPlacementSamplePoint> points, List<GameObject> doorTemplates)
 	{
 		int startingIndex = 0;
 		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
@@ -118,7 +95,7 @@ public class RooftopGeneration: MonoBehaviour
 		// if there is a door, it will always be the first point returned
 		if (hasDoor) 
 		{
-			generateDoor(points[0].ItemIndex, points[0].WorldSpaceLocation, district);
+			generateDoor(doorTemplates[points[0].ItemIndex], points[0].WorldSpaceLocation, district);
 			++startingIndex;
 		}
 
@@ -162,7 +139,7 @@ public class RooftopGeneration: MonoBehaviour
 	/// </summary>
 	/// <returns>The extents of the items.</returns>
 	/// <param name="items">Items.</param>
-	private List<float> getItemExtents(List<GameObject> items)
+	public List<float> GetItemExtents(List<GameObject> items)
 	{
 		List<float> extents = new List<float>();
 		Bounds itemBound;
@@ -215,12 +192,12 @@ public class RooftopGeneration: MonoBehaviour
 	/// <summary>
 	/// Generates a door gameobject and places it in the world.
 	/// </summary>
-	/// <param name="doorIndex">Door index.</param>
+	/// <param name="doorTemplate">Door template.</param>
 	/// <param name="location">Location.</param>
 	/// <param name="district">District.</param>
-	private void generateDoor(int doorIndex, Vector3 location, string district)
+	private void generateDoor(GameObject doorTemplate, Vector3 location, string district)
 	{
-		GameObject door = GameObject.Instantiate(districtItemInfo[district].DoorTemplates[doorIndex]);
+		GameObject door = GameObject.Instantiate(doorTemplate);
 
 		door.SetActive(true);
 		Transform doorTransform = door.transform;

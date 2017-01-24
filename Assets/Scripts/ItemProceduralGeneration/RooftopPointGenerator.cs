@@ -44,15 +44,17 @@ public class RooftopPointGenerator
 	/// Then converts the sampling points to their world coordinates.
 	/// </summary>
 	/// <returns>The valid points.</returns>
-	/// <param name="targetBound">Target bound.</param>
-	/// <param name="itemInfo">Information about the district configuration.</param>
+	/// <param name="targetBound">Target bounds.</param>
 	/// <param name="targetCenter">Target center.</param>
+	/// <param name="itemInfo">Item info based on district.</param>
+	/// <param name="district">Distric this belongs tot.</param>
 	/// <param name="doorExtents">Door extents.</param>
-	/// <param name="itemExtents">Item extents.</param>
-	/// <param name="hasDoor">If set to <c>true</c> has door. (optional)</param>
-	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, DistrictItemConfiguration itemInfo, string district, bool hasDoor = false)
+	/// <param name="doorTemplates">Door templates.</param>
+	/// <param name="hasDoor">If set to <c>true</c> has door.</param>
+	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, DistrictItemConfiguration itemInfo, 
+														 string district, List<float> doorExtents, List<GameObject> doorTemplates, bool hasDoor = false)
 	{
-		generatableDoorExtents = itemInfo.DoorExtents;
+		generatableDoorExtents = doorExtents;
 		generatableObjectExtents = itemInfo.ItemExtents;
 
 		Vector3 max = targetBound.max;
@@ -303,6 +305,9 @@ public class RooftopPointGenerator
 	/// <returns>The minimum distance.</returns>
 	/// <param name="door">Door.</param>
 	/// <param name="currentPosition">Current position.</param>
+	/// <param name="maxDistanceAway">Max distance away.</param>
+	/// <param name="maxDoorwayEffectArea">Maximum distance at which door's presence will effect the density of points</param>
+	/// <param name="useGaussian">If set to <c>true</c> uses gaussian distribution.</param>
 	private float getMinDistance(Vector2 door, Vector2 currentPosition, float maxDistanceAway, float maxDoorwayEffectArea, bool useGaussian)
 	{
 		if(useGaussian)
@@ -479,7 +484,6 @@ public class RooftopPointGenerator
 	/// </summary>
 	/// <returns>The to grid.</returns>
 	/// <param name="samplingPoint">Sampling point.</param>
-	/// <param name="cellSize">Cell size.</param>
 	private Vector2 PointToGrid(Vector2 samplingPoint)
 	{
 		return new Vector2 ((int)(samplingPoint.x / cellSize), (int)(samplingPoint.y / cellSize));
