@@ -1792,11 +1792,11 @@ MonoBehaviour:
   interactiveTag: Interactable
   landTag: Land
   waterTag: Water
-  waterWarmthReductionRate: -0.5
-  outsideWarmthReductionRate: -1
-  shelterWarmthIncreaseRate: 0
+  waterWarmthReductionRate: -0.03
+  outsideWarmthReductionRate: -0.01
+  shelterWarmthIncreaseRate: 0.05
   fireWarmthIncreaseRate: 1
-  hungerReductionRate: 0.1
+  hungerReductionRate: 0.01
   hungerUpdatedEvent:
     m_PersistentCalls:
       m_Calls:

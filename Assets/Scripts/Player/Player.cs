@@ -2,13 +2,13 @@
 
 public class Player
 {
-    private const int maxHealth = 100;
-    private const int maxWarmth = 100;
-    private const int maxHunger = 100;
+    private const float maxHealth = 100f;
+    private const float maxWarmth = 100f;
+    private const float maxHunger = 100f;
     private const string playerInventoryName = "player";
     private const string inventoryFileName = "InventoryYaml.yml";
     private const int playerInventorySize = 20;
-    private int health;
+    private float health;
 
     /// <summary>
     /// Player constructor.
@@ -59,7 +59,7 @@ public class Player
     /// The player's current health. 
     /// Used for physical dammage.
     /// </summary>
-    public int Health
+    public float Health
     {
         get
         {
@@ -70,7 +70,7 @@ public class Player
         {
         	health = value;
 
-        	if(health <= 0)
+        	if(health <= 0f)
         	{
         		Game.Instance.DeathManagerInstance.Death();
         	}
@@ -81,7 +81,7 @@ public class Player
     /// The player's maximum health. 
     /// Used for physical dammmage.
     /// </summary>
-    public int MaxHealth
+    public float MaxHealth
     {
         get;
         private set;
@@ -91,7 +91,7 @@ public class Player
     /// The player's current warmth. 
     /// Warmth is reduced when the player is exposed to cold.
     /// </summary>
-    public int Warmth
+    public float Warmth
     {
         get;
         set;
@@ -101,7 +101,7 @@ public class Player
     /// The player's maximum warmth. 
     /// Warmth is reduced when the player is exposed to cold.
     /// </summary>
-    public int MaxWarmth
+    public float MaxWarmth
     {
         get;
         private set;
@@ -111,7 +111,7 @@ public class Player
     /// The player's current hunger.
     /// Hunger is reduced when the player does not eat.
     /// </summary>
-    public int Hunger
+    public float Hunger
     {
         get;
         set;
@@ -121,7 +121,7 @@ public class Player
     /// The player's maximum hunger.
     /// Hunger is reduced when the player does not eat.
     /// </summary>
-    public int MaxHunger
+    public float MaxHunger
     {
         get;
         private set;
