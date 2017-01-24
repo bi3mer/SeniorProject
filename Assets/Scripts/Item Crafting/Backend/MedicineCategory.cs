@@ -14,7 +14,17 @@ public class MedicineCategory : ItemCategory
         set;
     }
 
+    /// <summary>
+    /// Gets or sets the Sickness specialization (pnuemonia, food poisoning, none, all).
+    /// </summary>
+    public string Sickness
+    {
+        get;
+        set;
+    }
+
     private const string healthGainAttrName = "healthGain";
+    private const string sicknessAttrName = "sickness";
 
     private const string healActName = "Heal";
     private const string curePneumoniaActName = "Cure Pneumonia";
@@ -33,14 +43,29 @@ public class MedicineCategory : ItemCategory
         category.Actions = new List<ItemAction>();
         category.Attributes = new List<Attribute>();
 
-        ItemAction heal = new ItemAction(healActName, new UnityAction(category.Heal));
-        ItemAction cureFoodPoisoning = new ItemAction(cureFoodPoisoningActName, new UnityAction(category.CureFoodPoisoning));
-        ItemAction curePneumonia = new ItemAction(curePneumoniaActName, new UnityAction(category.CurePneumonia));
-        ItemAction cureAll = new ItemAction(cureAllActName, new UnityAction(category.CureAll));
+        if (Sickness == "food poisoning")
+        {
+            ItemAction cureFoodPoisoning = new ItemAction(cureFoodPoisoningActName, new UnityAction(category.CureFoodPoisoning));
+            category.Actions.Add(cureFoodPoisoning);
+        }
 
-        category.Actions.Add(heal);
-        category.Actions.Add(cureFoodPoisoning);
-        category.Actions.Add(curePneumonia);
+        else if (Sickness == "pneumonia")
+        {
+            ItemAction curePneumonia = new ItemAction(curePneumoniaActName, new UnityAction(category.CurePneumonia));
+            category.Actions.Add(curePneumonia);
+        }
+
+        else if (Sickness == "all")
+        {
+            ItemAction cureAll = new ItemAction(cureAllActName, new UnityAction(category.CureAll));
+            category.Actions.Add(cureAll);
+        }
+
+        else
+        {
+            ItemAction heal = new ItemAction(healActName, new UnityAction(category.Heal));
+            category.Actions.Add(heal);
+        }
 
         finishDuplication(category);
 
@@ -58,13 +83,29 @@ public class MedicineCategory : ItemCategory
 
         Actions = new List<ItemAction>();
 
-        ItemAction heal = new ItemAction(healActName, new UnityAction(Heal));
-        ItemAction cureFoodPoisoning = new ItemAction(cureFoodPoisoningActName, new UnityAction(CureFoodPoisoning));
-        ItemAction curePneumonia = new ItemAction(curePneumoniaActName, new UnityAction(CurePneumonia));
+        if (Sickness == "food poisoning")
+        {
+            ItemAction cureFoodPoisoning = new ItemAction(cureFoodPoisoningActName, new UnityAction(CureFoodPoisoning));
+            Actions.Add(cureFoodPoisoning);
+        }
 
-        Actions.Add(heal);
-        Actions.Add(cureFoodPoisoning);
-        Actions.Add(curePneumonia);
+        else if (Sickness == "pneumonia")
+        {
+            ItemAction curePneumonia = new ItemAction(curePneumoniaActName, new UnityAction(CurePneumonia));
+            Actions.Add(curePneumonia);
+        }
+
+        else if (Sickness == "all")
+        {
+            ItemAction cureAll = new ItemAction(cureAllActName, new UnityAction(CureAll));
+            Actions.Add(cureAll);
+        }
+
+        else
+        {
+            ItemAction heal = new ItemAction(healActName, new UnityAction(Heal));
+            Actions.Add(heal);
+        }
     }
 
     /// <summary>
