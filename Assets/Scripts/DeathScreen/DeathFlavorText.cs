@@ -12,7 +12,9 @@ public class DeathFlavorText : MonoBehaviour
 
 	private LoadingScreenFlavorTextManager flavorTextManager;
 
-	// Use this for initialization
+	/// <summary>
+	/// Starts this instance.
+	/// </summary>
 	void Start () 
 	{
 		if (FlavorText != null)
