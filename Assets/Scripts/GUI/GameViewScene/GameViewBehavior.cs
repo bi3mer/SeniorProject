@@ -84,7 +84,7 @@ public class GameViewBehavior : MonoBehaviour
 		OnInventoryOpen();
 		if (GuiInstanceManager.InventoryUiInstance != null) 
 		{
-			if (GuiInstanceManager.InventoryUiInstance.TargetInventory != Game.Instance.PlayerInstance.Inventory) 
+			if (GuiInstanceManager.InventoryUiInstance.TargetInventory != null && GuiInstanceManager.InventoryUiInstance.TargetInventory != Game.Instance.PlayerInstance.Inventory) 
 			{
 				GuiInstanceManager.InventoryUiInstance.LoadNewInventory (Game.Instance.PlayerInstance.Inventory);
 			}
