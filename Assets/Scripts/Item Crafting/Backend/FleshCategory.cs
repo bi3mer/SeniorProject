@@ -27,7 +27,7 @@ public class FleshCategory : ItemCategory
     /// <summary>
     /// string added to item name when cooked
     /// </summary>
-    private const string defaultCookedNameAddition = "Cooked";
+    private const string defaultCookedNameAddition = "Cooked ";
 
     private const string healthEffectAttrName = "healthEffect";
     private const string hungerGainAttrName = "hungerGain";
