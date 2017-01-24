@@ -40,5 +40,7 @@ public class ItemDiscarder
 				currentDiscardSlot = 0;
 			}
 		}
+
+		itemsToDiscard.Clear();
 	}
 }

@@ -41,8 +41,10 @@ public class ObjectsPanelBehavior : MonoBehaviour
 		currentAnimationState = closeState;
 		anim.SetInteger (animatorStateVariable, currentAnimationState);
 
-		//InventoryUIBehavior.instance.ItemsToDiscard.Clear(); // Old UI
-		InventoryUI.Instance.ItemsToDiscard.Clear();
+		ItemDiscarder discarder = new ItemDiscarder();
+		discarder.DiscardItems(GuiInstanceManager.InventoryUiInstance.ItemsToDiscard);
+
+		GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Clear();
 
 		// deselects all ui components to prevent space bar from firing them off
 		EventSystem.current.SetSelectedGameObject(null);

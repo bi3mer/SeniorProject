@@ -105,6 +105,18 @@ public class ItemStackUI : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Updates the target stack with the proper amount.
+	/// </summary>
+	/// <param name="numToModify">Number to modify.</param>
+	public void UpdateTargetStack(int numToModify)
+	{
+		int difference = numToModify - targetStack.Amount;
+		targetStack.Amount = numToModify;
+
+		originalStack.Amount -= difference;
+	}
+
+	/// <summary>
 	/// Checks to see if the targetItem has been modified. If so, then a new item has been created
 	/// and needs to be added to the inventory. Otherwise, merge the duplicate item back into the
 	/// original. The targetItem is the original item again.
@@ -134,7 +146,7 @@ public class ItemStackUI : MonoBehaviour
 		}
 		else if(targetStack.Item.DiscardFlag)
 		{
-			InventoryUI.Instance.ItemsToDiscard.Add(targetStack);
+			GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(targetStack);
 		}
 
 		targetStack = originalStack;
@@ -152,5 +164,21 @@ public class ItemStackUI : MonoBehaviour
 	public Stack GetStack()
 	{
 		return targetStack;
+	}
+
+	/// <summary>
+	/// Gets the max amount usuable in this stack.
+	/// If preserve original has already been called, then the original stack's value will be used.
+	/// Otherwise, the target stack's value will be used.
+	/// </summary>
+	/// <returns>The max amount.</returns>
+	public int GetMaxAmount()
+	{
+		if(targetStack.Amount > 0)
+		{
+			return targetStack.Amount;
+		}
+
+		return originalStack.Amount;
 	}
 }
