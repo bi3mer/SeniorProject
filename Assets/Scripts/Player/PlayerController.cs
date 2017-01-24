@@ -209,7 +209,12 @@ public class PlayerController : MonoBehaviour
 
 		// create event emitter
 		eventEmitter = FMODUnity.RuntimeManager.CreateInstance (roofFootstepSoundEvent);
-	}
+
+        // Set player hunger / warmth / health
+        Game.Instance.PlayerInstance.Health = Game.Instance.PlayerInstance.MaxHealth;
+        Game.Instance.PlayerInstance.Hunger = Game.Instance.PlayerInstance.MaxHunger;
+        Game.Instance.PlayerInstance.Warmth = Game.Instance.PlayerInstance.MaxWarmth;
+    }
 
     /// <summary>
     /// When colliding with a trigger. Used for interactable object interaction. For raft interactions.
