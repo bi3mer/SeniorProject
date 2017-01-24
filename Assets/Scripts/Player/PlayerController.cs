@@ -456,7 +456,7 @@ public class PlayerController : MonoBehaviour
 
             if(newWarmth < 0)
             {
-                Game.Instance.PlayerInstance.Health -= currentWarmthChangeRate;
+                Game.Instance.PlayerInstance.Health += currentWarmthChangeRate;
             }
             else if(newWarmth < Game.Instance.PlayerInstance.MaxWarmth)
             {
