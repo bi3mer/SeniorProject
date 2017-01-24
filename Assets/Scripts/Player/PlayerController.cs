@@ -910,12 +910,4 @@ public class PlayerController : MonoBehaviour
             movement.Jump(playerAnimator);
         }
     }
-
-    /// <summary>
-    /// Calls the OnMovementFunction
-    /// </summary>
-    private void onMovementSet()
-    {
-        print("lololol");
-    }
 }
