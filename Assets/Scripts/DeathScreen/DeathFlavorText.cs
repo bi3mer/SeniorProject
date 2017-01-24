@@ -4,7 +4,9 @@ using System.Collections;
 
 public class DeathFlavorText : MonoBehaviour 
 {
-	public Text FlavorText;
+	[SerializeField]
+    [Tooltip("The text object that will be modified to have the flavor text.")]
+	public Text flavorText;
 
 	[SerializeField]
     [Tooltip("The file where flavor texts are stored.")]
@@ -17,10 +19,10 @@ public class DeathFlavorText : MonoBehaviour
 	/// </summary>
 	void Start () 
 	{
-		if (FlavorText != null)
+		if (flavorText != null)
         {
             flavorTextManager = new LoadingScreenFlavorTextManager(flavorTextFilePath);
-            FlavorText.text = flavorTextManager.GetRandom().Text;
+            flavorText.text = flavorTextManager.GetRandom().Text;
         }
 	}
 }

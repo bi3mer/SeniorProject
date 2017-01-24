@@ -374,6 +374,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets the direction without accounting for the y axis.
+    /// </summary>
+    /// <returns>The direction.</returns>
+    /// <param name="direction">Direction.</param>
     private Vector3 getDirection(Vector3 direction)
     {
         Vector3 scratchDirection = direction;
@@ -381,6 +386,9 @@ public class PlayerController : MonoBehaviour
         return scratchDirection;
     }
 
+    /// <summary>
+    /// Updates the player's stats.
+    /// </summary>
     private void UpdatePlayerStats ()
     {
         Player player = Game.Instance.PlayerInstance;
@@ -399,6 +407,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates hunger.
+    /// TODO: Refactor to have more intuitive rate system.
+    /// </summary>
+    /// <returns>The hunger.</returns>
     private IEnumerator UpdateHunger ()
     {
     	int newHunger = 0;
@@ -428,6 +441,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates warmth.
+    /// TOOD: Refactor to use more intuitive decrease/increase rate system.
+    /// </summary>
+    /// <returns>The warmth.</returns>
 	private IEnumerator UpdateWarmth()
 	{
 		int newWarmth = 0;
