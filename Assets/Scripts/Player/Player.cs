@@ -8,6 +8,7 @@ public class Player
     private const string playerInventoryName = "player";
     private const string inventoryFileName = "InventoryYaml.yml";
     private const int playerInventorySize = 20;
+    private int health;
 
     /// <summary>
     /// Player constructor.
@@ -16,6 +17,8 @@ public class Player
     public Player ()
     {
         Health = MaxHealth = maxHealth;
+        health = Health;
+
         Warmth = MaxWarmth = maxWarmth;
         Hunger = MaxHunger = maxHunger;
 		Inventory = new PlayerInventory (playerInventoryName, inventoryFileName, playerInventorySize);
@@ -58,8 +61,20 @@ public class Player
     /// </summary>
     public int Health
     {
-        get;
-        set;
+        get
+        {
+        	return health;
+        }
+
+        set
+        {
+        	health = value;
+
+        	if(health <= 0)
+        	{
+        		Game.Instance.DeathManagerInstance.Death();
+        	}
+        }
     }
 
     /// <summary>

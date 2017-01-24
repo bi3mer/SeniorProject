@@ -401,39 +401,59 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator UpdateHunger ()
     {
+    	int newHunger = 0;
+
         while (updateStats)
         {
 			yield return new WaitForSeconds(Mathf.Abs(currentHungerChangeRate));
 
             if (currentHungerChangeRate > 0)
             {
-                ++Game.Instance.PlayerInstance.Hunger;
+                newHunger = Game.Instance.PlayerInstance.Hunger + 1;
             }
             else
             {
-                --Game.Instance.PlayerInstance.Hunger;
+                newHunger = Game.Instance.PlayerInstance.Hunger - 1;
             }
-            
-			hungerUpdatedEvent.Invoke ();
+
+			if(newHunger < 0)
+            {
+            	--Game.Instance.PlayerInstance.Health;
+            }
+            else if(newHunger < Game.Instance.PlayerInstance.MaxHunger)
+            {
+            	Game.Instance.PlayerInstance.Hunger = newHunger;
+				hungerUpdatedEvent.Invoke ();
+            }
         }
     }
 
 	private IEnumerator UpdateWarmth()
 	{
+		int newWarmth = 0;
+
 		while (updateStats)
 		{
 			yield return new WaitForSeconds(Mathf.Abs(currentWarmthChangeRate));
 
             if (currentWarmthChangeRate > 0)
             {
-                ++Game.Instance.PlayerInstance.Warmth;
+                newWarmth = Game.Instance.PlayerInstance.Warmth + 1;
             }
             else
             {
-                --Game.Instance.PlayerInstance.Warmth;
+                newWarmth = Game.Instance.PlayerInstance.Warmth - 1;
             }
-			
-            warmthUpdatedEvent.Invoke();
+
+            if(newWarmth < 0)
+            {
+            	--Game.Instance.PlayerInstance.Health;
+            }
+            else if(newWarmth < Game.Instance.PlayerInstance.MaxWarmth)
+            {
+            	Game.Instance.PlayerInstance.Warmth = newWarmth;
+				warmthUpdatedEvent.Invoke();
+            }
 		}
 	}
 
