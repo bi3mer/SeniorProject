@@ -10,10 +10,6 @@ public class DummyGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		RooftopGeneration generator = GetComponent<RooftopGeneration> ();
-		generator.AddDoors (DoorTemplate, "business");
 
-		for (int i = 0; i < Buildings.Count; ++i) {
-			generator.PopulateRoof (Buildings [i].bounds, Buildings [i].transform.position, "business");
-		}
 	}
 }
