@@ -76,6 +76,10 @@ public class ProceduralBuildingCreator : MonoBehaviour
     [ContextMenu("CreateTestBuilding")]
     public void CreateTestBuilding()
     {
+        if (TestDistrict.DistrictMaterials.Length == 0)
+        {
+            CreateMaterialsForDistrict(TestDistrict);
+        }
         CreateBuilding(TestDistrict, TestSize, TestAttatchmentPercentage, TestStoriesTall);
     }
 
