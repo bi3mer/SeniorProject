@@ -12,6 +12,14 @@ public class CityController : MonoBehaviour
     [Tooltip("Bounds defnining the size of the city.")]
     private Bounds cityBounds;
 
+    [SerializeField]
+    [Tooltip("Radius that building colliders at turned off.")]
+    private float buildingColliderRadius;
+
+    [SerializeField]
+    [Tooltip("Radius that buildings are visibly hidden.")]
+    private float buildingVisibleRadius;
+
     private DistrictGenerator districtGenerator;
     private BlockGenerator blockGenerator;
     private BuildingGenerator buildingGenerator;
@@ -36,6 +44,9 @@ public class CityController : MonoBehaviour
 
         // Start city generation
         Game.Instance.CityInstance = GenerateCity(seed);
+
+        // Start async builing updates
+        StartCoroutine(updateBuildings());
  	}
 	
     /// <summary>
@@ -89,5 +100,35 @@ public class CityController : MonoBehaviour
         }
 
         return new City(districts, cityBounds, cityCenter, tallestBuilding);
+    }
+
+    /// <summary>
+    /// Asychronous method which loops through all builings and updates according to current state.
+    /// </summary>
+    private IEnumerator updateBuildings()
+    {
+        Building building;
+        IEnumerator<Building> buildings = Game.Instance.CityInstance.GetEnumerator();
+
+        while (buildings.MoveNext())
+        {
+            if (Game.Instance.PlayerInstance.IsInWorld && !Game.Instance.PauseInstance.IsPaused)
+            {
+                // Get building
+                building = buildings.Current;
+
+                // Get player position
+                Vector3 playerRootPosition = Game.Instance.PlayerInstance.WorldTransform.position;
+                playerRootPosition.y = 0f;
+
+                // Update gameobject and colliders based on player proximity
+                building.IsVisible = (Vector3.Distance(playerRootPosition, building.RootPosition) < buildingVisibleRadius);
+                building.IsCollidible = (Vector3.Distance(playerRootPosition, building.RootPosition) < buildingColliderRadius);
+            }
+
+            yield return null;
+        }
+
+        yield return updateBuildings();
     }
 }

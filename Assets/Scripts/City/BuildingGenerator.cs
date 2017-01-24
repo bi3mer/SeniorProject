@@ -61,9 +61,6 @@ public class BuildingGenerator : MonoBehaviour
             Debug.LogWarning ("Additional buildings are not yet implemented.");
         }
 
-        // Seed random
-        Random.InitState(seed);
-
         // Get the building creator
         buildingCreator = GetComponent<ProceduralBuildingCreator>();
 
@@ -149,9 +146,10 @@ public class BuildingGenerator : MonoBehaviour
         ProceduralBuildingInstance buildingInstance = buildingCreator.CreateBuilding(configuration, baseSize, attatchmentChance, numberOfFloors);
         buildingInstance.gameObject.transform.position = position;
         buildingInstance.gameObject.transform.localScale = new Vector3(buildingScale, buildingScale, buildingScale);
+        buildingInstance.gameObject.transform.parent = this.gameObject.transform;
 
         // Create the final building
-        return new Building(position, null, numberOfFloors);
+        return new Building(position, buildingInstance.gameObject, buildingInstance, numberOfFloors);
     }
 
     /// <summary>
@@ -163,8 +161,9 @@ public class BuildingGenerator : MonoBehaviour
     {
         GameObject instance = Instantiate(CityCenterBuilding) as GameObject;
         instance.transform.position = cityCenter;
+        instance.transform.parent = this.gameObject.transform;
 
-        return new Building(cityCenter, instance, 0);
+        return new Building(cityCenter, instance);
     }
 
     /// <summary>
@@ -177,7 +176,8 @@ public class BuildingGenerator : MonoBehaviour
     {
         GameObject instance = Instantiate(configuration.WeenieBuildingTemplate) as GameObject;
         instance.transform.position = position;
+        instance.transform.parent = this.gameObject.transform;
 
-        return new Building(position, instance, 0);
+        return new Building(position, instance);
     }
 }

@@ -25,9 +25,6 @@ public class BlockGenerator : MonoBehaviour
     /// <returns>An array of the generated blocks.</returns>
     public Block[] Generate (int seed, District district)
     {
-        // Seed random
-        Random.InitState(seed);
-
         List<Block> blocks = new List<Block>();
         List<Vector2> controlPoints = new List<Vector2>();
         Vector3 min = district.BoundingBox.min;
