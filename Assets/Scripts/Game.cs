@@ -225,6 +225,10 @@
         private set;
     }
 
+    /// <summary>
+    /// Gets the death manager instance.
+    /// </summary>
+    /// <value>The death manager instance.</value>
     public DeathManager DeathManagerInstance
     {
     	get;

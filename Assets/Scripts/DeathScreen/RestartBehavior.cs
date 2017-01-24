@@ -8,6 +8,9 @@ public class RestartBehavior : MonoBehaviour
 	[Tooltip("The name of the main scene")]
 	private string mainGameScene;
 
+	/// <summary>
+	/// Restarts the game. Goes back to master.
+	/// </summary>
 	public void Restart()
 	{
 		SceneManager.LoadScene(mainGameScene);
