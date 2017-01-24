@@ -88,7 +88,7 @@ public class GameViewBehavior : MonoBehaviour
 			{
 				GuiInstanceManager.InventoryUiInstance.LoadNewInventory (Game.Instance.PlayerInstance.Inventory);
 			}
-			else
+			else if(GuiInstanceManager.InventoryUiInstance.TargetInventory != null)
 			{
 				GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel();
 			}
