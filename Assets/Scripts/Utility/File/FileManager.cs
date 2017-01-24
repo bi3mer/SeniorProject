@@ -10,7 +10,7 @@ public class FileManager
 	/// <param name="fileName">File name.</param>
 	public static string BuildPath(string fileName)
 	{
-		return Path.Combine(Application.persistentDataPath, fileName);
+		return Path.Combine(Application.dataPath, fileName);
 	}
 
 	/// <summary>
