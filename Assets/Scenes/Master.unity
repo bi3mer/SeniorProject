@@ -2048,6 +2048,23 @@ Transform:
   m_PrefabParentObject: {fileID: 4000010518117178, guid: 152809fbdfae55545ba0bc02e1879c65,
     type: 2}
   m_PrefabInternal: {fileID: 2112575922}
+--- !u!1 &605406078 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000010414017512, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1568084899}
+--- !u!114 &605406083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 605406078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e2d3fa1389db3e44aaa50917db25bb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Skybox: {fileID: 2100000, guid: f69903a7566c4e049ac1127b8355c4ec, type: 2}
 --- !u!4 &632071843 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4000012428387562, guid: 152809fbdfae55545ba0bc02e1879c65,
@@ -4497,6 +4514,46 @@ Prefab:
       propertyPath: Parent
       value: 
       objectReference: {fileID: 90818788}
+    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: InitialModule.startRotationX.scalar
+      value: -0.04500285
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: InitialModule.startRotationY.scalar
+      value: -0.16309296
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: EmissionModule.rate.scalar
+      value: 146.8617
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: VelocityModule.x.scalar
+      value: 9.344538
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: VelocityModule.y.scalar
+      value: -2.5784736
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: VelocityModule.x.scalar
+      value: 3.7378151
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: VelocityModule.z.scalar
+      value: -1.0313895
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: EmissionModule.rate.scalar
+      value: 36.715424
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ecc262ca63bb3d54ba8476a9fa126d5c, type: 2}
   m_IsPrefabParent: 0
