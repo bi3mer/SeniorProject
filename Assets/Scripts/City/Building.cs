@@ -116,8 +116,9 @@ public class Building
     /// Creates a new building.
     /// </summary>
     /// <param name="position">The location of the root of the building.</param>
-    /// <param name="buildingInstance">The building template.</param>
-    /// <param name="height">The height of the builing to instantiate.</param>
+    /// <param name="buildingInstance">The instatiated game object.</param>
+    /// <param name="proceduralInstance">The procedural building instance used to create this building.</param>
+    /// <param name="height">The height of the building to instantiate.</param>
     public Building (Vector3 position, GameObject buildingInstance, ProceduralBuildingInstance proceduralInstance, float height)
     {
         RootPosition = position;
@@ -134,6 +135,7 @@ public class Building
     /// Creates a new video.
     /// </summary>
     /// <param name="position">The location of the root of the building.</param>
+    /// <param name="buildingInstance">The instatiated game object.</param>
     public Building (Vector3 position, GameObject buildingInstance)
     {
         RootPosition = position;
