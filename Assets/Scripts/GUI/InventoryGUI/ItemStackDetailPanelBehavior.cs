@@ -10,8 +10,6 @@ using System.Collections.Generic;
 /// </summary>
 public class ItemStackDetailPanelBehavior : MonoBehaviour 
 {
-	public static ItemStackDetailPanelBehavior Instance;
-
 	[Tooltip("the scroll bar section that contains the attributes")]
 	[SerializeField]
 	private GameObject AttributeScroll;
@@ -70,14 +68,28 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	private ItemStackUI selected;
 
 	/// <summary>
-	/// Start this instance of itemStackPanelBehavior.
+	/// Setup ItemStackDetailPanelBehavior on awake
 	/// </summary>
-	void Start()
+	void Awake()
 	{
-		Instance = this;
+		GuiInstanceManager.ItemStackDetailPanelInstance = this;
 		Attributes = new List<ItemAttributeUI> ();
 		PossibleActions = new List<ItemActionButtonUI> ();
 		PossibleSubActions = new Dictionary<string, List<ItemActionButtonUI>> ();
+	}
+
+	/// <summary>
+	/// Sets the selected item.
+	/// </summary>
+	/// <param name="selectedItem">Selected item.</param>
+	public void SetSelectedItem(GameObject selectedItem)
+	{
+		this.selected = selectedItem.GetComponent<ItemStackUI>();
+
+		// creates a duplicate object that may be used to modify with actions
+		// created at 0, since no amount of the stack has been specified to be used
+		selected.PreserveOriginal (0);
+		
 	}
 
 	/// <summary>
@@ -112,22 +124,26 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// Sets the item data.
 	/// </summary>
 	/// <param name="item">Item.</param>
-	/// <param name="numToModify">Number to modify.</param>
-	public void SetItemData(GameObject item, int numberOfStacksToModify)
+	public void SetItemData(GameObject item)
 	{
-		// TODO : refactor to account for singleton use
-		Instance = this;
-
 		Attributes.Clear();
 		PossibleActions.Clear ();
 		PossibleSubActions.Clear ();
 
 		// create duplicate of object that might be affected by entered changes
 		selected = item.GetComponent<ItemStackUI>();
-		selected.PreserveOriginal (numberOfStacksToModify);
 
 		// display attributes and actions
 		DisplayAttributesAndAction();
+	}
+
+	/// <summary>
+	/// Updates the selected amount.
+	/// </summary>
+	/// <param name="amountToModify">Amount to modify.</param>
+	public void UpdateSelectedAmount(int amountToModify)
+	{
+		selected.UpdateTargetStack (amountToModify);
 	}
 
 	/// <summary>
@@ -135,12 +151,13 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void ClosePanel()
 	{
+		selected.CheckForModification ();
+		GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
+
 		ClearAttributesAndActions();
 		Attributes.Clear();
 		PossibleActions.Clear ();
 		PossibleSubActions.Clear ();
-		selected.CheckForModification ();
-		InventoryUI.Instance.RefreshInventoryPanel ();
 		EventSystem.current.SetSelectedGameObject(null);
 	}
 
@@ -151,7 +168,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	{
 		List<Attribute> attr = selected.GetItemAttributes ();
 
-		// removes the attributes from the attribute section
+		// adds attributes
 		for(int i = 0; i < attr.Count; ++i)
 		{
 			ItemAttributeUI stat = GameObject.Instantiate (StatElementUI);
@@ -169,7 +186,6 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		// has a key of "base"
 		for(int i = 0; i < possibleItemActions.Count; ++i)
 		{
-			//Debug.Log(possibleItemActions [i].ActionName);
 			// "base" actions are directly added into the action section as clicking them do not open up more options
 			if (possibleItemActions[i].SubActions.Count < 1) 
 			{
@@ -208,7 +224,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void RefreshItemPanel()
 	{
-		ChooseItemAmountPanelBehavior.Instance.ItemNameDisplay.text = selected.GetItemName ();
+		GuiInstanceManager.ItemAmountPanelInstance.ItemNameDisplay.text = selected.GetItemName ();
 
 		List<Attribute> attr = selected.GetItemAttributes ();
 

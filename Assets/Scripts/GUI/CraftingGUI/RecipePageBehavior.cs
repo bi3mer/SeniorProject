@@ -42,7 +42,6 @@ public class RecipePageBehavior : MonoBehaviour
 	[SerializeField]
 	private Button CancelCraftButton;
 
-	public static RecipePageBehavior Instance;
 	private Recipe recipe;
 	private string recipeChoiceName;
 	private string currentReqChoice;
@@ -51,14 +50,12 @@ public class RecipePageBehavior : MonoBehaviour
 	private Image currentHighlightedItem;
 	private int currentStep;
 	private const string selectItemTypeTitleHeader = "Select ";
-	private ItemFactory itemFactory;
 
 	/// <summary>
 	/// Start this instance of RecipePageBehavior.
 	/// </summary>
 	void Start()
 	{
-		itemFactory = Game.Instance.ItemFactoryInstance;
 		ResetCraftingPanel ();
 	}
 
@@ -68,9 +65,9 @@ public class RecipePageBehavior : MonoBehaviour
 	/// <param name="pageRecipe">Page recipe.</param>
 	public void SetUpRecipePage(Recipe pageRecipe)
 	{
-		Instance = this;
+		GuiInstanceManager.RecipePageInstance = this;
 		itemsSelected = new List<Ingredient> ();
-		Instance.recipe = pageRecipe;
+		GuiInstanceManager.RecipePageInstance.recipe = pageRecipe;
 		RecipeNameText.text = recipe.RecipeName;
 
 		// add all requirements to requirement scroll view
@@ -103,10 +100,10 @@ public class RecipePageBehavior : MonoBehaviour
 	/// </summary>
 	public void ResetCraftingPanel()
 	{
-		Instance.BeginCraftingButton.gameObject.SetActive (true);
-		Instance.CancelCraftButton.gameObject.SetActive (false);
-		Instance.CraftingPanel.gameObject.SetActive (false);
-		Instance.CraftButton.gameObject.SetActive (false);
+		BeginCraftingButton.gameObject.SetActive (true);
+		CancelCraftButton.gameObject.SetActive (false);
+		CraftingPanel.gameObject.SetActive (false);
+		CraftButton.gameObject.SetActive (false);
 		EventSystem.current.SetSelectedGameObject(null);
 	}
 
@@ -118,15 +115,15 @@ public class RecipePageBehavior : MonoBehaviour
 	{
 		// If this is the last step of the recipe, then the continue button used to continue to the 
 		// next step is disabled. Instead the "craft" button which is used to combine the items is activated.
-
-		int lastStep = recipe.Requirements.Count - 1;
-		if (currentStep + 1 >= lastStep) 
-		{
+		int lastStep = recipe.Requirements.Count;
+		if (currentStep + 1 >= lastStep) {
 			NextStepButton.gameObject.SetActive (false);
 			CraftButton.gameObject.SetActive (true);
+		} 
+		else 
+		{
+			DisplayPossibleItems(currentStep+1);
 		}
-
-		DisplayPossibleItems(currentStep+1);
 	}
 
 	/// <summary>
@@ -232,14 +229,12 @@ public class RecipePageBehavior : MonoBehaviour
 	{
 		// call the CraftingRecipeFactory which will create the resulting item given the
 		// name of the recipe and ingredients selected
-		itemFactory.Craft (recipe, itemsSelected, Game.Instance.PlayerInstance.Inventory); // delete after overworld PR is done
-		//Game.Instance.ItemFactoryInstance.Craft (recipe, ingredients, Game.Instance.PlayerInstance.Inventory); // add in after overworld PR is done
-
-		InventoryUI.Instance.RefreshInventoryPanel ();
+		Game.Instance.ItemFactoryInstance.Craft (recipe, itemsSelected, Game.Instance.PlayerInstance.Inventory); // add in after overworld PR is done
 
 		// close the item select ui panel
 		EndCraftingAttempt ();
 		ResetCraftingPanel ();
+		GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
 	}
 
 	/// <summary>

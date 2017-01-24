@@ -113,6 +113,8 @@ MonoBehaviour:
   cityBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 45, y: 45, z: 45}
+  buildingColliderRadius: 4
+  buildingVisibleRadius: 16
 --- !u!114 &114000013392317438
 MonoBehaviour:
   m_ObjectHideFlags: 1
