@@ -1818,7 +1818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f77758d2c588f64dbde14c3e9eee215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundedThreshold: 0.05
+  groundedThreshold: 0.1
   playerAnimator: {fileID: 95000010218278292}
   interactiveTag: Interactable
   landTag: Land
@@ -1878,17 +1878,17 @@ MonoBehaviour:
     Inventory: 9
     Radio: 114
     Crafting: 0
-  PlayerIKSetUp: {fileID: 0}
+  PlayerIKSetUp: {fileID: 114000010011769092}
   ClimbingRaycastMask:
     serializedVersion: 2
     m_Bits: 1553
   handSpacing: 0.386
-  climbDistance: 0
-  startClimbTime: 0
-  ClimbTime: 0
-  endClimbTime: 0
-  raycastHeight: 0
-  climbForward: 0
+  climbDistance: 0.45
+  startClimbTime: 0.3
+  ClimbTime: 0.4
+  endClimbTime: 0.3
+  raycastHeight: 0.01
+  climbForward: 0.1
 --- !u!114 &114000012333483624
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1900,10 +1900,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dbc643da8c996b4e9e3b990d3bb353e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  climbHeight: 0.25
+  climbHeight: 0.75
   swimmingSpeed: 0.4
   minFallDamageVelocity: 8
-  fallDamageModifier: 1.5
+  fallDamageModifier: 0.5
 --- !u!114 &114000012874215022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1915,7 +1915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7cb5682a27f5bb4f8fe3827a84eea19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  climbHeight: 0.55
+  climbHeight: 1
   walkingSpeed: 0.6
   sprintingSpeed: 1
   jumpForce: 0.06
