@@ -61,9 +61,6 @@ public class BuildingGenerator : MonoBehaviour
             Debug.LogWarning ("Additional buildings are not yet implemented.");
         }
 
-        // Seed random
-        Random.InitState(seed);
-
         // Get the building creator
         buildingCreator = GetComponent<ProceduralBuildingCreator>();
 
