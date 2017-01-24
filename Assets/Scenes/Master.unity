@@ -691,11 +691,6 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
---- !u!4 &311716411 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4000010540230910, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-    type: 2}
-  m_PrefabInternal: {fileID: 1568084899}
 --- !u!21 &325216710
 Material:
   serializedVersion: 6
@@ -1259,6 +1254,41 @@ Prefab:
         type: 2}
       propertyPath: itemGenerationChance
       value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013433191368, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+        type: 2}
+      propertyPath: configurations.Array.data[0].MinFloors
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013433191368, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+        type: 2}
+      propertyPath: configurations.Array.data[0].MaxFloors
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013433191368, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+        type: 2}
+      propertyPath: configurations.Array.data[1].MinFloors
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013433191368, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+        type: 2}
+      propertyPath: configurations.Array.data[1].MaxFloors
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013433191368, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+        type: 2}
+      propertyPath: configurations.Array.data[2].districtName
+      value: business
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013433191368, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+        type: 2}
+      propertyPath: configurations.Array.data[2].MaxFloors
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013433191368, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+        type: 2}
+      propertyPath: configurations.Array.data[2].MinFloors
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d, type: 2}
@@ -2258,6 +2288,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012333483624, guid: 4d0db4ff21e6e0448843b49e49cdab4b,
+        type: 2}
+      propertyPath: SplashManager
+      value: 
+      objectReference: {fileID: 1060953005}
     - target: {fileID: 114000011980828570, guid: 4d0db4ff21e6e0448843b49e49cdab4b,
         type: 2}
       propertyPath: hungerUpdatedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2685,11 +2720,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1559548358}
   m_Script: {fileID: 11500000, guid: a3477cc9ac82e494797f5406982b2b27, type: 3}
---- !u!1 &1025046153 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000010198322934, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-    type: 2}
-  m_PrefabInternal: {fileID: 1568084899}
 --- !u!1 &1042541512 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1000010924640366, guid: 7b4e5226e628633408ece05e9d3c6a4d,
@@ -4196,7 +4226,7 @@ Prefab:
     - target: {fileID: 224000012794174602, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224000012794174602, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
@@ -4467,81 +4497,6 @@ Prefab:
       propertyPath: Parent
       value: 
       objectReference: {fileID: 90818788}
-    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: InitialModule.startRotationX.scalar
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: InitialModule.startRotationY.scalar
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: EmissionModule.rate.scalar
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: VelocityModule.x.scalar
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: VelocityModule.y.scalar
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: VelocityModule.x.scalar
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: VelocityModule.z.scalar
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012391922068, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: splashFX
-      value: 
-      objectReference: {fileID: 1025046153}
-    - target: {fileID: 114000011275620152, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: rainLevel
-      value: 32.340103
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000011275620152, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: windVectorXZ.x
-      value: 2.3682125
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000011275620152, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: windVectorXZ.y
-      value: -2.6913137
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000011275620152, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: splashManager
-      value: 
-      objectReference: {fileID: 1060953005}
-    - target: {fileID: 114000010928583048, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: sun
-      value: 
-      objectReference: {fileID: 1687875372}
-    - target: {fileID: 114000010928583048, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: moon
-      value: 
-      objectReference: {fileID: 311716411}
-    - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-        type: 2}
-      propertyPath: EmissionModule.rate.scalar
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ecc262ca63bb3d54ba8476a9fa126d5c, type: 2}
   m_IsPrefabParent: 0
@@ -5045,11 +5000,6 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
---- !u!4 &1687875372 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4000014173833940, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
-    type: 2}
-  m_PrefabInternal: {fileID: 1568084899}
 --- !u!21 &1813621908
 Material:
   serializedVersion: 6
