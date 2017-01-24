@@ -64,6 +64,8 @@ public class CityController : MonoBehaviour
             District district = districts[i];
             Block[] blocks = blockGenerator.Generate(seed, district);
 
+			List<float> doorExtents = rooftopItemGenerator.GetItemExtents(district.Configuration.Doors);
+
             // Pick a block to generate the weenie building in
             int weenieBlock = Random.Range(0, blocks.Length);
 
@@ -77,7 +79,7 @@ public class CityController : MonoBehaviour
                 {
                     Building building = buildings[k];
 
-                    rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name);
+                    rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name, doorExtents, district.Configuration.Doors);
                     
                     block.Buildings.Add(building);
                 }
