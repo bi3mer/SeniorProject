@@ -105,6 +105,10 @@ public class FleshCategory : ItemCategory
         }
 
         Game.Instance.PlayerInstance.Hunger += (int)HungerGain;
-        baseItem.RemovalFlag = true;
+
+        if (!baseItem.ItemName.Contains("Can"))
+        {
+            baseItem.RemovalFlag = true;
+        }
     }
 }
