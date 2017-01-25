@@ -27,7 +27,7 @@ public class FleshCategory : ItemCategory
     /// <summary>
     /// string added to item name when cooked
     /// </summary>
-    private const string defaultCookedNameAddition = "Cooked";
+    private const string defaultCookedNameAddition = "Cooked ";
 
     private const string healthEffectAttrName = "healthEffect";
     private const string hungerGainAttrName = "hungerGain";
@@ -105,6 +105,15 @@ public class FleshCategory : ItemCategory
         }
 
         Game.Instance.PlayerInstance.Hunger += (int)HungerGain;
-        baseItem.RemovalFlag = true;
+
+        if (baseItem.ItemName.Contains("Can"))
+        {
+            baseItem.ChangeName("Empty Can");
+            // add solid category?
+        }
+        else
+        {
+            baseItem.RemovalFlag = true;
+        }
     }
 }
