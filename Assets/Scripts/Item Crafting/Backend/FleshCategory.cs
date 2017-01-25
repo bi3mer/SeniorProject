@@ -106,7 +106,12 @@ public class FleshCategory : ItemCategory
 
         Game.Instance.PlayerInstance.Hunger += (int)HungerGain;
 
-        if (!baseItem.ItemName.Contains("Can"))
+        if (baseItem.ItemName.Contains("Can"))
+        {
+            baseItem.ChangeName("Empty Can");
+            // add solid category?
+        }
+        else
         {
             baseItem.RemovalFlag = true;
         }
