@@ -15,6 +15,9 @@ public class InventoryUI : MonoBehaviour
 	[SerializeField]
 	private GameObject inventoryParentUI;
 
+	[SerializeField]
+	private GridLayoutManager inventoryLayoutManager;
+
 	private List<Stack> inventory = new List<Stack>();
 	private List<Stack> slots = new List<Stack> ();
 	private List<ItemStackUI> itemStackUIList = new List<ItemStackUI> ();
@@ -120,7 +123,8 @@ public class InventoryUI : MonoBehaviour
 				UpdateStackInformationInUI (newContents [i], i);
 			}
 		}
-			
+
+		inventoryLayoutManager.RescaleLayoutChildren();	
 	}
 
 	/// <summary>
@@ -198,6 +202,7 @@ public class InventoryUI : MonoBehaviour
 
 		TargetInventory = newInventory;
 		DisplayInventory();
+		inventoryLayoutManager.RescaleLayoutChildren();	
 	}
 
 	/// <summary>
