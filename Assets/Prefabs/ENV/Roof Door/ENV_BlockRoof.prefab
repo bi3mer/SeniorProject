@@ -21,6 +21,7 @@ GameObject:
   - 4: {fileID: 4000011534585882}
   - 33: {fileID: 33000011720108720}
   - 23: {fileID: 23000010348900406}
+  - 65: {fileID: 65000011768270918}
   m_Layer: 0
   m_Name: ENV_BlockRoof_Door
   m_TagString: Untagged
@@ -38,6 +39,7 @@ GameObject:
   - 4: {fileID: 4000011139520574}
   - 33: {fileID: 33000012002674540}
   - 23: {fileID: 23000012391334756}
+  - 64: {fileID: 64000011698933994}
   m_Layer: 0
   m_Name: ENV_BlockRoof
   m_TagString: Untagged
@@ -52,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013695262394}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.253, y: 0, z: -0.8}
+  m_LocalPosition: {x: -0.70509785, y: 0.75, z: 1.7977494}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -144,3 +146,27 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013695262394}
   m_Mesh: {fileID: 4300000, guid: ac6356e0ad3e4c141940f290d79fbc74, type: 3}
+--- !u!64 &64000011698933994
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013695262394}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_Mesh: {fileID: 4300000, guid: ac6356e0ad3e4c141940f290d79fbc74, type: 3}
+--- !u!65 &65000011768270918
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013191672530}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24601251, y: 0.4953152, z: 0.016014155}
+  m_Center: {x: -0.12296751, y: 0.02511172, z: -0.007686615}

@@ -21,6 +21,7 @@ GameObject:
   - 4: {fileID: 4000013806618560}
   - 33: {fileID: 33000010468948562}
   - 23: {fileID: 23000011283958718}
+  - 65: {fileID: 65000012932761798}
   m_Layer: 0
   m_Name: ENV_CornerRoofDoor
   m_TagString: Untagged
@@ -38,6 +39,7 @@ GameObject:
   - 4: {fileID: 4000011163504348}
   - 33: {fileID: 33000011135358098}
   - 23: {fileID: 23000013672486704}
+  - 64: {fileID: 64000011780403434}
   m_Layer: 0
   m_Name: ENV_CornerRoofDoor
   m_TagString: Untagged
@@ -52,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014209137582}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.126, y: 0, z: 1.595}
+  m_LocalPosition: {x: -0.50991106, y: 0.75165, z: 2.9992368}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -144,3 +146,27 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014209137582}
   m_Mesh: {fileID: 4300000, guid: d5272b996f8981f49aa274abb3dc9be5, type: 3}
+--- !u!64 &64000011780403434
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000014209137582}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_Mesh: {fileID: 4300000, guid: d5272b996f8981f49aa274abb3dc9be5, type: 3}
+--- !u!65 &65000012932761798
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010486558916}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.35303795, y: 0.5872832, z: 0.01349767}
+  m_Center: {x: 0.17651898, y: 0.053655043, z: -0.0067489147}

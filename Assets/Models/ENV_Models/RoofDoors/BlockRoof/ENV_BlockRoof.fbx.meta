@@ -15,6 +15,8 @@ ModelImporter:
     3300002: ENV_BlockRoof_Door
     4300000: ENV_BlockRoof
     4300002: ENV_BlockRoof_Door
+    6400000: //RootNode
+    6400002: ENV_BlockRoof_Door
     9500000: //RootNode
   materials:
     importMaterials: 0
@@ -42,7 +44,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 11
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0

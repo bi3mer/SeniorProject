@@ -19,6 +19,8 @@ ModelImporter:
     3300002: ENV_SlantedRoofDoor
     4300000: ENV_SlantedRoof
     4300002: ENV_SlantedRoofDoor
+    6400000: ENV_SlantedRoof
+    6400002: ENV_SlantedRoofDoor
     9500000: //RootNode
   materials:
     importMaterials: 0
@@ -46,7 +48,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 13
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
