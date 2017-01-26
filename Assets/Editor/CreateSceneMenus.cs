@@ -5,12 +5,12 @@ using UnityEditor;
 public class CreateSceneMenus : Editor
 {
 	public static string filePath = "Assets/Editor/SceneMenu.cs";
-	public static string openingString = "using UnityEngine;using System.Collections;using UnityEditor;"
-		+ "public class SceneMenu : Editor {";
+	public static string openingString = "using UnityEngine;using System.Collections;using UnityEditor;\n"
+		                               + "public class SceneMenu : Editor {\n";
 
 	public static string endingString = "public static void OpenScene(string scene){ " 
-		+ "if(EditorApplication.SaveCurrentSceneIfUserWantsTo()){"
-		+ "EditorApplication.OpenScene(scene);}}}";
+	  	                              + "if(EditorApplication.SaveCurrentSceneIfUserWantsTo()){"
+		                              + "EditorApplication.OpenScene(scene);}}}";
 
 	[MenuItem("Open Scene/Create Scenes")]
 	public static void CreateScenes()
@@ -31,7 +31,7 @@ public class CreateSceneMenus : Editor
 				completeFile += "[MenuItem(\"Open Scene/" + paths[i] + "\")]";
 
 				// create function with unique name
-				completeFile += "public static void Open" + i.ToString() + "(){SceneMenu.OpenScene(\"" + paths[i] + "\");}";
+				completeFile += "public static void Open" + i.ToString() + "(){SceneMenu.OpenScene(\"" + paths[i] + "\");}\n";
 			}
 		}
 
