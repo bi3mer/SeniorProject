@@ -17,21 +17,21 @@ public class FileManagerEditor : MonoBehaviour
 	public static void GetDocuments()
 	{
 		FileManager.SaveAllDocuments();
-		Debug.Log("saved all files");
+		Debug.Log("Probably saved all files.");
 	}
 
 	/// <summary>
 	/// Create variable to be used by google drive to define 
 	/// whether or not we are connected to the internet.
 	/// </summary>
-	[MenuItem(FileManager.CheckMarkMenu)]
-	public static void ConnectedToDrive()
+	[MenuItem(FileManager.UseLocalFiles)]
+	public static void UseLocalFiles()
 	{
 		FileManagerEditor.Connected = !FileManagerEditor.Connected;
-		EditorPrefs.SetBool(FileManager.CheckMarkMenu, FileManagerEditor.Connected);
+		EditorPrefs.SetBool(FileManager.UseLocalFiles, FileManagerEditor.Connected);
 
 		// set editor view
-		Menu.SetChecked(FileManager.CheckMarkMenu, FileManagerEditor.Connected);
+		Menu.SetChecked(FileManager.UseLocalFiles, FileManagerEditor.Connected);
 	}
 
 	/// <summary>
@@ -40,14 +40,14 @@ public class FileManagerEditor : MonoBehaviour
 	/// </summary>
 	static FileManagerEditor() 
 	{
-		FileManagerEditor.Connected = EditorPrefs.GetBool(FileManager.CheckMarkMenu, false);
+		FileManagerEditor.Connected = EditorPrefs.GetBool(FileManager.UseLocalFiles, false);
  
 		/// Delaying until first editor tick so that the menu will be populated correctly
 		EditorApplication.delayCall += () => {
 			// getting the opposite of what is expected since the next function call
 			// will set the opposite of the value
-			FileManagerEditor.Connected = !EditorPrefs.GetBool(FileManager.CheckMarkMenu);
-			FileManagerEditor.ConnectedToDrive();
+			FileManagerEditor.Connected = !EditorPrefs.GetBool(FileManager.UseLocalFiles);
+			FileManagerEditor.UseLocalFiles();
 		};
      }
 }

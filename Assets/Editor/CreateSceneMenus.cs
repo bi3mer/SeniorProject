@@ -1,14 +1,15 @@
 using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using System.IO;
 
 public class CreateSceneMenus : Editor
 {
-	public static string filePath = "Assets/Editor/SceneMenu.cs";
-	public static string openingString = "using UnityEngine;using System.Collections;using UnityEditor;\n"
+	public static string FilePath = Path.Combine(Path.Combine("Assets", "Editor"), "SceneMenu.cs");
+	public static string OpeningString = "using UnityEngine;using System.Collections;using UnityEditor;\n"
 		                               + "public class SceneMenu : Editor {\n";
 
-	public static string endingString = "public static void OpenScene(string scene){ " 
+	public static string EndingString = "public static void OpenScene(string scene){ " 
 	  	                              + "if(EditorApplication.SaveCurrentSceneIfUserWantsTo()){"
 		                              + "EditorApplication.OpenScene(scene);}}}";
 
@@ -16,7 +17,7 @@ public class CreateSceneMenus : Editor
 	public static void CreateScenes()
 	{
 		// Start string
-		string completeFile = CreateSceneMenus.openingString;
+		string completeFile = CreateSceneMenus.OpeningString;
 
 		// get all paths
 		string[] paths = AssetDatabase.GetAllAssetPaths();
@@ -36,10 +37,10 @@ public class CreateSceneMenus : Editor
 		}
 
 		// add ending
-		completeFile += CreateSceneMenus.endingString;
+		completeFile += CreateSceneMenus.EndingString;
 
 		// print file to file
-		System.IO.StreamWriter writer = System.IO.File.CreateText(CreateSceneMenus.filePath);
+		System.IO.StreamWriter writer = System.IO.File.CreateText(CreateSceneMenus.FilePath);
 		writer.Write(completeFile);
 		writer.Flush();
 		writer.Close();

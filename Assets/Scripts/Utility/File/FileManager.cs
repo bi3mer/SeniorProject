@@ -6,7 +6,7 @@ public class FileManager
 	/// <summary>
 	/// The check mark menu.
 	/// </summary>
-	public const string CheckMarkMenu = "File/Connected To Internet";
+	public const string UseLocalFiles = "File/Use Local Files";
 
 	private const string allFilesLocation = "all_files";
 
@@ -65,7 +65,7 @@ public class FileManager
 		string fileContents = null;
 
 		#if UNITY_EDITOR
-		if(UnityEditor.EditorPrefs.GetBool(FileManager.CheckMarkMenu) && GoogleDrive.ConnectedToInternet())
+		if(!UnityEditor.EditorPrefs.GetBool(FileManager.UseLocalFiles) && GoogleDrive.ConnectedToInternet())
 		{
 			fileContents = GoogleDrive.GetOnlineDriveDocument(fileName);
 
