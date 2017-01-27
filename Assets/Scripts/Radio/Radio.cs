@@ -10,25 +10,22 @@ public class Radio : MonoBehaviour
 {
 	// CHANNELS
 	[SerializeField]
-	private AudioSource music;
 	private FMOD.Studio.EventInstance musicChannel;
 
 	[SerializeField]
-	private AudioSource weather;
-	private FMOD.Studio.EventInstance weatherChannel;
-
-	[SerializeField]
-	private AudioSource mystery;
 	private FMOD.Studio.EventInstance mysteryChannel;
 
+	// Static channel right now just plays when current active channel is null
     [SerializeField]
-    private AudioSource statics;
 	private FMOD.Studio.EventInstance staticChannel;
 
-	// Default channel sound events
+	// Weather still has an audio source rather than an FMOD instance for text-to-speech purposes
+	[SerializeField]
+	private AudioSource weather;
+
+	// Default channel sound event paths
 	public string MusicDefaultPath = "event:/Radio/Music/Music1";
 	public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
-	public string WeatherDefaultPath = "event:/Radio/Static/Basic_Static"; 
 	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static"; 
 
 	// Default display texts
@@ -46,7 +43,7 @@ public class Radio : MonoBehaviour
 	private RadioChannel CurrentChannel { get; set; }
 	private string announcement;
 
-    //counter for how many times weather played
+    // Counter for how many times weather played
 	private int weatherCounter;
 	public WeatherSystem currentWeather;
 
@@ -78,13 +75,12 @@ public class Radio : MonoBehaviour
 
 		CurrentChannel = RadioChannel.Null;
 
-        //update the weather and play if radio on
+        // Update the weather and play if radio on
         StartCoroutine(updateWeather());
 
-		// load in default sounds for channels
+		// Load in default sounds for all other channels
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (MysteryDefaultPath);
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (MusicDefaultPath);
-		weatherChannel = FMODUnity.RuntimeManager.CreateInstance (WeatherDefaultPath);
 		staticChannel = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
     }
 
@@ -102,7 +98,6 @@ public class Radio : MonoBehaviour
 
 			if (CurrentChannel == RadioChannel.Mystery) 
 			{
-				Debug.Log ("MYSTERY");
 				mysteryChannel.getPlaybackState (out state);
 
 				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) {
@@ -112,7 +107,6 @@ public class Radio : MonoBehaviour
 
 			else if (CurrentChannel == RadioChannel.Music) 
 			{
-				Debug.Log ("MUSIC");
 				musicChannel.getPlaybackState (out state);
 
 				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) {
@@ -120,27 +114,21 @@ public class Radio : MonoBehaviour
 				}
 			}
 
-			else if (CurrentChannel == RadioChannel.Weather) 
+			else if (CurrentChannel == RadioChannel.Weather && !weather.isPlaying) 
 			{
-
-				Debug.Log ("WEATHER");
-				weatherChannel.getPlaybackState (out state);
-
-				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) {
-					weatherChannel.start ();
-				}
+				weather.Play ();
 			}
 
 			else if (CurrentChannel == RadioChannel.Null) 
 			{
-				Debug.Log ("NULL");
 				staticChannel.getPlaybackState (out state);
 
 				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) {
 					staticChannel.start ();
 				}
 			}
-
+				
+			ChangeChannel(dial.DialSlider.value);
 		} 
 		else 
 		{
@@ -160,7 +148,7 @@ public class Radio : MonoBehaviour
             CurrentChannel = RadioChannel.Null;
 		
 			musicChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-			weatherChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			weather.Stop ();
 			mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
         }
@@ -184,7 +172,7 @@ public class Radio : MonoBehaviour
                 // Check if the weather is not playing and if the radio is on the weather channel
                 if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
                 {
-                    //Play the weather 3 times before restarting to 0 
+                    // Play the weather 3 times before restarting to 0 
                     if (weatherCounter == 3)
                     {
                         weatherCounter = 0;
@@ -295,7 +283,7 @@ public class Radio : MonoBehaviour
 	{
 		if (channel == RadioChannel.Music) 
 		{
-			weatherChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			weather.Stop ();
 			mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 			staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 		} 
@@ -308,13 +296,13 @@ public class Radio : MonoBehaviour
 		else if (channel == RadioChannel.Mystery) 
 		{
 			musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-			weatherChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			weather.Stop ();
 			staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 		}
 		else if (channel == RadioChannel.Null)
 		{
 			musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-			weatherChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			weather.Stop ();
 			mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 		}
 	}

@@ -642,18 +642,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0406f29fbe8cf44ce91cb6c6ec0f8b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music: {fileID: 0}
   weather: {fileID: 0}
-  mystery: {fileID: 0}
-  statics: {fileID: 0}
+  MusicDefaultPath: event:/Radio/Music/Music1
+  MysteryDefaultPath: event:/Radio/Mystery/Mystery1
+  StaticDefaultPath: event:/Radio/Static/Basic_Static
+  RadioOnText: Radio is on
+  RadioOffText: Radio is off
   radioScreenText: {fileID: 0}
   dial: {fileID: 0}
   lowMusic: 0
-  highMusic: 0
-  lowMystery: 0
-  highMystery: 0
-  lowWeather: 0
-  highWeather: 0
+  highMusic: 120
+  lowMystery: 120
+  highMystery: 240
+  lowWeather: 240
+  highWeather: 360
 --- !u!114 &114000011675021940
 MonoBehaviour:
   m_ObjectHideFlags: 1
