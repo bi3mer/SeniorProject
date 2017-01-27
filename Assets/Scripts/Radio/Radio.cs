@@ -11,12 +11,19 @@ public class Radio : MonoBehaviour
 	// set sound sources
 	[SerializeField]
 	private AudioSource music;
+	private FMOD.Studio.EventInstance musicChannel;
+
 	[SerializeField]
 	private AudioSource weather;
+	private FMOD.Studio.EventInstance weatherChannel;
+
 	[SerializeField]
 	private AudioSource mystery;
+	private FMOD.Studio.EventInstance mysteryChannel;
+
     [SerializeField]
     private AudioSource statics;
+
     [SerializeField]
 	private Text radioScreenText;
     [SerializeField]
@@ -67,6 +74,15 @@ public class Radio : MonoBehaviour
 
         //update the weather and play if radio on
         StartCoroutine(updateWeather());
+
+		string currentSound = "event:/Radio/Mystery/Mystery1";
+		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (currentSound);
+
+		currentSound = "event:/Radio/Music/Music1";
+		musicChannel = FMODUnity.RuntimeManager.CreateInstance (currentSound);
+
+		currentSound = "event:/Radio/Static/Basic_Static";
+		weatherChannel = FMODUnity.RuntimeManager.CreateInstance (currentSound);
     }
 
     /// <summary>
@@ -77,25 +93,46 @@ public class Radio : MonoBehaviour
 		if (isOn) 
 		{
 			radioScreenText.text = "Radio is On";
-			// When music channel selected
-			if (!music.isPlaying && CurrentChannel == RadioChannel.Music) 
-			{
-				music.Play ();
-			}
-			if (!mystery.isPlaying && CurrentChannel == RadioChannel.Mystery) 
-			{
-				mystery.Play ();
-			}
-			if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather) 
-			{
-				weather.Play ();
-			}
-            if (!statics.isPlaying && CurrentChannel == RadioChannel.Null)
-            {
-                statics.Play();
-            }
 
-			ChangeChannel(dial.DialSlider.value);
+			FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
+		
+
+			if (CurrentChannel == RadioChannel.Mystery) 
+			{
+				mysteryChannel.getPlaybackState (out state);
+
+				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) {
+					mysteryChannel.start ();
+				}
+			}
+
+			else if (CurrentChannel == RadioChannel.Music) 
+			{
+				musicChannel.getPlaybackState (out state);
+
+				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) {
+					musicChannel.start ();
+				}
+			}
+
+			else if (CurrentChannel == RadioChannel.Weather) 
+			{
+				weatherChannel.getPlaybackState (out state);
+
+				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) {
+					weatherChannel.start ();
+				}
+			}
+
+			else if (CurrentChannel == RadioChannel.Null) 
+			{
+				mysteryChannel.getPlaybackState (out state);
+
+				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) {
+					mysteryChannel.start ();
+				}
+			}
+
 		} 
 		else 
 		{
@@ -263,6 +300,16 @@ public class Radio : MonoBehaviour
 			SetChannel (RadioChannel.Music);
 		}
     }
+
+	public IEnumerator PlaySound(FMOD.Studio.EventInstance e){
+
+		FMOD.Studio.EventDescription d;
+		e.getDescription (out d);
+		int length = 0;
+		d.getLength (out length);
+		yield return new WaitForSeconds(length/1000);
+
+	}
 
     /// <summary>
     /// Creates string based on windSpeed and temperature (and eventually amount of rainfall)
