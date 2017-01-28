@@ -4122,9 +4122,11 @@ MonoBehaviour:
   BeginCraftingButton: {fileID: 114000014155247884}
   RequirementsScrollPanel: {fileID: 1000010573879916}
   IngredientsScrollPanel: {fileID: 1000011132674772}
+  SelectedIngredientsPanel: {fileID: 0}
   RecipeRequirementUI: {fileID: 114000012353291472}
   IngredientUI: {fileID: 114000013859476600}
   itemTypeName: {fileID: 114000013089021296}
+  itemTypeAmount: {fileID: 0}
   noValidItemText: {fileID: 114000011877191534}
   NextStepButton: {fileID: 114000011537958188}
   CraftButton: {fileID: 114000010052478010}
@@ -4185,6 +4187,7 @@ MonoBehaviour:
   inventoryName: player
   baseItemUiTemplate: {fileID: 114000014199511598}
   inventoryParentUI: {fileID: 1000012827496932}
+  inventoryLayoutManager: {fileID: 0}
 --- !u!114 &114000010871556344
 MonoBehaviour:
   m_ObjectHideFlags: 1
