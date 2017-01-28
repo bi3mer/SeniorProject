@@ -24,8 +24,11 @@ public class Radio : MonoBehaviour
 	private AudioSource weather;
 
 	// Default channel sound event paths
+	[SerializeField]
 	public string MusicDefaultPath = "event:/Radio/Music/Music1";
+	[SerializeField]
 	public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
+	[SerializeField]
 	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static"; 
 
 	// Default display texts
@@ -45,7 +48,7 @@ public class Radio : MonoBehaviour
 
     // Counter for how many times weather played
 	private int weatherCounter;
-	public WeatherSystem currentWeather;
+	private WeatherSystem currentWeather;
 
     [Tooltip("The lowest degree of the range of the knob's rotation in which music will play")]
     public float lowMusic;
