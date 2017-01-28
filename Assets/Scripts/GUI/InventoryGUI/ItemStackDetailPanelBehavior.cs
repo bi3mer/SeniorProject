@@ -34,6 +34,14 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	[SerializeField]
 	private ItemActionButtonUI SubActionButtonUI;
 
+	[Tooltip("The button to close the entire panel")]
+	[SerializeField]
+	private Button CloseButton;
+
+	[Tooltip("The button to close the subaction panel")]
+	[SerializeField]
+	private Button CloseSubactionPanel;
+
 	/// <summary>
 	/// Gets the attributes.
 	/// </summary>
@@ -290,6 +298,10 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// <param name="id">Identifier.</param>
 	public void CreateSubAction(List<ItemAction> actions)
 	{
+		SubActionButtonPanel.gameObject.SetActive(true);
+		CloseButton.gameObject.SetActive(false);
+		CloseSubactionPanel.gameObject.SetActive(true);
+
 		for(int i = 0; i < actions.Count; ++i)
 		{
 			ItemActionButtonUI act = GameObject.Instantiate (SubActionButtonUI);
@@ -315,5 +327,9 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		{
 			GameObject.Destroy (children [j]);
 		}
+
+		SubActionButtonPanel.gameObject.SetActive(false);
+		CloseButton.gameObject.SetActive(true);
+		CloseSubactionPanel.gameObject.SetActive(false);
 	}
 }

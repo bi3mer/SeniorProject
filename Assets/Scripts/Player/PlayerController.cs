@@ -429,7 +429,7 @@ public class PlayerController : MonoBehaviour
                 newHunger = Game.Instance.PlayerInstance.Hunger - 1;
             }
 
-			if(newHunger < 0)
+			if(newHunger <= 0)
             {
             	--Game.Instance.PlayerInstance.Health;
             }
@@ -463,7 +463,7 @@ public class PlayerController : MonoBehaviour
                 newWarmth = Game.Instance.PlayerInstance.Warmth - 1;
             }
 
-            if(newWarmth < 0)
+            if(newWarmth <= 0)
             {
             	--Game.Instance.PlayerInstance.Health;
             }

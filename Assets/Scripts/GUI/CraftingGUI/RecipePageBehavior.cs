@@ -58,6 +58,7 @@ public class RecipePageBehavior : MonoBehaviour
 	private Image currentHighlightedItem;
 	private int currentStep;
 	private const string selectItemTypeTitleHeader = "Select ";
+	private Button continueButton;
 
 	/// <summary>
 	/// Start this instance of RecipePageBehavior.
@@ -65,6 +66,7 @@ public class RecipePageBehavior : MonoBehaviour
 	void Start()
 	{
 		ResetCraftingPanel ();
+		continueButton = NextStepButton;
 	}
 
 	/// <summary>
@@ -123,7 +125,7 @@ public class RecipePageBehavior : MonoBehaviour
 	{
 		// If this is the last step of the recipe, then the continue button used to continue to the 
 		// next step is disabled. Instead the "craft" button which is used to combine the items is activated.
-		int lastStep = recipe.Requirements.Count;
+		int lastStep = recipe.Requirements.Count - 1;
 
 		AddSelectedIngredients();
 
@@ -131,11 +133,11 @@ public class RecipePageBehavior : MonoBehaviour
 		{
 			NextStepButton.gameObject.SetActive (false);
 			CraftButton.gameObject.SetActive (true);
+			CraftButton.interactable = false;
+			continueButton = CraftButton;
 		} 
-		else 
-		{
-			DisplayPossibleItems(currentStep+1);
-		}
+
+		DisplayPossibleItems(currentStep+1);
 	}
 
 	/// <summary>
@@ -240,7 +242,7 @@ public class RecipePageBehavior : MonoBehaviour
 				// since the number of items selected has met the requirements
 				// the user is allowed to continue and the user is no longer able to select ingredients without removing ingredients first
 
-				NextStepButton.interactable = true;
+				continueButton.interactable = true;
 				ToggleIngredientSelectionPanel(false);
 			}
 			else
@@ -251,7 +253,7 @@ public class RecipePageBehavior : MonoBehaviour
 				if(amountToSelectRemaing == 1 && !addSelected)
 				{
 					ToggleIngredientSelectionPanel(true);
-					NextStepButton.interactable = false;
+					continueButton.interactable = false;
 				}
 			}
 		}
@@ -308,5 +310,6 @@ public class RecipePageBehavior : MonoBehaviour
 		itemsSelected.Clear ();
 		NextStepButton.gameObject.SetActive (true);
 		ResetCraftingPanel ();
+		continueButton = NextStepButton;
 	}
 }

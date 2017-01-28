@@ -47,6 +47,19 @@ public class RecipeBookBehavior : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Resets the panel so that all active crafting attempts are ended.
+	/// </summary>
+	public void ResetPanel()
+	{
+		RecipePageBehavior[] pages = GetComponentsInChildren<RecipePageBehavior>();
+
+		for(int i = 0; i < pages.Length; ++i)
+		{
+			pages[i].EndCraftingAttempt();
+		}
+	}
+
+	/// <summary>
 	/// Raises the next page click event.
 	/// </summary>
 	public void OnNextPageClick()
