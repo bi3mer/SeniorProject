@@ -21,11 +21,8 @@ public class IngredientButtonBehavior : MonoBehaviour
 	private GameObject selectedIngredientsPanel;
 
 	private int itemAmount;
-
 	private Color originalColor;
-
 	private Image buttonImage;
-
 	private Button button;
 
 	/// <summary>
@@ -60,7 +57,6 @@ public class IngredientButtonBehavior : MonoBehaviour
 		{
 			buttonImage.color = DisabledColor;
 			button.interactable = false;
-
 		}
 
 		itemAmountText.text = itemAmount.ToString();
