@@ -64,7 +64,7 @@ public class InventoryUI : MonoBehaviour
 
 			// place empty ui slots in grid layout
 			newItemUI.gameObject.SetActive (true);
-			newItemUI.transform.SetParent (inventoryParentUI.transform);
+			newItemUI.transform.SetParent (inventoryParentUI.transform, false);
 		}
 
 		// set stack items 
@@ -123,8 +123,6 @@ public class InventoryUI : MonoBehaviour
 				UpdateStackInformationInUI (newContents [i], i);
 			}
 		}
-
-		inventoryLayoutManager.RescaleLayoutChildren();	
 	}
 
 	/// <summary>
@@ -152,7 +150,7 @@ public class InventoryUI : MonoBehaviour
 
 		// place empty ui slot back in position in grid layout
 		newItemUI.gameObject.SetActive (true);
-		newItemUI.transform.SetParent (inventoryParentUI.transform);
+		newItemUI.transform.SetParent (inventoryParentUI.transform, false);
 		newItemUI.transform.SetSiblingIndex(slotIndex);
 	}
 
@@ -192,7 +190,7 @@ public class InventoryUI : MonoBehaviour
 
 			// place empty ui slots in grid layout
 			newItemUI.gameObject.SetActive (true);
-			newItemUI.transform.SetParent (inventoryParentUI.transform);
+			newItemUI.transform.SetParent (inventoryParentUI.transform, false);
 
 			if (contents [i] != null)
 			{
@@ -202,7 +200,6 @@ public class InventoryUI : MonoBehaviour
 
 		TargetInventory = newInventory;
 		DisplayInventory();
-		inventoryLayoutManager.RescaleLayoutChildren();	
 	}
 
 	/// <summary>

@@ -42,7 +42,7 @@ public class RecipeBookBehavior : MonoBehaviour
 			recipe.gameObject.SetActive (true);
 			recipe.SetUpRecipePage(recipes[recipeNames [i]]);
 			// add page to book panel grid and set first page active
-			recipe.transform.SetParent (bookPanelGridLayout.transform);
+			recipe.transform.SetParent (bookPanelGridLayout.transform, false);
 		}
 	}
 

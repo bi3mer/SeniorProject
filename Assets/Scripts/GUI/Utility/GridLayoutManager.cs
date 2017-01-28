@@ -49,21 +49,5 @@ public class GridLayoutManager : MonoBehaviour
 		}
 
 		gridLayoutGroup.cellSize = new Vector2(xDim, yDim);
-
-		RescaleLayoutChildren();
-	}
-
-	/// <summary>
-	/// Function that will be used to resize contents of the panel after the panel's contents have been changed
-	/// </summary>
-	/// <param name="item">Item.</param>
-	public void RescaleLayoutChildren()
-	{
-		RectTransform[] childTransforms = contentPanel.GetComponentsInChildren<RectTransform>();
-
-		for(int i = 0; i < childTransforms.Length; ++i)
-		{
-			childTransforms[i].localScale = Vector3.one;
-		}
 	}
 }

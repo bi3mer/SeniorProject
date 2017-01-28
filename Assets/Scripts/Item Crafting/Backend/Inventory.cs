@@ -222,9 +222,9 @@ public class Inventory
 	/// </summary>
 	/// <returns>All items with tag.</returns>
 	/// <param name="itemTag">Tag that contains desired items.</param>
-	public List<BaseItem> GetAllItemsWithTag(string itemTag)
+	public List<Stack> GetAllItemsWithTag(string itemTag)
 	{
-		List<BaseItem> result = new List<BaseItem> ();
+		List<Stack> result = new List<Stack> ();
 
 		for (int i = 0; i < contents.Length; ++i) 
 		{
@@ -232,7 +232,7 @@ public class Inventory
 			{
 				if (contents [i].Item.Types.Contains (itemTag.ToLower())) 
 				{
-					result.Add (contents [i].Item);
+					result.Add (contents [i]);
 				}
 			}
 		}
