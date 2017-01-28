@@ -87,7 +87,6 @@ public class IngredientButtonBehavior : MonoBehaviour
 
 		++itemAmount;
 		itemAmountText.text = itemAmount.ToString();
-
 	}
 
 	/// <summary>
