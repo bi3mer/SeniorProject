@@ -2737,7 +2737,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 6f3daafa9156d4b91abb87cf59fcba4c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f170d4eacd840994485c0be162759000, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2811,7 +2811,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ea71ec00563f74acd9010f0d6dfdf982, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 35b43f694ba57be40b899f846540a621, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2885,7 +2885,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 1449b0a474fc946e68fb0e387207929e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 731c4a6037e354c43a6c3be32104656a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -6811,7 +6811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.30980393, g: 0.25490198, b: 0.19215687, a: 0.392}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7623,21 +7623,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000013495052556}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb653f742f9164425a353cadca4fc147, type: 3}
+  m_Script: {fileID: 11500000, guid: 6204cc40edb756e4ca321c665412b109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   music: {fileID: 82000010321818122}
   weather: {fileID: 82000012287899424}
   mystery: {fileID: 82000010893209800}
   statics: {fileID: 82000012956028250}
-  radioScreenText: {fileID: 114000010920570222}
+  radioScreenText: {fileID: 114000013286223960}
   dial: {fileID: 114000012980287260}
-  lowMusic: 20
-  highMusic: 40
-  lowMystery: 90
-  highMystery: 120
-  lowWeather: 220
-  highWeather: 250
+  radioScreen: {fileID: 114000012445108932}
+  radioOffColor: {r: 0.30882353, g: 0.255151, b: 0.19074394, a: 0.39215687}
+  radioOnColor: {r: 0.6431373, g: 0.5254902, b: 0.38431376, a: 0.39215687}
+  lowMusic: 87
+  highMusic: 93
+  lowMystery: 177
+  highMystery: 183
+  lowWeather: 267
+  highWeather: 273
 --- !u!114 &114000013045468620
 MonoBehaviour:
   m_ObjectHideFlags: 1
