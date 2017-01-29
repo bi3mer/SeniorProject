@@ -55,7 +55,7 @@ public class FuelCategory : ItemCategory
     {
         if (Game.Instance.PlayerInstance.Controller.IsByFire == true)
         {
-            // add code that adds life gain to fire.
+            // TO DO: add code that adds life gain to fire.
         }
     }
 }

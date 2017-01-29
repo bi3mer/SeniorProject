@@ -21,7 +21,7 @@ public class Fire : MonoBehaviour
     {
         if (FireLife == 0)
         {
-            // kill fire
+            // TO DO: kill fire
         }
     }
 
@@ -42,6 +42,7 @@ public class Fire : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Game.Instance.PlayerInstance.Controller.IsByFire = true;
+            // TO DO: Add variable for player to know fire is close
         }
     }
 
@@ -53,6 +54,7 @@ public class Fire : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Game.Instance.PlayerInstance.Controller.IsByFire = false;
+            // TO DO: Change variable for player to know what fire is not close
         }
     }
 }

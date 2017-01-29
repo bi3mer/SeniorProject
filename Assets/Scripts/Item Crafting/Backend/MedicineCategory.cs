@@ -115,8 +115,6 @@ public class MedicineCategory : ItemCategory
     {
         Game.Instance.PlayerInstance.Health += (int)HealthGain;
         baseItem.RemovalFlag = true;
-
-        SetActionComplete(healActName);
     }
 
     /// <summary>
@@ -130,8 +128,6 @@ public class MedicineCategory : ItemCategory
         }
 
         baseItem.RemovalFlag = true;
-
-        SetActionComplete(curePneumoniaActName);
     }
 
     /// <summary>
@@ -145,8 +141,6 @@ public class MedicineCategory : ItemCategory
         }
 
         baseItem.RemovalFlag = true;
-
-        SetActionComplete(cureFoodPoisoningActName);
     }
 
     /// <summary>
@@ -166,7 +160,5 @@ public class MedicineCategory : ItemCategory
 
         Game.Instance.PlayerInstance.Health = Game.Instance.PlayerInstance.MaxHealth;
         baseItem.RemovalFlag = true;
-
-        SetActionComplete(cureFoodPoisoningActName);
     }
 }
