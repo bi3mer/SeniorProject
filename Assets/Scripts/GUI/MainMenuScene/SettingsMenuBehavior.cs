@@ -15,7 +15,18 @@ public class SettingsMenuBehavior : MonoBehaviour
 	private InputField procCityGenerationSeedInputField;
 	[SerializeField]
 	private GameObject inputConfigPanel;
-	private GameSettings settings = Game.Instance.GameSettingsInstance;
+	private GameSettings settings;
+	private string previousSeed;
+
+	/// <summary>
+	/// Start this instance of the SettingsMenuBehavior.
+	/// </summary>
+	void Start()
+	{
+		settings = Game.Instance.GameSettingsInstance;
+		procCityGenerationSeedInputField.onValueChanged.AddListener (OnSeedValueChanged);
+		volumeSlider.onValueChanged.AddListener (changeVolume);
+	}
 
 	/// <summary>
 	/// Turns the sound on or off based on toggle value.
@@ -45,11 +56,10 @@ public class SettingsMenuBehavior : MonoBehaviour
 	/// <summary>
 	/// Validates seed input filed and sets the procedural city generation seed.
 	/// </summary>
-	public void OnSetSeedClick()
+	public void OnSeedValueChanged(string inputSeed)
 	{
-		procCityGenerationSeedInputField.characterValidation = InputField.CharacterValidation.Integer;
 		int seed;
-		bool inputConvertedToInt = int.TryParse(procCityGenerationSeedInputField.text, out seed);
+		bool inputConvertedToInt = int.TryParse(inputSeed, out seed);
 		if (inputConvertedToInt) 
 		{
 			settings.ProceduralCityGenerationSeed = seed;

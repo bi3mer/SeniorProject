@@ -13,6 +13,7 @@
 		GameSettingsInstance = new GameSettings ();
 		Scheme = GameSettingsInstance.Scheme;
         Loader = new GameLoader();
+        DeathManagerInstance = new DeathManager();
     }
  
     /// <summary>
@@ -222,5 +223,15 @@
     {
         get;
         private set;
+    }
+
+    /// <summary>
+    /// Gets the death manager instance.
+    /// </summary>
+    /// <value>The death manager instance.</value>
+    public DeathManager DeathManagerInstance
+    {
+    	get;
+    	private set;
     }
 }

@@ -15,6 +15,9 @@ public class Clock : MonoBehaviour
 
 	private const float addTick = 1f;
 
+	[SerializeField]
+	[Tooltip("Should the clock in the scene stop updating the weather")]
+	private bool freezeWeatherUpdates;
 
 	/// <summary>
 	/// Gets the angle per second based on time scale.
@@ -121,7 +124,11 @@ public class Clock : MonoBehaviour
 
 			// TODO find a way to get non monobehaviour scripts to subscribe to
 			//      the seconds instance. This will have to do for now.
-			Game.Instance.WeatherInstance.UpdateSystem();
+
+			if(!freezeWeatherUpdates)
+			{
+				Game.Instance.WeatherInstance.UpdateSystem();
+			}
 
 			// notify second long subscribed delegates
 			if(this.SecondUpdate != null)
