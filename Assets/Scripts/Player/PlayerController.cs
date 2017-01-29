@@ -374,6 +374,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets the direction without accounting for the y axis.
+    /// </summary>
+    /// <returns>The direction.</returns>
+    /// <param name="direction">Direction.</param>
     private Vector3 getDirection(Vector3 direction)
     {
         Vector3 scratchDirection = direction;
@@ -381,6 +386,9 @@ public class PlayerController : MonoBehaviour
         return scratchDirection;
     }
 
+    /// <summary>
+    /// Updates the player's stats.
+    /// </summary>
     private void UpdatePlayerStats ()
     {
         Player player = Game.Instance.PlayerInstance;
@@ -399,41 +407,71 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates hunger.
+    /// TODO: Refactor to have more intuitive rate system.
+    /// </summary>
+    /// <returns>The hunger.</returns>
     private IEnumerator UpdateHunger ()
     {
+    	int newHunger = 0;
+
         while (updateStats)
         {
 			yield return new WaitForSeconds(Mathf.Abs(currentHungerChangeRate));
 
             if (currentHungerChangeRate > 0)
             {
-                ++Game.Instance.PlayerInstance.Hunger;
+                newHunger = Game.Instance.PlayerInstance.Hunger + 1;
             }
             else
             {
-                --Game.Instance.PlayerInstance.Hunger;
+                newHunger = Game.Instance.PlayerInstance.Hunger - 1;
             }
-            
-			hungerUpdatedEvent.Invoke ();
+
+			if(newHunger < 0)
+            {
+            	--Game.Instance.PlayerInstance.Health;
+            }
+            else if(newHunger < Game.Instance.PlayerInstance.MaxHunger)
+            {
+            	Game.Instance.PlayerInstance.Hunger = newHunger;
+				hungerUpdatedEvent.Invoke ();
+            }
         }
     }
 
+    /// <summary>
+    /// Updates warmth.
+    /// TOOD: Refactor to use more intuitive decrease/increase rate system.
+    /// </summary>
+    /// <returns>The warmth.</returns>
 	private IEnumerator UpdateWarmth()
 	{
+		int newWarmth = 0;
+
 		while (updateStats)
 		{
 			yield return new WaitForSeconds(Mathf.Abs(currentWarmthChangeRate));
 
             if (currentWarmthChangeRate > 0)
             {
-                ++Game.Instance.PlayerInstance.Warmth;
+                newWarmth = Game.Instance.PlayerInstance.Warmth + 1;
             }
             else
             {
-                --Game.Instance.PlayerInstance.Warmth;
+                newWarmth = Game.Instance.PlayerInstance.Warmth - 1;
             }
-			
-            warmthUpdatedEvent.Invoke();
+
+            if(newWarmth < 0)
+            {
+            	--Game.Instance.PlayerInstance.Health;
+            }
+            else if(newWarmth < Game.Instance.PlayerInstance.MaxWarmth)
+            {
+            	Game.Instance.PlayerInstance.Warmth = newWarmth;
+				warmthUpdatedEvent.Invoke();
+            }
 		}
 	}
 
@@ -566,7 +604,6 @@ public class PlayerController : MonoBehaviour
             // show item if closest item and stop showing previous item
             if (closestInteractable != prevInteractable)
             {
-
                 // only stop showing if there was a previous collider
                 if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag) && interactable != null)
                 {
@@ -594,13 +631,9 @@ public class PlayerController : MonoBehaviour
     /// <param name="distance"></param>
     public void CheckClosestInteractable(Collider target, float targetDist)
     {
-        Collider prevTarget;
         // set first found interactable object as the closest item
         if (closestDistance == 0)
         {
-            // set previous interactable
-            prevTarget = closestInteractable;
-
             closestInteractable = target;
             closestDistance = targetDist;
         }
@@ -608,9 +641,6 @@ public class PlayerController : MonoBehaviour
         // if an interactable object is closer than previous closest object, set it as the closest
         else if (targetDist < closestDistance)
         {
-            // set previous interactable
-            prevTarget = closestInteractable;
-
             closestInteractable = target;
             closestDistance = targetDist;
         }

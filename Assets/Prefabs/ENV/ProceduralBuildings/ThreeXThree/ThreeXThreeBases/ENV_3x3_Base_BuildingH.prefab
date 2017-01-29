@@ -81,6 +81,7 @@ GameObject:
   - 4: {fileID: 4000011570654194}
   - 33: {fileID: 33000013584331262}
   - 23: {fileID: 23000012267037606}
+  - 64: {fileID: 64000010179358878}
   m_Layer: 0
   m_Name: ENV_3x3BuildingBaseH
   m_TagString: Land
@@ -433,7 +434,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012250287870}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.0937214, y: -1.9323621, z: -1.0908785}
+  m_LocalPosition: {x: -8.641622, y: 0.75, z: -3.8639145}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -552,6 +553,18 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011153489152}
+  m_Mesh: {fileID: 4300000, guid: 2db00e135b11da343ae1c5f9c39fe5a3, type: 3}
+--- !u!64 &64000010179358878
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011153489152}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
   m_Mesh: {fileID: 4300000, guid: 2db00e135b11da343ae1c5f9c39fe5a3, type: 3}
 --- !u!64 &64000012451949968
 MeshCollider:

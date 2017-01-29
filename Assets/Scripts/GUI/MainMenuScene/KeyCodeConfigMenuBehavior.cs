@@ -63,7 +63,7 @@ public class KeyCodeConfigMenuBehavior : MonoBehaviour
 	private Text radioText;
 	private Text craftingText;
 
-	private ControlScheme controlSchemeInstance = Game.Instance.Scheme;
+	private ControlScheme controlSchemeInstance;
 	private bool waitingForUserInputKey;
 	private Event keyEvent;
 	private KeyCode newKeyCode;
@@ -74,6 +74,7 @@ public class KeyCodeConfigMenuBehavior : MonoBehaviour
 	void Start()
 	{
 		// set text elements for button labels
+		controlSchemeInstance = Game.Instance.GameSettingsInstance.Scheme;
 		forwardText = forwardKeyButton.GetComponentInChildren<Text>();
 		backText = backKeyButton.GetComponentInChildren<Text> ();
 		rightText = rightKeyButton.GetComponentInChildren<Text> ();
