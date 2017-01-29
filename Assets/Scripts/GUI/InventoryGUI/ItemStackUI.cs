@@ -149,11 +149,15 @@ public class ItemStackUI : MonoBehaviour
 			GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(targetStack);
 		}
 
-		targetStack = originalStack;
-
-		if(targetStack.Amount <= 0)
+		if(originalStack.Amount <= 0)
 		{
+			GuiInstanceManager.ItemStackDetailPanelInstance.ClosePanel();
 			Game.Instance.PlayerInstance.Inventory.RemoveStack(targetStack);
+			targetStack = null;
+		}
+		else
+		{
+			PreserveOriginal(0);
 		}
 	}
 

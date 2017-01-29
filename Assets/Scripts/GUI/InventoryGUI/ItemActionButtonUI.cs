@@ -37,7 +37,9 @@ public class ItemActionButtonUI : MonoBehaviour
 		else
 		{
 			// this is a button whose action is to display the subactions
-			PerformAction();
+			GuiInstanceManager.ItemStackDetailPanelInstance.ClearSubActionPanel ();
+			action ();
+			GuiInstanceManager.ItemStackDetailPanelInstance.RefreshItemActions ();
 		}
 	}
 

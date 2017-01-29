@@ -159,7 +159,6 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void ClosePanel()
 	{
-		selected.CheckForModification ();
 		GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
 
 		ClearAttributesAndActions();
@@ -224,7 +223,6 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 				PossibleActions.Add (action);
 			}
 		}
-
 	}
 
 	/// <summary>
@@ -232,15 +230,28 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void RefreshItemPanel()
 	{
-		GuiInstanceManager.ItemAmountPanelInstance.ItemNameDisplay.text = selected.GetItemName ();
+		selected.CheckForModification();
 
-		List<Attribute> attr = selected.GetItemAttributes ();
-
-		for(int i = 0; i < attr.Count; ++i)
+		if(selected != null)
 		{
-			Attributes.Find(n => n.AttributeName.text.Equals(attr[i].Name)).GetComponent<ItemAttributeUI> ().SetAttributeValue (attr [i].Value);
-		}
+			GuiInstanceManager.ItemAmountPanelInstance.ItemNameDisplay.text = selected.GetItemName ();
 
+			List<Attribute> attr = selected.GetItemAttributes ();
+
+			for(int i = 0; i < attr.Count; ++i)
+			{
+				Attributes.Find(n => n.AttributeName.text.Equals(attr[i].Name)).GetComponent<ItemAttributeUI> ().SetAttributeValue (attr [i].Value);
+			}
+
+			RefreshItemActions();
+		}
+	}
+
+	/// <summary>
+	/// Refreshs the item actions.
+	/// </summary>
+	public void RefreshItemActions()
+	{
 		List<ItemAction> acts = selected.GetPossibleActions ();
 
 		int buttonUsed = 0;
