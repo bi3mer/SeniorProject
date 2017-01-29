@@ -188,11 +188,15 @@ public class Inventory
 	/// <summary>
 	/// Add item to inventory.
 	/// </summary>
-	/// <param name="newItem">New item to be added.</param>
-	public void AddItem(BaseItem newItem, int amount)
+	/// <returns>The added item.</returns>
+	/// <param name="newItem">New item.</param>
+	/// <param name="amount">Amount.</param>
+	public Stack AddItem(BaseItem newItem, int amount)
 	{
 		int loc = GetNextOpenSlot ();
 		contents[loc] = new Stack(newItem, amount, Guid.NewGuid().ToString("N"));
+
+		return contents[loc];
 	}
 
 	/// <summary>

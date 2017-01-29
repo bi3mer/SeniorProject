@@ -128,31 +128,37 @@ public class ItemStackUI : MonoBehaviour
 		{
 			targetStack.Item.DirtyFlag = false;
 
-			Game.Instance.PlayerInstance.Inventory.AddItem (targetStack.Item, targetStack.Amount);
+			Stack addedItem = GuiInstanceManager.InventoryUiInstance.TargetInventory.AddItem (targetStack.Item, targetStack.Amount);
+			GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
+			ItemStackUI createdStack = GuiInstanceManager.InventoryUiInstance.GetStackUI(addedItem.Id);
+			GuiInstanceManager.ItemAmountPanelInstance.OpenItemDetailPanel(createdStack.gameObject);
 		}
-		else if(targetStack.Item.UpdateExitingFlag)
+		else if(targetStack.Item.UpdateExistingFlag)
 		{
-			targetStack.Item.UpdateExitingFlag = false;
+			targetStack.Item.UpdateExistingFlag = false;
 			originalStack.Item = targetStack.Item;
 
 			// force update stack amount
 			originalStack.Amount = targetStack.Amount;
+			targetStack = originalStack;
 		} 
 		else if(!targetStack.Item.RemovalFlag && !targetStack.Item.DiscardFlag )
 		{
 			// if no number of the item has been modified and items are not flagged for removal, add back on the items set aside for modifcations
 			// to the original stack
 			originalStack.Amount += targetStack.Amount;
+			targetStack = originalStack;
 		}
 		else if(targetStack.Item.DiscardFlag)
 		{
 			GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(targetStack);
+			targetStack = originalStack;
 		}
 
 		if(originalStack.Amount <= 0)
 		{
+			GuiInstanceManager.InventoryUiInstance.TargetInventory.RemoveStack(originalStack);
 			GuiInstanceManager.ItemStackDetailPanelInstance.ClosePanel();
-			Game.Instance.PlayerInstance.Inventory.RemoveStack(targetStack);
 			targetStack = null;
 		}
 		else

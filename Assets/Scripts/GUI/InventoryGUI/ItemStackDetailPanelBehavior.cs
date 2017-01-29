@@ -97,7 +97,6 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		// creates a duplicate object that may be used to modify with actions
 		// created at 0, since no amount of the stack has been specified to be used
 		selected.PreserveOriginal (0);
-		
 	}
 
 	/// <summary>
@@ -159,12 +158,14 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void ClosePanel()
 	{
-		GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
-
 		ClearAttributesAndActions();
 		Attributes.Clear();
 		PossibleActions.Clear ();
 		PossibleSubActions.Clear ();
+		GuiInstanceManager.ItemAmountPanelInstance.CloseEntirePanel();
+
+		GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel();
+
 		EventSystem.current.SetSelectedGameObject(null);
 	}
 
@@ -232,7 +233,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	{
 		selected.CheckForModification();
 
-		if(selected != null)
+		if(selected.GetStack() != null)
 		{
 			GuiInstanceManager.ItemAmountPanelInstance.ItemNameDisplay.text = selected.GetItemName ();
 

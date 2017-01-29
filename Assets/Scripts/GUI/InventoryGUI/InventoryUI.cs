@@ -242,4 +242,22 @@ public class InventoryUI : MonoBehaviour
 			inventory.Add(updatedStackFromInventory);
 		}
 	}
+
+	/// <summary>
+	/// Gets the stack UI component given a stack id.
+	/// </summary>
+	/// <returns>The stack U.</returns>
+	/// <param name="id">Identifier.</param>
+	public ItemStackUI GetStackUI(string id)
+	{
+		for(int i = 0; i < itemStackUIList.Count; ++i)
+		{
+			if(itemStackUIList[i].GetStack().Id.Equals(id))
+			{
+				return itemStackUIList[i];
+			}
+		}
+
+		return null;
+	}
 }

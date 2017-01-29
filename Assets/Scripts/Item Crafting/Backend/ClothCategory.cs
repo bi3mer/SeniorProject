@@ -132,7 +132,7 @@ public class ClothCategory : ItemCategory
 
 		OnPlayer = 1f;
 		GetAttribute(onPlayerAttributeName).Value = OnPlayer;
-		baseItem.UpdateExitingFlag = true;
+		baseItem.UpdateExistingFlag = true;
 	}
 
 	/// <summary>
@@ -149,6 +149,6 @@ public class ClothCategory : ItemCategory
 
 		OnPlayer = 0f;
 		GetAttribute(onPlayerAttributeName).Value = OnPlayer;
-		baseItem.UpdateExitingFlag = true;
+		baseItem.UpdateExistingFlag = true;
 	}
 }
