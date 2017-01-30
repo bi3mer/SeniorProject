@@ -241,7 +241,6 @@ public class RecipePageBehavior : MonoBehaviour
 			{
 				// since the number of items selected has met the requirements
 				// the user is allowed to continue and the user is no longer able to select ingredients without removing ingredients first
-
 				continueButton.interactable = true;
 				ToggleIngredientSelectionPanel(false);
 			}

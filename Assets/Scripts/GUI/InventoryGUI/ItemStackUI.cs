@@ -123,6 +123,8 @@ public class ItemStackUI : MonoBehaviour
 	/// </summary>
 	public void CheckForModification()
 	{
+		bool createdNewItem = false;
+
 		// if some number of the item has been modified and the modified items are not flagged for removal (possible through eating or discarding)
 		if (targetStack.Item.DirtyFlag && targetStack.Amount > 0 && !targetStack.Item.RemovalFlag) 
 		{
@@ -132,6 +134,8 @@ public class ItemStackUI : MonoBehaviour
 			GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
 			ItemStackUI createdStack = GuiInstanceManager.InventoryUiInstance.GetStackUI(addedItem.Id);
 			GuiInstanceManager.ItemAmountPanelInstance.OpenItemDetailPanel(createdStack.gameObject);
+
+			createdNewItem = true;
 		}
 		else if(targetStack.Item.UpdateExistingFlag)
 		{
@@ -158,7 +162,12 @@ public class ItemStackUI : MonoBehaviour
 		if(originalStack.Amount <= 0)
 		{
 			GuiInstanceManager.InventoryUiInstance.TargetInventory.RemoveStack(originalStack);
-			GuiInstanceManager.ItemStackDetailPanelInstance.ClosePanel();
+
+			if(!createdNewItem)
+			{
+				GuiInstanceManager.ItemStackDetailPanelInstance.ClosePanel();
+			}
+
 			targetStack = null;
 		}
 		else

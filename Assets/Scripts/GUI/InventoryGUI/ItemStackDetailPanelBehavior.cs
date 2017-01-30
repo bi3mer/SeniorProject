@@ -241,7 +241,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 
 			for(int i = 0; i < attr.Count; ++i)
 			{
-				Attributes.Find(n => n.AttributeName.text.Equals(attr[i].Name)).GetComponent<ItemAttributeUI> ().SetAttributeValue (attr [i].Value);
+				Attributes.Find(n => n.AttributeName.text.Equals(attr[i].Name)).SetAttributeValue (attr [i].Value);
 			}
 
 			RefreshItemActions();

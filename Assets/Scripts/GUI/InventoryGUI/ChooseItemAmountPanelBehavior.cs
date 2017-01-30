@@ -182,11 +182,6 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		}
 	}
 
-	public void ChangeSelected(GameObject selected)
-	{
-		SelectedItem = selected;
-	}
-
 	/// <summary>
 	/// Chooses the number of items to affect.
 	/// </summary>
