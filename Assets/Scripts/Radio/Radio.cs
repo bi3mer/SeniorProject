@@ -103,7 +103,8 @@ public class Radio : MonoBehaviour
 			{
 				mysteryChannel.getPlaybackState (out state);
 
-				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) {
+				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) 
+				{
 					mysteryChannel.start ();
 				}
 			}
@@ -112,7 +113,8 @@ public class Radio : MonoBehaviour
 			{
 				musicChannel.getPlaybackState (out state);
 
-				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) {
+				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) 
+				{
 					musicChannel.start ();
 				}
 			}
@@ -126,7 +128,8 @@ public class Radio : MonoBehaviour
 			{
 				staticChannel.getPlaybackState (out state);
 
-				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) {
+				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) 
+				{
 					staticChannel.start ();
 				}
 			}
