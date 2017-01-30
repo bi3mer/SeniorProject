@@ -24,7 +24,7 @@
         Game.Instance.PlayerInstance.Inventory.EquipedItem = baseItem;
         Equiped = 1f;
 		GetAttribute(equipedAttributeName).Value = Equiped;
-		baseItem.UpdateExitingFlag = true;
+		baseItem.UpdateExistingFlag = true;
 	}
 
 	/// <summary>
@@ -32,12 +32,12 @@
 	/// </summary>
 	public void UnEquip()
 	{
-        if (Game.Instance.PlayerInstance.Inventory.EquipedItem == baseItem)
+        if (Game.Instance.PlayerInstance.Inventory.EquipedItem.ItemName.Equals(baseItem.ItemName))
         {
             Game.Instance.PlayerInstance.Inventory.EquipedItem = null;
             Equiped = 0f;
 			GetAttribute(equipedAttributeName).Value = Equiped;
-			baseItem.UpdateExitingFlag = true;
+			baseItem.UpdateExistingFlag = true;
         }
 	}
 }

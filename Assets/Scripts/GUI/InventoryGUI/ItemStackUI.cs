@@ -123,37 +123,56 @@ public class ItemStackUI : MonoBehaviour
 	/// </summary>
 	public void CheckForModification()
 	{
+		bool createdNewItem = false;
+
 		// if some number of the item has been modified and the modified items are not flagged for removal (possible through eating or discarding)
 		if (targetStack.Item.DirtyFlag && targetStack.Amount > 0 && !targetStack.Item.RemovalFlag) 
 		{
 			targetStack.Item.DirtyFlag = false;
 
-			Game.Instance.PlayerInstance.Inventory.AddItem (targetStack.Item, targetStack.Amount);
+			Stack addedItem = GuiInstanceManager.InventoryUiInstance.TargetInventory.AddItem (targetStack.Item, targetStack.Amount);
+			GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
+			ItemStackUI createdStack = GuiInstanceManager.InventoryUiInstance.GetStackUI(addedItem.Id);
+			GuiInstanceManager.ItemAmountPanelInstance.OpenItemDetailPanel(createdStack.gameObject);
+
+			createdNewItem = true;
 		}
-		else if(targetStack.Item.UpdateExitingFlag)
+		else if(targetStack.Item.UpdateExistingFlag)
 		{
-			targetStack.Item.UpdateExitingFlag = false;
+			targetStack.Item.UpdateExistingFlag = false;
 			originalStack.Item = targetStack.Item;
 
 			// force update stack amount
 			originalStack.Amount = targetStack.Amount;
+			targetStack = originalStack;
 		} 
 		else if(!targetStack.Item.RemovalFlag && !targetStack.Item.DiscardFlag )
 		{
 			// if no number of the item has been modified and items are not flagged for removal, add back on the items set aside for modifcations
 			// to the original stack
 			originalStack.Amount += targetStack.Amount;
+			targetStack = originalStack;
 		}
 		else if(targetStack.Item.DiscardFlag)
 		{
 			GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(targetStack);
+			targetStack = originalStack;
 		}
 
-		targetStack = originalStack;
-
-		if(targetStack.Amount <= 0)
+		if(originalStack.Amount <= 0)
 		{
-			Game.Instance.PlayerInstance.Inventory.RemoveStack(targetStack);
+			GuiInstanceManager.InventoryUiInstance.TargetInventory.RemoveStack(originalStack);
+
+			if(!createdNewItem)
+			{
+				GuiInstanceManager.ItemStackDetailPanelInstance.ClosePanel();
+			}
+
+			targetStack = null;
+		}
+		else
+		{
+			PreserveOriginal(0);
 		}
 	}
 

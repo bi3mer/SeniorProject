@@ -275,6 +275,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 	/// <param name="id">Identifier.</param>
 	public void CreateSubAction(List<ItemAction> actions)
 	{
+		SubActionScroll.gameObject.SetActive(true);
 		for(int i = 0; i < actions.Count; ++i)
 		{
 			GameObject act = GameObject.Instantiate (ActionButton);
@@ -300,5 +301,7 @@ public class ItemInfoPanelBehavior : MonoBehaviour
 		{
 			GameObject.Destroy (children [j]);
 		}
+
+		SubActionScroll.gameObject.SetActive(false);
 	}
 }

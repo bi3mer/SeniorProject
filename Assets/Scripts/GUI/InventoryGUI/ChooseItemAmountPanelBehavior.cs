@@ -46,8 +46,13 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	private int currentAmount;
 	//the maximum number of units that can be selected for the current item
 	private int maxAmount;
+
 	// the current selected item from the inventory
-	private GameObject selectedItem;
+	public GameObject SelectedItem
+	{
+		get;
+		set;
+	}
 
 	private ItemActionButtonUI selectedActionButton;
 
@@ -110,8 +115,8 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 
 		itemAmountAffectPanel.SetActive (true);
 
-		ItemNameDisplay.text = selectedItem.GetComponent<ItemStackUI>().ItemName.text;
-		maxAmount = (int)selectedItem.GetComponent<ItemStackUI>().GetMaxAmount();
+		ItemNameDisplay.text = SelectedItem.GetComponent<ItemStackUI>().ItemName.text;
+		maxAmount = (int)SelectedItem.GetComponent<ItemStackUI>().GetMaxAmount();
 
 		currentAmount = 0;
 		NumDisplay.text = currentAmount.ToString();
@@ -145,17 +150,6 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Opens the panel containing information about the selected item.
-	/// </summary>
-	public void OpenItemInfoPanel()
-	{
-		attributesAndActionPanel.SetActive (true);
-
-		// display attributes and actions
-		GuiInstanceManager.ItemStackDetailPanelInstance.ClosePanel ();
-	}
-
-	/// <summary>
 	/// Opens the item detail panel.
 	/// </summary>
 	/// <param name="selected">Selected.</param>
@@ -165,7 +159,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 
 		if(selectedItemUI.GetStack() != null)
 		{
-			selectedItem = selected;
+			SelectedItem = selected;
 			itemStackDetailPanel.SetActive (true);
 			attributesAndActionPanel.SetActive (true);
 			itemAmountAffectPanel.SetActive (false);
@@ -180,10 +174,10 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 			// the plus sign should not be displayed
 			Change (0);
 
-			GuiInstanceManager.ItemStackDetailPanelInstance.SetSelectedItem (selectedItem.gameObject);
+			GuiInstanceManager.ItemStackDetailPanelInstance.SetSelectedItem (SelectedItem);
 			GuiInstanceManager.ItemStackDetailPanelInstance.ClearAttributesAndActions();
 			GuiInstanceManager.ItemStackDetailPanelInstance.ClearSubActionPanel();
-			GuiInstanceManager.ItemStackDetailPanelInstance.SetItemData(selectedItem);
+			GuiInstanceManager.ItemStackDetailPanelInstance.SetItemData(SelectedItem);
 			attributesAndActionPanel.SetActive (true);
 		}
 	}

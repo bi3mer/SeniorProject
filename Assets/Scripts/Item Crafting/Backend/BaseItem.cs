@@ -128,7 +128,7 @@ public class BaseItem : CollectableItem
 	/// <summary>
 	/// If the item has been changed, but no new item has resulted, UpdateExistingFlag is true.
 	/// </summary>
-	public bool UpdateExitingFlag = false;
+	public bool UpdateExistingFlag = false;
 
 	/// <summary>
 	/// flag checked by the InventoryItemBehavior to see if the BaseItem should actually be removed from the inventory
