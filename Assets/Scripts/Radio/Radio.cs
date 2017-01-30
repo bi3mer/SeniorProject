@@ -228,7 +228,31 @@ public class Radio : MonoBehaviour
     {
 		if (isOn) 
 		{
-			TurnOffChannelsExcept (channel);
+			if (channel == RadioChannel.Music) 
+			{
+				weather.Stop ();
+				mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			} 
+			else if (channel == RadioChannel.Weather) 
+			{
+				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+				mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			} 
+			else if (channel == RadioChannel.Mystery) 
+			{
+				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+				weather.Stop ();
+				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			}
+			else if (channel == RadioChannel.Null)
+			{
+				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+				weather.Stop ();
+				mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			}
+
 			this.CurrentChannel = channel;
 		}
     }
@@ -279,39 +303,6 @@ public class Radio : MonoBehaviour
 			SetChannel (RadioChannel.Music);
 		}
     }
-
-
-	/// <summary>
-	/// Turns the off channels except the one passed.
-	/// </summary>
-	/// <param name="channel">Channel NOT to be turned off.</param>
-	public void TurnOffChannelsExcept(RadioChannel channel)
-	{
-		if (channel == RadioChannel.Music) 
-		{
-			weather.Stop ();
-			mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-			staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-		} 
-		else if (channel == RadioChannel.Weather) 
-		{
-			musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-			mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-			staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-		} 
-		else if (channel == RadioChannel.Mystery) 
-		{
-			musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-			weather.Stop ();
-			staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-		}
-		else if (channel == RadioChannel.Null)
-		{
-			musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-			weather.Stop ();
-			mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-		}
-	}
 
     /// <summary>
     /// Creates string based on windSpeed and temperature (and eventually amount of rainfall)
