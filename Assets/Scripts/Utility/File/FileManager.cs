@@ -10,7 +10,7 @@ public class FileManager
 	/// <param name="fileName">File name.</param>
 	public static string BuildPath(string fileName)
 	{
-		return Path.Combine(Application.persistentDataPath, fileName);
+		return Path.Combine(Application.dataPath, fileName);
 	}
 
 	/// <summary>
@@ -77,7 +77,7 @@ public class FileManager
 		// a mishap where someone accidentally deletes the google
 		// drive file and corrupts anyone soul who wants to play
 		// this game.
-		fileContents = GoogleDrive.getLocalDocument(fileName);
+		fileContents = FileManager.getLocalDocument(fileName);
 		#endif
 
 		return fileContents;

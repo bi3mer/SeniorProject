@@ -209,7 +209,12 @@ public class PlayerController : MonoBehaviour
 
 		// create event emitter
 		eventEmitter = FMODUnity.RuntimeManager.CreateInstance (roofFootstepSoundEvent);
-	}
+
+        // Set player hunger / warmth / health
+        Game.Instance.PlayerInstance.Health = Game.Instance.PlayerInstance.MaxHealth;
+        Game.Instance.PlayerInstance.Hunger = Game.Instance.PlayerInstance.MaxHunger;
+        Game.Instance.PlayerInstance.Warmth = Game.Instance.PlayerInstance.MaxWarmth;
+    }
 
     /// <summary>
     /// When colliding with a trigger. Used for interactable object interaction. For raft interactions.
@@ -414,20 +419,13 @@ public class PlayerController : MonoBehaviour
     /// <returns>The hunger.</returns>
     private IEnumerator UpdateHunger ()
     {
-    	int newHunger = 0;
+    	float newHunger = 0;
 
         while (updateStats)
         {
-			yield return new WaitForSeconds(Mathf.Abs(currentHungerChangeRate));
+			yield return null;
 
-            if (currentHungerChangeRate > 0)
-            {
-                newHunger = Game.Instance.PlayerInstance.Hunger + 1;
-            }
-            else
-            {
-                newHunger = Game.Instance.PlayerInstance.Hunger - 1;
-            }
+            newHunger = Game.Instance.PlayerInstance.Hunger + currentHungerChangeRate;
 
 			if(newHunger < 0)
             {
@@ -448,24 +446,17 @@ public class PlayerController : MonoBehaviour
     /// <returns>The warmth.</returns>
 	private IEnumerator UpdateWarmth()
 	{
-		int newWarmth = 0;
+		float newWarmth = 0;
 
 		while (updateStats)
 		{
-			yield return new WaitForSeconds(Mathf.Abs(currentWarmthChangeRate));
+            yield return null;
 
-            if (currentWarmthChangeRate > 0)
-            {
-                newWarmth = Game.Instance.PlayerInstance.Warmth + 1;
-            }
-            else
-            {
-                newWarmth = Game.Instance.PlayerInstance.Warmth - 1;
-            }
+            newWarmth = Game.Instance.PlayerInstance.Warmth + currentWarmthChangeRate;
 
             if(newWarmth < 0)
             {
-            	--Game.Instance.PlayerInstance.Health;
+                Game.Instance.PlayerInstance.Health += currentWarmthChangeRate;
             }
             else if(newWarmth < Game.Instance.PlayerInstance.MaxWarmth)
             {
@@ -491,18 +482,22 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(transform.position + new Vector3(0f, groundedRaycastHeight, 0f), Vector3.down, out hit, groundedThreshold, groundedMask))
         {
             isGrounded = true;
-            playerAnimator.SetBool(playerAnimatorSwimming, false);
             playerAnimator.SetBool(playerAnimatorFalling, false);
             // Check what kind of ground the player is on and update movement
-            if (hit.collider.CompareTag(landTag))
+            if (hit.collider.CompareTag(landTag) && movement != landMovement)
             {
+                playerAnimator.SetBool(playerAnimatorSwimming, false);
                 movement.Idle(playerAnimator);
-                movement = landMovement;
+                movement.OnStateExit();
+                movement = landMovement; 
+                movement.OnStateEnter();
             }
-            else if (hit.collider.CompareTag(waterTag))
+            else if (hit.collider.CompareTag(waterTag) && movement !=waterMovement)
             {
                 movement.Idle(playerAnimator);
+                movement.OnStateExit();
                 movement = waterMovement;
+                movement.OnStateEnter();
                 playerAnimator.SetBool(playerAnimatorSwimming, true);
             }
         }

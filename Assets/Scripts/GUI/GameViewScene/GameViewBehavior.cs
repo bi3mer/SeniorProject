@@ -35,7 +35,7 @@ public class GameViewBehavior : MonoBehaviour
 	{
 		if (controlScheme != null) 
 		{
-			if (Input.GetKey (controlScheme.Pause)) 
+			if (Input.GetKeyDown (controlScheme.Pause)) 
 			{
 				if (Game.Instance.PauseInstance.IsPaused) 
 				{
@@ -47,17 +47,17 @@ public class GameViewBehavior : MonoBehaviour
 				}
 			}
 
-			if (Input.GetKey (controlScheme.Inventory)) 
+			if (Input.GetKeyDown(controlScheme.Inventory)) 
 			{
 				OnInventoryClick ();
 			}
 
-			if (Input.GetKey (controlScheme.Radio)) 
+			if (Input.GetKeyDown(controlScheme.Radio)) 
 			{
 				OnRadioClick ();
 			}
 
-			if (Input.GetKey (controlScheme.Crafting)) 
+			if (Input.GetKeyDown(controlScheme.Crafting)) 
 			{
 				OnCraftingClick ();
 			}
@@ -97,7 +97,7 @@ public class GameViewBehavior : MonoBehaviour
 
 	public void OnInventoryOpen()
 	{
-		inventoryPanel.SetActive (true);
+        inventoryPanel.SetActive (true);
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
 		craftingPanel.SetActive (false);
@@ -119,7 +119,6 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	public void OnResumeClick()
 	{
-		Game.Instance.PauseInstance.Resume ();
 		pausePanel.SetActive (false);
 		inventoryPanel.SetActive (false);
 		radioPanel.SetActive (false);
@@ -131,6 +130,14 @@ public class GameViewBehavior : MonoBehaviour
 			discarder.DiscardItems(GuiInstanceManager.InventoryUiInstance.ItemsToDiscard);
 		}
 	}
+
+    /// <summary>
+    /// Rusumes the game from pause
+    /// </summary>
+    public void Resume()
+    {
+        Game.Instance.PauseInstance.Resume();
+    }
 
 	/// <summary>
 	/// Loads the crafting panel.
