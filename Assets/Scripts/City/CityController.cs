@@ -57,6 +57,15 @@ public class CityController : MonoBehaviour
 	    // TODO: Anything dynamic about the city
 	}
 
+	/// <summary>
+	/// Gets the bounds.
+	/// </summary>
+	/// <returns>The bounds.</returns>
+	public Bounds GetBounds()
+	{
+		return this.cityBounds;
+	}
+
     /// <summary>
     /// Generate the city by generating districts, populating them with blocks, and filling the blocks with buildings.
     /// </summary>
