@@ -8,50 +8,63 @@ public enum RadioChannel {Music, Weather, Mystery, Null};
 
 public class Radio : MonoBehaviour
 {
-	// set sound sources
+	// CHANNELS
 	[SerializeField]
-	private AudioSource music;
+	private FMOD.Studio.EventInstance musicChannel;
+
+	[SerializeField]
+	private FMOD.Studio.EventInstance mysteryChannel;
+
+	// Static channel right now just plays when current active channel is null
+    [SerializeField]
+	private FMOD.Studio.EventInstance staticChannel;
+
+	// Weather still has an audio source rather than an FMOD instance for text-to-speech purposes
 	[SerializeField]
 	private AudioSource weather;
+
+	// Default channel sound event paths
 	[SerializeField]
-	private AudioSource mystery;
-    [SerializeField]
-    private AudioSource statics;
+	public string MusicDefaultPath = "event:/Radio/Music/Music1";
+	[SerializeField]
+	public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
+	[SerializeField]
+	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static"; 
+
+	// Default display texts
+	public string RadioOnText = "Radio is on";
+	public string RadioOffText = "Radio is off";
+
+	// Radio components
     [SerializeField]
 	private Text radioScreenText;
+
     [SerializeField]
     private Dial dial;
 
-    private bool isOn;
-    private RadioChannel CurrentChannel { get; set; }
-    private string announcement;
+	private bool isOn;
+	private RadioChannel CurrentChannel { get; set; }
+	private string announcement;
 
-    //set up weather
-    public WeatherSystem currentWeather;
-
-    //counter for how many times weather played
-    private int weatherCounter;
+    // Counter for how many times weather played
+	private int weatherCounter;
+	private WeatherSystem currentWeather;
 
     [Tooltip("The lowest degree of the range of the knob's rotation in which music will play")]
     public float lowMusic;
-
 	[Tooltip("The highest degree of the range of the knob's rotation in which music will play")]
     public float highMusic;
-
 	[Tooltip("The lowest degree of the range of the knob's rotation in which the mystery channel will play")]
     public float lowMystery;
-
 	[Tooltip("The highest degree of the range of the knob's rotation in which the mystery channel will play")]
     public float highMystery;
-
 	[Tooltip("The lowest degree of the range of the knob's rotation in which the weather will play")]
     public float lowWeather;
-
 	[Tooltip("The highest degree of the range of the knob's rotation in which the weather will play")]
     public float highWeather;
 
     /// <summary>
-    /// Sets up radio for usage.
+    /// Sets up radio for usage -- turned off, with no active channel
     /// </summary>
     void Start()
     {
@@ -65,8 +78,13 @@ public class Radio : MonoBehaviour
 
 		CurrentChannel = RadioChannel.Null;
 
-        //update the weather and play if radio on
+        // Update the weather and play if radio on
         StartCoroutine(updateWeather());
+
+		// Load in default sounds for all other channels
+		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (MysteryDefaultPath);
+		musicChannel = FMODUnity.RuntimeManager.CreateInstance (MusicDefaultPath);
+		staticChannel = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
     }
 
     /// <summary>
@@ -76,30 +94,51 @@ public class Radio : MonoBehaviour
     {
 		if (isOn) 
 		{
-			radioScreenText.text = "Radio is On";
-			// When music channel selected
-			if (!music.isPlaying && CurrentChannel == RadioChannel.Music) 
+			radioScreenText.text = RadioOnText;
+
+			// Find the current channel and turn it on if it's not already playing 
+			FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
+
+			if (CurrentChannel == RadioChannel.Mystery) 
 			{
-				music.Play ();
+				mysteryChannel.getPlaybackState (out state);
+
+				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) 
+				{
+					mysteryChannel.start ();
+				}
 			}
-			if (!mystery.isPlaying && CurrentChannel == RadioChannel.Mystery) 
+
+			else if (CurrentChannel == RadioChannel.Music) 
 			{
-				mystery.Play ();
+				musicChannel.getPlaybackState (out state);
+
+				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) 
+				{
+					musicChannel.start ();
+				}
 			}
-			if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather) 
+
+			else if (CurrentChannel == RadioChannel.Weather && !weather.isPlaying) 
 			{
 				weather.Play ();
 			}
-            if (!statics.isPlaying && CurrentChannel == RadioChannel.Null)
-            {
-                statics.Play();
-            }
 
+			else if (CurrentChannel == RadioChannel.Null) 
+			{
+				staticChannel.getPlaybackState (out state);
+
+				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) 
+				{
+					staticChannel.start ();
+				}
+			}
+				
 			ChangeChannel(dial.DialSlider.value);
 		} 
 		else 
 		{
-			radioScreenText.text = "Radio is Off";
+			radioScreenText.text = RadioOffText;
 		}
     }
 
@@ -107,19 +146,20 @@ public class Radio : MonoBehaviour
     /// Turns radio on and off.
     /// </summary>
     public void Power()
-    {
-        //Turn off the radio and all channels
+	{
+		// Turn off the radio and all channels if it's currently on
         if (isOn)
         {
-            isOn = false;
+       	    isOn = false;
             CurrentChannel = RadioChannel.Null;
-            music.Stop();
-            weather.Stop();
-			mystery.Stop();
-            statics.Stop();
+		
+			musicChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			weather.Stop ();
+			mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
         }
 
-        //Turn on the radio
+        // Turn on the radio if it's currently off
         else
         {
             isOn = true;
@@ -135,28 +175,29 @@ public class Radio : MonoBehaviour
         {
             if (isOn)
             {             
-                //check if the weather is not playing and if the radio is on the weather channel
+                // Check if the weather is not playing and if the radio is on the weather channel
                 if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
                 {
-                    //Play the weather 3 times before restarting to 0 
+                    // Play the weather 3 times before restarting to 0 
                     if (weatherCounter == 3)
                     {
                         weatherCounter = 0;
                     }
 
-                    //update the weather when it has played 3 times or has just turned on
+                    // Update the weather when it has played 3 times or has just turned on
                     if (weatherCounter == 0)
                     {
-                        //update weather
+                        // Update weather
                         currentWeather = Game.Instance.WeatherInstance;
 
-                        //get new announcment
+                        // Get new announcment
                         announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
                         Debug.Log(announcement);
-                        //send the announcement to the wave file
+
+                        // Send the announcement to the wav file
                         Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather", .7f);
 
-                        //wait for the wave file to update
+                        // Wait for the wave file to update
                         yield return new WaitForSeconds(2);
                     }
 
@@ -164,14 +205,14 @@ public class Radio : MonoBehaviour
                     weather.Play();
                 }
 
-                //don't do anything if the weather is still playing
+                // Don't do anything if the weather is still playing
                 else
                 {
                     yield return null;
                 }
             }
 
-            //don't do anything if radio is not on
+            // Don't do anything if radio is not on
             else
             {
                 yield return null;
@@ -190,30 +231,29 @@ public class Radio : MonoBehaviour
 			if (channel == RadioChannel.Music) 
 			{
 				weather.Stop ();
-				mystery.Stop ();
-                statics.Stop();
-				this.CurrentChannel = channel;
+				mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			} 
 			else if (channel == RadioChannel.Weather) 
 			{
-				music.Stop ();
-				mystery.Stop ();
-                statics.Stop();
-                this.CurrentChannel = channel;
+				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+				mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			} 
 			else if (channel == RadioChannel.Mystery) 
 			{
-				music.Stop ();
+				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 				weather.Stop ();
-                statics.Stop();
-                this.CurrentChannel = channel;
+				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			}
-            else if (channel == RadioChannel.Null)
-            {
-                music.Stop();
-                weather.Stop();
-                this.CurrentChannel = channel;
-            }
+			else if (channel == RadioChannel.Null)
+			{
+				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+				weather.Stop ();
+				mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			}
+
+			this.CurrentChannel = channel;
 		}
     }
 

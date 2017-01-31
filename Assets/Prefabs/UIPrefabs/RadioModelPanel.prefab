@@ -43,6 +43,7 @@ GameObject:
   - 222: {fileID: 222000010198648778}
   - 114: {fileID: 114000011330666928}
   - 114: {fileID: 114000011675021940}
+  - 114: {fileID: 114000013133982478}
   m_Layer: 5
   m_Name: RadioModelPanel
   m_TagString: Untagged
@@ -638,15 +639,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000010122998552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80c070e9b632e8940bfc392817c835f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 0406f29fbe8cf44ce91cb6c6ec0f8b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music: {fileID: 0}
   weather: {fileID: 0}
-  mystery: {fileID: 0}
-  statics: {fileID: 0}
-  radioScreenText: {fileID: 114000010657918046}
-  dial: {fileID: 114000014146394170}
+  MusicDefaultPath: event:/Radio/Music/Music1
+  MysteryDefaultPath: event:/Radio/Mystery/Mystery1
+  StaticDefaultPath: event:/Radio/Static/Basic_Static
+  RadioOnText: Radio is on
+  RadioOffText: Radio is off
+  radioScreenText: {fileID: 0}
+  dial: {fileID: 0}
+  lowMusic: 0
+  highMusic: 120
+  lowMystery: 120
+  highMystery: 240
+  lowWeather: 240
+  highWeather: 360
 --- !u!114 &114000011675021940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1033,6 +1042,23 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114000013133982478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010122998552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9468c5f457ace64f8d4df6d642b107f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoadEvent: 1
+  UnloadEvent: 0
+  Banks:
+  - Radio Bank
+  CollisionTag: 
+  PreloadSamples: 0
 --- !u!114 &114000013469981838
 MonoBehaviour:
   m_ObjectHideFlags: 1
