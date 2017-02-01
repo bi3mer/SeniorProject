@@ -19,7 +19,7 @@ public class FileManager
 	{
         string basePath = Application.dataPath;
 #if UNITY_EDITOR
-        basePath = Path.Combine(Application.dataPath, "Resources\\YAMLFiles");
+        basePath = Path.Combine(Application.dataPath, Path.Combine("Resources", "YAMLFiles"));
 #endif
 
         return Path.Combine(basePath, fileName);
