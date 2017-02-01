@@ -17,9 +17,13 @@ public class FileManager
 	/// <param name="fileName">File name.</param>
 	public static string BuildPath(string fileName)
 	{
-        string basePath = Path.Combine(Application.dataPath, "Resources\\YAMLFiles");
-		return Path.Combine(basePath, fileName);
-	}
+        string basePath = Application.dataPath;
+#if UNITY_EDITOR
+        basePath = Path.Combine(Application.dataPath, "Resources\\YAMLFiles");
+#endif
+
+        return Path.Combine(basePath, fileName);
+    }
 
 	/// <summary>
 	/// Saves content to the file
@@ -65,7 +69,7 @@ public class FileManager
 
 		string fileContents = null;
 
-		#if UNITY_EDITOR
+#if UNITY_EDITOR
 		if(!UnityEditor.EditorPrefs.GetBool(FileManager.UseLocalFiles) && GoogleDrive.ConnectedToInternet())
 		{
 			fileContents = GoogleDrive.GetOnlineDriveDocument(fileName);
@@ -80,13 +84,13 @@ public class FileManager
 		{
 			fileContents = FileManager.getLocalDocument(fileName);
 		}
-		#else
+#else
 		// pull local contents when this is a real build to avoid 
 		// a mishap where someone accidentally deletes the google
 		// drive file and corrupts anyone soul who wants to play
 		// this game.
 		fileContents = FileManager.getLocalDocument(fileName);
-		#endif
+#endif
 
 		return fileContents;
 	}

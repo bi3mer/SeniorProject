@@ -42,3 +42,6 @@ logfile.txt
 
 # scene menu
 *Assets/Editor/SceneMenu.cs*
+
+# YAML files
+/Assets/Resources/YAMLFiles/**.*
