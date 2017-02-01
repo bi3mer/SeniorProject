@@ -7,35 +7,43 @@ using System.IO;
 public class BuildScript : MonoBehaviour
 {
     private const string yamlDirectory = "Assets/Resources/YAMLFiles";
-    private const string executable = "Highwater.exe";
+    private const string executable = "Highwater";
 
     /// <summary>
     /// Build for windows including post process steps.
     /// </summary>
-    [MenuItem("Build/Windows Build With Postprocess")]
+    [MenuItem("Build/Windows Build With Packaged YAML files")]
     public static void BuildGame ()
     {
         // Get filename
-        string path = EditorUtility.SaveFolderPanel("Choose Location of Built Game", "", "");
+        string buildPath = EditorUtility.SaveFolderPanel("Choose Location of Built Game", "", "");
 
         // Build player
-        BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, path + "/" + executable, BuildTarget.StandaloneWindows, BuildOptions.None);
+        BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, Path.Combine(buildPath, executable + ".exe"), BuildTarget.StandaloneWindows, BuildOptions.None);
 
-        BuildScript.CopyYAMLFiles(path);
+        BuildScript.CopyYAMLFiles(buildPath);
     }
 
     /// <summary>
     /// Post process step for copying YAML files for build directory
     /// </summary>
-    /// <param name="path">The build path.</param>
-    public static void CopyYAMLFiles (string path)
+    /// <param name="buildPath">The build path.</param>
+    public static void CopyYAMLFiles (string buildPath)
     {
-        // Copy all files from the yaml directory 
+        // Make sure the files are up to date if we're not using local files
+        if (!FileManagerEditor.IsUsingLocalFiles)
+        {
+            FileManager.SaveAllDocuments();
+        }
+
+        // Copy all yaml files to the build directory
         DirectoryInfo dir = new DirectoryInfo(yamlDirectory);
-        FileInfo[] info = dir.GetFiles("*.*");
+        FileInfo[] info = dir.GetFiles("*.yml", SearchOption.TopDirectoryOnly);
         foreach (FileInfo file in info)
         {
-            FileUtil.CopyFileOrDirectory(file.FullName, path + '/' + file.Name);
+            string basePath = Path.Combine(buildPath, executable + "_Data/");
+            string path = Path.Combine(basePath, file.Name);
+            FileUtil.CopyFileOrDirectory(file.FullName, path);
         }
     }
 }

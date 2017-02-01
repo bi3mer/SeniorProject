@@ -46,8 +46,19 @@ public class FileManagerEditor : MonoBehaviour
 		EditorApplication.delayCall += () => {
 			// getting the opposite of what is expected since the next function call
 			// will set the opposite of the value
-			FileManagerEditor.Connected = !EditorPrefs.GetBool(FileManager.UseLocalFiles);
+			FileManagerEditor.Connected = !FileManagerEditor.IsUsingLocalFiles;
 			FileManagerEditor.UseLocalFiles();
 		};
      }
+
+    /// <summary>
+    /// Returns true if the user has use Local Files checked.
+    /// </summary>
+    public static bool IsUsingLocalFiles
+    {
+        get
+        {
+            return EditorPrefs.GetBool(FileManager.UseLocalFiles);
+        }
+    }
 }

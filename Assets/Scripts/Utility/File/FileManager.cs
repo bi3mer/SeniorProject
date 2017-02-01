@@ -17,7 +17,8 @@ public class FileManager
 	/// <param name="fileName">File name.</param>
 	public static string BuildPath(string fileName)
 	{
-		return Path.Combine(Application.persistentDataPath, fileName);
+        string basePath = Path.Combine(Application.dataPath, "Resources\\YAMLFiles");
+		return Path.Combine(basePath, fileName);
 	}
 
 	/// <summary>
