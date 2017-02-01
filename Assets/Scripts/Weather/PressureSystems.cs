@@ -25,10 +25,14 @@ public class PressureSystems
 	private const float highPressureCenterAttractorForce = 2f;
 	private const float lowPressureCenterAttractorForce  = 4f;
 
+	/// <summary>
+	/// Get and set the city bounds that the pressure system can move in
+	/// </summary>
+	/// <value>The city bounds.</value>
 	public Bounds CityBounds
 	{
 		get;
-		set;
+		private set;
 	}
 
 	/// <summary>
