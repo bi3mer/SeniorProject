@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ItemPlacementSamplePoint
 {
-	public Vector2 PointOnTargetSurface 
+	public Vector2 LocalTargetSurfaceLocation 
 	{
 		get;
 		set;
@@ -16,7 +16,7 @@ public class ItemPlacementSamplePoint
 		set;
 	}
 
-	public Vector2 GridPoint
+	public IntPair GridPoint
 	{
 		get;
 		set;
