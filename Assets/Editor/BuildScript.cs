@@ -41,7 +41,7 @@ public class BuildScript : MonoBehaviour
         FileInfo[] info = dir.GetFiles("*.yml", SearchOption.TopDirectoryOnly);
         foreach (FileInfo file in info)
         {
-            string basePath = Path.Combine(buildPath, executable + "_Data/");
+            string basePath = Path.Combine(buildPath, executable + "_Data");
             string path = Path.Combine(basePath, file.Name);
             FileUtil.CopyFileOrDirectory(file.FullName, path);
         }
