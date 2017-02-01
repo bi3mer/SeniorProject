@@ -65,8 +65,6 @@ public class RooftopPointGenerator: SamplingPointGenerator
 		float rayOffset = 1f;
 
 		// Generates points to place objects, as well a door object.
-		// TODO: Function that generates points without taking a door into consideration
-
 		List<ItemPlacementSamplePoint> samplingPoints;
 
 		if(hasDoor)
