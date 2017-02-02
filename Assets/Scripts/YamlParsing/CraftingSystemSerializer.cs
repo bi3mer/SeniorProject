@@ -25,14 +25,16 @@ public abstract class CraftingSystemSerializer
 	private const string plantCategoryTag = "plant";
 	private const string solidCategoryTag = "solid";
 	private const string fishingRodCategoryTag = "fishingRod";
+    private const string fleshCategoryTag = "flesh";
+    private const string medicineCategoryTag = "medicine";
 	private const string clothCategoryTag = "cloth";
 	private const string containerCategoryTag = "container";
 
-	/// <summary>
-	/// tag:yaml.org,2002 is shorthanded as "!" in the yaml file, but when registering the tag, it
-	/// is necessary to use the full Uri
-	/// </summary>
-	protected string uriPrefix = "tag:yaml.org,2002:";
+    /// <summary>
+    /// tag:yaml.org,2002 is shorthanded as "!" in the yaml file, but when registering the tag, it
+    /// is necessary to use the full Uri
+    /// </summary>
+    protected string uriPrefix = "tag:yaml.org,2002:";
 
 	/// <summary>
 	/// Fills out the categoryNames and cateogryTypes lists with the necessary information
@@ -48,6 +50,12 @@ public abstract class CraftingSystemSerializer
 		categoryNames.Add(fishingRodCategoryTag);
 		categoryTypes.Add(typeof(FishingRodCategory));
 
+        categoryNames.Add(fleshCategoryTag);
+        categoryTypes.Add(typeof(FleshCategory));
+
+        categoryNames.Add(medicineCategoryTag);
+        categoryTypes.Add(typeof(MedicineCategory));
+ 
 		categoryNames.Add(clothCategoryTag);
 		categoryTypes.Add(typeof(ClothCategory));
 

@@ -188,11 +188,15 @@ public class Inventory
 	/// <summary>
 	/// Add item to inventory.
 	/// </summary>
-	/// <param name="newItem">New item to be added.</param>
-	public void AddItem(BaseItem newItem, int amount)
+	/// <returns>The added item.</returns>
+	/// <param name="newItem">New item.</param>
+	/// <param name="amount">Amount.</param>
+	public Stack AddItem(BaseItem newItem, int amount)
 	{
 		int loc = GetNextOpenSlot ();
 		contents[loc] = new Stack(newItem, amount, Guid.NewGuid().ToString("N"));
+
+		return contents[loc];
 	}
 
 	/// <summary>
@@ -222,9 +226,9 @@ public class Inventory
 	/// </summary>
 	/// <returns>All items with tag.</returns>
 	/// <param name="itemTag">Tag that contains desired items.</param>
-	public List<BaseItem> GetAllItemsWithTag(string itemTag)
+	public List<Stack> GetAllItemsWithTag(string itemTag)
 	{
-		List<BaseItem> result = new List<BaseItem> ();
+		List<Stack> result = new List<Stack> ();
 
 		for (int i = 0; i < contents.Length; ++i) 
 		{
@@ -232,7 +236,7 @@ public class Inventory
 			{
 				if (contents [i].Item.Types.Contains (itemTag.ToLower())) 
 				{
-					result.Add (contents [i].Item);
+					result.Add (contents [i]);
 				}
 			}
 		}

@@ -40,17 +40,22 @@ public class PlayerInventory : Inventory
     public event ItemUnequippedDelegate ItemUnequippedSubscription;
     public delegate void ItemUnequippedDelegate();
 
-    /// <summary>
+	/// <summary>
     /// Add item to inventory and notify subscribers.
     /// </summary>
-    /// <param name="newItem">New item to be added.</param>
-    public void AddItem(BaseItem newItem, int amount)
+    /// <returns>The added item.</returns>
+    /// <param name="newItem">New item.</param>
+    /// <param name="amount">Amount.</param>
+    public Stack AddItem(BaseItem newItem, int amount)
     {
-        base.AddItem(newItem, amount);
+        Stack newStack = base.AddItem(newItem, amount);
 
-        if (ItemAddedSubscription != null) {
+        if (ItemAddedSubscription != null) 
+        {
             ItemAddedSubscription(newItem);
         }
+
+        return newStack;
     }
 
     /// <summary>

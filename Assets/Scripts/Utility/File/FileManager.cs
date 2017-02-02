@@ -4,6 +4,13 @@ using System.IO;
 public class FileManager 
 {
 	/// <summary>
+	/// The check mark menu.
+	/// </summary>
+	public const string UseLocalFiles = "File/Use Local Files";
+
+	private const string allFilesLocation = "all_files";
+
+	/// <summary>
 	/// Builds the path.
 	/// </summary>
 	/// <returns>The path.</returns>
@@ -58,7 +65,7 @@ public class FileManager
 		string fileContents = null;
 
 		#if UNITY_EDITOR
-		if(GoogleDrive.ConnectedToInternet())
+		if(!UnityEditor.EditorPrefs.GetBool(FileManager.UseLocalFiles) && GoogleDrive.ConnectedToInternet())
 		{
 			fileContents = GoogleDrive.GetOnlineDriveDocument(fileName);
 
@@ -81,5 +88,19 @@ public class FileManager
 		#endif
 
 		return fileContents;
+	}
+
+	/// <summary>
+	/// Saves all documents from google drive.
+	/// </summary>
+	public static void SaveAllDocuments()
+	{
+		string[] files = FileManager.GetDocument(FileManager.allFilesLocation).Split(' ');
+
+		for(int i = 0; i < files.Length; ++i)
+		{
+			// This will get the document and save it
+			FileManager.GetDocument(files[i]);
+		}
 	}
 }

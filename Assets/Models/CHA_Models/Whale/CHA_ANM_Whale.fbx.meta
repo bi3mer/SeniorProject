@@ -1,0 +1,213 @@
+fileFormatVersion: 2
+guid: 4951912e711672b408c634d33bdaa34e
+timeCreated: 1485732301
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: EyeBase
+    100004: FinBase
+    100006: LeftEye
+    100008: LeftEye1
+    100010: LeftFin1
+    100012: LeftFin2
+    100014: LeftFinBase
+    100016: LeftFinTip
+    100018: MouthCenter
+    100020: Nose
+    100022: RightEye
+    100024: RightEye1
+    100026: RightFin1
+    100028: RightFin2
+    100030: RightFinBase
+    100032: RightFinTip
+    100034: Spine
+    100036: Spine1
+    100038: Spine2
+    100040: Spine3
+    100042: Spine4
+    100044: TailFinBase
+    100046: TailFinLeft
+    100048: TailFinRight
+    100050: Whale
+    400000: //RootNode
+    400002: EyeBase
+    400004: FinBase
+    400006: LeftEye
+    400008: LeftEye1
+    400010: LeftFin1
+    400012: LeftFin2
+    400014: LeftFinBase
+    400016: LeftFinTip
+    400018: MouthCenter
+    400020: Nose
+    400022: RightEye
+    400024: RightEye1
+    400026: RightFin1
+    400028: RightFin2
+    400030: RightFinBase
+    400032: RightFinTip
+    400034: Spine
+    400036: Spine1
+    400038: Spine2
+    400040: Spine3
+    400042: Spine4
+    400044: TailFinBase
+    400046: TailFinLeft
+    400048: TailFinRight
+    400050: Whale
+    2300000: LeftEye
+    2300002: RightEye
+    3300000: LeftEye
+    3300002: RightEye
+    4300000: Whale
+    4300002: RightEye
+    4300004: LeftEye
+    7400000: WhaleSwim
+    9500000: //RootNode
+    13700000: Whale
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: WhaleSwim
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 119
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Nose
+        weight: 1
+      - path: Nose/MouthCenter
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/LeftFinBase
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/LeftFinBase/LeftFin1
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/LeftFinBase/LeftFin1/LeftFin2
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/LeftFinBase/LeftFin1/LeftFin2/LeftFinTip
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/RightFinBase
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/RightFinBase/RightFin1
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/RightFinBase/RightFin1/RightFin2
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/RightFinBase/RightFin1/RightFin2/RightFinTip
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/Spine
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/Spine/Spine1
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/Spine/Spine1/Spine2
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/Spine/Spine1/Spine2/Spine3
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/Spine/Spine1/Spine2/Spine3/Spine4
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/Spine/Spine1/Spine2/Spine3/Spine4/TailFinBase
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/Spine/Spine1/Spine2/Spine3/Spine4/TailFinBase/TailFinLeft
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/FinBase/Spine/Spine1/Spine2/Spine3/Spine4/TailFinBase/TailFinRight
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/LeftEye1
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/LeftEye1/LeftEye
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/RightEye1
+        weight: 1
+      - path: Nose/MouthCenter/EyeBase/RightEye1/RightEye
+        weight: 1
+      - path: Whale
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 22
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

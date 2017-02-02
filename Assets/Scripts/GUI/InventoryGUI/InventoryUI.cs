@@ -15,6 +15,9 @@ public class InventoryUI : MonoBehaviour
 	[SerializeField]
 	private GameObject inventoryParentUI;
 
+	[SerializeField]
+	private GridLayoutManager inventoryLayoutManager;
+
 	private List<Stack> inventory = new List<Stack>();
 	private List<Stack> slots = new List<Stack> ();
 	private List<ItemStackUI> itemStackUIList = new List<ItemStackUI> ();
@@ -61,7 +64,7 @@ public class InventoryUI : MonoBehaviour
 
 			// place empty ui slots in grid layout
 			newItemUI.gameObject.SetActive (true);
-			newItemUI.transform.SetParent (inventoryParentUI.transform);
+			newItemUI.transform.SetParent (inventoryParentUI.transform, false);
 		}
 
 		// set stack items 
@@ -120,7 +123,6 @@ public class InventoryUI : MonoBehaviour
 				UpdateStackInformationInUI (newContents [i], i);
 			}
 		}
-			
 	}
 
 	/// <summary>
@@ -148,7 +150,7 @@ public class InventoryUI : MonoBehaviour
 
 		// place empty ui slot back in position in grid layout
 		newItemUI.gameObject.SetActive (true);
-		newItemUI.transform.SetParent (inventoryParentUI.transform);
+		newItemUI.transform.SetParent (inventoryParentUI.transform, false);
 		newItemUI.transform.SetSiblingIndex(slotIndex);
 	}
 
@@ -188,7 +190,7 @@ public class InventoryUI : MonoBehaviour
 
 			// place empty ui slots in grid layout
 			newItemUI.gameObject.SetActive (true);
-			newItemUI.transform.SetParent (inventoryParentUI.transform);
+			newItemUI.transform.SetParent (inventoryParentUI.transform, false);
 
 			if (contents [i] != null)
 			{
@@ -239,5 +241,23 @@ public class InventoryUI : MonoBehaviour
 		{
 			inventory.Add(updatedStackFromInventory);
 		}
+	}
+
+	/// <summary>
+	/// Gets the stack UI component given a stack id.
+	/// </summary>
+	/// <returns>The stack U.</returns>
+	/// <param name="id">Identifier.</param>
+	public ItemStackUI GetStackUI(string id)
+	{
+		for(int i = 0; i < itemStackUIList.Count; ++i)
+		{
+			if(itemStackUIList[i].GetStack().Id.Equals(id))
+			{
+				return itemStackUIList[i];
+			}
+		}
+
+		return null;
 	}
 }

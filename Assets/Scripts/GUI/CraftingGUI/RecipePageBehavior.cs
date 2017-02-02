@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class RecipePageBehavior : MonoBehaviour 
 {
@@ -22,6 +23,9 @@ public class RecipePageBehavior : MonoBehaviour
 	private GameObject IngredientsScrollPanel;
 
 	[SerializeField]
+	private GameObject SelectedIngredientsPanel;
+
+	[SerializeField]
 	private RecipeRequirementsUI RecipeRequirementUI;
 
 	[SerializeField]
@@ -29,6 +33,10 @@ public class RecipePageBehavior : MonoBehaviour
 
 	[SerializeField]
 	private Text itemTypeName;
+
+	[SerializeField]
+	[Tooltip("The text that displays the number of items of a certain type is required in the recipe")]
+	private Text itemTypeAmount;
 
 	[SerializeField]
 	private Text noValidItemText;
@@ -50,6 +58,7 @@ public class RecipePageBehavior : MonoBehaviour
 	private Image currentHighlightedItem;
 	private int currentStep;
 	private const string selectItemTypeTitleHeader = "Select ";
+	private Button continueButton;
 
 	/// <summary>
 	/// Start this instance of RecipePageBehavior.
@@ -57,6 +66,7 @@ public class RecipePageBehavior : MonoBehaviour
 	void Start()
 	{
 		ResetCraftingPanel ();
+		continueButton = NextStepButton;
 	}
 
 	/// <summary>
@@ -115,15 +125,19 @@ public class RecipePageBehavior : MonoBehaviour
 	{
 		// If this is the last step of the recipe, then the continue button used to continue to the 
 		// next step is disabled. Instead the "craft" button which is used to combine the items is activated.
-		int lastStep = recipe.Requirements.Count;
-		if (currentStep + 1 >= lastStep) {
+		int lastStep = recipe.Requirements.Count - 1;
+
+		AddSelectedIngredients();
+
+		if (currentStep + 1 >= lastStep) 
+		{
 			NextStepButton.gameObject.SetActive (false);
 			CraftButton.gameObject.SetActive (true);
+			CraftButton.interactable = false;
+			continueButton = CraftButton;
 		} 
-		else 
-		{
-			DisplayPossibleItems(currentStep+1);
-		}
+
+		DisplayPossibleItems(currentStep+1);
 	}
 
 	/// <summary>
@@ -147,7 +161,12 @@ public class RecipePageBehavior : MonoBehaviour
 		// changes prompt to tell you to select a category of item
 		itemTypeName.text = selectItemTypeTitleHeader + itemTag;
 
+		itemTypeAmount.text = recipe.Requirements[stepInCraftingProcess].AmountRequired.ToString();
+
 		Transform child;
+
+		float totalAmountFound = 0;
+
 		// clears the item select UI panel to prepare for the next set of items to be displayed there
 		for (int j = 0; j < IngredientsScrollPanel.transform.childCount; ++j) 
 		{
@@ -159,13 +178,29 @@ public class RecipePageBehavior : MonoBehaviour
 			}
 		}
 
-		List<BaseItem> validItems = Game.Instance.PlayerInstance.Inventory.GetAllItemsWithTag(itemTag);
+		for(int j = 0; j < SelectedIngredientsPanel.transform.childCount; ++j)
+		{
+			child = SelectedIngredientsPanel.transform.GetChild(j);
+			child.GetComponent<SelectedIngredientButton>().Unsubscribe();
+			Destroy(child.gameObject);
+		}
+
+		List<Stack> validItems = Game.Instance.PlayerInstance.Inventory.GetAllItemsWithTag(itemTag);
+
+		for(int i = 0; i < validItems.Count; ++i)
+		{
+			totalAmountFound += validItems[i].Amount;
+		}
 
 		// if there are no valid items for this step, show text that states this recipe can not be completed
 		if (validItems.Count == 0) 
 		{
 			noValidItemText.gameObject.SetActive (true);
-		} 
+		}
+		else if(totalAmountFound < recipe.Requirements[currentStep].AmountRequired)
+		{
+			noValidItemText.gameObject.SetActive(true);
+		}
 		else 
 		{
 			for (int i = 0; i < validItems.Count; ++i) 
@@ -174,8 +209,7 @@ public class RecipePageBehavior : MonoBehaviour
 				// and a gameobject that represents it will be created and placed in the item select ui
 				Button item = GameObject.Instantiate (IngredientUI);
 				item.transform.SetParent (IngredientsScrollPanel.transform, false);
-				item.GetComponentInChildren<Text> ().text = validItems [i].ItemName;
-				item.name = item.GetComponentInChildren<Text> ().text;
+				item.GetComponent<IngredientButtonBehavior>().SetUpIngredient(validItems[i].Item.ItemName, validItems[i].Amount);
 				item.gameObject.SetActive (true);
 			}
 		}
@@ -186,40 +220,69 @@ public class RecipePageBehavior : MonoBehaviour
 	/// This will tentatively highlight that item as the item that should be used in the recipe.
 	/// However this is not final until the continue/craft button is clicked.
 	/// </summary>
-	/// <param name="name">Name of the item.</param>
-	public void SelectItem(Text name)
+	public void UpdateSelection(bool addSelected)
 	{
-		// if this is the first time an item has been selected on this step, it will
-		// need to be added to the list of itemsSelected 
-		if (itemsSelected.Count == currentStep) 
-		{
-			itemsSelected.Add (new Ingredient(name.text, recipe.Requirements [currentStep].AmountRequired));
-		} 
-		else 
-		{
-			// oterwise it can be reassigned to that slot in the list
-			itemsSelected [currentStep] = new Ingredient(name.text, recipe.Requirements [currentStep].AmountRequired);
-		}
+		int amountToSelectRemaing;
 
-		// since an item has been selected, the user is allowed to continue
-		NextStepButton.interactable = true;
+		if(Int32.TryParse(itemTypeAmount.text, out amountToSelectRemaing))
+		{
+			if(addSelected)
+			{
+				amountToSelectRemaing -= 1;
+			} 
+			else
+			{
+				amountToSelectRemaing += 1;
+			}
+
+			itemTypeAmount.text = amountToSelectRemaing.ToString();
+
+			if(amountToSelectRemaing <= 0)
+			{
+				// since the number of items selected has met the requirements
+				// the user is allowed to continue and the user is no longer able to select ingredients without removing ingredients first
+				continueButton.interactable = true;
+				ToggleIngredientSelectionPanel(false);
+			}
+			else
+			{
+				// if the amount that remains to be selected is 1, but the user had just unselected an item
+				// that means previously, the user had selected all the ingredients they needed to
+				// thus the user must be able to select the items in the ingredients panel again
+				if(amountToSelectRemaing == 1 && !addSelected)
+				{
+					ToggleIngredientSelectionPanel(true);
+					continueButton.interactable = false;
+				}
+			}
+		}
 	}
 
 	/// <summary>
-	/// Highlights the specified item. Used when an item is selected in the item select ui panel.
+	/// Toggles the ingredient selection panel.
 	/// </summary>
-	/// <param name="item">The image component of the button that represents an item on the item select ui panel.</param>
-	public void Highlight(Image item)
+	/// <param name="on">If set to <c>true</c> on.</param>
+	public void ToggleIngredientSelectionPanel(bool on)
 	{
-		// if another item has been highlighted before, return this to the default color
-		if (currentHighlightedItem != null) 
-		{
-			currentHighlightedItem.color = Color.white;
-		}
+		Button[] buttons = IngredientsScrollPanel.GetComponentsInChildren<Button>();
 
-		// set the item to the highlighted color
-		currentHighlightedItem = item;
-		currentHighlightedItem.color = Color.grey;
+		for(int i = 0; i < buttons.Length; ++i)
+		{
+			buttons[i].interactable = on;
+		}
+	}
+
+	/// <summary>
+	/// Adds the selected ingredients to the itemSelected list.
+	/// </summary>
+	public void AddSelectedIngredients()
+	{
+		SelectedIngredientButton[] selectedIngredients = SelectedIngredientsPanel.GetComponentsInChildren<SelectedIngredientButton>();
+
+		for(int i = 0; i < selectedIngredients.Length; ++i)
+		{
+			itemsSelected.Add(new Ingredient(selectedIngredients[i].ItemName, selectedIngredients[i].Amount));
+		}
 	}
 
 	/// <summary>
@@ -246,5 +309,6 @@ public class RecipePageBehavior : MonoBehaviour
 		itemsSelected.Clear ();
 		NextStepButton.gameObject.SetActive (true);
 		ResetCraftingPanel ();
+		continueButton = NextStepButton;
 	}
 }
