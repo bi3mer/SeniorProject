@@ -1891,6 +1891,7 @@ MonoBehaviour:
   endClimbTime: 0.3
   raycastHeight: 0.01
   climbForward: 0.1
+  minClimbHeight: 0.15
 --- !u!114 &114000012333483624
 MonoBehaviour:
   m_ObjectHideFlags: 1
