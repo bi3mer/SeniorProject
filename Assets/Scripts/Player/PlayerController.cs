@@ -850,7 +850,6 @@ public class PlayerController : MonoBehaviour
             Mathf.Abs(heightPoint.point.y - PlayerIKSetUp.transform.position.y) > minClimbHeight   
             )
         {
-            print(Vector3.Distance(heightPoint.point, PlayerIKSetUp.transform.position));
             // From here on out things get complicated. The following math is used to get the angle needed to rotate the player to face the wall.
             float cLine, l1, l2, l3, d1, a1, p, d2;
             l3 = Vector3.Distance(hit1.point, rH.transform.position + new Vector3(0f, raycastHeight, 0f));
