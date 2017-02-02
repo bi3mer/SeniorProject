@@ -24,7 +24,16 @@ public class RaftMovement : Movement
     public string BoardRaftText;
     public string DisembarkRaftText;
 
-	[SerializeField]
+    // The player's Animator.
+    public Animator PlayerAnimator;
+
+    private const string playerAnimatorTurn = "Turn";
+    private const string playerAnimatorForward = "Forward";
+    private const string playerAnimatorFall = "Falling";
+    private const string playerAnimatorSwimming = "Swimming";
+
+
+    [SerializeField]
 	[Tooltip("Time till coroutine ends and FixedUpdate checks if the raft is stopped again.")]
     private float updateIsStoppedTimer = 2.0f;
 	private bool isStopped = false;
@@ -129,4 +138,28 @@ public class RaftMovement : Movement
     {
         return 0f;
     }
+
+    /// <summary>
+    /// Called when the player enters the state.
+    /// </summary>
+    public override void OnStateEnter()
+    {
+        if(PlayerAnimator != null)
+        {
+            PlayerAnimator.SetBool(playerAnimatorFall, false);
+            PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
+            PlayerAnimator.SetBool(playerAnimatorSwimming, false);
+            PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
+        }
+
+    }
+
+    /// <summary>
+    /// Called when the player exits the state.
+    /// </summary>
+    public override void OnStateExit()
+    {
+
+    }
+
 }

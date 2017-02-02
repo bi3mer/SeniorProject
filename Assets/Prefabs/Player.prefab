@@ -1907,6 +1907,9 @@ MonoBehaviour:
   swimmingSpeed: 0.4
   minFallDamageVelocity: 8
   fallDamageModifier: 0.5
+  SplashManager: {fileID: 0}
+  splashSize: 5
+  splashSpeed: 0.5
 --- !u!114 &114000012874215022
 MonoBehaviour:
   m_ObjectHideFlags: 1

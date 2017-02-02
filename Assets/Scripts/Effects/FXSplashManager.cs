@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class FXSplashManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject splashFX;
+    private FXSplash splashFX;
 
     [SerializeField]
     private int splashPoolSize;
@@ -22,7 +22,7 @@ public class FXSplashManager : MonoBehaviour
         }
     }
 
-    private List<GameObject> splashPool = new List<GameObject>();
+    private List<FXSplash> splashPool = new List<FXSplash>();
 
     private int listIndex;
 
@@ -45,10 +45,10 @@ public class FXSplashManager : MonoBehaviour
         if (splashPool.Count < SplashPoolSize)
         {
             int newSplashes = splashPoolSize - splashPool.Count;
-            GameObject newSplash;
+            FXSplash newSplash;
             for (int i = 0; i < newSplashes; ++i)
             {
-                newSplash = (GameObject)Instantiate(splashFX, Vector3.zero, Quaternion.Euler(0f, 0f, 0f), transform);
+                newSplash = (FXSplash)Instantiate(splashFX, Vector3.zero, Quaternion.Euler(0f, 0f, 0f), transform);
                 splashPool.Insert(listIndex, newSplash);
             }
         }
@@ -82,9 +82,9 @@ public class FXSplashManager : MonoBehaviour
     /// <param name="position">The position of the new splash</param>
     /// <param name="scale">The scale of the new splash</param>
     /// <param name="allowAddingToPool">Can a new splash be added to the pool if there are no available splashes?</param>
-    public void CreateSplash(Vector3 position, Vector3 scale, bool allowAddingToPool = false)
+    public void CreateSplash(Vector3 position, Vector3 scale, float speed = 1f, bool allowAddingToPool = false)
     {
-        makeSplash(position, scale, allowAddingToPool);
+        makeSplash(position, scale, speed, allowAddingToPool);
     }
 
     /// <summary>
@@ -93,9 +93,9 @@ public class FXSplashManager : MonoBehaviour
     /// <param name="position">The position of the new splash</param>
     /// <param name="scale">The scale of the new splash</param>
     /// <param name="allowAddingToPool">Can a new splash be added to the pool if there are no available splashes?</param>
-    public void CreateSplash(Vector3 position, float scale, bool allowAddingToPool = false)
+    public void CreateSplash(Vector3 position, float scale, float speed = 1f, bool allowAddingToPool = false)
     {
-        makeSplash(position, new Vector3(scale, scale, scale), allowAddingToPool);
+        makeSplash(position, new Vector3(scale, scale, scale), speed, allowAddingToPool);
     }
 
     /// <summary>
@@ -104,9 +104,9 @@ public class FXSplashManager : MonoBehaviour
     /// <param name="position">The position of the new splash</param>
     /// <param name="scale">The scale of the new splash</param>
     /// <param name="allowAddingToPool">Can a new splash be added to the pool if there are no available splashes?</param>
-    public void CreateSplash(Vector3 position, bool allowAddingToPool = false)
+    public void CreateSplash(Vector3 position, float speed = 1f, bool allowAddingToPool = false)
     {
-        makeSplash(position, Vector3.one, allowAddingToPool);
+        makeSplash(position, Vector3.one, speed, allowAddingToPool);
     }
 
     /// <summary>
@@ -115,9 +115,9 @@ public class FXSplashManager : MonoBehaviour
     /// <param name="position">The position of the new splash</param>
     /// <param name="scale">The scale of the new splash</param>
     /// <param name="allowAddingToPool">Can a new splash be added to the pool if there are no available splashes?</param>
-    private void makeSplash(Vector3 position, Vector3 scale, bool allowAddingToPool)
+    private void makeSplash(Vector3 position, Vector3 scale, float speed, bool allowAddingToPool)
     {
-        if (allowAddingToPool && (splashPool.Count == 0 || splashPool[listIndex].activeSelf ))
+        if (allowAddingToPool && (splashPool.Count == 0 || splashPool[listIndex].gameObject.activeSelf ))
         {
             ++SplashPoolSize;
         }
@@ -126,14 +126,14 @@ public class FXSplashManager : MonoBehaviour
         // If a splash in disabled, we can use it.
         // Each splash is enabled for a fixed amount of time.
         // If we can call splashes in order, by keeping a bookmark, if the next splash in the chain is enabled, no splash in the list will be disabled.
-        if (SplashPoolSize > 0 && !splashPool[listIndex].activeSelf)
+        if (SplashPoolSize > 0 && !splashPool[listIndex].gameObject.activeSelf)
         {
             splashPool[listIndex].transform.position = position;
             splashPool[listIndex].transform.localScale = scale;
-            
+            splashPool[listIndex].setAnimationSpeed(speed);
             // I want to rotate the splashes on their y axis randomly so they look a bit different.
             splashPool[listIndex].transform.eulerAngles = new Vector3(0f, Random.Range(0f, 360f), 0f);
-            splashPool[listIndex].SetActive(true);
+            splashPool[listIndex].gameObject.SetActive(true);
 
             ++listIndex;
             if (listIndex > SplashPoolSize - 1)

@@ -493,7 +493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a1024f5199154a4b8585a0c153ab146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  splashFX: {fileID: 1000010198322934}
+  splashFX: {fileID: 114000014038965494, guid: 43e6e1736e8dcae4b802d273232cbd40, type: 2}
   splashPoolSize: 20
 --- !u!114 &114000013357707624
 MonoBehaviour:
@@ -4030,7 +4030,7 @@ ParticleSystem:
   looping: 1
   prewarm: 1
   playOnAwake: 1
-  moveWithTransform: 1
+  moveWithTransform: 0
   scalingMode: 1
   InitialModule:
     serializedVersion: 2
@@ -4052,7 +4052,7 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 1
+          value: 0.5
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -4394,8 +4394,8 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 2
     enabled: 1
-    type: 3
-    radius: 3.5
+    type: 11
+    radius: 10
     angle: 25
     length: 5
     boxX: 1
@@ -4416,7 +4416,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 12
+      scalar: 999999
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4716,8 +4716,8 @@ ParticleSystem:
         ctime5: 0
         ctime6: 0
         ctime7: 0
-        atime0: 0
-        atime1: 8096
+        atime0: 1542
+        atime1: 3277
         atime2: 60524
         atime3: 65535
         atime4: 0

@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     [Tooltip("Don't let the player climb distances less than this. This prevents climbing on slopes/things the player can just walk over.")]
     private float minClimbHeight;
- 
+
     // How far forward a raycast should be to check ledge height.
     const float raycastClimbForward = .2f;
 
@@ -483,6 +483,10 @@ public class PlayerController : MonoBehaviour
     {
         if (IsOnRaft)
         {
+            PlayerAnimator.SetBool(playerAnimatorFalling, false);
+            PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
+            PlayerAnimator.SetBool(playerAnimatorSwimming, false);
+            PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
             return;
         }
 
@@ -492,18 +496,22 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(transform.position + new Vector3(0f, groundedRaycastHeight, 0f), Vector3.down, out hit, groundedThreshold, groundedMask))
         {
             isGrounded = true;
-            playerAnimator.SetBool(playerAnimatorSwimming, false);
             playerAnimator.SetBool(playerAnimatorFalling, false);
             // Check what kind of ground the player is on and update movement
-            if (hit.collider.CompareTag(landTag))
+            if (hit.collider.CompareTag(landTag) && movement != landMovement)
             {
+                playerAnimator.SetBool(playerAnimatorSwimming, false);
                 movement.Idle(playerAnimator);
-                movement = landMovement;
+                movement.OnStateExit();
+                movement = landMovement; 
+                movement.OnStateEnter();
             }
-            else if (hit.collider.CompareTag(waterTag) && !IsInWater)
+            else if (hit.collider.CompareTag(waterTag) && movement !=waterMovement)
             {
                 movement.Idle(playerAnimator);
+                movement.OnStateExit();
                 movement = waterMovement;
+                movement.OnStateEnter();
                 playerAnimator.SetBool(playerAnimatorSwimming, true);
             }
         }
@@ -530,6 +538,9 @@ public class PlayerController : MonoBehaviour
         // update raft's interactivity
         interactable.Text = raftMovement.DisembarkRaftText;
         interactable.SetAction(delegate { DisembarkRaft(raftMovement); });
+
+        // Give the raft the player's animator to control.
+        raftMovement.PlayerAnimator = PlayerAnimator;
     }
 
     /// <summary>
@@ -847,7 +858,7 @@ public class PlayerController : MonoBehaviour
             Physics.Raycast(hit2.point + new Vector3(0f, 9999f, 0f) + PlayerIKSetUp.transform.forward * raycastClimbForward, Vector3.down, out heightPoint, Mathf.Infinity, ClimbingRaycastMask) &&
             !Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, raycastHeight, 0f), Vector3.up, Vector3.Distance(PlayerIKSetUp.transform.position, heightPoint.point), ClimbingRaycastMask) &&
             movement.GetClimbHeight() > heightPoint.point.y - PlayerIKSetUp.transform.position.y &&
-            Mathf.Abs(heightPoint.point.y - PlayerIKSetUp.transform.position.y) > minClimbHeight   
+            Mathf.Abs(heightPoint.point.y - PlayerIKSetUp.transform.position.y) > minClimbHeight
             )
         {
             // From here on out things get complicated. The following math is used to get the angle needed to rotate the player to face the wall.
@@ -887,7 +898,7 @@ public class PlayerController : MonoBehaviour
 
                 p = 180 - (p + 90f);
 
-                // rotate the player to face the wall.
+                //rotate the player to face the wall.
                 if (rotateClockwise)
                 {
                     playerAnimator.transform.DORotate(playerAnimator.transform.eulerAngles + new Vector3(0f, -p, 0f), startClimbTime);
