@@ -42,3 +42,8 @@ logfile.txt
 
 # scene menu
 *Assets/Editor/SceneMenu.cs*
+
+# YAML files
+/Assets/Resources/YAMLFiles/*.yml*
+/Assets/Resources/YAMLFiles/all_files*
+!/Assets/Resources/YAMLFiles/.gitignore
