@@ -182,7 +182,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010414017512}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.7855706, y: 0.84, z: -0.4463066}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -388,6 +388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tick: 1
+  freezeWeatherUpdates: 0
 --- !u!114 &114000010928583048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -461,7 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a1024f5199154a4b8585a0c153ab146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  splashFX: {fileID: 1000013776795558, guid: 43e6e1736e8dcae4b802d273232cbd40, type: 2}
+  splashFX: {fileID: 114000014038965494, guid: 43e6e1736e8dcae4b802d273232cbd40, type: 2}
   splashPoolSize: 20
 --- !u!114 &114000013357707624
 MonoBehaviour:

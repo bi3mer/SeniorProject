@@ -482,6 +482,10 @@ public class PlayerController : MonoBehaviour
     {
         if (IsOnRaft)
         {
+            PlayerAnimator.SetBool(playerAnimatorFalling, false);
+            PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
+            PlayerAnimator.SetBool(playerAnimatorSwimming, false);
+            PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
             return;
         }
 
@@ -491,18 +495,22 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(transform.position + new Vector3(0f, groundedRaycastHeight, 0f), Vector3.down, out hit, groundedThreshold, groundedMask))
         {
             isGrounded = true;
-            playerAnimator.SetBool(playerAnimatorSwimming, false);
             playerAnimator.SetBool(playerAnimatorFalling, false);
             // Check what kind of ground the player is on and update movement
-            if (hit.collider.CompareTag(landTag))
+            if (hit.collider.CompareTag(landTag) && movement != landMovement)
             {
+                playerAnimator.SetBool(playerAnimatorSwimming, false);
                 movement.Idle(playerAnimator);
-                movement = landMovement;
+                movement.OnStateExit();
+                movement = landMovement; 
+                movement.OnStateEnter();
             }
-            else if (hit.collider.CompareTag(waterTag))
+            else if (hit.collider.CompareTag(waterTag) && movement !=waterMovement)
             {
                 movement.Idle(playerAnimator);
+                movement.OnStateExit();
                 movement = waterMovement;
+                movement.OnStateEnter();
                 playerAnimator.SetBool(playerAnimatorSwimming, true);
             }
         }
@@ -529,6 +537,9 @@ public class PlayerController : MonoBehaviour
         // update raft's interactivity
         interactable.Text = raftMovement.DisembarkRaftText;
         interactable.SetAction(delegate { DisembarkRaft(raftMovement); });
+
+        // Give the raft the player's animator to control.
+        raftMovement.PlayerAnimator = PlayerAnimator;
     }
 
     /// <summary>
