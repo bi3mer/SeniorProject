@@ -88,6 +88,7 @@ public class Radio : MonoBehaviour
 
 		EventManager.Instance.StormStartedSubscription += startStatic;
 		EventManager.Instance.StormStoppedSubscription += stopStatic;
+		EventManager.Instance.PlayerBoardRaftSubscription += addRaftClip;
     }
 
     /// <summary>
@@ -340,6 +341,11 @@ public class Radio : MonoBehaviour
 	private void stopStatic()
 	{
 		// TODO: Remove that static because we have clear skies
+	}
+
+	private void addRaftClip()
+	{
+		// TODO: Add raft clip to carousel
 	}
 }
 

@@ -541,6 +541,9 @@ public class PlayerController : MonoBehaviour
 
         // Give the raft the player's animator to control.
         raftMovement.PlayerAnimator = PlayerAnimator;
+
+		// Notify subscribers
+		EventManager.Instance.RaftBoarded();
     }
 
     /// <summary>

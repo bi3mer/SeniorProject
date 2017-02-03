@@ -46,6 +46,12 @@ public class EventManager
 	public delegate void StormStoppedDelegate();
 	public event StormStoppedDelegate StormStoppedSubscription;
 
+	/// <summary>
+	/// Storm stopped event
+	/// </summary>
+	public delegate void PlayerBoardRaftDelegate();
+	public event PlayerBoardRaftDelegate PlayerBoardRaftSubscription;
+
 
 	/// <summary>
 	/// Storm start function called by WeatherSystem. Notifies StormStartedSubscription subscribers.
@@ -66,6 +72,17 @@ public class EventManager
 		if (StormStoppedSubscription != null) 
 		{
 			StormStoppedSubscription ();
+		}
+	}
+
+	/// <summary>
+	/// Raft boarded function called by PlayerController. Notifies PlayerBoardRaftSubscription subscribers.
+	/// </summary>
+	public void RaftBoarded()
+	{
+		if (PlayerBoardRaftSubscription != null) 
+		{
+			PlayerBoardRaftSubscription ();
 		}
 	}
 }
