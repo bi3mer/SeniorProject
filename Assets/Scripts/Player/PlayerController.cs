@@ -137,11 +137,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     [Tooltip("Height, starting from the floor to raycast towards walls")]
     private float raycastHeight;
-
-
     [SerializeField]
     [Tooltip("How far forward to move the player after climbing")]
     private float climbForward;
+    [SerializeField]
+    [Tooltip("Don't let the player climb distances less than this. This prevents climbing on slopes/things the player can just walk over.")]
+    private float minClimbHeight;
 
     // How far forward a raycast should be to check ledge height.
     const float raycastClimbForward = .2f;
@@ -847,13 +848,18 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit1, hit2, hit3, heightPoint;
 
         // Raycasts to the wall, if any of these casts fail we can't climb...
-        //Raycast order is Right hand, left hand, player center, then we find out if the ledge's height is within our max climb height
-        // The last cast uses a 9999f to represent a height above everything.
+        // Raycast order is Right hand, left hand, player center, then we find out if the ledge's height is within our max climb height
+        // The second to last cast uses a 9999f to represent a height above everything.
+        // The last raycast is to check to make sure there's no cieling above us to prevent climbing while indoors.
+        // Lastly check to make sure the ledge's height is within the max climb height for the movement type, and then make sure it's greater than the controller's step offset (this prevents climbing up things the player can just walk over)
         if (Physics.Raycast(rH.transform.position + new Vector3(0f, raycastHeight, 0f), rH.transform.forward, out hit1, climbDistance, ClimbingRaycastMask) &&
             Physics.Raycast(lH.transform.position + new Vector3(0f, raycastHeight, 0f), lH.transform.forward, out hit3, climbDistance, ClimbingRaycastMask) &&
             Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, raycastHeight, 0f), PlayerIKSetUp.transform.forward, out hit2, climbDistance, ClimbingRaycastMask) &&
             Physics.Raycast(hit2.point + new Vector3(0f, 9999f, 0f) + PlayerIKSetUp.transform.forward * raycastClimbForward, Vector3.down, out heightPoint, Mathf.Infinity, ClimbingRaycastMask) &&
-            movement.GetClimbHeight() > heightPoint.point.y - PlayerIKSetUp.transform.position.y)
+            !Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, raycastHeight, 0f), Vector3.up, Vector3.Distance(PlayerIKSetUp.transform.position, heightPoint.point), ClimbingRaycastMask) &&
+            movement.GetClimbHeight() > heightPoint.point.y - PlayerIKSetUp.transform.position.y &&
+            Mathf.Abs(heightPoint.point.y - PlayerIKSetUp.transform.position.y) > minClimbHeight
+            )
         {
             // From here on out things get complicated. The following math is used to get the angle needed to rotate the player to face the wall.
             float cLine, l1, l2, l3, d1, a1, p, d2;
