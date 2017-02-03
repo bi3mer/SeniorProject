@@ -15,6 +15,11 @@ public class WaterMovement : Movement
     private const string playerAnimatorForward = "Forward";
     private const string playerAnimatorClimb = "Climb";
     private const float playerAnimatorIdle = 0f;
+    public FXSplashManager SplashManager;
+    [SerializeField]
+    private float splashSize = 5f;
+    [SerializeField]
+    private float splashSpeed = .5f;
 
     /// <summary>
     /// Get the character controller so we can call move functions
@@ -41,6 +46,7 @@ public class WaterMovement : Movement
     /// <param name="playerAnimator">The player's animator</param>
     public override void Idle(Animator playerAnimator)
     {
+        controller.SimpleMove(Physics.gravity * Time.fixedDeltaTime);
         playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorIdle);
     }
 
@@ -91,4 +97,22 @@ public class WaterMovement : Movement
         return climbHeight;
     }
 
+    /// <summary>
+    /// Called when the player enters the state.
+    /// </summary>
+    public override void OnStateEnter()
+    {
+        if(SplashManager != null)
+        {
+            SplashManager.CreateSplash(transform.position, splashSize, splashSpeed, true);
+        }
+    }
+
+    /// <summary>
+    /// Called when the player exits the state.
+    /// </summary>
+    public override void OnStateExit()
+    {
+
+    }
 }
