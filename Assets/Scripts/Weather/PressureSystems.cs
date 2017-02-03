@@ -26,6 +26,8 @@ public class PressureSystems
 	private const float highPressureCenterAttractorForce = 2f;
 	private const float lowPressureCenterAttractorForce  = 4f;
 
+	private Bounds bounds;
+
 	/// <summary>
 	/// Gets the local pressure systems.
 	/// </summary>
@@ -41,14 +43,19 @@ public class PressureSystems
 	/// </summary>
 	public PressureSystems()
 	{
+		// get bounds from city controller
+		this.bounds = UnityEngine.GameObject.FindObjectOfType<CityController>().GetComponent<CityController>().GetBounds();
+
+		// create list of pressure systems
 		this.LocalPressureSystems = new List<PressureSystem>();
 
+		// populate list of pressure systems
 		for(int i = 0; i < PressureSystems.startNumberOfPressureSystems; ++i)
 		{
 			PressureSystem ps = new PressureSystem();
 
 			// calculate random position for vector
-			ps.Position = new Vector2(this.randomCoordinate, this.randomCoordinate);
+			ps.Position = this.randomVector;
 
 			// add vector to pressure system
 			this.LocalPressureSystems.Add(ps);
@@ -163,15 +170,6 @@ public class PressureSystems
 		return new Vector2(-vector.y, vector.x);
 	}
 
-	/// <summary>
-	/// Bounds the coordinate.
-	/// </summary>
-	/// <returns>The coordinate.</returns>
-	/// <param name="coordiante">Coordiante.</param>
-	private float boundCoordinate(float coordinate)
-	{
-		return Mathf.Clamp(coordinate, -PressureSystems.boundaryLength, PressureSystems.boundaryLength);
-	}
 
 	/// <summary>
 	/// Bounds the vector based on the boundaries of the map.
@@ -180,19 +178,21 @@ public class PressureSystems
 	/// <param name="vec">Vec.</param>
 	private Vector2 boundVector(Vector2 vector)
 	{
-		return new Vector2(this.boundCoordinate(vector.x), this.boundCoordinate(vector.y));
+		return new Vector2(Mathf.Clamp(vector.x, this.bounds.min.x, this.bounds.max.x), 
+		                   Mathf.Clamp(vector.y, this.bounds.min.y, this.bounds.max.y));
 	}
 
 	/// <summary>
-	/// Randoms the coordinate.
+	/// Gets the random vector.
 	/// </summary>
-	/// <returns>The coordinate.</returns>
-	private float randomCoordinate
+	/// <value>The random vector.</value>
+	private Vector2 randomVector
 	{
 		get
 		{
 			// return random coordinate in range of map
-			return Random.Range(-PressureSystems.boundaryLength, PressureSystems.boundaryLength);
+			return new Vector2(Random.Range(this.bounds.min.x, this.bounds.max.x),
+			                   Random.Range(this.bounds.min.y, this.bounds.max.y));
 		}
 	}
 
