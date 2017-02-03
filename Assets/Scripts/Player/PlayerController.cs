@@ -356,8 +356,16 @@ public class PlayerController : MonoBehaviour
             if(direction!= Vector3.zero)
             { 
                 movement.Move(direction, sprinting, playerAnimator);
-				eventEmitter.setPitch (movement.Speed);
-				StartWalkingSound ();
+
+				if (isGrounded) 
+				{
+					eventEmitter.setPitch (movement.Speed);
+					StartWalkingSound ();
+				}
+				else
+				{
+					StopWalkingSound ();
+				}
             }
             else
             {
@@ -518,6 +526,7 @@ public class PlayerController : MonoBehaviour
         else 
         {
             isGrounded = false;
+			StopWalkingSound ();
             playerAnimator.SetBool(playerAnimatorFalling, true);
         }
     }
@@ -826,7 +835,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (eventEmitter != null) 
 		{
-			eventEmitter.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			eventEmitter.stop (FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 		}
 	}
 
@@ -951,6 +960,7 @@ public class PlayerController : MonoBehaviour
         {
             freezePlayer = false;
             movement.Jump(playerAnimator);
+			StopWalkingSound ();
         }
     }
 }
