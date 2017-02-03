@@ -85,6 +85,9 @@ public class Radio : MonoBehaviour
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (MysteryDefaultPath);
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (MusicDefaultPath);
 		staticChannel = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
+
+		EventManager.Instance.StormStartedSubscription += startStatic;
+		EventManager.Instance.StormStoppedSubscription += stopStatic;
     }
 
     /// <summary>
@@ -328,6 +331,16 @@ public class Radio : MonoBehaviour
         string newAnnouncement = "This is a mystery";
         return newAnnouncement;
     }
+
+	private void startStatic()
+	{
+		// TODO: Start some static here because a storm's abrewin'
+	}
+
+	private void stopStatic()
+	{
+		// TODO: Remove that static because we have clear skies
+	}
 }
 
 
