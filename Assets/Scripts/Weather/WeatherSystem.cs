@@ -429,8 +429,6 @@ public class WeatherSystem
 
 		float newWeatherVolume = this.getPrecipitation () / WeatherIntensityDivisor;
 
-		Debug.Log (newWeatherVolume);
-
 		if (newWeatherVolume < MaxWeatherVolume) 
 		{
 			weatherSounds.setVolume (newWeatherVolume);
@@ -448,7 +446,7 @@ public class WeatherSystem
 	}
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="WeatherSystem"/> cl ass.
+	/// Initializes a new instance of the <see cref="WeatherSystem"/> class.
 	/// </summary>
 	public WeatherSystem()
 	{
