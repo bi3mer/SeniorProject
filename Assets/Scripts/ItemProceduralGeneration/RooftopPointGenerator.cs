@@ -350,4 +350,14 @@ public class RooftopPointGenerator: SamplingPointGenerator
 
 		return new Vector2(surfacePosition.x + targetPosition.x - targetWidth/2f, surfacePosition.y + targetPosition.z - targetDepth/2f);
 	}
+
+	/// <summary>
+	/// Gets the grid coordinates for a sampling point
+	/// </summary>
+	/// <returns>The to grid.</returns>
+	/// <param name="samplingPoint">Sampling point.</param>
+	protected IntPair PointToGrid(Vector2 samplingPoint)
+	{
+		return new IntPair ((int)(samplingPoint.x / cellSize), (int)(samplingPoint.y / cellSize));
+	}
 }

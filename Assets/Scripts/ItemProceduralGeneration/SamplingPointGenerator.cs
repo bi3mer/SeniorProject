@@ -112,16 +112,6 @@ public abstract class SamplingPointGenerator
 	}
 
 	/// <summary>
-	/// Gets the grid coordinates for a sampling point
-	/// </summary>
-	/// <returns>The to grid.</returns>
-	/// <param name="samplingPoint">Sampling point.</param>
-	protected IntPair PointToGrid(Vector2 samplingPoint)
-	{
-		return new IntPair ((int)(samplingPoint.x / cellSize), (int)(samplingPoint.y / cellSize));
-	}
-
-	/// <summary>
 	/// Verifies that the raycastHit hits a point that is not water and not at an inclination greater than the maxAngle.
 	/// </summary>
 	/// <returns><c>true</c>, if raycast hits a point that meets specifications <c>false</c> otherwise.</returns>
