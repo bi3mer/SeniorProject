@@ -187,7 +187,7 @@ public class PressureSystems
 	}
 
 	/// <summary>
-	/// Get a rnadom vector in bounds of the city
+	/// Get a random vector in bounds of the city
 	/// </summary>
 	/// <value>The random vector.</value>
 	private Vector2 randomVector
