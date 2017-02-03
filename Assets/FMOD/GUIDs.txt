@@ -4,6 +4,7 @@
 {27e72373-8dce-4b93-83c4-bab34195224b} event:/Player/Movement/Walking/Gravel
 {3cc801f5-f7d3-45be-8747-19004965e500} event:/Player/Movement/Walking/Raft
 {2cacc1a2-0177-41de-afdc-30dbde3a1aaa} event:/Radio/Music/Music1
+{87efde74-cf4f-4021-a75b-75e54ac4a3d2} event:/Radio/Mystery/Mystery3
 {6698f63c-c9eb-48d1-93ac-ef661884195f} event:/Radio/Mystery/Mystery2
 {59ddb019-8b19-4335-b523-be1beb7be748} event:/Radio/Mystery/Mystery1
 {e469c9e6-c70f-4822-b490-86770647083b} event:/Radio/Static/Basic_Static

@@ -95,6 +95,7 @@ public class Radio : MonoBehaviour
 		musicCarousel.Add ("event:/Radio/Music/Music1");
 		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery1");
 		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery2");
+		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery3");
 
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
