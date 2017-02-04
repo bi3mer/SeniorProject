@@ -7,9 +7,10 @@ using System.Collections;
 public class DayNightSkybox : MonoBehaviour
 {
     [SerializeField]
-    private Material Skybox;
+    [Tooltip("The skybox material that's used in the lighting tab")]
+    private Material skybox;
 
-    private const string SkyboxBlendName = "_Blend";
+    private const string skyboxBlendName = "_Blend";
 
     /// <summary>
     ///  Update the skybox.
@@ -21,6 +22,6 @@ public class DayNightSkybox : MonoBehaviour
         // Start at midnight so we want 1.
         // At high noon we want 0
         float blendVal = Mathf.Abs(Game.Instance.ClockInstance.CurrentGameTimeInHours - 12f) / 12f;
-        Skybox.SetFloat(SkyboxBlendName, blendVal);
+        skybox.SetFloat(skyboxBlendName, blendVal);
 	}
 }
