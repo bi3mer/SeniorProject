@@ -3155,7 +3155,7 @@ MonoBehaviour:
   RadioOffText: Radio is off
   radioScreenText: {fileID: 114000014036257158}
   dial: {fileID: 114000012687942852}
-  lowMusic: 0
+  lowMusic: 1
   highMusic: 120
   lowMystery: 120
   highMystery: 240
