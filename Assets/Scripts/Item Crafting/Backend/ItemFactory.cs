@@ -77,7 +77,7 @@ public class ItemFactory
 	/// The name of the item file. All yaml files must be placed under "Resources/YAMLFiles"
 	/// </summary>
 	private const string itemFileName = "ItemListYaml.yml";
-	private const string districtItemFileName = "DistrictItemConfigurationTest.yml";
+	private const string districtItemFileName = "DistrictItemConfiguration.yml";
 
 	/// <summary>
 	/// Start this instance. 

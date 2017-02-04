@@ -93,8 +93,8 @@ public class CityController : MonoBehaviour
                 {
                     Building building = buildings[k];
 
-                    rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name, doorExtents, district.Configuration.Doors);
                     waterItemGenerator.AddBuildingToWaterGenerationMap(building.BoundingBox);
+					rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name, doorExtents, district.Configuration.Doors, building.Instance);
 
                     block.Buildings.Add(building);
                 }
