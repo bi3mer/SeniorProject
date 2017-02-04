@@ -7,6 +7,7 @@
     {
         PlayerInstance = new Player();
 		WeatherInstance = new WeatherSystem();
+		EventManager = new EventManager ();
 		PauseInstance = new PauseSystem();
 		WorldItemFactoryInstance = new WorldItemFactory();
 		ItemFactoryInstance = new ItemFactory();
@@ -76,6 +77,16 @@
 	/// </summary>
 	/// <value>The weather instance.</value>
 	public WeatherSystem WeatherInstance
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets the event manager instance.
+	/// </summary>
+	/// <value>The event manager instance.</value>
+	public EventManager EventManager
 	{
 		get;
 		private set;
