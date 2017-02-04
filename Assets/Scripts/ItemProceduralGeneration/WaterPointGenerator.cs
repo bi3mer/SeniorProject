@@ -66,8 +66,23 @@ public class WaterPointGenerator : SamplingPointGenerator
 	private float depth;
 	private Vector3 center;
 
+	// ray needs to start a little above the object, so this is the offset distance that will be added
+	// to the height of the object to make the ray start above the top of the object
+	private const float rayOffset = 1f;
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="WaterPointGenerator"/> class.
+	/// </summary>
+	/// <param name="cityWidth">City width.</param>
+	/// <param name="cityDepth">City depth.</param>
+	/// <param name="cityCenter">City center.</param>
+	/// <param name="cityDistricts">City districts.</param>
 	public WaterPointGenerator(float cityWidth, float cityDepth, Vector3 cityCenter, District[] cityDistricts)
 	{
+		// the diagonal of the cell is the defaultMinDistanceAway
+		// so the dimensions of the cellSize square should be divided by Mathf.Sqrt(2)
+		// Since the diagonal of a square is Mathf.Sqrt(2) * outsideDimension
+		// ex: If the dimensions of a square is 3, then the diagonal is Mathf.Sqrt(9 + 9) = 3 * Mathf.Sqrt(2)
 		cellSize = defaultMinDistanceAway/Mathf.Sqrt(2);
 		grid = new ItemPlacementSamplePoint[Mathf.CeilToInt (cityWidth / cellSize), Mathf.CeilToInt (cityDepth / cellSize)];  
 		width = cityWidth;
@@ -104,13 +119,14 @@ public class WaterPointGenerator : SamplingPointGenerator
 		}
 	}
 
+	/// <summary>
+	/// Gets the sampling points in water.
+	/// </summary>
+	/// <returns>The points in water.</returns>
+	/// <param name="generatableItemExtents">Generatable item extents.</param>
 	public List<ItemPlacementSamplePoint> GetPointsInWater(Dictionary<string, List<float>> generatableItemExtents)
 	{
 		List<ItemPlacementSamplePoint> samplingPoints = generatePoints(generatableItemExtents);
-
-		// ray needs to start a little above the object, so this is the offset distance that will be added
-		// to the height of the object to make the ray start above the top of the object
-		float rayOffset = 1f;
 
 		float initialRayStartHeight = Game.Instance.WaterLevelHeight + rayOffset;
 
@@ -148,59 +164,17 @@ public class WaterPointGenerator : SamplingPointGenerator
 		// RandomQueue works like a queue, except that it
 		//pops a random element from the queue instead of
 		//the element at the head of the queue
-		List<ItemPlacementSamplePoint> processList = new List<ItemPlacementSamplePoint>();
+		List<ItemPlacementSamplePoint> processList = generateInitialPoints(generatableObjectExtents);
 		List<ItemPlacementSamplePoint> samplePoints = new List<ItemPlacementSamplePoint>();
+
+		for(int i = 0; i < processList.Count; ++i)
+		{
+			samplePoints.Add(processList[i]);
+		}
 
 		WorldItemFactory itemFactory = Game.Instance.WorldItemFactoryInstance;
 
 		int tries = 0;
-
-		for(int i = 0; i < NumberOfInitialPoints; i++)
-		{
-			ItemPlacementSamplePoint initPoint = new ItemPlacementSamplePoint();
-
-			// points should be generated around city center
-			// so minimum is half the width/depth from the city center
-			// and maximum is half the width/depth from the city center
-			initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(center.x - width/2f, center.x + width/2f), 
-																Random.Range (center.z - depth/2f, center.z + depth/2f));
-			tries = 1;
-			initPoint.District = getDistrict(initPoint.LocalTargetSurfaceLocation);
-
-			while(initPoint.District == null && tries < MaxAttempts)
-			{
-				initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(center.x - width/2f, center.x + width/2f), 
-																Random.Range (center.z - depth/2f, center.z + depth/2f));
-				initPoint.District = getDistrict(initPoint.LocalTargetSurfaceLocation);
-
-				++tries;
-			}
-
-			if(initPoint.District != null)
-			{
-				initPoint.ItemIndex = itemFactory.GetRandomItemIndex(initPoint.District);
-				initPoint.MinDistance = defaultMinDistanceAway;
-				initPoint.Size = generatableObjectExtents[initPoint.District][initPoint.ItemIndex];
-				initPoint.GridPoint = PointToGrid(initPoint.LocalTargetSurfaceLocation);
-
-
-				while(HasOverlappingNeighbors(initPoint) && tries < MaxAttempts)
-				{
-					initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(center.x - width/2f, center.x + width/2f), 
-																	Random.Range (center.z - depth/2f, center.z + depth/2f));
-					initPoint.GridPoint = PointToGrid(initPoint.LocalTargetSurfaceLocation);
-					++tries;
-				}
-
-				if(tries < MaxAttempts)
-				{
-					grid[initPoint.GridPoint.X, initPoint.GridPoint.Y] = initPoint;
-					samplePoints.Add(initPoint);
-					processList.Add(initPoint);
-				}
-			}
-		}
-
 		int pointsWithoutCheckingDistrict = 0;
 
 		// generate other points from points in queue.
@@ -263,6 +237,66 @@ public class WaterPointGenerator : SamplingPointGenerator
 		}
 
 		return samplePoints;
+	}
+
+	/// <summary>
+	/// Generates the initial sampling points.
+	/// </summary>
+	/// <returns>The initial points.</returns>
+	/// <param name="generatableObjectExtents">Generatable object extents.</param>
+	public List<ItemPlacementSamplePoint> generateInitialPoints(Dictionary<string, List<float>>  generatableObjectExtents)
+	{
+		List<ItemPlacementSamplePoint> initialPoints = new List<ItemPlacementSamplePoint>();
+		WorldItemFactory itemFactory = Game.Instance.WorldItemFactoryInstance;
+
+		int tries = 0;
+
+		for(int i = 0; i < NumberOfInitialPoints; ++i)
+		{
+			ItemPlacementSamplePoint initPoint = new ItemPlacementSamplePoint();
+
+			// points should be generated around city center
+			// so minimum is half the width/depth from the city center
+			// and maximum is half the width/depth from the city center
+			initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(center.x - width/2f, center.x + width/2f), 
+																Random.Range (center.z - depth/2f, center.z + depth/2f));
+			tries = 1;
+			initPoint.District = getDistrict(initPoint.LocalTargetSurfaceLocation);
+
+			while(initPoint.District == null && tries < MaxAttempts)
+			{
+				initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(center.x - width/2f, center.x + width/2f), 
+																Random.Range (center.z - depth/2f, center.z + depth/2f));
+				initPoint.District = getDistrict(initPoint.LocalTargetSurfaceLocation);
+
+				++tries;
+			}
+
+			if(initPoint.District != null)
+			{
+				initPoint.ItemIndex = itemFactory.GetRandomItemIndex(initPoint.District);
+				initPoint.MinDistance = defaultMinDistanceAway;
+				initPoint.Size = generatableObjectExtents[initPoint.District][initPoint.ItemIndex];
+				initPoint.GridPoint = PointToGrid(initPoint.LocalTargetSurfaceLocation);
+
+
+				while(HasOverlappingNeighbors(initPoint) && tries < MaxAttempts)
+				{
+					initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(center.x - width/2f, center.x + width/2f), 
+																	Random.Range (center.z - depth/2f, center.z + depth/2f));
+					initPoint.GridPoint = PointToGrid(initPoint.LocalTargetSurfaceLocation);
+					++tries;
+				}
+
+				if(tries < MaxAttempts)
+				{
+					grid[initPoint.GridPoint.X, initPoint.GridPoint.Y] = initPoint;
+					initialPoints.Add(initPoint);
+				}
+			}
+		}
+
+		return initialPoints;
 	}
 
 	/// <summary>

@@ -16,31 +16,50 @@ public class ItemFactory
 	/// </summary>
 	public delegate void CraftItem(List<BaseItem> ingredients);
 
+	/// <summary>
+	/// Gets the item database.
+	/// </summary>
+	/// <value>The item database.</value>
 	public Dictionary<string, BaseItem> ItemDatabase
 	{
 		get;
 		private set;
 	}
 
+	/// <summary>
+	/// Gets the land items by district.
+	/// </summary>
+	/// <value>The items that generates on land by district.</value>
 	public Dictionary<string, List<string>> LandItemsByDistrict
 	{
 		get;
 		private set;
 	}
 
+	/// <summary>
+	/// Gets the items that generates in the water by district.
+	/// </summary>
+	/// <value>The water items by district.</value>
 	public Dictionary<string, List<string>> WaterItemsByDistrict
 	{
 		get;
 		private set;
 	}
 
+	/// <summary>
+	/// Gets the rarity info of items that appear on land by district
+	/// </summary>
+	/// <value>The land district item rarity info.</value>
 	public Dictionary<string, DistrictItemRarityConfiguration> LandDistrictItemRarityInfo
 	{
 		get;
 		private set;
 	}
 
-
+	/// <summary>
+	/// Gets the rarity info of items that appear on water by district
+	/// </summary>
+	/// <value>The water district item rarity info.</value>
 	public Dictionary<string, DistrictItemRarityConfiguration> WaterDistrictItemRarityInfo
 	{
 		get;

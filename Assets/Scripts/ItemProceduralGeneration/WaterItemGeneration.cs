@@ -31,7 +31,9 @@ public class WaterItemGeneration : ItemGenerator
 	/// </summary>
 	private Dictionary<string, DistrictItemConfiguration> districtItemInfo;
 
-	// Use this for initialization
+	/// <summary>
+	/// Awake this instance.
+	/// </summary>
 	void Awake () 
 	{
 		Dictionary<string, List<GameObject>> itemTemplates = Game.Instance.WorldItemFactoryInstance.GetAllInteractableItemsByDistrict(false);
@@ -63,6 +65,9 @@ public class WaterItemGeneration : ItemGenerator
 		pointGenerator.Districts = districts;
 	}
 
+	/// <summary>
+	/// Generates the items in water.
+	/// </summary>
 	public void GenerateInWater()
 	{
 		Dictionary<string, List<float>> generatableItemExtents = new Dictionary<string, List<float>>();

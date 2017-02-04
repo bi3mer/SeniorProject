@@ -15,7 +15,6 @@ public abstract class ItemGenerator : MonoBehaviour
 		List<string> itemsInDistrict = itemFactory.LandItemsByDistrict[district];
 		List<float> rarityValues = new List<float>();
 
-
 		for(int i = 0; i < itemsInDistrict.Count; ++i)
 		{
 			rarityValues.Add(ItemRarity.GetRarity(itemFactory.GetBaseItem(itemsInDistrict[i]).Rarity));
@@ -68,6 +67,7 @@ public abstract class ItemGenerator : MonoBehaviour
 			{
 				Bounds combinedBounds = meshes[0].bounds;
 
+				/// the first mesh is already a part of combinedMesh, so go to the second
 				for(int j = 1; j < meshes.Length; ++j)
 				{
 					combinedBounds.Encapsulate(meshes[j].bounds);
