@@ -92,10 +92,8 @@ public class Radio : MonoBehaviour
 		musicCarousel = new List<string> ();
 		mysteryCarousel = new List<string> ();
 
-		musicCarousel.Add ("event:/Radio/Music/Music1");
-		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery1");
-		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery2");
-		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery3");
+		musicCarousel.Add (MusicDefaultPath);
+		mysteryCarousel.Add (MysteryDefaultPath);
 
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
@@ -121,15 +119,18 @@ public class Radio : MonoBehaviour
 				// check that the current state isn't playing or starting so we don't double up on sounds
 				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING && state != FMOD.Studio.PLAYBACK_STATE.STARTING)  
 				{
-					// reset the counter for the carousel if we've reached the last sound
-					if (mysteryCounter > (mysteryCarousel.Count - 1)) 
+					// ensure that the carousel is not empty
+					if (mysteryCarousel.Count > 0) 
 					{
-						mysteryCounter = 0;
-					}
+						// reset the counter for the carousel if we've reached the last sound
+						if (mysteryCounter >= mysteryCarousel.Count) {
+							mysteryCounter = 0;
+						}
 		
-					mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel [mysteryCounter]);
-					mysteryCounter += 1;
-					mysteryChannel.start (); 
+						mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel [mysteryCounter]);
+						++mysteryCounter;
+						mysteryChannel.start (); 
+					}
 				}
 			}
 
@@ -140,15 +141,18 @@ public class Radio : MonoBehaviour
 				// check that the current state isn't playing or starting so we don't double up on sounds
 				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING && state != FMOD.Studio.PLAYBACK_STATE.STARTING)
 				{
-					// reset the counter for the carousel if we've reached the last sound
-					if (musicCounter > (musicCarousel.Count - 1)) 
+					// ensure that the carousel is not empty
+					if (musicCarousel.Count > 0) 
 					{
-						musicCounter = 0;
-					}
+						// reset the counter for the carousel if we've reached the last sound
+						if (musicCounter >= musicCarousel.Count) {
+							musicCounter = 0;
+						}
 
-					musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel [musicCounter]);
-					musicCounter += 1;
-					musicChannel.start ();
+						musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel [musicCounter]);
+						++musicCounter;
+						musicChannel.start ();
+					}
 				}
 			}
 
@@ -210,7 +214,6 @@ public class Radio : MonoBehaviour
 		{
 			musicCarousel.Add (soundEvent);
 		}
-
 		else if (channel == RadioChannel.Mystery) 
 		{
 			mysteryCarousel.Add (soundEvent);
@@ -279,29 +282,24 @@ public class Radio : MonoBehaviour
     {
 		if (isOn) 
 		{
-			if (channel == RadioChannel.Music) 
+			if (channel != RadioChannel.Music) 
 			{
-				weather.Stop ();
-				mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-			} 
-			else if (channel == RadioChannel.Weather) 
+				musicChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			}
+
+			if (channel != RadioChannel.Mystery) 
 			{
-				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-			} 
-			else if (channel == RadioChannel.Mystery) 
+				mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			}
+
+			if (channel != RadioChannel.Weather) 
 			{
-				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 				weather.Stop ();
 			}
-			else if (channel == RadioChannel.Null)
+
+			if (channel != RadioChannel.Null) 
 			{
-				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-				weather.Stop ();
+				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			}
 
 			this.CurrentChannel = channel;
