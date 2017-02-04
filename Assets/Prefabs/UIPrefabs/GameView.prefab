@@ -3144,21 +3144,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012942474406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb653f742f9164425a353cadca4fc147, type: 3}
+  m_Script: {fileID: 11500000, guid: b113827868e0f46a6b7c32cda0e3aaab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music: {fileID: 82000012494237622}
   weather: {fileID: 82000010327420038}
-  mystery: {fileID: 82000014167686796}
-  statics: {fileID: 82000012324066818}
+  MusicDefaultPath: event:/Radio/Music/Music1
+  MysteryDefaultPath: event:/Radio/Mystery/Mystery1
+  StaticDefaultPath: event:/Radio/Static/Basic_Static
+  RadioOnText: Radio is on
+  RadioOffText: Radio is off
   radioScreenText: {fileID: 114000014036257158}
   dial: {fileID: 114000012687942852}
-  lowMusic: 10
-  highMusic: 30
+  lowMusic: 0
+  highMusic: 120
   lowMystery: 120
-  highMystery: 150
-  lowWeather: 250
-  highWeather: 270
+  highMystery: 240
+  lowWeather: 240
+  highWeather: 360
 --- !u!114 &114000010034620150
 MonoBehaviour:
   m_ObjectHideFlags: 1
