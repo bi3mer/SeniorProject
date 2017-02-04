@@ -38,6 +38,7 @@ public class WaterMovement : Movement
         {
             AccumulatedFallDamage += fallDamageModifier;
         }
+        controller.transform.position = new Vector3(controller.transform.position.x, Game.Instance.WaterLevelHeight, controller.transform.position.z);
     }
 
     /// <summary>
@@ -46,7 +47,6 @@ public class WaterMovement : Movement
     /// <param name="playerAnimator">The player's animator</param>
     public override void Idle(Animator playerAnimator)
     {
-        controller.SimpleMove(Physics.gravity * Time.fixedDeltaTime);
         playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorIdle);
     }
 
@@ -61,14 +61,13 @@ public class WaterMovement : Movement
     {
         playerAnimator.SetFloat(playerAnimatorForward, swimmingSpeed);
 
-        controller.Move((direction.normalized * swimmingSpeed + Physics.gravity) * Time.fixedDeltaTime);
+        controller.Move((direction.normalized * swimmingSpeed) * Time.fixedDeltaTime);
 
         Vector3 facingRotation = Vector3.Normalize(new Vector3(controller.velocity.x, 0f, controller.velocity.z));
         if (facingRotation != Vector3.zero)
         {
             playerAnimator.transform.forward = facingRotation;
         }
-
     }
 
     /// <summary>

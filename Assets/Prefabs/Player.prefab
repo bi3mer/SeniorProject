@@ -1858,7 +1858,8 @@ MonoBehaviour:
     m_Bits: 4294965759
   groundedMask:
     serializedVersion: 2
-    m_Bits: 1553
+    m_Bits: 1537
+  waterWadeHeight: 0.35
   roofFootstepSoundEvent: event:/Player/Movement/Walking/Concrete
   controlScheme:
     Forward: 119
