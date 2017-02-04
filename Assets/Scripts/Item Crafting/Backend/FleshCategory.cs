@@ -105,7 +105,7 @@ public class FleshCategory : ItemCategory
             if (Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.None)
             {
                 // Random chance of getting food poisoning
-                if (Random.Range(0f, 1f) <= Player.FoodPoisingChance)
+                if (RandomUtility.RandomPercent <= Player.FoodPoisingChance)
                 {
                     Game.Instance.PlayerInstance.HealthStatus = PlayerHealthStatus.FoodPoisoning;
                 }
