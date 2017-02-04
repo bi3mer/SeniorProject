@@ -39,6 +39,7 @@ GameObject:
   - 114: {fileID: 114000011999315578}
   - 114: {fileID: 114000010728337554}
   - 114: {fileID: 114000010928583048}
+  - 114: {fileID: 114000011796935804}
   m_Layer: 0
   m_Name: WeatherEffects
   m_TagString: Untagged
@@ -467,6 +468,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TideSeverity: 1
+--- !u!114 &114000011796935804
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010414017512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e2d3fa1389db3e44aaa50917db25bb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skybox: {fileID: 2100000, guid: f69903a7566c4e049ac1127b8355c4ec, type: 2}
 --- !u!114 &114000011999315578
 MonoBehaviour:
   m_ObjectHideFlags: 1
