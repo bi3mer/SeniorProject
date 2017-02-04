@@ -106,6 +106,14 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	private FMOD.Studio.EventInstance eventEmitter;
 
+	/// <summary>
+	/// The state of the event emitter.
+	/// </summary>
+	private FMOD.Studio.PLAYBACK_STATE eventEmitterState;
+
+	// Set within the StopWalkingSound Coroutine -- used to prevent multiple sound stop calls
+	bool soundIsStopping = false;
+
     public Animator PlayerAnimator
     {
         get
@@ -353,6 +361,9 @@ public class PlayerController : MonoBehaviour
 
             CheckGround();
 
+			// Get event emitter's current state
+			eventEmitter.getPlaybackState(out eventEmitterState);
+
             if(direction!= Vector3.zero)
             { 
                 movement.Move(direction, sprinting, playerAnimator);
@@ -364,13 +375,13 @@ public class PlayerController : MonoBehaviour
 				}
 				else
 				{
-					StopWalkingSound ();
+					StartCoroutine(StopWalkingSound ());
 				}
             }
             else
             {
                 movement.Idle(playerAnimator);
-				StopWalkingSound ();
+				StartCoroutine(StopWalkingSound ());
             }
 
 
@@ -526,7 +537,7 @@ public class PlayerController : MonoBehaviour
         else 
         {
             isGrounded = false;
-			StopWalkingSound ();
+			StartCoroutine(StopWalkingSound ());
             playerAnimator.SetBool(playerAnimatorFalling, true);
         }
     }
@@ -831,11 +842,14 @@ public class PlayerController : MonoBehaviour
 	/// <summary>
 	/// Stops the walking sound.
 	/// </summary>
-	public void StopWalkingSound() 
+	public IEnumerator StopWalkingSound() 
 	{
-		if (eventEmitter != null) 
+		if (eventEmitter != null && eventEmitterState != FMOD.Studio.PLAYBACK_STATE.STOPPED && !soundIsStopping) 
 		{
+			soundIsStopping = true;
+			yield return new WaitForSeconds (2);
 			eventEmitter.stop (FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+			soundIsStopping = false;
 		}
 	}
 
@@ -960,7 +974,7 @@ public class PlayerController : MonoBehaviour
         {
             freezePlayer = false;
             movement.Jump(playerAnimator);
-			StopWalkingSound ();
+			StartCoroutine (StopWalkingSound ());
         }
     }
 }
