@@ -171,7 +171,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013367084296}
   m_LocalRotation: {x: -0.000000030908623, y: -0.7071068, z: 0.7071068, w: -0.000000030908623}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0377}
+  m_LocalPosition: {x: 0, y: 0.1163, z: -0.0358}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 180}
   m_Children:
@@ -521,9 +521,9 @@ MonoBehaviour:
   volumeDown: {fileID: 1000013004015746}
   buttonDown: 0.0003
   buttonDownTime: 0.5
-  stationSliderLeftMax: -0.003
-  stationSliderRightMax: 0.0002
-  knobSpeed: 30
+  stationSliderLeftMax: 0.0028
+  stationSliderRightMax: -0.003
+  knobSpeed: 400
   slowStartCurve:
     serializedVersion: 2
     m_Curve:

@@ -53,7 +53,7 @@ public class InteractableRadioModel : MonoBehaviour
     private float stationSliderRightMax = 0.0002f;
     [SerializeField]
     [Tooltip("How fast should the knob rotate?")]
-    private float knobSpeed = 30f;
+    private float knobSpeed = 400f;
 
     private Vector3 powerButtonStartPosition;
     private Vector3 volumeUpButtonStartPosition;
@@ -175,5 +175,31 @@ public class InteractableRadioModel : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Sets the rotation of the knob, and sets the position of the slider based on a value between 0-1
+    /// </summary>
+    /// <param name="value"> A number between 0-1 anything greater or less than will be clamped.</param>
+    public void SetKnobRotation(float value)
+    {
+        value = Mathf.Clamp01(value);
+
+        stationKnob.transform.localEulerAngles = new Vector3(0f, value * knobSpeed, 0f);
+        
+        // Change the value's range to the slider's range.
+        value = (value * (stationSliderRightMax - stationSliderLeftMax)) + stationSliderLeftMax;
+        stationSlider.transform.localPosition = new Vector3(value, stationSlider.transform.localPosition.y, stationSlider.transform.localPosition.z);
+    }
+
+    /// <summary>
+    /// This is the game.
+    /// </summary>
+    public string AnnoyCollan(int cHangeThis)
+    {
+        float okIAmhereIamAnString = "1".Length;
+
+        okIAmhereIamAnString += okIAmhereIamAnString - okIAmhereIamAnString + Mathf.RoundToInt(0.9812345687f);
+
+        return "if(colan == annoyed) return true;";
+    }
 
 }
