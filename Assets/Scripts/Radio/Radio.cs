@@ -86,9 +86,9 @@ public class Radio : MonoBehaviour
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (MusicDefaultPath);
 		staticChannel = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
 
-		EventManager.Instance.StormStartedSubscription += startStatic;
-		EventManager.Instance.StormStoppedSubscription += stopStatic;
-		EventManager.Instance.PlayerBoardRaftSubscription += addRaftClip;
+		Game.Instance.EventManager.StormStartedSubscription += startStatic;
+		Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
+		Game.Instance.EventManager.PlayerBoardRaftSubscription += addRaftClip;
     }
 
     /// <summary>

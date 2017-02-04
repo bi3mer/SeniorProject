@@ -5,52 +5,22 @@ using System.Collections;
 public class EventManager
 {
 	/// <summary>
-	/// Initializes a new instance of the <see cref="EventManager"/> class.
-	/// </summary>
-	private EventManager()
-	{
-
-	}
-
-	/// <summary>
-	/// The instance.
-	/// </summary>
-	private static EventManager instance;
-
-	/// <summary>
-	/// Gets the instance.
-	/// </summary>
-	/// <value>The instance.</value>
-	public static EventManager Instance 
-	{
-		get 
-		{
-			if (instance == null) 
-			{
-				instance = new EventManager ();
-			}
-
-			return instance;
-		}
-	}
-
-	/// <summary>
 	/// Storm started event -- can be subscribed to by calling EventManager.Instance.StormStartedSubscription += functionToCall
 	/// </summary>
-	public delegate void StormStartedDelegate();
 	public event StormStartedDelegate StormStartedSubscription;
+	public delegate void StormStartedDelegate();
 
 	/// <summary>
 	/// Storm stopped event
 	/// </summary>
-	public delegate void StormStoppedDelegate();
 	public event StormStoppedDelegate StormStoppedSubscription;
+	public delegate void StormStoppedDelegate();
 
 	/// <summary>
 	/// Storm stopped event
 	/// </summary>
-	public delegate void PlayerBoardRaftDelegate();
 	public event PlayerBoardRaftDelegate PlayerBoardRaftSubscription;
+	public delegate void PlayerBoardRaftDelegate();
 
 
 	/// <summary>

@@ -543,7 +543,7 @@ public class PlayerController : MonoBehaviour
         raftMovement.PlayerAnimator = PlayerAnimator;
 
 		// Notify subscribers
-		EventManager.Instance.RaftBoarded();
+		Game.Instance.EventManager.RaftBoarded();
     }
 
     /// <summary>

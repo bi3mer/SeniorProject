@@ -350,7 +350,7 @@ public class WeatherSystem
 				this.ongoingStorm = false;
 
 				// update subscribed
-				EventManager.Instance.StormStop ();
+				Game.Instance.EventManager.StormStop ();
 			}
 		}
 		else if(this.WeatherInformation[(int) Weather.Precipitation] >= WeatherSystem.minPrecipitationForStorm)
@@ -358,7 +358,7 @@ public class WeatherSystem
 			this.ongoingStorm = true;
 
 			// update subscribed
-			EventManager.Instance.StormStart ();
+			Game.Instance.EventManager.StormStart ();
 		}
 	}
 
