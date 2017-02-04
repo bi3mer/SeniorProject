@@ -136,10 +136,10 @@ public class Radio : MonoBehaviour
 				
 			ChangeChannel(dial.DialSlider.value);
 		} 
-		else 
-		{
-			radioScreenText.text = RadioOffText;
-		}
+		//else 
+		//{
+		//	radioScreenText.text = RadioOffText;
+		//}
     }
 
     /// <summary>
