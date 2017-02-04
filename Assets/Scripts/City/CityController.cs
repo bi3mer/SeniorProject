@@ -89,18 +89,7 @@ public class CityController : MonoBehaviour
                 for (int k = 0; k < buildings.Length; ++k)
                 {
                     Building building = buildings[k];
-					Debug.Log ("before:" + building.Instance.transform.childCount);
-					// parent each door component to each building
-					int numOfDoors = district.Configuration.Doors.Count;
-					int n = 0;
-					for (n = 0; n < numOfDoors; ++n)
-					{
-						district.Configuration.Doors [n].transform.parent = building.Instance.transform;
-						district.Configuration.Doors [n].SetActive(building.Instance.activeSelf);
-					}
-
-					Debug.Log ("after:" + building.Instance.transform.childCount);
-                    rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name, doorExtents, district.Configuration.Doors);
+					rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name, doorExtents, district.Configuration.Doors, building.Instance);
                     block.Buildings.Add(building);
                 }
 
