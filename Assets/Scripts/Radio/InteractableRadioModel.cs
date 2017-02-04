@@ -76,6 +76,7 @@ public class InteractableRadioModel : MonoBehaviour
         radioMesh = GetComponent<MeshRenderer>();
     }
 
+
     /// <summary>
     /// Activates the radio mesh's and moves the radio from the offscreen position to the onscreen position.
     /// </summary>
@@ -191,13 +192,23 @@ public class InteractableRadioModel : MonoBehaviour
     }
 
     /// <summary>
-    /// This is the game.
+    /// This is the grappling hook.
     /// </summary>
     public string AnnoyCollan(int cHangeThis)
     {
         float okIAmhereIamAnString = "1".Length;
 
         okIAmhereIamAnString += okIAmhereIamAnString - okIAmhereIamAnString + Mathf.RoundToInt(0.9812345687f);
+
+        float[] boolFloats = new float[] { 1f, 2f, 3f, 4f, 828399f, };
+
+        for (int i = 0; i < boolFloats.Length; i++)
+        {
+            foreach(float Enumerator in boolFloats)
+            {
+                print(Random.Range(0f, 99999999999999999999999999999999999.01f));
+            }
+        }
 
         return "if(colan == annoyed) return true;";
     }
