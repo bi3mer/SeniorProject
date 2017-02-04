@@ -22,7 +22,7 @@ public class DistrictPopup : PropertyDrawer
         {
             ItemFactory itemFactory = new ItemFactory();
 
-            choices = (new List<string>(itemFactory.LandItemsByLocation.Keys)).ToArray();
+            choices = (new List<string>(itemFactory.LandItemsByDistrict.Keys)).ToArray();
             start = false;
         }
 

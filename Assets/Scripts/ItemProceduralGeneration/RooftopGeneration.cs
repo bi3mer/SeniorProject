@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class RooftopGeneration: ItemGeneratorDirector
+public class RooftopGeneration: ItemGenerator
 {
 	[SerializeField]
     [Tooltip("Likelihood of a rooftop having items, from 0 to 1")]

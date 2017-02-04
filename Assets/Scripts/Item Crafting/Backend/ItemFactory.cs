@@ -22,13 +22,13 @@ public class ItemFactory
 		private set;
 	}
 
-	public Dictionary<string, List<string>> LandItemsByLocation
+	public Dictionary<string, List<string>> LandItemsByDistrict
 	{
 		get;
 		private set;
 	}
 
-	public Dictionary<string, List<string>> WaterItemsByLocation
+	public Dictionary<string, List<string>> WaterItemsByDistrict
 	{
 		get;
 		private set;
@@ -67,8 +67,8 @@ public class ItemFactory
 	public ItemFactory () 
 	{
 		ItemDatabase = new Dictionary<string, BaseItem> ();
-		LandItemsByLocation = new Dictionary<string, List<string>>();
-		WaterItemsByLocation = new Dictionary<string, List<string>>();
+		LandItemsByDistrict = new Dictionary<string, List<string>>();
+		WaterItemsByDistrict = new Dictionary<string, List<string>>();
 
 		itemParser = new ItemSerializer(itemFileName, districtItemFileName);
 		loadItemInformation ();
@@ -87,8 +87,8 @@ public class ItemFactory
 
 		itemParser.DeserializeDistrictItemData(ref landInfo, ref waterInfo);
 
-		LandItemsByLocation = landInfo;
-		WaterItemsByLocation = waterInfo;
+		LandItemsByDistrict = landInfo;
+		WaterItemsByDistrict = waterInfo;
 	}
 
 	/// <summary>
@@ -321,20 +321,20 @@ public class ItemFactory
 		int i = 0;
 
 		// the districts keys are the same  for both land and water
-		foreach(string key in LandItemsByLocation.Keys)
+		foreach(string key in LandItemsByDistrict.Keys)
 		{
-			for(i = 0; i < LandItemsByLocation[key].Count; ++i)
+			for(i = 0; i < LandItemsByDistrict[key].Count; ++i)
 			{
-				rarityValues.Add(ItemRarity.GetRarity(GetBaseItem(LandItemsByLocation[key][i]).Rarity));
+				rarityValues.Add(ItemRarity.GetRarity(GetBaseItem(LandItemsByDistrict[key][i]).Rarity));
 			}
 
 			LandDistrictItemRarityInfo.Add(key, new DistrictItemRarityConfiguration());
 			LandDistrictItemRarityInfo[key].SetUpVoseAlias(rarityValues);
 			rarityValues.Clear();
 
-			for(i = 0; i < WaterItemsByLocation[key].Count; ++i)
+			for(i = 0; i < WaterItemsByDistrict[key].Count; ++i)
 			{
-				rarityValues.Add(ItemRarity.GetRarity(GetBaseItem(WaterItemsByLocation[key][i]).Rarity));
+				rarityValues.Add(ItemRarity.GetRarity(GetBaseItem(WaterItemsByDistrict[key][i]).Rarity));
 			}
 
 			WaterDistrictItemRarityInfo.Add(key, new DistrictItemRarityConfiguration());
@@ -373,11 +373,11 @@ public class ItemFactory
 
 		if(onLand)
 		{
-			return ItemDatabase[LandItemsByLocation[district][index]];
+			return ItemDatabase[LandItemsByDistrict[district][index]];
 		}
 		else
 		{
-			return ItemDatabase[WaterItemsByLocation[district][index]];
+			return ItemDatabase[WaterItemsByDistrict[district][index]];
 		}
 	}
 }

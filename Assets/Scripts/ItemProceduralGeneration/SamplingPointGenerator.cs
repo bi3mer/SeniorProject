@@ -44,7 +44,7 @@ public abstract class SamplingPointGenerator
 	protected bool HasOverlappingNeighbors(ItemPlacementSamplePoint samplePoint)
 	{
 		Vector2 point = samplePoint.LocalTargetSurfaceLocation;
-		IntPair gridPoint = samplePoint.GridPoint;
+		Tuple<int, int> gridPoint = samplePoint.GridPoint;
 		
 		float minDistance = samplePoint.MinDistance;
 

@@ -356,8 +356,8 @@ public class RooftopPointGenerator: SamplingPointGenerator
 	/// </summary>
 	/// <returns>The to grid.</returns>
 	/// <param name="samplingPoint">Sampling point.</param>
-	protected IntPair PointToGrid(Vector2 samplingPoint)
+	protected Tuple<int, int> PointToGrid(Vector2 samplingPoint)
 	{
-		return new IntPair ((int)(samplingPoint.x / cellSize), (int)(samplingPoint.y / cellSize));
+		return new Tuple<int, int> ((int)(samplingPoint.x / cellSize), (int)(samplingPoint.y / cellSize));
 	}
 }

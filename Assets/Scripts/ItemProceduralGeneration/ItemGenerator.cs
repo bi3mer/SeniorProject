@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class ItemGeneratorDirector : MonoBehaviour 
+public abstract class ItemGenerator : MonoBehaviour 
 {
 	/// <summary>
 	/// Gets the rarity information all items in a district.
@@ -12,7 +12,7 @@ public abstract class ItemGeneratorDirector : MonoBehaviour
 	protected List<float> getRarityInformation(string district)
 	{
 		ItemFactory itemFactory = Game.Instance.ItemFactoryInstance;
-		List<string> itemsInDistrict = itemFactory.LandItemsByLocation[district];
+		List<string> itemsInDistrict = itemFactory.LandItemsByDistrict[district];
 		List<float> rarityValues = new List<float>();
 
 

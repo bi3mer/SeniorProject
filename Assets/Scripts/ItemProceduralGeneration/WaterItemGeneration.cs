@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class WaterItemGeneration : ItemGeneratorDirector 
+public class WaterItemGeneration : ItemGenerator 
 {
 	[SerializeField]
     [Tooltip("Max number of items to be generated in the water")]

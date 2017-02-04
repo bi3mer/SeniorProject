@@ -27,7 +27,7 @@ public class ItemPlacementSamplePoint
 	/// Gets or sets the grid point.
 	/// </summary>
 	/// <value>The grid point.</value>
-	public IntPair GridPoint
+	public Tuple<int, int> GridPoint
 	{
 		get;
 		set;

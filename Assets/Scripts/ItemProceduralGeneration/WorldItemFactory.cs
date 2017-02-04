@@ -143,7 +143,7 @@ public class WorldItemFactory
 	public Dictionary<string, List<GameObject>> GetAllInteractableItemsByDistrict(bool setActive)
 	{
 		ItemFactory itemFactory = Game.Instance.ItemFactoryInstance;
-		Dictionary<string, List<string>> interactableItemNamesByDistrict = itemFactory.LandItemsByLocation;
+		Dictionary<string, List<string>> interactableItemNamesByDistrict = itemFactory.LandItemsByDistrict;
 		Dictionary<string, List<GameObject>> interactableItemsByDistrict = new Dictionary<string, List<GameObject>>();
 
 		int i;

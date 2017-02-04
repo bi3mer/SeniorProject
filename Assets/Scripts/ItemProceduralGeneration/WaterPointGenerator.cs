@@ -82,7 +82,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 	public void AddBuildingBounds(Bounds bound)
 	{
 		ItemPlacementSamplePoint buildingSamplingPoint;
-		IntPair gridPoint;
+		Tuple<int, int> gridPoint;
 
 		// mark the grid as occupied every 1 unit with an item of 1 size within the bounds of the building
 		for(int i = (int) bound.min.x; i < (int) bound.max.x; ++i)
@@ -112,7 +112,6 @@ public class WaterPointGenerator : SamplingPointGenerator
 		// to the height of the object to make the ray start above the top of the object
 		float rayOffset = 1f;
 
-		Debug.Log(Game.Instance.WaterLevelHeight);
 		float initialRayStartHeight = Game.Instance.WaterLevelHeight + rayOffset;
 
 		RaycastHit hit;
@@ -292,9 +291,9 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// </summary>
 	/// <returns>The to grid.</returns>
 	/// <param name="samplingPoint">Sampling point.</param>
-	protected IntPair PointToGrid(Vector2 samplingPoint)
+	protected Tuple<int, int> PointToGrid(Vector2 samplingPoint)
 	{
-		return new IntPair ((int)((samplingPoint.x + width/2f + center.x) / cellSize), 
+		return new Tuple<int, int> ((int)((samplingPoint.x + width/2f + center.x) / cellSize), 
 							(int)((samplingPoint.y + depth/2f + center.y) / cellSize));
 	}
 }
