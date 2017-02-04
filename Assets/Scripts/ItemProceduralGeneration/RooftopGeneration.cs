@@ -50,6 +50,7 @@ public class RooftopGeneration: MonoBehaviour
 	/// <param name="district">District.</param>
 	/// <param name="doorExtents">Door extents.</param>
 	/// <param name="doorTemplates">Door templates.</param>
+	/// <param name="currentBuilding">Current Building GameObject.</param>
 	public void PopulateRoof(Bounds bound, Vector3 center, string district, List<float> doorExtents, List<GameObject> doorTemplates, GameObject currentBuilding)
 	{
 		float itemChance;
@@ -87,6 +88,7 @@ public class RooftopGeneration: MonoBehaviour
 	/// <param name="hasDoor">If set to <c>true</c>, there is a door that needs to be created.</param>
 	/// <param name="district">Name of the district for which generation is occuring.</param>
 	/// <param name="points">Points.</param>
+	/// <param name="currentBuilding">Current Building GameObject.</param>
 	private void generateObjects(bool hasDoor, string district, List<ItemPlacementSamplePoint> points, List<GameObject> doorTemplates, GameObject currentBuilding)
 	{
 		int startingIndex = 0;
@@ -195,6 +197,7 @@ public class RooftopGeneration: MonoBehaviour
 	/// <param name="doorTemplate">Door template.</param>
 	/// <param name="location">Location.</param>
 	/// <param name="district">District.</param>
+	/// <param name="currentBuilding">Current Building GameObject.</param>
 	private void generateDoor(GameObject doorTemplate, Vector3 location, string district, GameObject currentBuilding)
 	{
 		GameObject door = GameObject.Instantiate(doorTemplate);
