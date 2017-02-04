@@ -2849,7 +2849,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 05504616919ea4f05b9fbac2bbe654a6, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 29a20c83d536c49349747b360cb86e2f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -3144,7 +3144,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012942474406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b113827868e0f46a6b7c32cda0e3aaab, type: 3}
+  m_Script: {fileID: 11500000, guid: d2c060a7db681487fab324e714944e67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weather: {fileID: 82000010327420038}
@@ -3155,7 +3155,7 @@ MonoBehaviour:
   RadioOffText: Radio is off
   radioScreenText: {fileID: 114000014036257158}
   dial: {fileID: 114000012687942852}
-  lowMusic: 1
+  lowMusic: 0
   highMusic: 120
   lowMystery: 120
   highMystery: 240
