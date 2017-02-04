@@ -21,7 +21,7 @@ public class Player
     private const int playerInventorySize = 20;
     private int health;
 
-    public const float FoodPoisingChance = 0.3f;
+    public const float FoodPoisoningChance = 0.3f;
 
     /// <summary>
     /// Player constructor.
