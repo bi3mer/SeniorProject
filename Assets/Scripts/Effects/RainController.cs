@@ -171,7 +171,7 @@ public class RainController : MonoBehaviour
 
         for (int i = 0; i < collisionEvents.Count; ++i)
         {
-            splashManager.CreateSplash(collisionEvents[0].intersection, splashSize);
+            splashManager.CreateSplash(collisionEvents[0].intersection, splashSize, 1f);
         }
     }
 }

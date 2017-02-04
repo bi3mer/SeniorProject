@@ -89,9 +89,7 @@ public class CityController : MonoBehaviour
                 for (int k = 0; k < buildings.Length; ++k)
                 {
                     Building building = buildings[k];
-
-                    rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name, doorExtents, district.Configuration.Doors);
-                    
+					rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name, doorExtents, district.Configuration.Doors, building.Instance);
                     block.Buildings.Add(building);
                 }
 
