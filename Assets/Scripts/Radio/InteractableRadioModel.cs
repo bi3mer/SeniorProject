@@ -5,6 +5,7 @@ using DG.Tweening;
 // Contains functions that can be called to animate aspects of the radio with tweens.
 public class InteractableRadioModel : MonoBehaviour
 {
+    [Header ("Radio Take Out and Putaway Variables")]
     [SerializeField]
     [Tooltip("Position of the radio when it's active and on screen.")]
     private Vector3 activePosition;
@@ -21,6 +22,7 @@ public class InteractableRadioModel : MonoBehaviour
     [Tooltip("The length of the activation/deactivation animation")]
     private float takeOutTime;
 
+    [Header("Radio Button and Knob Game Objects")]
     [SerializeField]
     [Tooltip("The radio models power button game object")]
     private GameObject powerButton;
@@ -37,6 +39,7 @@ public class InteractableRadioModel : MonoBehaviour
     [Tooltip("The radio models Volume Down button game object")]
     private GameObject volumeDown;
 
+    [Header("Button Animation Variables")]
     [SerializeField]
     [Tooltip("How far should the buttons move down when they are pressed?")]
     private float buttonDown = 0.0002f;
@@ -44,7 +47,7 @@ public class InteractableRadioModel : MonoBehaviour
     [Tooltip("How long does a button press take?")]
     private float buttonDownTime = 0.25f;
 
-
+    [Header("Slider Animation Variables")]
     [SerializeField]
     [Tooltip("How far left can the slider move?")]
     private float stationSliderLeftMax = -0.003f;
@@ -55,6 +58,7 @@ public class InteractableRadioModel : MonoBehaviour
     [Tooltip("How fast should the knob rotate?")]
     private float knobSpeed = 400f;
 
+    // Unexposed Variables
     private Vector3 powerButtonStartPosition;
     private Vector3 volumeUpButtonStartPosition;
     private Vector3 volumeDownButtonStartPosition;
@@ -168,12 +172,12 @@ public class InteractableRadioModel : MonoBehaviour
         button.transform.localPosition = startposition;
 
         Sequence buttonSequence = DOTween.Sequence();
+
         // Devide button down time by 2 because we need to half it since we have two tweens.
         buttonSequence.Append(button.transform.DOLocalMove(startposition - new Vector3(0f, buttonDown, 0f), buttonDownTime/2f).SetEase(slowStartCurve));
         buttonSequence.Append(button.transform.DOLocalMove(startposition, buttonDownTime/2f).SetEase(slowStartCurve));
         buttonSequence.Play();
         yield return buttonSequence.WaitForCompletion();
-
     }
 
     /// <summary>
@@ -190,27 +194,4 @@ public class InteractableRadioModel : MonoBehaviour
         value = (value * (stationSliderRightMax - stationSliderLeftMax)) + stationSliderLeftMax;
         stationSlider.transform.localPosition = new Vector3(value, stationSlider.transform.localPosition.y, stationSlider.transform.localPosition.z);
     }
-
-    /// <summary>
-    /// This is the grappling hook.
-    /// </summary>
-    public string AnnoyCollan(int cHangeThis)
-    {
-        float okIAmhereIamAnString = "1".Length;
-
-        okIAmhereIamAnString += okIAmhereIamAnString - okIAmhereIamAnString + Mathf.RoundToInt(0.9812345687f);
-
-        float[] boolFloats = new float[] { 1f, 2f, 3f, 4f, 828399f, };
-
-        for (int i = 0; i < boolFloats.Length; i++)
-        {
-            foreach(float Enumerator in boolFloats)
-            {
-                print(Random.Range(0f, 99999999999999999999999999999999999.01f));
-            }
-        }
-
-        return "if(colan == annoyed) return true;";
-    }
-
 }
