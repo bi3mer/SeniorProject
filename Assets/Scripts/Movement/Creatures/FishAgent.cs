@@ -58,13 +58,16 @@ public class FishAgent : MonoBehaviour
 	void FixedUpdate ()
     {
         // Update acceleration
-        this.acceleration = Vector3.ClampMagnitude(this.Combine(), this.config.MaxAcceleration);
+        this.acceleration = Vector3.ClampMagnitude(this.convert3dTo2d(this.Combine()), this.config.MaxAcceleration);
 
         // Euler Forward Integration
 		this.Velocity = Vector3.ClampMagnitude(this.Velocity + this.acceleration * Time.deltaTime, this.config.MaxVelocity);
 
-        // Set new position
+        // Set new position TODO: should bound? maybe just bound the vector2 so we ignore the height
 		this.transform.position = this.transform.position + (Vector3) (this.Velocity * Time.deltaTime);
+		this.transform.position = new Vector3(this.transform.position.x, 
+		                                      Game.Instance.WaterLevelHeight + this.config.waterLevelOffset, 
+		                                      this.transform.position.z);
 
         // TODO I'm keeping this around in case we want to add this in the future.
         // Keep agent in world bounds
@@ -196,7 +199,7 @@ public class FishAgent : MonoBehaviour
 	{
 		float jitter = this.config.Jitter * Time.deltaTime;
 
-		this.WanderTarget += new Vector3(this.randomBinomial() * jitter, this.randomBinomial() * jitter, 0);
+		this.WanderTarget += new Vector3(RandomUtility.RandomBinomial * jitter, RandomUtility.RandomBinomial * jitter, 0);
 		
 		this.WanderTarget.Normalize();
 		this.WanderTarget *= this.config.WanderRadius;
@@ -229,15 +232,6 @@ public class FishAgent : MonoBehaviour
 		return Vector3.Angle(this.Velocity, agent - this.transform.position) <= this.config.MaxFieldOfViewAngle;
     } 
 
-	/// <summary>
-	/// Randoms binomial with higher likelihood of 0
-	/// </summary>
-	/// <returns>The binomial.</returns>
-    private float randomBinomial()
-    {
-        return Random.Range(0f, 1f) - Random.Range(0f, 1f);
-    }
-
     /// <summary>
     /// Run opposite direction from the target
     /// </summary>
@@ -247,5 +241,15 @@ public class FishAgent : MonoBehaviour
     {
         Vector3 desiredVel = (this.transform.position - targ).normalized * this.config.MaxVelocity;
 		return desiredVel - this.Velocity;
+    }
+
+    /// <summary>
+    /// Convert vector3 to vector2 uzing z coordinate for y
+    /// </summary>
+    /// <returns>The to2d.</returns>
+    /// <param name="vector">Vector.</param>
+    private Vector2 convert3dTo2d(Vector3 vector)
+    {
+    	return new Vector2(vector.x, vector.z);
     }
 }

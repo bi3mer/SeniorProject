@@ -5,8 +5,9 @@
 
     private Game ()
     {
+    	this.CityBounds = new CityBoundaries();
         PlayerInstance = new Player();
-		WeatherInstance = new WeatherSystem();
+		WeatherInstance = new WeatherSystem(this.CityBounds);
 		EventManager = new EventManager ();
 		PauseInstance = new PauseSystem();
 		WorldItemFactoryInstance = new WorldItemFactory();
@@ -16,6 +17,7 @@
         Loader = new GameLoader();
         DeathManagerInstance = new DeathManager();
     }
+
  
     /// <summary>
     /// The current game instance. If there is no instance, one is created.
@@ -39,6 +41,16 @@
     {
         get;
         private set;
+    }
+
+    /// <summary>
+    /// Gets the city bounds.
+    /// </summary>
+    /// <value>The city bounds.</value>
+    public CityBoundaries CityBounds
+    {
+    	get;
+    	private set;
     }
 
     /// <summary>
