@@ -950,8 +950,8 @@ MonoBehaviour:
   AllignmentRadius: 3
   WanderRadius: 2
   AvoidRadius: 0
-  CohesionWeight: 80
-  SeparationWeight: 70
+  CohesionWeight: 88.99
+  SeparationWeight: 30
   AllignmentWeight: 56
   WanderWeight: 30
   AvoidWeight: 0
@@ -960,6 +960,7 @@ MonoBehaviour:
   Jitter: 2
   WanderDistanceRadius: 2
   MaxFieldOfViewAngle: 180
+  waterLevelOffset: -1
 --- !u!114 &114000010960519042
 MonoBehaviour:
   m_ObjectHideFlags: 1

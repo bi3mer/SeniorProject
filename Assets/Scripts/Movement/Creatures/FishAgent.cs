@@ -63,15 +63,14 @@ public class FishAgent : MonoBehaviour
         // Euler Forward Integration
 		this.Velocity = Vector3.ClampMagnitude(this.Velocity + this.acceleration * Time.deltaTime, this.config.MaxVelocity);
 
-        // Set new position TODO: should bound? maybe just bound the vector2 so we ignore the height
+        // Set new position
 		this.transform.position = this.transform.position + (Vector3) (this.Velocity * Time.deltaTime);
 		this.transform.position = new Vector3(this.transform.position.x, 
 		                                      Game.Instance.WaterLevelHeight + this.config.waterLevelOffset, 
 		                                      this.transform.position.z);
 
-        // TODO I'm keeping this around in case we want to add this in the future.
-        // Keep agent in world bounds
-//        this.transform.position = World.Instance.WrapAround(this.transform.position);
+		// bound the position so fish can't go outside of the city
+		this.transform.position = Game.Instance.CityBounds.BoundVector3d(this.transform.position);
 
         // set rotation
 		transform.rotation = Quaternion.LookRotation(this.Velocity + this.transform.position);// Quaternion.AngleAxis(angle, this.velocity);
@@ -219,7 +218,6 @@ public class FishAgent : MonoBehaviour
              + this.config.SeparationWeight * this.Separation()
 			 + this.config.AllignmentWeight * this.Alignment()
              + this.config.WanderWeight * this.Wander();
-//			 + this.config.AvoidWeight * this.AvoidEnemies();
     }
 
     /// <summary>
