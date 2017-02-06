@@ -101,6 +101,15 @@ public class WaterMovement : Movement
     }
 
     /// <summary>
+    /// The height of the climbing raycast while in this movement state
+    /// </summary>
+    public override float GetRaycastHeight()
+    {
+        //It's swimmingheight because we want to raycast at the water level! This lets us climb up the raft which floats.
+        return swimmingHeight;
+    }
+
+    /// <summary>
     /// Called when the player enters the state.
     /// </summary>
     public override void OnStateEnter()

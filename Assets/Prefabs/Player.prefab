@@ -1890,7 +1890,6 @@ MonoBehaviour:
   startClimbTime: 0.3
   ClimbTime: 0.4
   endClimbTime: 0.3
-  raycastHeight: 0.01
   climbForward: 0.1
   minClimbHeight: 0.15
 --- !u!114 &114000012333483624
@@ -1929,6 +1928,7 @@ MonoBehaviour:
   jumpForce: 0.06
   minFallDamageVelocity: 5
   fallDamageModifier: 1
+  raycastHeight: 0.01
 --- !u!114 &114000013014602212
 MonoBehaviour:
   m_ObjectHideFlags: 1

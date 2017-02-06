@@ -17,6 +17,10 @@ public class LandMovement : Movement
     [SerializeField]
     private float fallDamageModifier;
 
+    [SerializeField]
+    [Tooltip("Height, starting from the floor to raycast towards walls")]
+    private float raycastHeight;
+
     private const string playerAnimatorTurn = "Turn";
     private const string playerAnimatorForward = "Forward";
     private const string playerAnimatorJump = "Jump";
@@ -118,6 +122,14 @@ public class LandMovement : Movement
     public override float GetClimbHeight()
     {
         return climbHeight;
+    }
+
+    /// <summary>
+    /// The height of the climbing raycast while in this movement state
+    /// </summary>
+    public override float GetRaycastHeight()
+    {
+        return raycastHeight;
     }
 
     /// <summary>

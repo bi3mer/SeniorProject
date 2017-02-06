@@ -139,9 +139,6 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Time To Animate the player from the top of the wall to walking again")]
     private float endClimbTime;
     [SerializeField]
-    [Tooltip("Height, starting from the floor to raycast towards walls")]
-    private float raycastHeight;
-    [SerializeField]
     [Tooltip("How far forward to move the player after climbing")]
     private float climbForward;
     [SerializeField]
@@ -872,20 +869,20 @@ public class PlayerController : MonoBehaviour
         // The second to last cast uses a 9999f to represent a height above everything.
         // The last raycast is to check to make sure there's no cieling above us to prevent climbing while indoors.
         // Lastly check to make sure the ledge's height is within the max climb height for the movement type, and then make sure it's greater than the controller's step offset (this prevents climbing up things the player can just walk over)
-        if (Physics.Raycast(rH.transform.position + new Vector3(0f, raycastHeight, 0f), rH.transform.forward, out hit1, climbDistance, ClimbingRaycastMask) &&
-            Physics.Raycast(lH.transform.position + new Vector3(0f, raycastHeight, 0f), lH.transform.forward, out hit3, climbDistance, ClimbingRaycastMask) &&
-            Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, raycastHeight, 0f), PlayerIKSetUp.transform.forward, out hit2, climbDistance, ClimbingRaycastMask) &&
+        if (Physics.Raycast(rH.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), rH.transform.forward, out hit1, climbDistance, ClimbingRaycastMask) &&
+            Physics.Raycast(lH.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), lH.transform.forward, out hit3, climbDistance, ClimbingRaycastMask) &&
+            Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), PlayerIKSetUp.transform.forward, out hit2, climbDistance, ClimbingRaycastMask) &&
             Physics.Raycast(hit2.point + new Vector3(0f, 9999f, 0f) + PlayerIKSetUp.transform.forward * raycastClimbForward, Vector3.down, out heightPoint, Mathf.Infinity, ClimbingRaycastMask) &&
-            !Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, raycastHeight, 0f), Vector3.up, Vector3.Distance(PlayerIKSetUp.transform.position, heightPoint.point), ClimbingRaycastMask) &&
+            !Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), Vector3.up, Vector3.Distance(PlayerIKSetUp.transform.position, heightPoint.point), ClimbingRaycastMask) &&
             movement.GetClimbHeight() > heightPoint.point.y - PlayerIKSetUp.transform.position.y &&
             Mathf.Abs(heightPoint.point.y - PlayerIKSetUp.transform.position.y) > minClimbHeight
             )
         {
             // From here on out things get complicated. The following math is used to get the angle needed to rotate the player to face the wall.
             float cLine, l1, l2, l3, d1, a1, p, d2;
-            l3 = Vector3.Distance(hit1.point, rH.transform.position + new Vector3(0f, raycastHeight, 0f));
-            l1 = Vector3.Distance(hit3.point, lH.transform.position + new Vector3(0f, raycastHeight, 0f));
-            l2 = Vector3.Distance(hit2.point, PlayerIKSetUp.transform.position + new Vector3(0f, raycastHeight, 0f));
+            l3 = Vector3.Distance(hit1.point, rH.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f));
+            l1 = Vector3.Distance(hit3.point, lH.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f));
+            l2 = Vector3.Distance(hit2.point, PlayerIKSetUp.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f));
             d1 = Vector3.Distance(rH.transform.position, PlayerIKSetUp.transform.position);
             // The player is already facing the wall perfectly.
             if (l1 == l3)
@@ -949,7 +946,7 @@ public class PlayerController : MonoBehaviour
 
             // Move the player up like they're climbing.
             // Height of the climb
-            float climbUpY = heightPoint.point.y - (hit2.point.y - raycastHeight);
+            float climbUpY = heightPoint.point.y - (hit2.point.y - movement.GetRaycastHeight());
             tween = transform.DOMoveY(heightPoint.point.y, ClimbTime);
             yield return tween.WaitForCompletion();
 
