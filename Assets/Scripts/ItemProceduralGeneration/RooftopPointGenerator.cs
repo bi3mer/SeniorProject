@@ -355,7 +355,6 @@ public class RooftopPointGenerator
 			objectLocation = new Vector2(Random.Range(width * borderPercent + size, 1 - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, 1 - (depth * borderPercent + size)));
 
 			objectGlobalLocation = convertToWorldSpace(objectLocation, center, width, depth);
-
 			Physics.Raycast (new Vector3 (objectGlobalLocation.x, initialRayStartHeight, objectGlobalLocation.y), Vector3.down, out hit, height);
 		
 			++tries;
@@ -378,7 +377,8 @@ public class RooftopPointGenerator
 	{
 		if(!hit.collider.CompareTag(waterTag))
 		{
-			if((Mathf.Abs (Mathf.Acos (Vector3.Dot (hit.normal, Vector3.up))) <= maxAngle))
+			float dotProduct = Mathf.Clamp(Vector3.Dot(hit.normal, Vector3.up), -1f, 1f);
+			if(Mathf.Abs (Mathf.Acos (dotProduct)) <= maxAngle)
 			{
 				return true;
 			}

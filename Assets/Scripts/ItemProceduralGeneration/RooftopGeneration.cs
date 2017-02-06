@@ -93,7 +93,8 @@ public class RooftopGeneration: MonoBehaviour
 	{
 		int startingIndex = 0;
 		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
-
+		GameObject selected;
+		PickUpItem itemInteractable;
 		// if there is a door, it will always be the first point returned
 		if (hasDoor) 
 		{
@@ -104,13 +105,17 @@ public class RooftopGeneration: MonoBehaviour
 		for (int i = startingIndex; i < points.Count; ++i) 
 		{
 			// TODO: Make the amount found in one stack to be a variable number
-
 			if(points[i].ItemIndex < districtItemInfo[district].ItemTemplates.Count)
 			{
-				GameObject item = GameObject.Instantiate(districtItemInfo[district].ItemTemplates[points[i].ItemIndex]);
+				selected = districtItemInfo[district].ItemTemplates[points[i].ItemIndex];
+				GameObject item = GameObject.Instantiate(selected);
 				item.SetActive(true);
 				item.transform.position = points [i].WorldSpaceLocation;
 				item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
+
+				itemInteractable = item.GetComponent<PickUpItem>();
+				itemInteractable.Item = selected.GetComponent<PickUpItem>().Item;
+				itemInteractable.Amount = 1;
 			}
 		}
 	}
