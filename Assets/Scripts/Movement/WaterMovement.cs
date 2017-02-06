@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using DG.Tweening;
 
-public class WaterMovement : Movement 
+public class WaterMovement : Movement
 {
     [SerializeField]
     private float swimmingSpeed;
@@ -21,6 +22,10 @@ public class WaterMovement : Movement
     [SerializeField]
     private float splashSpeed = .5f;
 
+    [Tooltip("How low the player should be in the water. Should be similar to wade height")]
+    [SerializeField]
+    private float swimmingHeight;
+
     /// <summary>
     /// Get the character controller so we can call move functions
     /// </summary>
@@ -32,13 +37,12 @@ public class WaterMovement : Movement
     /// <summary>
     /// Calculates accumulated fall dammage
     /// </summary>
-    void FixedUpdate ()
+    void FixedUpdate()
     {
         if (controller.velocity.y < -minFallDamageVelocity)
         {
             AccumulatedFallDamage += fallDamageModifier;
         }
-        controller.transform.position = new Vector3(controller.transform.position.x, Game.Instance.WaterLevelHeight, controller.transform.position.z);
     }
 
     /// <summary>
@@ -47,6 +51,8 @@ public class WaterMovement : Movement
     /// <param name="playerAnimator">The player's animator</param>
     public override void Idle(Animator playerAnimator)
     {
+        controller.Move(new Vector3(0f, Game.Instance.WaterLevelHeight - transform.position.y - swimmingHeight, 0f));
+        
         playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorIdle);
     }
 
@@ -61,7 +67,7 @@ public class WaterMovement : Movement
     {
         playerAnimator.SetFloat(playerAnimatorForward, swimmingSpeed);
 
-        controller.Move((direction.normalized * swimmingSpeed) * Time.fixedDeltaTime);
+        controller.Move((new Vector3(direction.normalized.x, 0f, direction.normalized.z) * swimmingSpeed * Time.fixedDeltaTime) + new Vector3(0f, Game.Instance.WaterLevelHeight - transform.position.y - swimmingHeight, 0f));
 
         Vector3 facingRotation = Vector3.Normalize(new Vector3(controller.velocity.x, 0f, controller.velocity.z));
         if (facingRotation != Vector3.zero)
@@ -85,7 +91,7 @@ public class WaterMovement : Movement
     /// <param name="playerAnimator">The player's animator</param>
     public override void Climb(Animator playerAnimator)
     {
-       playerAnimator.SetTrigger(playerAnimatorClimb);
+        playerAnimator.SetTrigger(playerAnimatorClimb);
     }
 
     /// <summary>
@@ -101,7 +107,7 @@ public class WaterMovement : Movement
     /// </summary>
     public override void OnStateEnter()
     {
-        if(SplashManager != null)
+        if (SplashManager != null)
         {
             SplashManager.CreateSplash(transform.position, splashSize, splashSpeed, true);
         }

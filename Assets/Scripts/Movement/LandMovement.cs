@@ -82,7 +82,7 @@ public class LandMovement : Movement
     public override void Idle(Animator playerAnimator)
 	{
         playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorIdle);
-        controller.SimpleMove(Physics.gravity * Time.fixedDeltaTime);
+        controller.Move(Physics.gravity * Time.fixedDeltaTime);
     }
 
     /// <summary>

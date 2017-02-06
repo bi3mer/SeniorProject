@@ -486,8 +486,14 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void CheckGround()
     {
+        bool belowWater = false;
+        if (Game.Instance.WaterLevelHeight > PlayerIKSetUp.transform.position.y + waterWadeHeight)
+        {
+            belowWater = true;
+        }
+
         // If the player is low enough to be in the water, this overrides everything else
-        if (movement != waterMovement && Game.Instance.WaterLevelHeight > PlayerIKSetUp.transform.position.y + waterWadeHeight)
+        if (movement != waterMovement && belowWater)
         {
             movement.Idle(playerAnimator);
             movement.OnStateExit();
@@ -517,7 +523,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             playerAnimator.SetBool(playerAnimatorFalling, false);
             // update movement
-            if (hit.collider.CompareTag(landTag) && movement != landMovement)
+            if (hit.collider.CompareTag(landTag) && movement != landMovement && !belowWater)
             {
                 playerAnimator.SetBool(playerAnimatorSwimming, false);
                 movement.Idle(playerAnimator);
