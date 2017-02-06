@@ -55,15 +55,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creatures:
   - {fileID: 1000012070737506, guid: 58b4dd3ca43aca040a5029e9c645d128, type: 2}
-  minCreatureCount: 1
-  maxCreatureCount: 2
+  minCreatureCount: 80
+  maxCreatureCount: 100
 --- !u!114 &114000011801027962
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012735485028}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5bbedd40a77845fc97b62d67d3095dc, type: 3}
   m_Name: 
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012735485028}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f032cc473741748cd8eb504149560067, type: 3}
   m_Name: 

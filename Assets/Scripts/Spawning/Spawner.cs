@@ -29,7 +29,18 @@ public abstract class Spawner : MonoBehaviour
 		private set;
 	}
 
-	protected abstract Vector3 findSpawnLocation();
+	/// <summary>
+	/// Find a valid spawn location
+	/// </summary>
+	/// <returns>The spawn location.</returns>
+	protected virtual Vector3 findSpawnLocation()
+	{
+		// TODO: This will be turned into real code without magic numbers in the future
+		//       but right now basic functionality is for the best.
+		return new Vector3(Game.Instance.PlayerInstance.WorldTransform.position.x - Random.Range(-25f, 25f), 
+		                   Game.Instance.WaterLevelHeight - 2f,
+			               Game.Instance.PlayerInstance.WorldTransform.position.z - Random.Range(-25f, 25f));
+	}
 
 	/// <summary>
 	/// Puts creature into the pool. 
@@ -38,7 +49,7 @@ public abstract class Spawner : MonoBehaviour
 	private void putCreatureInPool(GameObject creature)
 	{
 		// turn game object off
-		creature.active = false;
+		creature.SetActive(false);
 
 		// place into pool
 		this.creaturePool.Push(creature);
@@ -95,8 +106,11 @@ public abstract class Spawner : MonoBehaviour
 	/// <summary>
 	/// Spawn Creatures
 	/// </summary>
-	void Start()
+	IEnumerator Start()
 	{
+		// wait till game class has instantiated
+		yield return new WaitForEndOfFrame();
+
 		this.creaturePool = new Stack<GameObject>();
 
 		// instiate semi-random number of creatures
