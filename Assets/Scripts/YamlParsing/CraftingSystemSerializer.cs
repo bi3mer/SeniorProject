@@ -29,6 +29,8 @@ public abstract class CraftingSystemSerializer
     private const string medicineCategoryTag = "medicine";
 	private const string clothCategoryTag = "cloth";
 	private const string containerCategoryTag = "container";
+	private const string fuelCategoryTag = "fuel";
+	private const string fireBaseCategoryTag = "fireBase";
 
     /// <summary>
     /// tag:yaml.org,2002 is shorthanded as "!" in the yaml file, but when registering the tag, it
@@ -61,5 +63,11 @@ public abstract class CraftingSystemSerializer
 
 		categoryNames.Add(containerCategoryTag);
 		categoryTypes.Add(typeof(ContainerCategory));
+
+		categoryNames.Add(fuelCategoryTag);
+		categoryTypes.Add(typeof(FuelCategory));
+
+		categoryNames.Add(fireBaseCategoryTag);
+		categoryTypes.Add(typeof(FireBaseCategory));
 	}
 }

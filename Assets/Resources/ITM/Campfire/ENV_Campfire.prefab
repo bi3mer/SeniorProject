@@ -54,7 +54,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000012404734486}
   - 135: {fileID: 135000013569486490}
-  - 114: {fileID: 114000011370566302}
   - 54: {fileID: 54000014017869798}
   - 65: {fileID: 65000013350571784}
   - 33: {fileID: 33000010462588098}
@@ -186,7 +185,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -202,17 +201,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.24, y: -0.07, z: 0.26}
   m_Center: {x: 0, y: 0.03, z: 0}
---- !u!114 &114000011370566302
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011780269018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f344f7147e793f40a1b7ee28f1a2764, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &135000013569486490
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -621,7 +609,7 @@ ParticleSystem:
       minMaxState: 3
     randomizeRotationDirection: 0
     gravityModifier: 0
-    maxNumParticles: 1000
+    maxNumParticles: 100
     size3D: 0
     rotation3D: 0
   ShapeModule:
@@ -3942,7 +3930,7 @@ ParticleSystem:
       minMaxState: 3
     randomizeRotationDirection: 0
     gravityModifier: -0.01
-    maxNumParticles: 1000
+    maxNumParticles: 100
     size3D: 0
     rotation3D: 0
   ShapeModule:

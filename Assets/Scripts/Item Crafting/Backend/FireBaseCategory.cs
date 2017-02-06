@@ -2,20 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine.Events;
 
-public class FuelCategory : ItemCategory
+public class FireBaseCategory : ItemCategory
 {
     /// <summary>
     /// Gets and sets the life the fire gains.
     /// </summary>
-    public float LifeGain
+    public float BurnRateMultiplier
     {
         get;
         set;
     }
 
-    private const string lifeGainAttrName = "lifeGain";
+    /// <summary>
+    /// Gets or sets the starting fuel.
+    /// </summary>
+    /// <value>The starting fuel.</value>
+    public float StartingFuel
+    {
+    	get;
+    	set;
+    }
 
-    private const string fuelFireActName = "Fuel Fire";
+    /// <summary>
+    /// Gets or sets the fuel remaining.
+    /// </summary>
+    /// <value>The fuel remaining.</value>
+    public float FuelRemaining
+    {
+    	get;
+    	set;
+    }
+
+    private const string burnRateMultiplierAttrName = "burnRateMultiplier";
+
+    private const string setDownActName = "Set Down";
 
     /// <summary>
     /// Creates a copy of this fuel category.
@@ -23,16 +43,18 @@ public class FuelCategory : ItemCategory
     /// <returns>The duplicate.</returns>
     public override ItemCategory GetDuplicate()
     {
-        FuelCategory category = new FuelCategory();
+        FireBaseCategory category = new FireBaseCategory();
 
-        category.LifeGain = LifeGain;
-
-        ItemAction fuelFire = new ItemAction(fuelFireActName, FuelFire);
-
-        category.Attributes = new List<Attribute>();
+        category.BurnRateMultiplier = BurnRateMultiplier;
+		category.Attributes = new List<Attribute>();
         category.Actions = new List<ItemAction>();
-        
-        category.Actions.Add(fuelFire);
+
+        ItemAction setDown = new ItemAction(setDownActName, new UnityAction(category.SetDown));
+
+        category.Actions.Add(setDown);
+
+        category.StartingFuel = StartingFuel;
+        category.FuelRemaining = FuelRemaining;
 
         finishDuplication(category);
 
@@ -45,17 +67,52 @@ public class FuelCategory : ItemCategory
     public override void ReadyCategory()
     {
         Attributes = new List<Attribute>();
-        Attributes.Add(new Attribute(lifeGainAttrName, LifeGain));
+        Attributes.Add(new Attribute(burnRateMultiplierAttrName, BurnRateMultiplier));
 
         Actions = new List<ItemAction>();
-        Actions.Add(new ItemAction(fuelFireActName, FuelFire));
+        Actions.Add(new ItemAction(setDownActName, new UnityAction(SetDown)));
+
+        FuelRemaining = StartingFuel;
     }
 
-    public void FuelFire()
+    /// <summary>
+    /// Calculates remaining fuel int the fire. This is not an action that can be done in the inventory! This is only used in the world.
+    /// </summary>
+    /// <returns>The fire.</returns>
+    public float CalculateRemainingFuel()
     {
-        if (Game.Instance.PlayerInstance.Controller.IsByFire == true)
-        {
-            // TO DO: add code that adds life gain to fire.
-        }
+		FuelRemaining -= Time.deltaTime * BurnRateMultiplier;
+
+       	return FuelRemaining;
     }
+
+    /// <summary>
+    /// Adds fuel to the fire. Not an action that can be done in the inventory! This is only used in the world.
+    /// </summary>
+    /// <param name="burnTime">Burn time.</param>
+    public void AddFuel(float burnTime)
+    {
+    	FuelRemaining += burnTime;
+    }
+
+	/// <summary>
+	/// Sets down the container in the world. Drops it where the player stands.
+	/// </summary>
+	public void SetDown()
+	{
+		// create the object with the model
+		// TODO: Get information about how many are to be
+		GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem, 1);
+		FireInteractable fireBase = item.AddComponent<FireInteractable>();
+
+		fireBase.SetUp();
+		fireBase.FireBase = this;
+
+		item.name = baseItem.ItemName;
+		item.transform.position = Game.Instance.PlayerInstance.WorldTransform.position;
+
+		SetActionComplete(setDownActName);
+
+		baseItem.RemovalFlag = true;
+	}
 }
