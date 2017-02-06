@@ -33,6 +33,8 @@ public class FireInteractable : InteractableObject, HasSelectionInterface
 
 	private const string burnTimeAttrName = "burnTime"; 
 
+	private const string playerTag = "Player";
+
 	/// <summary>
 	/// Sets openInventory as an action that should fire off when PerformAction is called.
 	/// </summary>
@@ -163,7 +165,7 @@ public class FireInteractable : InteractableObject, HasSelectionInterface
     /// </summary>
     public void OnTriggerEnter(Collider other)
     {
-        if (lit && other.CompareTag("Player"))
+        if (lit && other.CompareTag(playerTag))
         {
             Game.Instance.PlayerInstance.Controller.IsByFire = true;
             // TO DO: Add variable for player to know fire is close
@@ -175,7 +177,7 @@ public class FireInteractable : InteractableObject, HasSelectionInterface
     /// </summary>
     void OnTriggerExit(Collider other)
     {
-        if (lit && other.CompareTag("Player"))
+        if (lit && other.CompareTag(playerTag))
         {
             Game.Instance.PlayerInstance.Controller.IsByFire = false;
             // TO DO: Change variable for player to know what fire is not close
