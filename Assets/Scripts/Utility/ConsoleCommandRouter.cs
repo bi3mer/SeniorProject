@@ -26,11 +26,14 @@ public class ConsoleCommandRouter : MonoBehaviour
 	private PressureSystemVisualization pressureScript;
 	private const string pressureMessage = "Pressure script visualization ";
 
-	/// <summary>
-	/// Testing console with very important command
-	/// </summary>
-	/// <param name="args">Arguments.</param>
-	public string Test(params string[] args) 
+    [SerializeField]
+    private string health = "health";
+
+    /// <summary>
+    /// Testing console with very important command
+    /// </summary>
+    /// <param name="args">Arguments.</param>
+    public string Test(params string[] args) 
 	{
 		return "Colan Rulez";
 	}
@@ -100,16 +103,32 @@ public class ConsoleCommandRouter : MonoBehaviour
 			return pressureMessage + "de-activated";
 		}
 	}
+    
+    
+    /// <summary>
+    /// Set time scale for game
+    /// </summary>
+    /// <returns>Validation time scale was set</returns>
+    /// <param name="args">Arguments.</param>
+    public string SetHealth(params string[] args)
+    {
+        Game.Instance.PlayerInstance.Health = int.Parse(args[0]);
+        Game.Instance.PlayerInstance.Warmth = int.Parse(args[0]);
+        Game.Instance.PlayerInstance.Hunger = int.Parse(args[0]);
 
-	/// <summary>
-	/// initialize console commands
-	/// </summary>
-	void Start () 
+        return "All Health Stats set to:  " + args[0];
+    }
+
+    /// <summary>
+    /// initialize console commands
+    /// </summary>
+    void Start () 
 	{
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.testCommand, this.Test);
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugMovement, this.DebugMovement);
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugWeather, this.DebugWeatherGUI);
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.timeScale, this.SetTimeScale);
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.pressureSystem, this.ActivatePressureSystem);
-	}
+        ConsoleCommandsRepository.Instance.RegisterCommand(this.health, this.SetHealth);
+    }
 }
