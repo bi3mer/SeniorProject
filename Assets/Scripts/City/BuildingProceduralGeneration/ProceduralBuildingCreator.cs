@@ -145,10 +145,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
         createBase(newBuilding, district, size, attatchmentPercentage, storiesTall, buildingMeshes);
         createAttachments(newBuilding, district, size, attatchmentPercentage, storiesTall, buildingMeshes);
         addWindows(newBuilding, district, size, attatchmentPercentage, storiesTall, windowMeshes);
-        if (district.DistrictWindowWashers.Length > 0)
-        {
-            addWindowWasher(newBuilding, district, storiesTall);
-        }
+
 
         // Set all the materials we added to lists while making the meshes.
         if (buildingMeshes.Count > 1)
@@ -160,6 +157,48 @@ public class ProceduralBuildingCreator : MonoBehaviour
         }
         if (windowMeshes.Count > 1)
         {
+            ////// Window washer
+            if (district.DistrictWindowWashers.Length > 0)
+            {
+                WindowWasher newWashersPrefab = district.DistrictWindowWashers[Random.Range(0, district.DistrictWindowWashers.Length - 1)];
+                // Check to see if a window washer is needed.
+                // Since WindowWasherChance is a float between 0-100, we use that range for generating a random float
+
+                if (Random.Range(0f, 100f) <= district.WindowWasherChance)
+                {
+                    Vector3 washerRotation = Vector3.zero;
+                    Vector3 washerPosition = Vector3.zero;
+                }
+
+                Transform washerLocation = windowMeshes[Random.Range(0, windowMeshes.Count - 1)].transform;
+
+                // Pick a window washer prefab to use
+                WindowWasher newWasher;
+                newWasher = (WindowWasher)Instantiate(newWashersPrefab);
+                newWasher.transform.SetParent(newBuilding.transform);
+                newWasher.transform.eulerAngles = washerLocation.rotation.eulerAngles + new Vector3(0f, 180f, 0f);
+                newWasher.transform.position = washerLocation.position;
+
+                RaycastHit placementHit;
+                newWasher.transform.position = new Vector3(newWasher.transform.position.x, (newBuilding.transform.position.y) + storiesTall * (storyHeightUnits), newWasher.transform.position.z);
+              
+
+                // Set max lower distance based on the animation curve.
+                // Again this curve is only evaluated between 0 and 1 on the X axis.
+                newWasher.MaxLowerDistance = district.WindowWasherMaxLengthCurve.Evaluate(Random.value);
+                // Set if the new washer starts up or not. This is a percent chance so we use a range of 0-100 to evaluate.
+                if (Random.Range(0f, 100f) <= district.WindowWasherStartUpChance)
+                {
+                    newWasher.StartUp = true;
+                }
+                else
+                {
+                    newWasher.StartUp = false;
+                }
+            }
+         
+
+            //////
             MeshFilter[] windowMeshFilters = new MeshFilter[windowMeshes.Count];
             for (int i = 0; i < windowMeshes.Count; ++i)
             {
@@ -530,7 +569,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// Adds a window washer on the building at an available spot if any.
     /// </summary>
     private void addWindowWasher(ProceduralBuildingInstance newBuilding, DistrictConfiguration district, int storiesTall)
-    {
+    { 
         if (newBuilding.BuildingAttachments.Length != 0)
         {
             WindowWasher newWashersPrefab = district.DistrictWindowWashers[Random.Range(0, district.DistrictWindowWashers.Length - 1)];
