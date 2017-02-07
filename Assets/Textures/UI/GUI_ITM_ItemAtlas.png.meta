@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 340180cbb35886e47844cdb268a24a8a
-timeCreated: 1484428343
+timeCreated: 1486344073
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -62,6 +62,7 @@ TextureImporter:
     21300110: GUI_ITM_NoteBook
     21300112: GUI_ITM_WeatherVane
     21300114: GUI_ITM_PaperScrap
+    21300116: GUI_ITM_Net
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -623,6 +624,19 @@ TextureImporter:
         serializedVersion: 2
         x: 1792
         y: 768
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GUI_ITM_Net
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
         width: 256
         height: 256
       alignment: 0

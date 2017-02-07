@@ -70,7 +70,12 @@ public class ItemSerializer: CraftingSystemSerializer
 		return itemDatabase;
 	}
 
-	public Dictionary<string, List<string>> DeserializeDistrictItemData()
+	/// <summary>
+	/// Deserializes the district item data.
+	/// </summary>
+	/// <param name="landDistrictStorage">Dictionary where information about items appearing on land should appear.</param>
+	/// <param name="waterDistrictStorage">Dictionary where information about items that can appear floating in water should appear.</param>
+	public void DeserializeDistrictItemData(ref Dictionary<string, List<string>> landDistrictStorage, ref Dictionary<string, List<string>> waterDistrictStorage)
 	{
 		string file = FileManager.GetDocument(districtItemFileName);
 
@@ -80,13 +85,10 @@ public class ItemSerializer: CraftingSystemSerializer
 
 		List<ItemDistrictModel> itemDistrictData = deserializer.Deserialize<List<ItemDistrictModel>> (input);
 
-		Dictionary<string, List<string>> itemDistrictSortedData = new Dictionary<string, List<string>>();
-
 		for(int i = 0; i < itemDistrictData.Count; ++i)
 		{
-			itemDistrictSortedData.Add(itemDistrictData[i].DistrictName, itemDistrictData[i].Items);
+			landDistrictStorage.Add(itemDistrictData[i].DistrictName, itemDistrictData[i].LandItems);
+			waterDistrictStorage.Add(itemDistrictData[i].DistrictName, itemDistrictData[i].WaterItems);
 		}
-
-		return itemDistrictSortedData;
 	}
 }

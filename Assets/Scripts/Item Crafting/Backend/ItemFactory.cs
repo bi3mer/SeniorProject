@@ -5,8 +5,6 @@ using System.Collections;
 /// <summary>
 /// Factory that creates an base items given its name and complex crafted items given recipe and ingredients.
 /// Currently just a placeholder class only able to craft a fishing rod.
-/// TODO: Configure this to reference a YAML file so that all "craft" actions can go under a single function.
-/// TODO: Enable this class to craft base items.
 /// </summary>
 
 public class ItemFactory 
@@ -16,19 +14,51 @@ public class ItemFactory
 	/// </summary>
 	public delegate void CraftItem(List<BaseItem> ingredients);
 
+	/// <summary>
+	/// Gets the item database.
+	/// </summary>
+	/// <value>The item database.</value>
 	public Dictionary<string, BaseItem> ItemDatabase
 	{
 		get;
 		private set;
 	}
 
-	public Dictionary<string, List<string>> ItemsByLocation
+	/// <summary>
+	/// Gets the land items by district.
+	/// </summary>
+	/// <value>The items that generates on land by district.</value>
+	public Dictionary<string, List<string>> LandItemsByDistrict
 	{
 		get;
 		private set;
 	}
 
-	public Dictionary<string, DistrictItemRarityConfiguration> DistrictItemRarityInfo
+	/// <summary>
+	/// Gets the items that generates in the water by district.
+	/// </summary>
+	/// <value>The water items by district.</value>
+	public Dictionary<string, List<string>> WaterItemsByDistrict
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets the rarity info of items that appear on land by district
+	/// </summary>
+	/// <value>The land district item rarity info.</value>
+	public Dictionary<string, DistrictItemRarityConfiguration> LandDistrictItemRarityInfo
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets the rarity info of items that appear on water by district
+	/// </summary>
+	/// <value>The water district item rarity info.</value>
+	public Dictionary<string, DistrictItemRarityConfiguration> WaterDistrictItemRarityInfo
 	{
 		get;
 		private set;
@@ -54,7 +84,8 @@ public class ItemFactory
 	public ItemFactory () 
 	{
 		ItemDatabase = new Dictionary<string, BaseItem> ();
-		ItemsByLocation = new Dictionary<string, List<string>>();
+		LandItemsByDistrict = new Dictionary<string, List<string>>();
+		WaterItemsByDistrict = new Dictionary<string, List<string>>();
 
 		itemParser = new ItemSerializer(itemFileName, districtItemFileName);
 		loadItemInformation ();
@@ -67,7 +98,14 @@ public class ItemFactory
 	private void loadItemInformation()
 	{
 		ItemDatabase = itemParser.DeserializeItemInformation ();
-		ItemsByLocation = itemParser.DeserializeDistrictItemData();
+
+		Dictionary<string, List<string>> waterInfo = new Dictionary<string, List<string>>();
+		Dictionary<string, List<string>> landInfo = new Dictionary<string, List<string>>();
+
+		itemParser.DeserializeDistrictItemData(ref landInfo, ref waterInfo);
+
+		LandItemsByDistrict = landInfo;
+		WaterItemsByDistrict = waterInfo;
 	}
 
 	/// <summary>
@@ -296,17 +334,29 @@ public class ItemFactory
 	private void loadItemRarityInformation()
 	{
 		List<float> rarityValues = new List<float>();
-		DistrictItemRarityInfo = new Dictionary<string, DistrictItemRarityConfiguration>();
+		LandDistrictItemRarityInfo = new Dictionary<string, DistrictItemRarityConfiguration>();
+		WaterDistrictItemRarityInfo = new Dictionary<string, DistrictItemRarityConfiguration>();
+		int i = 0;
 
-		foreach(string key in ItemsByLocation.Keys)
+		// the districts keys are the same  for both land and water
+		foreach(string key in LandItemsByDistrict.Keys)
 		{
-			for(int i = 0; i < ItemsByLocation[key].Count; ++i)
+			for(i = 0; i < LandItemsByDistrict[key].Count; ++i)
 			{
-				rarityValues.Add(ItemRarity.GetRarity(GetBaseItem(ItemsByLocation[key][i]).Rarity));
+				rarityValues.Add(ItemRarity.GetRarity(GetBaseItem(LandItemsByDistrict[key][i]).Rarity));
 			}
 
-			DistrictItemRarityInfo.Add(key, new DistrictItemRarityConfiguration());
-			DistrictItemRarityInfo[key].SetUpVoseAlias(rarityValues);
+			LandDistrictItemRarityInfo.Add(key, new DistrictItemRarityConfiguration());
+			LandDistrictItemRarityInfo[key].SetUpVoseAlias(rarityValues);
+			rarityValues.Clear();
+
+			for(i = 0; i < WaterItemsByDistrict[key].Count; ++i)
+			{
+				rarityValues.Add(ItemRarity.GetRarity(GetBaseItem(WaterItemsByDistrict[key][i]).Rarity));
+			}
+
+			WaterDistrictItemRarityInfo.Add(key, new DistrictItemRarityConfiguration());
+			WaterDistrictItemRarityInfo[key].SetUpVoseAlias(rarityValues);
 			rarityValues.Clear();
 		}
 	}
@@ -316,9 +366,17 @@ public class ItemFactory
 	/// </summary>
 	/// <returns>The weighted random item index.</returns>
 	/// <param name="district">District.</param>
-	public int GetWeightedRandomItemIndex(string district)
+	/// <param name="onLand">Whether or not the item index is intended for items that only generate on land.</param>
+	public int GetWeightedRandomItemIndex(string district, bool onLand)
 	{
-		return DistrictItemRarityInfo[district].GetWeightedRandomItemIndex();
+		if(onLand)
+		{
+			return LandDistrictItemRarityInfo[district].GetWeightedRandomItemIndex();
+		}
+		else
+		{
+			return WaterDistrictItemRarityInfo[district].GetWeightedRandomItemIndex();
+		}
 	}
 
 	/// <summary>
@@ -326,10 +384,19 @@ public class ItemFactory
 	/// </summary>
 	/// <returns>The weighted random base item.</returns>
 	/// <param name="district">District.</param>
-	public BaseItem GetWeightedRandomBaseItem(string district)
+	/// <param name="onLand">Whether or not the item index is intended for items that only generate on land.</param>
+	public BaseItem GetWeightedRandomBaseItem(string district, bool onLand)
 	{
-		int index = GetWeightedRandomItemIndex(district);
-		return ItemDatabase[ItemsByLocation[district][index]];
+		int index = GetWeightedRandomItemIndex(district, onLand);
+
+		if(onLand)
+		{
+			return ItemDatabase[LandItemsByDistrict[district][index]];
+		}
+		else
+		{
+			return ItemDatabase[WaterItemsByDistrict[district][index]];
+		}
 	}
 
 	/// <summary>
