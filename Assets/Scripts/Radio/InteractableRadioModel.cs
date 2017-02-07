@@ -194,4 +194,19 @@ public class InteractableRadioModel : MonoBehaviour
         value = (value * (stationSliderRightMax - stationSliderLeftMax)) + stationSliderLeftMax;
         stationSlider.transform.localPosition = new Vector3(value, stationSlider.transform.localPosition.y, stationSlider.transform.localPosition.z);
     }
+
+    /// <summary>
+    /// Sets the rotation of the knob, and sets the position of the slider based on a value between 0-1
+    /// </summary>
+    /// <param name="value"> A number between 0-1 anything greater or less than will be clamped.</param>
+    public void SetKnobRotationThreeSixty(float value)
+    {
+        value = Mathf.Clamp01(value/360f);
+
+        stationKnob.transform.localEulerAngles = new Vector3(0f, value * knobSpeed, 0f);
+
+        // Change the value's range to the slider's range.
+        value = (value * (stationSliderRightMax - stationSliderLeftMax)) + stationSliderLeftMax;
+        stationSlider.transform.localPosition = new Vector3(value, stationSlider.transform.localPosition.y, stationSlider.transform.localPosition.z);
+    }
 }

@@ -74,6 +74,8 @@ public class Radio : MonoBehaviour
 	[Tooltip("The highest degree of the range of the knob's rotation in which the weather will play")]
     public float highWeather;
 
+    public InteractableRadioModel RadioModel;
+
     /// <summary>
     /// Sets up radio for usage -- turned off, with no active channel
     /// </summary>
@@ -194,6 +196,7 @@ public class Radio : MonoBehaviour
     /// </summary>
     public void Power()
 	{
+        RadioModel.PushPowerButton();
 		// Turn off the radio and all channels if it's currently on
         if (isOn)
         {
