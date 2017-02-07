@@ -1,0 +1,677 @@
+---
+- itemName: "River Reed"
+  baseItem: 
+   itemName: "River Reed"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Plants/ITM_RiverWeed"
+   types:
+    - "edible"
+   flavorText: ""
+   modifyingActionNames:
+    - "Weave Rope"
+    - “Weave Basket”
+   actionModifiedModels:
+    - "ITM/Ropes/ITM_Rope"
+    - “ITM/Small\ Containers/ITM_Bucket”
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 1.0
+      durability: 0.5
+      elasticity: 0.6
+      stickiness: 0.1
+      thickness: 0.1
+      sharpness: 0.2
+    - !!plant
+      waterContent: 1.2
+      toughness: 3.0
+      sweet: 0.0
+      bitter: 0.0
+      sour: 0.0
+      salty: 0.0
+      spicy: 0.0
+      stomachEffect: 0.0
+      pneumoniaEffect: 0.0
+- itemName: "Stick"
+  baseItem: 
+   itemName: "Stick"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Rods/Stick"
+   types:
+     - "rod"
+   flavorText: ""
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories:
+    - !!solid
+      flexibility: 0.2
+      durability: 0.5
+      elasticity: 0.1
+      stickiness: 0.1
+      thickness: 0.4
+      sharpness: 0.3
+    - !!plant
+      waterContent: 0.8
+      toughness: 5.0
+      sweet: 0.0
+      bitter: 0.0
+      sour: 0.0
+      salty: 0.0
+      spicy: 0.0
+      stomachEffect: 0.0
+      pneumoniaEffect: 0.0
+- itemName: "Empty Can"
+  baseItem: 
+   itemName: "Empty Can"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Small Containers/EmptyTinCan"
+   types:
+    - "hook"
+   flavorText: ""
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0.2
+      durability: 0.5
+      elasticity: 0.1
+      stickiness: 0.1
+      thickness: 0.4
+      sharpness: 0.3
+- itemName: "Poor Fishing Rod"
+  baseItem:
+   inventorySprite: ""
+   worldModel: "ITM/Fishing Rods/BadFishingRod"
+   itemName: "Poor Fishing Rod"
+   rarity: "common"
+   types:
+    - "Advanced Tool"
+    - "equipable"
+   flavorText: "Not a very good fishing rod. Breaks easily."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0.5
+      durability: 1
+      elasticity: 0.1
+      stickiness: 0
+      thickness: 0.4
+      sharpness: 0.3
+    - !!fishingRod
+      equiped: 0
+- itemName: "Good Fishing Rod"
+  baseItem: 
+   itemName: "Good Fishing Rod"
+   rarity: "uncommon"
+   inventorySprite: ""
+   worldModel: "ITM/Fishing Rods/MediumFishingRod"
+   types:
+    - "Advanced Tool"
+    - "equipable"
+   flavorText: "Pretty good fishing rod. Will last awhile."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 1
+      durability: 5
+      elasticity: 1
+      stickiness: 0
+      thickness: 2
+      sharpness: 1
+    - !!fishingRod
+      equiped: 0
+- itemName: "Excellent Fishing Rod"
+  baseItem: 
+   itemName: "Excellent Fishing Rod"
+   rarity: "rare"
+   inventorySprite: ""
+   worldModel: "ITM/Fishing Rods/GoodFishingRod"
+   types:
+    - "Advanced Tool"
+    - "equipable"
+   flavorText: "Fantastic fishing rod! Best catches and last a long time!"
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 2
+      durability: 20
+      elasticity: 2
+      stickiness: 0
+      thickness: 2
+      sharpness: 2
+    - !!fishingRod
+      equiped: 0
+- itemName: "Match"
+  baseItem: 
+   itemName: "Match"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Tools/ITM_individualMatch"
+   types:
+    - "flammable"
+   flavorText: "A match! For lighting fires to cook and keep warm."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Notebook"
+  baseItem: 
+   itemName: "Notebook"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Notes/ITM_NoteBook"
+   types:
+    - ""
+   flavorText: "Pages and pages of ravings from a mad scientist."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Radio Antenna"
+  baseItem: 
+   itemName: "Radio Antenna"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Communication/ITM_RadioAntenna"
+   types:
+    - ""
+   flavorText: "An antenna reciever."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Bandage"
+  baseItem: 
+   itemName: "Bandage"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Healing/ITM_Bandage"
+   types:
+    - "medicine"
+   flavorText: "For covering your wounds."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Paper Scrap"
+  baseItem: 
+   itemName: "Paper Scrap"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Notes/ITM_PaperScrap"
+   types:
+    - ""
+   flavorText: "A scrap of paper."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Scrap Metal"
+  baseItem: 
+   itemName: "Scrap Metal"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Raw Materials/ITM_ScrapMetal"
+   types:
+    - ""
+   flavorText: "Leftover metal. Would be good for crafting tools."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Golf Club"
+  baseItem: 
+   itemName: "Golf Club"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Rods/GolfClub"
+   types:
+    - "rod"
+   flavorText: "Doubles as an excellent giant stick."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Pipe"
+  baseItem: 
+   itemName: "Pipe"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Rods/ITM_Pipe"
+   types:
+    - "rod"
+   flavorText: "A long, hollow tube made of plastic."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Umbrella"
+  baseItem: 
+   itemName: "Umbrella"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Rods/Umbrella"
+   types:
+    - "rod"
+   flavorText: "To keep you dry."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Rope"
+  baseItem: 
+   itemName: "Rope"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Ropes/ITM_Rope"
+   types:
+    - "rope"
+   flavorText: "For things you use rope for."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Spool of Thread"
+  baseItem: 
+   itemName: "Spool of Thread"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Ropes/SpoolOfThread"
+   types:
+    - "rope"
+   flavorText: "Bottom text"
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Bucket"
+  baseItem: 
+   itemName: "Bucket"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Small Containers/ITM_Bucket"
+   types:
+    - "container"
+   flavorText: "A bucket for holding things."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Plastic Bottle"
+  baseItem: 
+   itemName: "Plastic Bottle"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Small Containers/PlasticBottle"
+   types:
+    - "container"
+   flavorText: "A water bottle somebody discarded."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Sealed Can"
+  baseItem: 
+   itemName: "Sealed Can"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Small Containers/SealedTinCan"
+   types:
+    - "container"
+   flavorText: "An unopened tin can."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Axe"
+  baseItem: 
+   itemName: "Axe"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Tools/ITM_Axe"
+   types:
+    - "Equipable"
+   flavorText: "For cutting things down."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Chopsticks"
+  baseItem: 
+   itemName: "Chopsticks"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Tools/ITM_Chopsticks"
+   types:
+    - ""
+   flavorText: "For eating."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Flare"
+  baseItem: 
+   itemName: "Flare"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Tools/ITM_Flare"
+   types:
+    - ""
+   flavorText: "For light."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Hammer"
+  baseItem: 
+   itemName: "Hammer"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Tools/ITM_Hammer"
+   types:
+    - "equipable"
+   flavorText: "HAMMER SMASHED FACE."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Knife"
+  baseItem: 
+   itemName: "Knife"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Tools/ITM_Knife"
+   types:
+    - "equipable"
+   flavorText: "For cutting."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Lantern"
+  baseItem: 
+   itemName: "Lantern"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Tools/ITM_Lantern"
+   types:
+    - "equipable"
+   flavorText: "ABSOLUTE LIGHT."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Medicine Box"
+  baseItem: 
+   itemName: "Medicine Box"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Tools/ITM_MedicineBox"
+   types:
+    - "medicine"
+   flavorText: "A first aid kit."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Shovel"
+  baseItem: 
+   itemName: "Shovel"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Tools/ITM_Shovel"
+   types:
+    - "equipable"
+   flavorText: "Get the shovel."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Spear"
+  baseItem: 
+   itemName: "Spear"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Tools/ITM_Spear"
+   types:
+    - "equipable"
+   flavorText: "This is how you kill Matt's precious whale."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Barometer"
+  baseItem: 
+   itemName: "Barometer"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Weather Instruments/ITM_Barometer"
+   types:
+    - "equipable"
+   flavorText: "A tool to measure atmospheric pressure. Great for predicting storms."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Thermometer"
+  baseItem: 
+   itemName: "Thermometer"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Weather Instruments/ITM_Thermometer"
+   types:
+    - "equipable"
+   flavorText: "A tool to measure temperature."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Weather Vane"
+  baseItem: 
+   itemName: "Weather Vane"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Weather Instruments/ITM_WeatherVane"
+   types:
+    - "equipable"
+   flavorText: "It does whatever weather vanes do."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+
+
+
