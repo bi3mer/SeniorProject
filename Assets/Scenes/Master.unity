@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17110428, g: 0.20773444, b: 0.29840243, a: 1}
+  m_IndirectSpecularColor: {r: 0.17461526, g: 0.21450865, b: 0.30849275, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2674,6 +2674,40 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 224000014070625870, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0.16480851
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000014070625870, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000014070625870, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011777449246, guid: 12cac1228c3fb431483d6d77ddf40555, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000013233050492, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000013233050492, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000013233050492, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 12cac1228c3fb431483d6d77ddf40555, type: 2}
   m_IsPrefabParent: 0
@@ -2999,11 +3033,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1568084899}
   m_Script: {fileID: 11500000, guid: 5a1024f5199154a4b8585a0c153ab146, type: 3}
---- !u!224 &1062563083 stripped
-RectTransform:
-  m_PrefabParentObject: {fileID: 224000012120877976, guid: ff82fe7632e4040e299216c1c117bd87,
-    type: 2}
-  m_PrefabInternal: {fileID: 1237897106}
 --- !u!21 &1106751149
 Material:
   serializedVersion: 6
@@ -4315,7 +4344,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 341129034}
-  - {fileID: 1062563083}
+  - {fileID: 1683695123}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_AnchorMin: {x: 0, y: 0}
@@ -4941,6 +4970,11 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
+--- !u!224 &1683695123 stripped
+RectTransform:
+  m_PrefabParentObject: {fileID: 224000012614868508, guid: ff82fe7632e4040e299216c1c117bd87,
+    type: 2}
+  m_PrefabInternal: {fileID: 1237897106}
 --- !u!21 &1813621908
 Material:
   serializedVersion: 6
