@@ -134,7 +134,9 @@ public abstract class SamplingPointGenerator
 	{
 		if(hit.collider.CompareTag(waterTag) == generateInWater)
 		{
-			if((Mathf.Abs (Mathf.Acos (Vector3.Dot (hit.normal, Vector3.up))) <= maxAngle))
+			float dotProduct = Mathf.Clamp(Vector3.Dot(hit.normal, Vector3.up), -1f, 1f);
+
+			if(Mathf.Abs (Mathf.Acos (dotProduct)) <= maxAngle)
 			{
 				return true;
 			}

@@ -320,7 +320,6 @@ public class RooftopPointGenerator: SamplingPointGenerator
 			objectLocation = new Vector2(Random.Range(width * borderPercent + size, 1 - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, 1 - (depth * borderPercent + size)));
 
 			objectGlobalLocation = convertToWorldSpace(objectLocation, center, width, depth);
-
 			Physics.Raycast (new Vector3 (objectGlobalLocation.x, initialRayStartHeight, objectGlobalLocation.y), Vector3.down, out hit, height);
 		
 			++tries;

@@ -9,10 +9,11 @@ public class RestartBehavior : MonoBehaviour
 	private string mainGameScene;
 
 	/// <summary>
-	/// Restarts the game. Goes back to master.
+	/// Restarts the game. Goes back to main game scene and resets the game.
 	/// </summary>
 	public void Restart()
 	{
 		SceneManager.LoadScene(mainGameScene);
+        Game.Instance.Reset();
 	}
 }

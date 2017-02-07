@@ -1,0 +1,61 @@
+﻿---
+- recipeName: "Fishing Rod"
+  requirements:
+   - itemType: "rod"
+     amountRequired: 1
+   - itemType: "rope"
+     amountRequired: 1
+   - itemType: "hook"
+     amountRequired: 1
+  statsToCheck:
+   - statName: "durability"
+     statAffectingItems:
+      - "rod"
+      - "rope"
+      - "hook"
+     qualityThreshold:
+      - 5
+      - 15
+   - statName: "elasticity"
+     statAffectingItems:
+      - "rod"
+      - "rope"
+     qualityThreshold:
+      - 1
+      - 2
+   - statName: "flexibility"
+     statAffectingItems:
+      - "rod"
+      - "rope"
+     qualityThreshold:
+      - 1
+      - 2
+   - statName: "sharpness"
+     statAffectingItems:
+      - "hook"
+     qualityThreshold:
+      - 3
+      - 5
+   - statName: "stickiness"
+     statAffectingItems:
+      - "rod"
+     qualityThreshold:
+      - 0
+      - 0
+   - statName: "thickness"
+     statAffectingItems:
+      - "rod"
+     qualityThreshold:
+      - 2
+      - 4
+- recipeName: "Fire Pit"
+  requirements:
+   - itemType: "fuel"
+     amountRequired: 5
+  statsToCheck:
+   - statName: "burnRate"
+     statAffectingItems:
+      - "fuel"
+     qualityThreshold:
+      - 5
+      - 20

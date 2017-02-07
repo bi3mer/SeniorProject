@@ -16,6 +16,14 @@
         Loader = new GameLoader();
         DeathManagerInstance = new DeathManager();
     }
+
+    /// <summary>
+    /// Resets the game from the start.
+    /// </summary>
+    public void Reset ()
+    {
+        PlayerInstance.ResetStatus();
+    }
  
     /// <summary>
     /// The current game instance. If there is no instance, one is created.
@@ -29,6 +37,17 @@
                 instance = new Game();
             }
             return instance;
+        }
+    }
+
+    /// <summary>
+    /// Shorcut to calling Instance.PlayerInstance
+    /// </summary>
+    public static Player Player
+    {
+        get
+        {
+            return Instance.PlayerInstance;
         }
     }
 
