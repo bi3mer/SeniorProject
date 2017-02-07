@@ -31,10 +31,11 @@ public class BuildScript : MonoBehaviour
     public static void CopyYAMLFiles (string buildPath)
     {
         // Make sure the files are up to date if we're not using local files
-        if (!FileManagerEditor.IsUsingLocalFiles)
-        {
-            FileManager.SaveAllDocuments();
-        }
+        // TODO: kept in here just in case, currently destroying google drive
+//        if (!FileManagerEditor.IsUsingLocalFiles)
+//        {
+//            FileManager.SaveAllDocuments();
+//        }
 
         // Copy all yaml files to the build directory
         DirectoryInfo dir = new DirectoryInfo(yamlDirectory);
