@@ -26,9 +26,9 @@ GameObject:
   - 65: {fileID: 65000010916185238}
   - 65: {fileID: 65000014264115480}
   - 65: {fileID: 65000013961158934}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: ENV_WindowWasher
-  m_TagString: Land
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013851826162}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: RopeAttachLocation1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,9 +57,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013553497934}
   - 120: {fileID: 120000011565366448}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: SecondRopeLineRenderer
-  m_TagString: Land
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72,7 +72,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012402838368}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: RopeAttachLocation2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012961753538}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: RopeAttachLocation3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,9 +106,9 @@ GameObject:
   - 23: {fileID: 23000012737319204}
   - 65: {fileID: 65000010301907232}
   - 65: {fileID: 65000010053391898}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: ENV_WindowWasherSupport
-  m_TagString: Land
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -123,7 +123,7 @@ GameObject:
   - 4: {fileID: 4000011979510674}
   - 65: {fileID: 65000012562147032}
   - 65: {fileID: 65000013180113982}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: WindowWasherGround
   m_TagString: Land
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012148869080}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: RopeAttachLocation4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,9 +155,9 @@ GameObject:
   - 4: {fileID: 4000011904715294}
   - 23: {fileID: 23000012581254408}
   - 102: {fileID: 102000010708374116}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: TextMesh
-  m_TagString: Land
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -174,9 +174,9 @@ GameObject:
   - 54: {fileID: 54000011720505816}
   - 120: {fileID: 120000010831116910}
   - 114: {fileID: 114000011268269196}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Window Washer
-  m_TagString: Land
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -232,7 +232,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014197162040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.187, y: 2.983, z: -1.056}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -506,8 +506,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.30160463, y: 0.26552296, z: 0.60137606}
-  m_Center: {x: 0.0008019209, y: -0.098701015, z: 0.30242598}
+  m_Size: {x: 0.30160463, y: 0.07549756, z: 0.60137606}
+  m_Center: {x: 0.0008019209, y: -0.0036881603, z: 0.30242595}
 --- !u!65 &65000013180113982
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -518,8 +518,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.48779595, y: 0.26610786, z: 0.5979756}
-  m_Center: {x: 0.0938983, y: -0.09899379, z: -0.30101144}
+  m_Size: {x: 0.48779595, y: 0.07549756, z: 0.5979756}
+  m_Center: {x: 0.0938983, y: -0.0036881603, z: -0.30101147}
 --- !u!65 &65000013961158934
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -616,9 +616,9 @@ MonoBehaviour:
   - {fileID: 4000012148869080}
   - {fileID: 4000012961753538}
   - {fileID: 4000012402838368}
-  washerBaseLength: 1.1
-  placementCenter: {fileID: 1000013414948478}
-  StartUp: 0
+  washerBaseLength: 0
+  placementCenter: {fileID: 0}
+  StartUp: 1
   myIntObject: {fileID: 114000011268269196}
 --- !u!120 &120000010831116910
 LineRenderer:

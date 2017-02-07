@@ -1007,4 +1007,9 @@ public class PlayerController : MonoBehaviour
             movement.Jump(playerAnimator);
         }
     }
+
+    public void SetInteractable(InteractableObject intObject)
+    {
+        interactable = intObject;
+    }
 }
