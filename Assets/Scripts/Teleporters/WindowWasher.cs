@@ -24,7 +24,6 @@ public class WindowWasher : MonoBehaviour
     private Rigidbody playerBody;
     private bool canMove = false;
     private const string playerTag = "Player";
-    private const string waterTag = "Water";
 
     [Header ("Rope Variables")]
     [SerializeField]
@@ -63,6 +62,9 @@ public class WindowWasher : MonoBehaviour
     [Tooltip ("Does the washer start in the up position?")]
     public bool StartUp;
 
+    [SerializeField]
+    private InteractableObject myIntObject;
+
     /// <summary>
     /// Set up the rope material on start.
     /// </summary>
@@ -76,12 +78,6 @@ public class WindowWasher : MonoBehaviour
         ropeRenderer.material = ropeMaterial;
         ropeRendererTwo.material = ropeMaterial;
 
-        // Attempt to find the water if it wasn't set up manually. I'd love having water level be a static variable that I can read.
-        if(water == null)
-        {
-            water = GameObject.FindGameObjectWithTag("Water");
-        }
-
         if(StartUp == true)
         {
             isUp = true;
@@ -94,16 +90,17 @@ public class WindowWasher : MonoBehaviour
 
     public void Update()
     {   
+        
         // Disable if water is above the building.
-        if (water.transform.position.y < transform.position.y)
+        if (Game.Instance.WaterLevelHeight < transform.position.y)
         { 
             UpdateRopePosition();
    
             // rise with the water
-            if(!isUp && water.transform.position.y + MaxLowerDistance >= transform.position.y)
+            if(!isUp && Game.Instance.WaterLevelHeight + MaxLowerDistance >= transform.position.y)
             {
                 movingPlatform.transform.position = new Vector3(movingPlatform.transform.position.x,
-                                                    water.transform.position.y,
+                                                   Game.Instance.WaterLevelHeight,
                                                     movingPlatform.transform.position.z);
             }
             else if(!isUp)
@@ -122,6 +119,7 @@ public class WindowWasher : MonoBehaviour
     {
         if(other.tag == playerTag)
         {
+            Game.Instance.PlayerInstance.Controller.SetInteractable(myIntObject);
             playerBody = other.GetComponent<Rigidbody>();
             canMove = true;
         }
@@ -150,14 +148,14 @@ public class WindowWasher : MonoBehaviour
             {
                 isUp = false;
                 // Water is too far down to reach
-                if (movingPlatform.transform.position.y - water.transform.position.y > MaxLowerDistance)
+                if (movingPlatform.transform.position.y - Game.Instance.WaterLevelHeight > MaxLowerDistance)
                 {
                     offset = new Vector3(0f, -MaxLowerDistance, 0f);
                 }
                 // Water is within reach
                 else
                 {
-                    offset = - new Vector3(0f, movingPlatform.transform.position.y - water.transform.position.y, 0f);
+                    offset = - new Vector3(0f, movingPlatform.transform.position.y - Game.Instance.WaterLevelHeight, 0f);
                 }
             }
             // Move up
