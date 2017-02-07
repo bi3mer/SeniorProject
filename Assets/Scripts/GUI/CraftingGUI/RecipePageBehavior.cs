@@ -101,8 +101,20 @@ public class RecipePageBehavior : MonoBehaviour
 		BeginCraftingButton.gameObject.SetActive (false);
 		CraftingPanel.gameObject.SetActive (true);
 		DisplayPossibleItems (0);
-		CraftButton.gameObject.SetActive (false);
+
 		CancelCraftButton.gameObject.SetActive (true);
+
+		if (recipe.Requirements.Count <= 1) 
+		{
+			NextStepButton.gameObject.SetActive (false);
+			CraftButton.gameObject.SetActive (true);
+			CraftButton.interactable = false;
+			continueButton = CraftButton;
+		} 
+		else
+		{
+			CraftButton.gameObject.SetActive (false);
+		}
 	}
 
 	/// <summary>
@@ -290,6 +302,8 @@ public class RecipePageBehavior : MonoBehaviour
 	/// </summary>
 	public void Craft()
 	{
+		AddSelectedIngredients();
+
 		// call the CraftingRecipeFactory which will create the resulting item given the
 		// name of the recipe and ingredients selected
 		Game.Instance.ItemFactoryInstance.Craft (recipe, itemsSelected, Game.Instance.PlayerInstance.Inventory); // add in after overworld PR is done

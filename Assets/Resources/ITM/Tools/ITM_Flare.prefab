@@ -54,6 +54,8 @@ GameObject:
   - 4: {fileID: 4000011291194686}
   - 33: {fileID: 33000013204054152}
   - 23: {fileID: 23000010231927504}
+  - 65: {fileID: 65000013965091012}
+  - 54: {fileID: 54000010598917124}
   m_Layer: 9
   m_Name: ITM_Flare
   m_TagString: Interactable
@@ -138,6 +140,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013634524828}
   m_Mesh: {fileID: 4300000, guid: 2738b6cc27a595842bb23430b83e5240, type: 3}
+--- !u!54 &54000010598917124
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013634524828}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65000013965091012
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013634524828}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.015493372, y: 0.015493372, z: 0.11769401}
+  m_Center: {x: 0.000028493581, y: 0.000021626474, z: -0.0052813925}
 --- !u!108 &108000011300938388
 Light:
   m_ObjectHideFlags: 1

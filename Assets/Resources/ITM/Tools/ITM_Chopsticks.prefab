@@ -21,6 +21,8 @@ GameObject:
   - 4: {fileID: 4000010824147602}
   - 33: {fileID: 33000012347845464}
   - 23: {fileID: 23000010758228934}
+  - 65: {fileID: 65000012423447838}
+  - 54: {fileID: 54000010452911742}
   m_Layer: 9
   m_Name: ITM_Chopsticks
   m_TagString: Interactable
@@ -77,3 +79,30 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011035739814}
   m_Mesh: {fileID: 4300000, guid: dd476dbb76effb247a0d02d1e563e1aa, type: 3}
+--- !u!54 &54000010452911742
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011035739814}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65000012423447838
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011035739814}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.02119578, y: 0.0076212743, z: 0.11999997}
+  m_Center: {x: 0.000004410278, y: 0.00000045762863, z: -0.000000014901161}
