@@ -3,13 +3,24 @@
   landItems:
    - "Empty Can"
    - "Stick"
+   - "Bandage"
+   - "Radio Antenna"
+   - "Medicine Box"
+   - "Scrap Metal"
   waterItems:
    - "River Reed"
    - "Stick"
+   - "Umbrella"
 - districtName: "business"
   landItems:
    - "Empty Can"
    - "Stick"
+   - "Rope"
+   - "Notebook"
+   - "Paper Scrap"
+   - "Scrap Metal"
+   - "Golf Club"
+   - "Rope"
   waterItems:
    - "River Reed"
    - "Empty Can"
@@ -17,5 +28,12 @@
   landItems:
    - "Empty Can"
    - "Stick"
+   - "Match"
+   - "Matchbook"
+   - "Bandage"
+   - "Egg"
+   - "Pipe"
   waterItems:
    - "River Reed"
+   - "Umbrella"
+   - "Rope"

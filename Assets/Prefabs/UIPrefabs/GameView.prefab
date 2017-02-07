@@ -1210,7 +1210,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1000011860804152
 GameObject:
   m_ObjectHideFlags: 1
@@ -3147,10 +3147,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb653f742f9164425a353cadca4fc147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music: {fileID: 82000012494237622}
   weather: {fileID: 82000010327420038}
-  mystery: {fileID: 82000014167686796}
-  statics: {fileID: 82000012324066818}
+  MusicDefaultPath: event:/Radio/Music/Music1
+  MysteryDefaultPath: event:/Radio/Mystery/Mystery1
+  StaticDefaultPath: event:/Radio/Static/Basic_Static
+  RadioOnText: Radio is on
+  RadioOffText: Radio is off
   radioScreenText: {fileID: 114000014036257158}
   dial: {fileID: 114000012687942852}
   lowMusic: 10
@@ -12905,9 +12907,9 @@ RectTransform:
   m_Father: {fileID: 224000013667191014}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224000013274613748
 RectTransform:
@@ -13416,8 +13418,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 224000011811878070}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0.16480845}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}

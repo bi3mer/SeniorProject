@@ -94,6 +94,8 @@ public class InventoryUI : MonoBehaviour
 				itemStackUIList [i].SetUpInventoryItem(inventory[i]);
 			}
 		}
+
+		inventoryLayoutManager.CheckGridSize();
 	}
 
 	/// <summary>

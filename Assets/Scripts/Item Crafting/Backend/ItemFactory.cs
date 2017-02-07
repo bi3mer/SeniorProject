@@ -246,6 +246,7 @@ public class ItemFactory
 				// The contribution from the type of item is the average of the values from each of the items, scaled depending on how much of that
 				// item was used to fulfill the recipe. So if 2 of one item was used, and only 1 of another, then the first will affect the final
 				// contribution twice as much as the second object.
+
 				for (int z = 0; z < ingredientsByType [affectingItems [y]].Count; ++z) 
 				{
 					currentItem = inventory.GetInventoryBaseItem(ingredientsByType [affectingItems [y]] [z].IngredientName);
@@ -396,5 +397,25 @@ public class ItemFactory
 		{
 			return ItemDatabase[WaterItemsByDistrict[district][index]];
 		}
+	}
+
+	/// <summary>
+	/// Gets the item names by tag.
+	/// </summary>
+	/// <returns>The item names by tag.</returns>
+	/// <param name="desiredTag">Desired tag.</param>
+	public List<string> GetItemNamesByTag(string desiredTag)
+	{
+		List<string> desiredItemNames = new List<string>();
+
+		foreach(string key in ItemDatabase.Keys)
+		{
+			if(ItemDatabase[key].Types.Contains(desiredTag))
+			{
+				desiredItemNames.Add(key);
+			}
+		}
+
+		return desiredItemNames;
 	}
 }

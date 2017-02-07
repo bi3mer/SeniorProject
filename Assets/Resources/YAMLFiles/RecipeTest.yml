@@ -48,14 +48,20 @@
      qualityThreshold:
       - 2
       - 4
-- recipeName: "Fire Pit"
+- recipeName: "Woven Blanket"
   requirements:
-   - itemType: "fuel"
-     amountRequired: 5
+   - itemType: "rope"
+     amountRequired: 4
   statsToCheck:
-   - statName: "burnRate"
+   - statName: "thickness"
      statAffectingItems:
-      - "fuel"
+      - "rope"
      qualityThreshold:
-      - 5
-      - 20
+      - 0.5
+      - 0.1
+   - statName: "flexibility"
+     statAffectingItems:
+      - "rope"
+     qualityThreshold:
+      - 1
+      - 2

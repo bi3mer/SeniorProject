@@ -55,9 +55,12 @@ public class ItemSerializer: CraftingSystemSerializer
 			BaseItem item = itemYamlInfo [i].BaseItem;
 			item.InitializeBaseItem ();
 
-			for (int j = 0; j < itemYamlInfo[i].ItemCategories.Count; ++j) 
+			if(itemYamlInfo[i].ItemCategories != null && itemYamlInfo[i].ItemCategories.Count > 0)
 			{
-				item.AddItemCategory (itemYamlInfo[i].ItemCategories [j]);
+				for (int j = 0; j < itemYamlInfo[i].ItemCategories.Count; ++j) 
+				{
+					item.AddItemCategory (itemYamlInfo[i].ItemCategories [j]);
+				}
 			}
 
 			item.SetUpBaseItem ();

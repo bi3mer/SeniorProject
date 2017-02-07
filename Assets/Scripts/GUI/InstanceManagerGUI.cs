@@ -27,4 +27,9 @@ public static class GuiInstanceManager
 	/// The instance is set in ItemStackDetailPanelBehavior.cs's Awake function.
 	/// </summary>
 	public static ItemStackDetailPanelBehavior ItemStackDetailPanelInstance;
+
+	/// <summary>
+	/// The panel that pops up when the user needs to select an item to execute a specific action, as prompted during item interaction.
+	/// </summary>
+	public static WorldSelectionGUIDirector WorldSelectionGuiInstance;
 }

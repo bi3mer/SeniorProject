@@ -88,7 +88,7 @@ public class RainController : MonoBehaviour
     private FXSplashManager splashManager;
     [SerializeField]
     private float splashSize = .4f;
-    private ParticleSystem particleSystem;
+    private ParticleSystem rainParticleSystem;
     private List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
 
     /// <summary>
@@ -99,7 +99,7 @@ public class RainController : MonoBehaviour
         // Grab the renderer.
         MainRainRenderer = MainRain.GetComponent<ParticleSystemRenderer>();
 
-        particleSystem = GetComponent<ParticleSystem>();
+        rainParticleSystem = GetComponent<ParticleSystem>();
     }
 
 	/// <summary>
@@ -167,7 +167,7 @@ public class RainController : MonoBehaviour
     /// <param name="other"></param>
     void OnParticleCollision(GameObject other)
     {
-        particleSystem.GetCollisionEvents(other, collisionEvents);
+        rainParticleSystem.GetCollisionEvents(other, collisionEvents);
 
         for (int i = 0; i < collisionEvents.Count; ++i)
         {

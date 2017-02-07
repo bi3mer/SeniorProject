@@ -41,6 +41,7 @@
    worldModel: "ITM/Rods/Stick"
    types:
      - "rod"
+     - "fuel"
    flavorText: ""
    modifyingActionNames:
    actionModifiedModels:
@@ -152,6 +153,171 @@
       sharpness: 2
     - !!fishingRod
       equiped: 0
+- itemName: "Poor Woven Blanket"
+  baseItem: 
+   itemName: "Poor Woven Blanket"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Healing/ITM_Bandage"
+   types:
+    - "cloth"
+   flavorText: "A coarsely woven blanket. Scratchy and barely keeps the wind out."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!cloth
+      threadDensity: 0.5
+      impermiability: 0.2
+      fabricThickness: 1
+      onPlayer: 0
+- itemName: "Good Woven Blanket"
+  baseItem: 
+   itemName: "Good Woven Blanket"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Healing/ITM_Bandage"
+   types:
+    - "cloth"
+   flavorText: "A blanket made by weaving. Came out pretty well. Decently warm."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!cloth
+      threadDensity: 1
+      impermiability: 0.5
+      fabricThickness: 2
+      onPlayer: 0
+- itemName: "Excellent Woven Blanket"
+  baseItem: 
+   itemName: "Excellent Woven Blanket"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Healing/ITM_Bandage"
+   types:
+    - "cloth"
+   flavorText: "A blanket made with masterful weaving. Incredibly warm."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!cloth
+      threadDensity: 2.5
+      impermiability: 3
+      fabricThickness: 2.5
+      onPlayer: 0
+- itemName: "Medicine Box"
+  baseItem: 
+   itemName: "Medicine Box"
+   rarity: "uncommon"
+   inventorySprite: ""
+   worldModel: "ITM/Healing/ITM_BandageBox"
+   types:
+     - "medicinal"
+   flavorText: ""
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories:
+    - !!medicine
+      healthGain: 0.0
+      sickness: "all"
+- itemName: "Bandage"
+  baseItem:
+   itemName: "Bandage"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Healing/ITM_Bandage"
+   types:
+     - "medicinal"
+   flavorText: ""
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories:
+    - !!medicine
+      healthGain: 20.0
+      sickness: “none”
+- itemName: "Egg"
+  baseItem:
+   itemName: "Egg"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Food/ITM_egg"
+   types:
+     - "edible"
+   flavorText: ""
+   modifyingActionNames:
+     - "Cook"
+   actionModifiedModels: 
+    - "ITM/Food/ITM_CookedFish"
+   actionModifiedSprites:
+  itemCategories:
+    - !!flesh
+      hungerGain: 20.0
+      healthEffect: 0.25
+- itemName: "Matchbook"
+  baseItem:
+   itemName: "Matchbook"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Tools/ITM_matchBook"
+   types:
+     - "igniter"
+   flavorText: "Can be used to light fuel on fire."
+   modifyingActionNames:
+   actionModifiedModels: 
+   actionModifiedSprites:
+  itemCategories:
+- itemName: "Poor Fire Pit"
+  baseItem:
+   itemName: "Poor Fire Pit"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Campfire/ENV_Campfire"
+   types:
+     - "fuel"
+   flavorText: "A shoddy fire pit. Place into world and ignite to start a fire. Burns out quickly."
+   modifyingActionNames:
+   actionModifiedModels: 
+   actionModifiedSprites:
+  itemCategories:
+    - !!fireBase
+      burnRateMultiplier: 1.5
+      startingFuel: 20.0
+- itemName: "Good Fire Pit"
+  baseItem:
+   itemName: "Good Fire Pit"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Campfire/ENV_Campfire"
+   types:
+     - "fuel"
+   flavorText: "A fire pit. Place into world and ignite to start a fire. Burns fairly long."
+   modifyingActionNames:
+   actionModifiedModels: 
+   actionModifiedSprites:
+  itemCategories:
+    - !!fireBase
+      burnRateMultiplier: 1.0
+      startingFuel: 40.0
+- itemName: "Excellent Fire Pit"
+  baseItem:
+   itemName: "Excellent Fire Pit"
+   rarity: "common"
+   inventorySprite: ""
+   worldModel: "ITM/Campfire/ENV_Campfire"
+   types:
+     - "fuel"
+   flavorText: "A wonderful fire pit. Place into world and ignite to start a fire. Burns slowly."
+   modifyingActionNames:
+   actionModifiedModels: 
+   actionModifiedSprites:
+  itemCategories:
+    - !!fireBase
+      burnRateMultiplier: 0.9
+      startingFuel: 60.0
 - itemName: "Match"
   baseItem: 
    itemName: "Match"
@@ -201,26 +367,6 @@
    types:
     - ""
    flavorText: "An antenna reciever."
-   modifyingActionNames:
-   actionModifiedModels:
-   actionModifiedSprites:
-  itemCategories: 
-    - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
-      stickiness: 0
-      thickness: 0
-      sharpness: 0
-- itemName: "Bandage"
-  baseItem: 
-   itemName: "Bandage"
-   rarity: "common"
-   inventorySprite: ""
-   worldModel: "ITM/Healing/ITM_Bandage"
-   types:
-    - "medicine"
-   flavorText: "For covering your wounds."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:

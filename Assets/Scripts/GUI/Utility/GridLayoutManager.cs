@@ -20,6 +20,8 @@ public class GridLayoutManager : MonoBehaviour
 	[SerializeField]
 	private RectTransform contentPanel;
 
+	private float previousWidth;
+
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
@@ -49,5 +51,17 @@ public class GridLayoutManager : MonoBehaviour
 		}
 
 		gridLayoutGroup.cellSize = new Vector2(xDim, yDim);
+		previousWidth = contentPanel.rect.width;
+	}
+
+	/// <summary>
+	/// Checks the size of the grid.
+	/// </summary>
+	public void CheckGridSize()
+	{
+		if(previousWidth != contentPanel.rect.width)
+		{
+			SetGridSize();
+		}
 	}
 }
