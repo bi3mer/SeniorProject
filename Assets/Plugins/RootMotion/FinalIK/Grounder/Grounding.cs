@@ -7,7 +7,8 @@ namespace RootMotion.FinalIK {
 	/// Foot placement system.
 	/// </summary>
 	[System.Serializable]
-	public partial class Grounding {
+	public partial class Grounding
+    {
 		
 		#region Main Interface
 
@@ -15,7 +16,8 @@ namespace RootMotion.FinalIK {
 		/// The raycasting quality. Fastest is a single raycast per foot, Simple is three raycasts, Best is one raycast and a capsule cast per foot.
 		/// </summary>
 		[System.Serializable]
-		public enum Quality {
+		public enum Quality
+        {
 			Fastest,
 			Simple,
 			Best
@@ -129,8 +131,10 @@ namespace RootMotion.FinalIK {
 		/// <summary>
 		/// Is the RaycastHit from the root grounded?
 		/// </summary>
-		public bool rootGrounded {
-			get {
+		public bool rootGrounded
+        {
+			get
+            {
 				return rootHit.distance < maxStep * 2f;
 			}
 		}
@@ -138,7 +142,8 @@ namespace RootMotion.FinalIK {
 		/// <summary>
 		/// Raycasts or sphereCasts to find the root ground point. Distance of the Ray/Sphere cast is maxDistanceMlp x maxStep. Use this instead of rootHit if the Grounder is weighed out/disabled and not updated.
 		/// </summary>
-		public RaycastHit GetRootHit(float maxDistanceMlp = 10f) {
+		public RaycastHit GetRootHit(float maxDistanceMlp = 10f)
+        {
 			RaycastHit h = new RaycastHit();
 			Vector3 _up = up;
 			
@@ -161,21 +166,26 @@ namespace RootMotion.FinalIK {
 		/// <summary>
 		/// Gets a value indicating whether this <see cref="Grounding"/> is valid.
 		/// </summary>
-		public bool IsValid(ref string errorMessage) {
-			if (root == null) {
+		public bool IsValid(ref string errorMessage)
+        {
+			if (root == null)
+            {
 				errorMessage = "Root transform is null. Can't initiate Grounding.";
 				return false;
 			}
-			if (legs == null) {
+			if (legs == null)
+            {
 				errorMessage = "Grounding legs is null. Can't initiate Grounding.";
 				return false;
 			}
-			if (pelvis == null) {
+			if (pelvis == null)
+            {
 				errorMessage = "Grounding pelvis is null. Can't initiate Grounding.";
 				return false;
 			}
 			
-			if (legs.Length == 0) {
+			if (legs.Length == 0)
+            {
 				errorMessage = "Grounding has 0 legs. Can't initiate Grounding.";
 				return false;
 			}
@@ -185,7 +195,8 @@ namespace RootMotion.FinalIK {
 		/// <summary>
 		/// Initiate the %Grounding as an integrated solver by providing the root Transform, leg solvers, pelvis Transform and spine solver.
 		/// </summary>
-		public void Initiate(Transform root, Transform[] feet) {
+		public void Initiate(Transform root, Transform[] feet)
+        {
 			this.root = root;
 			initiated = false;
 
@@ -200,13 +211,15 @@ namespace RootMotion.FinalIK {
 			if (pelvis == null) pelvis = new Pelvis();
 			
 			string errorMessage = string.Empty;
-			if (!IsValid(ref errorMessage)) {
+			if (!IsValid(ref errorMessage))
+            {
 				Warning.Log(errorMessage, root, false);
 				return;
 			}
 			
 			// Initiate solvers only if application is playing
-			if (Application.isPlaying) {
+			if (Application.isPlaying)
+            {
 				for (int i = 0; i < feet.Length; i++) legs[i].Initiate(this, feet[i]);
 				pelvis.Initiate(this);
 				
@@ -217,7 +230,8 @@ namespace RootMotion.FinalIK {
 		/// <summary>
 		/// Updates the Grounding.
 		/// </summary>
-		public void Update() {
+		public void Update()
+        {
 			if (!initiated) return;
 
 			if (layers == 0) LogWarning("Grounding layers are set to nothing. Please add a ground layer.");
@@ -238,7 +252,8 @@ namespace RootMotion.FinalIK {
 			isGrounded = false;
 
 			// Process legs
-			foreach (Leg leg in legs) {
+			foreach (Leg leg in legs)
+            {
 				leg.Process();
 
 				if (leg.IKOffset > lowestOffset) lowestOffset = leg.IKOffset;
@@ -252,14 +267,16 @@ namespace RootMotion.FinalIK {
 		}
 
 		// Calculate the normal of the plane defined by leg positions, so we know how to rotate the body
-		public Vector3 GetLegsPlaneNormal() {
+		public Vector3 GetLegsPlaneNormal()
+        {
 			if (!initiated) return Vector3.up;
 
 			Vector3 _up = up;
 			Vector3 normal = _up;
 			
 			// Go through all the legs, rotate the normal by it's offset
-			for (int i = 0; i < legs.Length; i++) {
+			for (int i = 0; i < legs.Length; i++)
+            {
 				// Direction from the root to the leg
 				Vector3 legDirection = legs[i].IKPosition - root.position; 
 				
@@ -279,7 +296,8 @@ namespace RootMotion.FinalIK {
 		}
 
 		// Set everything to 0
-		public void Reset() {
+		public void Reset()
+        {
 			if (!Application.isPlaying) return;
 			pelvis.Reset();
 			foreach (Leg leg in legs) leg.Reset();
@@ -290,20 +308,25 @@ namespace RootMotion.FinalIK {
 		private bool initiated;
 
 		// Logs the warning if no other warning has beed logged in this session.
-		public void LogWarning(string message) {
+		public void LogWarning(string message)
+        {
 			Warning.Log(message, root);
 		}
 		
 		// The up vector in solver rotation space.
-		public Vector3 up {
-			get {
+		public Vector3 up
+        {
+			get
+            {
 				return (useRootRotation? root.up: Vector3.up);
 			}
 		}
 		
 		// Gets the vertical offset between two vectors in solver rotation space
-		public float GetVerticalOffset(Vector3 p1, Vector3 p2) {
-			if (useRootRotation) {
+		public float GetVerticalOffset(Vector3 p1, Vector3 p2)
+        {
+			if (useRootRotation)
+            {
 				Vector3 v = Quaternion.Inverse(root.rotation) * (p1 - p2);
 				return v.y;
 			}
@@ -312,8 +335,10 @@ namespace RootMotion.FinalIK {
 		}
 		
 		// Flattens a vector to ground plane in solver rotation space
-		public Vector3 Flatten(Vector3 v) {
-			if (useRootRotation) {
+		public Vector3 Flatten(Vector3 v)
+        {
+			if (useRootRotation)
+            {
 				Vector3 tangent = v;
 				Vector3 normal = root.up;
 				Vector3.OrthoNormalize(ref normal, ref tangent);
@@ -325,8 +350,10 @@ namespace RootMotion.FinalIK {
 		}
 		
 		// Determines whether to use root rotation as solver rotation
-		private bool useRootRotation {
-			get {
+		private bool useRootRotation
+        {
+			get
+            {
 				if (!rotateSolver) return false;
 				if (root.up == Vector3.up) return false;
 				return true;

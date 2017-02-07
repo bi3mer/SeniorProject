@@ -122,9 +122,9 @@ public class MedicineCategory : ItemCategory
     /// </summary>
     public void CurePneumonia()
     {
-        if (Game.Instance.PlayerInstance.HealthStatus.Contains(HealthStatuses.Pneumonia))
+        if (Game.Player.HealthStatus == PlayerHealthStatus.Pneumonia)
         {
-            Game.Instance.PlayerInstance.HealthStatus.Remove(HealthStatuses.Pneumonia);
+            Game.Player.HealthStatus = PlayerHealthStatus.None;
         }
 
         baseItem.RemovalFlag = true;
@@ -135,9 +135,9 @@ public class MedicineCategory : ItemCategory
     /// </summary>
     public void CureFoodPoisoning()
     {
-        if (Game.Instance.PlayerInstance.HealthStatus.Contains(HealthStatuses.FoodPoisoning))
+        if (Game.Player.HealthStatus == PlayerHealthStatus.FoodPoisoning)
         {
-            Game.Instance.PlayerInstance.HealthStatus.Remove(HealthStatuses.FoodPoisoning);
+            Game.Player.HealthStatus = PlayerHealthStatus.None;
         }
 
         baseItem.RemovalFlag = true;
@@ -148,17 +148,9 @@ public class MedicineCategory : ItemCategory
     /// </summary>
     public void CureAll()
     {
-        if (Game.Instance.PlayerInstance.HealthStatus.Contains(HealthStatuses.FoodPoisoning))
-        {
-            Game.Instance.PlayerInstance.HealthStatus.Remove(HealthStatuses.FoodPoisoning);
-        }
+        Game.Player.HealthStatus = PlayerHealthStatus.None;
 
-        if (Game.Instance.PlayerInstance.HealthStatus.Contains(HealthStatuses.Pneumonia))
-        {
-            Game.Instance.PlayerInstance.HealthStatus.Remove(HealthStatuses.Pneumonia);
-        }
-
-        Game.Instance.PlayerInstance.Health = Game.Instance.PlayerInstance.MaxHealth;
+        Game.Player.Health = Game.Player.MaxHealth;
         baseItem.RemovalFlag = true;
     }
 }

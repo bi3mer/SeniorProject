@@ -28,7 +28,7 @@ public class FileManagerEditor : MonoBehaviour
 	public static void UseLocalFiles()
 	{
 		FileManagerEditor.Connected = !FileManagerEditor.Connected;
-		EditorPrefs.SetBool(FileManager.UseLocalFiles, FileManagerEditor.Connected);
+		FileManagerEditor.IsUsingLocalFiles = FileManagerEditor.Connected;
 
 		// set editor view
 		Menu.SetChecked(FileManager.UseLocalFiles, FileManagerEditor.Connected);
@@ -40,14 +40,29 @@ public class FileManagerEditor : MonoBehaviour
 	/// </summary>
 	static FileManagerEditor() 
 	{
-		FileManagerEditor.Connected = EditorPrefs.GetBool(FileManager.UseLocalFiles, false);
+		FileManagerEditor.Connected = !FileManagerEditor.IsUsingLocalFiles;
  
 		/// Delaying until first editor tick so that the menu will be populated correctly
 		EditorApplication.delayCall += () => {
 			// getting the opposite of what is expected since the next function call
 			// will set the opposite of the value
-			FileManagerEditor.Connected = !EditorPrefs.GetBool(FileManager.UseLocalFiles);
+			FileManagerEditor.Connected = !FileManagerEditor.IsUsingLocalFiles;
 			FileManagerEditor.UseLocalFiles();
 		};
      }
+
+    /// <summary>
+    /// The user had Use Local Files checked.
+    /// </summary>
+    public static bool IsUsingLocalFiles
+    {
+        get
+        {
+            return EditorPrefs.GetBool(FileManager.UseLocalFiles, false);
+        }
+        private set
+        {
+            EditorPrefs.SetBool(FileManager.UseLocalFiles, value);
+        }
+    }
 }

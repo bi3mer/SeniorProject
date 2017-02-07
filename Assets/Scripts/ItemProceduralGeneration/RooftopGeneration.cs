@@ -50,7 +50,8 @@ public class RooftopGeneration: MonoBehaviour
 	/// <param name="district">District.</param>
 	/// <param name="doorExtents">Door extents.</param>
 	/// <param name="doorTemplates">Door templates.</param>
-	public void PopulateRoof(Bounds bound, Vector3 center, string district, List<float> doorExtents, List<GameObject> doorTemplates)
+	/// <param name="currentBuilding">Current Building GameObject.</param>
+	public void PopulateRoof(Bounds bound, Vector3 center, string district, List<float> doorExtents, List<GameObject> doorTemplates, GameObject currentBuilding)
 	{
 		float itemChance;
 		float doorChance;
@@ -76,7 +77,7 @@ public class RooftopGeneration: MonoBehaviour
 			if (points.Count > 0) 
 			{
 				// for now, all roofs with items will have doors
-				generateObjects(hasDoor, district, points, doorTemplates);
+				generateObjects(hasDoor, district, points, doorTemplates, currentBuilding);
 			}
 		}
 	}
@@ -87,7 +88,8 @@ public class RooftopGeneration: MonoBehaviour
 	/// <param name="hasDoor">If set to <c>true</c>, there is a door that needs to be created.</param>
 	/// <param name="district">Name of the district for which generation is occuring.</param>
 	/// <param name="points">Points.</param>
-	private void generateObjects(bool hasDoor, string district, List<ItemPlacementSamplePoint> points, List<GameObject> doorTemplates)
+	/// <param name="currentBuilding">Current Building GameObject.</param>
+	private void generateObjects(bool hasDoor, string district, List<ItemPlacementSamplePoint> points, List<GameObject> doorTemplates, GameObject currentBuilding)
 	{
 		int startingIndex = 0;
 		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
@@ -95,7 +97,7 @@ public class RooftopGeneration: MonoBehaviour
 		// if there is a door, it will always be the first point returned
 		if (hasDoor) 
 		{
-			generateDoor(doorTemplates[points[0].ItemIndex], points[0].WorldSpaceLocation, district);
+			generateDoor(doorTemplates[points[0].ItemIndex], points[0].WorldSpaceLocation, district, currentBuilding);
 			++startingIndex;
 		}
 
@@ -195,13 +197,15 @@ public class RooftopGeneration: MonoBehaviour
 	/// <param name="doorTemplate">Door template.</param>
 	/// <param name="location">Location.</param>
 	/// <param name="district">District.</param>
-	private void generateDoor(GameObject doorTemplate, Vector3 location, string district)
+	/// <param name="currentBuilding">Current Building GameObject.</param>
+	private void generateDoor(GameObject doorTemplate, Vector3 location, string district, GameObject currentBuilding)
 	{
 		GameObject door = GameObject.Instantiate(doorTemplate);
 
 		door.SetActive(true);
 		Transform doorTransform = door.transform;
 		doorTransform.position = location;
+		doorTransform.parent = currentBuilding.transform;
 
 		// door will only be rotated in 4 ways -- 0, 90, 180, and 270 degrees. A random number from 0 to 3 is generated and multiplied by 90  degrees
 		doorTransform.rotation = Quaternion.Euler(doorTransform.eulerAngles.x, Random.Range(0, 4) * 90, doorTransform.eulerAngles.z);
