@@ -2849,7 +2849,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 05504616919ea4f05b9fbac2bbe654a6, type: 3}
+  m_audioClip: {fileID: 8300000, guid: eb1fe271ca851d84599d824a8325b92e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -3050,7 +3050,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -3144,7 +3144,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012942474406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b113827868e0f46a6b7c32cda0e3aaab, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d2a74d083fa1fc46a11775c698b24e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weather: {fileID: 82000010327420038}
