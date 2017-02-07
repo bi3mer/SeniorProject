@@ -96,12 +96,11 @@ public class FireBaseCategory : ItemCategory
     }
 
 	/// <summary>
-	/// Sets down the container in the world. Drops it where the player stands.
+	/// Sets down the fire pit in the world. Drops it where the player stands.
 	/// </summary>
 	public void SetDown()
 	{
 		// create the object with the model
-		// TODO: Get information about how many are to be
 		GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem, 1);
 		FireInteractable fireBase = item.AddComponent<FireInteractable>();
 

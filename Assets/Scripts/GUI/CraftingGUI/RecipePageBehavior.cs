@@ -104,7 +104,7 @@ public class RecipePageBehavior : MonoBehaviour
 
 		CancelCraftButton.gameObject.SetActive (true);
 
-		if (recipe.Requirements.Count - 1 <= 0) 
+		if (recipe.Requirements.Count <= 1) 
 		{
 			NextStepButton.gameObject.SetActive (false);
 			CraftButton.gameObject.SetActive (true);

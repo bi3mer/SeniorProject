@@ -35,6 +35,8 @@ public class FireInteractable : InteractableObject, HasSelectionInterface
 
 	private const string playerTag = "Player";
 
+	private const float fireUpdateWaitTime = 0.2f;
+
 	/// <summary>
 	/// Sets openInventory as an action that should fire off when PerformAction is called.
 	/// </summary>
@@ -94,23 +96,7 @@ public class FireInteractable : InteractableObject, HasSelectionInterface
 				Text = lightFirePrompt;
 			}
 
-			yield return null;
-		}
-	}
-
-	/// <summary>
-	/// Handles the selection of items.
-	/// </summary>
-	/// <param name="selection">Selection.</param>
-	public void HandleSelection(string selection)
-	{
-		if(lit)
-		{
-			AddFuel(selection);
-		}
-		else
-		{
-			IgniteFire(selection);
+			yield return new WaitForSeconds(fireUpdateWaitTime);
 		}
 	}
 
