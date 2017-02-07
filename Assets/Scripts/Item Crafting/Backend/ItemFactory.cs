@@ -5,8 +5,6 @@ using System.Collections;
 /// <summary>
 /// Factory that creates an base items given its name and complex crafted items given recipe and ingredients.
 /// Currently just a placeholder class only able to craft a fishing rod.
-/// TODO: Configure this to reference a YAML file so that all "craft" actions can go under a single function.
-/// TODO: Enable this class to craft base items.
 /// </summary>
 
 public class ItemFactory 

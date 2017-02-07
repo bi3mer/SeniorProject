@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public abstract class ItemGenerator : MonoBehaviour 
 {
 	/// <summary>
-	/// Gets the rarity information all items in a district.
+	/// Gets the rarity information for all items in a district.
 	/// </summary>
 	/// <returns>The rarity information.</returns>
 	/// <param name="district">District that the items belong to.</param>

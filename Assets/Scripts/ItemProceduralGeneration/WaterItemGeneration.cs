@@ -24,6 +24,9 @@ public class WaterItemGeneration : ItemGenerator
 	[Tooltip("How many times it will generate an item for a point without checking for district before checking for district again")]
 	private int districtCheck;
 
+	/// <summary>
+	/// The point generator.
+	/// </summary>
 	private WaterPointGenerator pointGenerator;
 
 	/// <summary>
@@ -56,7 +59,7 @@ public class WaterItemGeneration : ItemGenerator
 	/// <param name="districts">Districts.</param>
 	public void SetCityInformation(float cityWidth, float cityDepth, Vector3 cityCenter, District[] districts)
 	{
-		pointGenerator = new WaterPointGenerator(cityWidth, cityDepth, cityCenter, districts);
+		pointGenerator = new WaterPointGenerator(cityWidth, cityDepth, cityCenter);
 		pointGenerator.MaxNumberOfItems = maxNumberOfItems;
 		pointGenerator.NumberOfInitialPoints = numberOfInitialPoints;
 		pointGenerator.NewPointsPerSamplingPoint = newPointsPerSamplingPoint;

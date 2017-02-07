@@ -1,7 +1,6 @@
 ﻿/// <summary>
 /// Literally here so I can have a way of having int pairs without converting back and forth from Vector2.
 /// </summary>
-
 public class Tuple<T1, T2>
 {
 	public T1 X

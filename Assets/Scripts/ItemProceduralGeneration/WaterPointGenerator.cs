@@ -62,9 +62,20 @@ public class WaterPointGenerator : SamplingPointGenerator
 		set;
 	}
 
-	private float width;
-	private float depth;
-	private Vector3 center;
+	/// <summary>
+	/// The width of the city.
+	/// </summary>
+	private float cityWidth;
+
+	/// <summary>
+	/// The city depth.
+	/// </summary>
+	private float cityDepth;
+
+	/// <summary>
+	/// The city center.
+	/// </summary>
+	private Vector3 cityCenter;
 
 	// ray needs to start a little above the object, so this is the offset distance that will be added
 	// to the height of the object to make the ray start above the top of the object
@@ -73,11 +84,10 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WaterPointGenerator"/> class.
 	/// </summary>
-	/// <param name="cityWidth">City width.</param>
-	/// <param name="cityDepth">City depth.</param>
-	/// <param name="cityCenter">City center.</param>
-	/// <param name="cityDistricts">City districts.</param>
-	public WaterPointGenerator(float cityWidth, float cityDepth, Vector3 cityCenter, District[] cityDistricts)
+	/// <param name="width">City width.</param>
+	/// <param name="depth">City depth.</param>
+	/// <param name="center">City center.</param>
+	public WaterPointGenerator(float width, float depth, Vector3 center)
 	{
 		// the diagonal of the cell is the defaultMinDistanceAway
 		// so the dimensions of the cellSize square should be divided by Mathf.Sqrt(2)
@@ -85,9 +95,9 @@ public class WaterPointGenerator : SamplingPointGenerator
 		// ex: If the dimensions of a square is 3, then the diagonal is Mathf.Sqrt(9 + 9) = 3 * Mathf.Sqrt(2)
 		cellSize = defaultMinDistanceAway/Mathf.Sqrt(2);
 		grid = new ItemPlacementSamplePoint[Mathf.CeilToInt (cityWidth / cellSize), Mathf.CeilToInt (cityDepth / cellSize)];  
-		width = cityWidth;
-		depth = cityDepth;
-		center = cityCenter;
+		cityWidth = width;
+		cityDepth = depth;
+		cityCenter = center;
 	}
 
 	/// <summary>
@@ -139,7 +149,6 @@ public class WaterPointGenerator : SamplingPointGenerator
 			// where Vector2(0, 0) is the bottom left corner, and Vector2(width, depth) is the upper right corner
 			// it is converted into a global position here
 			// validPoints contains global positions
-
 			if (Physics.Raycast (new Vector3(samplingPoints[i].LocalTargetSurfaceLocation.x, initialRayStartHeight, samplingPoints[i].LocalTargetSurfaceLocation.y), Vector3.down, out hit, initialRayStartHeight)) 
 			{
 				if (verifyRaycastHit(hit, true)) 
@@ -258,15 +267,15 @@ public class WaterPointGenerator : SamplingPointGenerator
 			// points should be generated around city center
 			// so minimum is half the width/depth from the city center
 			// and maximum is half the width/depth from the city center
-			initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(center.x - width/2f, center.x + width/2f), 
-																Random.Range (center.z - depth/2f, center.z + depth/2f));
+			initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(cityCenter.x - cityWidth/2f, cityCenter.x + cityWidth/2f), 
+																Random.Range (cityCenter.z - cityDepth/2f, cityCenter.z + cityDepth/2f));
 			tries = 1;
 			initPoint.District = getDistrict(initPoint.LocalTargetSurfaceLocation);
 
 			while(initPoint.District == null && tries < MaxAttempts)
 			{
-				initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(center.x - width/2f, center.x + width/2f), 
-																Random.Range (center.z - depth/2f, center.z + depth/2f));
+				initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(cityCenter.x - cityWidth/2f, cityCenter.x + cityWidth/2f), 
+																Random.Range (cityCenter.z - cityDepth/2f, cityCenter.z + cityDepth/2f));
 				initPoint.District = getDistrict(initPoint.LocalTargetSurfaceLocation);
 
 				++tries;
@@ -282,8 +291,8 @@ public class WaterPointGenerator : SamplingPointGenerator
 
 				while(HasOverlappingNeighbors(initPoint) && tries < MaxAttempts)
 				{
-					initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(center.x - width/2f, center.x + width/2f), 
-																	Random.Range (center.z - depth/2f, center.z + depth/2f));
+					initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(cityCenter.x - cityWidth/2f, cityCenter.x + cityWidth/2f), 
+																	Random.Range (cityCenter.z - cityDepth/2f, cityCenter.z + cityDepth/2f));
 					initPoint.GridPoint = PointToGrid(initPoint.LocalTargetSurfaceLocation);
 					++tries;
 				}
@@ -327,7 +336,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// <param name="samplingPoint">Sampling point.</param>
 	protected Tuple<int, int> PointToGrid(Vector2 samplingPoint)
 	{
-		return new Tuple<int, int> ((int)((samplingPoint.x + width/2f + center.x) / cellSize), 
-							(int)((samplingPoint.y + depth/2f + center.y) / cellSize));
+		return new Tuple<int, int> ((int)((samplingPoint.x + cityWidth/2f + cityCenter.x) / cellSize), 
+							(int)((samplingPoint.y + cityDepth/2f + cityCenter.y) / cellSize));
 	}
 }

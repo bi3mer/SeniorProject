@@ -3,16 +3,29 @@ using System.Collections;
 
 public abstract class SamplingPointGenerator
 {
+	/// <summary>
+	/// The size of the grid cells.
+	/// </summary>
 	protected float cellSize;
 
+	/// <summary>
+	/// The grid that contains information about what space is occupied in the city.
+	/// </summary>
 	protected ItemPlacementSamplePoint[,] grid;
 
+	/// <summary>
+	/// The water tag.
+	/// </summary>
 	protected const string waterTag = "Water";
 
-	// Minimum distance objects must be from each other by default, not accounting for the doorway which will increase it
+	/// <summary>
+	/// Minimum distance objects must be from each other by default, not accounting for the doorway which will increase it
+	/// </summary>
 	protected const float defaultMinDistanceAway = 1f;
 
-	// The maximum angle a surface can be to still be considered a viable surface for object placement
+	/// <summary>
+	/// The maximum angle a surface can be to still be considered a viable surface for object placement
+	/// </summary>
 	private const float maxAngle = 0.35f;
 
 	/// <summary>
