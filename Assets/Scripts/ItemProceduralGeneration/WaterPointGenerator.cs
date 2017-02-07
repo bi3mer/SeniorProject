@@ -94,7 +94,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 		// Since the diagonal of a square is Mathf.Sqrt(2) * outsideDimension
 		// ex: If the dimensions of a square is 3, then the diagonal is Mathf.Sqrt(9 + 9) = 3 * Mathf.Sqrt(2)
 		cellSize = defaultMinDistanceAway/Mathf.Sqrt(2);
-		grid = new ItemPlacementSamplePoint[Mathf.CeilToInt (cityWidth / cellSize), Mathf.CeilToInt (cityDepth / cellSize)];  
+		grid = new ItemPlacementSamplePoint[Mathf.CeilToInt (width / cellSize), Mathf.CeilToInt (depth / cellSize)]; 
 		cityWidth = width;
 		cityDepth = depth;
 		cityCenter = center;
@@ -298,7 +298,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 				}
 
 				if(tries < MaxAttempts)
-				{
+				{	
 					grid[initPoint.GridPoint.X, initPoint.GridPoint.Y] = initPoint;
 					initialPoints.Add(initPoint);
 				}

@@ -1,16 +1,21 @@
 ﻿---
 - districtName: "shopping"
-  items:
-   - "River Reed"
+  landItems:
    - "Empty Can"
+   - "Stick"
+  waterItems:
+   - "River Reed"
    - "Stick"
 - districtName: "business"
-  items:
-   - "River Reed"
+  landItems:
    - "Empty Can"
    - "Stick"
+  waterItems:
+   - "River Reed"
+   - "Empty Can"
 - districtName: "residential"
-  items:
-   - "River Reed"
+  landItems:
    - "Empty Can"
    - "Stick"
+  waterItems:
+   - "River Reed"
