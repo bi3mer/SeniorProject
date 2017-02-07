@@ -10,10 +10,10 @@
    flavorText: ""
    modifyingActionNames:
     - "Weave Rope"
-    - “Weave Basket”
+    - "Weave Basket"
    actionModifiedModels:
     - "ITM/Ropes/ITM_Rope"
-    - “ITM/Small\ Containers/ITM_Bucket”
+    - "ITM/Small\ Containers/ITM_Bucket"
    actionModifiedSprites:
   itemCategories: 
     - !!solid
@@ -41,6 +41,7 @@
    worldModel: "ITM/Rods/Stick"
    types:
      - "rod"
+     - "fuel"
    flavorText: ""
    modifyingActionNames:
    actionModifiedModels:
@@ -63,6 +64,8 @@
       spicy: 0.0
       stomachEffect: 0.0
       pneumoniaEffect: 0.0
+    - !!fuel
+      burnTime: 10.0
 - itemName: "Empty Can"
   baseItem: 
    itemName: "Empty Can"
@@ -152,200 +155,168 @@
       sharpness: 2
     - !!fishingRod
       equiped: 0
-- itemName: "Match"
+- itemName: "Poor Woven Blanket"
   baseItem: 
-   itemName: "Match"
+   itemName: "Poor Woven Blanket"
    rarity: "common"
    inventorySprite: ""
-   worldModel: "ITM/Tools/ITM_individualMatch"
+   worldModel: "ITM/Healing/ITM_Bandage"
    types:
-    - "flammable"
-   flavorText: "A match! For lighting fires to cook and keep warm."
+    - "cloth"
+   flavorText: "A coarsely woven blanket. Scratchy and barely keeps the wind out."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
   itemCategories: 
-    - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
-      stickiness: 0
-      thickness: 0
-      sharpness: 0
-- itemName: "Notebook"
+    - !!cloth
+      threadDensity: 0.5
+      impermiability: 0.2
+      fabricThickness: 1
+      onPlayer: 0
+- itemName: "Good Woven Blanket"
   baseItem: 
-   itemName: "Notebook"
+   itemName: "Good Woven Blanket"
    rarity: "common"
    inventorySprite: ""
-   worldModel: "ITM/Notes/ITM_NoteBook"
+   worldModel: "ITM/Healing/ITM_Bandage"
    types:
-    - ""
-   flavorText: "Pages and pages of ravings from a mad scientist."
+    - "cloth"
+   flavorText: "A blanket made by weaving. Came out pretty well. Decently warm."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
   itemCategories: 
-    - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
-      stickiness: 0
-      thickness: 0
-      sharpness: 0
-- itemName: "Radio Antenna"
+    - !!cloth
+      threadDensity: 1
+      impermiability: 0.5
+      fabricThickness: 2
+      onPlayer: 0
+- itemName: "Excellent Woven Blanket"
   baseItem: 
-   itemName: "Radio Antenna"
+   itemName: "Excellent Woven Blanket"
    rarity: "common"
    inventorySprite: ""
-   worldModel: "ITM/Communication/ITM_RadioAntenna"
+   worldModel: "ITM/Healing/ITM_Bandage"
    types:
-    - ""
-   flavorText: "An antenna reciever."
+    - "cloth"
+   flavorText: "A blanket made with masterful weaving. Incredibly warm."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
   itemCategories: 
-    - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
-      stickiness: 0
-      thickness: 0
-      sharpness: 0
+    - !!cloth
+      threadDensity: 2.5
+      impermiability: 3
+      fabricThickness: 2.5
+      onPlayer: 0
+- itemName: "Medicine Box"
+  baseItem: 
+   itemName: "Medicine Box"
+   rarity: "uncommon"
+   inventorySprite: ""
+   worldModel: "ITM/Healing/ITM_BandageBox"
+   types:
+     - "medicinal"
+   flavorText: ""
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories:
+    - !!medicine
+      healthGain: 0.0
+      sickness: "all"
 - itemName: "Bandage"
-  baseItem: 
+  baseItem:
    itemName: "Bandage"
    rarity: "common"
    inventorySprite: ""
    worldModel: "ITM/Healing/ITM_Bandage"
    types:
-    - "medicine"
-   flavorText: "For covering your wounds."
+     - "medicinal"
+   flavorText: ""
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
-  itemCategories: 
-    - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
-      stickiness: 0
-      thickness: 0
-      sharpness: 0
-- itemName: "Paper Scrap"
-  baseItem: 
-   itemName: "Paper Scrap"
+  itemCategories:
+    - !!medicine
+      healthGain: 20.0
+      sickness: “none”
+- itemName: "Egg"
+  baseItem:
+   itemName: "Egg"
    rarity: "common"
    inventorySprite: ""
-   worldModel: "ITM/Notes/ITM_PaperScrap"
+   worldModel: "ITM/Food/ITM_egg"
    types:
-    - ""
-   flavorText: "A scrap of paper."
+     - "edible"
+   flavorText: ""
    modifyingActionNames:
-   actionModifiedModels:
+     - "Cook"
+   actionModifiedModels: 
+    - "ITM/Food/ITM_CookedFish"
    actionModifiedSprites:
-  itemCategories: 
-    - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
-      stickiness: 0
-      thickness: 0
-      sharpness: 0
-- itemName: "Scrap Metal"
-  baseItem: 
-   itemName: "Scrap Metal"
+  itemCategories:
+    - !!flesh
+      hungerGain: 20.0
+      healthEffect: 0.25
+- itemName: "Matchbook"
+  baseItem:
+   itemName: "Matchbook"
    rarity: "common"
    inventorySprite: ""
-   worldModel: "ITM/Raw Materials/ITM_ScrapMetal"
+   worldModel: "ITM/Tools/ITM_matchBook"
    types:
-    - ""
-   flavorText: "Leftover metal. Would be good for crafting tools."
+     - "igniter"
+   flavorText: "Can be used to light fuel on fire."
    modifyingActionNames:
-   actionModifiedModels:
+   actionModifiedModels: 
    actionModifiedSprites:
-  itemCategories: 
-    - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
-      stickiness: 0
-      thickness: 0
-      sharpness: 0
-- itemName: "Golf Club"
-  baseItem: 
-   itemName: "Golf Club"
+  itemCategories:
+- itemName: "Poor Fire Pit"
+  baseItem:
+   itemName: "Poor Fire Pit"
    rarity: "common"
    inventorySprite: ""
-   worldModel: "ITM/Rods/GolfClub"
+   worldModel: "ITM/Campfire/ENV_Campfire"
    types:
-    - "rod"
-   flavorText: "Doubles as an excellent giant stick."
+     - "fuel"
+   flavorText: "A shoddy fire pit. Place into world and ignite to start a fire. Burns out quickly."
    modifyingActionNames:
-   actionModifiedModels:
+   actionModifiedModels: 
    actionModifiedSprites:
-  itemCategories: 
-    - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
-      stickiness: 0
-      thickness: 0
-      sharpness: 0
-- itemName: "Pipe"
-  baseItem: 
-   itemName: "Pipe"
+  itemCategories:
+    - !!fireBase
+      burnRateMultiplier: 1.5
+      startingFuel: 20.0
+- itemName: "Good Fire Pit"
+  baseItem:
+   itemName: "Good Fire Pit"
    rarity: "common"
    inventorySprite: ""
-   worldModel: "ITM/Rods/ITM_Pipe"
+   worldModel: "ITM/Campfire/ENV_Campfire"
    types:
-    - "rod"
-   flavorText: "A long, hollow tube made of plastic."
+     - "fuel"
+   flavorText: "A fire pit. Place into world and ignite to start a fire. Burns fairly long."
    modifyingActionNames:
-   actionModifiedModels:
+   actionModifiedModels: 
    actionModifiedSprites:
-  itemCategories: 
-    - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
-      stickiness: 0
-      thickness: 0
-      sharpness: 0
-- itemName: "Umbrella"
-  baseItem: 
-   itemName: "Umbrella"
+  itemCategories:
+    - !!fireBase
+      burnRateMultiplier: 1.0
+      startingFuel: 40.0
+- itemName: "Excellent Fire Pit"
+  baseItem:
+   itemName: "Excellent Fire Pit"
    rarity: "common"
    inventorySprite: ""
-   worldModel: "ITM/Rods/Umbrella"
+   worldModel: "ITM/Campfire/ENV_Campfire"
    types:
-    - "rod"
-   flavorText: "To keep you dry."
+     - "fuel"
+   flavorText: "A wonderful fire pit. Place into world and ignite to start a fire. Burns slowly."
    modifyingActionNames:
-   actionModifiedModels:
+   actionModifiedModels: 
    actionModifiedSprites:
-  itemCategories: 
-    - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
-      stickiness: 0
-      thickness: 0
-      sharpness: 0
-- itemName: "Rope"
-  baseItem: 
-   itemName: "Rope"
-   rarity: "common"
-   inventorySprite: ""
-   worldModel: "ITM/Ropes/ITM_Rope"
-   types:
-    - "rope"
-   flavorText: "For things you use rope for."
-   modifyingActionNames:
-   actionModifiedModels:
-   actionModifiedSprites:
-  itemCategories: 
-    - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
+  itemCategories:
+    - !!fireBase
+      burnRateMultiplier: 0.9
+      startingFuel: 60.0

@@ -21,7 +21,8 @@ public class DistrictPopup : PropertyDrawer
         if (start)
         {
             ItemFactory itemFactory = new ItemFactory();
-            choices = (new List<string>(itemFactory.ItemsByLocation.Keys)).ToArray();
+
+            choices = (new List<string>(itemFactory.LandItemsByDistrict.Keys)).ToArray();
             start = false;
         }
 
