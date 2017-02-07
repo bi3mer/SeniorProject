@@ -639,7 +639,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000010122998552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0406f29fbe8cf44ce91cb6c6ec0f8b05, type: 3}
+  m_Script: {fileID: 11500000, guid: b113827868e0f46a6b7c32cda0e3aaab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weather: {fileID: 0}
@@ -651,11 +651,11 @@ MonoBehaviour:
   radioScreenText: {fileID: 0}
   dial: {fileID: 0}
   lowMusic: 0
-  highMusic: 120
-  lowMystery: 120
-  highMystery: 240
-  lowWeather: 240
-  highWeather: 360
+  highMusic: 0
+  lowMystery: 0
+  highMystery: 0
+  lowWeather: 0
+  highWeather: 0
 --- !u!114 &114000011675021940
 MonoBehaviour:
   m_ObjectHideFlags: 1

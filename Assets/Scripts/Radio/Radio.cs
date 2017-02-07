@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using Crosstales.RTVoice;
+using System.Collections.Generic;
 
 //radio stations
 public enum RadioChannel {Music, Weather, Mystery, Null};
@@ -11,9 +12,11 @@ public class Radio : MonoBehaviour
 	// CHANNELS
 	[SerializeField]
 	private FMOD.Studio.EventInstance musicChannel;
+	private List<string> musicCarousel;
 
 	[SerializeField]
 	private FMOD.Studio.EventInstance mysteryChannel;
+	private List<string> mysteryCarousel;
 
 	// Static channel right now just plays when current active channel is null
     [SerializeField]
@@ -25,9 +28,13 @@ public class Radio : MonoBehaviour
 
 	// Default channel sound event paths
 	[SerializeField]
-	public string MusicDefaultPath = "event:/Radio/Music/Music1";
+	public string MusicDefaultPath = "event:/Radio/Music/Basic_Static";
 	[SerializeField]
 	public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
+	[SerializeField]
+	public string MysteryPathTwo = "event:/Radio/Static/Basic_Static_No_Loop";
+	[SerializeField]
+	public string MysteryPathThree = "event:/Radio/Mystery/Mystery4";
 	[SerializeField]
 	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static"; 
 
@@ -49,6 +56,10 @@ public class Radio : MonoBehaviour
     // Counter for how many times weather played
 	private int weatherCounter;
 	private WeatherSystem currentWeather;
+
+	// Counter for which sound in carousels we are on. Resets to zero at end of carousel
+	private int mysteryCounter = 0;
+	private int musicCounter = 0;
 
     [Tooltip("The lowest degree of the range of the knob's rotation in which music will play")]
     public float lowMusic;
@@ -82,8 +93,16 @@ public class Radio : MonoBehaviour
         StartCoroutine(updateWeather());
 
 		// Load in default sounds for all other channels
-		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (MysteryDefaultPath);
-		musicChannel = FMODUnity.RuntimeManager.CreateInstance (MusicDefaultPath);
+		musicCarousel = new List<string> ();
+		mysteryCarousel = new List<string> ();
+
+		musicCarousel.Add (MusicDefaultPath);
+		mysteryCarousel.Add (MysteryDefaultPath);
+		mysteryCarousel.Add (MysteryPathTwo);
+		mysteryCarousel.Add (MysteryPathThree);
+
+		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
+		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
 		staticChannel = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
 
 		Game.Instance.EventManager.StormStartedSubscription += startStatic;
@@ -106,10 +125,22 @@ public class Radio : MonoBehaviour
 			if (CurrentChannel == RadioChannel.Mystery) 
 			{
 				mysteryChannel.getPlaybackState (out state);
-
-				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) 
+				 
+				// check that the current state isn't playing or starting so we don't double up on sounds
+				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING && state != FMOD.Studio.PLAYBACK_STATE.STARTING)  
 				{
-					mysteryChannel.start ();
+					// ensure that the carousel is not empty
+					if (mysteryCarousel.Count > 0) 
+					{
+						// reset the counter for the carousel if we've reached the last sound
+						if (mysteryCounter >= mysteryCarousel.Count) {
+							mysteryCounter = 0;
+						}
+		
+						mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel [mysteryCounter]);
+						++mysteryCounter;
+						mysteryChannel.start (); 
+					}
 				}
 			}
 
@@ -117,15 +148,22 @@ public class Radio : MonoBehaviour
 			{
 				musicChannel.getPlaybackState (out state);
 
-				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) 
+				// check that the current state isn't playing or starting so we don't double up on sounds
+				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING && state != FMOD.Studio.PLAYBACK_STATE.STARTING)
 				{
-					musicChannel.start ();
-				}
-			}
+					// ensure that the carousel is not empty
+					if (musicCarousel.Count > 0) 
+					{
+						// reset the counter for the carousel if we've reached the last sound
+						if (musicCounter >= musicCarousel.Count) {
+							musicCounter = 0;
+						}
 
-			else if (CurrentChannel == RadioChannel.Weather && !weather.isPlaying) 
-			{
-				weather.Play ();
+						musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel [musicCounter]);
+						++musicCounter;
+						musicChannel.start ();
+					}
+				}
 			}
 
 			else if (CurrentChannel == RadioChannel.Null) 
@@ -136,6 +174,11 @@ public class Radio : MonoBehaviour
 				{
 					staticChannel.start ();
 				}
+			}
+
+			else if (CurrentChannel == RadioChannel.Weather && !weather.isPlaying) 
+			{
+				weather.Play ();
 			}
 				
 			ChangeChannel(dial.DialSlider.value);
@@ -158,9 +201,9 @@ public class Radio : MonoBehaviour
             CurrentChannel = RadioChannel.Null;
 		
 			musicChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-			weather.Stop ();
 			mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			weather.Stop ();
         }
 
         // Turn on the radio if it's currently off
@@ -169,6 +212,23 @@ public class Radio : MonoBehaviour
             isOn = true;
         }
     }
+
+	/// <summary>
+	/// Adds sound event to carousel.
+	/// </summary>
+	/// <param name="channel">Channel.</param>
+	/// <param name="soundEvent">Sound event to be added.</param>
+	public void AddToCarousel(RadioChannel channel, string soundEvent)
+	{
+		if (channel == RadioChannel.Music) 
+		{
+			musicCarousel.Add (soundEvent);
+		}
+		else if (channel == RadioChannel.Mystery) 
+		{
+			mysteryCarousel.Add (soundEvent);
+		}
+	}
 
     /// <summary>
     /// Updates the weather, creates a new announcement, and then plays the announcement.
@@ -232,29 +292,24 @@ public class Radio : MonoBehaviour
     {
 		if (isOn) 
 		{
-			if (channel == RadioChannel.Music) 
+			if (channel != RadioChannel.Music) 
 			{
-				weather.Stop ();
-				mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-			} 
-			else if (channel == RadioChannel.Weather) 
-			{
-				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-			} 
-			else if (channel == RadioChannel.Mystery) 
-			{
-				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				weather.Stop ();
-				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+				musicChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			}
-			else if (channel == RadioChannel.Null)
+
+			if (channel != RadioChannel.Mystery) 
 			{
-				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				weather.Stop ();
 				mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			}
+
+			if (channel != RadioChannel.Weather) 
+			{
+				weather.Stop ();
+			}
+
+			if (channel != RadioChannel.Null) 
+			{
+				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			}
 
 			this.CurrentChannel = channel;
