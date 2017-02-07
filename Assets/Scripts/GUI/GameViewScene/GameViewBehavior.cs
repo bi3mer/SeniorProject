@@ -11,10 +11,10 @@ public class GameViewBehavior : MonoBehaviour
 	private GameObject pausePanel;
 
 	[SerializeField]
-	private GameObject radioCanvas;
+	private GameObject radioModel;
 
     [SerializeField]
-    private InteractableRadioModel radioModel;
+    private InteractableRadioModel radioModelAnimation;
 
 	[SerializeField]
 	private RecipeBookBehavior craftingPanel;
@@ -32,7 +32,7 @@ public class GameViewBehavior : MonoBehaviour
 		controlScheme = Game.Instance.Scheme;
 		inventoryPanel.SetActive (false);
 		pausePanel.SetActive (false);
-		radioCanvas.SetActive (false);
+		radioModel.SetActive (false);
 		craftingPanel.gameObject.SetActive (false);
 		optionButtonPanel.SetActive(true);
 
@@ -83,7 +83,7 @@ public class GameViewBehavior : MonoBehaviour
 		Game.Instance.PauseInstance.Pause ();
 		pausePanel.SetActive (true);
 		inventoryPanel.SetActive (false);
-		radioCanvas.SetActive (false);
+		radioModel.SetActive (false);
 		craftingPanel.gameObject.SetActive (false);
 		optionButtonPanel.SetActive(false);
 	}
@@ -112,12 +112,12 @@ public class GameViewBehavior : MonoBehaviour
 		inventoryPanel.SetActive (true);
 		pausePanel.SetActive (false);
 
-        // do the deactivate radio menu before deactivating radio canvas.
-        if (radioCanvas.activeInHierarchy)
+        // do the deactivate radio menu before deactivating radio Model.
+        if (radioModel.activeInHierarchy)
         {
-            radioModel.DeactivateRadio();
+            radioModelAnimation.DeactivateRadio();
         }
-		radioCanvas.SetActive (false);
+		radioModel.SetActive (false);
 		craftingPanel.gameObject.SetActive (false);
 		optionButtonPanel.SetActive(false);
 	}
@@ -127,12 +127,12 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	public void OnRadioClick()
 	{
-        radioCanvas.SetActive(true);
-        radioModel.ActivateRadio();
+        //radioModel.SetActive(true);
+        radioModelAnimation.ActivateRadio();
         inventoryPanel.SetActive(false);
         pausePanel.SetActive(false);
-        craftingPanel.gameObject.SetActive(false);
-        optionButtonPanel.SetActive(false);
+        //craftingPanel.gameObject.SetActive(false);
+        //optionButtonPanel.SetActive(false);
 	}
 
 	/// <summary>
@@ -144,12 +144,11 @@ public class GameViewBehavior : MonoBehaviour
 		pausePanel.SetActive (false);
 		inventoryPanel.SetActive (false);
 
-        // do the deactivate radio menu before deactivating radio canvas.
-        if (radioCanvas.activeInHierarchy)
+        // do the deactivate radio menu if radio is active.
+        if (radioModel.activeInHierarchy)
         {
-            radioModel.DeactivateRadio();
+            radioModelAnimation.DeactivateRadio();
         }
-        radioCanvas.SetActive (false);
 		craftingPanel.gameObject.SetActive (false);
 		optionButtonPanel.SetActive(true);
 
@@ -165,12 +164,11 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	public void OnCraftingClick()
 	{
-        // do the deactivate radio menu before deactivating radio canvas.
-        if (radioCanvas.activeInHierarchy)
+        // do the deactivate radio menu if radio is active.
+        if (radioModel.activeInHierarchy)
         {
-            radioModel.DeactivateRadio();
+            radioModelAnimation.DeactivateRadio();
         }
-        radioCanvas.SetActive (false); 
 		inventoryPanel.SetActive (false);
 		pausePanel.SetActive (false);
 		craftingPanel.gameObject.SetActive (true);

@@ -31,14 +31,6 @@ public class Radio : MonoBehaviour
 	[SerializeField]
 	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static"; 
 
-	// Default display texts
-	public string RadioOnText = "Radio is on";
-	public string RadioOffText = "Radio is off";
-
-	// Radio components
-    [SerializeField]
-	private Text radioScreenText;
-
     [SerializeField]
     private Dial dial;
 
@@ -98,8 +90,6 @@ public class Radio : MonoBehaviour
     {
 		if (isOn) 
 		{
-			radioScreenText.text = RadioOnText;
-
 			// Find the current channel and turn it on if it's not already playing 
 			FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
 
@@ -138,12 +128,8 @@ public class Radio : MonoBehaviour
 				}
 			}
 				
-			ChangeChannel(dial.DialSlider.value);
+			ChangeChannel(dial.knobDegree);
 		} 
-		//else 
-		//{
-		//	radioScreenText.text = RadioOffText;
-		//}
     }
 
     /// <summary>

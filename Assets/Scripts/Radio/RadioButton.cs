@@ -1,0 +1,32 @@
+﻿using UnityEngine;
+using UnityEngine.Events;
+using System.Collections;
+
+public enum ButtonType {VolumeUp, VolumeDown, Power};
+
+public class RadioButton : MonoBehaviour
+{ 
+    public ButtonType buttonType;
+    [SerializeField]
+    private Radio radio;
+
+    [SerializeField]
+    InteractableRadioModel radioModelAnimation;
+
+    void OnMouseDown()
+    {
+        if (buttonType == ButtonType.VolumeUp)
+        {
+            radioModelAnimation.PushVolumeUpButton();
+        }
+        else if (buttonType == ButtonType.VolumeDown)
+        {
+            radioModelAnimation.PushVolumeDownButton();
+        }
+        else if (buttonType == ButtonType.Power)
+        {
+            radioModelAnimation.PushPowerButton();
+            radio.Power();
+        }
+    }
+}
