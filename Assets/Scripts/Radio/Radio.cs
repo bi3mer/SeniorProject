@@ -28,9 +28,13 @@ public class Radio : MonoBehaviour
 
 	// Default channel sound event paths
 	[SerializeField]
-	public string MusicDefaultPath = "event:/Radio/Music/Music1";
+	public string MusicDefaultPath = "event:/Radio/Music/Basic_Static";
 	[SerializeField]
 	public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
+	[SerializeField]
+	public string MysteryPathTwo = "event:/Radio/Static/Basic_Static_No_Loop";
+	[SerializeField]
+	public string MysteryPathThree = "event:/Radio/Mystery/Mystery4";
 	[SerializeField]
 	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static"; 
 
@@ -94,6 +98,8 @@ public class Radio : MonoBehaviour
 
 		musicCarousel.Add (MusicDefaultPath);
 		mysteryCarousel.Add (MysteryDefaultPath);
+		mysteryCarousel.Add (MysteryPathTwo);
+		mysteryCarousel.Add (MysteryPathThree);
 
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
