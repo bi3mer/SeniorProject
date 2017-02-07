@@ -140,7 +140,6 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	public void OnResumeClick()
 	{
-		Game.Instance.PauseInstance.Resume ();
 		pausePanel.SetActive (false);
 		inventoryPanel.SetActive (false);
 
@@ -158,7 +157,8 @@ public class GameViewBehavior : MonoBehaviour
 			ItemDiscarder discarder = new ItemDiscarder();
 			discarder.DiscardItems(GuiInstanceManager.InventoryUiInstance.ItemsToDiscard);
 		}
-	}
+        Game.Instance.PauseInstance.Resume();
+    }
 
 	/// <summary>
 	/// Loads the crafting panel.
@@ -175,5 +175,13 @@ public class GameViewBehavior : MonoBehaviour
 		pausePanel.SetActive (false);
 		craftingPanel.gameObject.SetActive (true);
 		craftingPanel.ResetPanel();
-	}
+    }
+
+      /// <summary>
+     /// Rusumes the game from pause
+     /// </summary>
+     public void Resume()
+     {
+         
+     }
 }

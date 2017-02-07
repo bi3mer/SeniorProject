@@ -8,8 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenuTest.unity
   - enabled: 1
-    path: Assets/Scenes/GameViewTest.unity
-  - enabled: 1
     path: Assets/Scenes/Master.unity
   - enabled: 1
     path: Assets/Scenes/Death.unity
