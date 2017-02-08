@@ -6,7 +6,8 @@ public enum ButtonType {VolumeUp, VolumeDown, Power};
 
 public class RadioButton : MonoBehaviour
 { 
-    public ButtonType buttonType;
+    [SerializeField]
+    private ButtonType buttonType;
     [SerializeField]
     private Radio radio;
 

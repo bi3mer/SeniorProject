@@ -93,11 +93,6 @@ public class InteractableRadioModel : MonoBehaviour
     [ContextMenu("Activate Radio")]
     public void ActivateRadio()
     {
-        //for (int i = 0; i < transform.childCount; ++i)
-        //{
-        //    transform.GetChild(i).gameObject.SetActive(true);
-        //}
-
         transform.gameObject.SetActive(true);
         transform.localPosition = offscreenPosition;
         transform.localEulerAngles = offscreenRotation;
@@ -223,8 +218,10 @@ public class InteractableRadioModel : MonoBehaviour
         if (xPosition > sliderLength/2)
         {
             // negate to make it scroll to left to right when knob rotated clockwise.
-            xPosition = -(0 - (sliderLength / 2 - xPosition));
-            stationSlider.transform.localPosition = new Vector3(xPosition, stationSlider.transform.localPosition.y, stationSlider.transform.localPosition.z);
+            xPosition = sliderLength / 2 - xPosition;
+            stationSlider.transform.localPosition = new Vector3(xPosition, 
+                                                    stationSlider.transform.localPosition.y, 
+                                                    stationSlider.transform.localPosition.z);
         }
 
         // if xPosition is less than 0 make positive to position on left hand side.
