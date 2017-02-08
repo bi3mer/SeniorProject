@@ -13,6 +13,9 @@ public class RadioButton : MonoBehaviour
     [SerializeField]
     InteractableRadioModel radioModelAnimation;
 
+    /// <summary>
+    /// When clicked, do button animation based on button type.
+    /// </summary>
     void OnMouseDown()
     {
         if (buttonType == ButtonType.VolumeUp)

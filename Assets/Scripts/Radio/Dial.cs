@@ -40,7 +40,8 @@ public class Dial : MonoBehaviour
 
                 knob.transform.Rotate(knobRotation);
 
-                // Add 180 to the knob angle to convert value to regular circle degrees, then modulize by 360 to keep within 360 degrees.
+                // Add 180 to the knob angle to convert value to regular circle degrees, 
+                // then mod by 360 to keep within 360 degrees.
                 knobDegree = (knob.transform.localRotation.eulerAngles.y + 180) % 360;
 
                 radioModelAnimation.SetSlider(knobDegree);

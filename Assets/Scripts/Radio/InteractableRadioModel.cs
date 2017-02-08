@@ -218,24 +218,31 @@ public class InteractableRadioModel : MonoBehaviour
         // convert circle degree to slider length
         float xPosition = (degree * sliderLength) / 360;
         
-        // if xPosition is more than 0 make positive to position on right hand side.
+        // if xPosition is more than 0 make positive to position on right hand side. 
+        // divide by 2 to get the negative half and positive half since center at 0.
         if (xPosition > sliderLength/2)
         {
             // negate to make it scroll to left to right when knob rotated clockwise.
             xPosition = -(0 - (sliderLength / 2 - xPosition));
             stationSlider.transform.localPosition = new Vector3(xPosition, stationSlider.transform.localPosition.y, stationSlider.transform.localPosition.z);
         }
+
         // if xPosition is less than 0 make positive to position on left hand side.
         else if (xPosition < sliderLength/2)
         {
             // negate to make it scroll to left to right when knob rotated clockwise
-            xPosition = -(0 + (xPosition - sliderLength / 2));
-            stationSlider.transform.localPosition = new Vector3(xPosition, stationSlider.transform.localPosition.y, stationSlider.transform.localPosition.z);
+            xPosition = -(xPosition - sliderLength / 2);
+            stationSlider.transform.localPosition = new Vector3(xPosition, 
+                                                    stationSlider.transform.localPosition.y, 
+                                                    stationSlider.transform.localPosition.z);
         }
+
         // center is always xPosition = 0
         else if (xPosition == 0)
         {
-            stationSlider.transform.localPosition = new Vector3(xPosition, stationSlider.transform.localPosition.y, stationSlider.transform.localPosition.z);
+            stationSlider.transform.localPosition = new Vector3(xPosition, 
+                                                    stationSlider.transform.localPosition.y, 
+                                                    stationSlider.transform.localPosition.z);
         }
     }
 }

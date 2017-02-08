@@ -1,58 +1,57 @@
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using System.Collections;
 using Crosstales.RTVoice;
 
 //radio stations
-public enum RadioChannel {Music, Weather, Mystery, Null};
+public enum RadioChannel { Music, Weather, Mystery, Null };
 
 public class Radio : MonoBehaviour
 {
-	// CHANNELS
-	[SerializeField]
-	private FMOD.Studio.EventInstance musicChannel;
-
-	[SerializeField]
-	private FMOD.Studio.EventInstance mysteryChannel;
-
-	// Static channel right now just plays when current active channel is null
+    // CHANNELS
     [SerializeField]
-	private FMOD.Studio.EventInstance staticChannel;
+    private FMOD.Studio.EventInstance musicChannel;
 
-	// Weather still has an audio source rather than an FMOD instance for text-to-speech purposes
-	[SerializeField]
-	private AudioSource weather;
+    [SerializeField]
+    private FMOD.Studio.EventInstance mysteryChannel;
 
-	// Default channel sound event paths
-	[SerializeField]
-	public string MusicDefaultPath = "event:/Radio/Music/Music1";
-	[SerializeField]
-	public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
-	[SerializeField]
-	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static"; 
+    // Static channel right now just plays when current active channel is null
+    [SerializeField]
+    private FMOD.Studio.EventInstance staticChannel;
+
+    // Weather still has an audio source rather than an FMOD instance for text-to-speech purposes
+    [SerializeField]
+    private AudioSource weather;
+
+    // Default channel sound event paths
+    [SerializeField]
+    public string MusicDefaultPath = "event:/Radio/Music/Music1";
+    [SerializeField]
+    public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
+    [SerializeField]
+    public string StaticDefaultPath = "event:/Radio/Static/Basic_Static";
 
     [SerializeField]
     private Dial dial;
 
-	private bool isOn;
-	private RadioChannel CurrentChannel { get; set; }
-	private string announcement;
+    private bool isOn;
+    private RadioChannel CurrentChannel { get; set; }
+    private string announcement;
 
     // Counter for how many times weather played
-	private int weatherCounter;
-	private WeatherSystem currentWeather;
+    private int weatherCounter;
+    private WeatherSystem currentWeather;
 
     [Tooltip("The lowest degree of the range of the knob's rotation in which music will play")]
     public float lowMusic;
-	[Tooltip("The highest degree of the range of the knob's rotation in which music will play")]
+    [Tooltip("The highest degree of the range of the knob's rotation in which music will play")]
     public float highMusic;
-	[Tooltip("The lowest degree of the range of the knob's rotation in which the mystery channel will play")]
+    [Tooltip("The lowest degree of the range of the knob's rotation in which the mystery channel will play")]
     public float lowMystery;
-	[Tooltip("The highest degree of the range of the knob's rotation in which the mystery channel will play")]
+    [Tooltip("The highest degree of the range of the knob's rotation in which the mystery channel will play")]
     public float highMystery;
-	[Tooltip("The lowest degree of the range of the knob's rotation in which the weather will play")]
+    [Tooltip("The lowest degree of the range of the knob's rotation in which the weather will play")]
     public float lowWeather;
-	[Tooltip("The highest degree of the range of the knob's rotation in which the weather will play")]
+    [Tooltip("The highest degree of the range of the knob's rotation in which the weather will play")]
     public float highWeather;
 
     /// <summary>
@@ -68,19 +67,19 @@ public class Radio : MonoBehaviour
 
         isOn = false;
 
-		CurrentChannel = RadioChannel.Null;
+        CurrentChannel = RadioChannel.Null;
 
         // Update the weather and play if radio on
         StartCoroutine(updateWeather());
 
-		// Load in default sounds for all other channels
-		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (MysteryDefaultPath);
-		musicChannel = FMODUnity.RuntimeManager.CreateInstance (MusicDefaultPath);
-		staticChannel = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
+        // Load in default sounds for all other channels
+        mysteryChannel = FMODUnity.RuntimeManager.CreateInstance(MysteryDefaultPath);
+        musicChannel = FMODUnity.RuntimeManager.CreateInstance(MusicDefaultPath);
+        staticChannel = FMODUnity.RuntimeManager.CreateInstance(StaticDefaultPath);
 
-		Game.Instance.EventManager.StormStartedSubscription += startStatic;
-		Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
-		Game.Instance.EventManager.PlayerBoardRaftSubscription += addRaftClip;
+        Game.Instance.EventManager.StormStartedSubscription += startStatic;
+        Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
+        Game.Instance.EventManager.PlayerBoardRaftSubscription += addRaftClip;
     }
 
     /// <summary>
@@ -88,65 +87,65 @@ public class Radio : MonoBehaviour
     /// </summary>
     void Update()
     {
-		if (isOn) 
-		{
-			// Find the current channel and turn it on if it's not already playing 
-			FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
+        if (isOn)
+        {
+            // Find the current channel and turn it on if it's not already playing 
+            FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
 
-			if (CurrentChannel == RadioChannel.Mystery) 
-			{
-				mysteryChannel.getPlaybackState (out state);
+            if (CurrentChannel == RadioChannel.Mystery)
+            {
+                mysteryChannel.getPlaybackState(out state);
 
-				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) 
-				{
-					mysteryChannel.start ();
-				}
-			}
+                if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+                {
+                    mysteryChannel.start();
+                }
+            }
 
-			else if (CurrentChannel == RadioChannel.Music) 
-			{
-				musicChannel.getPlaybackState (out state);
+            else if (CurrentChannel == RadioChannel.Music)
+            {
+                musicChannel.getPlaybackState(out state);
 
-				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) 
-				{
-					musicChannel.start ();
-				}
-			}
+                if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+                {
+                    musicChannel.start();
+                }
+            }
 
-			else if (CurrentChannel == RadioChannel.Weather && !weather.isPlaying) 
-			{
-				weather.Play ();
-			}
+            else if (CurrentChannel == RadioChannel.Weather && !weather.isPlaying)
+            {
+                weather.Play();
+            }
 
-			else if (CurrentChannel == RadioChannel.Null) 
-			{
-				staticChannel.getPlaybackState (out state);
+            else if (CurrentChannel == RadioChannel.Null)
+            {
+                staticChannel.getPlaybackState(out state);
 
-				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) 
-				{
-					staticChannel.start ();
-				}
-			}
-				
-			ChangeChannel(dial.knobDegree);
-		} 
+                if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+                {
+                    staticChannel.start();
+                }
+            }
+
+            ChangeChannel(dial.knobDegree);
+        }
     }
 
     /// <summary>
     /// Turns radio on and off.
     /// </summary>
     public void Power()
-	{
-		// Turn off the radio and all channels if it's currently on
+    {
+        // Turn off the radio and all channels if it's currently on
         if (isOn)
         {
-       	    isOn = false;
+            isOn = false;
             CurrentChannel = RadioChannel.Null;
-		
-			musicChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-			weather.Stop ();
-			mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-			staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+
+            musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            weather.Stop();
+            mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            staticChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         }
 
         // Turn on the radio if it's currently off
@@ -164,7 +163,7 @@ public class Radio : MonoBehaviour
         while (true)
         {
             if (isOn)
-            {             
+            {
                 // Check if the weather is not playing and if the radio is on the weather channel
                 if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
                 {
@@ -216,35 +215,35 @@ public class Radio : MonoBehaviour
     /// <param name="channel"></param>
     public void SetChannel(RadioChannel channel)
     {
-		if (isOn) 
-		{
-			if (channel == RadioChannel.Music) 
-			{
-				weather.Stop ();
-				mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-			} 
-			else if (channel == RadioChannel.Weather) 
-			{
-				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-			} 
-			else if (channel == RadioChannel.Mystery) 
-			{
-				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				weather.Stop ();
-				staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-			}
-			else if (channel == RadioChannel.Null)
-			{
-				musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				weather.Stop ();
-				mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-			}
+        if (isOn)
+        {
+            if (channel == RadioChannel.Music)
+            {
+                weather.Stop();
+                mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                staticChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+            else if (channel == RadioChannel.Weather)
+            {
+                musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                staticChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+            else if (channel == RadioChannel.Mystery)
+            {
+                musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                weather.Stop();
+                staticChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+            else if (channel == RadioChannel.Null)
+            {
+                musicChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                weather.Stop();
+                mysteryChannel.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
 
-			this.CurrentChannel = channel;
-		}
+            this.CurrentChannel = channel;
+        }
     }
 
     /// <summary>
@@ -275,23 +274,23 @@ public class Radio : MonoBehaviour
     /// Flip through the channels.
     /// </summary>
     public void OnChannelClick()
-    {        
-		if (CurrentChannel == RadioChannel.Null) 
-		{
-			SetChannel (RadioChannel.Music);
-		}
-		else if (CurrentChannel == RadioChannel.Music) 
-		{
-			SetChannel (RadioChannel.Weather);
-		} 
-		else if (CurrentChannel == RadioChannel.Weather) 
-		{
-			SetChannel (RadioChannel.Mystery);
-		} 
-		else if (CurrentChannel == RadioChannel.Mystery) 
-		{
-			SetChannel (RadioChannel.Music);
-		}
+    {
+        if (CurrentChannel == RadioChannel.Null)
+        {
+            SetChannel(RadioChannel.Music);
+        }
+        else if (CurrentChannel == RadioChannel.Music)
+        {
+            SetChannel(RadioChannel.Weather);
+        }
+        else if (CurrentChannel == RadioChannel.Weather)
+        {
+            SetChannel(RadioChannel.Mystery);
+        }
+        else if (CurrentChannel == RadioChannel.Mystery)
+        {
+            SetChannel(RadioChannel.Music);
+        }
     }
 
     /// <summary>
@@ -306,33 +305,31 @@ public class Radio : MonoBehaviour
         string windSpeedText = windSpeed.ToString("F2");
         string temperatureText = temperature.ToString("F2");
 
-        string newAnnouncement =  "There is heavy rain heading toward the city with a wind speed of " + windSpeedText + " miles per hour and a temperature of " + temperatureText + " degrees Fahrenheit.";
+        string newAnnouncement = "There is heavy rain heading toward the city with a wind speed of " + windSpeedText + " miles per hour and a temperature of " + temperatureText + " degrees Fahrenheit.";
         return newAnnouncement;
     }
 
     /// <summary>
     /// Gets the mystery announcement.
     /// </summary>
-    public string GetMysteryAnnouncement() 
+    public string GetMysteryAnnouncement()
     {
         string newAnnouncement = "This is a mystery";
         return newAnnouncement;
     }
 
-	private void startStatic()
-	{
-		// TODO: Start some static here because a storm's abrewin'
-	}
+    private void startStatic()
+    {
+        // TODO: Start some static here because a storm's abrewin'
+    }
 
-	private void stopStatic()
-	{
-		// TODO: Remove that static because we have clear skies
-	}
+    private void stopStatic()
+    {
+        // TODO: Remove that static because we have clear skies
+    }
 
-	private void addRaftClip()
-	{
-		// TODO: Add raft clip to carousel
-	}
+    private void addRaftClip()
+    {
+        // TODO: Add raft clip to carousel
+    }
 }
-
-

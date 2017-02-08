@@ -127,18 +127,17 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	public void OnRadioClick()
 	{
-        //radioModel.SetActive(true);
         radioModelAnimation.ActivateRadio();
         inventoryPanel.SetActive(false);
         pausePanel.SetActive(false);
-        //craftingPanel.gameObject.SetActive(false);
-        //optionButtonPanel.SetActive(false);
-	}
+        craftingPanel.gameObject.SetActive(false);
+        optionButtonPanel.SetActive(false);
+    }
 
-	/// <summary>
-	/// Returns to the game scene.
-	/// </summary>
-	public void OnResumeClick()
+    /// <summary>
+    /// Returns to the game scene.
+    /// </summary>
+    public void OnResumeClick()
 	{
 		Game.Instance.PauseInstance.Resume ();
 		pausePanel.SetActive (false);
