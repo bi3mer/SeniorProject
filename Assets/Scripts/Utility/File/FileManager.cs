@@ -3,6 +3,8 @@ using System.IO;
 
 public class FileManager 
 {
+	private const string allFilesLocation = "all_files";
+
 	/// <summary>
 	/// Builds the path.
 	/// </summary>
@@ -10,8 +12,13 @@ public class FileManager
 	/// <param name="fileName">File name.</param>
 	public static string BuildPath(string fileName)
 	{
-		return Path.Combine(Application.persistentDataPath, fileName);
-	}
+        string basePath = Application.dataPath;
+#if UNITY_EDITOR
+        basePath = Path.Combine(Application.dataPath, Path.Combine("Resources", "YAMLFiles"));
+#endif
+
+        return Path.Combine(basePath, fileName);
+    }
 
 	/// <summary>
 	/// Saves content to the file
@@ -53,33 +60,22 @@ public class FileManager
 	/// <param name="fileName">File name.</param>
 	public static string GetDocument(string fileName)
 	{
-		SystemLogger.Write("Getting file from google drive");
+		SystemLogger.Write("Getting file from local");
 
-		string fileContents = null;
+		return  FileManager.getLocalDocument(fileName);
+	}
 
-		#if UNITY_EDITOR
-		if(GoogleDrive.ConnectedToInternet())
+	/// <summary>
+	/// Saves all documents from google drive.
+	/// </summary>
+	public static void SaveAllDocuments()
+	{
+		string[] files = FileManager.GetDocument(FileManager.allFilesLocation).Split(' ');
+
+		for(int i = 0; i < files.Length; ++i)
 		{
-			fileContents = GoogleDrive.GetOnlineDriveDocument(fileName);
-
-			// get local document if nothing was found
-			if(fileContents == null)
-			{
-				fileContents = FileManager.getLocalDocument(fileName);
-			}
+			// This will get the document and save it
+			FileManager.GetDocument(files[i]);
 		}
-		else
-		{
-			fileContents = FileManager.getLocalDocument(fileName);
-		}
-		#else
-		// pull local contents when this is a real build to avoid 
-		// a mishap where someone accidentally deletes the google
-		// drive file and corrupts anyone soul who wants to play
-		// this game.
-		fileContents = GoogleDrive.getLocalDocument(fileName);
-		#endif
-
-		return fileContents;
 	}
 }

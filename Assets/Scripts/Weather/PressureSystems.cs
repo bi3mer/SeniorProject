@@ -22,9 +22,18 @@ public class PressureSystems
 	// be accessed by enumeration PressureConstants
 	private readonly float[] pressureConstants           = {1086f, 1020f, 1000f, 1000f, 980f, 870f};
 	private const int startNumberOfPressureSystems       = 10;
-	private const int boundaryLength                     = 100;
 	private const float highPressureCenterAttractorForce = 2f;
 	private const float lowPressureCenterAttractorForce  = 4f;
+
+	/// <summary>
+	/// Get and set the city bounds that the pressure system can move in
+	/// </summary>
+	/// <value>The city bounds.</value>
+	public Bounds CityBounds
+	{
+		get;
+		private set;
+	}
 
 	/// <summary>
 	/// Gets the local pressure systems.
@@ -41,6 +50,9 @@ public class PressureSystems
 	/// </summary>
 	public PressureSystems()
 	{
+		// TODO: change to use real city bounds
+		this.CityBounds = new Bounds(new Vector2(0,0), new Vector2(100,100));
+
 		this.LocalPressureSystems = new List<PressureSystem>();
 
 		for(int i = 0; i < PressureSystems.startNumberOfPressureSystems; ++i)
@@ -48,7 +60,7 @@ public class PressureSystems
 			PressureSystem ps = new PressureSystem();
 
 			// calculate random position for vector
-			ps.Position = new Vector2(this.randomCoordinate, this.randomCoordinate);
+			ps.Position = this.randomVector;
 
 			// add vector to pressure system
 			this.LocalPressureSystems.Add(ps);
@@ -164,35 +176,26 @@ public class PressureSystems
 	}
 
 	/// <summary>
-	/// Bounds the coordinate.
-	/// </summary>
-	/// <returns>The coordinate.</returns>
-	/// <param name="coordiante">Coordiante.</param>
-	private float boundCoordinate(float coordinate)
-	{
-		return Mathf.Clamp(coordinate, -PressureSystems.boundaryLength, PressureSystems.boundaryLength);
-	}
-
-	/// <summary>
 	/// Bounds the vector based on the boundaries of the map.
 	/// </summary>
 	/// <returns>The vector.</returns>
 	/// <param name="vec">Vec.</param>
 	private Vector2 boundVector(Vector2 vector)
 	{
-		return new Vector2(this.boundCoordinate(vector.x), this.boundCoordinate(vector.y));
+		return new Vector2(Mathf.Clamp(vector.x, this.CityBounds.min.x, this.CityBounds.max.x),
+		                   Mathf.Clamp(vector.y, this.CityBounds.min.y, this.CityBounds.max.y));
 	}
 
 	/// <summary>
-	/// Randoms the coordinate.
+	/// Get a random vector in bounds of the city
 	/// </summary>
-	/// <returns>The coordinate.</returns>
-	private float randomCoordinate
+	/// <value>The random vector.</value>
+	private Vector2 randomVector
 	{
 		get
 		{
-			// return random coordinate in range of map
-			return Random.Range(-PressureSystems.boundaryLength, PressureSystems.boundaryLength);
+			return new Vector2(Random.Range(this.CityBounds.min.x, this.CityBounds.max.x),
+			               Random.Range(this.CityBounds.min.y, this.CityBounds.max.y));
 		}
 	}
 

@@ -6,12 +6,19 @@ public class GameViewBehavior : MonoBehaviour
 {
 	[SerializeField]
 	private GameObject inventoryPanel;
+
 	[SerializeField]
 	private GameObject pausePanel;
+
 	[SerializeField]
 	private GameObject radioPanel;
+
 	[SerializeField]
-	private GameObject craftingPanel;
+	private RecipeBookBehavior craftingPanel;
+
+	[SerializeField]
+	private GameObject optionButtonPanel;
+
 	private ControlScheme controlScheme;
 
 	/// <summary>
@@ -23,7 +30,8 @@ public class GameViewBehavior : MonoBehaviour
 		inventoryPanel.SetActive (false);
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
-		craftingPanel.SetActive (false);
+		craftingPanel.gameObject.SetActive (false);
+		optionButtonPanel.SetActive(true);
 
 		Game.Instance.GameViewInstance = this;
 	}
@@ -35,7 +43,7 @@ public class GameViewBehavior : MonoBehaviour
 	{
 		if (controlScheme != null) 
 		{
-			if (Input.GetKey (controlScheme.Pause)) 
+			if (Input.GetKeyDown (controlScheme.Pause)) 
 			{
 				if (Game.Instance.PauseInstance.IsPaused) 
 				{
@@ -47,17 +55,17 @@ public class GameViewBehavior : MonoBehaviour
 				}
 			}
 
-			if (Input.GetKey (controlScheme.Inventory)) 
+			if (Input.GetKeyDown(controlScheme.Inventory)) 
 			{
 				OnInventoryClick ();
 			}
 
-			if (Input.GetKey (controlScheme.Radio)) 
+			if (Input.GetKeyDown(controlScheme.Radio)) 
 			{
 				OnRadioClick ();
 			}
 
-			if (Input.GetKey (controlScheme.Crafting)) 
+			if (Input.GetKeyDown(controlScheme.Crafting)) 
 			{
 				OnCraftingClick ();
 			}
@@ -73,7 +81,8 @@ public class GameViewBehavior : MonoBehaviour
 		pausePanel.SetActive (true);
 		inventoryPanel.SetActive (false);
 		radioPanel.SetActive (false);
-		craftingPanel.SetActive (false);
+		craftingPanel.gameObject.SetActive (false);
+		optionButtonPanel.SetActive(false);
 	}
 
 	/// <summary>
@@ -100,7 +109,8 @@ public class GameViewBehavior : MonoBehaviour
 		inventoryPanel.SetActive (true);
 		pausePanel.SetActive (false);
 		radioPanel.SetActive (false);
-		craftingPanel.SetActive (false);
+		craftingPanel.gameObject.SetActive (false);
+		optionButtonPanel.SetActive(false);
 	}
 
 	/// <summary>
@@ -111,7 +121,8 @@ public class GameViewBehavior : MonoBehaviour
 		radioPanel.SetActive (true);
 		inventoryPanel.SetActive (false);
 		pausePanel.SetActive (false);
-		craftingPanel.SetActive (false);
+		craftingPanel.gameObject.SetActive (false);
+		optionButtonPanel.SetActive(false);
 	}
 
 	/// <summary>
@@ -123,9 +134,10 @@ public class GameViewBehavior : MonoBehaviour
 		pausePanel.SetActive (false);
 		inventoryPanel.SetActive (false);
 		radioPanel.SetActive (false);
-		craftingPanel.SetActive (false);
+		craftingPanel.gameObject.SetActive (false);
+		optionButtonPanel.SetActive(true);
 
-		if(GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Count > 0)
+		if(GuiInstanceManager.InventoryUiInstance != null && GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Count > 0)
 		{
 			ItemDiscarder discarder = new ItemDiscarder();
 			discarder.DiscardItems(GuiInstanceManager.InventoryUiInstance.ItemsToDiscard);
@@ -140,6 +152,7 @@ public class GameViewBehavior : MonoBehaviour
 		radioPanel.SetActive (false);
 		inventoryPanel.SetActive (false);
 		pausePanel.SetActive (false);
-		craftingPanel.SetActive (true);
+		craftingPanel.gameObject.SetActive (true);
+		craftingPanel.ResetPanel();
 	}
 }

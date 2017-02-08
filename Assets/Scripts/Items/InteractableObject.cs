@@ -12,12 +12,17 @@ public class InteractableObject : MonoBehaviour
 
     private TextMesh display;
 
+    bool SetupComplete = false;
+
     /// <summary>
     /// Initializes text and hides it.
     /// </summary>
     void Start()
     {
-        SetUp();
+    	if(!SetupComplete)
+    	{
+        	SetUp();
+        }
     }
 
     /// <summary>
@@ -44,6 +49,7 @@ public class InteractableObject : MonoBehaviour
 			display = GetComponentInChildren<TextMesh>();
 		}
 
+		SetupComplete = true;
         Show = false;
     }
 

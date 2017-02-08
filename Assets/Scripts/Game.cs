@@ -7,6 +7,7 @@
     {
         PlayerInstance = new Player();
 		WeatherInstance = new WeatherSystem();
+		EventManager = new EventManager ();
 		PauseInstance = new PauseSystem();
 		WorldItemFactoryInstance = new WorldItemFactory();
 		ItemFactoryInstance = new ItemFactory();
@@ -14,6 +15,14 @@
 		Scheme = GameSettingsInstance.Scheme;
         Loader = new GameLoader();
         DeathManagerInstance = new DeathManager();
+    }
+
+    /// <summary>
+    /// Resets the game from the start.
+    /// </summary>
+    public void Reset ()
+    {
+        PlayerInstance.ResetStatus();
     }
  
     /// <summary>
@@ -28,6 +37,17 @@
                 instance = new Game();
             }
             return instance;
+        }
+    }
+
+    /// <summary>
+    /// Shorcut to calling Instance.PlayerInstance
+    /// </summary>
+    public static Player Player
+    {
+        get
+        {
+            return Instance.PlayerInstance;
         }
     }
 
@@ -76,6 +96,16 @@
 	/// </summary>
 	/// <value>The weather instance.</value>
 	public WeatherSystem WeatherInstance
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets the event manager instance.
+	/// </summary>
+	/// <value>The event manager instance.</value>
+	public EventManager EventManager
 	{
 		get;
 		private set;

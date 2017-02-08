@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerInventory : Inventory 
 {
     private const string equipedAttributeName = "equiped";
-    private const string equipableItemTag = "equipable";
 
     /// <summary>
     /// Creates an instance of PlayerInventory
@@ -40,17 +40,22 @@ public class PlayerInventory : Inventory
     public event ItemUnequippedDelegate ItemUnequippedSubscription;
     public delegate void ItemUnequippedDelegate();
 
-    /// <summary>
+	/// <summary>
     /// Add item to inventory and notify subscribers.
     /// </summary>
-    /// <param name="newItem">New item to be added.</param>
-    public void AddItem(BaseItem newItem, int amount)
+    /// <returns>The added item.</returns>
+    /// <param name="newItem">New item.</param>
+    /// <param name="amount">Amount.</param>
+    public Stack AddItem(BaseItem newItem, int amount)
     {
-        base.AddItem(newItem, amount);
+        Stack newStack = base.AddItem(newItem, amount);
 
-        if (ItemAddedSubscription != null) {
+        if (ItemAddedSubscription != null) 
+        {
             ItemAddedSubscription(newItem);
         }
+
+        return newStack;
     }
 
     /// <summary>
@@ -68,6 +73,7 @@ public class PlayerInventory : Inventory
     }
 
     private BaseItem equipedItem;
+
     /// <summary>
     /// Get or set the currently equipped item.
     /// 
@@ -83,7 +89,7 @@ public class PlayerInventory : Inventory
         set
         {
             // Check if this is an equippable item
-            if (value != null && !value.Types.Contains(equipableItemTag))
+            if (value != null && !value.Types.Contains(ItemTypes.Equipable))
             {
                 Debug.LogError("Cannot set EquipedItem to a non-equipable item.");
                 return;

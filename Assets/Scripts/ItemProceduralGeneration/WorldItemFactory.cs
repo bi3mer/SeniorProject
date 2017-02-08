@@ -89,7 +89,7 @@ public class WorldItemFactory
 	public GameObject CreateRandomPickupInteractableItem(string district)
 	{
 		// create the object with the model
-		BaseItem baseItem = Game.Instance.ItemFactoryInstance.GetWeightedRandomBaseItem(district);
+		BaseItem baseItem = Game.Instance.ItemFactoryInstance.GetWeightedRandomBaseItem(district, true);
 		GameObject item = GameObject.Instantiate (worldItemTemplates[baseItem.ItemName]);
 
 		// creates the trigger object that will handle interaction with player
@@ -143,7 +143,7 @@ public class WorldItemFactory
 	public Dictionary<string, List<GameObject>> GetAllInteractableItemsByDistrict(bool setActive)
 	{
 		ItemFactory itemFactory = Game.Instance.ItemFactoryInstance;
-		Dictionary<string, List<string>> interactableItemNamesByDistrict = itemFactory.ItemsByLocation;
+		Dictionary<string, List<string>> interactableItemNamesByDistrict = itemFactory.LandItemsByDistrict;
 		Dictionary<string, List<GameObject>> interactableItemsByDistrict = new Dictionary<string, List<GameObject>>();
 
 		int i;
@@ -170,6 +170,6 @@ public class WorldItemFactory
 	/// <param name="district">District.</param>
 	public int GetRandomItemIndex(string district)
 	{
-		return Game.Instance.ItemFactoryInstance.GetWeightedRandomItemIndex(district);
+		return Game.Instance.ItemFactoryInstance.GetWeightedRandomItemIndex(district, true);
 	}
 }

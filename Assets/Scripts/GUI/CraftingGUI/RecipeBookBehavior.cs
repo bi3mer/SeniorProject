@@ -42,7 +42,20 @@ public class RecipeBookBehavior : MonoBehaviour
 			recipe.gameObject.SetActive (true);
 			recipe.SetUpRecipePage(recipes[recipeNames [i]]);
 			// add page to book panel grid and set first page active
-			recipe.transform.SetParent (bookPanelGridLayout.transform);
+			recipe.transform.SetParent (bookPanelGridLayout.transform, false);
+		}
+	}
+
+	/// <summary>
+	/// Resets the panel so that all active crafting attempts are ended.
+	/// </summary>
+	public void ResetPanel()
+	{
+		RecipePageBehavior[] pages = GetComponentsInChildren<RecipePageBehavior>();
+
+		for(int i = 0; i < pages.Length; ++i)
+		{
+			pages[i].EndCraftingAttempt();
 		}
 	}
 

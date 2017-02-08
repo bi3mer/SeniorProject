@@ -1,4 +1,4 @@
-﻿---
+---
 - recipeName: "Fishing Rod"
   requirements:
    - itemType: "rod"
@@ -48,3 +48,18 @@
      qualityThreshold:
       - 2
       - 4
+- recipeName: "Fire Pit"
+  requirements:
+   - itemType: "fuel"
+     amountRequired: 5
+  statsToCheck:
+   - statName: "burnRate"
+     statAffectingItems:
+      - "fuel"
+     qualityThreshold:
+      - 5
+      - 20
+
+
+
+

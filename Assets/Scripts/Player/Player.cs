@@ -1,4 +1,15 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+
+/// <summary>
+/// Types of possible player health statuses
+/// </summary>
+public enum PlayerHealthStatus
+{
+    None,
+    FoodPoisoning,
+    Pneumonia
+};
 
 public class Player
 {
@@ -10,18 +21,29 @@ public class Player
     private const int playerInventorySize = 20;
     private int health;
 
+    public const float FoodPoisoningChance = 0.3f;
+
     /// <summary>
     /// Player constructor.
     /// Initializes all fields to full.
     /// </summary>
     public Player ()
     {
-        Health = MaxHealth = maxHealth;
-        health = Health;
+        ResetStatus();
+    }
 
+    /// <summary>
+    /// Resets player to initial status.
+    /// </summary>
+    public void ResetStatus ()
+    {
+        Health = MaxHealth = maxHealth;
         Warmth = MaxWarmth = maxWarmth;
         Hunger = MaxHunger = maxHunger;
-		Inventory = new PlayerInventory (playerInventoryName, inventoryFileName, playerInventorySize);
+
+        HealthStatus = PlayerHealthStatus.None;
+
+        Inventory = new PlayerInventory(playerInventoryName, inventoryFileName, playerInventorySize);
     }
 
 	/// <summary>
@@ -141,6 +163,15 @@ public class Player
     /// Controls the player's tools.
     /// </summary>
     public PlayerTools Toolbox
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// The player's current health status.
+    /// </summary>
+    public PlayerHealthStatus HealthStatus
     {
         get;
         set;
