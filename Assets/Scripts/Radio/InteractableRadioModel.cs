@@ -115,10 +115,6 @@ public class InteractableRadioModel : MonoBehaviour
         transform.localPosition = activePosition;
         transform.localEulerAngles = activeRotation;
         radioMesh.enabled = true;
-        //for (int i = 0; i < transform.childCount; ++i)
-        //{
-        //    transform.GetChild(i).gameObject.SetActive(true);
-        //}
 
         transform.gameObject.SetActive(true);
 
