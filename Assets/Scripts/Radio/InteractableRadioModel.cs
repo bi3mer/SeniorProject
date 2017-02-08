@@ -237,7 +237,5 @@ public class InteractableRadioModel : MonoBehaviour
         {
             stationSlider.transform.localPosition = new Vector3(xPosition, stationSlider.transform.localPosition.y, stationSlider.transform.localPosition.z);
         }
-
-        Debug.Log(xPosition);
     }
 }
