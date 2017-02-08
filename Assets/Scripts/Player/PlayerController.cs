@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
     private bool isFlying;
     private bool isInShelter;
     private bool isByFire;
+    private bool isReading;
 
     private float currentWarmthChangeRate;
     private float currentHungerChangeRate;
@@ -561,6 +562,9 @@ public class PlayerController : MonoBehaviour
 
         // Give the raft the player's animator to control.
         raftMovement.PlayerAnimator = PlayerAnimator;
+
+		// Notify subscribers
+		Game.Instance.EventManager.RaftBoarded();
     }
 
     /// <summary>
@@ -739,7 +743,31 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-	/// <summary>
+    /// <summary>
+    /// If the player is reading returns true.
+    /// </summary>
+    public bool IsReading
+    {
+        get
+        {
+            return isReading;
+        }
+        set
+        {
+            if (value)
+            {
+                freezePlayer = true;
+            }
+            else
+            {
+                freezePlayer = false;
+            }
+
+            isReading = value;
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the fire warmth increase rate.
     /// </summary>
     /// <value>The fire warmth increase rate.</value>

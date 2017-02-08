@@ -1,23 +1,22 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Events;
 
 public class FuelCategory : ItemCategory
 {
-    /// <summary>
-    /// Gets and sets the life the fire gains.
-    /// </summary>
-    public float LifeGain
-    {
-        get;
-        set;
-    }
+	/// <summary>
+	/// Gets or sets the burn time.
+	/// </summary>
+	/// <value>The burn time.</value>
+	public float BurnTime
+	{
+		get;
+		set;
+	}
 
-    private const string lifeGainAttrName = "lifeGain";
+	private const string burnTimeAttrName = "burnTime";
 
-    private const string fuelFireActName = "Fuel Fire";
-
-    /// <summary>
+	/// <summary>
     /// Creates a copy of this fuel category.
     /// </summary>
     /// <returns>The duplicate.</returns>
@@ -25,14 +24,10 @@ public class FuelCategory : ItemCategory
     {
         FuelCategory category = new FuelCategory();
 
-        category.LifeGain = LifeGain;
-
-        ItemAction fuelFire = new ItemAction(fuelFireActName, FuelFire);
+        category.BurnTime = BurnTime;
 
         category.Attributes = new List<Attribute>();
         category.Actions = new List<ItemAction>();
-        
-        category.Actions.Add(fuelFire);
 
         finishDuplication(category);
 
@@ -45,17 +40,6 @@ public class FuelCategory : ItemCategory
     public override void ReadyCategory()
     {
         Attributes = new List<Attribute>();
-        Attributes.Add(new Attribute(lifeGainAttrName, LifeGain));
-
-        Actions = new List<ItemAction>();
-        Actions.Add(new ItemAction(fuelFireActName, FuelFire));
-    }
-
-    public void FuelFire()
-    {
-        if (Game.Instance.PlayerInstance.Controller.IsByFire == true)
-        {
-            // TO DO: add code that adds life gain to fire.
-        }
+        Attributes.Add(new Attribute(burnTimeAttrName, BurnTime));
     }
 }

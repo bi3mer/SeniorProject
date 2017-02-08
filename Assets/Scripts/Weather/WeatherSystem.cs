@@ -66,26 +66,6 @@ public class WeatherSystem
 	// Precipitation flag for storm and delegates for beginning of storm and end
 	private const float minPrecipitationForStorm = 20f;
 
-	/// <summary>
-	/// Delegate for storm beginning
-	/// </summary>
-	public delegate void stormDelegateStart();
-
-	/// <summary>
-	/// Occurs when storm begins.
-	/// </summary>
-	public event stormDelegateStart StormStartUpdate;
-
-	/// <summary>
-	/// Delegate for storm ending.
-	/// </summary>
-	public delegate void stormDelegateEnd();
-
-	/// <summary>
-	/// Occurs when storm ends.
-	/// </summary>
-	public event stormDelegateEnd StormEndUpdate;
-
 	private bool ongoingStorm = false;
 
 	// Weather sounds
@@ -386,24 +366,16 @@ public class WeatherSystem
 			{
 				this.ongoingStorm = false;
 
-				// check if any subscribed delegates for storm ending
-				if(this.StormEndUpdate != null)
-				{
-					// updated subscribed
-					this.StormEndUpdate();
-				}
+				// update subscribed
+				Game.Instance.EventManager.StormStop ();
 			}
 		}
 		else if(this.WeatherInformation[(int) Weather.Precipitation] >= WeatherSystem.minPrecipitationForStorm)
 		{
 			this.ongoingStorm = true;
 
-			// check for any subscribed delegates for storm starting
-			if(this.StormStartUpdate != null)
-			{
-				// update subscribed
-				this.StormStartUpdate();
-			}
+			// update subscribed
+			Game.Instance.EventManager.StormStart ();
 		}
 	}
 

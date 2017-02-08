@@ -24,6 +24,7 @@ public class CityController : MonoBehaviour
     private BlockGenerator blockGenerator;
     private BuildingGenerator buildingGenerator;
     private RooftopGeneration rooftopItemGenerator;
+    private WaterItemGeneration waterItemGenerator;
 
     /// <summary>
     /// Grabs other generators and starts generation.
@@ -34,6 +35,7 @@ public class CityController : MonoBehaviour
         blockGenerator = GetComponent<BlockGenerator>();
         buildingGenerator = GetComponent<BuildingGenerator>();
         rooftopItemGenerator = GetComponent<RooftopGeneration>();
+        waterItemGenerator = GetComponent<WaterItemGeneration>();
 
         // Check to see if the seed has been configured in the inspector
         if (seed == 0)
@@ -68,6 +70,7 @@ public class CityController : MonoBehaviour
         // and create the talest builing there.
         Vector3 cityCenter = GenerationUtility.GetMostCommonVertex(districts);
         Building tallestBuilding = buildingGenerator.CreateCityCenterBuilding(cityCenter);
+		waterItemGenerator.SetCityInformation(cityBounds.max.x - cityBounds.min.x, cityBounds.max.y - cityBounds.min.y, cityCenter, districts);
 
         // Generate blocks in each district
         for (int i = 0; i < districts.Length; ++i)
@@ -90,14 +93,17 @@ public class CityController : MonoBehaviour
                 {
                     Building building = buildings[k];
 
-                    rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name, doorExtents, district.Configuration.Doors);
-                    
+                    waterItemGenerator.AddBuildingToWaterGenerationMap(building.BoundingBox);
+					rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name, doorExtents, district.Configuration.Doors, building.Instance);
+
                     block.Buildings.Add(building);
                 }
 
                 district.Blocks.Add(block);
             }
         }
+
+		waterItemGenerator.GenerateInWater();
 
         return new City(districts, cityBounds, cityCenter, tallestBuilding);
     }

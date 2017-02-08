@@ -100,6 +100,10 @@ public class Radio : MonoBehaviour
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
 		staticChannel = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
+
+		Game.Instance.EventManager.StormStartedSubscription += startStatic;
+		Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
+		Game.Instance.EventManager.PlayerBoardRaftSubscription += addRaftClip;
     }
 
     /// <summary>
@@ -379,6 +383,21 @@ public class Radio : MonoBehaviour
         string newAnnouncement = "This is a mystery";
         return newAnnouncement;
     }
+
+	private void startStatic()
+	{
+		// TODO: Start some static here because a storm's abrewin'
+	}
+
+	private void stopStatic()
+	{
+		// TODO: Remove that static because we have clear skies
+	}
+
+	private void addRaftClip()
+	{
+		// TODO: Add raft clip to carousel
+	}
 }
 
 
