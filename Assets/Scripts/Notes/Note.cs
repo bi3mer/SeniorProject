@@ -7,8 +7,8 @@ using UnityEngine.Events;
 /// Base interactable note  class for all notes.
 /// </summary>
 public class Note : InteractableObject
-{
-	/// <summary>
+{ 
+    /// <summary>
 	/// Gets or sets the display text from the NoteData object.
 	/// </summary>
 	/// <value>The display text.</value>
@@ -29,7 +29,7 @@ public class Note : InteractableObject
 	/// <summary>
 	/// Sets up the InteractableObject.
 	/// </summary>
-	public void SetUp()
+	public void SetUpNote()
 	{
 		base.SetUp();
 
@@ -51,12 +51,15 @@ public class Note : InteractableObject
 		if (NoteUIController.Instance.NoteUIPanel.activeSelf) 
 		{
 			NoteUIController.Instance.NoteUIPanel.SetActive (false);
+
+            Game.Instance.PlayerInstance.Controller.IsReading = false;
 		} 
 
 		else 
 		{
 			NoteUIController.Instance.SetText (DisplayText);
 			NoteUIController.Instance.NoteUIPanel.SetActive (true);
-		}
+            Game.Instance.PlayerInstance.Controller.IsReading = true;
+        }
 	}
 }
