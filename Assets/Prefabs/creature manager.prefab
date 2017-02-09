@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012735485028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.15489483, y: 3.2957926, z: 3.5939589}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -53,25 +53,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f6aa9e3da7fd41a1b3ef48973f23f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  creatures:
+  creaturesPrefabs:
   - {fileID: 1000012070737506, guid: 58b4dd3ca43aca040a5029e9c645d128, type: 2}
   minCreatureCount: 80
   maxCreatureCount: 100
+  maxSpawnRadius: 25
+  minSpawnRadius: 10
+  waterLevelOffset: -2
 --- !u!114 &114000011801027962
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012735485028}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5bbedd40a77845fc97b62d67d3095dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  creatures:
+  creaturesPrefabs:
   - {fileID: 1000012067917730, guid: f97bca0d92d83324e80b62261e111b37, type: 2}
-  minCreatureCount: 1
-  maxCreatureCount: 2
+  minCreatureCount: 50
+  maxCreatureCount: 100
+  maxSpawnRadius: 25
+  minSpawnRadius: 10
+  waterLevelOffset: -2
 --- !u!114 &114000011898644468
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -83,7 +89,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f032cc473741748cd8eb504149560067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  creatures:
-  - {fileID: 100000, guid: 4951912e711672b408c634d33bdaa34e, type: 3}
+  creaturesPrefabs: []
   minCreatureCount: 1
   maxCreatureCount: 1
+  maxSpawnRadius: 25
+  minSpawnRadius: 10
+  waterLevelOffset: -2

@@ -26,6 +26,7 @@ GameObject:
   - 114: {fileID: 114000014275874900}
   - 114: {fileID: 114000010239616376}
   - 114: {fileID: 114000013392317438}
+  - 114: {fileID: 114000011626432178}
   m_Layer: 0
   m_Name: CityController
   m_TagString: Untagged
@@ -81,6 +82,22 @@ MonoBehaviour:
   maxPlacementTries: 3
   CityCenterBuilding: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
     type: 2}
+--- !u!114 &114000011626432178
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013389127986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d15546fd07cba4816bcdd8b189bddb06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxNumberOfItems: 40
+  numberOfInitialPoints: 5
+  newPointsPerSamplingPoint: 5
+  maxAttempts: 3
+  districtCheck: 5
 --- !u!114 &114000012634621658
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -144,6 +161,7 @@ MonoBehaviour:
   - districtName: residential
     WeenieBuildingTemplate: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
       type: 2}
+    Doors: []
     AdditionalBuildingTemplates: []
     MaxFloors: 5
     MinFloors: 1
@@ -278,6 +296,7 @@ MonoBehaviour:
   - districtName: shopping
     WeenieBuildingTemplate: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
       type: 2}
+    Doors: []
     AdditionalBuildingTemplates: []
     MaxFloors: 8
     MinFloors: 3
@@ -412,6 +431,7 @@ MonoBehaviour:
   - districtName: shopping
     WeenieBuildingTemplate: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
       type: 2}
+    Doors: []
     AdditionalBuildingTemplates: []
     MaxFloors: 8
     MinFloors: 3
@@ -573,6 +593,7 @@ MonoBehaviour:
   TestDistrict:
     districtName: shopping
     WeenieBuildingTemplate: {fileID: 0}
+    Doors: []
     AdditionalBuildingTemplates: []
     MaxFloors: 1
     MinFloors: 1

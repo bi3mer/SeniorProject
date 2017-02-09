@@ -15,15 +15,14 @@ public class RandomUtility
 	}
 
 	/// <summary>
-    /// Get a random decimal
+    /// Get a random float between 0 and 1.
     /// </summary>
-    /// <value>The decimal.</value>
-    public static float Decimal
+    public static float RandomPercent
     {
-    	get
-    	{
-    		return Random.Range(0f, 1f);
-    	}
+        get
+        {
+            return Random.Range(0f, 1f);
+        }
     }
 
 	/// <summary>
@@ -34,7 +33,7 @@ public class RandomUtility
     {
     	get
 		{
-			return RandomUtility.Decimal - RandomUtility.Decimal;
+			return RandomUtility.RandomPercent - RandomUtility.RandomPercent;
 		}
     }
 }

@@ -6,11 +6,6 @@ using System.Collections.Generic;
 [RequireComponent (typeof (Collider))]
 public class FishAgent : MonoBehaviour 
 {
-	/// <summary>
-	/// The velocity of the agent
-	/// </summary>
-    public Vector3 Velocity;
-
 	// Move towards when wondering
 	private Vector3 WanderTarget;
     
@@ -24,6 +19,15 @@ public class FishAgent : MonoBehaviour
 
 	private const string predatorLayerString   = "Predator";
 	private const string fisghAgentLayerString = "Agent";
+
+	/// <summary>
+	/// The velocity of the agent
+	/// </summary>
+    public Vector3 Velocity
+    {
+    	get;
+    	private set;
+    }
 
 	protected virtual void setLayers()
 	{
@@ -48,7 +52,7 @@ public class FishAgent : MonoBehaviour
 
 		// Start with random velocity
 		this.Velocity = new Vector3(Random.Range(-this.config.MaxVelocity, this.config.MaxVelocity), 
-			                        Random.Range(-this.config.MaxVelocity, this.config.MaxVelocity), 
+			                        0, 
 			                        Random.Range(-this.config.MaxVelocity, this.config.MaxVelocity));
 	}
 	
@@ -57,32 +61,40 @@ public class FishAgent : MonoBehaviour
     /// </summary>
 	void FixedUpdate ()
     {
-        // Update acceleration
-        this.acceleration = Vector3.ClampMagnitude(this.convert3dTo2d(this.Combine()), this.config.MaxAcceleration);
+		// Update acceleration
+        Vector2 acceleration2d = Vector2.ClampMagnitude(this.Combine(), this.config.MaxAcceleration);
 
         // Euler Forward Integration
-		this.Velocity = Vector3.ClampMagnitude(this.Velocity + this.acceleration * Time.deltaTime, this.config.MaxVelocity);
+		Vector2 velocity = Vector2.ClampMagnitude(VectorUtility.XZ(this.Velocity) + acceleration2d * Time.deltaTime, this.config.MaxVelocity);
 
         // Set new position
-		this.transform.position = this.transform.position + (Vector3) (this.Velocity * Time.deltaTime);
-		this.transform.position = new Vector3(this.transform.position.x, 
-		                                      Game.Instance.WaterLevelHeight + this.config.waterLevelOffset, 
-		                                      this.transform.position.z);
+        Vector2 position = VectorUtility.XZ(this.transform.position) + (velocity * Time.deltaTime);
 
-		// bound the position so fish can't go outside of the city
-		this.transform.position = Game.Instance.CityBounds.BoundVector3d(this.transform.position);
+        // convert 2d calculations to 3d
+		this.Velocity           = VectorUtility.twoDimensional3d(velocity);
+        this.acceleration       = VectorUtility.twoDimensional3d(acceleration);
+        this.transform.position = Game.Instance.CityBounds.BoundVector3d(VectorUtility.twoDimensional3d(position));
+        
+        // set allignment
+        if(velocity.magnitude > 0)
+        {
+            // get angle towards direction and convert to degrees
+            float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg - 90;
 
-        // set rotation
-		transform.rotation = Quaternion.LookRotation(this.Velocity + this.transform.position);// Quaternion.AngleAxis(angle, this.velocity);
+            // set rotation
+            this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            this.transform.rotation = new Quaternion(this.transform.rotation.x, this.transform.rotation.z, 
+                                                     this.transform.rotation.y, this.transform.rotation.w);
+        }
 	}
 
     /// <summary>
     /// Go to center of neighbors
     /// </summary>
     /// <returns>Center Point</returns>
-    public Vector3 Cohesion()
+    public Vector2 Cohesion()
     {
-        // Cohesion behaavior
+		// Cohesion behaavior
         Vector3 result = new Vector3();
         
         // Get all neighbors
@@ -107,11 +119,13 @@ public class FishAgent : MonoBehaviour
             }
             
             // Look center
-            result -= this.transform.position;
+            result = result - this.transform.position;
 
+            // normalize vector
             result.Normalize();
         }
 
+        // Return result
         return result;
     }
 
@@ -119,10 +133,10 @@ public class FishAgent : MonoBehaviour
     /// Move away from neighbors
     /// </summary>
     /// <returns></returns>
-    public Vector3 Separation()
+    public Vector2 Separation()
     {
         // Separation result
-        Vector3 result = new Vector3();
+        Vector2 result = new Vector3();
 
         // Get all neighbors
 		Collider2D[] neighbors = Physics2D.OverlapCircleAll(this.transform.position, this.config.SeparationRadius, this.gameObject.layer);
@@ -150,9 +164,9 @@ public class FishAgent : MonoBehaviour
     /// Rotate in direction of movement
     /// </summary>
     /// <returns></returns>
-	public Vector3 Alignment()
+	public Vector2 Alignment()
     {
-        Vector3 result = new Vector3();
+		Vector2 result = new Vector2();
 
         // Get all neighbors
 		Collider2D[] neighbors = Physics2D.OverlapCircleAll(this.transform.position, this.config.SeparationRadius, this.gameObject.layer);
@@ -162,57 +176,41 @@ public class FishAgent : MonoBehaviour
         {
             for (int i = 0; i < neighbors.Length; ++i)
             {
-            	// TODO add id system to reduce runtime hit
-				result += neighbors[i].gameObject.GetComponent<FishAgent>().Velocity;
+            	// TODO in the future, look for a better way to do this
+                result += VectorUtility.XZ(neighbors[i].gameObject.GetComponent<FishAgent>().Velocity);
             }
 
             // Nomalize vector
             result.Normalize();
         }
 
+        // return result
         return result;
     }
-
-	/// <summary>
-	/// Flee from all enemies
-	/// </summary>
-	public Vector3 AvoidEnemies()
-	{
-		Vector3 result = new Vector3();
-		
-		Collider2D[] enemies = Physics2D.OverlapCircleAll(this.transform.position, this.config.AvoidRadius, this.predatorLayer);
-
-		for (int i = 0; i < enemies.Length; ++i)
-		{
-			result += this.Flee(enemies[i].transform.position);
-		}
-		
-		return result;
-	}
 
 	/// <summary>
 	/// Smooth out movement
 	/// </summary>
 	/// <returns></returns>
-	public Vector3 Wander()
+	public Vector2 Wander()
 	{
 		float jitter = this.config.Jitter * Time.deltaTime;
-
+		
+		// 
 		this.WanderTarget += new Vector3(RandomUtility.RandomBinomial * jitter, RandomUtility.RandomBinomial * jitter, 0);
 		
 		this.WanderTarget.Normalize();
 		this.WanderTarget *= this.config.WanderRadius;
 		Vector3 targetInLocalSpace = this.WanderTarget + new Vector3(0, 0, this.config.WanderDistanceRadius);
 		Vector3 targetInWorldSpace = this.transform.TransformPoint(targetInLocalSpace);
-		Vector3 wanderTarget = (targetInWorldSpace - this.transform.position);
-		return wanderTarget.normalized;
+		return (targetInWorldSpace - this.transform.position).normalized;
 	}
 
     /// <summary>
     /// Use Allignment, Cohesion, and Separation to define behavior with diferent proportions based on importance
     /// </summary>
     /// <returns>Vector with correct behavior</returns>
-    public virtual Vector3 Combine()
+    public virtual Vector2 Combine()
     {
         return this.config.CohesionWeight * this.Cohesion() 
              + this.config.SeparationWeight * this.Separation()
@@ -229,25 +227,4 @@ public class FishAgent : MonoBehaviour
     {
 		return Vector3.Angle(this.Velocity, agent - this.transform.position) <= this.config.MaxFieldOfViewAngle;
     } 
-
-    /// <summary>
-    /// Run opposite direction from the target
-    /// </summary>
-    /// <param name="targ"></param>
-    /// <returns></returns>
-    public Vector3 Flee(Vector3 targ)
-    {
-        Vector3 desiredVel = (this.transform.position - targ).normalized * this.config.MaxVelocity;
-		return desiredVel - this.Velocity;
-    }
-
-    /// <summary>
-    /// Convert vector3 to vector2 uzing z coordinate for y
-    /// </summary>
-    /// <returns>The to2d.</returns>
-    /// <param name="vector">Vector.</param>
-    private Vector2 convert3dTo2d(Vector3 vector)
-    {
-    	return new Vector2(vector.x, vector.z);
-    }
 }

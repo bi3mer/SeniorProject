@@ -5,13 +5,24 @@ using System.Collections.Generic;
 public abstract class Spawner : MonoBehaviour 
 {
 	[SerializeField]
-	private GameObject[] creatures;
+	private GameObject[] creaturesPrefabs;
 
 	[SerializeField]
 	private int minCreatureCount;
 
 	[SerializeField]
 	private int maxCreatureCount;
+
+	[SerializeField]
+	private float maxSpawnRadius = 25f;
+
+	[SerializeField]
+	private float minSpawnRadius = 10f;
+
+	[SerializeField]
+	private float waterLevelOffset = -2f;
+
+	private CreatureManager creatureManager;
 
 	/// <summary>
 	/// The pool of creatures that have been killed and will need
@@ -20,13 +31,25 @@ public abstract class Spawner : MonoBehaviour
 	private Stack<GameObject> creaturePool;
 
 	/// <summary>
-	/// Count of how many creatures are in the scene
+	/// Gets the float inside of the spawn radius but outside
+	/// of the minimum spawning radius
 	/// </summary>
-	/// <value>The creature count.</value>
-	public int CreatureCount
+	/// <value>The float in radius.</value>
+	private float floatInRadius
 	{
-		get;
-		private set;
+		get
+		{
+			if(RandomUtility.RandomPercent > .5)
+			{
+				// return a random positive value
+				return Random.Range(this.minSpawnRadius, this.maxSpawnRadius);
+			}
+			else
+			{
+				// return a random negative value
+				return Random.Range(-this.maxSpawnRadius, -this.minSpawnRadius);
+			}
+		}
 	}
 
 	/// <summary>
@@ -37,22 +60,9 @@ public abstract class Spawner : MonoBehaviour
 	{
 		// TODO: This will be turned into real code without magic numbers in the future
 		//       but right now basic functionality is for the best.
-		return new Vector3(Game.Instance.PlayerInstance.WorldTransform.position.x - Random.Range(-25f, 25f), 
-		                   Game.Instance.WaterLevelHeight - 2f,
-			               Game.Instance.PlayerInstance.WorldTransform.position.z - Random.Range(-25f, 25f));
-	}
-
-	/// <summary>
-	/// Puts creature into the pool. 
-	/// </summary>
-	/// <param name="creature">Creature.</param>
-	private void putCreatureInPool(GameObject creature)
-	{
-		// turn game object off
-		creature.SetActive(false);
-
-		// place into pool
-		this.creaturePool.Push(creature);
+		return new Vector3(Game.Instance.PlayerInstance.WorldTransform.position.x - this.floatInRadius, 
+		                   Game.Instance.WaterLevelHeight + this.waterLevelOffset,
+			               Game.Instance.PlayerInstance.WorldTransform.position.z - this.floatInRadius);
 	}
 
 	/// <summary>
@@ -60,15 +70,22 @@ public abstract class Spawner : MonoBehaviour
 	/// and spawn another.
 	/// </summary>
 	/// <param name="creature">Creature.</param>
-	public void CreatureKilled(GameObject creature)
+	public void CreatureKilled(CreatureTracker creature)
 	{
 		// place into pool
-		this.putCreatureInPool(creature);
-
-		// reduce current count
-		--this.CreatureCount;
+		this.creatureManager.PutCreatureInPool(creature.Index);
 
 		this.spawn();
+	}
+
+	/// <summary>
+	/// Gets the random creature.
+	/// </summary>
+	/// <returns>The random creature.</returns>
+	private GameObject getRandomCreature()
+	{
+		// get random index in creature array and return corresponding game object
+		return this.creaturesPrefabs[Random.Range(0, this.creaturesPrefabs.Length)];
 	}
 
 	/// <summary>
@@ -76,31 +93,19 @@ public abstract class Spawner : MonoBehaviour
 	/// </summary>
 	private void spawn()
 	{
-		GameObject newCreature;
+		this.creatureManager.Spawn(this.findSpawnLocation(), this.getRandomCreature());
+	}
 
-		// check if stack is empty
-		if(this.creaturePool.Count == 0)
+	/// <summary>
+	/// Fixeds the update.
+	/// </summary>
+	void FixedUpdate()
+	{
+		if(this.creatureManager != null)
 		{
-			// get random index in creature array
-			int randomIndex = Random.Range(0, this.creatures.Length);
-			Debug.Log(randomIndex);
-
-			// spawn creature
-			newCreature = GameObject.Instantiate(this.creatures[randomIndex]);
+			this.creatureManager.CheckCreaturePosiitons(this.maxSpawnRadius);
+			this.creatureManager.UpdateCreatureCount(this.findSpawnLocation(), this.getRandomCreature());
 		}
-		else
-		{
-			// stack is not empty so we can get the most recent game object
-			// and put it back in the scene
-			newCreature = this.creaturePool.Pop();
-			newCreature.SetActive(true);
-		}
-
-		// set position of new creature
-		newCreature.transform.position = this.findSpawnLocation();
-
-		// increase count of creatures
-		++this.CreatureCount;
 	}
 
 	/// <summary>
@@ -108,16 +113,33 @@ public abstract class Spawner : MonoBehaviour
 	/// </summary>
 	IEnumerator Start()
 	{
-		// wait till game class has instantiated
-		yield return new WaitForEndOfFrame();
-
-		this.creaturePool = new Stack<GameObject>();
-
-		// instiate semi-random number of creatures
-		this.CreatureCount = 0;
-		for(int i = 0; i < Random.Range(this.minCreatureCount, this.maxCreatureCount); ++i)
+		if(this.minSpawnRadius > this.maxSpawnRadius)
 		{
-			this.spawn();
+			Debug.LogError("Min spawn radius must be smaller than the spawn radius");
+		}
+
+		// break out since nothing can be done with 0 prefabs
+		// TODO: load from resources folder instead
+		if(this.creaturesPrefabs.Length == 0)
+		{
+			Debug.LogError("Error, no prefabs in array to be spawned");
+		}
+		else
+		{
+			// wait till game class has instantiated
+			yield return new WaitForEndOfFrame();
+
+			// get mean of the min and max
+			int idealCount = (this.maxCreatureCount + this.minCreatureCount) / 2;
+
+			// instantiate creature manager
+			this.creatureManager = new CreatureManager(this.maxCreatureCount, idealCount);
+
+			// instiate semi-random number of creatures
+			for(int i = 0; i < Random.Range(this.minCreatureCount, this.maxCreatureCount); ++i)
+			{
+				this.spawn();
+			}
 		}
 	}
 }

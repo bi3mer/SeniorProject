@@ -98,11 +98,17 @@ public class FleshCategory : ItemCategory
     /// </summary>
     public void Eat()
     {
+        // If this is a bad food
         if (HealthEffect < 0)
         {
-            if (!(Game.Instance.PlayerInstance.HealthStatus.Contains(HealthStatuses.FoodPoisoning)))
+            // Health effects don't stack
+            if (Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.None)
             {
-                Game.Instance.PlayerInstance.HealthStatus.Add(HealthStatuses.FoodPoisoning);
+                // Random chance of getting food poisoning
+                if (RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
+                {
+                    Game.Instance.PlayerInstance.HealthStatus = PlayerHealthStatus.FoodPoisoning;
+                }
             }
         }
 
