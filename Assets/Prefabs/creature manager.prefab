@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1000012735485028}
+  m_IsPrefabParent: 1
+--- !u!1 &1000012735485028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000010518057296}
+  - 114: {fileID: 114000011801027962}
+  - 114: {fileID: 114000011898644468}
+  - 114: {fileID: 114000010978270594}
+  m_Layer: 0
+  m_Name: creature manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4000010518057296
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012735485028}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.15489483, y: 3.2957926, z: 3.5939589}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &114000010978270594
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012735485028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6aa9e3da7fd41a1b3ef48973f23f81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  creaturesPrefabs:
+  - {fileID: 1000012070737506, guid: 58b4dd3ca43aca040a5029e9c645d128, type: 2}
+  minCreatureCount: 80
+  maxCreatureCount: 100
+  maxSpawnRadius: 25
+  minSpawnRadius: 10
+  waterLevelOffset: -2
+--- !u!114 &114000011801027962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012735485028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5bbedd40a77845fc97b62d67d3095dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  creaturesPrefabs:
+  - {fileID: 1000012067917730, guid: f97bca0d92d83324e80b62261e111b37, type: 2}
+  minCreatureCount: 50
+  maxCreatureCount: 100
+  maxSpawnRadius: 25
+  minSpawnRadius: 10
+  waterLevelOffset: -2
+--- !u!114 &114000011898644468
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012735485028}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f032cc473741748cd8eb504149560067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  creaturesPrefabs: []
+  minCreatureCount: 1
+  maxCreatureCount: 1
+  maxSpawnRadius: 25
+  minSpawnRadius: 10
+  waterLevelOffset: -2

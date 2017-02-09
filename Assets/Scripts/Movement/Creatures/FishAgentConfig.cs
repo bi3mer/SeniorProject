@@ -33,6 +33,10 @@ public class FishAgentConfig : MonoBehaviour
 	[Tooltip("Unused")]
 	public float MaxFieldOfViewAngle = 180f;
 
+	[Header("Appearance")]
+	[Tooltip("Difference between water level and agent")]
+	public float waterLevelOffset = -1;
+
 	/// <summary>
 	/// Randomizes the paramaters
 	/// </summary>
