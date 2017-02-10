@@ -32,7 +32,7 @@ public class CreatureManager
 
 	public void Spawn(Vector3 position, GameObject creature)
 	{
-		//Pprevent over spawning of creatures
+		// prevent over spawning of creatures
 		if(this.CreatureCount == this.creatures.Length)
 		{
 			return;

@@ -79,8 +79,9 @@ public class FishAgent : MonoBehaviour
         // set allignment
         if(velocity.magnitude > 0)
         {
-            // get angle towards direction and convert to degrees
-            float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg - 90;
+            // get angle towards direction and convert to degrees and reduce
+            // by 90 degrees so it can point in the correct direction
+            float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg - 90f;
 
             // set rotation
             this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);

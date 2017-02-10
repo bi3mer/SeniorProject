@@ -58,8 +58,6 @@ public abstract class Spawner : MonoBehaviour
 	/// <returns>The spawn location.</returns>
 	protected virtual Vector3 findSpawnLocation()
 	{
-		// TODO: This will be turned into real code without magic numbers in the future
-		//       but right now basic functionality is for the best.
 		return new Vector3(Game.Instance.PlayerInstance.WorldTransform.position.x - this.floatInRadius, 
 		                   Game.Instance.WaterLevelHeight + this.waterLevelOffset,
 			               Game.Instance.PlayerInstance.WorldTransform.position.z - this.floatInRadius);

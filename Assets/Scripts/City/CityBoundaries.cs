@@ -20,7 +20,7 @@ public class CityBoundaries
 	}
 
 	/// <summary>
-	/// Gets a random Vector2.
+	/// Gets a random Vector2 within the city's boundaries.
 	/// </summary>
 	/// <value>The random vector.</value>
 	public Vector2 RandomVector2d
@@ -33,7 +33,7 @@ public class CityBoundaries
 	}
 
 	/// <summary>
-	/// Gets a random Vector3.
+	/// Gets a random Vector3 within the city's boundaries.
 	/// </summary>
 	/// <value>The random vector3d.</value>
 	public Vector3 RandomVector3d
@@ -47,7 +47,8 @@ public class CityBoundaries
 	}
 
 	/// <summary>
-	/// Bounds a vector2 within the cities boundaries
+	/// Takes a vector2 and clamps its values so it cannot extend outside
+	/// of the city's boundaries. 
 	/// </summary>
 	/// <returns>The vector.</returns>
 	/// <param name="vector">Vector.</param>
@@ -58,7 +59,8 @@ public class CityBoundaries
 	}
 
 	/// <summary>
-	/// Bounds a vector3 within the cities boundaries
+	/// Takes a vector3 and clamps its values so it cannot extend outside
+	/// of the city's boundaries.
 	/// </summary>
 	/// <returns>The vector3d.</returns>
 	/// <param name="vector">Vector.</param>
