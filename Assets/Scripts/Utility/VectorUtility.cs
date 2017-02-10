@@ -53,7 +53,7 @@ public class VectorUtility
 	}
 
 	/// <summary>
-	/// Conert a vector3 to vector2 using the z axis
+	/// Convert a vector3 to vector2 using the z axis
 	/// instead of the y
 	/// </summary>
 	/// <param name="vector">Vector.</param>
@@ -63,7 +63,7 @@ public class VectorUtility
 	}
 
 	/// <summary>
-	/// converts 2d vector to 3d with a y value
+	/// Convert a 2d vector to 3d with a y value
 	/// </summary>
 	/// <returns>The dimensional3d.</returns>
 	/// <param name="vector">Vector.</param>

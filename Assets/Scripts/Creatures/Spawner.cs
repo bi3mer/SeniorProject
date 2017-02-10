@@ -39,7 +39,7 @@ public abstract class Spawner : MonoBehaviour
 	{
 		get
 		{
-			if(RandomUtility.RandomPercent > .5)
+			if(RandomUtility.RandomBool)
 			{
 				// return a random positive value
 				return Random.Range(this.minSpawnRadius, this.maxSpawnRadius);

@@ -109,7 +109,7 @@ public class CreatureManager
 			Vector2 playerPosition   = VectorUtility.XZ(Game.Instance.PlayerInstance.WorldTransform.position);
 			if(Vector2.Distance(creaturePosition, playerPosition) > radius)
 			{
-				// kill the fish if outside of the given radius
+				// kill the creature if outside of the given radius
 				this.PutCreatureInPool(i);
 			}
 		}

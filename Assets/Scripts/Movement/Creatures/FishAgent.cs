@@ -76,7 +76,7 @@ public class FishAgent : MonoBehaviour
         this.acceleration       = VectorUtility.twoDimensional3d(acceleration);
         this.transform.position = Game.Instance.CityBounds.BoundVector3d(VectorUtility.twoDimensional3d(position));
         
-        // set allignment
+		// set alignment
         if(velocity.magnitude > 0)
         {
             // get angle towards direction and convert to degrees and reduce
@@ -121,7 +121,7 @@ public class FishAgent : MonoBehaviour
             }
             
             // Look center
-            result = result - this.transform.position;
+            result -= this.transform.position;
 
             // normalize vector
             result.Normalize();
@@ -197,8 +197,6 @@ public class FishAgent : MonoBehaviour
 	public Vector2 Wander()
 	{
 		float jitter = this.config.Jitter * Time.deltaTime;
-		
-		// 
 		this.WanderTarget += new Vector3(RandomUtility.RandomBinomial * jitter, RandomUtility.RandomBinomial * jitter, 0);
 		
 		this.WanderTarget.Normalize();
@@ -209,7 +207,7 @@ public class FishAgent : MonoBehaviour
 	}
 
     /// <summary>
-    /// Use Allignment, Cohesion, and Separation to define behavior with diferent proportions based on importance
+	/// Use alignment, Cohesion, and Separation to define behavior with diferent proportions based on importance
     /// </summary>
     /// <returns>Vector with correct behavior</returns>
     public virtual Vector2 Combine()
