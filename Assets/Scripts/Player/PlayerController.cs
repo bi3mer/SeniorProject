@@ -77,6 +77,8 @@ public class PlayerController : MonoBehaviour
     private float currentWarmthChangeRate;
     private float currentHungerChangeRate;
 
+    private float buttonZoomAmount = 0.1f;
+
     private InteractableObject interactable;
 
     // the closest interactable as well as the distance
@@ -260,6 +262,15 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(controlScheme.CameraRight))
         {
             playerCamera.RotateRight();
+        }
+        // I know these are magic numbers, but zoom speed is already defined in camera controller
+        if (Input.GetKey(controlScheme.CameraZoomInKey))
+        {
+            playerCamera.Zoom(buttonZoomAmount);
+        }
+        if (Input.GetKey(controlScheme.CameraZoomOutKey))
+        {
+            playerCamera.Zoom(-buttonZoomAmount);
         }
         playerCamera.Zoom(Input.GetAxis(controlScheme.CameraZoomAxis));
 
