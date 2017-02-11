@@ -24,6 +24,21 @@ public class BuildScript : MonoBehaviour
         BuildScript.CopyYAMLFiles(buildPath);
     }
 
+	/// <summary>
+	/// Builds for macOSx including post process steps.
+	/// </summary>
+	[MenuItem("Build/MacOSx Build With Packaged YAML files")]
+	public static void BuildGameMacOSx()
+	{
+		// Get filename
+		string buildPath = EditorUtility.SaveFolderPanel("Choose Location of Built Game", "", "");
+
+		// Build player
+		//BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, Path.Combine(buildPath, executable + ".exe"), BuildTarget.StandaloneOSXUniversal, BuildOptions.None);
+
+		BuildScript.CopyYAMLFiles(buildPath);
+	}
+
     /// <summary>
     /// Post process step for copying YAML files for build directory
     /// </summary>
