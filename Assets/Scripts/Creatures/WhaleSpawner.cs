@@ -9,6 +9,7 @@ public class WhaleSpawner : Spawner
 	/// <returns>The location.</returns>
 	protected override Vector3 findSpawnLocation()
 	{
+		// TODO: update with 4 corners
 		return Vector3.zero;
 	}
 }

@@ -30,6 +30,11 @@ public class CreatureManager
 		private set;
 	}
 
+	/// <summary>
+	/// Spawn the specified position and creature.
+	/// </summary>
+	/// <param name="position">Position.</param>
+	/// <param name="creature">Creature.</param>
 	public void Spawn(Vector3 position, GameObject creature)
 	{
 		// prevent over spawning of creatures
@@ -121,6 +126,7 @@ public class CreatureManager
 	/// above time will eventually remedy this.
 	/// </summary>
 	/// <param name="position">Position.</param>
+	/// <param name="creature">Creature.</param>
 	public void UpdateCreatureCount(Vector3 position, GameObject creature)
 	{
 		if(this.CreatureCount < this.idealCreatureCount)
@@ -133,6 +139,7 @@ public class CreatureManager
 	/// Initializes a new instance of the <see cref="CreatureManager"/> class.
 	/// </summary>
 	/// <param name="maxCount">Max count.</param>
+	/// <param name="idealCount">Ideal count.</param>
 	public CreatureManager(int maxCount, int idealCount)
 	{
 		this.creaturePool       = new Stack<int>();

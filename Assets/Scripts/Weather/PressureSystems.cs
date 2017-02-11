@@ -46,8 +46,9 @@ public class PressureSystems
 	}
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="PressureSystem"/> class.
+	/// Initializes a new instance of the <see cref="PressureSystems"/> class.
 	/// </summary>
+	/// <param name="bounds">Bounds.</param>
 	public PressureSystems(CityBoundaries bounds)
 	{
 		this.LocalPressureSystems = new List<PressureSystem>();
