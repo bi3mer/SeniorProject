@@ -14,7 +14,7 @@ public class RandomUtility
 		}
 	}
 
-    /// <summary>
+	/// <summary>
     /// Get a random float between 0 and 1.
     /// </summary>
     public static float RandomPercent
@@ -23,5 +23,17 @@ public class RandomUtility
         {
             return Random.Range(0f, 1f);
         }
+    }
+
+	/// <summary>
+	/// Randoms binomial with higher likelihood of 0
+	/// </summary>
+	/// <returns>The binomial.</returns>
+    public static float RandomBinomial
+    {
+    	get
+		{
+			return RandomUtility.RandomPercent - RandomUtility.RandomPercent;
+		}
     }
 }

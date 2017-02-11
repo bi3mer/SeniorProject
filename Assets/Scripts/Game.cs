@@ -5,8 +5,9 @@
 
     private Game ()
     {
-        PlayerInstance = new Player();
-		WeatherInstance = new WeatherSystem();
+		this.CityBounds = new CityBoundaries();
+	    PlayerInstance = new Player();
+		WeatherInstance = new WeatherSystem(this.CityBounds);
 		EventManager = new EventManager ();
 		PauseInstance = new PauseSystem();
 		WorldItemFactoryInstance = new WorldItemFactory();
@@ -58,6 +59,16 @@
     {
         get;
         private set;
+    }
+
+	/// <summary>
+    /// Gets the city bounds.
+    /// </summary>
+    /// <value>The city bounds.</value>
+    public CityBoundaries CityBounds
+    {
+    	get;
+    	private set;
     }
 
     /// <summary>

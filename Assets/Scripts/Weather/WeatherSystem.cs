@@ -395,9 +395,16 @@ public class WeatherSystem
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WeatherSystem"/> class.
 	/// </summary>
-	public WeatherSystem()
+	public WeatherSystem(CityBoundaries bounds)
 	{
+#if UNITY_EDITOR
+		if(!Application.isPlaying)
+		{
+			return;
+		}
+#endif
+
 		this.WeatherInformation = new float[Weather.GetNames(typeof(Weather)).Length];
-		this.WeatherPressureSystems = new PressureSystems();
+		this.WeatherPressureSystems = new PressureSystems(bounds);
 	}
 }
