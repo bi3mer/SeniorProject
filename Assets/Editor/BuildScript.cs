@@ -34,8 +34,8 @@ public class BuildScript : MonoBehaviour
 		string buildPath = EditorUtility.SaveFolderPanel("Choose Location of Built Game", "", "");
 
 		// Build player
-		//BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, Path.Combine(buildPath, executable + ".exe"), BuildTarget.StandaloneOSXUniversal, BuildOptions.None);
-
+		BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, Path.Combine(buildPath, executable + ".app"), BuildTarget.StandaloneOSXIntel64, BuildOptions.None);
+	
 		BuildScript.CopyYAMLFiles(buildPath);
 	}
 
@@ -45,14 +45,19 @@ public class BuildScript : MonoBehaviour
     /// <param name="buildPath">The build path.</param>
     public static void CopyYAMLFiles (string buildPath)
     {
-        // Copy all yaml files to the build directory
-        DirectoryInfo dir = new DirectoryInfo(yamlDirectory);
-        FileInfo[] info = dir.GetFiles("*.yml", SearchOption.TopDirectoryOnly);
-        foreach (FileInfo file in info)
-        {
-            string basePath = Path.Combine(buildPath, executable + "_Data");
-            string path = Path.Combine(basePath, file.Name);
-            FileUtil.CopyFileOrDirectory(file.FullName, path);
-        }
+		// Copy all yaml files to the build directory
+		DirectoryInfo dir = new DirectoryInfo(yamlDirectory);
+		FileInfo[] info = dir.GetFiles("*.yml", SearchOption.TopDirectoryOnly);
+
+		// create directory for yaml files in the buildpath location
+		string basePath = Path.Combine(buildPath, executable + "_Data");
+		System.IO.Directory.CreateDirectory (basePath);
+
+		// copy each yaml file to new location
+		foreach (FileInfo file in info)
+		{
+			string path = Path.Combine(basePath, file.Name);
+			FileUtil.CopyFileOrDirectory(file.FullName, path);
+		}
     }
 }
