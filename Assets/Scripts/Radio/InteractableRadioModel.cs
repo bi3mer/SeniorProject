@@ -58,6 +58,10 @@ public class InteractableRadioModel : MonoBehaviour
     [Tooltip("How fast should the knob rotate?")]
     private float knobSpeed = 400f;
 
+    [Header("Canvas")]
+    [SerializeField]
+    private Canvas radioCanvas;
+
     // Unexposed Variables
     private Vector3 powerButtonStartPosition;
     private Vector3 volumeUpButtonStartPosition;
@@ -97,10 +101,7 @@ public class InteractableRadioModel : MonoBehaviour
         transform.localPosition = offscreenPosition;
         transform.localEulerAngles = offscreenRotation;
         radioMesh.enabled = true;
-        for (int i = 0; i < transform.childCount; ++i)
-        {
-            transform.GetChild(i).gameObject.SetActive(true);
-        }
+        radioCanvas.gameObject.SetActive(true);
 
         transform.DOLocalMove(activePosition, takeOutTime).SetEase(slowStartCurve);
         transform.DOLocalRotate(activeRotation, takeOutTime).SetEase(slowStartCurve);
@@ -132,10 +133,7 @@ public class InteractableRadioModel : MonoBehaviour
         yield return myTween.WaitForCompletion();
 
         radioMesh.enabled = false;
-        for (int i = 0; i < transform.childCount; ++i)
-        {
-            transform.GetChild(i).gameObject.SetActive(false);
-        }
+        radioCanvas.gameObject.SetActive(false);
     }
 
 
@@ -209,33 +207,11 @@ public class InteractableRadioModel : MonoBehaviour
         // convert circle degree to slider length
         float xPosition = (degree * sliderLength) / 360;
         
-        // if xPosition is more than 0 make positive to position on right hand side. 
-        // divide by 2 to get the negative half and positive half since center at 0.
-        if (xPosition > sliderLength/2)
-        {
-            // negate to make it scroll to left to right when knob rotated clockwise.
-            xPosition = sliderLength / 2 - xPosition;
-            stationSlider.transform.localPosition = new Vector3(xPosition, 
-                                                    stationSlider.transform.localPosition.y, 
-                                                    stationSlider.transform.localPosition.z);
-        }
-
-        // if xPosition is less than 0 make positive to position on left hand side.
-        else if (xPosition < sliderLength/2)
-        {
-            // negate to make it scroll to left to right when knob rotated clockwise
-            xPosition = -(xPosition - sliderLength / 2);
-            stationSlider.transform.localPosition = new Vector3(xPosition, 
-                                                    stationSlider.transform.localPosition.y, 
-                                                    stationSlider.transform.localPosition.z);
-        }
-
-        // center is always xPosition = 0
-        else if (xPosition == 0)
-        {
-            stationSlider.transform.localPosition = new Vector3(xPosition, 
-                                                    stationSlider.transform.localPosition.y, 
-                                                    stationSlider.transform.localPosition.z);
-        }
+        // divide the slider length by 2 to produce the positive half of the slider. 
+        // subtract the xposition to get whether it's negative or positive. 
+        xPosition = sliderLength / 2 - xPosition;
+        stationSlider.transform.localPosition = new Vector3(xPosition, 
+                                                stationSlider.transform.localPosition.y, 
+                                                stationSlider.transform.localPosition.z);
     }
 }

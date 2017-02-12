@@ -20,7 +20,7 @@ public class Inventory
 	private string inventoryName;
 
 	// Contents of the inventory keyed by their name
-	private Stack[] contents;
+	protected Stack[] contents;
 
 	private InventoryYamlParser parser;
 
@@ -67,9 +67,12 @@ public class Inventory
 				BaseItem item = inventoryInfo [i].Item;
 				item.InitializeBaseItem ();
 
-				for (int j = 0; j < inventoryInfo[i].ItemCategories.Count; ++j) 
+				if(inventoryInfo[i].ItemCategories != null && inventoryInfo[i].ItemCategories.Count > 0)
 				{
-					item.AddItemCategory (inventoryInfo[i].ItemCategories [j]);
+					for (int j = 0; j < inventoryInfo[i].ItemCategories.Count; ++j) 
+					{
+						item.AddItemCategory (inventoryInfo[i].ItemCategories [j]);
+					}
 				}
 
 				item.SetUpBaseItem ();
@@ -184,6 +187,26 @@ public class Inventory
 
 		return item;
 	}
+
+	/// <summary>
+	/// Gets the names of items given a type.
+	/// </summary>
+	/// <returns>The items by type.</returns>
+	/// <param name="type">Type.</param>
+    public List<string> GetItemsByType(string type)
+    {
+    	List<string> desiredItems = new List<string>();
+
+    	for(int i = 0; i < contents.Length; ++i)
+    	{
+    		if(contents[i] != null && contents[i].Item.Types.Contains(type))
+    		{
+    			desiredItems.Add(contents[i].Item.ItemName);
+    		}
+    	}
+
+    	return desiredItems;
+    }
 
 	/// <summary>
 	/// Add item to inventory.
