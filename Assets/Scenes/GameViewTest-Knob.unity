@@ -1995,7 +1995,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 242407846}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0406f29fbe8cf44ce91cb6c6ec0f8b05, type: 3}
+  m_Script: {fileID: 11500000, guid: 7434362103af2411bb36022928d654f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weather: {fileID: 1447811631}
@@ -5634,9 +5634,11 @@ MonoBehaviour:
   BeginCraftingButton: {fileID: 1989914785}
   RequirementsScrollPanel: {fileID: 599936730}
   IngredientsScrollPanel: {fileID: 381382202}
+  SelectedIngredientsPanel: {fileID: 0}
   RecipeRequirementUI: {fileID: 1201778862}
   IngredientUI: {fileID: 105569993}
   itemTypeName: {fileID: 51409101}
+  itemTypeAmount: {fileID: 0}
   noValidItemText: {fileID: 1947242326}
   NextStepButton: {fileID: 1409032330}
   CraftButton: {fileID: 799682376}
@@ -6347,6 +6349,8 @@ MonoBehaviour:
   StatElementUI: {fileID: 1931594947}
   ActionButtonUI: {fileID: 1896975852}
   SubActionButtonUI: {fileID: 1914701654}
+  CloseButton: {fileID: 0}
+  CloseSubactionPanel: {fileID: 0}
 --- !u!114 &848711703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6363,6 +6367,7 @@ MonoBehaviour:
   inventoryName: player
   baseItemUiTemplate: {fileID: 204785014}
   inventoryParentUI: {fileID: 25873469}
+  inventoryLayoutManager: {fileID: 0}
 --- !u!224 &848711704
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9479,7 +9484,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 55b636e93bcca47408e025fa0447b5ae, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 25814fd7153784723b45ef29f236b577, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -14429,7 +14434,8 @@ MonoBehaviour:
   inventoryPanel: {fileID: 1514798616}
   pausePanel: {fileID: 352727584}
   radioPanel: {fileID: 1088418767}
-  craftingPanel: {fileID: 1966987040}
+  craftingPanel: {fileID: 0}
+  optionButtonPanel: {fileID: 0}
 --- !u!114 &2045559585
 MonoBehaviour:
   m_ObjectHideFlags: 0
