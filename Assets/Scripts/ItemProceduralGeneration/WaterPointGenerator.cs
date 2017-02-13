@@ -212,7 +212,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 
 				if(newPoint.District != null)
 				{
-					newPoint.ItemIndex = itemFactory.GetRandomItemIndex(newPoint.District);
+					newPoint.ItemIndex = itemFactory.GetRandomItemIndex(newPoint.District, true);
 					newPoint.MinDistance = defaultMinDistanceAway;
 					newPoint.GridPoint = PointToGrid(newPoint.LocalTargetSurfaceLocation);
 					newPoint.Size = generatableObjectExtents[newPoint.District][newPoint.ItemIndex];
@@ -283,7 +283,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 
 			if(initPoint.District != null)
 			{
-				initPoint.ItemIndex = itemFactory.GetRandomItemIndex(initPoint.District);
+				initPoint.ItemIndex = itemFactory.GetRandomItemIndex(initPoint.District, true);
 				initPoint.MinDistance = defaultMinDistanceAway;
 				initPoint.Size = generatableObjectExtents[initPoint.District][initPoint.ItemIndex];
 				initPoint.GridPoint = PointToGrid(initPoint.LocalTargetSurfaceLocation);

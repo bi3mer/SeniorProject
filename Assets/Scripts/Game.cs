@@ -264,4 +264,10 @@
     	get;
     	private set;
     }
+
+    public ItemPoolManager ItemPoolInstance
+    {
+    	get;
+    	set;
+    }
 }

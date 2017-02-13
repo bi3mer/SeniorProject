@@ -1662,6 +1662,27 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4d0db4ff21e6e0448843b49e49cdab4b, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1570759688 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000011536698418, guid: 4d0db4ff21e6e0448843b49e49cdab4b,
+    type: 2}
+  m_PrefabInternal: {fileID: 1570759687}
+--- !u!114 &1570759689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1570759688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f29acdf562a344fa9adca47e23fcecf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commonPoolAmount: 3
+  uncommonPoolAmount: 2
+  rarePoolAmount: 1
+  legendaryPoolAmount: 1
+  itemActivationRadius: 10
 --- !u!1 &1674628719
 GameObject:
   m_ObjectHideFlags: 0
