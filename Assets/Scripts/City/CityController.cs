@@ -73,8 +73,8 @@ public class CityController : MonoBehaviour
         Vector3 cityCenter = GenerationUtility.GetMostCommonVertex(districts);
         Building tallestBuilding = buildingGenerator.CreateCityCenterBuilding(cityCenter);
 
-		float cityWidth = cityBounds.max.x - cityBounds.min.x;
-		float cityDepth = cityBounds.max.z - cityBounds.min.z;
+		float cityWidth = cityBounds.size.x;
+		float cityDepth = cityBounds.size.z;
 		waterItemGenerator.SetCityInformation(cityWidth, cityDepth, cityCenter, districts);
 		itemPoolManager.SetUpItemPoolManager(cityDepth, cityDepth, cityCenter);
 

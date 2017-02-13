@@ -4,24 +4,31 @@ using System.Collections.Generic;
 
 public class ItemPoolManager : MonoBehaviour 
 {
+	[Tooltip("How many objects will be initialized for the starting pool for common items")]
 	[SerializeField]
 	private int commonPoolAmount;
 
+	[Tooltip("How many objects will be initialized for the starting pool for uncommon items")]
 	[SerializeField]
 	private int uncommonPoolAmount;
 
+	[Tooltip("How many objects will be initialized for the starting pool for rare items")]
 	[SerializeField]
 	private int rarePoolAmount;
 
+	[Tooltip("How many objects will be initialized for the starting pool for legendary items")]
 	[SerializeField]
 	private int legendaryPoolAmount;
 
+	[Tooltip("How range of cells around the player that will show items. For example, if 5, then items will show up to 5 cells in all directions.")]
 	[SerializeField]
-	private int itemActivationRadius;
+	private int itemActivationDistnace;
 
+	[Tooltip("GameObject that will be the parent of activated items.")]
 	[SerializeField]
 	private Transform activePool;
 
+	[Tooltip("GameObject that will be the parent of inactive items.")]
 	[SerializeField]
 	private Transform inactivePool;
 
@@ -77,7 +84,7 @@ public class ItemPoolManager : MonoBehaviour
 		cellSize = distanceUnitSize/Mathf.Sqrt(2);
 		grid = new ItemPoolInfo[Mathf.CeilToInt (cityWidth / cellSize), Mathf.CeilToInt (cityDepth / cellSize)]; 
 
-		gridsAwayToActivate = Mathf.CeilToInt(itemActivationRadius/cellSize);
+		gridsAwayToActivate = Mathf.CeilToInt(itemActivationDistnace/cellSize);
 		Game.Instance.ItemPoolInstance = this;
 	}
 	
@@ -129,14 +136,15 @@ public class ItemPoolManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Get the coord access points to grid from a worldspace point.
+	/// Get the coord access points to grid from a worldspace point. (0, 0) is at the lower left corner of the city.
+	/// All values returned should be positive!
 	/// </summary>
 	/// <returns>The coord points used to access the ItemPoolInfo for that cell in the grid.</returns>
 	/// <param name="location">Location of the point.</param>
 	protected Tuple<int, int> PointToGrid(Vector2 location)
 	{
-		return new Tuple<int, int> ((int)((location.x + cityWidth/2f + cityCenter.x) / cellSize), 
-							(int)((location.y + cityDepth/2f + cityCenter.y) / cellSize));
+		return new Tuple<int, int> ((int)((location.x - cityCenter.x + cityWidth/2f) / cellSize), 
+									(int)((location.y - cityCenter.y + cityDepth/2f) / cellSize));
 	}
 
 	/// <summary>
@@ -165,7 +173,6 @@ public class ItemPoolManager : MonoBehaviour
 
 				for(int j = pool.Count; j < amountToCreate; ++j)
 				{
-					// TODO: Randomize the amount in stack when item is picked up
 					pool.Add(Game.Instance.WorldItemFactoryInstance.CreatePickUpInteractableItem(item, 1));
 				}
 
