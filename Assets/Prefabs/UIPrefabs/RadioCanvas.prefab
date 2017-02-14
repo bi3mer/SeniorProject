@@ -774,6 +774,7 @@ MonoBehaviour:
   stationSliderRightMax: -0.00319
   knobSpeed: 400
   radioCanvas: {fileID: 223000011953784054}
+  gameViewBehavior: {fileID: 0}
   slowStartCurve:
     serializedVersion: 2
     m_Curve:

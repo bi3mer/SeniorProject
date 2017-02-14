@@ -58,9 +58,11 @@ public class InteractableRadioModel : MonoBehaviour
     [Tooltip("How fast should the knob rotate?")]
     private float knobSpeed = 400f;
 
-    [Header("Canvas")]
+    [Header("Other")]
     [SerializeField]
     private Canvas radioCanvas;
+    [SerializeField]
+    private GameViewBehavior gameViewBehavior;
 
     // Unexposed Variables
     private Vector3 powerButtonStartPosition;
@@ -134,6 +136,7 @@ public class InteractableRadioModel : MonoBehaviour
 
         radioMesh.enabled = false;
         radioCanvas.gameObject.SetActive(false);
+        gameViewBehavior.OnResumeClick();
     }
 
 

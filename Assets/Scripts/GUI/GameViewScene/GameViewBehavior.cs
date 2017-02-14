@@ -141,13 +141,7 @@ public class GameViewBehavior : MonoBehaviour
 		Game.Instance.PauseInstance.Resume ();
 		pausePanel.SetActive (false);
 		inventoryPanel.SetActive (false);
-
-        // do the deactivate radio menu if radio is active.
-        if (radioCanvas.activeInHierarchy)
-        {
-            radioModelAnimation.DeactivateRadio();
-        }
-		craftingPanel.gameObject.SetActive (false);
+        craftingPanel.gameObject.SetActive(false);
 		optionButtonPanel.SetActive(true);
 
 		if(GuiInstanceManager.InventoryUiInstance != null && GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Count > 0)
