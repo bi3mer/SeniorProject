@@ -68,23 +68,6 @@ public class WeatherSystem
 
 	private bool ongoingStorm = false;
 
-	// Weather sounds
-	[SerializeField]
-	public string DefaultWeatherEventPath = "event:/Ambient/Weather/Basic_Rain";
-	private FMOD.Studio.EventInstance weatherSounds;
-
-	/// <summary>
-	/// This divides the windSpeedMagnitude to give us the new volume of the base weather sound
-	/// </summary>
-	[SerializeField]
-	public float WeatherIntensityDivisor = 10.0f;
-
-	/// <summary>
-	/// The max volume that the weather event will play at.
-	/// </summary>
-	[SerializeField]
-	public float MaxWeatherVolume = 3.0f;
-
 	/// <summary>
 	/// Gets the wind direction in 2d.
 	/// </summary>
@@ -399,12 +382,8 @@ public class WeatherSystem
 
 		this.updateStormDelegates();
 
-		float newWeatherVolume = this.getPrecipitation () / WeatherIntensityDivisor;
-
-		if (newWeatherVolume < MaxWeatherVolume) 
-		{
-			weatherSounds.setVolume (newWeatherVolume);
-		}
+		// update weather sounds
+		Game.Instance.EventManager.WeatherUpdated (this.getPrecipitation());
 	}
 
 	/// <summary>
@@ -430,9 +409,5 @@ public class WeatherSystem
 
 		this.WeatherInformation = new float[Weather.GetNames(typeof(Weather)).Length];
 		this.WeatherPressureSystems = new PressureSystems(bounds);
-
-		weatherSounds = FMODUnity.RuntimeManager.CreateInstance (DefaultWeatherEventPath);
-		weatherSounds.setVolume (2.0f);
-		weatherSounds.start ();
 	}
 }

@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17461526, g: 0.21450865, b: 0.30849275, a: 1}
+  m_IndirectSpecularColor: {r: 0.16972786, g: 0.2053709, b: 0.29448184, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -4470,6 +4470,25 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ecc262ca63bb3d54ba8476a9fa126d5c, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1568084900 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000010414017512, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1568084899}
+--- !u!114 &1568084901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1568084900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
+  weatherIntensityDivisor: 10
+  maxWeatherVolume: 3
 --- !u!21 &1582781021
 Material:
   serializedVersion: 6
