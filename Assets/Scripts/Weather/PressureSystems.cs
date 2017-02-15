@@ -46,13 +46,11 @@ public class PressureSystems
 	}
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="PressureSystem"/> class.
+	/// Initializes a new instance of the <see cref="PressureSystems"/> class.
 	/// </summary>
-	public PressureSystems()
+	/// <param name="bounds">Bounds.</param>
+	public PressureSystems(CityBoundaries bounds)
 	{
-		// TODO: change to use real city bounds
-		this.CityBounds = new Bounds(new Vector2(0,0), new Vector2(100,100));
-
 		this.LocalPressureSystems = new List<PressureSystem>();
 
 		for(int i = 0; i < PressureSystems.startNumberOfPressureSystems; ++i)
@@ -60,7 +58,7 @@ public class PressureSystems
 			PressureSystem ps = new PressureSystem();
 
 			// calculate random position for vector
-			ps.Position = this.randomVector;
+			ps.Position = bounds.RandomVector2d;
 
 			// add vector to pressure system
 			this.LocalPressureSystems.Add(ps);
@@ -131,7 +129,7 @@ public class PressureSystems
 			newPressureSystem.Add(this.LocalPressureSystems[i]);
 
 			// change position and bound vector to be with in boundaries of the map
-			newPressureSystem[i].Position = this.boundVector(forces + newPressureSystem[i].Position);
+			newPressureSystem[i].Position = Game.Instance.CityBounds.BoundVector2d(forces + newPressureSystem[i].Position);
 		}
 
 		// replace old system with new
@@ -173,30 +171,6 @@ public class PressureSystems
 	{
 		// http://mathworld.wolfram.com/PerpendicularVector.html
 		return new Vector2(-vector.y, vector.x);
-	}
-
-	/// <summary>
-	/// Bounds the vector based on the boundaries of the map.
-	/// </summary>
-	/// <returns>The vector.</returns>
-	/// <param name="vec">Vec.</param>
-	private Vector2 boundVector(Vector2 vector)
-	{
-		return new Vector2(Mathf.Clamp(vector.x, this.CityBounds.min.x, this.CityBounds.max.x),
-		                   Mathf.Clamp(vector.y, this.CityBounds.min.y, this.CityBounds.max.y));
-	}
-
-	/// <summary>
-	/// Get a random vector in bounds of the city
-	/// </summary>
-	/// <value>The random vector.</value>
-	private Vector2 randomVector
-	{
-		get
-		{
-			return new Vector2(Random.Range(this.CityBounds.min.x, this.CityBounds.max.x),
-			               Random.Range(this.CityBounds.min.y, this.CityBounds.max.y));
-		}
 	}
 
 	/// <summary>
