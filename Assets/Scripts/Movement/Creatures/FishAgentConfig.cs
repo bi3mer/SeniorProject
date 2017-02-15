@@ -30,8 +30,12 @@ public class FishAgentConfig : MonoBehaviour
 	public float WanderDistanceRadius = 2f;
 
 	[Header("Vision")]
-	[Tooltip("Unused")]
+	[Tooltip("Max angle that the agent can see from its forward direction")]
 	public float MaxFieldOfViewAngle = 180f;
+
+	[Header("Appearance")]
+	[Tooltip("Difference between water level and agent")]
+	public float waterLevelOffset = -1;
 
 	/// <summary>
 	/// Randomizes the paramaters
