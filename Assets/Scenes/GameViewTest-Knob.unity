@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692558, g: 0.49678743, b: 0.57508624, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692492, g: 0.4967869, b: 0.57508546, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -127,7 +127,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000013337288572, guid: 152809fbdfae55545ba0bc02e1879c65, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4000013337288572, guid: 152809fbdfae55545ba0bc02e1879c65, type: 2}
       propertyPath: m_LocalScale.x
@@ -1998,6 +1998,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0406f29fbe8cf44ce91cb6c6ec0f8b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weather: {fileID: 1447811631}
+  MusicDefaultPath: event:/Radio/Music/Music1
+  MysteryDefaultPath: event:/Radio/Mystery/Mystery1
+  StaticDefaultPath: event:/Radio/Static/Basic_Static
+  RadioOnText: Radio is on
+  RadioOffText: Radio is off
+  radioScreenText: {fileID: 23786513}
+  dial: {fileID: 326859620}
+  lowMusic: 0
+  highMusic: 120
+  lowMystery: 120
+  highMystery: 240
+  lowWeather: 240
+  highWeather: 360
 --- !u!114 &242407849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5316,8 +5330,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1702786472}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0.0027777778, y: 0}
-  m_AnchorMax: {x: 0.0027777778, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5620,11 +5634,9 @@ MonoBehaviour:
   BeginCraftingButton: {fileID: 1989914785}
   RequirementsScrollPanel: {fileID: 599936730}
   IngredientsScrollPanel: {fileID: 381382202}
-  SelectedIngredientsPanel: {fileID: 0}
   RecipeRequirementUI: {fileID: 1201778862}
   IngredientUI: {fileID: 105569993}
   itemTypeName: {fileID: 51409101}
-  itemTypeAmount: {fileID: 0}
   noValidItemText: {fileID: 1947242326}
   NextStepButton: {fileID: 1409032330}
   CraftButton: {fileID: 799682376}
@@ -6002,111 +6014,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!1001 &827111776
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1338172320}
-    m_Modifications:
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_Pivot.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 223000011953784054, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-        type: 2}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1338172319}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 1f78485a9be91014fa1e17e94fe0a21c, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &832293276
 GameObject:
   m_ObjectHideFlags: 0
@@ -6440,8 +6347,6 @@ MonoBehaviour:
   StatElementUI: {fileID: 1931594947}
   ActionButtonUI: {fileID: 1896975852}
   SubActionButtonUI: {fileID: 1914701654}
-  CloseButton: {fileID: 0}
-  CloseSubactionPanel: {fileID: 0}
 --- !u!114 &848711703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6458,7 +6363,6 @@ MonoBehaviour:
   inventoryName: player
   baseItemUiTemplate: {fileID: 204785014}
   inventoryParentUI: {fileID: 25873469}
-  inventoryLayoutManager: {fileID: 0}
 --- !u!224 &848711704
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6872,7 +6776,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010914913750, guid: 7b4e5226e628633408ece05e9d3c6a4d, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 114000011969998666, guid: 7b4e5226e628633408ece05e9d3c6a4d,
         type: 2}
@@ -6908,16 +6812,6 @@ Prefab:
         type: 2}
       propertyPath: cameraTransitionSpeed
       value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 92000012049503084, guid: 7b4e5226e628633408ece05e9d3c6a4d,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 20000012522117612, guid: 7b4e5226e628633408ece05e9d3c6a4d,
-        type: 2}
-      propertyPath: m_CullingMask.m_Bits
-      value: 4294967263
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7b4e5226e628633408ece05e9d3c6a4d, type: 2}
@@ -7217,16 +7111,6 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 972172920}
---- !u!1 &975834963 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000013608454782, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-    type: 2}
-  m_PrefabInternal: {fileID: 827111776}
---- !u!224 &975834967 stripped
-RectTransform:
-  m_PrefabParentObject: {fileID: 224000012114439084, guid: 1f78485a9be91014fa1e17e94fe0a21c,
-    type: 2}
-  m_PrefabInternal: {fileID: 827111776}
 --- !u!1 &993671416
 GameObject:
   m_ObjectHideFlags: 0
@@ -7623,7 +7507,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1088418768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8274,7 +8158,7 @@ Canvas:
   m_GameObject: {fileID: 1204726399}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -8826,94 +8710,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: New Text
---- !u!1 &1338172315
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1338172320}
-  - 20: {fileID: 1338172319}
-  - 124: {fileID: 1338172318}
-  - 92: {fileID: 1338172317}
-  - 81: {fileID: 1338172316}
-  m_Layer: 0
-  m_Name: RadioCamera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!81 &1338172316
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1338172315}
-  m_Enabled: 1
---- !u!92 &1338172317
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1338172315}
-  m_Enabled: 1
---- !u!124 &1338172318
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1338172315}
-  m_Enabled: 1
---- !u!20 &1338172319
-Camera:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1338172315}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 3
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 1
-  orthographic size: 5
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 32
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
---- !u!4 &1338172320
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1338172315}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -46.37786, y: -7.223882, z: -11.776733}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children:
-  - {fileID: 975834967}
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
 --- !u!1 &1343916959
 GameObject:
   m_ObjectHideFlags: 0
@@ -10024,7 +9820,7 @@ RectTransform:
   m_Father: {fileID: 428636465}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.0027777778, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -14632,9 +14428,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryPanel: {fileID: 1514798616}
   pausePanel: {fileID: 352727584}
-  radioPanel: {fileID: 975834963}
-  craftingPanel: {fileID: 0}
-  optionButtonPanel: {fileID: 0}
+  radioPanel: {fileID: 1088418767}
+  craftingPanel: {fileID: 1966987040}
 --- !u!114 &2045559585
 MonoBehaviour:
   m_ObjectHideFlags: 0
