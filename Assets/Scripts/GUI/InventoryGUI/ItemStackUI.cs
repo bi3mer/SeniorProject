@@ -18,6 +18,9 @@ public class ItemStackUI : MonoBehaviour
 
 	private bool occupied;
 
+	/// <summary>
+	/// Awakens this instance.
+	/// </summary>
 	void Awake()
 	{
 		HoverPanel.SetActive(false);
@@ -102,6 +105,10 @@ public class ItemStackUI : MonoBehaviour
 		ItemAmount.text = newAmount.ToString();
 	}
 
+	/// <summary>
+	/// Function that will be used to handle changes to the item's inventory sprite.
+	/// </summary>
+	/// <param name="item">Item.</param>
 	public void HandleItemIconChangeEvent(BaseItem item)
 	{
 		currentSpritePath = item.InventorySprite;
