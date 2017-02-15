@@ -18,6 +18,10 @@ public class InventoryUI : MonoBehaviour
 	[SerializeField]
 	private GridLayoutManager inventoryLayoutManager;
 
+	[SerializeField]
+	[Tooltip("Filepath to the atlas containing sprites for items")]
+	private string atlasFilepath;
+
 	private List<Stack> inventory = new List<Stack>();
 	private List<Stack> slots = new List<Stack> ();
 	private List<ItemStackUI> itemStackUIList = new List<ItemStackUI> ();
@@ -37,12 +41,19 @@ public class InventoryUI : MonoBehaviour
 		set;
 	}
 
+	public SpriteManager ItemSpriteManager
+	{
+		get;
+		private set;
+	}
+
 	/// <summary>
 	/// Awake this instance of InventoryUi.
 	/// </summary>
 	void Awake()
 	{
 		GuiInstanceManager.InventoryUiInstance = this;
+		ItemSpriteManager = new SpriteManager(atlasFilepath);
 	}
 
 	/// <summary>
