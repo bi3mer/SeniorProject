@@ -263,7 +263,6 @@ public class PlayerController : MonoBehaviour
         {
             playerCamera.RotateRight();
         }
-        // I know these are magic numbers, but zoom speed is already defined in camera controller
         if (Input.GetKey(controlScheme.CameraZoomInKey))
         {
             playerCamera.Zoom(buttonZoomAmount);
