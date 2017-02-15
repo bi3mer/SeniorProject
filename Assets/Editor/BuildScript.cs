@@ -21,7 +21,7 @@ public class BuildScript : MonoBehaviour
         // Build player
         BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, Path.Combine(buildPath, executable + ".exe"), BuildTarget.StandaloneWindows, BuildOptions.None);
 
-        BuildScript.CopyYAMLFiles(buildPath);
+        BuildScript.CopyYAMLFilesWindows(buildPath);
     }
 
 	/// <summary>
@@ -36,14 +36,14 @@ public class BuildScript : MonoBehaviour
 		// Build player
 		BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, Path.Combine(buildPath, executable + ".app"), BuildTarget.StandaloneOSXIntel64, BuildOptions.None);
 	
-		BuildScript.CopyYAMLFiles(buildPath);
+		BuildScript.CopyYAMLFilesMac(buildPath);
 	}
 
     /// <summary>
-    /// Post process step for copying YAML files for build directory
+    /// Post process step for copying YAML files for windows build directory
     /// </summary>
     /// <param name="buildPath">The build path.</param>
-    public static void CopyYAMLFiles (string buildPath)
+    public static void CopyYAMLFilesWindows (string buildPath)
     {
 		// Copy all yaml files to the build directory
 		DirectoryInfo dir = new DirectoryInfo(yamlDirectory);
@@ -60,4 +60,26 @@ public class BuildScript : MonoBehaviour
 			FileUtil.CopyFileOrDirectory(file.FullName, path);
 		}
     }
+
+	/// <summary>
+	/// Post process step for copying YAML files for mac build directory
+	/// </summary>
+	/// <param name="buildPath">The build path.</param>
+	public static void CopyYAMLFilesMac (string buildPath)
+	{
+		// Copy all yaml files to the build directory
+		DirectoryInfo dir = new DirectoryInfo(yamlDirectory);
+		FileInfo[] info = dir.GetFiles("*.yml", SearchOption.TopDirectoryOnly);
+
+		// create directory for yaml files in the buildpath location
+		string basePath = Path.Combine(buildPath, executable + ".app/Contents");
+		System.IO.Directory.CreateDirectory (basePath);
+
+		// copy each yaml file to new location
+		foreach (FileInfo file in info)
+		{
+			string path = Path.Combine(basePath, file.Name);
+			FileUtil.CopyFileOrDirectory(file.FullName, path);
+		}
+	}
 }
