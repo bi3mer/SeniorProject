@@ -109,7 +109,7 @@ public class PressureSystems
 				}
 
 				// apply force to current acting forces on the pressure system
-				forces += force;
+				forces += (force / Vector3.Distance(this.LocalPressureSystems[i].Position, this.LocalPressureSystems[j].Position)).normalized;
 			}
 
 			// apply forces applied by center of map.

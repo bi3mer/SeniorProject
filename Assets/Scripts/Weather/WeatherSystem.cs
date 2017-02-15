@@ -384,6 +384,26 @@ public class WeatherSystem
 	}
 
 	/// <summary>
+	/// Returns a <see cref="System.String"/> that represents the current <see cref="WeatherSystem"/>.
+	/// </summary>
+	/// <returns>A <see cref="System.String"/> that represents the current <see cref="WeatherSystem"/>.</returns>
+	public override string ToString()
+	{
+		const string newLine = "\n";
+
+		string weather = "Pressure: " + this.WeatherInformation[(int) Weather.Pressure] + newLine;
+		weather += "Temperature: " + this.WeatherInformation[(int) Weather.Temperature] + newLine;
+		weather += "Wind Magnitude: " + this.WeatherInformation[(int) Weather.WindSpeedMagnitude] + newLine;
+		weather += "Wind X: " + this.WeatherInformation[(int) Weather.WindSpeedX] + newLine;
+		weather += "Wind X: " + this.WeatherInformation[(int) Weather.WindSpeedX] + newLine;
+		weather += "Relative Humidity: " + this.WeatherInformation[(int) Weather.RelativeHumidity] + newLine;
+		weather += "Relative Dew Point: " + this.WeatherInformation[(int) Weather.RelativeDewPoint] + newLine;
+		weather += "Precipitation: " + this.WeatherInformation[(int) Weather.Precipitation] + newLine;
+
+		return weather;
+	}
+
+	/// <summary>
 	/// Updates the weather and internal pressure systems.
 	/// </summary>
 	public void UpdateSystem()
