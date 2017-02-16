@@ -6,7 +6,6 @@ public class WeatherSoundSystem : MonoBehaviour
 	/// <summary>
 	/// The default weather event path.
 	/// </summary>
-	[SerializeField]
 	public string DefaultWeatherEventPath = "event:/Ambient/Weather/Basic_Rain";
 
 	/// <summary>
