@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692492, g: 0.4967869, b: 0.57508546, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.57508564, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1995,7 +1995,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 242407846}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7434362103af2411bb36022928d654f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 8fbe1810c41afe94d8cf60f7faa23e31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weather: {fileID: 1447811631}
@@ -2011,7 +2011,7 @@ MonoBehaviour:
   lowMystery: 120
   highMystery: 240
   lowWeather: 240
-  highWeather: 360
+  highWeather: 260
 --- !u!114 &242407849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9484,7 +9484,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 25814fd7153784723b45ef29f236b577, type: 3}
+  m_audioClip: {fileID: 8300000, guid: cfd688c79481348c3bf17be9b9f96250, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
