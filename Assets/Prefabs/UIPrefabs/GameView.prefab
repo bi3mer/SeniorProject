@@ -3615,7 +3615,7 @@ MonoBehaviour:
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 2
 --- !u!114 &114000010281934236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4385,7 +4385,7 @@ MonoBehaviour:
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 2
 --- !u!114 &114000010820911328
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7644,7 +7644,7 @@ MonoBehaviour:
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 2
 --- !u!114 &114000013058249344
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12670,8 +12670,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 224000012983934818}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0.03, y: 0}
-  m_AnchorMax: {x: 0.33, y: 1}
+  m_AnchorMin: {x: 0.03, y: 0.1}
+  m_AnchorMax: {x: 0.33, y: 0.9}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

@@ -49,6 +49,10 @@ public class ItemStackUI : MonoBehaviour
 			currentSpritePath = baseStack.Item.InventorySprite;
 			InventorySprite.gameObject.SetActive(true);
 		}
+		else
+		{
+			Debug.LogError("Sprite " + targetStack.Item.InventorySprite + "for " + targetStack.Item.ItemName + " could not be found");
+		}
 
 		occupied = true;
 		HoverPanel.SetActive(false);
@@ -117,6 +121,10 @@ public class ItemStackUI : MonoBehaviour
 		if(itemSprite != null)
 		{
 			InventorySprite.sprite = itemSprite;
+		}
+		else
+		{
+			Debug.LogError("Sprite " + item.InventorySprite + "for " + item.ItemName + " could not be found");
 		}
 	}
 
