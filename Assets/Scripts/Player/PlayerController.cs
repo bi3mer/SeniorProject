@@ -673,6 +673,15 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the current closest interactable.
+    /// </summary>
+    /// <returns></returns>
+    public Collider CurrentClosestInteractable()
+    {
+        return closestInteractable;
+    }
+
+    /// <summary>
     /// Gets the direction of the angle. Used for editor mode to see how big the field of view will be.
     /// </summary>
     /// <param name="angleInDegrees"></param>
