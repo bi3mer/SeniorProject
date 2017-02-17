@@ -381,6 +381,9 @@ public class WeatherSystem
 		this.setWindSpeedVector(position, center);
 
 		this.updateStormDelegates();
+
+		// update weather sounds
+		Game.Instance.EventManager.WeatherUpdated (this.getPrecipitation());
 	}
 
 	/// <summary>
