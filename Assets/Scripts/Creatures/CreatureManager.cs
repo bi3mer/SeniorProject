@@ -101,8 +101,6 @@ public class CreatureManager
 				continue;
 			}
 
-			bool shouldRespawn = false;
-
 			// check if the creature recently died
 			if(this.creatures[i].IsDead)
 			{

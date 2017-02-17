@@ -17,10 +17,16 @@ public class EventManager
 	public delegate void StormStoppedDelegate();
 
 	/// <summary>
-	/// Storm stopped event
+	/// Raft boarded event
 	/// </summary>
 	public event PlayerBoardRaftDelegate PlayerBoardRaftSubscription;
 	public delegate void PlayerBoardRaftDelegate();
+
+	/// <summary>
+	/// Weather updated event
+	/// </summary>
+	public event WeatherUpdatedDelegate WeatherUpdatedSubscription;
+	public delegate void WeatherUpdatedDelegate(float precipitation);
 
 
 	/// <summary>
@@ -53,6 +59,17 @@ public class EventManager
 		if (PlayerBoardRaftSubscription != null) 
 		{
 			PlayerBoardRaftSubscription ();
+		}
+	}
+
+	/// <summary>
+	/// Weather updated function called by WeatherSystem. Notifies WeatherUpdatedSubscription subscribers.
+	/// </summary>
+	public void WeatherUpdated(float precipitation)
+	{
+		if (WeatherUpdatedSubscription != null) 
+		{
+			WeatherUpdatedSubscription (precipitation);
 		}
 	}
 }
