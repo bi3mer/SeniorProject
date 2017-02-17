@@ -58,11 +58,19 @@ public class InteractableRadioModel : MonoBehaviour
     [Tooltip("How fast should the knob rotate?")]
     private float knobSpeed = 400f;
 
+    [Header("Other")]
+    [SerializeField]
+    private Canvas radioCanvas;
+    [SerializeField]
+    private GameViewBehavior gameViewBehavior;
+
     // Unexposed Variables
     private Vector3 powerButtonStartPosition;
     private Vector3 volumeUpButtonStartPosition;
     private Vector3 volumeDownButtonStartPosition;
     private MeshRenderer radioMesh;
+
+    private float sliderLength;
 
     [SerializeField]
     // Because of the tiny gamescale we're using DoTween tends to start up tweens so fast that it looks like the object jumps.
@@ -78,6 +86,10 @@ public class InteractableRadioModel : MonoBehaviour
         volumeUpButtonStartPosition = volumeUp.transform.localPosition;
         volumeDownButtonStartPosition = volumeDown.transform.localPosition;
         radioMesh = GetComponent<MeshRenderer>();
+        radioMesh.enabled = false;
+
+        // find length of slider
+        sliderLength = (stationSliderLeftMax - stationSliderRightMax);
     }
 
 
@@ -87,13 +99,11 @@ public class InteractableRadioModel : MonoBehaviour
     [ContextMenu("Activate Radio")]
     public void ActivateRadio()
     {
+        transform.gameObject.SetActive(true);
         transform.localPosition = offscreenPosition;
         transform.localEulerAngles = offscreenRotation;
         radioMesh.enabled = true;
-        for (int i = 0; i < transform.childCount; ++i)
-        {
-            transform.GetChild(i).gameObject.SetActive(true);
-        }
+        radioCanvas.gameObject.SetActive(true);
 
         transform.DOLocalMove(activePosition, takeOutTime).SetEase(slowStartCurve);
         transform.DOLocalRotate(activeRotation, takeOutTime).SetEase(slowStartCurve);
@@ -108,16 +118,14 @@ public class InteractableRadioModel : MonoBehaviour
         transform.localPosition = activePosition;
         transform.localEulerAngles = activeRotation;
         radioMesh.enabled = true;
-        for (int i = 0; i < transform.childCount; ++i)
-        {
-            transform.GetChild(i).gameObject.SetActive(true);
-        }
-      
+
+        transform.gameObject.SetActive(true);
+
         StartCoroutine(DeactivateCoroutine());
     }
 
     /// <summary>
-    /// Deactivates the radio mesh's and moves the radio from the onscreen position to the ofscreen position.
+    /// Deactivates the radio mesh's and moves the radio from the onscreen position to the offscreen position.
     /// </summary>
     private IEnumerator DeactivateCoroutine()
     {
@@ -127,10 +135,8 @@ public class InteractableRadioModel : MonoBehaviour
         yield return myTween.WaitForCompletion();
 
         radioMesh.enabled = false;
-        for (int i = 0; i < transform.childCount; ++i)
-        {
-            transform.GetChild(i).gameObject.SetActive(false);
-        }
+        radioCanvas.gameObject.SetActive(false);
+        gameViewBehavior.OnResumeClick();
     }
 
 
@@ -193,5 +199,22 @@ public class InteractableRadioModel : MonoBehaviour
         // Change the value's range to the slider's range.
         value = (value * (stationSliderRightMax - stationSliderLeftMax)) + stationSliderLeftMax;
         stationSlider.transform.localPosition = new Vector3(value, stationSlider.transform.localPosition.y, stationSlider.transform.localPosition.z);
+    }
+
+    /// <summary>
+    /// Slide the slider based on the degree of which the knob is turned.
+    /// </summary>
+    /// <param name="degree"></param>
+    public void SetSlider(float degree)
+    {
+        // convert circle degree to slider length
+        float xPosition = (degree * sliderLength) / 360;
+        
+        // divide the slider length by 2 to produce the positive half of the slider. 
+        // subtract the xposition to get whether it's negative or positive. 
+        xPosition = sliderLength / 2 - xPosition;
+        stationSlider.transform.localPosition = new Vector3(xPosition, 
+                                                stationSlider.transform.localPosition.y, 
+                                                stationSlider.transform.localPosition.z);
     }
 }

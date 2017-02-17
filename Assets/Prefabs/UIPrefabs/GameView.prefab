@@ -2370,7 +2370,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000013658008008
 GameObject:
   m_ObjectHideFlags: 0
@@ -3147,14 +3147,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb653f742f9164425a353cadca4fc147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weather: {fileID: 82000010327420038}
+  weather: {fileID: 1935755823}
   MusicDefaultPath: event:/Radio/Music/Music1
   MysteryDefaultPath: event:/Radio/Mystery/Mystery1
   StaticDefaultPath: event:/Radio/Static/Basic_Static
   RadioOnText: Radio is on
   RadioOffText: Radio is off
-  radioScreenText: {fileID: 114000014036257158}
-  dial: {fileID: 114000012687942852}
+  radioScreenText: {fileID: 59538336}
+  dial: {fileID: 57490208}
   lowMusic: 10
   highMusic: 30
   lowMystery: 120
@@ -5812,7 +5812,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224000014070625870}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.8351915
+  m_Size: 0.83519155
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6717,7 +6717,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryPanel: {fileID: 1000011777449246}
   pausePanel: {fileID: 1000011116130612}
-  radioPanel: {fileID: 1000013648755818}
+  radioCanvas: {fileID: 0}
+  radioModelAnimation: {fileID: 0}
   craftingPanel: {fileID: 114000012008403524}
   optionButtonPanel: {fileID: 1000010241065518}
 --- !u!114 &114000012356832346
@@ -7115,8 +7116,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knobRotation: {x: 0, y: 0, z: 0}
-  DialSlider: {fileID: 114000013588731158}
+  radioModelAnimation: {fileID: 0}
   knob: {fileID: 1000010718689456}
+  knobDegree: 0
 --- !u!114 &114000012769420648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11073,7 +11075,7 @@ RectTransform:
   m_Father: {fileID: 224000010874789690}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.0027777778, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11886,8 +11888,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 224000011158027070}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.0027777778, y: 0}
+  m_AnchorMax: {x: 0.0027777778, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
