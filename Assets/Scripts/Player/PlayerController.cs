@@ -77,9 +77,12 @@ public class PlayerController : MonoBehaviour
     private bool isFlying;
     private bool isInShelter;
     private bool isByFire;
+    private bool isReading;
 
     private float currentWarmthChangeRate;
     private float currentHungerChangeRate;
+
+    private float buttonZoomAmount = 0.1f;
 
     private InteractableObject interactable;
 
@@ -262,6 +265,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(controlScheme.CameraRight))
         {
             playerCamera.RotateRight();
+        }
+        if (Input.GetKey(controlScheme.CameraZoomInKey))
+        {
+            playerCamera.Zoom(buttonZoomAmount);
+        }
+        if (Input.GetKey(controlScheme.CameraZoomOutKey))
+        {
+            playerCamera.Zoom(-buttonZoomAmount);
         }
         playerCamera.Zoom(Input.GetAxis(controlScheme.CameraZoomAxis));
 
@@ -736,7 +747,31 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-	/// <summary>
+    /// <summary>
+    /// If the player is reading returns true.
+    /// </summary>
+    public bool IsReading
+    {
+        get
+        {
+            return isReading;
+        }
+        set
+        {
+            if (value)
+            {
+                freezePlayer = true;
+            }
+            else
+            {
+                freezePlayer = false;
+            }
+
+            isReading = value;
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the fire warmth increase rate.
     /// </summary>
     /// <value>The fire warmth increase rate.</value>

@@ -3,11 +3,6 @@ using System.IO;
 
 public class FileManager 
 {
-	/// <summary>
-	/// The check mark menu.
-	/// </summary>
-	public const string UseLocalFiles = "File/Use Local Files";
-
 	private const string allFilesLocation = "all_files";
 
 	/// <summary>
@@ -65,34 +60,9 @@ public class FileManager
 	/// <param name="fileName">File name.</param>
 	public static string GetDocument(string fileName)
 	{
-		SystemLogger.Write("Getting file from google drive");
+		SystemLogger.Write("Getting file from local");
 
-		string fileContents = null;
-
-#if UNITY_EDITOR
-		if(!UnityEditor.EditorPrefs.GetBool(FileManager.UseLocalFiles) && GoogleDrive.ConnectedToInternet())
-		{
-			fileContents = GoogleDrive.GetOnlineDriveDocument(fileName);
-
-			// get local document if nothing was found
-			if(fileContents == null)
-			{
-				fileContents = FileManager.getLocalDocument(fileName);
-			}
-		}
-		else
-		{
-			fileContents = FileManager.getLocalDocument(fileName);
-		}
-#else
-		// pull local contents when this is a real build to avoid 
-		// a mishap where someone accidentally deletes the google
-		// drive file and corrupts anyone soul who wants to play
-		// this game.
-		fileContents = FileManager.getLocalDocument(fileName);
-#endif
-
-		return fileContents;
+		return  FileManager.getLocalDocument(fileName);
 	}
 
 	/// <summary>

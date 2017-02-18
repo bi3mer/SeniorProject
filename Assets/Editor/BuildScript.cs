@@ -30,12 +30,6 @@ public class BuildScript : MonoBehaviour
     /// <param name="buildPath">The build path.</param>
     public static void CopyYAMLFiles (string buildPath)
     {
-        // Make sure the files are up to date if we're not using local files
-        if (!FileManagerEditor.IsUsingLocalFiles)
-        {
-            FileManager.SaveAllDocuments();
-        }
-
         // Copy all yaml files to the build directory
         DirectoryInfo dir = new DirectoryInfo(yamlDirectory);
         FileInfo[] info = dir.GetFiles("*.yml", SearchOption.TopDirectoryOnly);

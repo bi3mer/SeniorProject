@@ -5,8 +5,9 @@
 
     private Game ()
     {
-        PlayerInstance = new Player();
-		WeatherInstance = new WeatherSystem();
+		this.CityBounds = new CityBoundaries();
+	    PlayerInstance = new Player();
+		WeatherInstance = new WeatherSystem(this.CityBounds);
 		EventManager = new EventManager ();
 		PauseInstance = new PauseSystem();
 		WorldItemFactoryInstance = new WorldItemFactory();
@@ -15,6 +16,14 @@
 		Scheme = GameSettingsInstance.Scheme;
         Loader = new GameLoader();
         DeathManagerInstance = new DeathManager();
+    }
+
+    /// <summary>
+    /// Resets the game from the start.
+    /// </summary>
+    public void Reset ()
+    {
+        PlayerInstance.ResetStatus();
     }
  
     /// <summary>
@@ -33,12 +42,33 @@
     }
 
     /// <summary>
+    /// Shorcut to calling Instance.PlayerInstance
+    /// </summary>
+    public static Player Player
+    {
+        get
+        {
+            return Instance.PlayerInstance;
+        }
+    }
+
+    /// <summary>
     /// The current player instance.
     /// </summary>
     public Player PlayerInstance
     {
         get;
         private set;
+    }
+
+	/// <summary>
+    /// Gets the city bounds.
+    /// </summary>
+    /// <value>The city bounds.</value>
+    public CityBoundaries CityBounds
+    {
+    	get;
+    	private set;
     }
 
     /// <summary>

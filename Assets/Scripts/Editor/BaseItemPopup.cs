@@ -24,7 +24,7 @@ public class BaseItemPopup : PropertyDrawer
 
             // TODO: limit items by category
 
-            choices = (new List<string>(itemFactory.ItemDatabase.Keys)).ToArray();
+            choices = (itemFactory.GetItemNamesByTag(ItemTypes.Equipable)).ToArray();
             start = false;
         }
 

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerInventory : Inventory 
 {
     private const string equipedAttributeName = "equiped";
-    private const string equipableItemTag = "equipable";
 
     /// <summary>
     /// Creates an instance of PlayerInventory
@@ -73,6 +73,7 @@ public class PlayerInventory : Inventory
     }
 
     private BaseItem equipedItem;
+
     /// <summary>
     /// Get or set the currently equipped item.
     /// 
@@ -88,7 +89,7 @@ public class PlayerInventory : Inventory
         set
         {
             // Check if this is an equippable item
-            if (value != null && !value.Types.Contains(equipableItemTag))
+            if (value != null && !value.Types.Contains(ItemTypes.Equipable))
             {
                 Debug.LogError("Cannot set EquipedItem to a non-equipable item.");
                 return;

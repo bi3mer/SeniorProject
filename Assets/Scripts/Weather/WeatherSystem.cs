@@ -381,6 +381,29 @@ public class WeatherSystem
 		this.setWindSpeedVector(position, center);
 
 		this.updateStormDelegates();
+
+		// update weather sounds
+		Game.Instance.EventManager.WeatherUpdated (this.getPrecipitation());
+	}
+
+	/// <summary>
+	/// Returns a <see cref="System.String"/> that represents the current <see cref="WeatherSystem"/>.
+	/// </summary>
+	/// <returns>A <see cref="System.String"/> that represents the current <see cref="WeatherSystem"/>.</returns>
+	public override string ToString()
+	{
+		const string newLine = "\n";
+
+		string weather = "Pressure: " + this.WeatherInformation[(int) Weather.Pressure] + newLine;
+		weather += "Temperature: " + this.WeatherInformation[(int) Weather.Temperature] + newLine;
+		weather += "Wind Magnitude: " + this.WeatherInformation[(int) Weather.WindSpeedMagnitude] + newLine;
+		weather += "Wind X: " + this.WeatherInformation[(int) Weather.WindSpeedX] + newLine;
+		weather += "Wind X: " + this.WeatherInformation[(int) Weather.WindSpeedX] + newLine;
+		weather += "Relative Humidity: " + this.WeatherInformation[(int) Weather.RelativeHumidity] + newLine;
+		weather += "Relative Dew Point: " + this.WeatherInformation[(int) Weather.RelativeDewPoint] + newLine;
+		weather += "Precipitation: " + this.WeatherInformation[(int) Weather.Precipitation] + newLine;
+
+		return weather;
 	}
 
 	/// <summary>
@@ -395,9 +418,16 @@ public class WeatherSystem
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WeatherSystem"/> class.
 	/// </summary>
-	public WeatherSystem()
+	public WeatherSystem(CityBoundaries bounds)
 	{
+#if UNITY_EDITOR
+		if(!Application.isPlaying)
+		{
+			return;
+		}
+#endif
+
 		this.WeatherInformation = new float[Weather.GetNames(typeof(Weather)).Length];
-		this.WeatherPressureSystems = new PressureSystems();
+		this.WeatherPressureSystems = new PressureSystems(bounds);
 	}
 }
