@@ -41,6 +41,10 @@ public class InventoryUI : MonoBehaviour
 		set;
 	}
 
+	/// <summary>
+	/// Gets the item sprite manager.
+	/// </summary>
+	/// <value>The item sprite manager.</value>
 	public SpriteManager ItemSpriteManager
 	{
 		get;
