@@ -142,6 +142,7 @@ GameObject:
   - 4: {fileID: 4000013963589870}
   - 33: {fileID: 33000012156360910}
   - 23: {fileID: 23000014198245824}
+  - 65: {fileID: 65000012139653058}
   m_Layer: 0
   m_Name: Base
   m_TagString: Land
@@ -201,7 +202,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013049234714}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.31208676, y: -2.3445706, z: -0.48330593}
+  m_LocalPosition: {x: 7.0749006, y: 0.75, z: 4.440022}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -397,6 +398,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013317502254}
   m_Mesh: {fileID: 4300000, guid: d0c9f1732c7624b44823cfbceaba9484, type: 3}
+--- !u!65 &65000012139653058
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013317502254}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.000001, y: 0.75, z: 6.000001}
+  m_Center: {x: 0, y: 0.375, z: 0}
 --- !u!114 &114000014109734912
 MonoBehaviour:
   m_ObjectHideFlags: 1

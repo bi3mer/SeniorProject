@@ -506,10 +506,6 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool(playerAnimatorSwimming, true);
             return;
         }
-        else if (movement == waterMovement)
-        {
-            isGrounded = true;
-        }
         else if (IsOnRaft)
         {
             PlayerAnimator.SetBool(playerAnimatorFalling, false);
@@ -519,7 +515,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
         else
-        {
+        { 
             // Check if the player is close enough to the ground
             RaycastHit hit;
             // We have to raycast SLIGHTLY above the player's bottom. Because if we start at the bottom there's a good chance it'll end up going through the ground.
@@ -537,10 +533,14 @@ public class PlayerController : MonoBehaviour
                     movement.OnStateEnter();
                 }
             }
-            else
+            else if(!belowWater)
             {
                 isGrounded = false;
                 playerAnimator.SetBool(playerAnimatorFalling, true);
+            }
+            else
+            {
+                isGrounded = true;
             }
         }
     }
