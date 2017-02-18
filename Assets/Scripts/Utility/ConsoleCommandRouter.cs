@@ -10,10 +10,14 @@ public class ConsoleCommandRouter : MonoBehaviour
 	private string testCommand = "test";
 
 	[SerializeField]
-	private string debugMovement = "fly";
+	private string debugMode = "god";
 
 	[SerializeField]
 	private string debugWeather = "weather";
+
+	[SerializeField]
+	private string printWeather = "wstr";
+
 	[SerializeField]
 	private GameObject debugWeatherGUI;
 	private GameObject instantiatedWeather = null;
@@ -40,9 +44,18 @@ public class ConsoleCommandRouter : MonoBehaviour
 	/// </summary>
 	/// <returns>The movement.</returns>
 	/// <param name="args">Arguments.</param>
-	public string DebugMovement(params string[] args)
+	public string DebugMode(params string[] args)
 	{
-		return "Gabby has not implemented this yet";
+		string response = "Debug mode activated";
+
+		if(Game.Instance.DebugMode)
+		{	
+			response = "Debug mode de-activated";
+		}
+
+		Game.Instance.DebugMode = !Game.Instance.DebugMode;
+
+		return response;
 	}
 
 	/// <summary>
@@ -102,14 +115,25 @@ public class ConsoleCommandRouter : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Prints the weather.
+	/// </summary>
+	/// <returns>The weather.</returns>
+	/// <param name="args">Arguments.</param>
+	public string PrintWeather(params string[] args)
+	{
+		return Game.Instance.WeatherInstance.ToString();
+	}
+
+	/// <summary>
 	/// initialize console commands
 	/// </summary>
 	void Start () 
 	{
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.testCommand, this.Test);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugMovement, this.DebugMovement);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugMode, this.DebugMode);
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugWeather, this.DebugWeatherGUI);
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.timeScale, this.SetTimeScale);
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.pressureSystem, this.ActivatePressureSystem);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.printWeather, this.PrintWeather);
 	}
 }

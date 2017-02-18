@@ -22,6 +22,8 @@ public class ControlScheme
     public KeyCode CameraRight;
     public KeyCode CameraLeft;
     public string CameraZoomAxis;
+    public KeyCode CameraZoomInKey;
+    public KeyCode CameraZoomOutKey;
 
     public KeyCode Pause;
     public KeyCode Inventory;
