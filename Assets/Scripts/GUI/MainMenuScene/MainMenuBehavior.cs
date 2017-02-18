@@ -61,9 +61,9 @@ public class MainMenuBehavior : MonoBehaviour
 	/// <summary>
 	/// Loads the game scene.
 	/// </summary>
-	public void OnStartClick(int sceneIndex)
+	public void OnStartClick()
 	{
-		SceneManager.LoadScene (sceneIndex);
+		SceneManager.LoadScene ("Master");
 	}
 
 	/// <summary>
