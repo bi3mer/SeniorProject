@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class SpriteManager
 {
-	Dictionary<string, Sprite> spriteSheet;
+	private Dictionary<string, Sprite> spriteSheet;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="SpriteManager"/> class.

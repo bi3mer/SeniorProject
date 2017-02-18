@@ -8,19 +8,24 @@ public class ItemAttributeUI : MonoBehaviour
 	public Text AttributeName;
 
 	[Tooltip("Text that displays the value of the attribute")]
-	public Text AttributeValue;
+	[SerializeField]
+	private Text attributeValue;
 
 	[Tooltip("Panel that contains the value of the attribute. Should only display on hover")]
-	public GameObject NumberHoverPanel;
+	[SerializeField]
+	private GameObject numberHoverPanel;
 
 	[Tooltip("Slider that graphically displays the value of the attribute")]
-	public Slider AttributeSlider;
+	[SerializeField]
+	private Slider attributeSlider;
 
 	[Tooltip("The fill image used by the slider")]
-	public Image FillImage;
+	[SerializeField]
+	private Image fillImage;
 
 	[Tooltip("The gradient of colors that the fill image will be, depending on the attribute's value")]
-	public Gradient PossibleColors;
+	[SerializeField]
+	private Gradient possibleColors;
 
 	/// <summary>
 	/// Sets the name of the attribute.
@@ -37,18 +42,24 @@ public class ItemAttributeUI : MonoBehaviour
 	/// <param name="value">Value.</param>
 	public void SetAttributeValue(float value)
 	{
-		AttributeSlider.value = value;
-		AttributeValue.text = AttributeSlider.value.ToString();
-		FillImage.color = PossibleColors.Evaluate(AttributeSlider.value / AttributeSlider.maxValue);
+		attributeSlider.value = value;
+		attributeValue.text = attributeSlider.value.ToString();
+		fillImage.color = possibleColors.Evaluate(attributeSlider.value / attributeSlider.maxValue);
 	}
 
+	/// <summary>
+	/// Shows the hover panel with the slider value.
+	/// </summary>
 	public void ShowHover()
 	{
-		NumberHoverPanel.SetActive(true);
+		numberHoverPanel.SetActive(true);
 	}
 
+	/// <summary>
+	/// Hides the hover panel with the slider value.
+	/// </summary>
 	public void HideHover()
 	{
-		NumberHoverPanel.SetActive(false);
+		numberHoverPanel.SetActive(false);
 	}
 }
