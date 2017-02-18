@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17480871, g: 0.21510297, b: 0.3091554, a: 1}
+  m_IndirectSpecularColor: {r: 0.17422503, g: 0.2137396, b: 0.30740348, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -7393,6 +7393,48 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 746511394}
+--- !u!1001 &748016177
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4000010431805018, guid: 1eca5ec9f3d2c41d3bb9e4fd96ab7e3e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.15489483
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010431805018, guid: 1eca5ec9f3d2c41d3bb9e4fd96ab7e3e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 3.2957926
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010431805018, guid: 1eca5ec9f3d2c41d3bb9e4fd96ab7e3e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 3.5939589
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010431805018, guid: 1eca5ec9f3d2c41d3bb9e4fd96ab7e3e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010431805018, guid: 1eca5ec9f3d2c41d3bb9e4fd96ab7e3e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010431805018, guid: 1eca5ec9f3d2c41d3bb9e4fd96ab7e3e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010431805018, guid: 1eca5ec9f3d2c41d3bb9e4fd96ab7e3e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010431805018, guid: 1eca5ec9f3d2c41d3bb9e4fd96ab7e3e, type: 2}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 1eca5ec9f3d2c41d3bb9e4fd96ab7e3e, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &749016559
 GameObject:
   m_ObjectHideFlags: 0
@@ -9658,7 +9700,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1731178489}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.83519155
+  m_Size: 0.8351916
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -15418,37 +15460,37 @@ Prefab:
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationX.scalar
-      value: -0.029464759
+      value: 0.021714391
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationY.scalar
-      value: 0.007881952
+      value: 0.0014773918
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: EmissionModule.rate.scalar
-      value: 39.141254
+      value: 31.8834
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: -0.4516026
+      value: -0.08464832
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.y.scalar
-      value: -1.6882063
+      value: 1.244143
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: -0.18064104
+      value: -0.033859327
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.z.scalar
-      value: -0.67528254
+      value: 0.4976572
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ecc262ca63bb3d54ba8476a9fa126d5c, type: 2}
