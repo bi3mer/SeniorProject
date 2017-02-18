@@ -82,7 +82,6 @@ public class InteractableRadioModel : MonoBehaviour
     /// </summary>
     public void SetUpRadioCanvas()
     {
-    	Debug.Log("start");
         powerButtonStartPosition = powerButton.transform.localPosition;
         volumeUpButtonStartPosition = volumeUp.transform.localPosition;
         volumeDownButtonStartPosition = volumeDown.transform.localPosition;
