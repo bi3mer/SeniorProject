@@ -4,7 +4,7 @@ using System.Collections;
 
 public class ItemAttributeUI : MonoBehaviour 
 {
-	[Tooltipe("Text that displays the attribute name")]
+	[Tooltip("Text that displays the attribute name")]
 	public Text AttributeName;
 
 	[Tooltip("Text that displays the value of the attribute")]

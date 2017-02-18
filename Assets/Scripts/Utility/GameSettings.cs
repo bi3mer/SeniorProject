@@ -73,6 +73,8 @@
 		Scheme.CameraRight = UnityEngine.KeyCode.E;
 		Scheme.CameraLeft = UnityEngine.KeyCode.Q;
 		Scheme.CameraZoomAxis = "Mouse ScrollWheel";
+        Scheme.CameraZoomInKey = UnityEngine.KeyCode.P;
+        Scheme.CameraZoomOutKey = UnityEngine.KeyCode.L;
 		Scheme.Pause = UnityEngine.KeyCode.Escape;
 		Scheme.Inventory = UnityEngine.KeyCode.Tab;
 		Scheme.Radio = UnityEngine.KeyCode.R;

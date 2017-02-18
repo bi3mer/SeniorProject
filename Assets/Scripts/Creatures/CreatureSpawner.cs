@@ -2,16 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class Spawner : MonoBehaviour 
+public abstract class CreatureSpawner : MonoBehaviour 
 {
 	[SerializeField]
 	private GameObject[] creaturesPrefabs;
 
 	[SerializeField]
-	private int minCreatureCount;
+	protected int minCreatureCount;
+
+	protected int meanCreatureCount;
 
 	[SerializeField]
-	private int maxCreatureCount;
+	protected int maxCreatureCount;
 
 	[SerializeField]
 	private float maxSpawnRadius = 25f;
@@ -22,7 +24,7 @@ public abstract class Spawner : MonoBehaviour
 	[SerializeField]
 	private float waterLevelOffset = -2f;
 
-	private CreatureManager creatureManager;
+	protected CreatureManager creatureManager;
 
 	/// <summary>
 	/// The pool of creatures that have been killed and will need
@@ -87,6 +89,14 @@ public abstract class Spawner : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Initialize anything class specific
+	/// </summary>
+	protected virtual void Init()
+	{
+		// do nothing
+	}
+
+	/// <summary>
 	/// Spawn a creature
 	/// </summary>
 	private void spawn()
@@ -128,16 +138,19 @@ public abstract class Spawner : MonoBehaviour
 			yield return new WaitForEndOfFrame();
 
 			// get mean of the min and max
-			int idealCount = (this.maxCreatureCount + this.minCreatureCount) / 2;
+			this.meanCreatureCount = (this.maxCreatureCount + this.minCreatureCount) / 2;
 
 			// instantiate creature manager
-			this.creatureManager = new CreatureManager(this.maxCreatureCount, idealCount);
+			this.creatureManager = new CreatureManager(this.maxCreatureCount, this.meanCreatureCount);
 
 			// instiate semi-random number of creatures
 			for(int i = 0; i < Random.Range(this.minCreatureCount, this.maxCreatureCount); ++i)
 			{
 				this.spawn();
 			}
+
+			// run anything class specific
+			this.Init();
 		}
 	}
 }
