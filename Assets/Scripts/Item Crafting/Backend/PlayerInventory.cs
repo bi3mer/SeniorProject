@@ -121,4 +121,12 @@ public class PlayerInventory : Inventory
             }
         }
     }
+
+    public bool CheckRecipePossible(Recipe recipe)
+    {
+    	for(int i = 0; i < recipe.Requirements.Count; ++i)
+    	{
+
+    	}
+    }
 }

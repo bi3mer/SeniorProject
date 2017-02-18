@@ -24,6 +24,8 @@ public class Inventory
 
 	private InventoryYamlParser parser;
 
+    private Dictionary<string, int> itemCountByType;
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Inventory"/> class.
 	/// </summary>
@@ -34,6 +36,9 @@ public class Inventory
 		contents = new Stack[size];
 		inventoryName = name;
 		InventorySize = size;
+		itemCountByType = new Dictionary<string, int>();
+
+		for(int i = 0; i < ItemTypes.
 	}
 
 	/// <summary>

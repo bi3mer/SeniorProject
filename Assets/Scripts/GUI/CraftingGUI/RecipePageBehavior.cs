@@ -67,6 +67,7 @@ public class RecipePageBehavior : MonoBehaviour
 	{
 		ResetCraftingPanel ();
 		continueButton = NextStepButton;
+		GuiInstanceManager.RecipePageInstance = this;
 	}
 
 	/// <summary>
@@ -75,9 +76,16 @@ public class RecipePageBehavior : MonoBehaviour
 	/// <param name="pageRecipe">Page recipe.</param>
 	public void SetUpRecipePage(Recipe pageRecipe)
 	{
-		GuiInstanceManager.RecipePageInstance = this;
+		if(recipe != null)
+		{
+			for(int i = 0; i < RequirementsScrollPanel.transform.childCount; ++i)
+			{
+				GameObject.Destroy(RequirementsScrollPanel.transform.GetChild(i).gameObject);
+			}
+		}
+
 		itemsSelected = new List<Ingredient> ();
-		GuiInstanceManager.RecipePageInstance.recipe = pageRecipe;
+		recipe = pageRecipe;
 		RecipeNameText.text = recipe.RecipeName;
 
 		// add all requirements to requirement scroll view
