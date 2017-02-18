@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WhaleSpawner : Spawner 
+public class WhaleSpawner : CreatureSpawner 
 {
 	/// <summary>
 	/// Get a location where the unit can be spawned
