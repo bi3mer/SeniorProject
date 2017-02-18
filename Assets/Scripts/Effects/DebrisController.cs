@@ -93,11 +93,11 @@ public class DebrisController : MonoBehaviour
 	/// </summary>
 	private void UpdateParticleSystem()
 	{
-		//Set RainMain Emission to double rain level. At 200 emission we almost max out particles. (Depending on the height the rain spawns at this may change, but it'll be based on the camera in the future)
+		//Set Debris Emission to double debris level. At 200 emission we almost max out particles.
 		ParticleSystem.EmissionModule DebrisEmission = Debris.emission;
 		DebrisEmission.rate = debrisLevel * 2f;
 
-		//set the RainFog emission rate, if it's less than the threshold turn off emission.
+		//set the Debris emission rate, if it's less than the threshold turn off emission.
 		if (DebrisLevel < DebrisStartThreshold)
 		{
 			DebrisEmission.rate = 0f;
