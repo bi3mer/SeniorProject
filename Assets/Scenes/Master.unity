@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17055312, g: 0.20669022, b: 0.2967636, a: 1}
+  m_IndirectSpecularColor: {r: 0.16980883, g: 0.2052846, b: 0.29454157, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -362,6 +362,12 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 206913164}
   m_Script: {fileID: 11500000, guid: 312672ed16aa220448385bd3498c687b, type: 3}
+--- !u!114 &145182521 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000012621102840, guid: 12cac1228c3fb431483d6d77ddf40555,
+    type: 2}
+  m_PrefabInternal: {fileID: 641551466}
+  m_Script: {fileID: 11500000, guid: e2738635327394d57bfa2812b212bbb9, type: 3}
 --- !u!1001 &145627665
 Prefab:
   m_ObjectHideFlags: 0
@@ -520,7 +526,7 @@ Prefab:
         type: 2}
       propertyPath: gameViewBehavior
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 145182521}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1f78485a9be91014fa1e17e94fe0a21c, type: 2}
   m_IsPrefabParent: 0
@@ -4489,37 +4495,37 @@ Prefab:
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationX.scalar
-      value: 0.011068995
+      value: -0.023217678
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationY.scalar
-      value: -0.017227514
+      value: -0.018864065
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: EmissionModule.rate.scalar
-      value: 30.703678
+      value: 38.543045
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: 0.9870638
+      value: 1.0808313
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.y.scalar
-      value: 0.6342067
+      value: -1.3302749
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: 0.39482555
+      value: 0.43233252
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.z.scalar
-      value: 0.2536827
+      value: -0.53211
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ecc262ca63bb3d54ba8476a9fa126d5c, type: 2}
