@@ -13,6 +13,7 @@ public class MainMenuBehavior : MonoBehaviour
 	private GameObject helpPanel;
 	[SerializeField]
 	private GameObject mainPanel;
+	private string masterSceneName = "Master";
 
 	/// <summary>
 	/// Initialize main menu.
@@ -63,7 +64,7 @@ public class MainMenuBehavior : MonoBehaviour
 	/// </summary>
 	public void OnStartClick()
 	{
-		SceneManager.LoadScene ("Master");
+		SceneManager.LoadScene (masterSceneName);
 	}
 
 	/// <summary>
