@@ -11,6 +11,9 @@ public class RecipePageBehavior : MonoBehaviour
 	private Text RecipeNameText;
 
 	[SerializeField]
+	private GameObject craftingAreaPanel;
+
+	[SerializeField]
 	private GameObject CraftingPanel;
 
 	[SerializeField]
@@ -60,6 +63,8 @@ public class RecipePageBehavior : MonoBehaviour
 	private const string selectItemTypeTitleHeader = "Select ";
 	private Button continueButton;
 
+	private RecipeButtonGUIBehavior currentRecipeButton;
+
 	/// <summary>
 	/// Start this instance of RecipePageBehavior.
 	/// </summary>
@@ -68,16 +73,21 @@ public class RecipePageBehavior : MonoBehaviour
 		ResetCraftingPanel ();
 		continueButton = NextStepButton;
 		GuiInstanceManager.RecipePageInstance = this;
+		craftingAreaPanel.SetActive(false);
 	}
 
 	/// <summary>
 	/// Sets up recipe page.
 	/// </summary>
 	/// <param name="pageRecipe">Page recipe.</param>
-	public void SetUpRecipePage(Recipe pageRecipe)
-	{
+	public void SetUpRecipePage(Recipe pageRecipe, RecipeButtonGUIBehavior currentSelectedRecipe)
+	{	
+		craftingAreaPanel.SetActive(true);
+
 		if(recipe != null)
 		{
+			currentRecipeButton.Unselect();
+
 			for(int i = 0; i < RequirementsScrollPanel.transform.childCount; ++i)
 			{
 				GameObject.Destroy(RequirementsScrollPanel.transform.GetChild(i).gameObject);
@@ -98,6 +108,7 @@ public class RecipePageBehavior : MonoBehaviour
 			requirement.transform.SetParent (RequirementsScrollPanel.transform);
 		}
 
+		currentRecipeButton = currentSelectedRecipe;
 		ResetCraftingPanel ();
 	}
 

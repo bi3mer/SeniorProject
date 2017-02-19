@@ -57,5 +57,7 @@ public class RecipeBookBehavior : MonoBehaviour
 		{
 			pages[i].EndCraftingAttempt();
 		}
+
+
 	}
 }

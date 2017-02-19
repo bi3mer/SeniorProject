@@ -38,7 +38,10 @@ public class Inventory
 		InventorySize = size;
 		itemCountByType = new Dictionary<string, int>();
 
-		for(int i = 0; i < ItemTypes.
+		for(int i = 0; i < ItemTypes.Types.Length; ++i)
+		{
+			itemCountByType.Add(ItemTypes.Types[i], 0);
+		}
 	}
 
 	/// <summary>
@@ -53,6 +56,12 @@ public class Inventory
 
 		parser = new InventoryYamlParser(inventoryFile);
 		InventorySize = size;
+		itemCountByType = new Dictionary<string, int>();
+
+		for(int i = 0; i < ItemTypes.Types.Length; ++i)
+		{
+			itemCountByType.Add(ItemTypes.Types[i], 0);
+		}
 
 		LoadInventory();
 	}
@@ -70,6 +79,9 @@ public class Inventory
 			{
 
 				BaseItem item = inventoryInfo [i].Item;
+
+				updateTypeAmount(item.Types, inventoryInfo[i].ItemAmount);
+
 				item.InitializeBaseItem ();
 
 				if(inventoryInfo[i].ItemCategories != null && inventoryInfo[i].ItemCategories.Count > 0)
@@ -120,6 +132,7 @@ public class Inventory
 				{
 					stackAmount = contents[i].Amount;
 					contents[i].Amount -= amountLeft;
+					updateTypeAmount(contents[i].Item.Types, -amountLeft);
 
 					amountLeft -= stackAmount;
 
@@ -223,6 +236,7 @@ public class Inventory
 	{
 		int loc = GetNextOpenSlot ();
 		contents[loc] = new Stack(newItem, amount, Guid.NewGuid().ToString("N"));
+		updateTypeAmount(newItem.Types, amount);
 
 		return contents[loc];
 	}
@@ -323,4 +337,29 @@ public class Inventory
 			Array.Resize(ref contents, inventorySize);
 		}
 	}
+
+	public void updateTypeAmount(List<string> types, int changedAmount)
+	{
+		for(int i = 0; i < types.Count; ++i)
+		{
+			itemCountByType[types[i]] += changedAmount;
+		}
+	}
+
+	public bool CheckRecipePossible(Recipe recipe)
+    {
+    	Requirement requirement;
+
+    	for(int i = 0; i < recipe.Requirements.Count; ++i)
+    	{
+			requirement = recipe.Requirements[i];
+
+    		if(itemCountByType[requirement.ItemType] < requirement.AmountRequired)
+    		{
+    			return false;
+    		}
+    	}
+
+    	return true;
+    }
 }

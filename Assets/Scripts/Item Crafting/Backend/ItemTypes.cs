@@ -8,6 +8,7 @@
 	public static string Equipable = "equipable";
 	public static string Igniter = "igniter";
 	public static string Fuel = "fuel";
+	public static string Medicinal = "medicinal";
 
-	public static string[] Types = new string[]{Rope, Hook, Rod, Container, Edible, Equipable, Igniter, Fuel};
+	public static string[] Types = new string[]{Rope, Hook, Rod, Container, Edible, Equipable, Igniter, Fuel, Medicinal};
 }
