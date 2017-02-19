@@ -906,8 +906,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011536698418}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.1, z: 0}
+  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 2.657, z: 1.951}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -1734,7 +1734,7 @@ MonoBehaviour:
   solver:
     layers:
       serializedVersion: 2
-      m_Bits: 4294966783
+      m_Bits: 4294966473
     maxStep: 0.2
     heightOffset: 0
     footSpeed: 0.38
@@ -1859,6 +1859,7 @@ MonoBehaviour:
   groundedMask:
     serializedVersion: 2
     m_Bits: 1553
+  waterWadeHeight: 0.18
   roofFootstepSoundEvent: event:/Player/Movement/Walking/Concrete
   controlScheme:
     Forward: 119
@@ -1889,7 +1890,6 @@ MonoBehaviour:
   startClimbTime: 0.3
   ClimbTime: 0.4
   endClimbTime: 0.3
-  raycastHeight: 0.01
   climbForward: 0.1
   minClimbHeight: 0.15
 --- !u!114 &114000012333483624
@@ -1910,6 +1910,7 @@ MonoBehaviour:
   SplashManager: {fileID: 0}
   splashSize: 5
   splashSpeed: 0.5
+  swimmingHeight: 0.31
 --- !u!114 &114000012874215022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1927,6 +1928,7 @@ MonoBehaviour:
   jumpForce: 0.06
   minFallDamageVelocity: 5
   fallDamageModifier: 1
+  raycastHeight: 0.01
 --- !u!114 &114000013014602212
 MonoBehaviour:
   m_ObjectHideFlags: 1

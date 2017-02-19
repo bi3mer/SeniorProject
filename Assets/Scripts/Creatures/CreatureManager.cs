@@ -18,7 +18,11 @@ public class CreatureManager
 	/// <summary>
 	/// The ideal amount of creatures in the scene
 	/// </summary>
-	private int idealCreatureCount = 0;
+	public int IdealCreatureCount
+	{
+		get;
+		set;
+	}
 
 	/// <summary>
 	/// Count of how many creatures are in the scene
@@ -127,7 +131,7 @@ public class CreatureManager
 	/// <param name="creature">Creature.</param>
 	public void UpdateCreatureCount(Vector3 position, GameObject creature)
 	{
-		if(this.CreatureCount < this.idealCreatureCount)
+		if(this.CreatureCount < this.IdealCreatureCount)
 		{
 			this.Spawn(position, creature);
 		}	
@@ -142,7 +146,7 @@ public class CreatureManager
 	{
 		this.creaturePool       = new Stack<int>();
 		this.creatures          = new CreatureTracker[maxCount];
-		this.idealCreatureCount = idealCount;
+		this.IdealCreatureCount = idealCount;
 		this.CreatureCount      = 0;
 	}
 }
