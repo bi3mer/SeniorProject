@@ -138,10 +138,18 @@ public class ConsoleCommandRouter : MonoBehaviour
 		}
 		else
 		{
-			GameObject.Destroy(this.instantiatedCreatureGUI);
-			this.instantiatedWeather = null;
-			returnInfo = "Removed GUI";
+			if(this.instantiatedCreatureGUI.active)
+			{
+				this.instantiatedCreatureGUI.SetActive(false);
+				returnInfo = "Removed GUI";
+			}
+			else
+			{
+				this.instantiatedCreatureGUI.SetActive(true);
+			}
+
 		}
+
 		return returnInfo;
 	}
 
