@@ -8,7 +8,7 @@ using System.Collections;
 
 public class DebrisController : MonoBehaviour 
 {
-	//This is for testing.
+	// This is for testing.
 	[Tooltip("Set to true to use your own values for testing")]
 	public bool UseCustomValues;
 
@@ -24,11 +24,15 @@ public class DebrisController : MonoBehaviour
 	[Tooltip("The amount of debris getting kicked around")]
 	private float debrisLevel;
 
+	[SerializeField]
+	[Range(0,10)]
+	private float debrisMultiplier = 2f;
+
 	/// <summary>
 	/// At what point should we start kicking up debris?
 	/// </summary>
 	[Range(0,100)]
-	[Tooltip("The threshold at which debris begins appearing");
+	[Tooltip("The threshold at which debris begins appearing")]
 	public float DebrisStartThreshold = 40f;
 
 	private ParticleSystemRenderer MainDebrisRenderer;
@@ -105,11 +109,11 @@ public class DebrisController : MonoBehaviour
 	/// </summary>
 	private void UpdateParticleSystem()
 	{
-		//Set Debris Emission to double debris level. At 200 emission we almost max out particles.
+		// Set Debris Emission to the debris level multiplied by a given value (defaults to 2). At 200 emission we almost max out particles.
 		ParticleSystem.EmissionModule DebrisEmission = Debris.emission;
-		DebrisEmission.rate = debrisLevel * 2f;
+		DebrisEmission.rate = debrisLevel * debrisMultiplier;
 
-		//set the Debris emission rate, if it's less than the threshold turn off emission.
+		// Set the Debris emission rate, if it's less than the threshold turn off emission.
 		if (DebrisLevel < DebrisStartThreshold)
 		{
 			DebrisEmission.rate = 0f;
@@ -119,7 +123,7 @@ public class DebrisController : MonoBehaviour
 			DebrisEmission.rate = DebrisLevel;
 		}
 
-		//If in editor, there's a chance the script is running in edit mode and we won't have the renderer set.   
+		// If in editor, there's a chance the script is running in edit mode and we won't have the renderer set.   
 		#if (UNITY_EDITOR)
 		if (MainDebrisRenderer == null)
 		{
@@ -131,11 +135,9 @@ public class DebrisController : MonoBehaviour
 		ParticleSystem.VelocityOverLifetimeModule ParticleVelocity = Debris.velocityOverLifetime;
 		ParticleVelocity.x = WindVectorXZ.x;
 		ParticleVelocity.y = -WindVectorXZ.y;
-		ParticleVelocity.x = WindVectorXZ.x;
 		ParticleVelocity.z = -WindVectorXZ.y;
 
 		// Set the rotation of the rain based on the wind.
 		Debris.startRotation3D = new Vector3(Mathf.Deg2Rad* -WindVectorXZ.y, Mathf.Deg2Rad* -WindVectorXZ.x, 0f);
 	}
-
 }
