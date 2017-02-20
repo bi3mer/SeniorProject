@@ -13,6 +13,8 @@ public class Clock : MonoBehaviour
 	private float hour;
 	private float halfHour;
 
+	private int previousSecond;
+
 	private const float addTick = 1f;
 
 	[SerializeField]
@@ -80,11 +82,6 @@ public class Clock : MonoBehaviour
 
 		// 1/24Hours = x/360
 		this.AnglePerSecond =  360f / this.twentyFourHours;
-
-		// subscribe to delegate
-		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
-
-		this.Resume();
 	}
 
 	/// <summary>
@@ -109,21 +106,26 @@ public class Clock : MonoBehaviour
 	/// Updates the time.
 	/// </summary>
 	/// <returns>The time.</returns>
-	private IEnumerator updateTime()
+	void Update()
 	{
-		while(!Game.Instance.PauseInstance.IsPaused)
+		if(Game.Instance.PauseInstance.IsPaused)
 		{
-			yield return new WaitForSeconds(this.tick);
+			// break out, we don't want to update while the game is paused
+			return;
+		}
 
-			// update time
-			this.CurrentTime += Clock.addTick;
+		// update time
+		this.CurrentTime += Time.deltaTime;
+		int integerTime = Mathf.FloorToInt(this.CurrentTime);
+
+		if(this.previousSecond < integerTime)
+		{
+			this.previousSecond = integerTime;
+
 			if(this.CurrentTime >= this.twentyFourHours)
 			{
 				this.CurrentTime = 0;
 			}
-
-			// TODO find a way to get non monobehaviour scripts to subscribe to
-			//      the seconds instance. This will have to do for now.
 
 			if(!freezeWeatherUpdates)
 			{
@@ -135,8 +137,6 @@ public class Clock : MonoBehaviour
 			{
 				this.SecondUpdate();
 			}
-
-			int integerTime = Mathf.FloorToInt(this.CurrentTime);
 
 			// Notify thirty minute long subscribed delegates
 			if(this.HalfHourUpdate != null && integerTime % Mathf.FloorToInt(this.halfHour) == 0)
@@ -180,13 +180,5 @@ public class Clock : MonoBehaviour
 		{
 			return (this.CurrentTime - this.twelveHours) / this.twelveHours;
 		}
-	}
-
-	/// <summary>
-	/// Resume the clock running.
-	/// </summary>
-	public void Resume()
-	{
-		StartCoroutine(this.updateTime());
 	}
 }
