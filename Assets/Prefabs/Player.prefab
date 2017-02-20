@@ -907,7 +907,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011536698418}
   m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 2.657, z: 1.951}
+  m_LocalPosition: {x: 0, y: 2.368, z: 1.951}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -1877,6 +1877,8 @@ MonoBehaviour:
     CameraRight: 101
     CameraLeft: 113
     CameraZoomAxis: Mouse ScrollWheel
+    CameraZoomInKey: 0
+    CameraZoomOutKey: 0
     Pause: 27
     Inventory: 9
     Radio: 114
@@ -1887,9 +1889,9 @@ MonoBehaviour:
     m_Bits: 1553
   handSpacing: 0.386
   climbDistance: 0.45
-  startClimbTime: 0.3
-  ClimbTime: 0.4
-  endClimbTime: 0.3
+  startClimbTime: 0.1
+  ClimbTime: 1
+  endClimbTime: 0.1
   climbForward: 0.1
   minClimbHeight: 0.15
 --- !u!114 &114000012333483624

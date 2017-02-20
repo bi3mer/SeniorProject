@@ -30,6 +30,12 @@ public class LandMovement : Movement
     private const float playerAnimatorIdle = 0f;
     private CharacterController controller;
 
+    private bool jumping;
+    [SerializeField]
+    private bool airControll;
+    private float lastSpeed;
+    private Vector3 lastDirection;
+
     /// <summary>
     /// Get the character controller so we can call move functions
     /// </summary>
@@ -55,28 +61,47 @@ public class LandMovement : Movement
     /// <param name="direction">The direction to walk the player.</param>
     public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
-        Speed = 0f;
+        if(!jumping || airControll)
+        {
+            lastDirection = direction;
+        }
+        else
+        {
+            direction = Vector3.zero;
+        }
+
+        Speed = lastSpeed;
 
         // Walking
-        if (!sprinting)
+        if (!sprinting && (!jumping || airControll))
         {
 			Speed = walkingSpeed;
             playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorWalk);
         }
         // Sprinting
-        else
+        else if (!jumping || airControll)
         {
 			Speed = sprintingSpeed;
             playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorSprint);
         }
 
-        controller.Move((direction.normalized * Speed + Physics.gravity ) * Time.fixedDeltaTime);
-
-        Vector3 facingRotation = Vector3.Normalize(new Vector3(controller.velocity.x, 0f, controller.velocity.z));
-        if (facingRotation != Vector3.zero)
+        Vector3 moveVector = lastDirection * Speed;
+        if (!jumping)
         {
-            playerAnimator.transform.forward = facingRotation;
+            moveVector += Physics.gravity;
         }
+        moveVector *= Time.fixedDeltaTime;
+
+        controller.Move(moveVector);
+        if(!jumping || airControll)
+        { 
+            Vector3 facingRotation = Vector3.Normalize(new Vector3(controller.velocity.x, 0f, controller.velocity.z));
+            if (facingRotation != Vector3.zero)
+            {
+                playerAnimator.transform.forward = facingRotation;                
+            }
+        }
+        lastSpeed = Speed;
     }
 
     /// <summary>
@@ -95,6 +120,7 @@ public class LandMovement : Movement
     /// <param name="playerAnimator">The player's animator</param>
     public override void Jump(Animator playerAnimator)
     {
+        jumping = true;
         playerAnimator.SetTrigger(playerAnimatorJump);
     }
 
@@ -114,6 +140,14 @@ public class LandMovement : Movement
     public void JumpForce()
     {
         controller.Move(Vector3.up * jumpForce);
+    }
+
+    /// <summary>
+    /// The sets jumping back to false. Called via the animator.
+    /// </summary>
+    public void JumpLand()
+    {
+        jumping = false;
     }
 
     /// <summary>
