@@ -5,7 +5,7 @@ using System.Collections;
 using RootMotion.FinalIK;
 using DG.Tweening;
 
-public class PlayerController : MonoBehaviour 
+public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField]
@@ -24,22 +24,22 @@ public class PlayerController : MonoBehaviour
     [Header("Environmental Resource Settings")]
     [SerializeField]
     private float waterWarmthReductionRate;
-	[SerializeField]
-	private float outsideWarmthReductionRate;
-	[SerializeField]
-	private float shelterWarmthIncreaseRate;
+    [SerializeField]
+    private float outsideWarmthReductionRate;
+    [SerializeField]
+    private float shelterWarmthIncreaseRate;
     [SerializeField]
     private float fireWarmthIncreaseRate;
     [SerializeField]
     private float hungerReductionRate;
 
-	[Header("HUD Settings")]
-	[SerializeField]
-	private UnityEvent hungerUpdatedEvent;
-	[SerializeField]
-	private UnityEvent healthUpdatedEvent;
-	[SerializeField]
-	private UnityEvent warmthUpdatedEvent;
+    [Header("HUD Settings")]
+    [SerializeField]
+    private UnityEvent hungerUpdatedEvent;
+    [SerializeField]
+    private UnityEvent healthUpdatedEvent;
+    [SerializeField]
+    private UnityEvent warmthUpdatedEvent;
 
     [Header("DebugMode Settings")]
     [SerializeField]
@@ -59,14 +59,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     [Tooltip("Any object that blocks player's view to interactable object.")]
     private LayerMask obstacleMask;
+
     [SerializeField]
     private LayerMask groundedMask;
+    [SerializeField]
+    [Tooltip("How deep the player can be in water before they start swimming.")]
+    private float waterWadeHeight;
 
     private const float groundedRaycastHeight = 0.01f;
 
-	[Header("Sound Settings")]
-	[SerializeField]
-	private string roofFootstepSoundEvent = "event:/Player/Movement/Walking/Concrete";
+    [Header("Sound Settings")]
+    [SerializeField]
+    private string roofFootstepSoundEvent = "event:/Player/Movement/Walking/Concrete";
 
     private bool isGrounded;
     private bool updateStats;
@@ -101,13 +105,13 @@ public class PlayerController : MonoBehaviour
 
     private Transform defaultParent;
 
-	[SerializeField]
-	private ControlScheme controlScheme;
+    [SerializeField]
+    private ControlScheme controlScheme;
 
-	/// <summary>
-	/// The event emitter for player sounds.
-	/// </summary>
-	private FMOD.Studio.EventInstance eventEmitter;
+    /// <summary>
+    /// The event emitter for player sounds.
+    /// </summary>
+    private FMOD.Studio.EventInstance eventEmitter;
 
     public Animator PlayerAnimator
     {
@@ -138,9 +142,6 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Time To Animate the player from the top of the wall to walking again")]
     private float endClimbTime;
     [SerializeField]
-    [Tooltip("Height, starting from the floor to raycast towards walls")]
-    private float raycastHeight;
-    [SerializeField]
     [Tooltip("How far forward to move the player after climbing")]
     private float climbForward;
     [SerializeField]
@@ -165,7 +166,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Set up player movement
     /// </summary>
-	void Start () 
+	void Start()
     {
         isGrounded = false;
         updateStats = true;
@@ -181,6 +182,7 @@ public class PlayerController : MonoBehaviour
         landMovement = GetComponent<LandMovement>();
         waterMovement = GetComponent<WaterMovement>();
         movement = landMovement;
+        movement.OnStateEnter();
 
         // set up tools
         Tool[] tools = GetComponentsInChildren<Tool>();
@@ -200,20 +202,20 @@ public class PlayerController : MonoBehaviour
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
 
-		// Link this to the player instance
+        // Link this to the player instance
         // and update accessable player transform
         Game.Instance.PlayerInstance.WorldTransform = transform;
-		Game.Instance.PlayerInstance.Controller = this;
-		controlScheme = Game.Instance.Scheme;
+        Game.Instance.PlayerInstance.Controller = this;
+        controlScheme = Game.Instance.Scheme;
 
         // subscribe to events
         Game.Instance.DebugModeSubscription += this.toggleDebugMode;
-		Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
-		Game.Instance.PauseInstance.PauseUpdate += this.Pause;
+        Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
+        Game.Instance.PauseInstance.PauseUpdate += this.Pause;
 
-		// create event emitter
-		eventEmitter = FMODUnity.RuntimeManager.CreateInstance (roofFootstepSoundEvent);
-	}
+        // create event emitter
+        eventEmitter = FMODUnity.RuntimeManager.CreateInstance(roofFootstepSoundEvent);
+    }
 
     /// <summary>
     /// When colliding with a trigger. Used for interactable object interaction. For raft interactions.
@@ -239,18 +241,18 @@ public class PlayerController : MonoBehaviour
         // leaving the range of an interactable item
         if (IsOnRaft && other.CompareTag(interactiveTag))
         {
-        	if(interactable != null)
-        	{
-	            interactable.Show = false;
-	            interactable = null;
-	        }
+            if (interactable != null)
+            {
+                interactable.Show = false;
+                interactable = null;
+            }
         }
     }
 
     /// <summary>
     /// Get player input and update accordingly.
     /// </summary>
-    void Update ()
+    void Update()
     {
         UpdatePlayerStats();
         FindVisibleInteractables();
@@ -278,7 +280,7 @@ public class PlayerController : MonoBehaviour
         {
             // if the player has a tool equipped
             PlayerTools toolbox = Game.Instance.PlayerInstance.Toolbox;
-            if(toolbox.HasEquipped)
+            if (toolbox.HasEquipped)
             {
                 if (Input.GetKeyDown(controlScheme.UseTool))
                 {
@@ -322,13 +324,13 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-	
+
     /// <summary>
     /// Get player input and update accordingly
     /// </summary>
-	void FixedUpdate () 
+    void FixedUpdate()
     {
-        if(!freezePlayer)
+        if (!freezePlayer)
         {
             // don't move if a tool is currently in use or if the player is set to be frozen.
             PlayerTools toolbox = Game.Instance.PlayerInstance.Toolbox;
@@ -341,22 +343,22 @@ public class PlayerController : MonoBehaviour
             bool sprinting = Input.GetKey(controlScheme.Sprint);
 
             // Determine current direction of movement relative to camera
-            if (Input.GetKey(controlScheme.Forward) 
+            if (Input.GetKey(controlScheme.Forward)
                 || Input.GetKey(controlScheme.ForwardSecondary))
             {
                 direction += getDirection(playerCamera.CurrentView.forward);
             }
-            if (Input.GetKey(controlScheme.Back) 
+            if (Input.GetKey(controlScheme.Back)
                 || Input.GetKey(controlScheme.BackSecondary))
             {
                 direction += getDirection(-playerCamera.CurrentView.forward);
             }
-            if (Input.GetKey(controlScheme.Left) 
+            if (Input.GetKey(controlScheme.Left)
                 || Input.GetKey(controlScheme.LeftSecondary))
             {
                 direction += getDirection(-playerCamera.CurrentView.right);
             }
-            if (Input.GetKey(controlScheme.Right) 
+            if (Input.GetKey(controlScheme.Right)
                 || Input.GetKey(controlScheme.RightSecondary))
             {
                 direction += getDirection(playerCamera.CurrentView.right);
@@ -364,16 +366,16 @@ public class PlayerController : MonoBehaviour
 
             CheckGround();
 
-            if(direction!= Vector3.zero)
-            { 
+            if (direction != Vector3.zero)
+            {
                 movement.Move(direction, sprinting, playerAnimator);
-				eventEmitter.setPitch (movement.Speed);
-				StartWalkingSound ();
+                eventEmitter.setPitch(movement.Speed);
+                StartWalkingSound();
             }
             else
             {
                 movement.Idle(playerAnimator);
-				StopWalkingSound ();
+                StopWalkingSound();
             }
 
 
@@ -401,15 +403,15 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Updates the player's stats.
     /// </summary>
-    private void UpdatePlayerStats ()
+    private void UpdatePlayerStats()
     {
         Player player = Game.Instance.PlayerInstance;
 
         // Only calculate fall damage when landing on the ground
         if (isGrounded)
         {
-            player.Health -= (int) movement.CurrentFallDammage;
-			healthUpdatedEvent.Invoke ();
+            player.Health -= (int)movement.CurrentFallDammage;
+            healthUpdatedEvent.Invoke();
         }
 
         // check if we're in water
@@ -424,13 +426,13 @@ public class PlayerController : MonoBehaviour
     /// TODO: Refactor to have more intuitive rate system.
     /// </summary>
     /// <returns>The hunger.</returns>
-    private IEnumerator UpdateHunger ()
+    private IEnumerator UpdateHunger()
     {
-    	int newHunger = 0;
+        int newHunger = 0;
 
         while (updateStats)
         {
-			yield return new WaitForSeconds(Mathf.Abs(currentHungerChangeRate));
+            yield return new WaitForSeconds(Mathf.Abs(currentHungerChangeRate));
 
             if (currentHungerChangeRate > 0)
             {
@@ -441,14 +443,14 @@ public class PlayerController : MonoBehaviour
                 newHunger = Game.Instance.PlayerInstance.Hunger - 1;
             }
 
-			if(newHunger <= 0)
+            if (newHunger <= 0)
             {
-            	--Game.Instance.PlayerInstance.Health;
+                --Game.Instance.PlayerInstance.Health;
             }
-            else if(newHunger < Game.Instance.PlayerInstance.MaxHunger)
+            else if (newHunger < Game.Instance.PlayerInstance.MaxHunger)
             {
-            	Game.Instance.PlayerInstance.Hunger = newHunger;
-				hungerUpdatedEvent.Invoke ();
+                Game.Instance.PlayerInstance.Hunger = newHunger;
+                hungerUpdatedEvent.Invoke();
             }
         }
     }
@@ -459,12 +461,12 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     /// <returns>The warmth.</returns>
 	private IEnumerator UpdateWarmth()
-	{
-		int newWarmth = 0;
+    {
+        int newWarmth = 0;
 
-		while (updateStats)
-		{
-			yield return new WaitForSeconds(Mathf.Abs(currentWarmthChangeRate));
+        while (updateStats)
+        {
+            yield return new WaitForSeconds(Mathf.Abs(currentWarmthChangeRate));
 
             if (currentWarmthChangeRate > 0)
             {
@@ -475,24 +477,40 @@ public class PlayerController : MonoBehaviour
                 newWarmth = Game.Instance.PlayerInstance.Warmth - 1;
             }
 
-            if(newWarmth <= 0)
+            if (newWarmth <= 0)
             {
-            	--Game.Instance.PlayerInstance.Health;
+                --Game.Instance.PlayerInstance.Health;
             }
-            else if(newWarmth < Game.Instance.PlayerInstance.MaxWarmth)
+            else if (newWarmth < Game.Instance.PlayerInstance.MaxWarmth)
             {
-            	Game.Instance.PlayerInstance.Warmth = newWarmth;
-				warmthUpdatedEvent.Invoke();
+                Game.Instance.PlayerInstance.Warmth = newWarmth;
+                warmthUpdatedEvent.Invoke();
             }
-		}
-	}
+        }
+    }
 
     /// <summary>
     /// Check if grounded, as well as set animation states for if we're swimming, walking or falling
     /// </summary>
-    private void CheckGround ()
+    private void CheckGround()
     {
-        if (IsOnRaft)
+        bool belowWater = (Game.Instance.WaterLevelHeight > PlayerIKSetUp.transform.position.y + waterWadeHeight);
+
+        // If the player is low enough to be in the water, this overrides everything else
+        if (movement != waterMovement && belowWater)
+        {
+            movement.Idle(playerAnimator);
+            movement.OnStateExit();
+            movement = waterMovement;
+            movement.OnStateEnter();
+            playerAnimator.SetBool(playerAnimatorSwimming, true);
+            return;
+        }
+        else if (movement == waterMovement)
+        {
+            isGrounded = true;
+        }
+        else if (IsOnRaft)
         {
             PlayerAnimator.SetBool(playerAnimatorFalling, false);
             PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
@@ -500,36 +518,30 @@ public class PlayerController : MonoBehaviour
             PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
             return;
         }
-
-        // Check if the player is close enough to the ground
-        RaycastHit hit;
-        // We have to raycast SLIGHTLY above the player's bottom. Because if we start at the bottom there's a good chance it'll end up going through the ground.
-        if (Physics.Raycast(transform.position + new Vector3(0f, groundedRaycastHeight, 0f), Vector3.down, out hit, groundedThreshold, groundedMask))
+        else
         {
-            isGrounded = true;
-            playerAnimator.SetBool(playerAnimatorFalling, false);
-            // Check what kind of ground the player is on and update movement
-            if (hit.collider.CompareTag(landTag) && movement != landMovement)
+            // Check if the player is close enough to the ground
+            RaycastHit hit;
+            // We have to raycast SLIGHTLY above the player's bottom. Because if we start at the bottom there's a good chance it'll end up going through the ground.
+            if (Physics.Raycast(transform.position + new Vector3(0f, groundedRaycastHeight, 0f), Vector3.down, out hit, groundedThreshold, groundedMask))
             {
-                playerAnimator.SetBool(playerAnimatorSwimming, false);
-                movement.Idle(playerAnimator);
-                movement.OnStateExit();
-                movement = landMovement; 
-                movement.OnStateEnter();
+                isGrounded = true;
+                playerAnimator.SetBool(playerAnimatorFalling, false);
+                // update movement
+                if (hit.collider.CompareTag(landTag) && movement != landMovement && !belowWater)
+                {
+                    playerAnimator.SetBool(playerAnimatorSwimming, false);
+                    movement.Idle(playerAnimator);
+                    movement.OnStateExit();
+                    movement = landMovement;
+                    movement.OnStateEnter();
+                }
             }
-            else if (hit.collider.CompareTag(waterTag) && movement !=waterMovement)
+            else
             {
-                movement.Idle(playerAnimator);
-                movement.OnStateExit();
-                movement = waterMovement;
-                movement.OnStateEnter();
-                playerAnimator.SetBool(playerAnimatorSwimming, true);
+                isGrounded = false;
+                playerAnimator.SetBool(playerAnimatorFalling, true);
             }
-        }
-        else 
-        {
-            isGrounded = false;
-            playerAnimator.SetBool(playerAnimatorFalling, true);
         }
     }
 
@@ -538,14 +550,14 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void BoardRaft(RaftMovement raftMovement)
     {
-		movement = raftMovement;
+        movement = raftMovement;
 
         // place player on raft
         Vector3 position = raftMovement.gameObject.transform.position;
         float raftHeight = raftMovement.gameObject.GetComponent<BoxCollider>().bounds.size.y;
         transform.position = position + Vector3.up * raftHeight;
         transform.parent = raftMovement.transform;
-	
+
         // update raft's interactivity
         interactable.Text = raftMovement.DisembarkRaftText;
         interactable.SetAction(delegate { DisembarkRaft(raftMovement); });
@@ -553,8 +565,8 @@ public class PlayerController : MonoBehaviour
         // Give the raft the player's animator to control.
         raftMovement.PlayerAnimator = PlayerAnimator;
 
-		// Notify subscribers
-		Game.Instance.EventManager.RaftBoarded();
+        // Notify subscribers
+        Game.Instance.EventManager.RaftBoarded();
     }
 
     /// <summary>
@@ -684,11 +696,11 @@ public class PlayerController : MonoBehaviour
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
     }
 
-	/// <summary>
-	/// Returns true if the player is currently in a shelter
-	/// </summary>
-	public bool IsInShelter 
-	{
+    /// <summary>
+    /// Returns true if the player is currently in a shelter
+    /// </summary>
+    public bool IsInShelter
+    {
         get
         {
             return isInShelter;
@@ -707,7 +719,7 @@ public class PlayerController : MonoBehaviour
 
             isInShelter = value;
         }
-	}
+    }
 
     /// <summary>
     /// If the player is near a fire it returns true.
@@ -730,6 +742,54 @@ public class PlayerController : MonoBehaviour
             }
 
             isByFire = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the fire warmth increase rate.
+    /// </summary>
+    /// <value>The fire warmth increase rate.</value>
+    public float FireWarmthIncreaseRate
+    {
+        get
+        {
+            return fireWarmthIncreaseRate;
+        }
+        set
+        {
+            fireWarmthIncreaseRate = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the outside warmth increase rate.
+    /// </summary>
+    /// <value>The outside warmth increase rate.</value>
+    public float OutsideWarmthIncreaseRate
+    {
+        get
+        {
+            return outsideWarmthReductionRate;
+        }
+        set
+        {
+            outsideWarmthReductionRate = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the shelter warmth increase rate.
+    /// </summary>
+    /// <value>The shelter warmth increase rate.</value>
+    public float ShelterWarmthIncreaseRate
+    {
+        get
+        {
+            return shelterWarmthIncreaseRate;
+        }
+        set
+        {
+            shelterWarmthIncreaseRate = value;
         }
     }
 
@@ -758,72 +818,24 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Gets or sets the fire warmth increase rate.
-    /// </summary>
-    /// <value>The fire warmth increase rate.</value>
-    public float FireWarmthIncreaseRate
-    {
-    	get
-    	{
-    		return fireWarmthIncreaseRate;
-    	}
-    	set
-    	{
-    		fireWarmthIncreaseRate = value;
-    	}
-    }
-
-    /// <summary>
-    /// Gets or sets the outside warmth increase rate.
-    /// </summary>
-    /// <value>The outside warmth increase rate.</value>
-    public float OutsideWarmthIncreaseRate
-    {
-    	get
-    	{
-    		return outsideWarmthReductionRate;
-    	}
-    	set
-    	{
-    		outsideWarmthReductionRate = value;
-    	}
-    }
-
-    /// <summary>
-    /// Gets or sets the shelter warmth increase rate.
-    /// </summary>
-    /// <value>The shelter warmth increase rate.</value>
-    public float ShelterWarmthIncreaseRate
-    {
-    	get
-    	{
-    		return shelterWarmthIncreaseRate;
-    	}
-    	set
-    	{
-    		shelterWarmthIncreaseRate = value;
-    	}
-    }
-
-    /// <summary>
     /// Resume stat changes.
     /// </summary>
     public void Resume()
-	{
+    {
         updateStats = true;
-        
-        // TODO: Resume any other stopped preccesses
-	}
 
-	/// <summary>
-	/// Pause stat changes.
-	/// </summary>
-	public void Pause()
-	{
+        // TODO: Resume any other stopped preccesses
+    }
+
+    /// <summary>
+    /// Pause stat changes.
+    /// </summary>
+    public void Pause()
+    {
         updateStats = false;
 
         // TODO: Stop any needed processes
-	}
+    }
 
     /// <summary>
     /// Set up or tear down any configuration neccisary for debug mode.
@@ -840,33 +852,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-	/// <summary>
-	/// Starts the walking sound.
-	/// </summary>
-	public void StartWalkingSound()
-	{
-		if (eventEmitter != null) 
-		{
-			FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
-			eventEmitter.getPlaybackState (out state);
+    /// <summary>
+    /// Starts the walking sound.
+    /// </summary>
+    public void StartWalkingSound()
+    {
+        if (eventEmitter != null)
+        {
+            FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
+            eventEmitter.getPlaybackState(out state);
 
-			if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) 
-			{
-				eventEmitter.start ();
-			}
-		}
-	}
+            if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                eventEmitter.start();
+            }
+        }
+    }
 
-	/// <summary>
-	/// Stops the walking sound.
-	/// </summary>
-	public void StopWalkingSound() 
-	{
-		if (eventEmitter != null) 
-		{
-			eventEmitter.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
-		}
-	}
+    /// <summary>
+    /// Stops the walking sound.
+    /// </summary>
+    public void StopWalkingSound()
+    {
+        if (eventEmitter != null)
+        {
+            eventEmitter.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        }
+    }
 
     /// <summary>
     /// If the player can climb, we run code to get the player up the ledge
@@ -890,20 +902,20 @@ public class PlayerController : MonoBehaviour
         // The second to last cast uses a 9999f to represent a height above everything.
         // The last raycast is to check to make sure there's no cieling above us to prevent climbing while indoors.
         // Lastly check to make sure the ledge's height is within the max climb height for the movement type, and then make sure it's greater than the controller's step offset (this prevents climbing up things the player can just walk over)
-        if (Physics.Raycast(rH.transform.position + new Vector3(0f, raycastHeight, 0f), rH.transform.forward, out hit1, climbDistance, ClimbingRaycastMask) &&
-            Physics.Raycast(lH.transform.position + new Vector3(0f, raycastHeight, 0f), lH.transform.forward, out hit3, climbDistance, ClimbingRaycastMask) &&
-            Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, raycastHeight, 0f), PlayerIKSetUp.transform.forward, out hit2, climbDistance, ClimbingRaycastMask) &&
+        if (Physics.Raycast(rH.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), rH.transform.forward, out hit1, climbDistance, ClimbingRaycastMask) &&
+            Physics.Raycast(lH.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), lH.transform.forward, out hit3, climbDistance, ClimbingRaycastMask) &&
+            Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), PlayerIKSetUp.transform.forward, out hit2, climbDistance, ClimbingRaycastMask) &&
             Physics.Raycast(hit2.point + new Vector3(0f, 9999f, 0f) + PlayerIKSetUp.transform.forward * raycastClimbForward, Vector3.down, out heightPoint, Mathf.Infinity, ClimbingRaycastMask) &&
-            !Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, raycastHeight, 0f), Vector3.up, Vector3.Distance(PlayerIKSetUp.transform.position, heightPoint.point), ClimbingRaycastMask) &&
+            !Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), Vector3.up, Vector3.Distance(PlayerIKSetUp.transform.position, heightPoint.point), ClimbingRaycastMask) &&
             movement.GetClimbHeight() > heightPoint.point.y - PlayerIKSetUp.transform.position.y &&
             Mathf.Abs(heightPoint.point.y - PlayerIKSetUp.transform.position.y) > minClimbHeight
             )
         {
             // From here on out things get complicated. The following math is used to get the angle needed to rotate the player to face the wall.
             float cLine, l1, l2, l3, d1, a1, p, d2;
-            l3 = Vector3.Distance(hit1.point, rH.transform.position + new Vector3(0f, raycastHeight, 0f));
-            l1 = Vector3.Distance(hit3.point, lH.transform.position + new Vector3(0f, raycastHeight, 0f));
-            l2 = Vector3.Distance(hit2.point, PlayerIKSetUp.transform.position + new Vector3(0f, raycastHeight, 0f));
+            l3 = Vector3.Distance(hit1.point, rH.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f));
+            l1 = Vector3.Distance(hit3.point, lH.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f));
+            l2 = Vector3.Distance(hit2.point, PlayerIKSetUp.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f));
             d1 = Vector3.Distance(rH.transform.position, PlayerIKSetUp.transform.position);
             // The player is already facing the wall perfectly.
             if (l1 == l3)
@@ -967,7 +979,7 @@ public class PlayerController : MonoBehaviour
 
             // Move the player up like they're climbing.
             // Height of the climb
-            float climbUpY = heightPoint.point.y - (hit2.point.y - raycastHeight);
+            float climbUpY = heightPoint.point.y - (hit2.point.y - movement.GetRaycastHeight());
             tween = transform.DOMoveY(heightPoint.point.y, ClimbTime);
             yield return tween.WaitForCompletion();
 

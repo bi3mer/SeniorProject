@@ -36,6 +36,7 @@ public abstract class Movement : MonoBehaviour
     public abstract float GetClimbHeight();
     public abstract void OnStateEnter();
     public abstract void OnStateExit();
+    public abstract float GetRaycastHeight();
 
     /// <summary>
     /// Gets accumulated fall damage and resets to 0

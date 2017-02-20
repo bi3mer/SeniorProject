@@ -64,12 +64,8 @@ public class RaftMovement : Movement
 
         // Make sure we are floating on top of the water as it rises
         // Leave a little space so there is no friction
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit))
-        {
-            float diff = heightAboveWater - hit.distance;
-            RigidBody.position = RigidBody.position + new Vector3(0, diff, 0);
-        }
+        float diff = Game.Instance.WaterLevelHeight - transform.position.y - heightAboveWater;
+        RigidBody.position = RigidBody.position + new Vector3(0, diff, 0);
     }
 
     /// <summary>
@@ -160,6 +156,15 @@ public class RaftMovement : Movement
     public override void OnStateExit()
     {
 
+    }
+
+    /// <summary>
+    /// UNUSED
+    /// The height of the climbing raycast while in this movement state
+    /// </summary>
+    public override float GetRaycastHeight()
+    {
+        return 0f;
     }
 
 }

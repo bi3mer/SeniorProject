@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class JellyFishSpawner : Spawner
+public class JellyFishSpawner : CreatureSpawner
 {
 
 }
