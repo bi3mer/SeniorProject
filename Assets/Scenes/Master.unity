@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17422503, g: 0.2137396, b: 0.30740348, a: 1}
+  m_IndirectSpecularColor: {r: 0.17098927, g: 0.20752993, b: 0.29807258, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2822,7 +2822,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &275076622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9700,7 +9700,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1731178489}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.8351916
+  m_Size: 0.83519155
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -15460,37 +15460,37 @@ Prefab:
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationX.scalar
-      value: 0.021714391
+      value: 0.0038185366
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationY.scalar
-      value: 0.0014773918
+      value: 0.022552187
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: EmissionModule.rate.scalar
-      value: 31.8834
+      value: 32.738773
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: -0.08464832
+      value: -1.2921451
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.y.scalar
-      value: 1.244143
+      value: 0.21878603
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: -0.033859327
+      value: -0.51685804
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.z.scalar
-      value: 0.4976572
+      value: 0.087514415
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ecc262ca63bb3d54ba8476a9fa126d5c, type: 2}
@@ -17971,10 +17971,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 275076624}
   m_RootOrder: 1
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.14335664, y: 0.5}
+  m_AnchorMax: {x: 0.8566434, y: 0.75503355}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1832033840
 MonoBehaviour:
@@ -17989,7 +17989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -17997,19 +17997,19 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
-    m_FontStyle: 0
+    m_Font: {fileID: 12800000, guid: c965a5d8b43fb4e9d8f63ff2b5559450, type: 3}
+    m_FontSize: 60
+    m_FontStyle: 1
     m_BestFit: 1
-    m_MinSize: 10
-    m_MaxSize: 40
-    m_Alignment: 0
+    m_MinSize: 4
+    m_MaxSize: 60
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Pause Panel
+  m_Text: PAUSED
 --- !u!222 &1832033841
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18774,10 +18774,10 @@ RectTransform:
   - {fileID: 755061216}
   m_Father: {fileID: 275076624}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.31206295, y: 0.1375839}
+  m_AnchorMax: {x: 0.6879371, y: 0.35234898}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1986664582
 MonoBehaviour:
@@ -18846,7 +18846,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
