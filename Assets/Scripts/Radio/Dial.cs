@@ -9,13 +9,17 @@ public class Dial : MonoBehaviour
     [SerializeField]
     private Vector3 knobRotation;
 
-    public Slider DialSlider;
+    [SerializeField]
+    private InteractableRadioModel radioModelAnimation;
+
     [SerializeField]
     private GameObject knob;
 
     private bool isRotating;
     private Vector3 mouseRef;
     private Vector3 mouseOffset;
+
+    public float knobDegree;
 
     /// <summary>
     /// Check for if the knob is rotating, then rotate the knob.
@@ -32,22 +36,17 @@ public class Dial : MonoBehaviour
                 mouseOffset = Input.mousePosition - mouseRef;
 
                 // Use the difference's x value to determine rotation increase
-                knobRotation.z = -mouseOffset.x;
-                        
+                knobRotation.y = -mouseOffset.x;
+
                 knob.transform.Rotate(knobRotation);
 
-                // Change the dial - if knob rotation is negative make it positive
-                if (knob.transform.eulerAngles.z > 0)
-                {
-                    // Subtract from 360 (a circle's total degrees) since numbers are reversed
-                    DialSlider.value = 360 - knob.transform.eulerAngles.z;
-                }
-                else
-                {
-                    DialSlider.value = -(knob.transform.eulerAngles.z);
-                }
-            }
+                // Add 180 to the knob angle to convert value to regular circle degrees, 
+                // then mod by 360 to keep within 360 degrees.
+                knobDegree = (knob.transform.localRotation.eulerAngles.y + 180) % 360;
 
+                radioModelAnimation.SetSlider(knobDegree);
+            }
+                      
             // Update previous mouse position
             mouseRef = Input.mousePosition;
         }
@@ -56,7 +55,7 @@ public class Dial : MonoBehaviour
     /// <summary>
     /// Start rotating the knob.
     /// </summary>
-    public void StartRotation()
+    void OnMouseDown()
     {
         isRotating = true;
     }
@@ -64,7 +63,7 @@ public class Dial : MonoBehaviour
     /// <summary>
     /// Stop rotating the knob.
     /// </summary>
-    public void StopRotation()
+    void OnMouseUp()
     {
         isRotating = false;
 

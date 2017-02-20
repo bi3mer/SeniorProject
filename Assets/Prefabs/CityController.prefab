@@ -59,11 +59,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f29acdf562a344fa9adca47e23fcecf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commonPoolAmount: 3
-  uncommonPoolAmount: 2
-  rarePoolAmount: 1
+  commonPoolAmount: 4
+  uncommonPoolAmount: 3
+  rarePoolAmount: 2
   legendaryPoolAmount: 1
-  itemActivationRadius: 4
+  itemActivationDistnace: 5
   activePool: {fileID: 0}
   inactivePool: {fileID: 0}
 --- !u!114 &114000010239616376
@@ -135,6 +135,7 @@ MonoBehaviour:
   showBlockPerimeter: 1
   showBlockControlPoint: 0
   showBuildingPositions: 1
+  showItemPositions: 1
 --- !u!114 &114000012868407098
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -401,4 +401,13 @@ public class ItemPoolManager : MonoBehaviour
 		itemPool[itemName].Add(item);
 		item.transform.SetParent(inactivePool);
 	}
+
+	/// <summary>
+	/// Gets the item pool.
+	/// </summary>
+	/// <returns>The item pool.</returns>
+	public ItemPoolInfo[,] GetItemPool()
+	{
+		return grid;
+	}
 }
