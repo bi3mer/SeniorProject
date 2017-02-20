@@ -53,5 +53,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AmbientMusicPath: event:/Ambient/Music/Basic_Music
   maxAmbientMusicVolume: 1
-  minAmbientMusicVolume: 0.25
+  minAmbientMusicVolume: 0.1
   changeFactor: 10

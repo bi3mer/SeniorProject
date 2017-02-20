@@ -34,15 +34,23 @@ public class AmbientSoundManager : MonoBehaviour
 
 	private bool radioOn = false;
 
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	void Start()
 	{
+		// Set up the music and start it
 		ambientMusic = FMODUnity.RuntimeManager.CreateInstance (AmbientMusicPath);
+		ambientMusic.setVolume (maxAmbientMusicVolume);
 		ambientMusic.start ();
+
+		// Subscribe so we can lower the music when the radio music channel is on
 		Game.Instance.EventManager.RadioMusicSubscription += handleRadioMusicChange;
 	}
 
 	/// <summary>
 	/// Lowers or raises the ambient music; saves the radio music channel state.
+	/// TODO: find a better way to do the fading out -- look into FMOD AHDSR usage.
 	/// </summary>
 	private void handleRadioMusicChange(bool radioMusicOn)
 	{
@@ -54,18 +62,22 @@ public class AmbientSoundManager : MonoBehaviour
 			float currentVolume = 0.0f;
 			ambientMusic.getVolume (out currentVolume);
 
-			float volumeChange = (maxAmbientMusicVolume - minAmbientMusicVolume) / changeFactor;
-
 			if (radioMusicOn) 
 			{
-				for (int i = 1; i < changeFactor; ++i) 
+				// we base the volume change off of the current volume vs. the minimum
+				float volumeChange = (currentVolume - minAmbientMusicVolume) / changeFactor;
+
+				for (int i = 1; i < changeFactor + 1; ++i) 
 				{
 					ambientMusic.setVolume (currentVolume - (i*volumeChange));
 				}
 			} 
 			else 
 			{
-				for (int i = 1; i < changeFactor; ++i) 
+				// we base the volume change off of the current volume vs. the maximum
+				float volumeChange = (maxAmbientMusicVolume - currentVolume) / changeFactor;
+
+				for (int i = 1; i < changeFactor + 1; ++i) 
 				{
 					ambientMusic.setVolume (currentVolume + (i * volumeChange));
 				}
