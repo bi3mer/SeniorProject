@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013316225108}
   - 114: {fileID: 114000014036859080}
+  - 114: {fileID: 114000011577891744}
   m_Layer: 0
   m_Name: AmbientMusic
   m_TagString: Untagged
@@ -40,6 +41,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &114000011577891744
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013292808748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9468c5f457ace64f8d4df6d642b107f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoadEvent: 1
+  UnloadEvent: 0
+  Banks:
+  - Master Bank
+  CollisionTag: 
+  PreloadSamples: 0
 --- !u!114 &114000014036859080
 MonoBehaviour:
   m_ObjectHideFlags: 1
