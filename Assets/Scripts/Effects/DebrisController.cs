@@ -6,12 +6,13 @@ using System.Collections;
 /// This is structured very similarly to the RainController class, except that this only handles one particle system at a time, without blending.
 /// </summary>
 
-[ExecuteInEditMode]
 public class DebrisController : MonoBehaviour 
 {
 	//This is for testing.
+	[Tooltip("Set to true to use your own values for testing")]
 	public bool UseCustomValues;
 
+	[Tooltip("The debris particle system")]
 	public ParticleSystem Debris;
 
 	[SerializeField]
@@ -20,14 +21,26 @@ public class DebrisController : MonoBehaviour
 
 	[SerializeField]
 	[Range(0,100)]
+	[Tooltip("The amount of debris getting kicked around")]
 	private float debrisLevel;
 
-	//When should we start kicking up debris?
-	[SerializeField]
+	/// <summary>
+	/// At what point should we start kicking up debris?
+	/// </summary>
 	[Range(0,100)]
+	[Tooltip("The threshold at which debris begins appearing");
 	public float DebrisStartThreshold = 40f;
 
-	// The wind vector in XZ (considering Y is Up, but we're only concerned with 2d wind)
+	private ParticleSystemRenderer MainDebrisRenderer;
+
+	private ParticleSystem debrisParticleSystem;
+
+	[SerializeField]
+	private Vector2 windVectorXZ;
+
+	///<summary>
+	/// The wind vector in XZ (considering Y is Up, but we're only concerned with 2D wind)
+	/// </summary>
 	public Vector2 WindVectorXZ
 	{
 		get
@@ -40,9 +53,10 @@ public class DebrisController : MonoBehaviour
 			UpdateParticleSystem();
 		}
 	}
-	[SerializeField]
-	private Vector2 windVectorXZ;
 
+	/// <summary>
+	/// Gets or sets the amount of debris we should be kicking up, in a value between 0 and 100.
+	/// </summary>
 	public float DebrisLevel
 	{
 		get 
@@ -57,9 +71,7 @@ public class DebrisController : MonoBehaviour
 		}
 	}
 
-	private ParticleSystemRenderer MainDebrisRenderer;
 
-	private ParticleSystem debrisParticleSystem;
 
 	/// <summary>
 	/// Grab the renderer.
