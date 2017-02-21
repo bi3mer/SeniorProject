@@ -58,8 +58,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a74938624ce19ac4c911c819b2503eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  streetWidth: 1.5
-  distanceBetweenBuildingCenters: 45
+  streetWidth: 3
+  distanceBetweenBuildingCenters: 30
   positionJitter: 0.27
   distributionCurve:
     serializedVersion: 2
@@ -775,4 +775,3 @@ MonoBehaviour:
   TestSize: 2
   TestStoriesTall: 5
   TestAttatchmentPercentage: 20
-  testbuildingCount: 6
