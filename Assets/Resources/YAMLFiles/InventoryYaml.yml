@@ -6,11 +6,11 @@
      item: 
       itemName: "Medicine Box"
       rarity: "uncommon"
-      inventorySprite: ""
+      inventorySprite: "GUI_ITM_BandageBox"
       worldModel: "ITM/Healing/ITM_BandageBox"
       types: 
        - "medicinal"
-      flavorText: ""
+      flavorText: "Fixes you up."
       modifyingActionNames: 
       actionModifiedModels: 
       actionModifiedSprites: 
@@ -23,16 +23,17 @@
      item:
       itemName: "Egg"
       rarity: "common"
-      inventorySprite: ""
+      inventorySprite: "GUI_ITM_Egg"
       worldModel: "ITM/Food/ITM_egg"
       types:
        - "edible"
-      flavorText: ""
+      flavorText: "An egg from a water bird."
       modifyingActionNames:
        - "Cook"
       actionModifiedModels: 
        - "ITM/Food/ITM_CookedFish"
       actionModifiedSprites:
+       - "GUI_ITM_CookedFish"
      itemCategories:
        - !!flesh
          hungerGain: 20.0
@@ -42,11 +43,11 @@
      item:
       itemName: "Bandage"
       rarity: "common"
-      inventorySprite: ""
+      inventorySprite: "GUI_ITM_Bandage"
       worldModel: "ITM/Healing/ITM_Bandage"
       types:
        - "medicinal"
-      flavorText: ""
+      flavorText: "For the most minor of flesh wounds."
       modifyingActionNames:
       actionModifiedModels:
       actionModifiedSprites:
@@ -59,11 +60,11 @@
      item: 
       itemName: "River Reed"
       rarity: "common"
-      inventorySprite: ""
+      inventorySprite: "GUI_ITM_RiverWeed"
       worldModel: "ITM/Plants/ITM_RiverWeed"
       types:
        - "edible"
-      flavorText: ""
+      flavorText: "A common reed that often grows in water."
       modifyingActionNames:
        - "Weave Rope"
        - "Weave Basket"
@@ -71,6 +72,8 @@
        - "ITM/Ropes/ITM_Rope"
        - "ITM/Small\ Containers/ITM_Bucket"
       actionModifiedSprites:
+       - "GUI_ITM_Rope"
+       - "GUI_ITM_Bucket"
      itemCategories: 
        - !!solid
          flexibility: 1.0
@@ -94,12 +97,12 @@
      item: 
       itemName: "Stick"
       rarity: "uncommon"
-      inventorySprite: ""
+      inventorySprite: "GUI_ITM_Stick"
       worldModel: "ITM/Rods/Stick"
       types:
         - "rod"
         - "fuel"
-      flavorText: ""
+      flavorText: "It's...a stick."
       modifyingActionNames:
       actionModifiedModels:
       actionModifiedSprites:
@@ -128,11 +131,11 @@
      item: 
       itemName: "Empty Can"
       rarity: "rare"
-      inventorySprite: ""
+      inventorySprite: "GUI_ITM_TinCanOpen"
       worldModel: "ITM/Small Containers/EmptyTinCan"
       types:
        - "hook"
-      flavorText: ""
+      flavorText: "An empty tin can. Careful with the lid. It's sharp."
       modifyingActionNames:
       actionModifiedModels:
       actionModifiedSprites:
@@ -149,7 +152,7 @@
      item: 
       itemName: "Matchbook"
       rarity: "common"
-      inventorySprite: ""
+      inventorySprite: "GUI_ITM_Matchbook"
       worldModel: "ITM/Tools/ITM_matchBook"
       types:
        - "igniter"

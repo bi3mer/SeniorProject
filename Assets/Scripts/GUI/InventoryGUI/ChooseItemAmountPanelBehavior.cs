@@ -111,24 +111,34 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void OpenItemAmountPanel()
 	{
-		Close.gameObject.SetActive (false);
-
-		itemAmountAffectPanel.SetActive (true);
-
 		ItemNameDisplay.text = SelectedItem.GetComponent<ItemStackUI>().ItemName.text;
 		maxAmount = (int)SelectedItem.GetComponent<ItemStackUI>().GetMaxAmount();
 
-		currentAmount = 0;
-		NumDisplay.text = currentAmount.ToString();
+		// if there is more than 1 of an item, then ask user to choose how many to affect
+		if(maxAmount > 1)
+		{
+			currentAmount = 0;
+			NumDisplay.text = currentAmount.ToString();
 
-		Minus.gameObject.SetActive (true);
-		Plus.gameObject.SetActive (true);
+			Close.gameObject.SetActive (false);
 
-		// checks to see if the buttons should be activated or not
-		// by default they are activated since 1 is the default number of
-		// units, however if there is only 1 unit of that item, then 
-		// the plus sign should not be displayed
-		Change (0);
+			itemAmountAffectPanel.SetActive (true);
+
+			Minus.gameObject.SetActive (true);
+			Plus.gameObject.SetActive (true);
+
+			// checks to see if the buttons should be activated or not
+			// by default they are activated since 1 is the default number of
+			// units, however if there is only 1 unit of that item, then 
+			// the plus sign should not be displayed
+			Change (0);
+		}
+		else
+		{
+			// if there's only one, automatically fire off the action
+			currentAmount = 1;
+			FinalizeAction();
+		}
 	}
 
 	/// <summary>
@@ -187,9 +197,8 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void ChooseNumOfItemsToAffect(ItemActionButtonUI actionButton)
 	{
-		OpenItemAmountPanel();
-
 		selectedActionButton = actionButton;
+		OpenItemAmountPanel();
 	}
 
 	/// <summary>

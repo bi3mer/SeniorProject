@@ -32,6 +32,8 @@ public class GameViewBehavior : MonoBehaviour
 		controlScheme = Game.Instance.Scheme;
 		inventoryPanel.SetActive (false);
 		pausePanel.SetActive (false);
+
+		radioModelAnimation.SetUpRadioCanvas();
 		radioCanvas.SetActive (false);
 		craftingPanel.gameObject.SetActive (false);
 		optionButtonPanel.SetActive(true);
@@ -138,16 +140,22 @@ public class GameViewBehavior : MonoBehaviour
     /// </summary>
     public void OnResumeClick()
 	{
-		Game.Instance.PauseInstance.Resume ();
+		if (Game.Instance.PauseInstance.IsPaused) 
+		{
+			Game.Instance.PauseInstance.Resume ();
+		}
+
 		pausePanel.SetActive (false);
 		inventoryPanel.SetActive (false);
         craftingPanel.gameObject.SetActive(false);
 		optionButtonPanel.SetActive(true);
 
-		if(GuiInstanceManager.InventoryUiInstance != null && GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Count > 0)
+
+		if(GuiInstanceManager.InventoryUiInstance != null &&GuiInstanceManager.InventoryUiInstance.ItemsToDiscard != null 
+		   && GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Count > 0)
 		{
-			ItemDiscarder discarder = new ItemDiscarder();
-			discarder.DiscardItems(GuiInstanceManager.InventoryUiInstance.ItemsToDiscard);
+			ItemDiscarder discarder = new ItemDiscarder ();
+			discarder.DiscardItems (GuiInstanceManager.InventoryUiInstance.ItemsToDiscard);
 		}
 	}
 

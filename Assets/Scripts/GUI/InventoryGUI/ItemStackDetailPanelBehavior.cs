@@ -42,6 +42,14 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	[SerializeField]
 	private Button CloseSubactionPanel;
 
+	[Tooltip("Toggle for stat panel")]
+	[SerializeField]
+	private Toggle StatPanelToggle;
+
+	[Tooltip("Text object where flavor text will be displayed")]
+	[SerializeField]
+	private Text FlavorText;
+
 	/// <summary>
 	/// Gets the attributes.
 	/// </summary>
@@ -93,6 +101,8 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	public void SetSelectedItem(GameObject selectedItem)
 	{
 		this.selected = selectedItem.GetComponent<ItemStackUI>();
+		FlavorText.text = this.selected.GetStack().Item.FlavorText;
+		StatPanelToggle.isOn = false;
 
 		// creates a duplicate object that may be used to modify with actions
 		// created at 0, since no amount of the stack has been specified to be used

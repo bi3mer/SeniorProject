@@ -3,11 +3,11 @@
   baseItem: 
    itemName: "River Reed"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_RiverWeed"
    worldModel: "ITM/Plants/ITM_RiverWeed"
    types:
     - "edible"
-   flavorText: ""
+   flavorText: "A common reed that often grows in water."
    modifyingActionNames:
     - "Weave Rope"
     - “Weave Basket”
@@ -15,6 +15,8 @@
     - "ITM/Ropes/ITM_Rope"
     - “ITM/Small\ Containers/ITM_Bucket”
    actionModifiedSprites:
+    - "GUI_ITM_Rope"
+    - "GUI_ITM_Bucket"
   itemCategories: 
     - !!solid
       flexibility: 1.0
@@ -37,12 +39,12 @@
   baseItem: 
    itemName: "Stick"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_Stick"
    worldModel: "ITM/Rods/Stick"
    types:
      - "rod"
      - "fuel"
-   flavorText: ""
+   flavorText: "It's...a stick."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
@@ -68,11 +70,11 @@
   baseItem: 
    itemName: "Empty Can"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_TinCanOpen"
    worldModel: "ITM/Small Containers/EmptyTinCan"
    types:
     - "hook"
-   flavorText: ""
+   flavorText: "An empty tin can. Careful with the lid. It's sharp."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
@@ -86,7 +88,7 @@
       sharpness: 0.3
 - itemName: "Poor Fishing Rod"
   baseItem:
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_PoorFishingRod"
    worldModel: "ITM/Fishing Rods/BadFishingRod"
    itemName: "Poor Fishing Rod"
    rarity: "common"
@@ -111,7 +113,7 @@
   baseItem: 
    itemName: "Good Fishing Rod"
    rarity: "uncommon"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_MediumFishingRod"
    worldModel: "ITM/Fishing Rods/MediumFishingRod"
    types:
     - "Advanced Tool"
@@ -134,7 +136,7 @@
   baseItem: 
    itemName: "Excellent Fishing Rod"
    rarity: "rare"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_GoodFishingRod"
    worldModel: "ITM/Fishing Rods/GoodFishingRod"
    types:
     - "Advanced Tool"
@@ -157,7 +159,7 @@
   baseItem: 
    itemName: "Poor Woven Blanket"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_Bandage"
    worldModel: "ITM/Healing/ITM_Bandage"
    types:
     - "cloth"
@@ -175,7 +177,7 @@
   baseItem: 
    itemName: "Good Woven Blanket"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_Bandage"
    worldModel: "ITM/Healing/ITM_Bandage"
    types:
     - "cloth"
@@ -193,7 +195,7 @@
   baseItem: 
    itemName: "Excellent Woven Blanket"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_Bandage"
    worldModel: "ITM/Healing/ITM_Bandage"
    types:
     - "cloth"
@@ -211,11 +213,11 @@
   baseItem: 
    itemName: "Medicine Box"
    rarity: "uncommon"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_BandageBox"
    worldModel: "ITM/Healing/ITM_BandageBox"
    types:
      - "medicinal"
-   flavorText: ""
+   flavorText: "Fixes you up."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
@@ -227,11 +229,11 @@
   baseItem:
    itemName: "Bandage"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_Bandage"
    worldModel: "ITM/Healing/ITM_Bandage"
    types:
      - "medicinal"
-   flavorText: ""
+   flavorText: "For the most minor of flesh wounds."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
@@ -243,16 +245,17 @@
   baseItem:
    itemName: "Egg"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_Egg"
    worldModel: "ITM/Food/ITM_egg"
    types:
      - "edible"
-   flavorText: ""
+   flavorText: "An egg from a water bird."
    modifyingActionNames:
      - "Cook"
    actionModifiedModels: 
     - "ITM/Food/ITM_CookedFish"
    actionModifiedSprites:
+    - "GUI_ITM_CookedFish"
   itemCategories:
     - !!flesh
       hungerGain: 20.0
@@ -261,7 +264,7 @@
   baseItem:
    itemName: "Matchbook"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_Matchbook"
    worldModel: "ITM/Tools/ITM_matchBook"
    types:
      - "igniter"
@@ -274,7 +277,7 @@
   baseItem:
    itemName: "Poor Fire Pit"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_ScrapMetal"
    worldModel: "ITM/Campfire/ENV_Campfire"
    types:
      - "fuel"
@@ -290,7 +293,7 @@
   baseItem:
    itemName: "Good Fire Pit"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_ScrapMetal"
    worldModel: "ITM/Campfire/ENV_Campfire"
    types:
      - "fuel"
@@ -306,7 +309,7 @@
   baseItem:
    itemName: "Excellent Fire Pit"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_ScrapMetal"
    worldModel: "ITM/Campfire/ENV_Campfire"
    types:
      - "fuel"
@@ -322,7 +325,7 @@
   baseItem: 
    itemName: "Match"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_Flare"
    worldModel: "ITM/Tools/ITM_individualMatch"
    types:
     - "flammable"
@@ -342,7 +345,7 @@
   baseItem: 
    itemName: "Notebook"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_NoteBook"
    worldModel: "ITM/Notes/ITM_NoteBook"
    types:
     - ""
@@ -362,7 +365,7 @@
   baseItem: 
    itemName: "Radio Antenna"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_RadioAntenna"
    worldModel: "ITM/Communication/ITM_RadioAntenna"
    types:
     - ""
@@ -382,7 +385,7 @@
   baseItem: 
    itemName: "Paper Scrap"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_PaperScrap"
    worldModel: "ITM/Notes/ITM_PaperScrap"
    types:
     - ""
@@ -402,7 +405,7 @@
   baseItem: 
    itemName: "Scrap Metal"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_ScrapMetal"
    worldModel: "ITM/Raw Materials/ITM_ScrapMetal"
    types:
     - ""
@@ -422,7 +425,7 @@
   baseItem: 
    itemName: "Golf Club"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_GolfClub"
    worldModel: "ITM/Rods/GolfClub"
    types:
     - "rod"
@@ -442,7 +445,7 @@
   baseItem: 
    itemName: "Pipe"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_Pipe"
    worldModel: "ITM/Rods/ITM_Pipe"
    types:
     - "rod"
@@ -462,7 +465,7 @@
   baseItem: 
    itemName: "Umbrella"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_Umbrella"
    worldModel: "ITM/Rods/Umbrella"
    types:
     - "rod"
@@ -482,7 +485,7 @@
   baseItem: 
    itemName: "Rope"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_Rope"
    worldModel: "ITM/Ropes/ITM_Rope"
    types:
     - "rope"
