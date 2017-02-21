@@ -58,8 +58,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a74938624ce19ac4c911c819b2503eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  streetWidth: 1.4
-  distanceBetweenBuildingCenters: 10
+  streetWidth: 1.5
+  distanceBetweenBuildingCenters: 45
   positionJitter: 0.27
   distributionCurve:
     serializedVersion: 2
@@ -78,7 +78,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   heightJitter: 0.1
-  buildingScale: 0.4
+  buildingScale: 1
   maxPlacementTries: 3
   CityCenterBuilding: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
     type: 2}
@@ -129,7 +129,7 @@ MonoBehaviour:
   seed: 1
   cityBounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 45, y: 45, z: 45}
+    m_Extent: {x: 150, y: 150, z: 150}
   buildingColliderRadius: 4
   buildingVisibleRadius: 16
 --- !u!114 &114000013392317438
@@ -143,8 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b170daa5884c4faa98396cdd74a9e07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemGenerationChance: 0.47
-  doorGenerationChance: 0
+  itemGenerationChance: 0.8
+  doorGenerationChance: 0.74
 --- !u!114 &114000013433191368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -161,7 +161,8 @@ MonoBehaviour:
   - districtName: residential
     WeenieBuildingTemplate: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
       type: 2}
-    Doors: []
+    Doors:
+    - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
     AdditionalBuildingTemplates: []
     MaxFloors: 5
     MinFloors: 1
@@ -296,7 +297,8 @@ MonoBehaviour:
   - districtName: shopping
     WeenieBuildingTemplate: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
       type: 2}
-    Doors: []
+    Doors:
+    - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
     AdditionalBuildingTemplates: []
     MaxFloors: 8
     MinFloors: 3
@@ -428,10 +430,11 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
-  - districtName: shopping
-    WeenieBuildingTemplate: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
+  - districtName: business
+    WeenieBuildingTemplate: {fileID: 1000012475015072, guid: a56d8459f0ab6b6489682f438e4bb632,
       type: 2}
-    Doors: []
+    Doors:
+    - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
     AdditionalBuildingTemplates: []
     MaxFloors: 8
     MinFloors: 3
@@ -593,9 +596,23 @@ MonoBehaviour:
   TestDistrict:
     districtName: shopping
     WeenieBuildingTemplate: {fileID: 0}
-    Doors: []
-    AdditionalBuildingTemplates: []
-    MaxFloors: 1
+    Doors:
+    - {fileID: 1000012258714402, guid: d92f78d2c99e3dc47906b9b767152405, type: 2}
+    - {fileID: 1000012240543352, guid: 407aba9d5b9f3f54a947317aca8bb231, type: 2}
+    - {fileID: 1000012783918778, guid: d618b70482584614489e6b5f8706848c, type: 2}
+    - {fileID: 1000014209137582, guid: 22e792f4e1d4f804284ceef5d99bab07, type: 2}
+    - {fileID: 1000013695262394, guid: 64ae15b6861287944afd143c3cab5e79, type: 2}
+    AdditionalBuildingTemplates:
+    - Building: {fileID: 1000012475015072, guid: a56d8459f0ab6b6489682f438e4bb632,
+        type: 2}
+      PlacementFrequency: 0.355
+    - Building: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
+        type: 2}
+      PlacementFrequency: 0.305
+    - Building: {fileID: 1000010255927246, guid: 549121b14d0f7904d88d4311ec33716b,
+        type: 2}
+      PlacementFrequency: 0.269
+    MaxFloors: 7
     MinFloors: 1
     minAttachmentChance: 100
     maxAttachmentChance: 100
@@ -605,10 +622,15 @@ MonoBehaviour:
       districtSizeXRoofs:
       - {fileID: 114000013776899064, guid: 89a92402296d2e844b60d85109a144bf, type: 2}
       - {fileID: 114000012475929814, guid: 21812ed024abacf4488c0f83c2308a30, type: 2}
+      - {fileID: 114000013229143700, guid: 1fd2c2fa9e1284f4eb6c48599b694055, type: 2}
+      - {fileID: 114000012479124966, guid: c0efc654e81e19e419920cf209847183, type: 2}
     - districtSizeXBases:
       - {fileID: 114000014109734912, guid: 9042f94316ce6fd4aacdb3ee259fa848, type: 2}
       districtSizeXRoofs:
+      - {fileID: 114000011433755032, guid: 766bb7f1b16911a4382ee4447ca2fdde, type: 2}
       - {fileID: 114000012096548784, guid: f6d21f8c3e9ab3d449b9808170555cc3, type: 2}
+      - {fileID: 114000011046215984, guid: f89c06d2c57b5fb4a9b27bb68b938303, type: 2}
+      - {fileID: 114000012426688680, guid: 54854eca3d7ed054f8ed5a4573127daf, type: 2}
       - {fileID: 114000012206656902, guid: 66b14252b9f470c45bbaaec692351b71, type: 2}
     - districtSizeXBases:
       - {fileID: 114000010277175852, guid: 1acb1ad95c881ba4a8d6aac41b2cb590, type: 2}
@@ -616,9 +638,13 @@ MonoBehaviour:
       - {fileID: 114000012791133570, guid: 5ef66e927b4acbe488ee5237548d147a, type: 2}
       - {fileID: 114000010601455746, guid: 72f974f468c39be4ca9b54ba325a9183, type: 2}
       - {fileID: 114000012025796314, guid: 4fbde6bcd24d6bf4c9dbba4e853398ba, type: 2}
+      - {fileID: 114000012658467478, guid: e323e43abb663d54fb409997743d5b18, type: 2}
+      - {fileID: 114000010668402870, guid: 972ef1afbe4b20246982b04f45573193, type: 2}
+      - {fileID: 114000014018921952, guid: b7e379beff30aba4188484a445765e9e, type: 2}
+      - {fileID: 114000012025796314, guid: 4fbde6bcd24d6bf4c9dbba4e853398ba, type: 2}
     districtAttachments:
-    - {fileID: 114000013793131428, guid: 104682574e0f43847a0025664a77f9c2, type: 2}
-    - {fileID: 114000013793131428, guid: 104682574e0f43847a0025664a77f9c2, type: 2}
+    - {fileID: 114000011491245890, guid: 2b002d1ff744d0e4591ab6fe59622b0f, type: 2}
+    - {fileID: 114000012310695710, guid: 2a1e1a2020cae344fa3f7d8cc472087c, type: 2}
     - {fileID: 114000013793131428, guid: 104682574e0f43847a0025664a77f9c2, type: 2}
     districtWindows:
     - {fileID: 114000011264202058, guid: 8a1ac02d62b2b0949b2cf160480a2492, type: 2}
@@ -749,3 +775,4 @@ MonoBehaviour:
   TestSize: 2
   TestStoriesTall: 5
   TestAttatchmentPercentage: 20
+  testbuildingCount: 6
