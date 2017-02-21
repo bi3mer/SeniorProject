@@ -126,6 +126,8 @@ public class ItemSpawner : InteractableObject
 			{
 				currentSpawnSlot = 0;
 			}
+
+			Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
 		}
 	}
 }

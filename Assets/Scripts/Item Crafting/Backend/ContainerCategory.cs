@@ -68,6 +68,7 @@ public class ContainerCategory : ItemCategory
 		container.Text = containerPopUpText;
 		item.name = baseItem.ItemName;
 		item.transform.position = Game.Instance.PlayerInstance.WorldTransform.position;
+		Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
 
 		SetActionComplete(setDownActName);
 

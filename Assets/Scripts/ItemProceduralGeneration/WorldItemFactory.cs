@@ -74,10 +74,11 @@ public class WorldItemFactory
 		PickUpItem pickup = item.AddComponent<PickUpItem>();
 		pickup.SetUp();
 		pickup.Item = itemToCreate;
-		pickup.Show = true;
+		pickup.Show = false;
 
 		// TODO: Make the amount found in one stack to be a variable number
 		pickup.Amount = amount;
+		item.name = itemToCreate.ItemName;
 
 		return item;
 	}
@@ -100,10 +101,12 @@ public class WorldItemFactory
 		PickUpItem pickup = item.AddComponent<PickUpItem>();
 		pickup.SetUp();
 		pickup.Item = baseItem;
-		pickup.Show = true;
+		pickup.Show = false;
 
 		// TODO: Make the amount found in one stack to be a variable number
 		pickup.Amount = (int) Random.Range(itemAmountRange.min, itemAmountRange.max);
+
+		item.name = baseItem.ItemName;
 
 		return item;
 	}
@@ -130,6 +133,7 @@ public class WorldItemFactory
 		GameObject textObject = GameObject.Instantiate(triggerObjectPrefab);
 		textObject.transform.SetParent(item.transform);
 		textObject.transform.localPosition = Vector3.zero;
+		item.name = itemToCreate.ItemName;
 
 		return item;
 	}
@@ -140,10 +144,17 @@ public class WorldItemFactory
 	/// </summary>
 	/// <returns>The all interactable items by district.</returns>
 	/// <param name="setActive">If set to <c>true</c>, gameobjects are active when created.</param>
-	public Dictionary<string, List<GameObject>> GetAllInteractableItemsByDistrict(bool setActive)
+	/// <param name="water">If set to <c>true</c>, gets objects for water.</param>
+	public Dictionary<string, List<GameObject>> GetAllInteractableItemsByDistrict(bool setActive, bool water)
 	{
 		ItemFactory itemFactory = Game.Instance.ItemFactoryInstance;
 		Dictionary<string, List<string>> interactableItemNamesByDistrict = itemFactory.LandItemsByDistrict;
+
+		if(water)
+		{
+			interactableItemNamesByDistrict = itemFactory.WaterItemsByDistrict;
+		}
+
 		Dictionary<string, List<GameObject>> interactableItemsByDistrict = new Dictionary<string, List<GameObject>>();
 
 		int i;
@@ -168,8 +179,9 @@ public class WorldItemFactory
 	/// </summary>
 	/// <returns>The random item index.</returns>
 	/// <param name="district">District.</param>
-	public int GetRandomItemIndex(string district)
+	/// <param name="onWater">Whether or not items are generating from water.</param>
+	public int GetRandomItemIndex(string district, bool onWater)
 	{
-		return Game.Instance.ItemFactoryInstance.GetWeightedRandomItemIndex(district, true);
+		return Game.Instance.ItemFactoryInstance.GetWeightedRandomItemIndex(district, onWater);
 	}
 }

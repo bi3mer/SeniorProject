@@ -9,7 +9,7 @@ public class DistrictItemConfiguration
 	/// </summary>
 	public DistrictItemConfiguration()
 	{
-		ItemTemplates = new List<GameObject>();
+		ItemNames = new List<string>();
 		ItemExtents = new List<float>();
 	}
 
@@ -17,7 +17,7 @@ public class DistrictItemConfiguration
 	/// Gets or sets the item templates that will be duplicated to create objects.
 	/// </summary>
 	/// <value>The item templates.</value>
-	public List<GameObject> ItemTemplates
+	public List<string> ItemNames
 	{
 		get;
 		set;
@@ -28,6 +28,12 @@ public class DistrictItemConfiguration
 	/// </summary>
 	/// <value>The item extents.</value>
 	public List<float> ItemExtents
+	{
+		get;
+		set;
+	}
+
+	public List<GameObject> ItemTemplates
 	{
 		get;
 		set;

@@ -20,18 +20,13 @@ public class RooftopGeneration: ItemGenerator
 	private RooftopPointGenerator generator;
 
 	/// <summary>
-	/// The item templates used to create the objects in the world
-	/// </summary>
-	private Dictionary<string, DistrictItemConfiguration> districtItemInfo;
-
-	/// <summary>
 	/// Awakens this instance.
 	/// </summary>
 	void Awake()
 	{
 		generator = new RooftopPointGenerator ();
 		districtItemInfo = new Dictionary<string, DistrictItemConfiguration>();
-		Dictionary<string, List<GameObject>> itemTemplates = Game.Instance.WorldItemFactoryInstance.GetAllInteractableItemsByDistrict(false);
+		Dictionary<string, List<GameObject>> itemTemplates = Game.Instance.WorldItemFactoryInstance.GetAllInteractableItemsByDistrict(false, false);
 
 		// get district name here
 		foreach(string key in itemTemplates.Keys)
@@ -39,6 +34,7 @@ public class RooftopGeneration: ItemGenerator
 			districtItemInfo.Add(key, new DistrictItemConfiguration());
 			districtItemInfo[key].ItemTemplates = itemTemplates[key];
 			districtItemInfo[key].ItemExtents = GetItemExtents(itemTemplates[key]);
+			districtItemInfo[key].ItemNames = Game.Instance.ItemFactoryInstance.LandItemsByDistrict[key];
 		}
 	}
 
@@ -93,8 +89,7 @@ public class RooftopGeneration: ItemGenerator
 	{
 		int startingIndex = 0;
 		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
-		GameObject selected;
-		PickUpItem itemInteractable;
+	
 		// if there is a door, it will always be the first point returned
 		if (hasDoor) 
 		{
@@ -104,18 +99,9 @@ public class RooftopGeneration: ItemGenerator
 
 		for (int i = startingIndex; i < points.Count; ++i) 
 		{
-			// TODO: Make the amount found in one stack to be a variable number
-			if(points[i].ItemIndex < districtItemInfo[district].ItemTemplates.Count)
+			if(points[i].ItemIndex < districtItemInfo[points[i].District].ItemNames.Count)
 			{
-				selected = districtItemInfo[district].ItemTemplates[points[i].ItemIndex];
-				GameObject item = GameObject.Instantiate(selected);
-				item.SetActive(true);
-				item.transform.position = points [i].WorldSpaceLocation;
-				item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
-
-				itemInteractable = item.GetComponent<PickUpItem>();
-				itemInteractable.Item = selected.GetComponent<PickUpItem>().Item;
-				itemInteractable.Amount = 1;
+				poolManager.AddToGrid(points[i].WorldSpaceLocation, districtItemInfo[points[i].District].ItemNames[points[i].ItemIndex], false);
 			}
 		}
 	}
@@ -134,7 +120,7 @@ public class RooftopGeneration: ItemGenerator
 		door.SetActive(true);
 		Transform doorTransform = door.transform;
 		doorTransform.position = location;
-		doorTransform.parent = currentBuilding.transform;
+		doorTransform.SetParent(currentBuilding.transform, true);
 
 		// door will only be rotated in 4 ways -- 0, 90, 180, and 270 degrees. A random number from 0 to 3 is generated and multiplied by 90  degrees
 		doorTransform.rotation = Quaternion.Euler(doorTransform.eulerAngles.x, Random.Range(0, 4) * 90, doorTransform.eulerAngles.z);

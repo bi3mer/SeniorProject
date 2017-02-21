@@ -12,7 +12,7 @@ public class RooftopPointGenerator: SamplingPointGenerator
 
 	// The maximum distance away from the doorway in which the door being there will affect whether or not objects may be placed there
 	// This will be multiplied against the short side of the surface
-	private const float maxDoorwayEffectPercent = 0.5f;
+	private const float maxDoorwayEffectPercent = 0.25f;
 
 	// the number of new points that will be created around an existing sampling point
 	private const int newPointsPerSamplingPoint = 3;
@@ -135,13 +135,14 @@ public class RooftopPointGenerator: SamplingPointGenerator
 		}
 		else
 		{
-			firstPoint.ItemIndex = Game.Instance.WorldItemFactoryInstance.GetRandomItemIndex(district);
+			firstPoint.ItemIndex = Game.Instance.WorldItemFactoryInstance.GetRandomItemIndex(district, false);
 		}
 
 		firstPoint.LocalTargetSurfaceLocation = createFirstPoint (center, width, depth, height, firstPoint.ItemIndex, firstPointExtents);
 		firstPoint.GridPoint = PointToGrid(firstPoint.LocalTargetSurfaceLocation);
 		firstPoint.MinDistance = getMinDistance(firstPoint.LocalTargetSurfaceLocation, firstPoint.LocalTargetSurfaceLocation, shorterLength/2f, maxDoorwayEffectArea, hasDoor);
 		firstPoint.Size = firstPointExtents[firstPoint.ItemIndex];
+		firstPoint.District = district;
 
 		// Building failed to have any sample points after attempting the maximum attempts
 		// not a good building, skip
@@ -205,7 +206,7 @@ public class RooftopPointGenerator: SamplingPointGenerator
 			for (int i = 0; i < newPointsPerSamplingPoint; ++i)
 			{
 				newPoint = new ItemPlacementSamplePoint ();
-				newPoint.ItemIndex = itemFactory.GetRandomItemIndex(district);
+				newPoint.ItemIndex = itemFactory.GetRandomItemIndex(district, false);
 
 				newPoint.LocalTargetSurfaceLocation = generateRandomPointAround(point.LocalTargetSurfaceLocation, point.MinDistance + point.Size);
 				newPoint.MinDistance = getMinDistance(firstPoint.LocalTargetSurfaceLocation, newPoint.LocalTargetSurfaceLocation, shorterLength/2f, maxDoorwayEffectArea, useGaussianMinDistance);
@@ -227,6 +228,7 @@ public class RooftopPointGenerator: SamplingPointGenerator
 				{
 					//update processList and samplePoints with new point
 					newPoint.GridPoint = PointToGrid(newPoint.LocalTargetSurfaceLocation);
+					newPoint.District = district;
 					grid[newPoint.GridPoint.X, newPoint.GridPoint.Y] = newPoint;
 
 					processList.Add(newPoint);
@@ -301,7 +303,12 @@ public class RooftopPointGenerator: SamplingPointGenerator
 		float size = generatableExtents[itemIndex];
 
 		// Generates a point within the bounds and converts it to a global location
-		Vector2 objectLocation = new Vector2(Random.Range(width * borderPercent + size, width - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, depth - (depth * borderPercent + size)));
+		float xMin = width * borderPercent + size;
+		float xMax = width - (width * borderPercent + size);
+		float yMin = depth * borderPercent + size;
+		float yMax = depth - (depth * borderPercent + size);
+
+		Vector2 objectLocation = new Vector2(Random.Range(xMin, xMax), Random.Range (yMin, yMax));
 		Vector2 objectGlobalLocation = convertToWorldSpace(objectLocation, center, width, depth);
 		float rayOffset = 1f;
 		float initialRayStartHeight = height + rayOffset;
@@ -317,7 +324,7 @@ public class RooftopPointGenerator: SamplingPointGenerator
 		// 4) the angle of the surface that the raycast hits exceeds the maxAngle
 		while (tries < maximumAttempts && (hit.transform == null || !verifyRaycastHit(hit, false)))
 		{
-			objectLocation = new Vector2(Random.Range(width * borderPercent + size, 1 - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, 1 - (depth * borderPercent + size)));
+			objectLocation = new Vector2(Random.Range(xMin, xMax), Random.Range (yMin, yMax));
 
 			objectGlobalLocation = convertToWorldSpace(objectLocation, center, width, depth);
 			Physics.Raycast (new Vector3 (objectGlobalLocation.x, initialRayStartHeight, objectGlobalLocation.y), Vector3.down, out hit, height);

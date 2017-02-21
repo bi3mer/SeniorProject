@@ -109,6 +109,7 @@ public class FireBaseCategory : ItemCategory
 
 		item.name = baseItem.ItemName;
 		item.transform.position = Game.Instance.PlayerInstance.WorldTransform.position;
+		Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
 
 		SetActionComplete(setDownActName);
 
