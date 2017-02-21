@@ -1,4 +1,4 @@
-﻿﻿using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 /// <summary>
@@ -120,14 +120,6 @@ public class DebrisController : MonoBehaviour
 		{
 			DebrisEmission.rate = DebrisLevel;
 		}
-
-		// If in editor, there's a chance the script is running in edit mode and we won't have the renderer set.   
-		#if (UNITY_EDITOR)
-		if (MainDebrisRenderer == null)
-		{
-			MainDebrisRenderer = GetComponent<ParticleSystemRenderer>();
-		}
-		#endif
 
 		// Set the wind speed via velocity over lifetime
 		ParticleSystem.VelocityOverLifetimeModule ParticleVelocity = Debris.velocityOverLifetime;
