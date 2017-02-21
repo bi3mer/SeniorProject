@@ -350,7 +350,15 @@ public class ItemPoolManager : MonoBehaviour
 		Tuple<int, int> itemGridLocation = PointToGrid(new Vector2(item.transform.position.x, item.transform.position.z));
 
 		ItemPoolInfo gridCell = grid[itemGridLocation.X, itemGridLocation.Y];
-		gridCell.AddItemInfo(item);
+
+		if(gridCell == null)
+		{
+			grid[itemGridLocation.X, itemGridLocation.Y] = new ItemPoolInfo(item.transform.position, item.name, true);
+		}
+		else
+		{
+			gridCell.AddItemInfo(item);
+		}
 
 		item.transform.SetParent(activePool);
 		item.SetActive(true);
