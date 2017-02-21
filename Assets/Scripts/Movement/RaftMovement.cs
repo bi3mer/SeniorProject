@@ -32,6 +32,7 @@ public class RaftMovement : Movement
     private const string playerAnimatorFall = "Falling";
     private const string playerAnimatorSwimming = "Swimming";
 
+    private Rigidbody raftBody;
 
     [SerializeField]
 	[Tooltip("Time till coroutine ends and FixedUpdate checks if the raft is stopped again.")]
@@ -41,11 +42,20 @@ public class RaftMovement : Movement
     [SerializeField]
     private float updatePlayerPositionTimer = 2.0f;
 
+    void Awake()
+    {
+        raftBody = GetComponent<Rigidbody>();
+    }
+
     /// <summary>
     /// Fixed update for physical movement of the raft
     /// </summary>
     void FixedUpdate ()
     {
+        if (!Game.Instance.PlayerInstance.Controller.IsOnRaft)
+        {
+            raftBody.isKinematic = true;
+        }
         float speed = RigidBody.velocity.magnitude;
 
         // cap the speed of the raft
@@ -73,6 +83,7 @@ public class RaftMovement : Movement
     /// </summary>
     public override void Idle(Animator playerAnimator)
     {
+
          //Raft Idle animation code
     }
 
@@ -96,7 +107,7 @@ public class RaftMovement : Movement
         //       one raft in the scene.
         while(Game.Instance.PlayerInstance.Controller.IsOnRaft)
         {
-			Game.Instance.PlayerInstance.Controller.BoardRaft(this);
+            Game.Instance.PlayerInstance.Controller.BoardRaft(this);
 			yield return new WaitForSeconds(this.updatePlayerPositionTimer);
     	}
     }
@@ -107,6 +118,7 @@ public class RaftMovement : Movement
     /// <param name="direction"></param>
     public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
+        raftBody.isKinematic = false;
         RigidBody.AddForce(direction.normalized * acceleration);
         StartCoroutine(this.updateIsStopped());
     }
@@ -155,7 +167,7 @@ public class RaftMovement : Movement
     /// </summary>
     public override void OnStateExit()
     {
-
+        raftBody.isKinematic = true;
     }
 
     /// <summary>

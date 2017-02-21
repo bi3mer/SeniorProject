@@ -524,7 +524,7 @@ public class PlayerController : MonoBehaviour
                 isGrounded = true;
                 playerAnimator.SetBool(playerAnimatorFalling, false);
                 // update movement
-                if (hit.collider.CompareTag(landTag) && movement != landMovement && !belowWater)
+                if (hit.collider.gameObject.layer == groundedMask && movement != landMovement && !belowWater)
                 {
                     playerAnimator.SetBool(playerAnimatorSwimming, false);
                     movement.Idle(playerAnimator);
@@ -575,7 +575,11 @@ public class PlayerController : MonoBehaviour
     /// <param name="raftMovement"></param>
     public void DisembarkRaft(RaftMovement raftMovement)
     {
-        movement = waterMovement;
+        movement = landMovement;
+        PlayerAnimator.SetBool(playerAnimatorFalling, false);
+        PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
+        PlayerAnimator.SetBool(playerAnimatorSwimming, false);
+        PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
         transform.parent = defaultParent;
 
         // update raft's interactivity
