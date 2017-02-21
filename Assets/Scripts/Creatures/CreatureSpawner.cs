@@ -33,6 +33,18 @@ public abstract class CreatureSpawner : MonoBehaviour
 	private Stack<GameObject> creaturePool;
 
 	/// <summary>
+	/// Get the count of the number of creatures alive
+	/// </summary>
+	/// <value>The count.</value>
+	public int Count
+	{
+		get
+		{
+			return this.creatureManager.CreatureCount;
+		}
+	}
+
+	/// <summary>
 	/// Gets the float inside of the spawn radius but outside
 	/// of the minimum spawning radius
 	/// </summary>
