@@ -20,13 +20,35 @@ public class SetCreatureGUI : MonoBehaviour
 	private WhaleSpawner whaleSpawner;
 
 	/// <summary>
+	/// Sets the text in the text object if it is not empty
+	/// </summary>
+	/// <param name="textObject">Text object.</param>
+	/// <param name="baseString">Base string.</param>
+	/// <param name="spawner">Spawner.</param>
+	private void setText(Text textObject, string baseString, CreatureSpawner spawner)
+	{
+		baseString += " ";
+
+		if(spawner != null)
+		{
+			baseString += spawner.Count;
+		}
+		else
+		{
+			baseString += "not found.";
+		}
+
+		textObject.text = baseString;
+	}
+
+	/// <summary>
 	/// Update this instance.
 	/// </summary>
 	void Update()
 	{
-		this.fishCount.text  = this.fishCountString  + " " + this.fishSpawner.Count;
-		this.jellyCount.text = this.jellyCountString + " " + this.jellySpawner.Count;
-		this.whaleCount.text = this.whaleCountString + " " + this.whaleSpawner.Count;
+		this.setText(this.fishCount,  this.fishCountString,  this.fishSpawner);
+		this.setText(this.jellyCount, this.jellyCountString, this.jellySpawner);
+		this.setText(this.whaleCount, this.whaleCountString, this.whaleSpawner);
 	}
 
 	/// <summary>
