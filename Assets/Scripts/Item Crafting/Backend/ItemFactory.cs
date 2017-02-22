@@ -366,16 +366,16 @@ public class ItemFactory
 	/// </summary>
 	/// <returns>The weighted random item index.</returns>
 	/// <param name="district">District.</param>
-	/// <param name="onLand">Whether or not the item index is intended for items that only generate on land.</param>
-	public int GetWeightedRandomItemIndex(string district, bool onLand)
+	/// <param name="onWater">Whether or not the item index is intended for items that only generate on water.</param>
+	public int GetWeightedRandomItemIndex(string district, bool onWater)
 	{
-		if(onLand)
+		if(onWater)
 		{
-			return LandDistrictItemRarityInfo[district].GetWeightedRandomItemIndex();
+			return WaterDistrictItemRarityInfo[district].GetWeightedRandomItemIndex();
 		}
 		else
 		{
-			return WaterDistrictItemRarityInfo[district].GetWeightedRandomItemIndex();
+			return LandDistrictItemRarityInfo[district].GetWeightedRandomItemIndex();
 		}
 	}
 

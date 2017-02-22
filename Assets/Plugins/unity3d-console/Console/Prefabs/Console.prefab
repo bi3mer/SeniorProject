@@ -335,9 +335,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testCommand: test
-  debugMovement: fly
+  debugMode: god
   debugWeather: weather
+  printWeather: wstr
   debugWeatherGUI: {fileID: 1000010018880294, guid: 52ee51a807bc04c92bbf7b7699a3cb9d,
     type: 2}
   timeScale: time
   pressureSystem: press
+  creatureCount: creature_count
+  debugCreatureGUI: {fileID: 1000011086318138, guid: d511d732081fc4a26b4632cce83c2528,
+    type: 2}
