@@ -13,7 +13,7 @@ public class Clock : MonoBehaviour
 	private float hour;
 	private float halfHour;
 
-	private int previousSecond;
+	private int roundedSecond;
 
 	private const float addTick = 1f;
 
@@ -114,22 +114,23 @@ public class Clock : MonoBehaviour
 			return;
 		}
 
+		// check if the weather system should be updated
+		if(!freezeWeatherUpdates)
+		{
+			Game.Instance.WeatherInstance.UpdateSystem();
+		}
+
 		// update time
 		this.CurrentTime += Time.deltaTime;
-		int integerTime = Mathf.FloorToInt(this.CurrentTime);
+		int integerTime   = Mathf.FloorToInt(this.CurrentTime);
 
-		if(this.previousSecond < integerTime)
+		if(this.roundedSecond < integerTime)
 		{
-			this.previousSecond = integerTime;
+			this.roundedSecond = integerTime;
 
 			if(this.CurrentTime >= this.twentyFourHours)
 			{
 				this.CurrentTime = 0;
-			}
-
-			if(!freezeWeatherUpdates)
-			{
-				Game.Instance.WeatherInstance.UpdateSystem();
 			}
 
 			// notify second long subscribed delegates
