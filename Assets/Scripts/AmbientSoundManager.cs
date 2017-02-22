@@ -32,6 +32,13 @@ public class AmbientSoundManager : MonoBehaviour
 	[SerializeField]
 	private int changeFactor = 10;
 
+	/// <summary>
+	/// The amount of time that the IEnumerator waits to change the volume after the last change.
+	/// Allows for fading.
+	/// </summary>
+	[SerializeField]
+	private float volumeChangeTimeout = 0.1f;
+
 	private bool radioOn = false;
 
 	/// <summary>
@@ -89,7 +96,7 @@ public class AmbientSoundManager : MonoBehaviour
 		for (int i = 1; i <= changeFactor; ++i) 
 		{
 			ambientMusic.setVolume (currentVolume - (i*volumeChange));
-			yield return new WaitForSeconds (0.1f);
+			yield return new WaitForSeconds (volumeChangeTimeout);
 		}
 	}
 
@@ -106,7 +113,7 @@ public class AmbientSoundManager : MonoBehaviour
 		for (int i = 1; i <= changeFactor; ++i) 
 		{
 			ambientMusic.setVolume (currentVolume + (i * volumeChange));
-			yield return new WaitForSeconds (0.1f);
+			yield return new WaitForSeconds (volumeChangeTimeout);
 		}
 	}
 }
