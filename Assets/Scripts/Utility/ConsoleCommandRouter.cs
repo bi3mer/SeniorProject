@@ -30,6 +30,14 @@ public class ConsoleCommandRouter : MonoBehaviour
 	private PressureSystemVisualization pressureScript;
 	private const string pressureMessage = "Pressure script visualization ";
 
+
+	[SerializeField]
+	private string creatureCount = "creature_count";
+
+	[SerializeField]
+	private GameObject debugCreatureGUI;
+	private GameObject instantiatedCreatureGUI = null;
+
 	/// <summary>
 	/// Testing console with very important command
 	/// </summary>
@@ -115,6 +123,37 @@ public class ConsoleCommandRouter : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Opens debug creature count gui
+	/// </summary>
+	/// <returns>The weather GU.</returns>
+	/// <param name="args">Arguments.</param>
+	public string DebugCreatureCountGUI(params string[] args)
+	{
+		string returnInfo = "Instantiated GUI";
+
+		if(this.instantiatedCreatureGUI == null)
+		{
+			// instantiate object and save
+			this.instantiatedCreatureGUI = Instantiate(this.debugCreatureGUI);
+		}
+		else
+		{
+			if(this.instantiatedCreatureGUI.active)
+			{
+				this.instantiatedCreatureGUI.SetActive(false);
+				returnInfo = "Removed GUI";
+			}
+			else
+			{
+				this.instantiatedCreatureGUI.SetActive(true);
+			}
+
+		}
+
+		return returnInfo;
+	}
+
+	/// <summary>
 	/// Prints the weather.
 	/// </summary>
 	/// <returns>The weather.</returns>
@@ -129,11 +168,12 @@ public class ConsoleCommandRouter : MonoBehaviour
 	/// </summary>
 	void Start () 
 	{
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.testCommand, this.Test);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugMode, this.DebugMode);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugWeather, this.DebugWeatherGUI);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.timeScale, this.SetTimeScale);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.testCommand,    this.Test);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugMode,      this.DebugMode);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugWeather,   this.DebugWeatherGUI);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.timeScale,      this.SetTimeScale);
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.pressureSystem, this.ActivatePressureSystem);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.printWeather, this.PrintWeather);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.printWeather,   this.PrintWeather);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.creatureCount,  this.DebugCreatureCountGUI);
 	}
 }

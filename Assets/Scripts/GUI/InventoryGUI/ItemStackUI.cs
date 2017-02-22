@@ -7,21 +7,55 @@ using System.Collections.Generic;
 public class ItemStackUI : MonoBehaviour 
 {
 	public UnityAction Action;
+	public GameObject HoverPanel;
 	public Text ItemName;
 	public Text ItemAmount;
+	public Image InventorySprite;
 	private Stack targetStack;
 	private Stack originalStack;
+
+	private string currentSpritePath;
+
+	private bool occupied;
+
+	/// <summary>
+	/// Awakens this instance.
+	/// </summary>
+	void Awake()
+	{
+		HoverPanel.SetActive(false);
+		InventorySprite.gameObject.SetActive(false);
+		occupied = false;
+	}
 
 	/// <summary>
 	/// Subscribes to name change event
 	/// </summary>
 	public void SetUpInventoryItem(Stack baseStack)
 	{
-		baseStack.Item.UpdateItemInformation += HandleItemNameTextChangeEvent;
+		baseStack.Item.UpdateItemName += HandleItemNameTextChangeEvent;
 		baseStack.UpdateStackAmount += HandleItemAmountTextChangeEvent;
+		baseStack.Item.UpdateItemSprite += HandleItemIconChangeEvent;
+
 		targetStack = baseStack;
 		ItemName.text = targetStack.Item.ItemName;
 		ItemAmount.text = targetStack.Amount.ToString();
+
+		Sprite itemSprite = GuiInstanceManager.InventoryUiInstance.ItemSpriteManager.GetSprite(baseStack.Item.InventorySprite);
+
+		if(itemSprite != null)
+		{
+			InventorySprite.sprite = itemSprite;
+			currentSpritePath = baseStack.Item.InventorySprite;
+			InventorySprite.gameObject.SetActive(true);
+		}
+		else
+		{
+			Debug.LogError("Sprite " + targetStack.Item.InventorySprite + "for " + targetStack.Item.ItemName + " could not be found");
+		}
+
+		occupied = true;
+		HoverPanel.SetActive(false);
 	}
 
 	/// <summary>
@@ -30,8 +64,9 @@ public class ItemStackUI : MonoBehaviour
 	/// </summary>
 	public void Unsubscribe(Stack baseStack)
 	{
-		baseStack.Item.UpdateItemInformation -= HandleItemNameTextChangeEvent;
+		baseStack.Item.UpdateItemName -= HandleItemNameTextChangeEvent;
 		baseStack.UpdateStackAmount -= HandleItemAmountTextChangeEvent;
+		baseStack.Item.UpdateItemSprite -= HandleItemIconChangeEvent;
 	}
 
 	/// <summary>
@@ -43,6 +78,17 @@ public class ItemStackUI : MonoBehaviour
 		targetStack = baseStack;
 		ItemName.text = targetStack.Item.ItemName;
 		ItemAmount.text = targetStack.Amount.ToString();
+	
+		if(!baseStack.Item.InventorySprite.Equals(currentSpritePath))
+		{
+			currentSpritePath = baseStack.Item.InventorySprite;
+			Sprite itemSprite = GuiInstanceManager.InventoryUiInstance.ItemSpriteManager.GetSprite(baseStack.Item.InventorySprite);
+
+			if(itemSprite != null)
+			{
+				InventorySprite.sprite = itemSprite;
+			}
+		}
 	}
 
 	/// <summary>
@@ -61,6 +107,25 @@ public class ItemStackUI : MonoBehaviour
 	public void HandleItemAmountTextChangeEvent(int newAmount)
 	{
 		ItemAmount.text = newAmount.ToString();
+	}
+
+	/// <summary>
+	/// Function that will be used to handle changes to the item's inventory sprite.
+	/// </summary>
+	/// <param name="item">Item.</param>
+	public void HandleItemIconChangeEvent(BaseItem item)
+	{
+		currentSpritePath = item.InventorySprite;
+		Sprite itemSprite = GuiInstanceManager.InventoryUiInstance.ItemSpriteManager.GetSprite(item.InventorySprite);
+
+		if(itemSprite != null)
+		{
+			InventorySprite.sprite = itemSprite;
+		}
+		else
+		{
+			Debug.LogError("Sprite " + item.InventorySprite + "for " + item.ItemName + " could not be found");
+		}
 	}
 
 	/// <summary>
@@ -199,5 +264,17 @@ public class ItemStackUI : MonoBehaviour
 		}
 
 		return originalStack.Amount;
+	}
+
+	/// <summary>
+	/// Sets the hover panel active or inactive.
+	/// </summary>
+	/// <param name="active">If set to <c>true</c> active.</param>
+	public void SetHoverPanelActive(bool active)
+	{
+		if(occupied)
+		{
+			HoverPanel.SetActive(active);
+		}
 	}
 }

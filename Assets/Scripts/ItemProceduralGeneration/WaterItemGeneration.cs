@@ -30,16 +30,11 @@ public class WaterItemGeneration : ItemGenerator
 	private WaterPointGenerator pointGenerator;
 
 	/// <summary>
-	/// The item templates used to create the objects in the world
-	/// </summary>
-	private Dictionary<string, DistrictItemConfiguration> districtItemInfo;
-
-	/// <summary>
 	/// Awake this instance.
 	/// </summary>
 	void Awake () 
 	{
-		Dictionary<string, List<GameObject>> itemTemplates = Game.Instance.WorldItemFactoryInstance.GetAllInteractableItemsByDistrict(false);
+		Dictionary<string, List<GameObject>> itemTemplates = Game.Instance.WorldItemFactoryInstance.GetAllInteractableItemsByDistrict(false, true);
 		districtItemInfo = new Dictionary<string, DistrictItemConfiguration>();
 
 		// get district name here
@@ -47,6 +42,7 @@ public class WaterItemGeneration : ItemGenerator
 		{
 			districtItemInfo.Add(key, new DistrictItemConfiguration());
 			districtItemInfo[key].ItemTemplates = itemTemplates[key];
+			districtItemInfo[key].ItemNames = Game.Instance.ItemFactoryInstance.WaterItemsByDistrict[key];
 			districtItemInfo[key].ItemExtents = GetItemExtents(itemTemplates[key]);
 		}
 	}
@@ -86,7 +82,7 @@ public class WaterItemGeneration : ItemGenerator
 
 			if (points.Count > 0) 
 			{
-				generateObjects(points);
+				addObjectsToPoolManager(points);
 			}
 		}
 	}
@@ -106,21 +102,13 @@ public class WaterItemGeneration : ItemGenerator
 	/// <param name="hasDoor">If set to <c>true</c>, there is a door that needs to be created.</param>
 	/// <param name="district">Name of the district for which generation is occuring.</param>
 	/// <param name="points">Points.</param>
-	private void generateObjects(List<ItemPlacementSamplePoint> points)
+	private void addObjectsToPoolManager(List<ItemPlacementSamplePoint> points)
 	{
-		int startingIndex = 0;
-		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
-
-		for (int i = startingIndex; i < points.Count; ++i) 
+		for (int i = 0; i < points.Count; ++i) 
 		{
-			// TODO: Make the amount found in one stack to be a variable number
-
-			if(points[i].ItemIndex < districtItemInfo[points[i].District].ItemTemplates.Count)
+			if(points[i].ItemIndex < districtItemInfo[points[i].District].ItemNames.Count)
 			{
-				GameObject item = GameObject.Instantiate(districtItemInfo[points[i].District].ItemTemplates[points[i].ItemIndex]);
-				item.SetActive(true);
-				item.transform.position = points [i].WorldSpaceLocation;
-				item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
+				poolManager.AddToGrid(points[i].WorldSpaceLocation, districtItemInfo[points[i].District].ItemNames[points[i].ItemIndex], false);
 			}
 		}
 	}
