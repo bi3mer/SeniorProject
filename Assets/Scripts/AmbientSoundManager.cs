@@ -9,7 +9,7 @@ public class AmbientSoundManager : MonoBehaviour
 	/// The ambient music track base path.
 	/// </summary>
 	[SerializeField]
-	public string AmbientMusicPath = "event:/Ambient/Music/Basic_Music";
+	private string AmbientMusicPath = "event:/Ambient/Music/Basic_Music";
 
 	private FMOD.Studio.EventInstance ambientMusic;
 
@@ -64,26 +64,50 @@ public class AmbientSoundManager : MonoBehaviour
 
 			if (radioMusicOn) 
 			{
-				// we base the volume change off of the current volume vs. the minimum
-				float volumeChange = (currentVolume - minAmbientMusicVolume) / changeFactor;
-
-				for (int i = 1; i < changeFactor + 1; ++i) 
-				{
-					ambientMusic.setVolume (currentVolume - (i*volumeChange));
-				}
+				StopCoroutine (raiseVolume (currentVolume));
+				StartCoroutine (lowerVolume (currentVolume));
 			} 
 			else 
 			{
-				// we base the volume change off of the current volume vs. the maximum
-				float volumeChange = (maxAmbientMusicVolume - currentVolume) / changeFactor;
-
-				for (int i = 1; i < changeFactor + 1; ++i) 
-				{
-					ambientMusic.setVolume (currentVolume + (i * volumeChange));
-				}
+				StopCoroutine (lowerVolume (currentVolume));
+				StartCoroutine (raiseVolume (currentVolume));
 			}
 		}
 	}
 
+
+	/// <summary>
+	/// Lowers the volume.
+	/// </summary>
+	/// <returns>The volume.</returns>
+	/// <param name="currentVolume">Current volume.</param>
+	private IEnumerator lowerVolume(float currentVolume)
+	{
+		// we base the volume change off of the current volume vs. the minimum
+		float volumeChange = (currentVolume - minAmbientMusicVolume) / changeFactor;
+
+		for (int i = 1; i <= changeFactor; ++i) 
+		{
+			ambientMusic.setVolume (currentVolume - (i*volumeChange));
+			yield return new WaitForSeconds (0.1f);
+		}
+	}
+
+	/// <summary>
+	/// Raises the volume.
+	/// </summary>
+	/// <returns>The volume.</returns>
+	/// <param name="currentVolume">Current volume.</param>
+	private IEnumerator raiseVolume(float currentVolume)
+	{
+		// we base the volume change off of the current volume vs. the maximum
+		float volumeChange = (maxAmbientMusicVolume - currentVolume) / changeFactor;
+
+		for (int i = 1; i <= changeFactor; ++i) 
+		{
+			ambientMusic.setVolume (currentVolume + (i * volumeChange));
+			yield return new WaitForSeconds (0.1f);
+		}
+	}
 }
 
