@@ -9,22 +9,16 @@ public class DayNight : MonoBehaviour
 	[SerializeField] 
 	private Transform moon;
 
-	/// <summary>
-	/// Start this instance.
-	/// </summary>
-	void Start()
-	{
-		Game.Instance.ClockInstance.SecondUpdate += this.updateTransforms;
-	}
+	private float previousTime = 0f;
 
 	/// <summary>
 	/// Updates the planetary object transform as it rotates around
 	/// our world.
 	/// </summary>
-	private void updatePlanetaryObject(Transform planetaryObject)
+	private void updatePlanetaryObject(Transform planetaryObject, float angle)
 	{
 		// TODO: should the be able to rotate around something other than the origin?
-		planetaryObject.RotateAround(Vector3.zero, Vector3.right, Game.Instance.ClockInstance.AnglePerSecond);
+		planetaryObject.RotateAround(Vector3.zero, Vector3.right, angle);
 		planetaryObject.LookAt(Vector3.zero);
 	}
 
@@ -32,9 +26,11 @@ public class DayNight : MonoBehaviour
 	/// Updates the transforms of the sun and the moon
 	/// </summary>
 	/// <returns>The transforms.</returns>
-	private void updateTransforms()
+	void Update()
 	{
-		this.updatePlanetaryObject(this.sun);
-		this.updatePlanetaryObject(this.moon);
+		float angle = (Game.Instance.ClockInstance.CurrentTime - this.previousTime) / Game.Instance.ClockInstance.TwelveHours;
+
+		this.updatePlanetaryObject(this.sun,  angle);
+		this.updatePlanetaryObject(this.moon, angle);
 	}
 }
