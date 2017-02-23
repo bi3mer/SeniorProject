@@ -21,7 +21,7 @@ public abstract class SamplingPointGenerator
 	/// <summary>
 	/// Minimum distance objects must be from each other by default, not accounting for the doorway which will increase it
 	/// </summary>
-	protected const float defaultMinDistanceAway = 1f;
+	protected const float defaultMinDistanceAway = 0.5f;
 
 	/// <summary>
 	/// The maximum angle a surface can be to still be considered a viable surface for object placement

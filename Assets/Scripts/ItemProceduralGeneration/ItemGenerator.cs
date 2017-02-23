@@ -4,6 +4,15 @@ using System.Collections.Generic;
 
 public abstract class ItemGenerator : MonoBehaviour 
 {
+	[SerializeField]
+	[Tooltip("The Item Pool Manager")]
+	protected ItemPoolManager poolManager;
+
+	/// <summary>
+	/// The item templates used to create the objects in the world
+	/// </summary>
+	protected Dictionary<string, DistrictItemConfiguration> districtItemInfo;
+
 	/// <summary>
 	/// Gets the rarity information for all items in a district.
 	/// </summary>
@@ -87,5 +96,16 @@ public abstract class ItemGenerator : MonoBehaviour
 	public void SetSeed(int newSeed)
 	{
 		Random.InitState(newSeed);
+	}
+
+	public void AddTemplatesToItemPool()
+	{
+		foreach(string key in districtItemInfo.Keys)
+		{
+			for(int i = 0; i < districtItemInfo[key].ItemTemplates.Count; ++i)
+			{
+				poolManager.AddItemToPool(districtItemInfo[key].ItemNames[i], districtItemInfo[key].ItemTemplates[i]);
+			}
+		}
 	}
 }

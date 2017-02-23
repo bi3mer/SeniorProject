@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18481356, g: 0.23313314, b: 0.33185667, a: 1}
+  m_IndirectSpecularColor: {r: 0.16980883, g: 0.2052846, b: 0.29454157, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -10012,6 +10012,11 @@ Prefab:
         type: 2}
       propertyPath: m_Text
       value: '   Menu'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012588951366, guid: 49e88d89839ab4b7a8f6f61d39760379,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 49e88d89839ab4b7a8f6f61d39760379, type: 2}
