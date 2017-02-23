@@ -113,8 +113,16 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 0.03125
+        functionName: CallJumpForce
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 6abe5c2c5817263408ae4916fb76ba93,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 1
-        functionName: CallSetJumpFalse
+        functionName: CallJumpForce
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6abe5c2c5817263408ae4916fb76ba93,
           type: 3}

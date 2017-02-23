@@ -72,6 +72,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private string roofFootstepSoundEvent = "event:/Player/Movement/Walking/Concrete";
 
+    public bool IsGrounded
+    {
+        get
+        {
+            return isGrounded;
+        }
+    }
     private bool isGrounded;
     private bool updateStats;
     private bool isFlying;

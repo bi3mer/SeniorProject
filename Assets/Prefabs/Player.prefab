@@ -1730,7 +1730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391939450fd8044e3839af08f34c2af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weight: 1
+  weight: 0.411
   solver:
     layers:
       serializedVersion: 2
@@ -1927,10 +1927,13 @@ MonoBehaviour:
   climbHeight: 1
   walkingSpeed: 0.6
   sprintingSpeed: 1
-  jumpForce: 0.06
+  jumpForce: 1.5
   minFallDamageVelocity: 5
   fallDamageModifier: 1
   raycastHeight: 0.01
+  airControll: 1
+  terminalVelocity: 2
+  jumpingFallModifier: 0.1
 --- !u!114 &114000013014602212
 MonoBehaviour:
   m_ObjectHideFlags: 1
