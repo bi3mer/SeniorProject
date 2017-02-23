@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine; 
+using System.Collections.Generic;
 using UnityEngine.Events;
+using System;
 
 public class RaftCategory : ItemCategory
 {
@@ -25,6 +27,7 @@ public class RaftCategory : ItemCategory
 
     private const string speedAttrName = "speed";
     private const string durabilityAttrName = "durability";
+    private string setDownActName = "Set Down";
 
     /// <summary>
     /// Creates a copy of this raft category.
@@ -39,6 +42,10 @@ public class RaftCategory : ItemCategory
 
         category.Actions = new List<ItemAction>();
         category.Attributes = new List<Attribute>();
+
+        ItemAction setDown = new ItemAction(setDownActName, new UnityAction(category.SetDown));
+
+        category.Actions.Add(setDown);
 
         finishDuplication(category);
 
@@ -56,5 +63,28 @@ public class RaftCategory : ItemCategory
         Attributes.Add(new Attribute(durabilityAttrName, Durability));
 
         Actions = new List<ItemAction>();
+
+        ItemAction setDown = new ItemAction(setDownActName, new UnityAction(SetDown));
+        Actions.Add(setDown);
+    }
+
+    /// <summary>
+    /// Sets down the raft in the world. Drops it where the player stands.
+    /// </summary>
+    public void SetDown()
+    {
+        // create the object with the model
+        // TODO: Get information about how many are to be
+        GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem, 1);
+        RaftInteractable raft = item.AddComponent<RaftInteractable>();
+
+        raft.SetUp();
+       
+        item.name = baseItem.ItemName;
+        item.transform.position = Game.Instance.PlayerInstance.WorldTransform.position;
+
+        SetActionComplete(setDownActName);
+
+        baseItem.RemovalFlag = true;
     }
 }

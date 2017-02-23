@@ -216,38 +216,6 @@ public class PlayerController : MonoBehaviour
 	}
 
     /// <summary>
-    /// When colliding with a trigger. Used for interactable object interaction. For raft interactions.
-    /// </summary>
-    /// <param name="other">Collider with trigger</param>
-    void OnTriggerEnter(Collider other)
-    {
-        // enter into the range of an interactable item 
-        // TODO: Figure out why the player can't find the raft when on board with cone view.
-        if (IsOnRaft && other.CompareTag(interactiveTag))
-        {
-            interactable = other.GetComponent<InteractableObject>();
-            interactable.Show = true;
-        }
-    }
-
-    /// <summary>
-    /// When leaving the trigger area. Used to signal an interactable object is not in range.For raft interactions.
-    /// </summary>
-    /// <param name="other">Collider with trigger</param>
-    void OnTriggerExit(Collider other)
-    {
-        // leaving the range of an interactable item
-        if (IsOnRaft && other.CompareTag(interactiveTag))
-        {
-        	if(interactable != null)
-        	{
-	            interactable.Show = false;
-	            interactable = null;
-	        }
-        }
-    }
-
-    /// <summary>
     /// Get player input and update accordingly.
     /// </summary>
     void Update ()
@@ -538,23 +506,13 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void BoardRaft(RaftMovement raftMovement)
     {
-		movement = raftMovement;
+        movement = raftMovement;
 
         // place player on raft
         Vector3 position = raftMovement.gameObject.transform.position;
         float raftHeight = raftMovement.gameObject.GetComponent<BoxCollider>().bounds.size.y;
         transform.position = position + Vector3.up * raftHeight;
         transform.parent = raftMovement.transform;
-	
-        // update raft's interactivity
-        interactable.Text = raftMovement.DisembarkRaftText;
-        interactable.SetAction(delegate { DisembarkRaft(raftMovement); });
-
-        // Give the raft the player's animator to control.
-        raftMovement.PlayerAnimator = PlayerAnimator;
-
-		// Notify subscribers
-		Game.Instance.EventManager.RaftBoarded();
     }
 
     /// <summary>
@@ -565,10 +523,6 @@ public class PlayerController : MonoBehaviour
     {
         movement = waterMovement;
         transform.parent = defaultParent;
-
-        // update raft's interactivity
-        interactable.Text = raftMovement.BoardRaftText;
-        interactable.SetAction(delegate { BoardRaft(raftMovement); });
     }
 
     /// <summary>
