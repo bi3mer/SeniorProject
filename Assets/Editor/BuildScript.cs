@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using UnityEditor.Callbacks;
 using System.Collections;
 using System.Diagnostics;
 using System.IO;
@@ -75,7 +76,19 @@ public class BuildScript : MonoBehaviour
         {
             BuildScript.CopyYAMLFilesMac(buildPath);
         }
-    } 
+    }
+
+    /// <summary>
+    /// Run by unity cloud build after the project is built.
+    /// </summary>
+    [PostProcessBuildAttribute]
+    public static void CloudBuildPostProcess (BuildTarget target, string pathToBuiltProject)
+    {
+        if (target == BuildTarget.StandaloneWindows)
+        {
+            CopyYAMLFilesWindows(pathToBuiltProject);
+        }
+    }
 
     /// <summary>
     /// Post process step for copying YAML files for windows build directory
