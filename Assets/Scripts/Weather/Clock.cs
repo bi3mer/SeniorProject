@@ -5,21 +5,52 @@ using System.Collections;
 public class Clock : MonoBehaviour
 {
 	[SerializeField]
-	[Tooltip ("1 is where 1 minute is equal to one hour in game time.")]
+	[Tooltip ("How a second compares to a minute. For example: 1 corresponds to 1 seconds is 1 minute of gametime.")]
 	private float tick = 1f;
 
-	private float twentyFourHours;
-	private float twelveHours;
-	private float hour;
-	private float halfHour;
-
-	private int roundedSecond;
-
-	private const float addTick = 1f;
+	private float lastGameSecond;
 
 	[SerializeField]
 	[Tooltip("Should the clock in the scene stop updating the weather")]
 	private bool freezeWeatherUpdates;
+
+	/// <summary>
+	/// The twenty four hours.
+	/// </summary>
+	public float TwentyFourHours
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// The twelve hours.
+	/// </summary>
+	public float TwelveHours
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets the hour.
+	/// </summary>
+	/// <value>The hour.</value>
+	public float Hour
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Half an hour of game time in real world seconds
+	/// </summary>
+	/// <value>The half hour.</value>
+	public float HalfHour
+	{
+		get;
+		private set;
+	}
 
 	/// <summary>
 	/// Gets the angle per second based on time scale.
@@ -49,7 +80,7 @@ public class Clock : MonoBehaviour
 	{
 		get
 		{
-			return this.CurrentTime / this.hour;
+			return this.CurrentTime / this.Hour;
 		}
 	}
 
@@ -68,20 +99,22 @@ public class Clock : MonoBehaviour
 	/// </summary>
 	void Awake() 
 	{
-		// 1 minute * 60 = 60 minutes = 1 hour
-		this.hour = tick * 60;
+		this.CurrentTime = 0f;
 
-		// half hour is half of an hour
-		this.halfHour = this.hour / 2f;
+		// 60 minutes in an hour
+		this.Hour = this.tick * 60f;
 
-		// 1hour * 12 = 12 hours
-		this.twelveHours = this.hour * 12f;
+		// 1440 minutes in a day
+		this.TwentyFourHours = this.tick * 1440f;
 
-		// 12hours * 2 = 24 hours
-		this.twentyFourHours = this.twelveHours * 2;
+		// divide hour by 2 to get half an hour
+		this.HalfHour = this.Hour / 2f;
+
+		// divide day by 2 to get twelve hours of game time
+		this.TwelveHours = this.TwentyFourHours / 2f;
 
 		// 1/24Hours = x/360
-		this.AnglePerSecond =  360f / this.twentyFourHours;
+		this.AnglePerSecond =  360f / this.TwentyFourHours;
 	}
 
 	/// <summary>
@@ -93,8 +126,8 @@ public class Clock : MonoBehaviour
 		get
 		{
 			// get hours and minutes
-			int hours = Mathf.FloorToInt(this.CurrentGameTimeInHours);
-			int minutes = Mathf.FloorToInt(this.CurrentTime - (hours * this.hour));
+			int hours   = Mathf.FloorToInt(this.CurrentGameTimeInHours);
+			int minutes = Mathf.FloorToInt(this.CurrentTime - (hours * this.Hour));
 
 			// format time
 			DateTime date = new DateTime(1, 1, 1, hours, minutes, 0, 0);
@@ -117,18 +150,18 @@ public class Clock : MonoBehaviour
 		// check if the weather system should be updated
 		if(!freezeWeatherUpdates)
 		{
+			// TODO: move this to it's own monobehavior class
 			Game.Instance.WeatherInstance.UpdateSystem();
 		}
 
 		// update time
-		this.CurrentTime += Time.deltaTime;
-		int integerTime   = Mathf.FloorToInt(this.CurrentTime);
+		this.CurrentTime += Time.deltaTime / this.tick;
 
-		if(this.roundedSecond < integerTime)
+		if(this.lastGameSecond + this.tick < this.CurrentTime)
 		{
-			this.roundedSecond = integerTime;
+			this.lastGameSecond += this.tick;
 
-			if(this.CurrentTime >= this.twentyFourHours)
+			if(this.CurrentTime >= this.TwentyFourHours)
 			{
 				this.CurrentTime = 0;
 			}
@@ -140,13 +173,13 @@ public class Clock : MonoBehaviour
 			}
 
 			// Notify thirty minute long subscribed delegates
-			if(this.HalfHourUpdate != null && integerTime % Mathf.FloorToInt(this.halfHour) == 0)
+			if(this.HalfHourUpdate != null && Mathf.Approximately(this.CurrentTime % this.HalfHour, 0f))
 			{
 				this.HalfHourUpdate();
 			}
 
 			// notify hour long subscribed delegates
-			if(this.HourUpdate != null && integerTime % Mathf.FloorToInt(this.hour) == 0)
+			if(this.HourUpdate != null && Mathf.Approximately(this.CurrentTime % this.Hour, 0f))
 			{
 				this.HourUpdate();
 			}
@@ -161,7 +194,7 @@ public class Clock : MonoBehaviour
 	{
 		get
 		{
-			return Game.Instance.ClockInstance.CurrentTime <= this.twelveHours;
+			return Game.Instance.ClockInstance.CurrentTime <= this.TwelveHours;
 		}
 	}
 
@@ -175,11 +208,11 @@ public class Clock : MonoBehaviour
 	{
 		if(this.IsDay)
 		{
-			return this.CurrentTime / this.twelveHours;
+			return this.CurrentTime / this.TwelveHours;
 		}
 		else
 		{
-			return (this.CurrentTime - this.twelveHours) / this.twelveHours;
+			return (this.CurrentTime - this.TwelveHours) / this.TwelveHours;
 		}
 	}
 }
