@@ -14,5 +14,16 @@ public class MysteryAnnouncement
 		get;
 		set;
 	}
+
+	/// <summary>
+	/// Gets or sets the FMOD event path for this clip.
+	/// If it's pre-generated, this comes in the YAML. Otherwise, this is created by TTSAnnouncementGenerator.
+	/// </summary>
+	/// <value>The event path.</value>
+	public String EventPath
+	{
+		get;
+		set;
+	}
 }
 

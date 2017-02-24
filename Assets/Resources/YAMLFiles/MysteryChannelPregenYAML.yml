@@ -1,0 +1,6 @@
+--- 
+- 
+  category: Player
+  eventPath: "event:/Radio/Mystery/PregeneratedSample1"
+  voice: "en"
+  speed: .9

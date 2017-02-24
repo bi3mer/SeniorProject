@@ -3,7 +3,7 @@
 public class TTSAnnouncement : MysteryAnnouncement
 {
 	/// <summary>
-	/// Gets or sets the text that the TTS will say.
+	/// Gets or sets the text that the TTS bot will say.
 	/// </summary>
 	/// <value>The text.</value>
 	public string Text 

@@ -8,13 +8,15 @@ using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
 using UnityEngine;
 
-public class MysteryChannelYAMLParser
+public class AnnouncementYAMLParser
 {
-	public string Filename;
+	public string PregeneratedFilename;
+	public string TTSFilename;
 
-	public MysteryChannelYAMLParser (string file)
+	public AnnouncementYAMLParser (string pregeneratedFile, string ttsFile)
 	{
-		Filename = file;
+		PregeneratedFilename = pregeneratedFile;
+		TTSFilename = ttsFile;
 	}
 
 	public List<MysteryAnnouncement> LoadAnnouncements()
