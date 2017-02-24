@@ -7918,8 +7918,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0da4b5274d9d1a4c8fab92c8b38fc2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beforeKeys: PRESS \n
-  afterKeys: \nTO\nCLIMB\nLEFGES
+  beforeKeys: press\n
+  afterKeys: \nto\nclimb\nledges
   betweenKeys: /
   keys:
   - Jump
