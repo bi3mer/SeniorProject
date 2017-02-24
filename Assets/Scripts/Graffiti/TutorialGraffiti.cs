@@ -19,7 +19,7 @@ public class TutorialGraffiti : MonoBehaviour
     private string[] keys;
 
     /// <summary>
-    /// Call setGraffitiText
+    /// Calls setGraffitiText
     /// </summary>
 	void Start ()
     {
@@ -47,5 +47,4 @@ public class TutorialGraffiti : MonoBehaviour
         textString = textString.Replace("\\n", "\n");
         GetComponent<TextMesh>().text = textString;
     }
-
 }
