@@ -74,14 +74,15 @@ public class RaftCategory : ItemCategory
     public void SetDown()
     {
         // create the object with the model
-        // TODO: Get information about how many are to be
         GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem, 1);
         RaftInteractable raft = item.AddComponent<RaftInteractable>();
 
+        raft.Raft = this;
         raft.SetUp();
-       
+
         item.name = baseItem.ItemName;
         item.transform.position = Game.Instance.PlayerInstance.WorldTransform.position;
+        Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
 
         SetActionComplete(setDownActName);
 

@@ -161,3 +161,37 @@
       actionModifiedModels: 
       actionModifiedSprites:
      itemCategories:
+   - stackId: 7
+     itemAmount: 1
+     item: 
+      itemName: "Bad Raft"
+      rarity: "common"
+      inventorySprite: "GUI_ITM_WoodPlank"
+      worldModel: "ITM/Rafts/ITM_lowTierRaft"
+      types:
+       - "advanced tool"
+      flavorText: "What can I say? It floats..."
+      modifyingActionNames:
+      actionModifiedModels: 
+      actionModifiedSprites:
+     itemCategories:
+       - !!raft
+         speed: 0.2
+         durability: 0.1
+   - stackId: 8
+     itemAmount: 1
+     item:
+      itemName: "Excellent Fire Pit"
+      rarity: "common"
+      inventorySprite: "GUI_ITM_ScrapMetal"
+      worldModel: "ITM/Campfire/ENV_Campfire"
+      types:
+       - "fuel"
+      flavorText: "A wonderful fire pit. Place into world and ignite to start a fire. Burns slowly."
+      modifyingActionNames:
+      actionModifiedModels: 
+      actionModifiedSprites:
+     itemCategories:
+      - !!fireBase
+        burnRateMultiplier: 0.9
+        startingFuel: 60.0

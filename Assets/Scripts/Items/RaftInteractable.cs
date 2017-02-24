@@ -2,12 +2,13 @@
 using System.Collections;
 
 public class RaftInteractable : InteractableObject {
+    [SerializeField]
     private RaftMovement raftMovement;
 
     /// <summary>
-    /// Gets or sets the fire base category object.
+    /// Gets or sets the raft category object.
     /// </summary>
-    /// <value>The fire base.</value>
+    /// <value>The raft.</value>
     public RaftCategory Raft
     {
         get;
@@ -15,11 +16,14 @@ public class RaftInteractable : InteractableObject {
     }
 
     /// <summary>
-    /// Sets openInventory as an action that should fire off when PerformAction is called.
+    /// Sets action for raft as board raft
     /// </summary>
     public override void SetUp()
     {
         base.SetUp();
+
+        raftMovement = GetComponentInChildren<RaftMovement>();
+        raftMovement.SetMaxSpeed(Raft.Speed);
 
         SetAction
         (
