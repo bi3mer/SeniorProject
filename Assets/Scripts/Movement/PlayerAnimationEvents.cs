@@ -22,7 +22,7 @@ public class PlayerAnimationEvents : MonoBehaviour
     /// <summary>
     /// Sets the player's jumping bool to false;
     /// </summary>
-    public void CallSetJumpFalse()
+    public void CallJumpLand()
     {
         playerLandMovement.JumpLand();
     }

@@ -66,7 +66,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     // A float for if an object needs to be rotated to be placed properly.
     private const float adjustmentAngle = 90f;
 
-
+    private const float WindowWasherRotMod = 180f;
 
     public DistrictConfiguration TestDistrict;
     public BaseSize TestSize;
@@ -86,7 +86,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// <param name="district"></param>
     void CreateMaterialsForDistrict(DistrictConfiguration district)
     {
-        //15 is a fairly large number for material instances. We'll probably settle around 5-10.
+        // 15 is a fairly large number for material instances. We'll probably settle around 5-10.
         if(materialInstances > 15)
         {
             Debug.LogWarning("materialInstances may be too high. Consider lowering it to improve performance");
@@ -162,16 +162,14 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {   
                 // Check to see if a window washer is needed.
                 // Since WindowWasherChance is a float between 0-100, we use that range for generating a random float
-                if (Random.Range(0f, 100f) <= district.WindowWasherChance)
+                if (RandomUtility.RandomHundredPercent <= district.WindowWasherChance)
                 {
                     // Base washer position on a window's position/rotation.
                     Transform washerLocation = windowMeshes[Random.Range(0, windowMeshes.Count - 1)].transform;
                     addWindowWasher(newBuilding, district, storiesTall, washerLocation);
                 }
             }
-         
 
-            //////
             MeshFilter[] windowMeshFilters = new MeshFilter[windowMeshes.Count];
             for (int i = 0; i < windowMeshes.Count; ++i)
             {
@@ -551,18 +549,20 @@ public class ProceduralBuildingCreator : MonoBehaviour
         WindowWasher newWasher;
         newWasher = (WindowWasher)Instantiate(newWashersPrefab);
         newWasher.transform.SetParent(newBuilding.transform);
-        newWasher.transform.eulerAngles = washerLocation.rotation.eulerAngles + new Vector3(0f, 180f, 0f);
+        newWasher.transform.eulerAngles = washerLocation.rotation.eulerAngles + new Vector3(0f, WindowWasherRotMod, 0f);
         newWasher.transform.position = washerLocation.position;
 
         RaycastHit placementHit;
-        newWasher.transform.position = new Vector3(newWasher.transform.position.x, (newBuilding.transform.position.y) + storiesTall * (storyHeightUnits), newWasher.transform.position.z);
-
+        newWasher.transform.position = new Vector3(newWasher.transform.position.x,
+            (newBuilding.transform.position.y) + storiesTall * (storyHeightUnits),
+            newWasher.transform.position.z);
 
         // Set max lower distance based on the animation curve.
         // Again this curve is only evaluated between 0 and 1 on the X axis.
         newWasher.MaxLowerDistance = district.WindowWasherMaxLengthCurve.Evaluate(Random.value);
+
         // Set if the new washer starts up or not. This is a percent chance so we use a range of 0-100 to evaluate.
-        if (Random.Range(0f, 100f) <= district.WindowWasherStartUpChance)
+        if (RandomUtility.RandomHundredPercent <= district.WindowWasherStartUpChance)
         {
             newWasher.StartUp = true;
         }

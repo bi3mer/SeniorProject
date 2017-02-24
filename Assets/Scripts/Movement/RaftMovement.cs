@@ -41,7 +41,10 @@ public class RaftMovement : Movement
 
     [SerializeField]
     private float updatePlayerPositionTimer = 2.0f;
-
+   
+    /// <summary>
+    /// Get the raft's rigidbody component. 
+    /// </summary>
     void Awake()
     {
         raftBody = GetComponent<Rigidbody>();
@@ -52,6 +55,7 @@ public class RaftMovement : Movement
     /// </summary>
     void FixedUpdate ()
     {
+        // Set the raft to kinimatic so the player can't push it around and it stays in place.
         if (!Game.Instance.PlayerInstance.Controller.IsOnRaft)
         {
             raftBody.isKinematic = true;
@@ -83,7 +87,6 @@ public class RaftMovement : Movement
     /// </summary>
     public override void Idle(Animator playerAnimator)
     {
-
          //Raft Idle animation code
     }
 
