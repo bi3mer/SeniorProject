@@ -1,5 +1,13 @@
 --- 
 - 
   category: Player
-  eventPath: ""
-  text: "This is an announcement generated on the fly."
+  eventPath: "playerGenerated.wav"
+  text: "Don't you forget about me. Don't don't don't don't"
+  voice: "en"
+  speed: 0.9
+- 
+  category: Weather
+  eventPath: "weatherGenerated.wav" 
+  text: "."
+  voice: "en"
+  speed: 0.9

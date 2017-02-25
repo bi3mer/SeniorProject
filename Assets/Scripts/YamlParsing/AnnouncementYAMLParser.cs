@@ -10,19 +10,17 @@ using UnityEngine;
 
 public class AnnouncementYAMLParser
 {
-	public string PregeneratedFilename;
 	public string TTSFilename;
 
-	public AnnouncementYAMLParser (string pregeneratedFile, string ttsFile)
+	public AnnouncementYAMLParser (string ttsFile)
 	{
-		PregeneratedFilename = pregeneratedFile;
 		TTSFilename = ttsFile;
 	}
 
 	public List<MysteryAnnouncement> LoadAnnouncements()
 	{
 		// read in the yaml file and deserialize the input
-		string file = FileManager.GetDocument(Filename);
+		string file = FileManager.GetDocument(TTSFilename);
 		StringReader input = new StringReader(file);
 		Deserializer deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
 

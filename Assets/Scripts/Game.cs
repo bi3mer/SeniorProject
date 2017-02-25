@@ -16,6 +16,7 @@
 		Scheme = GameSettingsInstance.Scheme;
         Loader = new GameLoader();
         DeathManagerInstance = new DeathManager();
+		AnnouncementFactoryInstance = new AnnouncementFactory ();
     }
 
     /// <summary>
@@ -276,9 +277,18 @@
     	private set;
     }
 
-    public ItemPoolManager ItemPoolInstance
-    {
-    	get;
-    	set;
-    }
+    public ItemPoolManager ItemPoolInstance 
+	{
+		get;
+		set;
+	}
+
+	public AnnouncementFactory AnnouncementFactoryInstance 
+	{
+		get;
+		set;
+	}
+
+
+
 }
