@@ -73,6 +73,7 @@ public class LandMovement : Movement
             {
                 gravity = Physics.gravity.y;
             }
+
             yVelocity = lastYVelocity + gravity;
             yVelocity = Mathf.Clamp(yVelocity, -terminalVelocity, jumpForce);
             lastYVelocity = yVelocity;

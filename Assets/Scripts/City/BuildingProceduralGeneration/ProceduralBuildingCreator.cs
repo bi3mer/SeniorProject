@@ -554,7 +554,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
 
         RaycastHit placementHit;
         newWasher.transform.position = new Vector3(newWasher.transform.position.x,
-            (newBuilding.transform.position.y) + storiesTall * (storyHeightUnits),
+            newBuilding.transform.position.y + storiesTall * storyHeightUnits,
             newWasher.transform.position.z);
 
         // Set max lower distance based on the animation curve.
