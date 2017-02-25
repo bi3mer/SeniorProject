@@ -8,12 +8,15 @@ public class TutorialGraffiti : MonoBehaviour
     // The text that comes before keys
     [SerializeField]
     private string beforeKeys;
+
     // The text that comes after the keys
     [SerializeField]
     private string afterKeys;
+
     // The text to place inbetween keys if there are multiple
     [SerializeField]
     private string betweenKeys;
+
     // The keys to access.
     [SerializeField]
     private string[] keys;
