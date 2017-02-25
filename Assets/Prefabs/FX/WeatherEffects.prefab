@@ -45,6 +45,7 @@ GameObject:
   - 114: {fileID: 114000010051555858}
   - 114: {fileID: 114000013985563468}
   - 114: {fileID: 114000011744740192}
+  - 114: {fileID: 114000013667240242}
   m_Layer: 0
   m_Name: WeatherEffects
   m_TagString: Untagged
@@ -826,6 +827,21 @@ MonoBehaviour:
   weatherIntensityDivisor: 10
   maxWeatherVolume: 3
   weatherVolume: 2
+--- !u!114 &114000013667240242
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010414017512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
+  weatherIntensityDivisor: 10
+  maxWeatherVolume: 3
+  weatherVolume: 2
 --- !u!114 &114000013893003440
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1179,7 +1195,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationX:
-      scalar: -0.003362383
+      scalar: -0.023217678
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1214,7 +1230,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationY:
-      scalar: -0.032298256
+      scalar: -0.018864065
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1313,7 +1329,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 40.611073
+      scalar: 38.543045
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1741,7 +1757,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 1.8505538
+      scalar: 1.0808313
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1766,7 +1782,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     y:
-      scalar: -0.19265036
+      scalar: -1.3302749
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10286,7 +10302,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 0.7402215
+      scalar: 0.43233252
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10336,7 +10352,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     z:
-      scalar: -0.07706015
+      scalar: -0.53211
       maxCurve:
         serializedVersion: 2
         m_Curve:
