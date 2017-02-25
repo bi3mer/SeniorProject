@@ -584,12 +584,8 @@ public class PlayerController : MonoBehaviour
                 if (Vector3.Angle(playerAnimator.transform.forward, targetDir) < ViewAngle / 2)
                 {
                     float targetDist = Vector3.Distance(playerAnimator.transform.position, target.position);
-
-                    // check that the interactable object is not behind a non-interactable object
-                    if (!Physics.Raycast(playerAnimator.transform.position, targetDir, targetDist, obstacleMask))
-                    {
-                        CheckClosestInteractable(interactablesInRadius[i], targetDist);
-                    }
+              
+                    CheckClosestInteractable(interactablesInRadius[i], targetDist);
                 }
             }
 

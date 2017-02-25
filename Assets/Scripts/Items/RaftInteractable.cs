@@ -24,6 +24,7 @@ public class RaftInteractable : InteractableObject {
 
         raftMovement = GetComponentInChildren<RaftMovement>();
         raftMovement.SetMaxSpeed(Raft.Speed);
+        Text = raftMovement.BoardRaftText;
 
         SetAction
         (
@@ -32,24 +33,6 @@ public class RaftInteractable : InteractableObject {
                 BoardRaft();
             }
         );
-    }
-
-    /// <summary>
-    /// When leaving the trigger area. Used to signal an interactable object is not in range.For raft interactions.
-    /// </summary>
-    /// <param name="other">Collider with trigger</param>
-    void OnTriggerExit(Collider other)
-    {
-        this.Show = false;
-    }
-
-    /// <summary>
-    /// When colliding with a trigger. Used for interactable object interaction. For raft interactions.
-    /// </summary>
-    /// <param name="other">Collider with trigger</param>
-    void OnTriggerEnter(Collider other)
-    {
-        this.Show = true;
     }
 
     /// <summary>

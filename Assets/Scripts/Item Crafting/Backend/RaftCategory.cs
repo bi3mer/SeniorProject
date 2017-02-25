@@ -81,11 +81,25 @@ public class RaftCategory : ItemCategory
         raft.SetUp();
 
         item.name = baseItem.ItemName;
-        item.transform.position = Game.Instance.PlayerInstance.WorldTransform.position;
+
+        // place the raft away from character
+        item.transform.position = new Vector3(Game.Instance.PlayerInstance.WorldTransform.position.x, Game.Instance.PlayerInstance.WorldTransform.position.y, Game.Instance.PlayerInstance.WorldTransform.position.z + 3);
         Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
 
         SetActionComplete(setDownActName);
 
         baseItem.RemovalFlag = true;
+    }
+
+    /// <summary>
+    /// Finds the closest place to place raft in water.
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 FindClosestWater()
+    {
+        // TO DO: add a way to detect water.
+        Vector3 raftPosition = new Vector3(Game.Instance.PlayerInstance.WorldTransform.position.x, Game.Instance.PlayerInstance.WorldTransform.position.y, Game.Instance.PlayerInstance.WorldTransform.position.z); 
+
+        return raftPosition;
     }
 }
