@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour
     private bool isInShelter;
     private bool isByFire;
     private bool isReading;
+	private bool isByWater;
 
     private float currentWarmthChangeRate;
     private float currentHungerChangeRate;
@@ -225,11 +226,10 @@ public class PlayerController : MonoBehaviour
     {
         // enter into the range of an interactable item 
         // TODO: Figure out why the player can't find the raft when on board with cone view.
-        if (IsOnRaft && other.CompareTag(interactiveTag))
-        {
-            interactable = other.GetComponent<InteractableObject>();
-            interactable.Show = true;
-        }
+		if (IsOnRaft && other.CompareTag (interactiveTag)) {
+			interactable = other.GetComponent<InteractableObject> ();
+			interactable.Show = true;
+		}
     }
 
     /// <summary>
@@ -385,6 +385,19 @@ public class PlayerController : MonoBehaviour
                 freezePlayer = true;
                 StartCoroutine(ClimbCoroutine());
             }
+
+//			RaycastHit2D hit = Physics2D.Raycast(Game.Instance.PlayerInstance.WorldTransform.position, Game.Instance.PlayerInstance.WorldTransform.TransformDirection (Vector3.forward));
+//			if (hit.collider != null)
+//			{
+//				Debug.Log (hit.collider.gameObject.name);
+//			}
+
+			// Check if the player is close to water
+			RaycastHit hit;
+			// We have to raycast in front of the player.
+			if (Physics.Raycast (Game.Instance.PlayerInstance.WorldTransform.position + new Vector3 (2.05f, 0f, 0f), Vector3.down, out hit)) {
+				Debug.Log (hit.collider.tag);
+			}
         }
     }
 
@@ -744,6 +757,23 @@ public class PlayerController : MonoBehaviour
             isByFire = value;
         }
     }
+
+	/// <summary>
+	/// Gets or sets a value indicating whether player is by water.
+	/// </summary>
+	/// <value><c>true</c> if this instance is by water; otherwise, <c>false</c>.</value>
+	public bool IsByWater
+	{
+		get
+		{
+			return isByWater;
+		}
+		set 
+		{
+			// any additional conditionals for when the player is by water
+			isByWater = value;
+		}
+	}
 
     /// <summary>
     /// Gets or sets the fire warmth increase rate.
