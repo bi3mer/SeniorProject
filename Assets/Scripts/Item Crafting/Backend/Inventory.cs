@@ -80,7 +80,7 @@ public class Inventory
 
 				BaseItem item = inventoryInfo [i].Item;
 
-				updateTypeAmount(item.Types, inventoryInfo[i].ItemAmount);
+				UpdateTypeAmount(item.Types, inventoryInfo[i].ItemAmount);
 
 				item.InitializeBaseItem ();
 
@@ -132,7 +132,7 @@ public class Inventory
 				{
 					stackAmount = contents[i].Amount;
 					contents[i].Amount -= amountLeft;
-					updateTypeAmount(contents[i].Item.Types, -amountLeft);
+					UpdateTypeAmount(contents[i].Item.Types, -amountLeft);
 
 					amountLeft -= stackAmount;
 
@@ -236,7 +236,7 @@ public class Inventory
 	{
 		int loc = GetNextOpenSlot ();
 		contents[loc] = new Stack(newItem, amount, Guid.NewGuid().ToString("N"));
-		updateTypeAmount(newItem.Types, amount);
+		UpdateTypeAmount(newItem.Types, amount);
 
 		return contents[loc];
 	}
@@ -338,7 +338,12 @@ public class Inventory
 		}
 	}
 
-	public void updateTypeAmount(List<string> types, int changedAmount)
+	/// <summary>
+	/// Updates the type amount.
+	/// </summary>
+	/// <param name="types">Types.</param>
+	/// <param name="changedAmount">Changed amount. Negative for removed amount, positive for added.</param>
+	public void UpdateTypeAmount(List<string> types, int changedAmount)
 	{
 		for(int i = 0; i < types.Count; ++i)
 		{
@@ -346,13 +351,18 @@ public class Inventory
 		}
 	}
 
+	/// <summary>
+	/// Checks if recipe possible given items in the inventory.
+	/// </summary>
+	/// <returns><c>true</c>, if recipe possible was checked, <c>false</c> otherwise.</returns>
+	/// <param name="recipe">Recipe.</param>
 	public bool CheckRecipePossible(Recipe recipe)
     {
     	Requirement requirement;
 
-    	for(int i = 0; i < recipe.Requirements.Count; ++i)
+    	for(int i = 0; i < recipe.ResourceRequirements.Count; ++i)
     	{
-			requirement = recipe.Requirements[i];
+			requirement = recipe.ResourceRequirements[i];
 
     		if(itemCountByType[requirement.ItemType] < requirement.AmountRequired)
     		{
@@ -361,5 +371,15 @@ public class Inventory
     	}
 
     	return true;
+    }
+
+    /// <summary>
+    /// Checks if the requirement is met.
+    /// </summary>
+    /// <returns><c>true</c>, if requirement met was checked, <c>false</c> otherwise.</returns>
+    /// <param name="requirement">Requirement.</param>
+    public bool CheckRequirementMet(Requirement requirement)
+    {
+    	return itemCountByType[requirement.ItemType] >= requirement.AmountRequired;
     }
 }

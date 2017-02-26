@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class RecipeBookBehavior : MonoBehaviour 
 {
@@ -14,7 +15,9 @@ public class RecipeBookBehavior : MonoBehaviour
 	[Tooltip("filename for yaml that contains the recipe information")]
 	public string RecipeFileName;
 
-	private Dictionary<string, Recipe> recipes;
+	private List<RecipeButtonGUIBehavior> craftableRecipes;
+
+	private List<RecipeButtonGUIBehavior> unCraftableRecipes;
 
 	private RecipeYamlSerializer parser;
 
@@ -32,18 +35,34 @@ public class RecipeBookBehavior : MonoBehaviour
 	/// </summary>
 	public void LoadRecipes()
 	{
-		recipes = parser.LoadRecipes ();
+		Dictionary<string, Recipe> recipes = parser.LoadRecipes ();
+		craftableRecipes = new List<RecipeButtonGUIBehavior>();
+		unCraftableRecipes = new List<RecipeButtonGUIBehavior>();
 
 		List<string> recipeNames = new List<string> (recipes.Keys);
+		bool available = false;
 
 		for (int i = 0; i < recipeNames.Count; ++i) 
 		{
 			RecipeButtonGUIBehavior recipe = GameObject.Instantiate (RecipeButtonTemplate).GetComponent<RecipeButtonGUIBehavior> ();
 			recipe.gameObject.SetActive (true);
-			recipe.SetUpButton(recipes[recipeNames [i]]);
-			// add page to book panel grid and set first page active
-			recipe.transform.SetParent (recipeContent.transform, false);
+			recipe.name = recipes[recipeNames[i]].RecipeName;
+
+			available = Game.Instance.PlayerInstance.Inventory.CheckRecipePossible(recipes[recipeNames[i]]);
+
+			if(available)
+			{
+				craftableRecipes.Add(recipe);
+			}
+			else
+			{
+				unCraftableRecipes.Add(recipe);
+			}
+
+			recipe.SetUpButton(recipes[recipeNames [i]], available);
 		}
+
+		SortRecipes();
 	}
 
 	/// <summary>
@@ -51,13 +70,170 @@ public class RecipeBookBehavior : MonoBehaviour
 	/// </summary>
 	public void ResetPanel()
 	{
-		RecipePageBehavior[] pages = GetComponentsInChildren<RecipePageBehavior>();
-
-		for(int i = 0; i < pages.Length; ++i)
+		if(craftableRecipes != null)
 		{
-			pages[i].EndCraftingAttempt();
+			RefreshRecipes();
+			GuiInstanceManager.RecipePageInstance.EndCraftingAttempt();
+			GuiInstanceManager.RecipePageInstance.HidePanel();
+		}
+	}
+
+	/// <summary>
+	/// Sorts the recipes by alphabetical order of the recipe name. Craftable recipes are displayed first.
+	/// </summary>
+	public void SortRecipes()
+	{
+		craftableRecipes = craftableRecipes.OrderBy(x => x.AssociatedRecipe.RecipeName).ToList();
+		unCraftableRecipes = unCraftableRecipes.OrderBy(x => x.AssociatedRecipe.RecipeName).ToList();
+
+		int i;
+
+		for(i = 0; i < craftableRecipes.Count; ++i)
+		{
+			craftableRecipes[i].transform.SetParent (recipeContent.transform, false);
 		}
 
+		for(i = 0; i < unCraftableRecipes.Count; ++i)
+		{
+			unCraftableRecipes[i].transform.SetParent (recipeContent.transform, false);
+		}
+	}
 
+	/// <summary>
+	/// Refreshs the recipes.
+	/// </summary>
+	public void RefreshRecipes()
+	{
+		int i;
+		List<RecipeButtonGUIBehavior> newAvailable = new List<RecipeButtonGUIBehavior>();
+		List<RecipeButtonGUIBehavior> newUnavailable = new List<RecipeButtonGUIBehavior>();
+
+		for(i = 0; i < craftableRecipes.Count; ++i)
+		{
+			if(!Game.Instance.PlayerInstance.Inventory.CheckRecipePossible(craftableRecipes[i].AssociatedRecipe))
+			{
+				craftableRecipes[i].Craftable = false;
+				newUnavailable.Add(craftableRecipes[i]);
+			}
+
+			craftableRecipes[i].Unselect();
+		}
+
+		for(i = 0; i < unCraftableRecipes.Count; ++i)
+		{
+			if(Game.Instance.PlayerInstance.Inventory.CheckRecipePossible(unCraftableRecipes[i].AssociatedRecipe))
+			{
+				unCraftableRecipes[i].Craftable = true;
+				newAvailable.Add(unCraftableRecipes[i]);
+			}
+
+			unCraftableRecipes[i].Unselect();
+		}
+
+		for(i = 0; i < newAvailable.Count; ++i)
+		{
+			InsertRecipeButton(newAvailable[i], craftableRecipes);
+			unCraftableRecipes.Remove(newAvailable[i]);
+		}
+
+		for(i = 0; i < newUnavailable.Count; ++i)
+		{
+			InsertRecipeButton(newUnavailable[i], unCraftableRecipes);
+			craftableRecipes.Remove(newUnavailable[i]);
+		}
+
+		reorderRecipesInPanel();
+	}
+
+	/// <summary>
+	/// Reorders the recipes in the display panel.
+	/// </summary>
+	private void reorderRecipesInPanel()
+	{
+		int i;
+
+		recipeContent.transform.DetachChildren();
+
+		for(i = 0; i < craftableRecipes.Count; ++i)
+		{
+			craftableRecipes[i].transform.SetParent (recipeContent.transform, false);
+			craftableRecipes[i].transform.localScale = Vector3.one;
+		}
+
+		for(i = 0; i < unCraftableRecipes.Count; ++i)
+		{
+			unCraftableRecipes[i].transform.SetParent (recipeContent.transform, false);
+			unCraftableRecipes[i].transform.localScale = Vector3.one;
+		}
+	}
+
+	/// <summary>
+	/// Unlocks a recipe. Adds it to the crafting ui.
+	/// </summary>
+	/// <param name="newRecipe">New recipe.</param>
+	public void UnlockRecipe(Recipe newRecipe)
+	{
+		bool available = Game.Instance.PlayerInstance.Inventory.CheckRecipePossible(newRecipe);
+
+		RecipeButtonGUIBehavior recipeButton = GameObject.Instantiate (RecipeButtonTemplate).GetComponent<RecipeButtonGUIBehavior> ();
+		recipeButton.gameObject.name = newRecipe.RecipeName;
+		recipeButton.SetUpButton(newRecipe, available);
+
+		if(available)
+		{
+			InsertRecipeButton(recipeButton, craftableRecipes);
+		}
+		else
+		{
+			InsertRecipeButton(recipeButton, unCraftableRecipes);
+		}
+	}
+
+	/// <summary>
+	/// Inserts the recipe button into either the uncraftable or craftable section.
+	/// </summary>
+	/// <param name="newButton">New button.</param>
+	/// <param name="listToInsertInto">List to insert into.</param>
+	public void InsertRecipeButton(RecipeButtonGUIBehavior newButton, List<RecipeButtonGUIBehavior> listToInsertInto)
+	{
+		int searchMax = listToInsertInto.Count - 1;
+		int searchMin = 0;
+		int midIndex = (searchMax + searchMin)/2;
+		int compareVal;
+
+		if(listToInsertInto.Count == 0)
+		{
+			listToInsertInto.Add(newButton);
+			return;
+		}
+
+		while(searchMax >= searchMin)
+		{
+			compareVal = string.Compare(newButton.AssociatedRecipe.RecipeName, listToInsertInto[midIndex].AssociatedRecipe.RecipeName, true);
+
+			if(compareVal < 0)
+			{
+				searchMax = midIndex - 1;
+			}
+			else if(compareVal > 0)
+			{
+				searchMin = midIndex + 1;
+			}
+			else
+			{
+				break;
+			}
+
+			midIndex = (searchMax + searchMin)/2;
+		}
+
+		if(string.Compare(newButton.AssociatedRecipe.RecipeName, listToInsertInto[midIndex].AssociatedRecipe.RecipeName, true) < 0)
+		{
+			listToInsertInto.Insert(midIndex, newButton);
+		}
+		else
+		{
+			listToInsertInto.Insert(midIndex + 1, newButton);
+		}
 	}
 }

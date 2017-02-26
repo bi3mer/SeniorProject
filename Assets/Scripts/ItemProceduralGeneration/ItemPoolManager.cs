@@ -337,7 +337,9 @@ public class ItemPoolManager : MonoBehaviour
 		int index = gridCell.Items.IndexOf(item);
 
 		item.SetActive(false);
+
 		itemPool[gridCell.ItemNames[index]].Add(item);
+
 		gridCell.RemoveItemInfo(index);
 	}
 
@@ -354,6 +356,7 @@ public class ItemPoolManager : MonoBehaviour
 		if(gridCell == null)
 		{
 			grid[itemGridLocation.X, itemGridLocation.Y] = new ItemPoolInfo(item.transform.position, item.name, true);
+			grid[itemGridLocation.X, itemGridLocation.Y].Items.Add(item);
 		}
 		else
 		{

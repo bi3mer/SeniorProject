@@ -15,16 +15,55 @@ public class RecipeButtonGUIBehavior : MonoBehaviour
 
 	public Color SelectedColor;
 
+	public Color SelectedBackColor;
+
 	private Button associatedButton;
 
 	private Text associatedText;
 
-	private Recipe associatedRecipe;
-
 	private Color unhighlightedColor;
 
+	private bool craftable;
+
+	/// <summary>
+	/// Gets the associated recipe.
+	/// </summary>
+	/// <value>The associated recipe.</value>
+	public Recipe AssociatedRecipe
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="RecipeButtonGUIBehavior"/> is craftable.
+	/// </summary>
+	/// <value><c>true</c> if craftable; otherwise, <c>false</c>.</value>
+	public bool Craftable
+	{
+		get
+		{
+			return craftable;
+		}
+		set
+		{
+			craftable = value;
+
+			if(craftable)
+			{
+				associatedText.color = EnabledColor;
+				unhighlightedColor = EnabledColor;
+			}
+			else
+			{
+				associatedText.color = DisabledColor;
+				unhighlightedColor = DisabledColor;
+			}
+		}
+	}
+
 	// Use this for initialization
-	void Start () 
+	void Awake () 
 	{
 		associatedText = GetComponentInChildren<Text>();
 		associatedButton = GetComponent<Button>();
@@ -35,10 +74,7 @@ public class RecipeButtonGUIBehavior : MonoBehaviour
 	/// </summary>
 	public void Highlight()
 	{
-		if(associatedButton.enabled)
-		{
-			associatedText.color = HighlightColor;
-		}
+		associatedText.color = HighlightColor;
 	}
 
 	/// <summary>
@@ -46,10 +82,7 @@ public class RecipeButtonGUIBehavior : MonoBehaviour
 	/// </summary>
 	public void UnHighlight()
 	{
-		if(associatedButton.enabled)
-		{
-			associatedText.color = unhighlightedColor;
-		}
+		associatedText.color = unhighlightedColor;
 	}
 
 	/// <summary>
@@ -58,8 +91,14 @@ public class RecipeButtonGUIBehavior : MonoBehaviour
 	public void ShowRecipe()
 	{
 		associatedText.color = SelectedColor;
+		associatedText.fontStyle = FontStyle.Bold;
+
+		ColorBlock cb = associatedButton.colors;
+		cb.normalColor = SelectedBackColor;
+		associatedButton.colors = cb;
+
 		unhighlightedColor = SelectedColor;
-		GuiInstanceManager.RecipePageInstance.SetUpRecipePage(associatedRecipe, this);
+		GuiInstanceManager.RecipePageInstance.SetUpRecipePage(AssociatedRecipe, this, craftable);
 	}
 
 	/// <summary>
@@ -67,30 +106,39 @@ public class RecipeButtonGUIBehavior : MonoBehaviour
 	/// </summary>
 	public void Unselect()
 	{
-		associatedText.color = EnabledColor;
-		unhighlightedColor = EnabledColor;
+		if(craftable)
+		{
+			unhighlightedColor = EnabledColor;
+		}
+		else
+		{
+			unhighlightedColor = DisabledColor;
+		}
+
+		associatedText.color = unhighlightedColor;
+		associatedText.fontStyle = FontStyle.Normal;
+
+		ColorBlock cb = associatedButton.colors;
+		cb.normalColor = new Color(SelectedBackColor.r, SelectedBackColor.g, SelectedBackColor.b, 0f);
+		associatedButton.colors = cb;
 	}
 
 	/// <summary>
 	/// Sets up button's color and links a recipe to it.
 	/// </summary>
 	/// <param name="recipe">Recipe.</param>
-	public void SetUpButton(Recipe recipe)
+	public void SetUpButton(Recipe recipe, bool recipePossible)
 	{
 		associatedText.text = recipe.RecipeName;
-		associatedRecipe = recipe;
+		AssociatedRecipe = recipe;
 
-		if(Game.Instance.PlayerInstance.Inventory.CheckRecipePossible(recipe))
+		if(recipePossible)
 		{
-			associatedButton.interactable = true;
-			associatedText.color = EnabledColor;
-			unhighlightedColor = EnabledColor;
+			Craftable = true;
 		}
 		else
 		{
-			associatedButton.interactable = false;
-			associatedText.color = DisabledColor;
-			unhighlightedColor = DisabledColor;
+			Craftable = false;
 		}
 	}
 }

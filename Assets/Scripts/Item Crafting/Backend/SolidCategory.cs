@@ -104,7 +104,7 @@ public class SolidCategory : ItemCategory
 	/// <summary>
 	/// Threshold value of Sharpess, over which the item will be considered a blade
 	/// </summary>
-	private const float bladeNameThreshold = 3f;
+	private const float sharpTypeThreshold = 3f;
 
 	/// <summary>
 	/// string added to item name when the resulting rope is thin enough to be a thread
@@ -120,11 +120,6 @@ public class SolidCategory : ItemCategory
 	/// string added to item name by default when item has been sharpened
 	/// </summary>
 	private const string defaultSharpenNameAddtion = "Sharpened";
-
-	/// <summary>
-	/// string added to item name when item is sharp enough to be a blade
-	/// </summary>
-	private const string bladeNameAddition = "Blade";
 
 	private const string basketNameAddition = "Basket";
 
@@ -288,20 +283,12 @@ public class SolidCategory : ItemCategory
 	/// </summary>
 	public void Sharpen()
 	{
-		if (Sharpness > bladeNameThreshold) 
-		{
-			if (!baseItem.ItemName.Contains (bladeNameAddition)) 
-			{
-				baseItem.ChangeName(baseItem.ItemName + " " + bladeNameAddition);
-			}
-		} 
-		else 
-		{
-			baseItem.ChangeName (defaultSharpenNameAddtion + " " + baseItem.ItemName);
-		}
+		baseItem.ChangeName (defaultSharpenNameAddtion + " " + baseItem.ItemName);
 
 		Sharpness = Sharpness * sharpenRate;
 		GetAttribute (sharpAttrName).Value = Sharpness;
+
+
 		baseItem.DirtyFlag = true;
 		SetActionComplete(sharpenActionName);
 	}

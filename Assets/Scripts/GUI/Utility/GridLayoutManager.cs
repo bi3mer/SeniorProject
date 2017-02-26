@@ -18,17 +18,27 @@ public class GridLayoutManager : MonoBehaviour
 	private GridLayoutGroup gridLayoutGroup;
 
 	[SerializeField]
-	private RectTransform contentPanel;
+	[Tooltip("The panel whose dimensions will drive the size of the grid layout")]
+	private RectTransform dimensionDrivingPanel;
+
+	[SerializeField]
+	[Tooltip("Scroll bar to take into account")]
+	private RectTransform scrollBar;
 
 	private float previousWidth;
 
 	/// <summary>
-	/// Start this instance.
+	/// Awakens this instance.
 	/// </summary>
-	void Start () 
+	void Awake () 
 	{
 		SetGridSize();
 	}
+
+	void Update()
+	{
+	}
+
 
 	/// <summary>
 	/// Sets the size of the grid cells.
@@ -36,13 +46,21 @@ public class GridLayoutManager : MonoBehaviour
 	public void SetGridSize()
 	{
 		// actual free space of the grid is determined by the size of the container, the padding, and the total spacing between each element
-		float xDim = Mathf.FloorToInt((contentPanel.rect.width - (gridLayoutGroup.padding.right + gridLayoutGroup.padding.left 
-										+ gridLayoutGroup.spacing.x * (ElementsPerRow - 1))) / ElementsPerRow);
+
+		float scrollBarWidth = 0f;
+
+		if(scrollBar != null)
+		{
+			scrollBarWidth = scrollBar.rect.width;
+		}
+
+		float xDim = Mathf.FloorToInt((dimensionDrivingPanel.rect.width - (gridLayoutGroup.padding.right + gridLayoutGroup.padding.left 
+										+ gridLayoutGroup.spacing.x * (ElementsPerRow - 1) + scrollBarWidth)) / ElementsPerRow);
 		float yDim;
 
 		if(UseMaxRows)
 		{
-			yDim = Mathf.FloorToInt((contentPanel.rect.height - (gridLayoutGroup.padding.top + gridLayoutGroup.padding.bottom 
+			yDim = Mathf.FloorToInt((dimensionDrivingPanel.rect.height - (gridLayoutGroup.padding.top + gridLayoutGroup.padding.bottom 
 									+ gridLayoutGroup.spacing.y * (ElementsPerRow - 1))) / MaxRows);
 		}
 		else
@@ -51,15 +69,21 @@ public class GridLayoutManager : MonoBehaviour
 		}
 
 		gridLayoutGroup.cellSize = new Vector2(xDim, yDim);
-		previousWidth = contentPanel.rect.width;
+		previousWidth = dimensionDrivingPanel.rect.width;
 	}
 
+	public void CheckGridSize()
+	{
+		StartCoroutine(checkContentPanelSize());
+	}
 	/// <summary>
 	/// Checks the size of the grid.
 	/// </summary>
-	public void CheckGridSize()
+	private IEnumerator checkContentPanelSize()
 	{
-		if(previousWidth != contentPanel.rect.width)
+		yield return null;
+
+		if(previousWidth != dimensionDrivingPanel.rect.width)
 		{
 			SetGridSize();
 		}
