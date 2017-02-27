@@ -34,7 +34,7 @@ public class RaftWake : MonoBehaviour
     {
         ParticleSystem.EmissionModule em = emitter.emission;
 
-        // tuen off and return if we're no longer moving
+        // turn off and return if we're no longer moving
         if (raftRigidbody.velocity.magnitude < stopTolerence)
         {
             em.enabled = false;
