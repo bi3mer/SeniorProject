@@ -386,17 +386,15 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(ClimbCoroutine());
             }
 
-//			RaycastHit2D hit = Physics2D.Raycast(Game.Instance.PlayerInstance.WorldTransform.position, Game.Instance.PlayerInstance.WorldTransform.TransformDirection (Vector3.forward));
-//			if (hit.collider != null)
-//			{
-//				Debug.Log (hit.collider.gameObject.name);
-//			}
-
 			// Check if the player is close to water
 			RaycastHit hit;
 			// We have to raycast in front of the player.
-			if (Physics.Raycast (Game.Instance.PlayerInstance.WorldTransform.position + new Vector3 (2.05f, 0f, 0f), Vector3.down, out hit)) {
-				Debug.Log (hit.collider.tag);
+			if (Physics.Raycast (transform.position + (playerAnimator.transform.forward * 0.5f), Quaternion.Euler (45f, 0f, 0f) * Game.Instance.PlayerInstance.WorldTransform.forward, out hit)) 
+			{
+				if (hit.collider.tag == "Water")
+				{
+					IsByWater = true;
+				}
 			}
         }
     }
