@@ -67,6 +67,8 @@ public class PlayerController : MonoBehaviour
     private float waterWadeHeight;
 
     private const float groundedRaycastHeight = 0.01f;
+	private const float distanceToCheckWater = 0.5f;
+	//private const string waterTag = "Water";
 
     [Header("Sound Settings")]
     [SerializeField]
@@ -78,7 +80,7 @@ public class PlayerController : MonoBehaviour
     private bool isInShelter;
     private bool isByFire;
     private bool isReading;
-	private bool isByWater;
+	private bool isWaterInView;
 
     private float currentWarmthChangeRate;
     private float currentHungerChangeRate;
@@ -389,11 +391,11 @@ public class PlayerController : MonoBehaviour
 			// Check if the player is close to water
 			RaycastHit hit;
 			// We have to raycast in front of the player.
-			if (Physics.Raycast (transform.position + (playerAnimator.transform.forward * 0.5f), Quaternion.Euler (45f, 0f, 0f) * Game.Instance.PlayerInstance.WorldTransform.forward, out hit)) 
+			if (Physics.Raycast (transform.position + (playerAnimator.transform.forward * distanceToCheckWater), -Vector3.up, out hit)) 
 			{
-				if (hit.collider.tag == "Water")
+				if (hit.collider.tag == waterTag)
 				{
-					IsByWater = true;
+					IsWaterInView = true;
 				}
 			}
         }
@@ -760,16 +762,16 @@ public class PlayerController : MonoBehaviour
 	/// Gets or sets a value indicating whether player is by water.
 	/// </summary>
 	/// <value><c>true</c> if this instance is by water; otherwise, <c>false</c>.</value>
-	public bool IsByWater
+	public bool IsWaterInView
 	{
 		get
 		{
-			return isByWater;
+			return isWaterInView;
 		}
 		set 
 		{
 			// any additional conditionals for when the player is by water
-			isByWater = value;
+			isWaterInView = value;
 		}
 	}
 
