@@ -32,16 +32,11 @@ public class RaftWake : MonoBehaviour
     /// <param name="emitter">The particle system.</param>
     private void updateEmitter(ParticleSystem emitter)
     {
-        ParticleSystem.EmissionModule em = emitter.emission;
-
-        // turn off and return if we're no longer moving
+        // return if we're no longer moving
         if (raftRigidbody.velocity.magnitude < stopTolerence)
         {
-            em.enabled = false;
             return;
         }
-
-        em.enabled = true;
 
         // rotate opposite the direction of movement
         emitter.transform.rotation = Quaternion.LookRotation(-raftRigidbody.velocity.normalized);
