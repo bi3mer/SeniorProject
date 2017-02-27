@@ -19,7 +19,13 @@ public class AnnouncementFactory
 	public AnnouncementFactory ()
 	{
 		announcementParser = new AnnouncementYAMLParser (mysteryTTSYAMLPath);
+
 		AnnouncementDatabase = new List<MysteryAnnouncement> ();
+		LocationDatabase = new List<MysteryAnnouncement> ();
+		WeatherDatabase = new List<MysteryAnnouncement> ();
+		TimeDatabase = new List<MysteryAnnouncement> ();
+		PlayerDatabse = new List<MysteryAnnouncement> ();
+
 		loadAnnouncements ();
 	}
 
