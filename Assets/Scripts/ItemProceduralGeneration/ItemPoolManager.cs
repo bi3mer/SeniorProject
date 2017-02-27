@@ -338,7 +338,14 @@ public class ItemPoolManager : MonoBehaviour
 
 		item.SetActive(false);
 
-		itemPool[gridCell.ItemNames[index]].Add(item);
+		if(itemPool.ContainsKey(gridCell.ItemNames[index]))
+		{
+			itemPool[gridCell.ItemNames[index]].Add(item);
+		}
+		else
+		{
+			itemPool.Add(gridCell.ItemNames[index], new List<GameObject> {item});
+		}
 
 		gridCell.RemoveItemInfo(index);
 	}

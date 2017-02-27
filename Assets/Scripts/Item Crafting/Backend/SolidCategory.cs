@@ -74,7 +74,7 @@ public class SolidCategory : ItemCategory
 	/// The thresholds for Sharpen to be a possible action
 	/// </summary>
 	private float sharpenLowerThreshold = 0.2f;
-	private float sharpenUpperThreshold = 0.7f;
+	private float sharpenUpperThreshold = 2.5f;
 
 	/// <summary>
 	/// The threshold for whether or not Weave is a possible action
@@ -119,7 +119,9 @@ public class SolidCategory : ItemCategory
 	/// <summary>
 	/// string added to item name by default when item has been sharpened
 	/// </summary>
-	private const string defaultSharpenNameAddtion = "Sharpened";
+	private const string defaultSharpenNameAddtion = "Filed";
+
+	private const string sharpenTypeNameAddition = "Sharpened";
 
 	private const string basketNameAddition = "Basket";
 
@@ -283,11 +285,18 @@ public class SolidCategory : ItemCategory
 	/// </summary>
 	public void Sharpen()
 	{
-		baseItem.ChangeName (defaultSharpenNameAddtion + " " + baseItem.ItemName);
-
-		Sharpness = Sharpness * sharpenRate;
+		Sharpness = Sharpness * sharpenRate + Durability;
 		GetAttribute (sharpAttrName).Value = Sharpness;
 
+		if(Sharpness > sharpTypeThreshold)
+		{
+			baseItem.Types.Add(ItemTypes.Sharp);
+			baseItem.ChangeName (sharpenTypeNameAddition + " " + baseItem.ItemName);
+		}
+		else
+		{
+			baseItem.ChangeName (defaultSharpenNameAddtion + " " + baseItem.ItemName);
+		}
 
 		baseItem.DirtyFlag = true;
 		SetActionComplete(sharpenActionName);

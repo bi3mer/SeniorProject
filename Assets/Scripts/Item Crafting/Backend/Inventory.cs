@@ -370,6 +370,19 @@ public class Inventory
     		}
     	}
 
+    	if(recipe.ToolRequirements != null)
+    	{
+			for(int i = 0; i < recipe.ToolRequirements.Count; ++i)
+	    	{
+				requirement = recipe.ToolRequirements[i];
+
+	    		if(itemCountByType[requirement.ItemType] < requirement.AmountRequired)
+	    		{
+	    			return false;
+	    		}
+	    	}
+	    }
+
     	return true;
     }
 

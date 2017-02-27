@@ -56,10 +56,15 @@
 	public static string Blade = "blade";
 
 	/// <summary>
+	/// Objects that are cloth.
+	/// </summary>
+	public static string Cloth = "cloth";
+
+	/// <summary>
 	/// Basic solid objects that can be used as raw materials for carving, as base materials, etc.
 	/// Like wooden blocks that can be carved into handles or idols. 
 	/// </summary>
 	public static string BaseSolid = "base solid";
 
-	public static string[] Types = new string[]{Rope, Hook, Sharp, Rod, Container, Edible, Equipable, Igniter, Fuel, Medicinal, Blade, BaseSolid};
+	public static string[] Types = new string[]{Rope, Hook, Sharp, Rod, Container, Edible, Equipable, Igniter, Fuel, Medicinal, Blade, Cloth, BaseSolid};
 }

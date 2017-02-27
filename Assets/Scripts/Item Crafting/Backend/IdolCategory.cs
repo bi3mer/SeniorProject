@@ -18,6 +18,13 @@ public class IdolCategory : EquipableCategory
 	}
 
 	/// <summary>
+	/// Initializes a default instance of the <see cref="IdolCategory"/> class.
+	/// </summary>
+	public IdolCategory()
+	{
+	}
+
+	/// <summary>
 	/// Initializes a new instance of the <see cref="IdolCategory"/> class.
 	/// </summary>
 	/// <param name="benefit">Benefit.</param>
@@ -69,6 +76,8 @@ public class IdolCategory : EquipableCategory
 
 		Actions.Add(equip);
 		Actions.Add(unequip);
+
+		Benefit = new IdolBenefit(BenefitName);
 	}
 
 	/// <summary>
