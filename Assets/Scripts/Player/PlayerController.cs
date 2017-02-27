@@ -68,7 +68,6 @@ public class PlayerController : MonoBehaviour
 
     private const float groundedRaycastHeight = 0.01f;
 	private const float distanceToCheckWater = 0.5f;
-	//private const string waterTag = "Water";
 
     [Header("Sound Settings")]
     [SerializeField]
