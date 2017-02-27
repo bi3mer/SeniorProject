@@ -1,9 +1,9 @@
 --- 
 - 
   category: Player
-  eventPath: ""
+  eventPath: "Player1"
   text: "This is a placeholder announcement for when the player gets on the raft."
 - 
   category: Weather
-  eventPath: ""
+  eventPath: "Player2"
   text: "This is a placeholder announcement for storms."

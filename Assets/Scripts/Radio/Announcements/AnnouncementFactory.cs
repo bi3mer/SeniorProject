@@ -14,7 +14,7 @@ public class AnnouncementFactory
 
 	private AnnouncementYAMLParser announcementParser;
 
-	private const string mysteryTTSYAMLPath = "MysteryChannelTTSYAML.yml";
+	private const string mysteryTTSYAMLPath = "MysteryChannelYAML.yml";
 		
 	public AnnouncementFactory ()
 	{
@@ -33,9 +33,8 @@ public class AnnouncementFactory
 		{
 			AudioSource a = new AudioSource ();
 
-			Speaker.Speak (AnnouncementDatabase[i].Text, a, null, false, 0.01f, 0, Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase[i].EventPath, .01f);
+		//	Speaker.Speak (AnnouncementDatabase[i].Text, null,null, false, 0.9f, 0, Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase[i].EventPath, .9f);
 			Debug.Log (Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase [i].EventPath);
-			//a.volume = 0.0f;
 
 			if (AnnouncementDatabase [i].Category == AnnouncementCategory.Location) 
 			{
