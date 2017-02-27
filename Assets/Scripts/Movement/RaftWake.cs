@@ -15,6 +15,9 @@ public class RaftWake : MonoBehaviour
     [Tooltip("Tolerence for checking if the raft is stopped.")]
     private float stopTolerence;
 	
+    /// <summary>
+    /// Update each particle system according to raft movement
+    /// </summary>
 	void Update ()
     {
         for (int i = 0; i < emitters.Length; ++i)
@@ -23,11 +26,15 @@ public class RaftWake : MonoBehaviour
         }
 	}
 
+    /// <summary>
+    /// Update the values of the particle system depending on the state of the raft
+    /// </summary>
+    /// <param name="emitter">The particle system.</param>
     private void updateEmitter(ParticleSystem emitter)
     {
-        var em = emitter.emission;
+        ParticleSystem.EmissionModule em = emitter.emission;
 
-        // return if we're no longer moving
+        // tuen off and return if we're no longer moving
         if (raftRigidbody.velocity.magnitude < stopTolerence)
         {
             em.enabled = false;
