@@ -2,4 +2,8 @@
 - 
   category: Player
   eventPath: ""
-  text: "This is an announcement generated on the fly."
+  text: "This is a placeholder announcement for when the player gets on the raft."
+- 
+  category: Weather
+  eventPath: ""
+  text: "This is a placeholder announcement for storms."
