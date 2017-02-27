@@ -39,7 +39,7 @@ public class AnnouncementFactory
 		{
 			AudioSource a = new AudioSource ();
 
-		//	Speaker.Speak (AnnouncementDatabase[i].Text, null,null, false, 0.9f, 0, Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase[i].EventPath, .9f);
+			Speaker.Speak (AnnouncementDatabase[i].Text, null,null, false, 0.7f, 0.01f, Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase[i].EventPath, .9f);
 			Debug.Log (Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase [i].EventPath);
 
 			if (AnnouncementDatabase [i].Category == AnnouncementCategory.Location) 
