@@ -15,18 +15,7 @@ public class RaftCategory : ItemCategory
         set;
     }
 
-    /// <summary>
-    /// Gets or sets the durability.
-    /// </summary>
-    /// <value>The toughness.</value>
-    public float Durability
-    {
-        get;
-        set;
-    }
-
     private const string speedAttrName = "speed";
-    private const string durabilityAttrName = "durability";
     private string setDownActName = "Set Down";
 
     /// <summary>
@@ -38,7 +27,6 @@ public class RaftCategory : ItemCategory
         RaftCategory category = new RaftCategory();
 
         category.Speed = Speed;
-        category.Durability = Durability;
 
         category.Actions = new List<ItemAction>();
         category.Attributes = new List<Attribute>();
@@ -60,7 +48,6 @@ public class RaftCategory : ItemCategory
         Attributes = new List<Attribute>();
 
         Attributes.Add(new Attribute(speedAttrName, Speed));
-        Attributes.Add(new Attribute(durabilityAttrName, Durability));
 
         Actions = new List<ItemAction>();
 

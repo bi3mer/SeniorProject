@@ -408,19 +408,19 @@
    inventorySprite: "GUI_ITM_ScrapMetal"
    worldModel: "ITM/Raw Materials/ITM_ScrapMetal"
    types:
-    - ""
+    - "floatable object"
    flavorText: "Leftover metal. Would be good for crafting tools."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
   itemCategories: 
     - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
+      flexibility: 0.5
+      durability: 1
+      elasticity: 0.1
       stickiness: 0
-      thickness: 0
-      sharpness: 0
+      thickness: 0.4
+      sharpness: 0.3
 - itemName: "Golf Club"
   baseItem: 
    itemName: "Golf Club"
@@ -498,3 +498,69 @@
       flexibility: 0
       durability: 0
       elasticity: 0
+- itemName: "Poor Raft"
+  baseItem: 
+   itemName: "Poor Raft"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_WoodPlank"
+   worldModel: "ITM/Rafts/ITM_lowTierRaft"
+   types:
+    - "advanced tool"
+   flavorText: "What can I say? It floats..."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!raft
+      speed: 1.0
+    - !!solid
+      flexibility: 0.5
+      durability: 1
+      elasticity: 0.1
+      stickiness: 0
+      thickness: 0.4
+      sharpness: 0.3
+- itemName: "Good Raft"
+  baseItem:
+   itemName: "Good Raft"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_WoodPlank"
+   worldModel: "ITM/Rafts/ITM_StandardRaft"
+   types:
+     - "advanced tool"
+   flavorText: "A way to get places."
+   modifyingActionNames:
+   actionModifiedModels: 
+   actionModifiedSprites:
+  itemCategories:
+    - !!raft
+      speed: 1.2
+    - !!solid
+      flexibility: 0.5
+      durability: 1
+      elasticity: 0.1
+      stickiness: 0
+      thickness: 0.4
+      sharpness: 0.3
+- itemName: "Excellent Raft"
+  baseItem:
+   itemName: "Excellent Raft"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_Wood Plank"
+   worldModel: "ITM/Rafts/ITM_TopTier_Raft"
+   types:
+     - "advanced tool"
+   flavorText: "An absolutely fabulous raft."
+   modifyingActionNames:
+   actionModifiedModels: 
+   actionModifiedSprites:
+  itemCategories:
+    - !!raft
+      speed: 1.3
+    - !!solid
+      flexibility: 0.5
+      durability: 1
+      elasticity: 0.1
+      stickiness: 0
+      thickness: 0.4
+      sharpness: 0.3

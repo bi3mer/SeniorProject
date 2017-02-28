@@ -1,4 +1,59 @@
 ---
+- recipeName: "Raft"
+  requirements:
+   - itemType: "floatable object"
+     amountRequired: 1
+   - itemType: "rope"
+     amountRequired: 1
+  statsToCheck:
+   - statName: "durability"
+     statAffectingItems:
+      - "floatable object"
+      - "rope"
+     qualityThreshold:
+      - 5
+      - 15
+   - statName: "elasticity"
+     statAffectingItems:
+      - "rope"
+     qualityThreshold:
+      - 1
+      - 2
+   - statName: "flexibility"
+     statAffectingItems:
+      - "rope"
+     qualityThreshold:
+      - 1
+      - 2
+   - statName: "sharpness"
+     statAffectingItems:
+      - "floatable object"
+     qualityThreshold:
+      - 0
+      - 0
+   - statName: "stickiness"
+     statAffectingItems:
+      - "floatable object"
+     qualityThreshold:
+      - 0
+      - 0
+   - statName: "thickness"
+     statAffectingItems:
+      - "floatable object"
+     qualityThreshold:
+      - 2
+      - 4
+- recipeName: "Fire Pit"
+  requirements:
+   - itemType: "fuel"
+     amountRequired: 5
+  statsToCheck:
+   - statName: "burnRate"
+     statAffectingItems:
+      - "fuel"
+     qualityThreshold:
+      - 5
+      - 20
 - recipeName: "Fishing Rod"
   requirements:
    - itemType: "rod"
@@ -48,77 +103,3 @@
      qualityThreshold:
       - 2
       - 4
-- recipeName: "Fire Pit"
-  requirements:
-   - itemType: "fuel"
-     amountRequired: 5
-  statsToCheck:
-   - statName: "burnRate"
-     statAffectingItems:
-      - "fuel"
-     qualityThreshold:
-      - 5
-      - 20
-- recipeName: "Bad Raft"
-  requirements:
-   - itemType: "floatable object"
-     amountRequired: 5
-   - itemType: "rope"
-     amountRequired: 4
-  statsToCheck:
-   - statName: "speed"
-     statAffectingItems:
-      - "floatable object"
-     qualityThreshold:
-      - 1.0
-      - 1.0
-   - statName: "durability"
-     statAffectingItems:
-      - "rope"
-     qualityThreshold:
-      - 0.1
-      - 0.2
-- recipeName: "Standard Raft"
-  requirements:
-   - itemType: "floatable object"
-     amountRequired: 5
-   - itemType: "rope"
-     amountRequired: 4
-   - itemType: "cloth"
-     amountRequired: 1
-  statsToCheck:
-   - statName: "speed"
-     statAffectingItems:
-      - "floatable object"
-      - "cloth"
-     qualityThreshold:
-      - 1.2
-      - 1.2
-   - statName: "durability"
-     statAffectingItems:
-      - "rope"
-     qualityThreshold:
-      - .3
-      - .3
-- recipeName: "Luxury Raft"
-  requirements:
-   - itemType: "floatable object"
-     amountRequired: 5
-   - itemType: "rope"
-     amountRequired: 4
-   - itemType: "cloth"
-     amountRequired: 2
-  statsToCheck:
-   - statName: "speed"
-     statAffectingItems:
-      - "floatable object"
-      - "cloth"
-     qualityThreshold:
-      - 1.3
-      - 1.3
-   - statName: "durability"
-     statAffectingItems:
-      - "rope"
-     qualityThreshold:
-      - .4
-      - .5
