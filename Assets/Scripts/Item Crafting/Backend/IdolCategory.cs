@@ -5,12 +5,20 @@ using UnityEngine.Events;
 
 public class IdolCategory : EquipableCategory 
 {
+	/// <summary>
+	/// Gets the benefit of having the idol equipped. This is not defined by the yaml.
+	/// </summary>
+	/// <value>The benefit.</value>
 	public IdolBenefit Benefit
 	{
 		get;
 		private set;
 	}
 
+	/// <summary>
+	/// Gets or sets the name of the benefit. This is defined by the yaml.
+	/// </summary>
+	/// <value>The name of the benefit.</value>
 	public string BenefitName
 	{
 		get;

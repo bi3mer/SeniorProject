@@ -25,18 +25,6 @@ public class IdolBenefit
 	/// </summary>
 	public void ActivateBenefit()
 	{
-		if(selectedBenefit.Equals(HEALTH))
-		{
-			healthBenefit();
-		}
-		else if(selectedBenefit.Equals(HUNGER))
-		{
-			hungerBenefit();
-		}
-		else if(selectedBenefit.Equals(WARMTH))
-		{
-			warmthBenefit();
-		}
 	}
 
 	/// <summary>
@@ -44,47 +32,5 @@ public class IdolBenefit
 	/// </summary>
 	public void DeactivateBenefit()
 	{
-		if(selectedBenefit.Equals(HEALTH))
-		{
-			stopHealthBenefit();
-		}
-		else if(selectedBenefit.Equals(HUNGER))
-		{
-			stopHungerBenefit();
-		}
-		else if(selectedBenefit.Equals(WARMTH))
-		{
-			stopWarmthBenefit();
-		}
-	}
-
-	private void healthBenefit()
-	{
-		/// TODO: Add changes to health stat rate here
-	}
-
-	private void stopHealthBenefit()
-	{
-		/// TODO: Stop changes to health stat rate here
-	}
-
-	private void hungerBenefit()
-	{
-		/// TODO: Add changes to hunger stat rate here
-	}
-
-	private void stopHungerBenefit()
-	{
-		/// TODO: Stop changes to hunger stat rate here
-	}
-
-	private void warmthBenefit()
-	{
-		/// TODO: Add changes to warmth stat rate here
-	}
-
-	private void stopWarmthBenefit()
-	{
-		/// TODO: Stop changes to warmth stat rate here
 	}
 }

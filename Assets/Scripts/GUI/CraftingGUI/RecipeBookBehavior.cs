@@ -81,7 +81,7 @@ public class RecipeBookBehavior : MonoBehaviour
 	/// <summary>
 	/// Sorts the recipes by alphabetical order of the recipe name. Craftable recipes are displayed first.
 	/// </summary>
-	public void SortRecipes()
+	private void SortRecipes()
 	{
 		craftableRecipes = craftableRecipes.OrderBy(x => x.AssociatedRecipe.RecipeName).ToList();
 		unCraftableRecipes = unCraftableRecipes.OrderBy(x => x.AssociatedRecipe.RecipeName).ToList();
@@ -156,14 +156,12 @@ public class RecipeBookBehavior : MonoBehaviour
 
 		for(i = 0; i < craftableRecipes.Count; ++i)
 		{
-			craftableRecipes[i].transform.SetParent (recipeContent.transform, false);
-			craftableRecipes[i].transform.localScale = Vector3.one;
+			craftableRecipes[i].transform.SetParent (recipeContent.transform, true);
 		}
 
 		for(i = 0; i < unCraftableRecipes.Count; ++i)
 		{
-			unCraftableRecipes[i].transform.SetParent (recipeContent.transform, false);
-			unCraftableRecipes[i].transform.localScale = Vector3.one;
+			unCraftableRecipes[i].transform.SetParent (recipeContent.transform, true);
 		}
 	}
 
@@ -196,44 +194,7 @@ public class RecipeBookBehavior : MonoBehaviour
 	/// <param name="listToInsertInto">List to insert into.</param>
 	public void InsertRecipeButton(RecipeButtonGUIBehavior newButton, List<RecipeButtonGUIBehavior> listToInsertInto)
 	{
-		int searchMax = listToInsertInto.Count - 1;
-		int searchMin = 0;
-		int midIndex = (searchMax + searchMin)/2;
-		int compareVal;
-
-		if(listToInsertInto.Count == 0)
-		{
-			listToInsertInto.Add(newButton);
-			return;
-		}
-
-		while(searchMax >= searchMin)
-		{
-			compareVal = string.Compare(newButton.AssociatedRecipe.RecipeName, listToInsertInto[midIndex].AssociatedRecipe.RecipeName, true);
-
-			if(compareVal < 0)
-			{
-				searchMax = midIndex - 1;
-			}
-			else if(compareVal > 0)
-			{
-				searchMin = midIndex + 1;
-			}
-			else
-			{
-				break;
-			}
-
-			midIndex = (searchMax + searchMin)/2;
-		}
-
-		if(string.Compare(newButton.AssociatedRecipe.RecipeName, listToInsertInto[midIndex].AssociatedRecipe.RecipeName, true) < 0)
-		{
-			listToInsertInto.Insert(midIndex, newButton);
-		}
-		else
-		{
-			listToInsertInto.Insert(midIndex + 1, newButton);
-		}
+		listToInsertInto.Add(newButton);
+		listToInsertInto = listToInsertInto.OrderBy(x => x.AssociatedRecipe.RecipeName).ToList();
 	}
 }

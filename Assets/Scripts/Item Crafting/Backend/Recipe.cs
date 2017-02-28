@@ -26,6 +26,10 @@ public class Recipe
 		set;
 	}
 
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="Recipe"/> is given a tier when crafted.
+	/// </summary>
+	/// <value><c>true</c> if tiered; otherwise, <c>false</c>.</value>
 	public bool Tiered
 	{
 		get;

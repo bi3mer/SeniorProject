@@ -93,9 +93,9 @@ public class RecipeButtonGUIBehavior : MonoBehaviour
 		associatedText.color = SelectedColor;
 		associatedText.fontStyle = FontStyle.Bold;
 
-		ColorBlock cb = associatedButton.colors;
-		cb.normalColor = SelectedBackColor;
-		associatedButton.colors = cb;
+		ColorBlock colorBlock = associatedButton.colors;
+		colorBlock.normalColor = SelectedBackColor;
+		associatedButton.colors = colorBlock;
 
 		unhighlightedColor = SelectedColor;
 		GuiInstanceManager.RecipePageInstance.SetUpRecipePage(AssociatedRecipe, this, craftable);
@@ -118,9 +118,9 @@ public class RecipeButtonGUIBehavior : MonoBehaviour
 		associatedText.color = unhighlightedColor;
 		associatedText.fontStyle = FontStyle.Normal;
 
-		ColorBlock cb = associatedButton.colors;
-		cb.normalColor = new Color(SelectedBackColor.r, SelectedBackColor.g, SelectedBackColor.b, 0f);
-		associatedButton.colors = cb;
+		ColorBlock colorBlock = associatedButton.colors;
+		colorBlock.normalColor = new Color(SelectedBackColor.r, SelectedBackColor.g, SelectedBackColor.b, 0f);
+		associatedButton.colors = colorBlock;
 	}
 
 	/// <summary>
