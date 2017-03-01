@@ -40,6 +40,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     [Tooltip("The number of material instances to make per material, higher numbers lead to more varied cities but more memory usage.")]
     [SerializeField]
     private int materialInstances = 1;
+    private int materialInstancesSoftCap = 15;
 
     // Height of a single story
     private const float storyHeightUnits = .75f;
@@ -79,15 +80,14 @@ public class ProceduralBuildingCreator : MonoBehaviour
         CreateBuilding(TestDistrict, TestSize, TestAttatchmentPercentage, TestStoriesTall);
     }
 
-
     /// <summary>
     /// Creates all the procedural materials for a single district.
     /// </summary>
     /// <param name="district"></param>
     void CreateMaterialsForDistrict(DistrictConfiguration district)
     {
-        // 15 is a fairly large number for material instances. We'll probably settle around 5-10.
-        if(materialInstances > 15)
+        // We'll probably settle around 5-10.
+        if(materialInstances > materialInstancesSoftCap)
         {
             Debug.LogWarning("materialInstances may be too high. Consider lowering it to improve performance");
         }
