@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
     private float waterWadeHeight;
 
     private const float groundedRaycastHeight = 0.01f;
+	private const float distanceToCheckWater = 0.5f;
 
     [Header("Sound Settings")]
     [SerializeField]
@@ -78,6 +79,7 @@ public class PlayerController : MonoBehaviour
     private bool isInShelter;
     private bool isByFire;
     private bool isReading;
+	private bool isWaterInView;
 
     private float currentWarmthChangeRate;
     private float currentHungerChangeRate;
@@ -225,11 +227,10 @@ public class PlayerController : MonoBehaviour
     {
         // enter into the range of an interactable item 
         // TODO: Figure out why the player can't find the raft when on board with cone view.
-        if (IsOnRaft && other.CompareTag(interactiveTag))
-        {
-            interactable = other.GetComponent<InteractableObject>();
-            interactable.Show = true;
-        }
+		if (IsOnRaft && other.CompareTag (interactiveTag)) {
+			interactable = other.GetComponent<InteractableObject> ();
+			interactable.Show = true;
+		}
     }
 
     /// <summary>
@@ -385,6 +386,17 @@ public class PlayerController : MonoBehaviour
                 freezePlayer = true;
                 StartCoroutine(ClimbCoroutine());
             }
+
+			// Check if the player is close to water
+			RaycastHit hit;
+			// We have to raycast in front of the player.
+			if (Physics.Raycast (transform.position + (playerAnimator.transform.forward * distanceToCheckWater), -Vector3.up, out hit)) 
+			{
+				if (hit.collider.CompareTag(waterTag))
+				{
+					isWaterInView = true;
+				}
+			}
         }
     }
 
@@ -744,6 +756,18 @@ public class PlayerController : MonoBehaviour
             isByFire = value;
         }
     }
+
+	/// <summary>
+	/// Gets a value indicating whether player is by water.
+	/// </summary>
+	/// <value><c>true</c> if this instance is by water; otherwise, <c>false</c>.</value>
+	public bool IsWaterInView
+	{
+		get
+		{
+			return isWaterInView;
+		}
+	}
 
     /// <summary>
     /// Gets or sets the fire warmth increase rate.
