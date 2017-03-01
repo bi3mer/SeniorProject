@@ -7,6 +7,7 @@
 {2cacc1a2-0177-41de-afdc-30dbde3a1aaa} event:/Radio/Music/Music1
 {59ddb019-8b19-4335-b523-be1beb7be748} event:/Radio/Mystery/Mystery1
 {6698f63c-c9eb-48d1-93ac-ef661884195f} event:/Radio/Mystery/Mystery2
+{f5dec39b-b6ba-4b30-b1ed-9d7791fa200e} event:/Radio/Mystery/PregeneratedSample1
 {e469c9e6-c70f-4822-b490-86770647083b} event:/Radio/Static/Basic_Static
 {1b73c0da-2ad5-4888-be39-0797a14794ab} event:/Radio/Static/Basic_Static_No_Loop
 {a16b3185-5d34-4f38-881d-32416b8a3d19} bus:/
