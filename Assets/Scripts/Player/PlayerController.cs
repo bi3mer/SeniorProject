@@ -392,9 +392,9 @@ public class PlayerController : MonoBehaviour
 			// We have to raycast in front of the player.
 			if (Physics.Raycast (transform.position + (playerAnimator.transform.forward * distanceToCheckWater), -Vector3.up, out hit)) 
 			{
-				if (hit.collider.tag == waterTag)
+				if (hit.collider.CompareTag(waterTag))
 				{
-					IsWaterInView = true;
+					isWaterInView = true;
 				}
 			}
         }
@@ -758,7 +758,7 @@ public class PlayerController : MonoBehaviour
     }
 
 	/// <summary>
-	/// Gets or sets a value indicating whether player is by water.
+	/// Gets a value indicating whether player is by water.
 	/// </summary>
 	/// <value><c>true</c> if this instance is by water; otherwise, <c>false</c>.</value>
 	public bool IsWaterInView
@@ -766,11 +766,6 @@ public class PlayerController : MonoBehaviour
 		get
 		{
 			return isWaterInView;
-		}
-		set 
-		{
-			// any additional conditionals for when the player is by water
-			isWaterInView = value;
 		}
 	}
 
