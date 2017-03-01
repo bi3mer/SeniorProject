@@ -11,6 +11,12 @@ public class Lightning : MonoBehaviour
 	private float gameMinutesTillFirstLightningStrike = 1.0f;
 
 	[SerializeField]
+	private float minGameTimeForLightningStrike = 10.0f;
+
+	[SerializeField]
+	private float maxGameTimeForLightningStrike = 30.0f;
+
+	[SerializeField]
 	private float lightingYSpawnOffset = 10.0f;
 
 	private GameObject lightningInstance;
@@ -21,10 +27,8 @@ public class Lightning : MonoBehaviour
 	/// <returns>The next lightning strike.</returns>
 	private IEnumerator spawnNextLightningStrike()
 	{
-		float waitTime = 1.0f * Game.Instance.ClockInstance.Tick;
-
 		// wait and spawn next lightning
-		yield return new WaitForSeconds(waitTime);
+		yield return new WaitForSeconds(Random.Range(this.minGameTimeForLightningStrike, this.maxGameTimeForLightningStrike));
 		this.spawnLightning();
 	}
 
@@ -68,9 +72,15 @@ public class Lightning : MonoBehaviour
 		StartCoroutine(this.spawnNextLightningStrike());
 	}
 
-	// Use this for initialization
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	IEnumerator Start () 
 	{
+		// scale time to fit with game time
+		this.minGameTimeForLightningStrike *= Game.Instance.ClockInstance.Tick;
+		this.maxGameTimeForLightningStrike *= Game.Instance.ClockInstance.Tick;
+
 		// Wait before first lightning strike
 		yield return new WaitForSeconds(this.gameMinutesTillFirstLightningStrike * Game.Instance.ClockInstance.Tick);
 
