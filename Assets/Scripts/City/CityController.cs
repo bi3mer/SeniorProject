@@ -25,6 +25,7 @@ public class CityController : MonoBehaviour
     private BuildingGenerator buildingGenerator;
     private RooftopGeneration rooftopItemGenerator;
     private WaterItemGeneration waterItemGenerator;
+    private ItemPoolManager itemPoolManager;
 
     /// <summary>
     /// Grabs other generators and starts generation.
@@ -36,6 +37,7 @@ public class CityController : MonoBehaviour
         buildingGenerator = GetComponent<BuildingGenerator>();
         rooftopItemGenerator = GetComponent<RooftopGeneration>();
         waterItemGenerator = GetComponent<WaterItemGeneration>();
+        itemPoolManager = GetComponent<ItemPoolManager>();
 
         // Check to see if the seed has been configured in the inspector
         if (seed == 0)
@@ -70,7 +72,11 @@ public class CityController : MonoBehaviour
         // and create the talest builing there.
         Vector3 cityCenter = GenerationUtility.GetMostCommonVertex(districts);
         Building tallestBuilding = buildingGenerator.CreateCityCenterBuilding(cityCenter);
-		waterItemGenerator.SetCityInformation(cityBounds.max.x - cityBounds.min.x, cityBounds.max.y - cityBounds.min.y, cityCenter, districts);
+
+		float cityWidth = cityBounds.size.x;
+		float cityDepth = cityBounds.size.z;
+		waterItemGenerator.SetCityInformation(cityWidth, cityDepth, cityCenter, districts);
+		itemPoolManager.SetUpItemPoolManager(cityDepth, cityDepth, cityCenter);
 
         // Generate blocks in each district
         for (int i = 0; i < districts.Length; ++i)
@@ -104,6 +110,11 @@ public class CityController : MonoBehaviour
         }
 
 		waterItemGenerator.GenerateInWater();
+
+		rooftopItemGenerator.AddTemplatesToItemPool();
+		waterItemGenerator.AddTemplatesToItemPool();
+
+		StartCoroutine(itemPoolManager.StartManagingPool());
 
         return new City(districts, cityBounds, cityCenter, tallestBuilding);
     }

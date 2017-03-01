@@ -108,7 +108,12 @@ public class BaseItem : CollectableItem
 	/// <summary>
 	/// Event that can be subscribed to by functions of UpdateItemEvent format
 	/// </summary>
-	public event UpdateItemEvent UpdateItemInformation;
+	public event UpdateItemEvent UpdateItemName;
+
+	/// <summary>
+	/// Occurs when item changes the sprite it should display.
+	/// </summary>
+	public event UpdateItemEvent UpdateItemSprite;
 
 	/// <summary>
 	/// All categories that the item contains.
@@ -302,17 +307,25 @@ public class BaseItem : CollectableItem
 	public void ChangeName(string name)
 	{
 		ItemName = name;
-		FireItemChangedEvent ();
+		FireItemNameChangedEvent ();
 	}
 
 	/// <summary>
 	/// Fires a text change event that fires any functions subscribed that the BaseItem has changed.
 	/// </summary>
-	public void FireItemChangedEvent()
+	public void FireItemNameChangedEvent()
 	{
-		if (UpdateItemInformation != null) 
+		if (UpdateItemName != null) 
 		{
-			UpdateItemInformation (this);
+			UpdateItemName (this);
+		}
+	}
+
+	public void FireItemSpriteChangedEvent()
+	{
+		if(UpdateItemSprite != null)
+		{
+			UpdateItemSprite(this);
 		}
 	}
 
@@ -429,6 +442,7 @@ public class BaseItem : CollectableItem
 			if(ActionModifiedSprites != null && ActionModifiedSprites.Count > newModelIndex)
 			{
 				InventorySprite = ActionModifiedSprites[newModelIndex];
+				FireItemSpriteChangedEvent();
 			}
 		}
 	}

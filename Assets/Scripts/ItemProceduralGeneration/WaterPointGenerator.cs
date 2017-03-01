@@ -212,7 +212,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 
 				if(newPoint.District != null)
 				{
-					newPoint.ItemIndex = itemFactory.GetRandomItemIndex(newPoint.District);
+					newPoint.ItemIndex = itemFactory.GetRandomItemIndex(newPoint.District, true);
 					newPoint.MinDistance = defaultMinDistanceAway;
 					newPoint.GridPoint = PointToGrid(newPoint.LocalTargetSurfaceLocation);
 					newPoint.Size = generatableObjectExtents[newPoint.District][newPoint.ItemIndex];
@@ -220,7 +220,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 					tries = 0;
 
 					//check that the point is in the building's region and whether a neighboring point is too close
-					while (tries < MaxAttempts && HasOverlappingNeighbors(newPoint))
+					while (tries < MaxAttempts && (HasOverlappingNeighbors(newPoint) || !inCityBounds(newPoint.LocalTargetSurfaceLocation)))
 					{
 						newPoint.LocalTargetSurfaceLocation = generateRandomPointAround (point.LocalTargetSurfaceLocation, point.MinDistance + point.Size);
 						newPoint.GridPoint = PointToGrid(newPoint.LocalTargetSurfaceLocation);
@@ -272,7 +272,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 			tries = 1;
 			initPoint.District = getDistrict(initPoint.LocalTargetSurfaceLocation);
 
-			while(initPoint.District == null && tries < MaxAttempts)
+			while(tries < MaxAttempts && (initPoint.District == null || !inCityBounds(initPoint.LocalTargetSurfaceLocation)))
 			{
 				initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(cityCenter.x - cityWidth/2f, cityCenter.x + cityWidth/2f), 
 																Random.Range (cityCenter.z - cityDepth/2f, cityCenter.z + cityDepth/2f));
@@ -283,13 +283,12 @@ public class WaterPointGenerator : SamplingPointGenerator
 
 			if(initPoint.District != null)
 			{
-				initPoint.ItemIndex = itemFactory.GetRandomItemIndex(initPoint.District);
+				initPoint.ItemIndex = itemFactory.GetRandomItemIndex(initPoint.District, true);
 				initPoint.MinDistance = defaultMinDistanceAway;
 				initPoint.Size = generatableObjectExtents[initPoint.District][initPoint.ItemIndex];
 				initPoint.GridPoint = PointToGrid(initPoint.LocalTargetSurfaceLocation);
 
-
-				while(HasOverlappingNeighbors(initPoint) && tries < MaxAttempts)
+				while( tries < MaxAttempts && (HasOverlappingNeighbors(initPoint) || !inCityBounds(initPoint.LocalTargetSurfaceLocation)))
 				{
 					initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(cityCenter.x - cityWidth/2f, cityCenter.x + cityWidth/2f), 
 																	Random.Range (cityCenter.z - cityDepth/2f, cityCenter.z + cityDepth/2f));
@@ -327,6 +326,24 @@ public class WaterPointGenerator : SamplingPointGenerator
 	}
 
 	/// <summary>
+	/// Checks whether or not a point is within the city bounds.
+	/// </summary>
+	/// <returns><c>true</c>, if point is in city bounds, <c>false</c> otherwise.</returns>
+	/// <param name="location">Location.</param>
+	private bool inCityBounds(Vector2 location)
+	{
+		if(location.x > (cityCenter.x - cityWidth/2f) && location.x < (cityCenter.x + cityWidth/2f))
+		{
+			if(location.y > (cityCenter.y - cityDepth/2f) && location.y < (cityCenter.y + cityDepth/2f))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/// <summary>
 	/// Gets the grid coordinates for a sampling point
 	/// Since the point locations are not created with the minimum bounds being (0, 0) in mind
 	/// it needs to be offset such that the minimum bound is at (0, 0)
@@ -336,7 +353,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// <param name="samplingPoint">Sampling point.</param>
 	protected Tuple<int, int> PointToGrid(Vector2 samplingPoint)
 	{
-		return new Tuple<int, int> ((int)((samplingPoint.x + cityWidth/2f + cityCenter.x) / cellSize), 
-							(int)((samplingPoint.y + cityDepth/2f + cityCenter.y) / cellSize));
+		return new Tuple<int, int> ((int)((samplingPoint.x - cityCenter.x + cityWidth/2f) / cellSize), 
+									(int)((samplingPoint.y - cityCenter.y + cityDepth/2f) / cellSize));
 	}
 }

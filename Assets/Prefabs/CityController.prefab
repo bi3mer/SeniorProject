@@ -27,6 +27,7 @@ GameObject:
   - 114: {fileID: 114000010239616376}
   - 114: {fileID: 114000013392317438}
   - 114: {fileID: 114000011626432178}
+  - 114: {fileID: 114000010221364680}
   m_Layer: 0
   m_Name: CityController
   m_TagString: Untagged
@@ -47,6 +48,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &114000010221364680
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013389127986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f29acdf562a344fa9adca47e23fcecf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commonPoolAmount: 4
+  uncommonPoolAmount: 3
+  rarePoolAmount: 2
+  legendaryPoolAmount: 1
+  itemActivationDistnace: 5
+  activePool: {fileID: 0}
+  inactivePool: {fileID: 0}
 --- !u!114 &114000010239616376
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -93,6 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d15546fd07cba4816bcdd8b189bddb06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolManager: {fileID: 114000010221364680}
   maxNumberOfItems: 40
   numberOfInitialPoints: 5
   newPointsPerSamplingPoint: 5
@@ -115,6 +135,7 @@ MonoBehaviour:
   showBlockPerimeter: 1
   showBlockControlPoint: 0
   showBuildingPositions: 1
+  showItemPositions: 1
 --- !u!114 &114000012868407098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,8 +164,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b170daa5884c4faa98396cdd74a9e07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemGenerationChance: 0.47
-  doorGenerationChance: 0
+  poolManager: {fileID: 114000010221364680}
+  itemGenerationChance: 0.8
+  doorGenerationChance: 0.74
 --- !u!114 &114000013433191368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -161,7 +183,8 @@ MonoBehaviour:
   - districtName: residential
     WeenieBuildingTemplate: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
       type: 2}
-    Doors: []
+    Doors:
+    - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
     AdditionalBuildingTemplates: []
     MaxFloors: 5
     MinFloors: 1
@@ -296,7 +319,8 @@ MonoBehaviour:
   - districtName: shopping
     WeenieBuildingTemplate: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
       type: 2}
-    Doors: []
+    Doors:
+    - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
     AdditionalBuildingTemplates: []
     MaxFloors: 8
     MinFloors: 3
@@ -431,7 +455,8 @@ MonoBehaviour:
   - districtName: shopping
     WeenieBuildingTemplate: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
       type: 2}
-    Doors: []
+    Doors:
+    - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
     AdditionalBuildingTemplates: []
     MaxFloors: 8
     MinFloors: 3
