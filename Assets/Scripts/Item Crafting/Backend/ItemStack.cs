@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-public class Stack
+public class ItemStack
 {
 	/// <summary>
 	/// The amount in a stack.
@@ -13,7 +13,7 @@ public class Stack
 	/// <param name="item">Item.</param>
 	/// <param name="stackAmount">Stack amount.</param>
 	/// <param name="identifier">Identifier.</param>
-	public Stack(BaseItem item, int stackAmount, string identifier)
+	public ItemStack(BaseItem item, int stackAmount, string identifier)
 	{
 		Id = identifier;
 		amount = stackAmount;
@@ -23,7 +23,7 @@ public class Stack
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Stack"/> class.
 	/// </summary>
-	public Stack()
+	public ItemStack()
 	{
 	}
 

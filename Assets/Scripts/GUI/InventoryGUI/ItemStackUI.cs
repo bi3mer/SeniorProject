@@ -11,8 +11,8 @@ public class ItemStackUI : MonoBehaviour
 	public Text ItemName;
 	public Text ItemAmount;
 	public Image InventorySprite;
-	private Stack targetStack;
-	private Stack originalStack;
+	private ItemStack targetStack;
+	private ItemStack originalStack;
 
 	private string currentSpritePath;
 
@@ -31,7 +31,7 @@ public class ItemStackUI : MonoBehaviour
 	/// <summary>
 	/// Subscribes to name change event
 	/// </summary>
-	public void SetUpInventoryItem(Stack baseStack)
+	public void SetUpInventoryItem(ItemStack baseStack)
 	{
 		baseStack.Item.UpdateItemName += HandleItemNameTextChangeEvent;
 		baseStack.UpdateStackAmount += HandleItemAmountTextChangeEvent;
@@ -62,7 +62,7 @@ public class ItemStackUI : MonoBehaviour
 	/// Unsubscribe this instance from all event subscriptions. Must be called before destroying this structure!
 	/// Unable to use destructor due to significant lag.
 	/// </summary>
-	public void Unsubscribe(Stack baseStack)
+	public void Unsubscribe(ItemStack baseStack)
 	{
 		baseStack.Item.UpdateItemName -= HandleItemNameTextChangeEvent;
 		baseStack.UpdateStackAmount -= HandleItemAmountTextChangeEvent;
@@ -73,7 +73,7 @@ public class ItemStackUI : MonoBehaviour
 	/// Refreshs the inventory item with new information from stack
 	/// </summary>
 	/// <param name="baseStack">Base stack.</param>
-	public void RefreshInventoryItem(Stack baseStack)
+	public void RefreshInventoryItem(ItemStack baseStack)
 	{
 		targetStack = baseStack;
 		ItemName.text = targetStack.Item.ItemName;
@@ -166,7 +166,7 @@ public class ItemStackUI : MonoBehaviour
 		// not in the Inventory yet, so it is given the temporary id of -1
 		// which will not be used in any calculations
 		originalStack.Amount -= numToModify;
-		targetStack = new Stack(originalStack.Item.GetItemToModify (), numToModify, "");
+		targetStack = new ItemStack(originalStack.Item.GetItemToModify (), numToModify, "");
 	}
 
 	/// <summary>
@@ -195,7 +195,7 @@ public class ItemStackUI : MonoBehaviour
 		{
 			targetStack.Item.DirtyFlag = false;
 
-			Stack addedItem = GuiInstanceManager.InventoryUiInstance.TargetInventory.AddItem (targetStack.Item, targetStack.Amount);
+			ItemStack addedItem = GuiInstanceManager.InventoryUiInstance.TargetInventory.AddItem (targetStack.Item, targetStack.Amount);
 			GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
 			ItemStackUI createdStack = GuiInstanceManager.InventoryUiInstance.GetStackUI(addedItem.Id);
 			GuiInstanceManager.ItemAmountPanelInstance.OpenItemDetailPanel(createdStack.gameObject);
@@ -245,7 +245,7 @@ public class ItemStackUI : MonoBehaviour
 	/// Gets the base item.
 	/// </summary>
 	/// <returns>The base item.</returns>
-	public Stack GetStack()
+	public ItemStack GetStack()
 	{
 		return targetStack;
 	}

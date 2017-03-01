@@ -46,9 +46,9 @@ public class PlayerInventory : Inventory
     /// <returns>The added item.</returns>
     /// <param name="newItem">New item.</param>
     /// <param name="amount">Amount.</param>
-    public Stack AddItem(BaseItem newItem, int amount)
+    public ItemStack AddItem(BaseItem newItem, int amount)
     {
-        Stack newStack = base.AddItem(newItem, amount);
+        ItemStack newStack = base.AddItem(newItem, amount);
 
         if (ItemAddedSubscription != null) 
         {
@@ -62,7 +62,7 @@ public class PlayerInventory : Inventory
     /// Removes the item from the inventory and notifies subscribers.
     /// </summary>
     /// <param name="stack">Item to remove.</param>
-    public void RemoveStack(Stack stack)
+    public void RemoveStack(ItemStack stack)
     {
         base.RemoveStack(stack);
 
