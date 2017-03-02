@@ -3636,7 +3636,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 20
   m_Viewport: {fileID: 224000011722841270}
   m_HorizontalScrollbar: {fileID: 114000010665349510}
   m_VerticalScrollbar: {fileID: 114000012729179846}
