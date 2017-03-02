@@ -7,14 +7,19 @@ ModelImporter:
   fileIDToRecycleName:
     100000: ENV_BeaconLight
     100002: //RootNode
+    100004: ENV_LightPlanes
     400000: ENV_BeaconLight
     400002: //RootNode
+    400004: ENV_LightPlanes
     2300000: ENV_BeaconLight
     2300002: //RootNode
+    2300004: ENV_LightPlanes
     3300000: ENV_BeaconLight
     3300002: //RootNode
+    3300004: ENV_LightPlanes
     4300000: ENV_Beacon
     4300002: ENV_BeaconLight
+    4300004: ENV_LightPlanes
     9500000: //RootNode
   materials:
     importMaterials: 0
