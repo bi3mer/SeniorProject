@@ -62,7 +62,9 @@ public class RecipeButtonGUIBehavior : MonoBehaviour
 		}
 	}
 
-	// Use this for initialization
+	/// <summary>
+	/// Awakens this instance.
+	/// </summary>
 	void Awake () 
 	{
 		associatedText = GetComponentInChildren<Text>();

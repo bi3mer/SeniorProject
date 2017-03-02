@@ -3,11 +3,11 @@ using System.Collections;
 
 public class IdolBenefit 
 {
-	public static string HEALTH = "health";
+	public static string Health = "health";
 
-	public static string WARMTH = "warmth";
+	public static string Warmth = "warmth";
 
-	public static string HUNGER = "hunger";
+	public static string Hunger = "hunger";
 
 	private string selectedBenefit;
 
