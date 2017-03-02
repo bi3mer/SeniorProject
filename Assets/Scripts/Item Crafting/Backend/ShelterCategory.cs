@@ -14,7 +14,7 @@ public class ShelterCategory : ItemCategory {
         set;
     }
 
-    private const string burnRateMultiplierAttrName = "warmthRate";
+    private const string warmthRateAttrName = "warmthRate";
 
     private const string setDownActName = "Set Down";
 
@@ -45,14 +45,14 @@ public class ShelterCategory : ItemCategory {
     public override void ReadyCategory()
     {
         Attributes = new List<Attribute>();
-        Attributes.Add(new Attribute(burnRateMultiplierAttrName, WarmthRate));
+        Attributes.Add(new Attribute(warmthRateAttrName, WarmthRate));
 
         Actions = new List<ItemAction>();
         Actions.Add(new ItemAction(setDownActName, new UnityAction(SetDown)));
     }
 
     /// <summary>
-    /// Sets down the fire pit in the world. Drops it where the player stands.
+    /// Sets down the shelter in the world. Drops it where the player stands.
     /// </summary>
     public void SetDown()
     {
