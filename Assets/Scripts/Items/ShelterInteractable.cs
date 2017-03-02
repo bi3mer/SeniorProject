@@ -6,6 +6,11 @@ public class ShelterInteractable : InteractableObject
     private const string enterShelterPrompt = "Enter Shelter";
     private const string exitShelterPrompt = "Exit Shelter";
 
+    private const string playerTag = "Player";
+
+    /// <summary>
+    /// Gets or sets the shelter category object.
+    /// </summary>
     public ShelterCategory Shelter
     {
         get;
@@ -34,6 +39,7 @@ public class ShelterInteractable : InteractableObject
     /// </summary>
     public void EnterShelter()
     {
+        Game.Instance.PlayerInstance.Controller.SetShelterWarmthRate(Shelter.WarmthRate);
         Game.Instance.PlayerInstance.Controller.IsInShelter = true;
 
         Text = exitShelterPrompt;
@@ -45,7 +51,7 @@ public class ShelterInteractable : InteractableObject
             }
         );
 
-        // TO DO: have way for character to enter shelter
+        // TODO: have way for character to enter shelter
     }
 
     /// <summary>
@@ -55,7 +61,7 @@ public class ShelterInteractable : InteractableObject
     {
         Game.Instance.PlayerInstance.Controller.IsInShelter = false;
 
-        Text = exitShelterPrompt;
+        Text = enterShelterPrompt;
         SetAction
         (
             delegate
@@ -64,30 +70,6 @@ public class ShelterInteractable : InteractableObject
             }
         );
 
-        // TO DO: have way for character to visually enter shelter
+        // TODO: have way for character to visually enter shelter
     }
-
-    /// <summary>
-    /// Raises the trigger enter event.
-    /// </summary>
-    /// <param name="coll">Collider entered</param>
-    public void OnTriggerEnter(Collider coll)
-	{
-		if (Game.Instance.PlayerInstance.Controller == coll.gameObject.GetComponent<PlayerController>()) 
-		{
-            Show = true;
-		}
-	}
-
-	/// <summary>
-	/// Raises the trigger exit event.
-	/// </summary>
-	/// <param name="coll">Collider exited</param>
-	public void OnTriggerExit(Collider coll)
-	{
-		if (Game.Instance.PlayerInstance.Controller == coll.gameObject.GetComponent<PlayerController>())
-		{
-            Show = false;
-		}
-	}
 }

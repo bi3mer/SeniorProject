@@ -721,6 +721,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void SetShelterWarmthRate(float warmthRate)
+    {
+        shelterWarmthIncreaseRate = warmthRate;
+    }
+
     /// <summary>
     /// If the player is near a fire it returns true.
     /// </summary>

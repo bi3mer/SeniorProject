@@ -70,5 +70,8 @@ public abstract class CraftingSystemSerializer
 
 		categoryNames.Add(fireBaseCategoryTag);
 		categoryTypes.Add(typeof(FireBaseCategory));
-	}
+
+        categoryNames.Add(shelterCategoryTag);
+        categoryTypes.Add(typeof(ShelterCategory));
+    }
 }

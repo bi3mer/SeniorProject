@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 
 
-public class ShelterCategory : ItemCategory {
-
+public class ShelterCategory : ItemCategory
+{
     /// <summary>
     /// Gets and sets the warmth rate.
     /// </summary>

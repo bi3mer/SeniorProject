@@ -161,3 +161,19 @@
       actionModifiedModels: 
       actionModifiedSprites:
      itemCategories:
+   - stackId: 7
+     itemAmount: 1
+     item: 
+      itemName: "Shelter"
+      rarity: "common"
+      inventorySprite: "GUI_ITM_Shovel"
+      worldModel: "ITM/Campfire/ENV_Campfire"
+      types:
+       - "igniter"
+      flavorText: "Can be used to light fuel on fire."
+      modifyingActionNames:
+      actionModifiedModels: 
+      actionModifiedSprites:
+     itemCategories:
+       - !!shelter
+         warmthRate: 2.0
