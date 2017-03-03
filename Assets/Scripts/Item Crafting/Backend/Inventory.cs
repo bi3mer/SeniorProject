@@ -24,6 +24,8 @@ public class Inventory
 
 	private InventoryYamlParser parser;
 
+    private Dictionary<string, int> itemCountByType;
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Inventory"/> class.
 	/// </summary>
@@ -34,6 +36,12 @@ public class Inventory
 		contents = new Stack[size];
 		inventoryName = name;
 		InventorySize = size;
+		itemCountByType = new Dictionary<string, int>();
+
+		for(int i = 0; i < ItemTypes.Types.Length; ++i)
+		{
+			itemCountByType.Add(ItemTypes.Types[i], 0);
+		}
 	}
 
 	/// <summary>
@@ -48,6 +56,12 @@ public class Inventory
 
 		parser = new InventoryYamlParser(inventoryFile);
 		InventorySize = size;
+		itemCountByType = new Dictionary<string, int>();
+
+		for(int i = 0; i < ItemTypes.Types.Length; ++i)
+		{
+			itemCountByType.Add(ItemTypes.Types[i], 0);
+		}
 
 		LoadInventory();
 	}
@@ -65,6 +79,9 @@ public class Inventory
 			{
 
 				BaseItem item = inventoryInfo [i].Item;
+
+				UpdateTypeAmount(item.Types, inventoryInfo[i].ItemAmount);
+
 				item.InitializeBaseItem ();
 
 				if(inventoryInfo[i].ItemCategories != null && inventoryInfo[i].ItemCategories.Count > 0)
@@ -115,6 +132,7 @@ public class Inventory
 				{
 					stackAmount = contents[i].Amount;
 					contents[i].Amount -= amountLeft;
+					UpdateTypeAmount(contents[i].Item.Types, -amountLeft);
 
 					amountLeft -= stackAmount;
 
@@ -218,6 +236,7 @@ public class Inventory
 	{
 		int loc = GetNextOpenSlot ();
 		contents[loc] = new Stack(newItem, amount, Guid.NewGuid().ToString("N"));
+		UpdateTypeAmount(newItem.Types, amount);
 
 		return contents[loc];
 	}
@@ -318,4 +337,62 @@ public class Inventory
 			Array.Resize(ref contents, inventorySize);
 		}
 	}
+
+	/// <summary>
+	/// Updates the type amount.
+	/// </summary>
+	/// <param name="types">Types.</param>
+	/// <param name="changedAmount">Changed amount. Negative for removed amount, positive for added.</param>
+	public void UpdateTypeAmount(List<string> types, int changedAmount)
+	{
+		for(int i = 0; i < types.Count; ++i)
+		{
+			itemCountByType[types[i]] += changedAmount;
+		}
+	}
+
+	/// <summary>
+	/// Checks if recipe possible given items in the inventory.
+	/// </summary>
+	/// <returns><c>true</c>, if recipe possible was checked, <c>false</c> otherwise.</returns>
+	/// <param name="recipe">Recipe.</param>
+	public bool CheckRecipePossible(Recipe recipe)
+    {
+    	Requirement requirement;
+
+    	for(int i = 0; i < recipe.ResourceRequirements.Count; ++i)
+    	{
+			requirement = recipe.ResourceRequirements[i];
+
+    		if(itemCountByType[requirement.ItemType] < requirement.AmountRequired)
+    		{
+    			return false;
+    		}
+    	}
+
+    	if(recipe.ToolRequirements != null)
+    	{
+			for(int i = 0; i < recipe.ToolRequirements.Count; ++i)
+	    	{
+				requirement = recipe.ToolRequirements[i];
+
+	    		if(itemCountByType[requirement.ItemType] < requirement.AmountRequired)
+	    		{
+	    			return false;
+	    		}
+	    	}
+	    }
+
+    	return true;
+    }
+
+    /// <summary>
+    /// Checks if the requirement is met.
+    /// </summary>
+    /// <returns><c>true</c>, if requirement met was checked, <c>false</c> otherwise.</returns>
+    /// <param name="requirement">Requirement.</param>
+    public bool CheckRequirementMet(Requirement requirement)
+    {
+    	return itemCountByType[requirement.ItemType] >= requirement.AmountRequired;
+    }
 }

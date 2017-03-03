@@ -41,5 +41,7 @@ public class FuelCategory : ItemCategory
     {
         Attributes = new List<Attribute>();
         Attributes.Add(new Attribute(burnTimeAttrName, BurnTime));
+
+        Actions = new List<ItemAction>();
     }
 }

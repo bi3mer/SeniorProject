@@ -131,28 +131,37 @@ public class ItemFactory
 		List<string> tags = new List<string> ();
 		Ingredient currentIngredient;
 
-		for (int i = 0; i < recipe.Requirements.Count; ++i) 
+		for (int i = 0; i < recipe.ResourceRequirements.Count; ++i) 
 		{
-			tags.Add (recipe.Requirements [i].ItemType);
+			tags.Add (recipe.ResourceRequirements [i].ItemType);
 		}
 
 		Dictionary<string, List<Ingredient>> ingredientsByType = SortIngredientsByTag (tags, ingredients);
+		string itemName = "";
 
-		int qualityLevel = GetResultingItemLevel(recipe, ingredientsByType);
+		if(recipe.Tiered)
+		{
+			int qualityLevel = GetResultingItemLevel(recipe, ingredientsByType);
 
-		for (int i = 0; i < recipe.Requirements.Count; ++i) 
+			itemName = itemLevels [qualityLevel] + " " + recipe.RecipeName;
+		}
+		else
+		{
+			itemName = recipe.RecipeName;
+		}
+
+		for (int i = 0; i < recipe.ResourceRequirements.Count; ++i) 
 		{
 			// for now, the crafting recipes only allow for one item to be selected
 			// as an ingredient per requirement, but the list is in place in preparation
 			// for multi-item per requirement recipes that will be implemented later
-			for (int j = 0; j < ingredientsByType [recipe.Requirements [i].ItemType].Count; ++j) 
+			for (int j = 0; j < ingredientsByType [recipe.ResourceRequirements [i].ItemType].Count; ++j) 
 			{
-				currentIngredient = ingredientsByType [recipe.Requirements [i].ItemType] [j];
+				currentIngredient = ingredientsByType [recipe.ResourceRequirements [i].ItemType] [j];
 				targetInventory.UseItem (currentIngredient.IngredientName, currentIngredient.Amount);
 			}
 		}
 
-		string itemName = itemLevels [qualityLevel] + " " + recipe.RecipeName;
 		BaseItem craftedItem;
 
 		craftedItem = GetBaseItem (itemName);

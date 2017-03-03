@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 839b02b00ca15b7439c89cbb833f1958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toolName: 
+  toolName: Poor Fishing Rod
   castingForce: {x: 5, y: 15}
   reelingSpeed: 0.3
   fishingLineWeight: 1.2
