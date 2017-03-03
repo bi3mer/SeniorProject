@@ -2,10 +2,22 @@
 {
 	// delegate pause and resume for updates
 	public delegate void PauseDelegateUpdate();
+
+	/// <summary>
+	/// Occurs when game is paused.
+	/// </summary>
 	public event PauseDelegateUpdate PauseUpdate;
 	public delegate void MenuPauseDelegateUpdate();
+
+	/// <summary>
+	/// Occurs when a menu is open.
+	/// </summary>
 	public event MenuPauseDelegateUpdate MenuPauseUpdate;
 	public delegate void ResumeDelegateUpdate();
+
+	/// <summary>
+	/// Occurs when unpaused/menu closed update.
+	/// </summary>
 	public event ResumeDelegateUpdate ResumeUpdate;
 
 	/// <summary>
