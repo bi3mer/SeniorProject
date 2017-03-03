@@ -39,7 +39,14 @@ public class AnnouncementFactory
 		{
 			AudioSource a = new AudioSource ();
 
-			Speaker.Speak (AnnouncementDatabase[i].Text, null,null, false, 0.7f, 0.01f, Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase[i].EventPath, .9f);
+	//		Speaker.Speak (AnnouncementDatabase[i].Text, null,null, false, 0.7f, 0.9f, Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase[i].EventPath, .9f);
+	//		Speaker.Speak (AnnouncementDatabase [i].Text, null, null, false, 1, 1, Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase [i].EventPath, 1);
+
+			Crosstales.RTVoice.Model.Wrapper wr = new Crosstales.RTVoice.Model.Wrapper (AnnouncementDatabase [i].Text, null, null, false, 1, 1, 1, Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase [i].EventPath);
+			Crosstales.RTVoice.Model.Event.SpeakEventArgs args = new Crosstales.RTVoice.Model.Event.SpeakEventArgs (wr);
+
+			Crosstales.RTVoice.Speaker.Speak (wr);
+
 			Debug.Log (Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase [i].EventPath);
 
 			if (AnnouncementDatabase [i].Category == AnnouncementCategory.Location) 
