@@ -176,4 +176,4 @@
       actionModifiedSprites:
      itemCategories:
        - !!shelter
-         warmthRate: 2.0
+         warmthRate: 1.0
