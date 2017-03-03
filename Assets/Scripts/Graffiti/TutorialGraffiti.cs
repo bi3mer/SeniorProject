@@ -5,19 +5,19 @@ using System.Collections;
 [RequireComponent(typeof(TextMesh))]
 public class TutorialGraffiti : MonoBehaviour
 {    
-    // The text that comes before keys
+	[Tooltip("The text that comes before keys")]
     [SerializeField]
     private string beforeKeys;
 
-    // The text that comes after the keys
+	[Tooltip("The text that comes after the keys")]
     [SerializeField]
     private string afterKeys;
 
-    // The text to place inbetween keys if there are multiple
+	[Tooltip("The text to place in between keys if there are multiple keys")]
     [SerializeField]
     private string betweenKeys;
 
-    // The keys to access.
+	[Tooltip("The keys to access")]
     [SerializeField]
     private string[] keys;
 
