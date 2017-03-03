@@ -3,6 +3,8 @@
 	// delegate pause and resume for updates
 	public delegate void PauseDelegateUpdate();
 	public event PauseDelegateUpdate PauseUpdate;
+	public delegate void MenuPauseDelegateUpdate();
+	public event MenuPauseDelegateUpdate MenuPauseUpdate;
 	public delegate void ResumeDelegateUpdate();
 	public event ResumeDelegateUpdate ResumeUpdate;
 
@@ -34,6 +36,19 @@
 		if(this.PauseUpdate != null)
 		{
 			this.PauseUpdate();
+		}
+	}
+
+	/// <summary>
+	///  Pause that occurs when a menu is open.
+	/// </summary>
+	public void MenuPause()
+	{
+		this.IsPaused = true;
+
+		if(this.MenuPauseUpdate != null)
+		{
+			this.MenuPauseUpdate();
 		}
 	}
 

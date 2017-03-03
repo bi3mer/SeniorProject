@@ -219,6 +219,7 @@ public class PlayerController : MonoBehaviour
         Game.Instance.DebugModeSubscription += this.toggleDebugMode;
         Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
         Game.Instance.PauseInstance.PauseUpdate += this.Pause;
+        Game.Instance.PauseInstance.MenuPauseUpdate += this.MenuPause;
 
         // create event emitter
         eventEmitter = FMODUnity.RuntimeManager.CreateInstance(roofFootstepSoundEvent);
@@ -857,7 +858,9 @@ public class PlayerController : MonoBehaviour
         updateStats = true;
 		freezePlayer = false;
 		freezeCamera = false;
-        // TODO: Resume any other stopped preccesses
+
+		StartCoroutine(UpdateHunger());
+		StartCoroutine(UpdateWarmth());
     }
 
     /// <summary>
@@ -868,7 +871,15 @@ public class PlayerController : MonoBehaviour
         updateStats = false;
 		freezePlayer = true;
 		freezeCamera = true;
-        // TODO: Stop any needed processes
+    }
+
+    /// <summary>
+    /// Handles the pausing for menus.
+    /// </summary>
+    public void MenuPause()
+    {
+		freezePlayer = true;
+		freezeCamera = true;
     }
 
     /// <summary>
