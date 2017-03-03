@@ -94,12 +94,17 @@ public class RainController : MonoBehaviour
     /// <summary>
     /// Grab the renderer to set the material's blend amount.
     /// </summary>
-    void Start()
+    void Awake()
     {
         // Grab the renderer.
         MainRainRenderer = MainRain.GetComponent<ParticleSystemRenderer>();
 
         rainParticleSystem = GetComponent<ParticleSystem>();
+
+        if (splashManager == null)
+        {
+            splashManager = transform.parent.GetComponentInChildren<FXSplashManager>();
+        }
     }
 
 	/// <summary>
