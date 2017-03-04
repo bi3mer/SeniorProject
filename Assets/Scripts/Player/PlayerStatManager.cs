@@ -13,6 +13,8 @@ public class PlayerStatManager
 		this.HealthRate = new HealthRateManager ();
 	}
 
+
+
 	//[Tooltip("The warmth rate that increases or decreases in units(+/-) per seconds")]
 	/// <summary>
 	/// Gets the warmth rate.
