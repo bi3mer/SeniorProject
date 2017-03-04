@@ -67,6 +67,7 @@ public class WeatherSystem
 	private const float minPrecipitationForStorm = 20f;
 
 	private bool ongoingStorm = false;
+	private bool updateWeather = true;
 
 	/// <summary>
 	/// Gets the wind direction in 2d.
@@ -387,6 +388,22 @@ public class WeatherSystem
 	}
 
 	/// <summary>
+	/// Enables the weather updates.
+	/// </summary>
+	public void EnableWeather()
+	{
+		updateWeather = true;
+	}
+
+	/// <summary>
+	/// Disables the weather updates.
+	/// </summary>
+	public void DisableWeather()
+	{
+		updateWeather = false;
+	}
+
+	/// <summary>
 	/// Returns a <see cref="System.String"/> that represents the current <see cref="WeatherSystem"/>.
 	/// </summary>
 	/// <returns>A <see cref="System.String"/> that represents the current <see cref="WeatherSystem"/>.</returns>
@@ -411,14 +428,19 @@ public class WeatherSystem
 	/// </summary>
 	public void UpdateSystem()
 	{
-		this.WeatherPressureSystems.UpdatePressureSystem();
-		this.UpdateWeather(Game.Instance.PlayerInstance.WorldTransform.position);
+		if(updateWeather)
+		{
+			this.WeatherPressureSystems.UpdatePressureSystem();
+			this.UpdateWeather(Game.Instance.PlayerInstance.WorldTransform.position);
+		}
 	}
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WeatherSystem"/> class.
 	/// </summary>
-	public WeatherSystem(CityBoundaries bounds)
+	/// <param name="bounds">Bounds of the city.</param>
+	/// <param name="pauseController">Pause system instance.</param>
+	public WeatherSystem(CityBoundaries bounds, PauseSystem pauseController)
 	{
 #if UNITY_EDITOR
 		if(!Application.isPlaying)
@@ -429,5 +451,7 @@ public class WeatherSystem
 
 		this.WeatherInformation = new float[Weather.GetNames(typeof(Weather)).Length];
 		this.WeatherPressureSystems = new PressureSystems(bounds);
+		pauseController.PauseUpdate += DisableWeather;
+		pauseController.ResumeUpdate += EnableWeather;
 	}
 }

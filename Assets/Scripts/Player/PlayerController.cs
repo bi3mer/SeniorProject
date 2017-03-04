@@ -156,6 +156,11 @@ public class PlayerController : MonoBehaviour
     // If true, the player won't be able to move. Used when the player is being moved by some other means, like a cutscene or climbing
     private bool freezePlayer;
 
+    /// <summary>
+    /// If true, the camera can not be moved. Used during pause.
+    /// </summary>
+    private bool freezeCamera;
+
     // Some Animator tags
     private const string playerAnimatorTurn = "Turn";
     private const string playerAnimatorForward = "Forward";
@@ -214,6 +219,7 @@ public class PlayerController : MonoBehaviour
         Game.Instance.DebugModeSubscription += this.toggleDebugMode;
         Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
         Game.Instance.PauseInstance.PauseUpdate += this.Pause;
+        Game.Instance.PauseInstance.MenuPauseUpdate += this.MenuPause;
 
         // create event emitter
         eventEmitter = FMODUnity.RuntimeManager.CreateInstance(roofFootstepSoundEvent);
@@ -258,24 +264,27 @@ public class PlayerController : MonoBehaviour
         UpdatePlayerStats();
         FindVisibleInteractables();
 
-        // check for camera related input
-        if (Input.GetKeyDown(controlScheme.CameraLeft))
+        if(!freezeCamera)
         {
-            playerCamera.RotateLeft();
-        }
-        if (Input.GetKeyDown(controlScheme.CameraRight))
-        {
-            playerCamera.RotateRight();
-        }
-        if (Input.GetKey(controlScheme.CameraZoomInKey))
-        {
-            playerCamera.Zoom(buttonZoomAmount);
-        }
-        if (Input.GetKey(controlScheme.CameraZoomOutKey))
-        {
-            playerCamera.Zoom(-buttonZoomAmount);
-        }
-        playerCamera.Zoom(Input.GetAxis(controlScheme.CameraZoomAxis));
+	        // check for camera related input
+	        if (Input.GetKeyDown(controlScheme.CameraLeft))
+	        {
+	            playerCamera.RotateLeft();
+	        }
+	        if (Input.GetKeyDown(controlScheme.CameraRight))
+	        {
+	            playerCamera.RotateRight();
+	        }
+	        if (Input.GetKey(controlScheme.CameraZoomInKey))
+	        {
+	            playerCamera.Zoom(buttonZoomAmount);
+	        }
+	        if (Input.GetKey(controlScheme.CameraZoomOutKey))
+	        {
+	            playerCamera.Zoom(-buttonZoomAmount);
+	        }
+	        playerCamera.Zoom(Input.GetAxis(controlScheme.CameraZoomAxis));
+	    }
 
         if (!freezePlayer)
         {
@@ -851,8 +860,11 @@ public class PlayerController : MonoBehaviour
     public void Resume()
     {
         updateStats = true;
+		freezePlayer = false;
+		freezeCamera = false;
 
-        // TODO: Resume any other stopped preccesses
+		StartCoroutine(UpdateHunger());
+		StartCoroutine(UpdateWarmth());
     }
 
     /// <summary>
@@ -861,8 +873,16 @@ public class PlayerController : MonoBehaviour
     public void Pause()
     {
         updateStats = false;
+		MenuPause();
+    }
 
-        // TODO: Stop any needed processes
+    /// <summary>
+    /// Handles the pausing for menus.
+    /// </summary>
+    public void MenuPause()
+    {
+		freezePlayer = true;
+		freezeCamera = true;
     }
 
     /// <summary>

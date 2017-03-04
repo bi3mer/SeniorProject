@@ -7,7 +7,6 @@
     {
 		this.CityBounds = new CityBoundaries();
 	    PlayerInstance = new Player();
-		WeatherInstance = new WeatherSystem(this.CityBounds);
 		EventManager = new EventManager ();
 		PauseInstance = new PauseSystem();
 		WorldItemFactoryInstance = new WorldItemFactory();
@@ -16,6 +15,7 @@
 		Scheme = GameSettingsInstance.Scheme;
         Loader = new GameLoader();
         DeathManagerInstance = new DeathManager();
+		WeatherInstance = new WeatherSystem(this.CityBounds, PauseInstance);
     }
 
     /// <summary>
