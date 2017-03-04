@@ -34,22 +34,17 @@ public class Lantern : Tool
 			lightSource.enabled = value;
 		}
 	}
-	
-	public override void Use()
-	{
-		if(on)
-		{
-			
-		}
-	}
 
 	public override void Equip()
 	{
-		on = false;
 	}
 
 	public override void Unequip()
 	{
-		on = false;
+	}
+	
+	public override void Use()
+	{
+		On = !On;
 	}
 }

@@ -32,6 +32,7 @@ public abstract class CraftingSystemSerializer
 	private const string fuelCategoryTag = "fuel";
 	private const string fireBaseCategoryTag = "fireBase";
 	private const string idolCategoryTag = "idol";
+	private const string lightCategoryTag = "light";
 
     /// <summary>
     /// tag:yaml.org,2002 is shorthanded as "!" in the yaml file, but when registering the tag, it
