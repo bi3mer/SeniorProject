@@ -2,9 +2,6 @@
 
 public class StatRate
 {
-	// keeps track of actual stat
-	private int currentStat;
-
 	/// <summary>
 	/// Initializes a new instance of the <see cref="StatRate"/> class.
 	/// </summary>
@@ -12,46 +9,87 @@ public class StatRate
 	/// <param name="perSeconds">Per seconds.</param>
 	public StatRate (int units, int perSeconds)
 	{
-		this.Units = units;
-		this.PerSeconds = perSeconds;
+		this.ChangeRateValues (units, perSeconds);
 	}
 
 	/// <summary>
-	/// Gets or sets the number of units that should decrease or increase.
+	/// Changes the rate values.
 	/// </summary>
-	/// <value>The units.</value>
-	public int Units
+	/// <param name="newUnits">New units.</param>
+	/// <param name="newSeconds">New seconds.</param>
+	public void ChangeRateValues(int newUnits, int newSeconds)
 	{
-		get;
-		set;
+		this.Units = newUnits;
+		this.PerSeconds = newSeconds;
 	}
 
 	/// <summary>
-	/// Gets or sets the interval of seconds that the units should change after.
+	/// Applies the rate to stat.
 	/// </summary>
-	/// <value>The seconds.</value>
-	public int PerSeconds 
-	{ 
-		get; 
-		set; 
+	public void ApplyRateToStat()
+	{
+		if (this.Units < 0) 
+		{
+			DecreaseStatByGivenUnits (this.Units);
+		} 
+		else if (this.Units > 0) 
+		{
+			IncreaseStatByGivenUnits (this.Units);
+		}
 	}
 
 	/// <summary>
 	/// Decreases the stat by given units.
 	/// </summary>
 	/// <param name="decreaseUnits">Decrease units.</param>
-	public void DecreaseStatByGivenUnits(int decreaseUnits)
+	protected void DecreaseStatByGivenUnits(int decreaseUnits)
 	{
-		this.currentStat -= decreaseUnits;
+		// don't let stat fall below 0
+		if (this.CurrentStat - decreaseUnits <= 0) 
+		{
+			this.CurrentStat = 0;
+		} 
+		else 
+		{
+			this.CurrentStat -= decreaseUnits;
+		}
 	}
 
 	/// <summary>
 	/// Increases the stat by given units.
 	/// </summary>
 	/// <param name="increaseUnits">Increase units.</param>
-	public void IncreaseStatByGivenUnits(int increaseUnits)
+	protected void IncreaseStatByGivenUnits(int increaseUnits)
 	{
-		this.currentStat += increaseUnits;
+		// don't let stat exceed maximum
+		if (this.CurrentStat + increaseUnits >= this.MaxStat) 
+		{
+			this.CurrentStat = this.MaxStat;
+		} 
+		else 
+		{
+			this.CurrentStat += increaseUnits;
+		}
+	}
+
+	/// <summary>
+	/// Gets the number of units that should decrease or increase.
+	/// </summary>
+	/// <value>The units.</value>
+	public int Units
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets the interval of seconds that the units should change after.
+	/// </summary>
+	/// <value>The seconds.</value>
+	public int PerSeconds 
+	{ 
+		get; 
+		private set; 
 	}
 
 	/// <summary>
@@ -60,11 +98,17 @@ public class StatRate
 	/// <value>The current health stat.</value>
 	public int CurrentStat 
 	{
-		private get 
-		{
-			return currentStat;
-		}
+		private get;
+		private set;
+	}
 
+	/// <summary>
+	/// Gets or sets the max stat.
+	/// </summary>
+	/// <value>The max stat.</value>
+	public int MaxStat 
+	{
+		private get;
 		private set;
 	}
 }

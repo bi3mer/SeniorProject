@@ -2,16 +2,11 @@
 
 public class PlayerStatManager
 {
-	private Player player;
-	// possibly get unity events from player controller
-
 	/// <summary>
 	/// Initializes a new instance of the <see cref="PlayerStatManager"/> class.
 	/// </summary>
 	public PlayerStatManager ()
 	{
-		player = Game.Instance.PlayerInstance;
-
 		// set current rates to the default ones initially
 		this.HungerRate = new HungerRateManager ();
 		this.WarmthRate = new WarmthRateManager ();

@@ -81,6 +81,8 @@ public class PlayerController : MonoBehaviour
     private bool isReading;
 	private bool isWaterInView;
 
+	private const PlayerStatManager playerStatManager = new PlayerStatManager();
+
     private float currentWarmthChangeRate;
     private float currentHungerChangeRate;
 

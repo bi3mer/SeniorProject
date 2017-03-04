@@ -16,7 +16,13 @@ public class HealthRateManager : StatRate
 		defaultHealthRate = new StatRate(defaultUnitHealth, defaultSecondsHealth);
 		this.Units = defaultHealthRate.Units;
 		this.PerSeconds = defaultHealthRate.PerSeconds;
+
+		// set initial stat value
+		this.CurrentStat = Game.Instance.PlayerInstance.Health;
+		this.MaxStat = Game.Instance.PlayerInstance.MaxHealth;
 	}
+
+
 
 	/// <summary>
 	/// Gets the current health stat.
