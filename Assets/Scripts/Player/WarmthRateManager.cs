@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
 
 public class WarmthRateManager : StatRate
-{	
-	// keeps track of actual stat 
-	private int currentWarmthStat;
-
+{
 	// set default values for warmth rate
 	private StatRate defaultWarmthRate;
 
@@ -39,8 +36,6 @@ public class WarmthRateManager : StatRate
 		this.Units = defaultWarmthRate.Units;
 		this.PerSeconds = defaultWarmthRate.PerSeconds;
 	}
-
-
 		
 	/// <summary>
 	/// Gets the temperature based warmth rate.
@@ -99,7 +94,7 @@ public class WarmthRateManager : StatRate
 	{
 		get  
 		{
-			return currentWarmthStat;
+			return this.CurrentStat;
 		}
 	}
 }

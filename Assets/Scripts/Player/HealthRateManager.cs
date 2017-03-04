@@ -2,9 +2,6 @@
 
 public class HealthRateManager : StatRate
 {
-	// keeps track of actual stat
-	private int currentHealthStat;
-
 	// set default values for health rate
 	private StatRate defaultHealthRate;
 	private const int defaultUnitHealth = 0;
@@ -29,7 +26,7 @@ public class HealthRateManager : StatRate
 	{
 		get 
 		{
-			return currentHealthStat;
+			return this.CurrentStat;
 		}
 	}
 }

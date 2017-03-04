@@ -8,10 +8,9 @@ public class PlayerStatManager
 	/// <summary>
 	/// Initializes a new instance of the <see cref="PlayerStatManager"/> class.
 	/// </summary>
-	/// <param name="playerInstance">Player instance.</param>
-	public PlayerStatManager (Player playerInstance)
+	public PlayerStatManager ()
 	{
-		player = playerInstance;
+		player = Game.Instance.PlayerInstance;
 
 		// set current rates to the default ones initially
 		this.HungerRate = new HungerRateManager ();
@@ -21,35 +20,32 @@ public class PlayerStatManager
 
 	//[Tooltip("The warmth rate that increases or decreases in units(+/-) per seconds")]
 	/// <summary>
-	/// Gets or sets the warmth rate (can increase or decrease in units(+/-) per seconds).
+	/// Gets the warmth rate.
 	/// </summary>
 	/// <value>The warmth rate.</value>
 	public StatRate WarmthRate 
 	{
 		get;
-		set;
 	}
 
 	//[Tooltip("The hunger rate that increases or decreases in units(+/-) per seconds")]
 	/// <summary>
-	/// Gets or sets the hunger rate (can increase or decrease in units(+/-) per seconds).
+	/// Gets the hunger rate.
 	/// </summary>
 	/// <value>The hunger rate.</value>
 	public StatRate HungerRate 
 	{
 		get;
-		set;
 	}
 
 	//[Tooltip("The health rate that increases or decreases in units(+/-) per seconds")]
 	/// <summary>
-	/// Gets or sets the health rate (can increase or decrease in units(+/-) per seconds).
+	/// Gets the health rate.
 	/// </summary>
 	/// <value>The health rate.</value>
 	public StatRate HealthRate 
 	{
 		get;
-		set;
 	}
 }
 

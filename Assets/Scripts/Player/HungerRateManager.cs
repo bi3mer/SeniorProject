@@ -2,9 +2,6 @@
 
 public class HungerRateManager : StatRate
 {
-	// keeps track of actual stat 
-	private int currentHungerStat;
-
 	// set default values for hunger rate
 	private StatRate defaultHungerRate;
 	private const int defaultUnitHunger = -1;
@@ -29,7 +26,7 @@ public class HungerRateManager : StatRate
 	{
 		get 
 		{
-			return currentHungerStat;
+			return this.CurrentStat;
 		}
 	}
 }
