@@ -18,17 +18,13 @@ public class PlayerStatManager
 	/// </summary>
 	public void ApplyCorrectHealthReductionRate()
 	{
-		if (this.WarmthRate.CurrentWarmthStat == 0) 
+		if (this.WarmthRate.CurrentStat == 0) 
 		{
 			this.HealthRate.UseWarmthZeroHealthReductionRate ();
 		} 
-		else if (this.HungerRate.CurrentHungerStat == 0) 
+		else if (this.HungerRate.CurrentStat == 0) 
 		{
 			this.HealthRate.UseHungerZeroHealthReductionRate ();
-		}
-		else if (this.HealthRate.CurrentHealthStat == 0)
-		{
-			// you are dead af
 		}
 	}
 
@@ -38,7 +34,7 @@ public class PlayerStatManager
 	/// <value>The warmth rate.</value>
 	public WarmthRateManager WarmthRate 
 	{
-		get ;
+		get;
 		private set;
 	}
 

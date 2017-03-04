@@ -5,9 +5,7 @@ public class StatRate
 	/// <summary>
 	/// Initializes a new instance of the <see cref="StatRate"/> class.
 	/// </summary>
-	public StatRate()
-	{
-	}
+	protected StatRate() { }
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="StatRate"/> class.
@@ -103,10 +101,10 @@ public class StatRate
 	/// Gets the current health stat.
 	/// </summary>
 	/// <value>The current health stat.</value>
-	protected int CurrentStat 
+	public int CurrentStat 
 	{
 		get;
-		set;
+		protected set;
 	}
 
 	/// <summary>

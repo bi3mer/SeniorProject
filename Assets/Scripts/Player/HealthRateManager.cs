@@ -4,7 +4,11 @@ public class HealthRateManager : StatRate
 {
 	// Add additional rate presets here
 	private StatRate hungerZeroHealthReductionRate;
+	private const int hungerZeroUnit = -1;
+	private const int hungerZeroSeconds = 20;
 	private StatRate warmthZeroHealthReductionRate;
+	private const int warmthZeroUnit = -1;
+	private const int warmthZeroSeconds = 1;
 
 	// set default values for health rate
 	private StatRate defaultHealthRate;
@@ -24,9 +28,9 @@ public class HealthRateManager : StatRate
 		this.CurrentStat = Game.Instance.PlayerInstance.Health;
 		this.MaxStat = Game.Instance.PlayerInstance.MaxHealth;
 
-		// set other rate presets
-		hungerZeroHealthReductionRate = new StatRate(-1, 20); // as per gdd guidelines
-		warmthZeroHealthReductionRate = new StatRate(-1, 1); // as per gdd guidelines
+		// set other rate presets as per gdd guidelines
+		hungerZeroHealthReductionRate = new StatRate(hungerZeroUnit, hungerZeroSeconds); 
+		warmthZeroHealthReductionRate = new StatRate(warmthZeroUnit, warmthZeroSeconds);
 	}
 
 	/// <summary>
@@ -66,18 +70,6 @@ public class HealthRateManager : StatRate
 	{
 		this.Units = warmthZeroHealthReductionRate.Units;
 		this.PerSeconds = warmthZeroHealthReductionRate.PerSeconds;
-	}
-		
-	/// <summary>
-	/// Gets the current health stat.
-	/// </summary>
-	/// <value>The current health stat.</value>
-	public int CurrentHealthStat
-	{
-		get 
-		{
-			return this.CurrentStat;
-		}
 	}
 }
 

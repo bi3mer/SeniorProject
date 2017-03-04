@@ -195,7 +195,6 @@ public class PlayerController : MonoBehaviour
 		playerStatManager.HealthRate.UseDefaultHealthRate ();
 		StartCoroutine (UpdateHealth ());
 
-
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
 
@@ -416,7 +415,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
 			playerStatManager.HealthRate.TakeFallDamage ((int)movement.CurrentFallDammage);
-			Game.Instance.PlayerInstance.Health = playerStatManager.HealthRate.CurrentHealthStat;
+			Game.Instance.PlayerInstance.Health = playerStatManager.HealthRate.CurrentStat;
             healthUpdatedEvent.Invoke();
         }
 
@@ -425,7 +424,7 @@ public class PlayerController : MonoBehaviour
 		{
 			playerStatManager.WarmthRate.UseWaterWarmthReductionRate ();
 		} 
-		else if (!IsInWater) 
+		else
 		{
 			playerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
 		}
@@ -441,9 +440,9 @@ public class PlayerController : MonoBehaviour
 	{
 		while (updateStats) 
 		{
-			yield return new WaitForSeconds(Mathf.Abs(playerStatManager.HealthRate.PerSeconds));
+			yield return new WaitForSeconds(Mathf.Abs(playerStatManager.HealthRate.PerSeconds));	
 			playerStatManager.HealthRate.ApplyRateToStat ();
-			Game.Instance.PlayerInstance.Health = playerStatManager.HealthRate.CurrentHealthStat;
+			Game.Instance.PlayerInstance.Health = playerStatManager.HealthRate.CurrentStat;
 			healthUpdatedEvent.Invoke ();
 		}
 	}
@@ -457,9 +456,8 @@ public class PlayerController : MonoBehaviour
 		while (updateStats)
 		{
 			yield return new WaitForSeconds(Mathf.Abs(playerStatManager.HungerRate.PerSeconds));
-
 			playerStatManager.HungerRate.ApplyRateToStat ();
-			Game.Instance.PlayerInstance.Hunger = playerStatManager.HungerRate.CurrentHungerStat;
+			Game.Instance.PlayerInstance.Hunger = playerStatManager.HungerRate.CurrentStat;
 			hungerUpdatedEvent.Invoke();
 		}
     }
@@ -474,9 +472,8 @@ public class PlayerController : MonoBehaviour
 		while (updateStats)
 		{
 			yield return new WaitForSeconds(Mathf.Abs(playerStatManager.WarmthRate.PerSeconds));
-
 			playerStatManager.WarmthRate.ApplyRateToStat ();
-			Game.Instance.PlayerInstance.Warmth = playerStatManager.WarmthRate.CurrentWarmthStat;
+			Game.Instance.PlayerInstance.Warmth = playerStatManager.WarmthRate.CurrentStat;
 			warmthUpdatedEvent.Invoke();
 		}
     }

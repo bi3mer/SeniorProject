@@ -41,18 +41,6 @@ public class HungerRateManager : StatRate
 		this.ApplyRateToStat ();
 		UseDefaultHungerReductionRate (); // change back to default reduction rate after consuming food and accounting for it's energy
 	}
-		
-	/// <summary>
-	/// Gets the current hunger stat.
-	/// </summary>
-	/// <value>The current hunger stat.</value>
-	public int CurrentHungerStat
-	{
-		get 
-		{
-			return this.CurrentStat;
-		}
-	}
 }
 
 

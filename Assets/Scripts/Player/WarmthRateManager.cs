@@ -4,7 +4,10 @@ public class WarmthRateManager : StatRate
 {
 	// Add additional rate presets here
 	private StatRate inWaterWarmthReductionRate;
+	private const int speedOfWarmthRateDecreaseInWater = 2;
 	private StatRate nearHeatSourceWarmthIncreaseRate;
+	private const int heatSourceUnit = 2;
+	private const int heatSourceSeconds = 1;
 
 	// set default values for warmth rates
 	private StatRate defaultWarmthReductionRate;
@@ -42,8 +45,8 @@ public class WarmthRateManager : StatRate
 		this.CurrentStat = Game.Instance.PlayerInstance.Warmth;
 		this.MaxStat = Game.Instance.PlayerInstance.MaxWarmth;
 
-		// set up other rate presets
-		nearHeatSourceWarmthIncreaseRate = new StatRate(2,1); // as per gdd guidelines
+		// set up other rate presets as per gdd guidelines
+		nearHeatSourceWarmthIncreaseRate = new StatRate(heatSourceUnit, heatSourceSeconds);
 	}
 
 	/// <summary>
@@ -64,7 +67,7 @@ public class WarmthRateManager : StatRate
 	{
 		// compute water warmth reduction rate based on current temperature
 		StatRate rateBasedOnTemp = GetTemperatureBasedWarmthRate();
-		int newSeconds = rateBasedOnTemp.PerSeconds / 2; // as per gdd guidelines
+		int newSeconds = rateBasedOnTemp.PerSeconds / speedOfWarmthRateDecreaseInWater; // as per gdd guidelines
 		inWaterWarmthReductionRate = new StatRate(rateBasedOnTemp.Units, newSeconds);
 
 		this.Units = inWaterWarmthReductionRate.Units;
@@ -125,18 +128,6 @@ public class WarmthRateManager : StatRate
 		else 
 		{
 			return null;
-		}
-	}
-
-	/// <summary>
-	/// Gets the current warmth stat.
-	/// </summary>
-	/// <value>The current warmth stat.</value>
-	public int CurrentWarmthStat
-	{
-		get  
-		{
-			return this.CurrentStat;
 		}
 	}
 }
