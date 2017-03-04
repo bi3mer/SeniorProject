@@ -3,11 +3,7 @@
 public class PlayerStatManager
 {
 	private Player player;
-	private StatRate defaultHealthRate;
-
-	// set default values for hunger, warmth, and health rates
-	private const int defaultUnitHealth = 0;
-	private const int defaultSecondsHealth = 1;
+	// possibly get unity events from player controller
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="PlayerStatManager"/> class.
@@ -17,19 +13,11 @@ public class PlayerStatManager
 	{
 		player = playerInstance;
 
-		// set initial default rates based on the values listed in gdd
-		defaultHealthRate = new StatRate(defaultUnitHealth, defaultSecondsHealth);
-
 		// set current rates to the default ones initially
-		this.HungerRate = new HungerRateManager();
+		this.HungerRate = new HungerRateManager ();
 		this.WarmthRate = new WarmthRateManager ();
-		this.HealthRate = defaultHealthRate;
+		this.HealthRate = new HealthRateManager ();
 	}
-
-
-
-
-
 
 	//[Tooltip("The warmth rate that increases or decreases in units(+/-) per seconds")]
 	/// <summary>

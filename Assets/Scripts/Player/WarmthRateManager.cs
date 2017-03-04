@@ -2,6 +2,10 @@
 
 public class WarmthRateManager : StatRate
 {	
+	// keeps track of actual stat 
+	private int currentWarmthStat;
+
+	// set default values for warmth rate
 	private StatRate defaultWarmthRate;
 
 	// default temperature checks and seconds intervals (sets warmth rate based on whether or not current temperature is ><= these values)
@@ -24,7 +28,10 @@ public class WarmthRateManager : StatRate
 	private const int secondsTier1 = 5;
 	private const int secondsTier0 = 4;
 	private const int secondsTierNeg = 3;
-	
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="WarmthRateManager"/> class.
+	/// </summary>
 	public WarmthRateManager ()
 	{
 		// set the default rate initially (only based on temperature)
@@ -81,6 +88,18 @@ public class WarmthRateManager : StatRate
 		else 
 		{
 			return null;
+		}
+	}
+
+	/// <summary>
+	/// Gets the current warmth stat.
+	/// </summary>
+	/// <value>The current warmth stat.</value>
+	public int CurrentWarmthStat
+	{
+		get  
+		{
+			return currentWarmthStat;
 		}
 	}
 }
