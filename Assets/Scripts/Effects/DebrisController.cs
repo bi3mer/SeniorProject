@@ -107,7 +107,6 @@ public class DebrisController : MonoBehaviour
 	/// </summary>
 	private void UpdateParticleSystem()
 	{
-		
 		ParticleSystem.EmissionModule DebrisEmission = Debris.emission;
 
 		// Set the Debris emission rate, if it's less than the threshold turn off emission. If not, multiply it by a given value.

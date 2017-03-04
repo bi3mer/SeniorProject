@@ -171,7 +171,7 @@ GameObject:
   - 199: {fileID: 199000010469713206}
   - 198: {fileID: 198000012610295790}
   m_Layer: 0
-  m_Name: Dirt
+  m_Name: Mud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -622,7 +622,7 @@ MonoBehaviour:
   windMitigation: 8
   debrisMultiplier: 1
   debrisLevel: 0
-  DebrisStartThreshold: 50
+  DebrisStartThreshold: 30
   windVectorXZ: {x: 0, y: 0}
 --- !u!114 &114000010728337554
 MonoBehaviour:
@@ -683,10 +683,10 @@ MonoBehaviour:
   MainRain: {fileID: 198000010173776360}
   RainFog: {fileID: 198000011775040566}
   windMitigation: 8
-  rainLevel: 15.803552
+  rainLevel: 21.32548
   FogStartThreshold: 50
   fogMod: 0.5
-  windVectorXZ: {x: -0.5170428, y: -1.1202973}
+  windVectorXZ: {x: 1.890987, y: -0.6196315}
   fogWindMod: 0.4
   splashManager: {fileID: 114000012391922068}
   splashSize: 0.4
@@ -804,9 +804,9 @@ MonoBehaviour:
   UseCustomValues: 0
   Debris: {fileID: 198000012610295790}
   windMitigation: 8
-  debrisMultiplier: 2
+  debrisMultiplier: 6
   debrisLevel: 0
-  DebrisStartThreshold: 75
+  DebrisStartThreshold: 60
   windVectorXZ: {x: 0, y: 0}
 --- !u!114 &114000013015454300
 MonoBehaviour:
@@ -888,9 +888,9 @@ MonoBehaviour:
   UseCustomValues: 0
   Debris: {fileID: 198000012406094952}
   windMitigation: 8
-  debrisMultiplier: 2
+  debrisMultiplier: 6
   debrisLevel: 0
-  DebrisStartThreshold: 75
+  DebrisStartThreshold: 60
   windVectorXZ: {x: 0, y: 0}
 --- !u!114 &114000013985563468
 MonoBehaviour:
@@ -1227,7 +1227,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationX:
-      scalar: 0.019552877
+      scalar: 0.01081461
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1262,7 +1262,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationY:
-      scalar: 0.009024099
+      scalar: -0.03300395
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1361,7 +1361,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 31.607103
+      scalar: 42.65096
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1789,7 +1789,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: -0.5170428
+      scalar: 1.890987
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1814,7 +1814,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     y:
-      scalar: 1.1202973
+      scalar: 0.6196315
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10334,7 +10334,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: -0.20681714
+      scalar: 0.7563948
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10384,7 +10384,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     z:
-      scalar: 0.44811893
+      scalar: 0.24785261
       maxCurve:
         serializedVersion: 2
         m_Curve:
