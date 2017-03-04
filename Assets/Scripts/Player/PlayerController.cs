@@ -370,8 +370,12 @@ public class PlayerController : MonoBehaviour
             if (direction != Vector3.zero)
             {
                 movement.Move(direction, sprinting, playerAnimator);
-                eventEmitter.setPitch(movement.Speed);
-                StartWalkingSound();
+
+				if (isGrounded) 
+				{
+					eventEmitter.setPitch (movement.Speed);
+					StartWalkingSound ();
+				}
             }
             else
             {
