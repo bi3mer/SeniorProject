@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
     private float waterWadeHeight;
 
     private const float groundedRaycastHeight = 0.01f;
+	private const float distanceToCheckWater = 0.5f;
 
     [Header("Sound Settings")]
     [SerializeField]
@@ -85,6 +86,7 @@ public class PlayerController : MonoBehaviour
     private bool isInShelter;
     private bool isByFire;
     private bool isReading;
+	private bool isWaterInView;
 
     private float currentWarmthChangeRate;
     private float currentHungerChangeRate;
@@ -161,6 +163,11 @@ public class PlayerController : MonoBehaviour
     // If true, the player won't be able to move. Used when the player is being moved by some other means, like a cutscene or climbing
     private bool freezePlayer;
 
+    /// <summary>
+    /// If true, the camera can not be moved. Used during pause.
+    /// </summary>
+    private bool freezeCamera;
+
     // Some Animator tags
     private const string playerAnimatorTurn = "Turn";
     private const string playerAnimatorForward = "Forward";
@@ -219,6 +226,7 @@ public class PlayerController : MonoBehaviour
         Game.Instance.DebugModeSubscription += this.toggleDebugMode;
         Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
         Game.Instance.PauseInstance.PauseUpdate += this.Pause;
+        Game.Instance.PauseInstance.MenuPauseUpdate += this.MenuPause;
 
         // create event emitter
         eventEmitter = FMODUnity.RuntimeManager.CreateInstance(roofFootstepSoundEvent);
@@ -232,11 +240,10 @@ public class PlayerController : MonoBehaviour
     {
         // enter into the range of an interactable item 
         // TODO: Figure out why the player can't find the raft when on board with cone view.
-        if (IsOnRaft && other.CompareTag(interactiveTag))
-        {
-            interactable = other.GetComponent<InteractableObject>();
-            interactable.Show = true;
-        }
+		if (IsOnRaft && other.CompareTag (interactiveTag)) {
+			interactable = other.GetComponent<InteractableObject> ();
+			interactable.Show = true;
+		}
     }
 
     /// <summary>
@@ -264,24 +271,27 @@ public class PlayerController : MonoBehaviour
         UpdatePlayerStats();
         FindVisibleInteractables();
 
-        // check for camera related input
-        if (Input.GetKeyDown(controlScheme.CameraLeft))
+        if(!freezeCamera)
         {
-            playerCamera.RotateLeft();
-        }
-        if (Input.GetKeyDown(controlScheme.CameraRight))
-        {
-            playerCamera.RotateRight();
-        }
-        if (Input.GetKey(controlScheme.CameraZoomInKey))
-        {
-            playerCamera.Zoom(buttonZoomAmount);
-        }
-        if (Input.GetKey(controlScheme.CameraZoomOutKey))
-        {
-            playerCamera.Zoom(-buttonZoomAmount);
-        }
-        playerCamera.Zoom(Input.GetAxis(controlScheme.CameraZoomAxis));
+	        // check for camera related input
+	        if (Input.GetKeyDown(controlScheme.CameraLeft))
+	        {
+	            playerCamera.RotateLeft();
+	        }
+	        if (Input.GetKeyDown(controlScheme.CameraRight))
+	        {
+	            playerCamera.RotateRight();
+	        }
+	        if (Input.GetKey(controlScheme.CameraZoomInKey))
+	        {
+	            playerCamera.Zoom(buttonZoomAmount);
+	        }
+	        if (Input.GetKey(controlScheme.CameraZoomOutKey))
+	        {
+	            playerCamera.Zoom(-buttonZoomAmount);
+	        }
+	        playerCamera.Zoom(Input.GetAxis(controlScheme.CameraZoomAxis));
+	    }
 
         if (!freezePlayer)
         {
@@ -376,8 +386,12 @@ public class PlayerController : MonoBehaviour
             if (direction != Vector3.zero)
             {
                 movement.Move(direction, sprinting, playerAnimator);
-                eventEmitter.setPitch(movement.Speed);
-                StartWalkingSound();
+
+				if (isGrounded) 
+				{
+					eventEmitter.setPitch (movement.Speed);
+					StartWalkingSound ();
+				}
             }
             else
             {
@@ -392,6 +406,17 @@ public class PlayerController : MonoBehaviour
                 freezePlayer = true;
                 StartCoroutine(ClimbCoroutine());
             }
+
+			// Check if the player is close to water
+			RaycastHit hit;
+			// We have to raycast in front of the player.
+			if (Physics.Raycast (transform.position + (playerAnimator.transform.forward * distanceToCheckWater), -Vector3.up, out hit)) 
+			{
+				if (hit.collider.CompareTag(waterTag))
+				{
+					isWaterInView = true;
+				}
+			}
         }
     }
 
@@ -756,6 +781,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+	/// <summary>
+	/// Gets a value indicating whether player is by water.
+	/// </summary>
+	/// <value><c>true</c> if this instance is by water; otherwise, <c>false</c>.</value>
+	public bool IsWaterInView
+	{
+		get
+		{
+			return isWaterInView;
+		}
+	}
+
     /// <summary>
     /// Gets or sets the fire warmth increase rate.
     /// </summary>
@@ -834,8 +871,11 @@ public class PlayerController : MonoBehaviour
     public void Resume()
     {
         updateStats = true;
+		freezePlayer = false;
+		freezeCamera = false;
 
-        // TODO: Resume any other stopped preccesses
+		StartCoroutine(UpdateHunger());
+		StartCoroutine(UpdateWarmth());
     }
 
     /// <summary>
@@ -844,8 +884,16 @@ public class PlayerController : MonoBehaviour
     public void Pause()
     {
         updateStats = false;
+		MenuPause();
+    }
 
-        // TODO: Stop any needed processes
+    /// <summary>
+    /// Handles the pausing for menus.
+    /// </summary>
+    public void MenuPause()
+    {
+		freezePlayer = true;
+		freezeCamera = true;
     }
 
     /// <summary>

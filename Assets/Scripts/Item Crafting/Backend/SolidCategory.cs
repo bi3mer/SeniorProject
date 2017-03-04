@@ -74,7 +74,7 @@ public class SolidCategory : ItemCategory
 	/// The thresholds for Sharpen to be a possible action
 	/// </summary>
 	private float sharpenLowerThreshold = 0.2f;
-	private float sharpenUpperThreshold = 0.7f;
+	private float sharpenUpperThreshold = 2.5f;
 
 	/// <summary>
 	/// The threshold for whether or not Weave is a possible action
@@ -104,7 +104,7 @@ public class SolidCategory : ItemCategory
 	/// <summary>
 	/// Threshold value of Sharpess, over which the item will be considered a blade
 	/// </summary>
-	private const float bladeNameThreshold = 3f;
+	private const float sharpTypeThreshold = 3f;
 
 	/// <summary>
 	/// string added to item name when the resulting rope is thin enough to be a thread
@@ -119,12 +119,9 @@ public class SolidCategory : ItemCategory
 	/// <summary>
 	/// string added to item name by default when item has been sharpened
 	/// </summary>
-	private const string defaultSharpenNameAddtion = "Sharpened";
+	private const string defaultSharpenNameAddtion = "Filed";
 
-	/// <summary>
-	/// string added to item name when item is sharp enough to be a blade
-	/// </summary>
-	private const string bladeNameAddition = "Blade";
+	private const string sharpenTypeNameAddition = "Sharpened";
 
 	private const string basketNameAddition = "Basket";
 
@@ -288,20 +285,19 @@ public class SolidCategory : ItemCategory
 	/// </summary>
 	public void Sharpen()
 	{
-		if (Sharpness > bladeNameThreshold) 
+		Sharpness = Sharpness * sharpenRate + Durability;
+		GetAttribute (sharpAttrName).Value = Sharpness;
+
+		if(Sharpness > sharpTypeThreshold)
 		{
-			if (!baseItem.ItemName.Contains (bladeNameAddition)) 
-			{
-				baseItem.ChangeName(baseItem.ItemName + " " + bladeNameAddition);
-			}
-		} 
-		else 
+			baseItem.Types.Add(ItemTypes.Sharp);
+			baseItem.ChangeName (sharpenTypeNameAddition + " " + baseItem.ItemName);
+		}
+		else
 		{
 			baseItem.ChangeName (defaultSharpenNameAddtion + " " + baseItem.ItemName);
 		}
 
-		Sharpness = Sharpness * sharpenRate;
-		GetAttribute (sharpAttrName).Value = Sharpness;
 		baseItem.DirtyFlag = true;
 		SetActionComplete(sharpenActionName);
 	}
