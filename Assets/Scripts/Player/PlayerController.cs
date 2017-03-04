@@ -869,8 +869,7 @@ public class PlayerController : MonoBehaviour
     public void Pause()
     {
         updateStats = false;
-		freezePlayer = true;
-		freezeCamera = true;
+		MenuPause();
     }
 
     /// <summary>
