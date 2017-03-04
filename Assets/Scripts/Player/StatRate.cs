@@ -17,7 +17,7 @@ public class StatRate
 	/// Gets or sets the number of units that should decrease or increase.
 	/// </summary>
 	/// <value>The units.</value>
-	private int Units
+	public int Units
 	{
 		get;
 		set;
@@ -27,7 +27,7 @@ public class StatRate
 	/// Gets or sets the interval of seconds that the units should change after.
 	/// </summary>
 	/// <value>The seconds.</value>
-	private int PerSeconds 
+	public int PerSeconds 
 	{ 
 		get; 
 		set; 
