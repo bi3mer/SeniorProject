@@ -683,10 +683,10 @@ MonoBehaviour:
   MainRain: {fileID: 198000010173776360}
   RainFog: {fileID: 198000011775040566}
   windMitigation: 8
-  rainLevel: 21.32548
+  rainLevel: 15.181136
   FogStartThreshold: 50
   fogMod: 0.5
-  windVectorXZ: {x: 1.890987, y: -0.6196315}
+  windVectorXZ: {x: 0.43668514, y: 1.0476193}
   fogWindMod: 0.4
   splashManager: {fileID: 114000012391922068}
   splashSize: 0.4
@@ -774,7 +774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UsePositionX: 1
-  UsePositionY: 0
+  UsePositionY: 1
   UsePositionZ: 1
   Parent: {fileID: 0}
 --- !u!114 &114000012391922068
@@ -1227,7 +1227,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationX:
-      scalar: 0.01081461
+      scalar: -0.018284407
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1262,7 +1262,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationY:
-      scalar: -0.03300395
+      scalar: -0.0076215933
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1361,7 +1361,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 42.65096
+      scalar: 30.362272
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1789,7 +1789,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 1.890987
+      scalar: 0.43668514
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1814,7 +1814,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     y:
-      scalar: 0.6196315
+      scalar: -1.0476193
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10334,7 +10334,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 0.7563948
+      scalar: 0.17467406
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10384,7 +10384,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     z:
-      scalar: 0.24785261
+      scalar: -0.41904774
       maxCurve:
         serializedVersion: 2
         m_Curve:
