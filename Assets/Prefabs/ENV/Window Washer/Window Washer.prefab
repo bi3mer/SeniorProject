@@ -21,14 +21,14 @@ GameObject:
   - 4: {fileID: 4000010028245174}
   - 33: {fileID: 33000013740757044}
   - 23: {fileID: 23000013286421118}
-  - 65: {fileID: 65000010886399146}
   - 65: {fileID: 65000011018702282}
   - 65: {fileID: 65000011001090308}
   - 65: {fileID: 65000010916185238}
   - 65: {fileID: 65000014264115480}
-  m_Layer: 0
+  - 65: {fileID: 65000013961158934}
+  m_Layer: 9
   m_Name: ENV_WindowWasher
-  m_TagString: Interactable
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013851826162}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RopeAttachLocation1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,9 +57,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013553497934}
   - 120: {fileID: 120000011565366448}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SecondRopeLineRenderer
-  m_TagString: Untagged
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72,7 +72,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012402838368}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RopeAttachLocation2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012961753538}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RopeAttachLocation3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,9 +106,9 @@ GameObject:
   - 23: {fileID: 23000012737319204}
   - 65: {fileID: 65000010301907232}
   - 65: {fileID: 65000010053391898}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ENV_WindowWasherSupport
-  m_TagString: Untagged
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -123,7 +123,7 @@ GameObject:
   - 4: {fileID: 4000011979510674}
   - 65: {fileID: 65000012562147032}
   - 65: {fileID: 65000013180113982}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WindowWasherGround
   m_TagString: Land
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012148869080}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RopeAttachLocation4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,9 +155,9 @@ GameObject:
   - 4: {fileID: 4000011904715294}
   - 23: {fileID: 23000012581254408}
   - 102: {fileID: 102000010708374116}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TextMesh
-  m_TagString: Untagged
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -174,9 +174,9 @@ GameObject:
   - 54: {fileID: 54000011720505816}
   - 120: {fileID: 120000010831116910}
   - 114: {fileID: 114000011268269196}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Window Washer
-  m_TagString: Interactable
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -187,8 +187,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010088449882}
-  m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 0.0020000571, y: 0.037, z: 0.34399986}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.34399995, y: -0.036, z: 0.0019999743}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -203,8 +203,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013414948478}
-  m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: -0.1, z: -0.7010007}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.701, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -218,8 +218,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014183905886}
-  m_LocalRotation: {x: 0.00011730192, y: -0.70710677, z: 0.7071068, w: -0.00011721251}
-  m_LocalPosition: {x: 0.4600003, y: 0.013000011, z: 0.5529997}
+  m_LocalRotation: {x: 0.4999171, y: 0.4999171, z: -0.5000829, w: 0.5000829}
+  m_LocalPosition: {x: -0.553, y: 0.013, z: 0.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 89.981, y: 0, z: -90}
   m_Children: []
@@ -300,8 +300,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010484214472}
-  m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -0.7010007}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.701, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -460,18 +460,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.73235744, y: 0.5270642, z: 0.44924143}
   m_Center: {x: 0.00026410818, y: 0.26346445, z: 0.0038228035}
---- !u!65 &65000010886399146
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010088449882}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.28461057, y: 0.4941318, z: 1.1999996}
-  m_Center: {x: -0.0076943636, y: 0.20562905, z: 0.00000009336509}
 --- !u!65 &65000010916185238
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -518,8 +506,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.30160463, y: 0.07549756, z: 0.60137606}
-  m_Center: {x: 0.0008019209, y: -0.0036881603, z: 0.30242595}
+  m_Size: {x: 0.30160463, y: 0.26552296, z: 0.60137606}
+  m_Center: {x: 0.0008019209, y: -0.098701015, z: 0.30242598}
 --- !u!65 &65000013180113982
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -530,8 +518,20 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.48779595, y: 0.07549756, z: 0.5979756}
-  m_Center: {x: 0.0938983, y: -0.0036881603, z: -0.30101147}
+  m_Size: {x: 0.48779595, y: 0.26610786, z: 0.5979756}
+  m_Center: {x: 0.0938983, y: -0.09899379, z: -0.30101144}
+--- !u!65 &65000013961158934
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010088449882}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3008783, y: 0.6978655, z: 1.2035027}
+  m_Center: {x: 0.00043952465, y: 0.3074956, z: -0.0017513037}
 --- !u!65 &65000014264115480
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -616,9 +616,10 @@ MonoBehaviour:
   - {fileID: 4000012148869080}
   - {fileID: 4000012961753538}
   - {fileID: 4000012402838368}
-  washerBaseLength: 0.5
+  washerBaseLength: 1.1
   placementCenter: {fileID: 1000013414948478}
   StartUp: 0
+  myIntObject: {fileID: 114000011268269196}
 --- !u!120 &120000010831116910
 LineRenderer:
   m_ObjectHideFlags: 1

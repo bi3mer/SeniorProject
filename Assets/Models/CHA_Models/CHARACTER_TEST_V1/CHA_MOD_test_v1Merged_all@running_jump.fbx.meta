@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: f46d563c7f629d741b46846cb48871e1
-timeCreated: 1478362900
-licenseType: Pro
+guid: 0c55c284aa5d5e649b5e3bd7274f2e9d
+timeCreated: 1487449362
+licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
@@ -57,7 +57,7 @@ ModelImporter:
     400046: mixamorig:Spine
     400048: mixamorig:Spine1
     400050: mixamorig:Spine2
-    7400000: jump
+    7400000: running_jump
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -70,10 +70,16 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'mixamo.com' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
-      improve retargeting quality.\n\t'mixamorig:Spine2' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n"
+    animationImportWarnings: "\nDefault bone length found in this file is different
+      form the one found in the source avatar:\n\t'mixamorig:LeftUpLeg' : position
+      error = 81.528374 mm\n\t'mixamorig:LeftLeg' : position error = 340.709137 mm\n\t'mixamorig:LeftFoot'
+      : position error = 287.910614 mm\n\t'mixamorig:LeftToeBase' : position error
+      = 130.622925 mm\n\t'mixamorig:RightUpLeg' : position error = 81.673973 mm\n\t'mixamorig:RightLeg'
+      : position error = 340.651306 mm\n\t'mixamorig:RightFoot' : position error =
+      287.901459 mm\n\t'mixamorig:RightToeBase' : position error = 130.732178 mm\n\nClip
+      'mixamo.com' has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'mixamorig:Spine2'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     animationCompression: 3
@@ -84,10 +90,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: jump
+      name: running_jump
       takeName: mixamo.com
       firstFrame: 0
-      lastFrame: 100
+      lastFrame: 27
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -100,16 +106,16 @@ ModelImporter:
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
-      heightFromFeet: 0
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.34188035
+      - time: 0.03125
         functionName: CallJumpForce
-        data: 0
+        data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6abe5c2c5817263408ae4916fb76ba93,
           type: 3}
         floatParameter: 0
@@ -117,7 +123,7 @@ ModelImporter:
         messageOptions: 0
       - time: 1
         functionName: CallJumpLand
-        data: 0
+        data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6abe5c2c5817263408ae4916fb76ba93,
           type: 3}
         floatParameter: 0
@@ -182,7 +188,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 5.5
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1

@@ -14,7 +14,7 @@ public class RandomUtility
 		}
 	}
 
-	/// <summary>
+    /// <summary>
     /// Get a random float between 0 and 1.
     /// </summary>
     public static float RandomPercent
@@ -25,10 +25,21 @@ public class RandomUtility
         }
     }
 
-	/// <summary>
-	/// Randoms binomial with higher likelihood of 0
-	/// </summary>
-	/// <returns>The binomial.</returns>
+    /// <summary>
+    /// Get a random float between 0 and 100.
+    /// </summary>
+    public static float RandomHundredPercent
+    {
+        get
+        {
+            return Random.Range(0f, 100f);
+        }
+    }
+
+    /// <summary>
+    /// Randoms binomial with higher likelihood of 0
+    /// </summary>
+    /// <returns>The binomial.</returns>
     public static float RandomBinomial
     {
     	get
@@ -36,4 +47,6 @@ public class RandomUtility
 			return RandomUtility.RandomPercent - RandomUtility.RandomPercent;
 		}
     }
+
+
 }

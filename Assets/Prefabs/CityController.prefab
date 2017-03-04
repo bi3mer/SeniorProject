@@ -77,8 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a74938624ce19ac4c911c819b2503eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  streetWidth: 1.4
-  distanceBetweenBuildingCenters: 10
+  streetWidth: 1.5
+  distanceBetweenBuildingCenters: 45
   positionJitter: 0.27
   distributionCurve:
     serializedVersion: 2
@@ -97,7 +97,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   heightJitter: 0.1
-  buildingScale: 0.4
+  buildingScale: 1
   maxPlacementTries: 3
   CityCenterBuilding: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
     type: 2}
@@ -150,7 +150,7 @@ MonoBehaviour:
   seed: 1
   cityBounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 45, y: 45, z: 45}
+    m_Extent: {x: 150, y: 150, z: 150}
   buildingColliderRadius: 4
   buildingVisibleRadius: 16
 --- !u!114 &114000013392317438
@@ -181,7 +181,7 @@ MonoBehaviour:
   distanceBetweenSeedPoints: 50
   configurations:
   - districtName: residential
-    WeenieBuildingTemplate: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
+    WeenieBuildingTemplate: {fileID: 1000010255927246, guid: 549121b14d0f7904d88d4311ec33716b,
       type: 2}
     Doors:
     - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
@@ -317,7 +317,7 @@ MonoBehaviour:
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
   - districtName: shopping
-    WeenieBuildingTemplate: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
+    WeenieBuildingTemplate: {fileID: 1000012475015072, guid: a56d8459f0ab6b6489682f438e4bb632,
       type: 2}
     Doors:
     - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
@@ -452,8 +452,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
-  - districtName: shopping
-    WeenieBuildingTemplate: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
+  - districtName: business
+    WeenieBuildingTemplate: {fileID: 1000014284608772, guid: 7cded61ac185fec42bb5927b4b556f9e,
       type: 2}
     Doors:
     - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
