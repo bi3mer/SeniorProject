@@ -41,11 +41,7 @@ GameObject:
   - 114: {fileID: 114000010928583048}
   - 114: {fileID: 114000011796935804}
   - 114: {fileID: 114000013015454300}
-  - 114: {fileID: 114000013602445062}
-  - 114: {fileID: 114000010051555858}
-  - 114: {fileID: 114000013985563468}
-  - 114: {fileID: 114000011744740192}
-  - 114: {fileID: 114000013667240242}
+  - 114: {fileID: 114000013101229372}
   m_Layer: 0
   m_Name: WeatherEffects
   m_TagString: Untagged
@@ -574,21 +570,6 @@ Light:
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114000010051555858
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010414017512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
-  weatherIntensityDivisor: 10
-  maxWeatherVolume: 3
-  weatherVolume: 2
 --- !u!114 &114000010667489446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -601,7 +582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseCustomValues: 0
-  Debris: {fileID: 198000010381661446}
+  Debris: {fileID: 0}
   windMitigation: 8
   debrisMultiplier: 4
   debrisLevel: 0
@@ -632,7 +613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseCustomValues: 0
-  Debris: {fileID: 198000011259556560}
+  Debris: {fileID: 0}
   windMitigation: 8
   debrisMultiplier: 8
   debrisLevel: 0
@@ -697,27 +678,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseCustomValues: 0
-  Debris: {fileID: 198000012565782002}
+  Debris: {fileID: 0}
   windMitigation: 8
   debrisMultiplier: 1
   debrisLevel: 0
   DebrisStartThreshold: 60
   windVectorXZ: {x: 0, y: 0}
---- !u!114 &114000011744740192
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010414017512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
-  weatherIntensityDivisor: 10
-  maxWeatherVolume: 3
-  weatherVolume: 2
 --- !u!114 &114000011796935804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -770,7 +736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseCustomValues: 0
-  Debris: {fileID: 198000012610295790}
+  Debris: {fileID: 0}
   windMitigation: 8
   debrisMultiplier: 2
   debrisLevel: 0
@@ -791,6 +757,23 @@ MonoBehaviour:
   weatherIntensityDivisor: 10
   maxWeatherVolume: 3
   weatherVolume: 2
+--- !u!114 &114000013101229372
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010414017512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78a550608e3e7426b873dddab6f048a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightningPrefab: {fileID: 1000010834698278, guid: 68b050731fd724e829b98cb2dddccb70,
+    type: 2}
+  gameMinutesTillFirstLightningStrike: 1
+  minGameTimeForLightningStrike: 10
+  maxGameTimeForLightningStrike: 30
+  lightingYSpawnOffset: 10
 --- !u!114 &114000013357707624
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -812,36 +795,6 @@ MonoBehaviour:
   refractLayers:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114000013602445062
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010414017512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
-  weatherIntensityDivisor: 10
-  maxWeatherVolume: 3
-  weatherVolume: 2
---- !u!114 &114000013667240242
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010414017512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
-  weatherIntensityDivisor: 10
-  maxWeatherVolume: 3
-  weatherVolume: 2
 --- !u!114 &114000013893003440
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -854,27 +807,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseCustomValues: 0
-  Debris: {fileID: 198000012406094952}
+  Debris: {fileID: 0}
   windMitigation: 8
   debrisMultiplier: 2
   debrisLevel: 0
   DebrisStartThreshold: 40
   windVectorXZ: {x: 0, y: 0}
---- !u!114 &114000013985563468
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010414017512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
-  weatherIntensityDivisor: 10
-  maxWeatherVolume: 3
-  weatherVolume: 2
 --- !u!198 &198000010173776360
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1195,7 +1133,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationX:
-      scalar: -0.023217678
+      scalar: -0.02050543
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1230,7 +1168,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationY:
-      scalar: -0.018864065
+      scalar: 0.009222971
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1329,7 +1267,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 38.543045
+      scalar: 32.389893
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1757,7 +1695,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 1.0808313
+      scalar: -0.5284373
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1782,7 +1720,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     y:
-      scalar: -1.3302749
+      scalar: -1.1748747
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10302,7 +10240,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 0.43233252
+      scalar: -0.21137492
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10352,7 +10290,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     z:
-      scalar: -0.53211
+      scalar: -0.46994987
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -16335,7 +16273,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5140a73e6f7b8a54e908cea8cbed3552, type: 2}
+  - {fileID: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -16423,7 +16361,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9923c39d3db4e4a4e84bd26664843d89, type: 2}
+  - {fileID: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -16511,7 +16449,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee08699a8a9a4b944a6dddc181f12f20, type: 2}
+  - {fileID: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -16643,7 +16581,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5140a73e6f7b8a54e908cea8cbed3552, type: 2}
+  - {fileID: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -16687,7 +16625,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: abdaf760f40a60f4697df61f5e248dcf, type: 2}
+  - {fileID: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
