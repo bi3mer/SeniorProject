@@ -5,6 +5,13 @@ public class StatRate
 	/// <summary>
 	/// Initializes a new instance of the <see cref="StatRate"/> class.
 	/// </summary>
+	public StatRate()
+	{
+	}
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="StatRate"/> class.
+	/// </summary>
 	/// <param name="units">Units.</param>
 	/// <param name="perSeconds">Per seconds.</param>
 	public StatRate (int units, int perSeconds)
@@ -45,13 +52,13 @@ public class StatRate
 	protected void DecreaseStatByGivenUnits(int decreaseUnits)
 	{
 		// don't let stat fall below 0
-		if (this.CurrentStat - decreaseUnits <= 0) 
+		if (this.CurrentStat + decreaseUnits <= 0) 
 		{
 			this.CurrentStat = 0;
 		} 
 		else 
 		{
-			this.CurrentStat -= decreaseUnits;
+			this.CurrentStat += decreaseUnits;
 		}
 	}
 
@@ -79,7 +86,7 @@ public class StatRate
 	public int Units
 	{
 		get;
-		private set;
+		protected set;
 	}
 
 	/// <summary>
@@ -89,7 +96,7 @@ public class StatRate
 	public int PerSeconds 
 	{ 
 		get; 
-		private set; 
+		protected set; 
 	}
 
 	/// <summary>
@@ -99,7 +106,7 @@ public class StatRate
 	protected int CurrentStat 
 	{
 		get;
-		private set;
+		set;
 	}
 
 	/// <summary>
@@ -109,7 +116,7 @@ public class StatRate
 	protected int MaxStat 
 	{
 		get;
-		private set;
+		set;
 	}
 }
 

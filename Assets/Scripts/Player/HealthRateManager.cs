@@ -3,8 +3,8 @@
 public class HealthRateManager : StatRate
 {
 	// Add additional rate presets here
-	private const StatRate hungerZeroHealthReductionRate = new StatRate(-1, 20); // as per gdd guidelines
-	private const StatRate warmthZeroHealthReductionRate = new StatRate(-1, 1); // as per gdd guidelines
+	private StatRate hungerZeroHealthReductionRate;
+	private StatRate warmthZeroHealthReductionRate;
 
 	// set default values for health rate
 	private StatRate defaultHealthRate;
@@ -18,18 +18,42 @@ public class HealthRateManager : StatRate
 	{
 		// set this instance's initial (default) rate
 		defaultHealthRate = new StatRate(defaultUnitHealth, defaultSecondsHealth);
-		this.Units = defaultHealthRate.Units;
-		this.PerSeconds = defaultHealthRate.PerSeconds;
+		UseDefaultHealthRate ();
 
 		// set initial stat value
 		this.CurrentStat = Game.Instance.PlayerInstance.Health;
 		this.MaxStat = Game.Instance.PlayerInstance.MaxHealth;
+
+		// set other rate presets
+		hungerZeroHealthReductionRate = new StatRate(-1, 20); // as per gdd guidelines
+		warmthZeroHealthReductionRate = new StatRate(-1, 1); // as per gdd guidelines
+	}
+
+	/// <summary>
+	/// Uses the default health rate.
+	/// </summary>
+	public void UseDefaultHealthRate()
+	{
+		this.Units = defaultHealthRate.Units;
+		this.PerSeconds = defaultHealthRate.PerSeconds;
+	}
+
+	/// <summary>
+	/// Takes the fall damage.
+	/// </summary>
+	/// <param name="fallDamageAmount">Fall damage amount.</param>
+	public void TakeFallDamage(int fallDamageAmount)
+	{
+		this.Units = -fallDamageAmount;
+		this.PerSeconds = 1;
+		this.ApplyRateToStat ();
+		UseDefaultHealthRate ();
 	}
 
 	/// <summary>
 	/// Uses the hunge zero health reduction rate.
 	/// </summary>
-	public void UseHungeZeroHealthReductionRate()
+	public void UseHungerZeroHealthReductionRate()
 	{
 		this.Units = hungerZeroHealthReductionRate.Units;
 		this.PerSeconds = hungerZeroHealthReductionRate.PerSeconds;

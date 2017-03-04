@@ -4,7 +4,7 @@ public class WarmthRateManager : StatRate
 {
 	// Add additional rate presets here
 	private StatRate inWaterWarmthReductionRate;
-	private const StatRate nearHeatSourceWarmthIncreaseRate = new StatRate(2,1); // as per gdd guidelines
+	private StatRate nearHeatSourceWarmthIncreaseRate;
 
 	// set default values for warmth rates
 	private StatRate defaultWarmthReductionRate;
@@ -36,12 +36,14 @@ public class WarmthRateManager : StatRate
 	public WarmthRateManager ()
 	{
 		// set the default rate initially (only based on temperature)
-		defaultWarmthReductionRate = GetTemperatureBasedWarmthRate();
 		UseDefaultWarmthReductionRate ();
 
 		// set initial stat value
 		this.CurrentStat = Game.Instance.PlayerInstance.Warmth;
 		this.MaxStat = Game.Instance.PlayerInstance.MaxWarmth;
+
+		// set up other rate presets
+		nearHeatSourceWarmthIncreaseRate = new StatRate(2,1); // as per gdd guidelines
 	}
 
 	/// <summary>
@@ -53,7 +55,6 @@ public class WarmthRateManager : StatRate
 		defaultWarmthReductionRate = GetTemperatureBasedWarmthRate();
 		this.Units = defaultWarmthReductionRate.Units;
 		this.PerSeconds = defaultWarmthReductionRate.PerSeconds;
-		//this.ApplyRateToStat ();
 	}
 
 	/// <summary>
@@ -78,7 +79,6 @@ public class WarmthRateManager : StatRate
 	{
 		this.Units = nearHeatSourceWarmthIncreaseRate.Units;
 		this.PerSeconds = nearHeatSourceWarmthIncreaseRate.PerSeconds;
-		//this.ApplyRateToStat ();
 	}
 		
 	/// <summary>
@@ -89,8 +89,8 @@ public class WarmthRateManager : StatRate
 	{
 		// get game instance's current temperature
 		float currentTemperature = Game.Instance.WeatherInstance.WeatherInformation [(int)Weather.Temperature];
-
-		Debug.Log (currentTemperature); // DEBUG LOG STATEMENT
+		currentTemperature = 10.1f; // temporary hard-coded value because temperature from weather system instance shows up as 0.
+		//Debug.Log (currentTemperature); // DEBUG LOG STATEMENT
 
 		if (currentTemperature >= tempTier6) 
 		{

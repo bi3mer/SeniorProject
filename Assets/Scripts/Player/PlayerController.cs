@@ -21,18 +21,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private string waterTag;
 
-    [Header("Environmental Resource Settings")]
-    [SerializeField]
-    private float waterWarmthReductionRate;
-    [SerializeField]
-    private float outsideWarmthReductionRate;
-    [SerializeField]
-    private float shelterWarmthIncreaseRate;
-    [SerializeField]
-    private float fireWarmthIncreaseRate;
-    [SerializeField]
-    private float hungerReductionRate;
-
     [Header("HUD Settings")]
     [SerializeField]
     private UnityEvent hungerUpdatedEvent;
@@ -81,10 +69,7 @@ public class PlayerController : MonoBehaviour
     private bool isReading;
 	private bool isWaterInView;
 
-	private const PlayerStatManager playerStatManager = new PlayerStatManager();
-
-    private float currentWarmthChangeRate;
-    private float currentHungerChangeRate;
+	private PlayerStatManager playerStatManager;
 
     private float buttonZoomAmount = 0.1f;
 
@@ -172,6 +157,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
 	void Start()
     {
+		// set up player stats
+		playerStatManager = new PlayerStatManager();
+
         isGrounded = false;
         updateStats = true;
         isInShelter = false;
@@ -196,12 +184,17 @@ public class PlayerController : MonoBehaviour
         playerCamera = Camera.main.GetComponent<CameraController>();
 
         // start reducing hunger
-        currentHungerChangeRate = hungerReductionRate;
+		playerStatManager.HungerRate.UseDefaultHungerReductionRate();
         StartCoroutine(UpdateHunger());
 
         // start updating warmth
-        currentWarmthChangeRate = outsideWarmthReductionRate;
+		playerStatManager.WarmthRate.UseDefaultWarmthReductionRate();
         StartCoroutine(UpdateWarmth());
+
+		// start updating health
+		playerStatManager.HealthRate.UseDefaultHealthRate ();
+		StartCoroutine (UpdateHealth ());
+
 
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
@@ -419,54 +412,56 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void UpdatePlayerStats()
     {
-        Player player = Game.Instance.PlayerInstance;
-
         // Only calculate fall damage when landing on the ground
         if (isGrounded)
         {
-            player.Health -= (int)movement.CurrentFallDammage;
+			playerStatManager.HealthRate.TakeFallDamage ((int)movement.CurrentFallDammage);
+			Game.Instance.PlayerInstance.Health = playerStatManager.HealthRate.CurrentHealthStat;
             healthUpdatedEvent.Invoke();
         }
 
         // check if we're in water
-        if (IsInWater)
-        {
-            currentWarmthChangeRate = waterWarmthReductionRate;
-        }
+		if (IsInWater) 
+		{
+			playerStatManager.WarmthRate.UseWaterWarmthReductionRate ();
+		} 
+		else if (!IsInWater) 
+		{
+			playerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
+		}
+
+		playerStatManager.ApplyCorrectHealthReductionRate ();
     }
+
+	/// <summary>
+	/// Updates the health.
+	/// </summary>
+	/// <returns>The health.</returns>
+	private IEnumerator UpdateHealth()
+	{
+		while (updateStats) 
+		{
+			yield return new WaitForSeconds(Mathf.Abs(playerStatManager.HealthRate.PerSeconds));
+			playerStatManager.HealthRate.ApplyRateToStat ();
+			Game.Instance.PlayerInstance.Health = playerStatManager.HealthRate.CurrentHealthStat;
+			healthUpdatedEvent.Invoke ();
+		}
+	}
 
     /// <summary>
     /// Updates hunger.
-    /// TODO: Refactor to have more intuitive rate system.
     /// </summary>
     /// <returns>The hunger.</returns>
     private IEnumerator UpdateHunger()
     {
-        int newHunger = 0;
+		while (updateStats)
+		{
+			yield return new WaitForSeconds(Mathf.Abs(playerStatManager.HungerRate.PerSeconds));
 
-        while (updateStats)
-        {
-            yield return new WaitForSeconds(Mathf.Abs(currentHungerChangeRate));
-
-            if (currentHungerChangeRate > 0)
-            {
-                newHunger = Game.Instance.PlayerInstance.Hunger + 1;
-            }
-            else
-            {
-                newHunger = Game.Instance.PlayerInstance.Hunger - 1;
-            }
-
-            if (newHunger <= 0)
-            {
-                --Game.Instance.PlayerInstance.Health;
-            }
-            else if (newHunger < Game.Instance.PlayerInstance.MaxHunger)
-            {
-                Game.Instance.PlayerInstance.Hunger = newHunger;
-                hungerUpdatedEvent.Invoke();
-            }
-        }
+			playerStatManager.HungerRate.ApplyRateToStat ();
+			Game.Instance.PlayerInstance.Hunger = playerStatManager.HungerRate.CurrentHungerStat;
+			hungerUpdatedEvent.Invoke();
+		}
     }
 
     /// <summary>
@@ -476,31 +471,14 @@ public class PlayerController : MonoBehaviour
     /// <returns>The warmth.</returns>
 	private IEnumerator UpdateWarmth()
     {
-        int newWarmth = 0;
+		while (updateStats)
+		{
+			yield return new WaitForSeconds(Mathf.Abs(playerStatManager.WarmthRate.PerSeconds));
 
-        while (updateStats)
-        {
-            yield return new WaitForSeconds(Mathf.Abs(currentWarmthChangeRate));
-
-            if (currentWarmthChangeRate > 0)
-            {
-                newWarmth = Game.Instance.PlayerInstance.Warmth + 1;
-            }
-            else
-            {
-                newWarmth = Game.Instance.PlayerInstance.Warmth - 1;
-            }
-
-            if (newWarmth <= 0)
-            {
-                --Game.Instance.PlayerInstance.Health;
-            }
-            else if (newWarmth < Game.Instance.PlayerInstance.MaxWarmth)
-            {
-                Game.Instance.PlayerInstance.Warmth = newWarmth;
-                warmthUpdatedEvent.Invoke();
-            }
-        }
+			playerStatManager.WarmthRate.ApplyRateToStat ();
+			Game.Instance.PlayerInstance.Warmth = playerStatManager.WarmthRate.CurrentWarmthStat;
+			warmthUpdatedEvent.Invoke();
+		}
     }
 
     /// <summary>
@@ -724,11 +702,11 @@ public class PlayerController : MonoBehaviour
             // Set warmth rates to the proper value
             if (value)
             {
-                currentWarmthChangeRate = shelterWarmthIncreaseRate;
+				playerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate ();
             }
             else
             {
-                currentWarmthChangeRate = outsideWarmthReductionRate;
+				playerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
             }
 
             isInShelter = value;
@@ -748,11 +726,11 @@ public class PlayerController : MonoBehaviour
         {
             if (value)
             {
-                currentWarmthChangeRate = fireWarmthIncreaseRate;
+				playerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate ();
             }
             else
             {
-                currentWarmthChangeRate = outsideWarmthReductionRate;
+				playerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
             }
 
             isByFire = value;
@@ -770,54 +748,6 @@ public class PlayerController : MonoBehaviour
 			return isWaterInView;
 		}
 	}
-
-    /// <summary>
-    /// Gets or sets the fire warmth increase rate.
-    /// </summary>
-    /// <value>The fire warmth increase rate.</value>
-    public float FireWarmthIncreaseRate
-    {
-        get
-        {
-            return fireWarmthIncreaseRate;
-        }
-        set
-        {
-            fireWarmthIncreaseRate = value;
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the outside warmth increase rate.
-    /// </summary>
-    /// <value>The outside warmth increase rate.</value>
-    public float OutsideWarmthIncreaseRate
-    {
-        get
-        {
-            return outsideWarmthReductionRate;
-        }
-        set
-        {
-            outsideWarmthReductionRate = value;
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the shelter warmth increase rate.
-    /// </summary>
-    /// <value>The shelter warmth increase rate.</value>
-    public float ShelterWarmthIncreaseRate
-    {
-        get
-        {
-            return shelterWarmthIncreaseRate;
-        }
-        set
-        {
-            shelterWarmthIncreaseRate = value;
-        }
-    }
 
     /// <summary>
     /// If the player is reading returns true.
