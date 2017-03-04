@@ -69,7 +69,6 @@ public class WarmthRateManager : StatRate
 
 		this.Units = inWaterWarmthReductionRate.Units;
 		this.PerSeconds = inWaterWarmthReductionRate.PerSeconds;
-		//this.ApplyRateToStat ();
 	}
 
 	/// <summary>
@@ -89,8 +88,7 @@ public class WarmthRateManager : StatRate
 	{
 		// get game instance's current temperature
 		float currentTemperature = Game.Instance.WeatherInstance.WeatherInformation [(int)Weather.Temperature];
-		currentTemperature = 10.1f; // temporary hard-coded value because temperature from weather system instance shows up as 0.
-		//Debug.Log (currentTemperature); // DEBUG LOG STATEMENT
+		currentTemperature = 10.1f; // temporarily hard-coded value because temperature from weather system instance shows up as 0 for some reason.
 
 		if (currentTemperature >= tempTier6) 
 		{
