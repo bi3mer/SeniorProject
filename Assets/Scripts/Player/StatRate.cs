@@ -98,7 +98,7 @@ public class StatRate
 	/// <value>The current health stat.</value>
 	protected int CurrentStat 
 	{
-		private get;
+		get;
 		private set;
 	}
 
@@ -108,7 +108,7 @@ public class StatRate
 	/// <value>The max stat.</value>
 	protected int MaxStat 
 	{
-		private get;
+		get;
 		private set;
 	}
 }

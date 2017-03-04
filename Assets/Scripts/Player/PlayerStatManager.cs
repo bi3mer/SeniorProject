@@ -13,14 +13,28 @@ public class PlayerStatManager
 		this.HealthRate = new HealthRateManager ();
 	}
 
-
+	public void ApplyCorrectHealthReductionRate()
+	{
+		if (this.WarmthRate.CurrentWarmthStat == 0) 
+		{
+			this.HealthRate.UseWarmthZeroHealthReductionRate ();
+		} 
+		else if (this.HungerRate.CurrentHungerStat == 0) 
+		{
+			this.HealthRate.UseHungeZeroHealthReductionRate ();
+		}
+		else if (this.HealthRate.CurrentHealthStat == 0)
+		{
+			// you are dead af
+		}
+	}
 
 	//[Tooltip("The warmth rate that increases or decreases in units(+/-) per seconds")]
 	/// <summary>
 	/// Gets the warmth rate.
 	/// </summary>
 	/// <value>The warmth rate.</value>
-	public StatRate WarmthRate 
+	public WarmthRateManager WarmthRate 
 	{
 		get;
 	}
@@ -30,7 +44,7 @@ public class PlayerStatManager
 	/// Gets the hunger rate.
 	/// </summary>
 	/// <value>The hunger rate.</value>
-	public StatRate HungerRate 
+	public HungerRateManager HungerRate 
 	{
 		get;
 	}
@@ -40,7 +54,7 @@ public class PlayerStatManager
 	/// Gets the health rate.
 	/// </summary>
 	/// <value>The health rate.</value>
-	public StatRate HealthRate 
+	public HealthRateManager HealthRate 
 	{
 		get;
 	}
