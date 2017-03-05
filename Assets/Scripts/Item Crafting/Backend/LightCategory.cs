@@ -5,33 +5,44 @@ using UnityEngine.Events;
 
 public class LightCategory : EquipableCategory 
 {
+	/// <summary>
+	/// Gets or sets the max fuel.
+	/// </summary>
+	/// <value>The max fuel.</value>
 	public float MaxFuel
 	{
 		get;
 		set;
 	}
 
+	/// <summary>
+	/// Gets or sets the brightness.
+	/// </summary>
+	/// <value>The brightness.</value>
 	public float Brightness
 	{
 		get;
 		set;
 	}
 
+	/// <summary>
+	/// Gets or sets the current fuel level.
+	/// </summary>
+	/// <value>The current fuel level.</value>
 	public float CurrentFuelLevel
 	{
 		get;
 		set;
 	}
 
+	/// <summary>
+	/// Gets or sets the burn rate.
+	/// </summary>
+	/// <value>The burn rate.</value>
 	public float BurnRate
 	{
 		get;
 		set;
-	}
-
-	public LightCategory()
-	{
-		toolType = ToolTypes.Light;
 	}
 
 	private const string burnRateAttrName = "burnRate";
@@ -41,6 +52,15 @@ public class LightCategory : EquipableCategory
 	private const string currentFuelLevelAttrName = "currentFuelLevel";
 
 	private const string maxFuelAttrName = "maxFuel";
+
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="LightCategory"/> class.
+	/// </summary>
+	public LightCategory()
+	{
+		toolType = ToolTypes.Light;
+	}
 
 	/// <summary>
 	/// Gets a copy of the ItemCategory.

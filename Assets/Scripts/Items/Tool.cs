@@ -9,6 +9,10 @@ public abstract class Tool : MonoBehaviour
     public abstract void Equip();
     public abstract void Unequip();
 
+    /// <summary>
+    /// Gets or sets the type of the tool this is.
+    /// </summary>
+    /// <value>The type of the tool.</value>
     public string ToolType
     {
     	get;

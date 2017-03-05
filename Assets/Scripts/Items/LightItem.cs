@@ -79,6 +79,10 @@ public class LightItem : Tool
 		optionSelectionHandler.AddPossibleAction(turnOnOffAction);
 	}
 
+	/// <summary>
+	/// Gets or sets a value indicating whether the light it on.
+	/// </summary>
+	/// <value><c>true</c> if on; otherwise, <c>false</c>.</value>
 	public bool On
 	{
 		get

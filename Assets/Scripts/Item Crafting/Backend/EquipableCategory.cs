@@ -43,6 +43,10 @@ public abstract class EquipableCategory : ItemCategory
         }
 	}
 
+	/// <summary>
+	/// Gets the type of the associated tool.
+	/// </summary>
+	/// <returns>The associated tool type.</returns>
 	public string getAssociatedToolType()
 	{
 		return toolType;
