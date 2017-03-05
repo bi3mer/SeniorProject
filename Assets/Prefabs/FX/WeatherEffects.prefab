@@ -46,6 +46,8 @@ GameObject:
   - 114: {fileID: 114000013985563468}
   - 114: {fileID: 114000011744740192}
   - 114: {fileID: 114000013667240242}
+  - 114: {fileID: 114000011908762194}
+  - 114: {fileID: 114000010651874262}
   m_Layer: 0
   m_Name: WeatherEffects
   m_TagString: Untagged
@@ -169,7 +171,7 @@ GameObject:
   - 199: {fileID: 199000010469713206}
   - 198: {fileID: 198000012610295790}
   m_Layer: 0
-  m_Name: Dirt
+  m_Name: Mud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,7 +272,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013443221114}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1.0000021, z: 1.0000021}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_Children: []
@@ -346,7 +348,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010487775508}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_Children: []
@@ -372,7 +374,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012561882604}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_Children: []
@@ -385,7 +387,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011345087594}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1.0000014, z: 1.0000014}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_Children: []
@@ -439,7 +441,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011574773162}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1.0000007, z: 1.0000007}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_Children: []
@@ -589,6 +591,21 @@ MonoBehaviour:
   weatherIntensityDivisor: 10
   maxWeatherVolume: 3
   weatherVolume: 2
+--- !u!114 &114000010651874262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010414017512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
+  weatherIntensityDivisor: 10
+  maxWeatherVolume: 3
+  weatherVolume: 2
 --- !u!114 &114000010667489446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -603,9 +620,9 @@ MonoBehaviour:
   UseCustomValues: 0
   Debris: {fileID: 198000010381661446}
   windMitigation: 8
-  debrisMultiplier: 4
+  debrisMultiplier: 1
   debrisLevel: 0
-  DebrisStartThreshold: 10
+  DebrisStartThreshold: 30
   windVectorXZ: {x: 0, y: 0}
 --- !u!114 &114000010728337554
 MonoBehaviour:
@@ -666,12 +683,12 @@ MonoBehaviour:
   MainRain: {fileID: 198000010173776360}
   RainFog: {fileID: 198000011775040566}
   windMitigation: 8
-  rainLevel: 20.305536
+  rainLevel: 15.181136
   FogStartThreshold: 50
   fogMod: 0.5
-  windVectorXZ: {x: 1.8505538, y: 0.19265036}
+  windVectorXZ: {x: 0.43668514, y: 1.0476193}
   fogWindMod: 0.4
-  splashManager: {fileID: 0}
+  splashManager: {fileID: 114000012391922068}
   splashSize: 0.4
 --- !u!114 &114000011642838568
 MonoBehaviour:
@@ -699,9 +716,9 @@ MonoBehaviour:
   UseCustomValues: 0
   Debris: {fileID: 198000012565782002}
   windMitigation: 8
-  debrisMultiplier: 1
+  debrisMultiplier: 0.1
   debrisLevel: 0
-  DebrisStartThreshold: 60
+  DebrisStartThreshold: 95
   windVectorXZ: {x: 0, y: 0}
 --- !u!114 &114000011744740192
 MonoBehaviour:
@@ -730,6 +747,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skybox: {fileID: 2100000, guid: f69903a7566c4e049ac1127b8355c4ec, type: 2}
+--- !u!114 &114000011908762194
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010414017512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
+  weatherIntensityDivisor: 10
+  maxWeatherVolume: 3
+  weatherVolume: 2
 --- !u!114 &114000011999315578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -742,7 +774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UsePositionX: 1
-  UsePositionY: 0
+  UsePositionY: 1
   UsePositionZ: 1
   Parent: {fileID: 0}
 --- !u!114 &114000012391922068
@@ -772,9 +804,9 @@ MonoBehaviour:
   UseCustomValues: 0
   Debris: {fileID: 198000012610295790}
   windMitigation: 8
-  debrisMultiplier: 2
+  debrisMultiplier: 6
   debrisLevel: 0
-  DebrisStartThreshold: 40
+  DebrisStartThreshold: 60
   windVectorXZ: {x: 0, y: 0}
 --- !u!114 &114000013015454300
 MonoBehaviour:
@@ -856,9 +888,9 @@ MonoBehaviour:
   UseCustomValues: 0
   Debris: {fileID: 198000012406094952}
   windMitigation: 8
-  debrisMultiplier: 2
+  debrisMultiplier: 6
   debrisLevel: 0
-  DebrisStartThreshold: 40
+  DebrisStartThreshold: 60
   windVectorXZ: {x: 0, y: 0}
 --- !u!114 &114000013985563468
 MonoBehaviour:
@@ -1195,7 +1227,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationX:
-      scalar: -0.023217678
+      scalar: -0.018284407
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1230,7 +1262,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationY:
-      scalar: -0.018864065
+      scalar: -0.0076215933
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1329,7 +1361,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 38.543045
+      scalar: 30.362272
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1757,7 +1789,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 1.0808313
+      scalar: 0.43668514
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1782,7 +1814,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     y:
-      scalar: -1.3302749
+      scalar: -1.0476193
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2642,7 +2674,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 5
+      scalar: 8
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2789,8 +2821,8 @@ ParticleSystem:
         atime7: 0
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
-      minColor: {r: 0.31764707, g: 0.36078432, b: 0.13333334, a: 1}
-      maxColor: {r: 0.20784314, g: 0.5019608, b: 0.18431373, a: 1}
+      minColor: {r: 0.34117648, g: 0.36078432, b: 0.2509804, a: 1}
+      maxColor: {r: 0.42352942, g: 0.77254903, b: 0.39607844, a: 1}
       minMaxState: 2
     startSize:
       scalar: 0.15
@@ -3282,13 +3314,13 @@ ParticleSystem:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 16777215
         key1:
           serializedVersion: 2
           rgba: 4294967295
         key2:
           serializedVersion: 2
-          rgba: 0
+          rgba: 4278190080
         key3:
           serializedVersion: 2
           rgba: 0
@@ -3313,15 +3345,15 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 62258
-        atime2: 65535
-        atime3: 0
+        atime1: 3277
+        atime2: 62258
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumAlphaKeys: 4
       minGradient:
         key0:
           serializedVersion: 2
@@ -4335,7 +4367,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 5
+      scalar: 8
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10302,7 +10334,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 0.43233252
+      scalar: 0.17467406
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10352,7 +10384,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     z:
-      scalar: -0.53211
+      scalar: -0.41904774
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -11187,7 +11219,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 5
+      scalar: 8
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -12920,7 +12952,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 5
+      scalar: 8
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -13067,8 +13099,8 @@ ParticleSystem:
         atime7: 0
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
-      minColor: {r: 0.68235296, g: 0.5803922, b: 0.39607844, a: 1}
-      maxColor: {r: 0.85882354, g: 0.81960785, b: 0.6901961, a: 1}
+      minColor: {r: 0.4117647, g: 0.3529412, b: 0.24705882, a: 1}
+      maxColor: {r: 0.8901961, g: 0.8627451, b: 0.7647059, a: 1}
       minMaxState: 2
     startSize:
       scalar: 0.2
@@ -13560,13 +13592,13 @@ ParticleSystem:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 16777215
         key1:
           serializedVersion: 2
           rgba: 4294967295
         key2:
           serializedVersion: 2
-          rgba: 0
+          rgba: 4278190080
         key3:
           serializedVersion: 2
           rgba: 0
@@ -13591,15 +13623,15 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 62258
-        atime2: 65535
-        atime3: 0
+        atime1: 3277
+        atime2: 62258
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumAlphaKeys: 4
       minGradient:
         key0:
           serializedVersion: 2
@@ -14643,7 +14675,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 5
+      scalar: 8
       maxCurve:
         serializedVersion: 2
         m_Curve:
