@@ -73,4 +73,14 @@ public class ItemAction
 		get;
 		set;
 	}
+
+	/// <summary>
+	/// What item types can be consumed by this action. Generally used for action that require use of another item to fulfill, like adding fuel.
+	/// </summary>
+	/// <value>The types used.</value>
+	public string TypeUsed
+	{
+		get;
+		set;
+	}
 }

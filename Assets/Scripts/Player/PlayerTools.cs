@@ -69,6 +69,7 @@ public class PlayerTools
     public Tool GetToolByBaseItem(BaseItem item)
     {
         Tool tool = null;
+        EquipableCategory equipableItem = (EquipableCategory)item.GetItemCategoryByParentClass(typeof(EquipableCategory));
 
         // Get the correponding script containing the tool functionality
         // tool == null will terminate the loop early if we find the tool.
@@ -78,6 +79,11 @@ public class PlayerTools
             if (potentialTool.ToolName.Equals(item.ItemName))
             {
                 tool = potentialTool;
+            }
+            else if(equipableItem.getAssociatedToolType().Equals(potentialTool.ToolType))
+            {
+            	tool = potentialTool;
+				tool.SetUpTool(item);
             }
         }
 

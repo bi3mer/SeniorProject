@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class LightCategory : EquipableCategory 
 {
-	public float MaxDuration
+	public float MaxFuel
 	{
 		get;
 		set;
@@ -34,6 +34,14 @@ public class LightCategory : EquipableCategory
 		toolType = ToolTypes.Light;
 	}
 
+	private const string burnRateAttrName = "burnRate";
+
+	private const string brightnessAttrName = "brightness";
+
+	private const string currentFuelLevelAttrName = "currentFuelLevel";
+
+	private const string maxFuelAttrName = "maxFuel";
+
 	/// <summary>
 	/// Gets a copy of the ItemCategory.
 	/// </summary>
@@ -45,9 +53,10 @@ public class LightCategory : EquipableCategory
 		category.Actions = new List<ItemAction>();
 		category.Attributes = new List<Attribute>();
 
-		category.MaxDuration = MaxDuration;
+		category.MaxFuel = MaxFuel;
 		category.Brightness = Brightness;
 		category.CurrentFuelLevel = CurrentFuelLevel;
+		category.BurnRate = BurnRate;
 
 		ItemAction equip = new ItemAction (equipActionName, new UnityAction(category.Equip));
 		ItemAction unequip = new ItemAction (unequipActionName, new UnityAction(category.UnEquip));
@@ -67,6 +76,10 @@ public class LightCategory : EquipableCategory
 	{
 		Attributes = new List<Attribute> ();
 		Attributes.Add(new Attribute(equipedAttributeName, Equiped));
+		Attributes.Add(new Attribute(burnRateAttrName, BurnRate));
+		Attributes.Add(new Attribute(brightnessAttrName, Brightness));
+		Attributes.Add(new Attribute(currentFuelLevelAttrName, CurrentFuelLevel));
+		Attributes.Add(new Attribute(maxFuelAttrName, MaxFuel));
 
 		Actions = new List<ItemAction> ();
 		ItemAction equip = new ItemAction (equipActionName, new UnityAction(Equip));
@@ -87,7 +100,8 @@ public class LightCategory : EquipableCategory
 	/// <param name="fuel">Fuel.</param>
 	public void AddFuel(float fuel)
 	{
-		CurrentFuelLevel = Mathf.Clamp(CurrentFuelLevel + fuel, 0f, MaxDuration);
+		CurrentFuelLevel = Mathf.Clamp(CurrentFuelLevel + fuel, 0f, MaxFuel);
+		GetAttribute(currentFuelLevelAttrName).Value = CurrentFuelLevel;
 	}
 
 	/// <summary>
@@ -97,7 +111,7 @@ public class LightCategory : EquipableCategory
     public float CalculateRemainingFuel()
     {
 		CurrentFuelLevel -= Time.deltaTime * BurnRate;
-
+		GetAttribute(currentFuelLevelAttrName).Value = CurrentFuelLevel;
        	return CurrentFuelLevel;
     }
 }

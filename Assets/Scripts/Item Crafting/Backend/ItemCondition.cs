@@ -2,9 +2,28 @@
 {
 	BooleanOperator.BooleanOperatorDelegate booleanOperator; 
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="ItemCondition"/> class.
+	/// </summary>
+	/// <param name="attribute">Attribute.</param>
+	/// <param name="threshold">Threshold.</param>
+	/// <param name="boolOp">Bool op.</param>
 	public ItemCondition(string attribute, float threshold, BooleanOperator.BooleanOperatorDelegate boolOp)
 	{
 		AttributeName = attribute;
+		ThresholdValue = threshold;
+		booleanOperator = boolOp;
+	}
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="ItemCondition"/> class.
+	/// </summary>
+	/// <param name="conditionVariable">Condition variable.</param>
+	/// <param name="threshold">Threshold.</param>
+	/// <param name="boolOp">Bool op.</param>
+	public ItemCondition(float condition, float threshold, BooleanOperator.BooleanOperatorDelegate boolOp)
+	{
+		ConditionValue = condition;
 		ThresholdValue = threshold;
 		booleanOperator = boolOp;
 	}
@@ -29,6 +48,12 @@
 		set;
 	}
 
+	public float ConditionValue
+	{
+		get;
+		set;
+	}
+
 	/// <summary>
 	/// Checks to see if the condition is met. Compares the value against the ThresholdValue according to the boolean operator.
 	/// </summary>
@@ -37,5 +62,10 @@
 	public bool CheckCondition(float value)
 	{
 		return booleanOperator (value, ThresholdValue);
+	}
+
+	public bool CheckCondition()
+	{
+		return booleanOperator(ConditionValue, ThresholdValue);
 	}
 }

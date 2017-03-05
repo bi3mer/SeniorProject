@@ -9,6 +9,12 @@ public abstract class Tool : MonoBehaviour
     public abstract void Equip();
     public abstract void Unequip();
 
+    public string ToolType
+    {
+    	get;
+    	protected set;
+    }
+
     /// <summary>
     /// The name of the tool, eg. "fishing rod"
     /// </summary>
@@ -25,5 +31,13 @@ public abstract class Tool : MonoBehaviour
     {
         get;
         protected set;
+    }
+
+    /// <summary>
+    /// Sets up the tool so that it is linked to the proper item in the inventory.
+    /// </summary>
+    /// <param name="itemForTool">Item for tool.</param>
+    public virtual void SetUpTool(BaseItem itemForTool)
+    {
     }
 }

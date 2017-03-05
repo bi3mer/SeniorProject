@@ -31,6 +31,7 @@ public class FishingRod : Tool
         line = GetComponent<BezierLine>();
         WasCast = false;
         ToolName = toolName;
+        ToolType = ToolTypes.FishingRod;
 	}
 
     /// <summary>

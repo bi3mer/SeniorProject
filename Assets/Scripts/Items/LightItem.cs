@@ -1,0 +1,164 @@
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.Events;
+
+public class LightItem : Tool 
+{
+    private string toolName;
+
+    [SerializeField]
+    [Tooltip("Location to parent the item on the player model")]
+    private GameObject attachJoint;
+
+    private Light lightSource;
+    private LightCategory lightBase;
+
+    private bool on;
+
+    private const string addFuelActName = "Add Fuel";
+    private const string turnOnOffActName = "Turn On/Off";
+
+	// Fuel has an an attribute named burnTime
+	private const string burnTimeAttrName = "burnTime"; 
+
+	private const string brightnessAttrName = "brightness";
+
+	private const string maxDurationAttrName = "maxDuration";
+
+    private OverworldItemOptionSelection optionSelectionHandler;
+
+    private ItemCondition fuelCondition;
+
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
+	void Start () 
+	{
+		On = false;
+		ToolName = "";
+		optionSelectionHandler = new OverworldItemOptionSelection(true);
+		transform.SetParent(attachJoint.transform, false);
+		ToolType = ToolTypes.Light;
+	}
+
+	/// <summary>
+	/// Sets up the tool so that it is linked to the proper item in the inventory.
+	/// </summary>
+	/// <param name="itemForTool">Item for tool.</param>
+	public override void SetUpTool(BaseItem itemForTool)
+	{
+		if(gameObject.transform.childCount > 0)
+		{
+			GameObject.Destroy(gameObject.transform.GetChild(0));
+		}
+
+		GameObject lightItem = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(itemForTool);
+		LightCategory lightCategory = (LightCategory) itemForTool.GetItemCategoryByClass(typeof(LightCategory));
+
+		lightItem.transform.SetParent(transform, false);
+
+		lightSource = GetComponentInChildren<Light>();
+
+		lightSource.intensity = lightCategory.Brightness;
+		lightSource.enabled = On;
+
+		lightBase = lightCategory;
+
+		toolName = lightItem.name;
+
+		optionSelectionHandler.Reset();
+
+		ItemAction addFuelAction = new ItemAction(addFuelActName, new UnityAction(AddFuel));
+		addFuelAction.TypeUsed = ItemTypes.Fuel;
+		fuelCondition = new ItemCondition(lightBase.CurrentFuelLevel, lightBase.MaxFuel, BooleanOperator.Less);
+		addFuelAction.Conditions.Add(fuelCondition);
+
+		ItemAction turnOnOffAction = new ItemAction(turnOnOffActName, new UnityAction(OnOff));
+
+		optionSelectionHandler.AddPossibleAction(addFuelAction);
+		optionSelectionHandler.AddPossibleAction(turnOnOffAction);
+	}
+
+	public bool On
+	{
+		get
+		{
+			return on;
+		}
+		set
+		{
+			on = value;
+			if(lightSource != null)
+			{
+				lightSource.enabled = on;
+			}
+		}
+	}
+
+	/// <summary>
+	/// Equip this instance.
+	/// </summary>
+	public override void Equip()
+	{
+		On = false;
+	}
+
+	/// <summary>
+	/// Unequip this instance.
+	/// </summary>
+	public override void Unequip()
+	{
+		On = false;
+		StopAllCoroutines();
+	}
+
+	/// <summary>
+	/// Use this instance.
+	/// </summary>
+	public override void Use()
+	{
+		optionSelectionHandler.ShowPossibleActions();
+	}
+
+	/// <summary>
+	/// Adds fuel to the light item.
+	/// </summary>
+	public void AddFuel()
+	{
+		BaseItem item = Game.Instance.PlayerInstance.Inventory.GetInventoryBaseItem(optionSelectionHandler.SelectedItem);
+		lightBase.AddFuel(item.GetItemAttribute(burnTimeAttrName).Value);
+		Game.Instance.PlayerInstance.Inventory.UseItem(item.ItemName, 1);
+		fuelCondition.ConditionValue = lightBase.CurrentFuelLevel;
+	}
+
+	/// <summary>
+	/// Switches the lantern from on to off and vice versa.
+	/// </summary>
+	public void OnOff()
+	{
+		On = !On;
+
+		if(On)
+		{
+			StartCoroutine(consumeFuel());
+		}
+	}
+
+	/// <summary>
+	/// Consumes the fuel.
+	/// </summary>
+	/// <returns>The fuel.</returns>
+	private IEnumerator consumeFuel()
+	{
+		while(On)
+		{
+			fuelCondition.ConditionValue = lightBase.CalculateRemainingFuel();
+			if(lightBase.CurrentFuelLevel <= 0)
+			{
+				On = false;
+			}
+
+			yield return null;
+		}
+	}
+}

@@ -98,7 +98,7 @@
      qualityThreshold:
       - 2
       - 4
-- recipeName: "Idol of Yam"
+- recipeName: "Lantern"
   tiered: false
   toolRequirements:
    - itemType: "blade"
@@ -107,9 +107,16 @@
    - itemType: "base solid"
      amountRequired: 1
   statsToCheck:
-   - statName: "durability"
-     statAffectingItems:
-      - "base solid"
-     qualityThreshold:
-      - 2
-      - 3
+- recipeName: "Idol of Yam"
+  tiered: false
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "container"
+     amountRequired: 1
+   - itemType: "fuel"
+     amountRequired: 2
+   - itemType: "igniter"
+     amountRequired: 1
+   - itemType: "base solid"
+     amountRequired: 1
+  statsToCheck:

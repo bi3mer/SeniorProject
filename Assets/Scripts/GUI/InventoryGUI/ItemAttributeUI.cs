@@ -42,6 +42,11 @@ public class ItemAttributeUI : MonoBehaviour
 	/// <param name="value">Value.</param>
 	public void SetAttributeValue(float value)
 	{
+		if(value > attributeSlider.maxValue)
+		{
+			attributeSlider.maxValue = value;
+		}
+
 		attributeSlider.value = value;
 		attributeValue.text = attributeSlider.value.ToString();
 		fillImage.color = possibleColors.Evaluate(attributeSlider.value / attributeSlider.maxValue);

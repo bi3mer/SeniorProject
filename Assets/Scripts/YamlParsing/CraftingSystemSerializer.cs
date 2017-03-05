@@ -74,5 +74,8 @@ public abstract class CraftingSystemSerializer
 
 		categoryNames.Add(idolCategoryTag);
 		categoryTypes.Add(typeof(IdolCategory));
+
+		categoryNames.Add(lightCategoryTag);
+		categoryTypes.Add(typeof(LightCategory));
 	}
 }
