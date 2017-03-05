@@ -115,6 +115,14 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 1
+        functionName: CallJumpLand
+        data: 0
+        objectReferenceParameter: {fileID: 11500000, guid: 6abe5c2c5817263408ae4916fb76ba93,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
