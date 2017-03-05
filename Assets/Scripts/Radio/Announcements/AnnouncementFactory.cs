@@ -6,7 +6,6 @@ using Crosstales.RTVoice;
 public class AnnouncementFactory
 {
 	public List<MysteryAnnouncement> AnnouncementDatabase;
-
 	public List<MysteryAnnouncement> LocationDatabase;
 	public List<MysteryAnnouncement> WeatherDatabase;
 	public List<MysteryAnnouncement> TimeDatabase;
@@ -14,17 +13,27 @@ public class AnnouncementFactory
 
 	private AnnouncementYAMLParser announcementParser;
 
+	[SerializeField]
 	private const string mysteryTTSYAMLPath = "MysteryChannelYAML.yml";
+
+	[SerializeField]
+	private AudioSource myAudio;
 		
 	public AnnouncementFactory ()
 	{
 		announcementParser = new AnnouncementYAMLParser (mysteryTTSYAMLPath);
-
+	
 		AnnouncementDatabase = new List<MysteryAnnouncement> ();
 		LocationDatabase = new List<MysteryAnnouncement> ();
 		WeatherDatabase = new List<MysteryAnnouncement> ();
 		TimeDatabase = new List<MysteryAnnouncement> ();
 		PlayerDatabse = new List<MysteryAnnouncement> ();
+
+		// This is really just a dummy object that just allows me to instantiate an audio source.
+		// I need to instantiate an audio source to prevent the announcements from playing immediately.
+		// see: https://forum.unity3d.com/threads/rt-voice-run-time-text-to-speech-solution.340046/page-7#post-2982267
+		GameObject o = new GameObject ();
+		myAudio = o.AddComponent<AudioSource> ();
 
 		loadAnnouncements ();
 	}
@@ -34,21 +43,13 @@ public class AnnouncementFactory
 		// Load the announcement data
 		AnnouncementDatabase = announcementParser.LoadAnnouncements ();
 
-		// turn them into clips
+		// Turn them into clips
 		for (int i = 0; i < AnnouncementDatabase.Count; ++i) 
 		{
-			AudioSource a = new AudioSource ();
+			// Pipe the announcement to a new wav file
+			Speaker.Speak(AnnouncementDatabase[i].Text, myAudio, null, false, .9f, 1, Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase[i].EventPath, .7f);
 
-	//		Speaker.Speak (AnnouncementDatabase[i].Text, null,null, false, 0.7f, 0.9f, Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase[i].EventPath, .9f);
-	//		Speaker.Speak (AnnouncementDatabase [i].Text, null, null, false, 1, 1, Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase [i].EventPath, 1);
-
-			Crosstales.RTVoice.Model.Wrapper wr = new Crosstales.RTVoice.Model.Wrapper (AnnouncementDatabase [i].Text, null, null, false, 1, 1, 1, Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase [i].EventPath);
-			Crosstales.RTVoice.Model.Event.SpeakEventArgs args = new Crosstales.RTVoice.Model.Event.SpeakEventArgs (wr);
-
-			Crosstales.RTVoice.Speaker.Speak (wr);
-
-			Debug.Log (Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase [i].EventPath);
-
+			// Add it to the correct database for use later
 			if (AnnouncementDatabase [i].Category == AnnouncementCategory.Location) 
 			{
 				LocationDatabase.Add (AnnouncementDatabase [i]);
