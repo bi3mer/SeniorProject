@@ -47,11 +47,6 @@ public class LightItem : Tool
 	/// <param name="itemForTool">Item for tool.</param>
 	public override void SetUpTool(BaseItem itemForTool)
 	{
-		if(gameObject.transform.childCount > 0)
-		{
-			GameObject.Destroy(gameObject.transform.GetChild(0));
-		}
-
 		GameObject lightItem = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(itemForTool);
 		LightCategory lightCategory = (LightCategory) itemForTool.GetItemCategoryByClass(typeof(LightCategory));
 
@@ -113,6 +108,12 @@ public class LightItem : Tool
 	public override void Unequip()
 	{
 		On = false;
+
+		if(gameObject.transform.childCount > 0)
+		{
+			GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
+		}
+
 		StopAllCoroutines();
 	}
 
