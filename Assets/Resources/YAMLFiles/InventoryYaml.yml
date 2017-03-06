@@ -161,3 +161,27 @@
       actionModifiedModels: 
       actionModifiedSprites:
      itemCategories:
+   - stackId: 7
+     itemAmount: 1
+     item:
+      inventorySprite: "GUI_ITM_PoorFishingRod"
+      worldModel: "ITM/Fishing Rods/BadFishingRod"
+      itemName: "Poor Fishing Rod"
+      rarity: "common"
+      types:
+       - "Advanced Tool"
+       - "equipable"
+      flavorText: "Not a very good fishing rod. Breaks easily."
+      modifyingActionNames:
+      actionModifiedModels:
+      actionModifiedSprites:
+     itemCategories: 
+        - !!solid
+          flexibility: 0.5
+          durability: 1
+          elasticity: 0.1
+          stickiness: 0
+          thickness: 0.4
+          sharpness: 0.3
+        - !!fishingRod
+          equiped: 0
