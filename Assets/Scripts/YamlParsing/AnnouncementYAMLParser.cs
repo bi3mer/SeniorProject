@@ -10,13 +10,24 @@ using UnityEngine;
 
 public class AnnouncementYAMLParser
 {
+	/// <summary>
+	/// The TTS filename.
+	/// </summary>
 	public string TTSFilename;
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="AnnouncementYAMLParser"/> class.
+	/// </summary>
+	/// <param name="ttsFile">Tts file.</param>
 	public AnnouncementYAMLParser (string ttsFile)
 	{
 		TTSFilename = ttsFile;
 	}
 
+	/// <summary>
+	/// Loads the announcements.
+	/// </summary>
+	/// <returns>The announcements.</returns>
 	public List<MysteryAnnouncement> LoadAnnouncements()
 	{
 		// read in the yaml file and deserialize the input

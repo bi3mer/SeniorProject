@@ -277,12 +277,20 @@
     	private set;
     }
 
+	/// <summary>
+	/// Gets or sets the item pool instance.
+	/// </summary>
+	/// <value>The item pool instance.</value>
     public ItemPoolManager ItemPoolInstance 
 	{
 		get;
 		set;
 	}
 
+	/// <summary>
+	/// Gets or sets the announcement factory instance.
+	/// </summary>
+	/// <value>The announcement factory instance.</value>
 	public AnnouncementFactory AnnouncementFactoryInstance 
 	{
 		get;
