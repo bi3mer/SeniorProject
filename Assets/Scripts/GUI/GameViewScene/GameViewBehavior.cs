@@ -96,6 +96,7 @@ public class GameViewBehavior : MonoBehaviour
 	public void OnInventoryClick()
 	{
 		OnInventoryOpen();
+		Game.Instance.PauseInstance.MenuPause ();
 		if (GuiInstanceManager.InventoryUiInstance != null) 
 		{
 			if (GuiInstanceManager.InventoryUiInstance.TargetInventory != null && GuiInstanceManager.InventoryUiInstance.TargetInventory != Game.Instance.PlayerInstance.Inventory) 
@@ -128,6 +129,7 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	public void OnRadioClick()
 	{
+		Game.Instance.PauseInstance.MenuPause ();
         radioModelAnimation.ActivateRadio();
         inventoryPanel.SetActive(false);
         pausePanel.SetActive(false);
@@ -164,6 +166,8 @@ public class GameViewBehavior : MonoBehaviour
 	/// </summary>
 	public void OnCraftingClick()
 	{
+		Game.Instance.PauseInstance.MenuPause ();
+
         // do the deactivate radio menu if radio is active.
         if (radioCanvas.activeInHierarchy)
         {

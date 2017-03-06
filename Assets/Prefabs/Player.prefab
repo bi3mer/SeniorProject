@@ -906,8 +906,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011536698418}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.1, z: 0}
+  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 2.368, z: 1.951}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -1416,13 +1416,13 @@ MonoBehaviour:
     eyes: []
   solvers:
     leftFoot:
-      IKPosition: {x: -0.018521277, y: 3.8105836, z: -0.10232963}
+      IKPosition: {x: -0.085454494, y: 2.0785837, z: 1.8917385}
       IKPositionWeight: 0
       root: {fileID: 4000013693089566}
       target: {fileID: 0}
       IKRotationWeight: 0
-      IKRotation: {x: 0.015134762, y: -0.17686895, z: 0.98360825, w: -0.031676296}
-      bendNormal: {x: 0.0066584023, y: -0.000037841266, z: -0.00006625574}
+      IKRotation: {x: 0.39039326, y: -0.17552759, z: 0.90294373, w: 0.03841973}
+      bendNormal: {x: 0.0046613454, y: -0.000037836682, z: -0.004755051}
       bone1:
         transform: {fileID: 4000010178173294}
         weight: 1
@@ -1459,13 +1459,13 @@ MonoBehaviour:
       bendModifierWeight: 1
       bendGoal: {fileID: 0}
     rightFoot:
-      IKPosition: {x: 0.018521277, y: 3.8106947, z: -0.10275643}
+      IKPosition: {x: -0.05956325, y: 2.0786948, z: 1.8652437}
       IKPositionWeight: 0
       root: {fileID: 4000013693089566}
       target: {fileID: 0}
       IKRotationWeight: 0
-      IKRotation: {x: -0.015061129, y: -0.17666389, z: 0.98364747, w: 0.031633813}
-      bendNormal: {x: 0.006661755, y: 0.00003797187, z: 0.00006632218}
+      IKRotation: {x: 0.36251092, y: -0.15111043, z: 0.91453546, w: 0.09683218}
+      bendNormal: {x: 0.004757468, y: 0.00003797566, z: -0.0046636756}
       bone1:
         transform: {fileID: 4000013259054412}
         weight: 1
@@ -1502,13 +1502,13 @@ MonoBehaviour:
       bendModifierWeight: 1
       bendGoal: {fileID: 0}
     leftHand:
-      IKPosition: {x: -0.12090957, y: 3.934448, z: -0.01780407}
+      IKPosition: {x: -0.09808536, y: 2.2024481, z: 2.0239065}
       IKPositionWeight: 0
       root: {fileID: 4000013693089566}
-      target: {fileID: 0}
+      target: {fileID: 4000011254794764}
       IKRotationWeight: 0
-      IKRotation: {x: 0.64678705, y: -0.20552297, z: 0.6671717, w: 0.30709785}
-      bendNormal: {x: -0.00025619983, y: 0.00027133332, z: 0.00019619864}
+      IKRotation: {x: 0.8528689, y: -0.07235722, z: 0.36887163, w: 0.36237165}
+      bendNormal: {x: -0.0000424354, y: 0.00027133338, z: 0.000319889}
       bone1:
         transform: {fileID: 4000012704570112}
         weight: 1
@@ -1547,13 +1547,13 @@ MonoBehaviour:
       bendModifierWeight: 1
       bendGoal: {fileID: 0}
     rightHand:
-      IKPosition: {x: 0.120909564, y: 3.934448, z: -0.016995624}
+      IKPosition: {x: 0.07347826, y: 2.2024481, z: 1.8534863}
       IKPositionWeight: 0
       root: {fileID: 4000013693089566}
-      target: {fileID: 0}
+      target: {fileID: 4000013463216726}
       IKRotationWeight: 0
-      IKRotation: {x: -0.64936864, y: -0.20224449, z: 0.6642645, w: -0.31011382}
-      bendNormal: {x: -0.00028981827, y: -0.00030561624, z: -0.00019619768}
+      IKRotation: {x: -0.34573537, y: -0.30552498, z: 0.862203, w: -0.2091122}
+      bendNormal: {x: -0.00034365687, y: -0.0003056138, z: 0.00006620739}
       bone1:
         transform: {fileID: 4000012643011724}
         weight: 1
@@ -1590,7 +1590,7 @@ MonoBehaviour:
       bendModifierWeight: 1
       bendGoal: {fileID: 0}
     spine:
-      IKPosition: {x: 0, y: 3.9722803, z: -0.02081008}
+      IKPosition: {x: -0.014714949, y: 2.2402804, z: 1.936285}
       IKPositionWeight: 0
       root: {fileID: 4000013693089566}
       target: {fileID: 0}
@@ -1601,24 +1601,24 @@ MonoBehaviour:
       bones:
       - transform: {fileID: 4000013137671666}
         weight: 1
-        solverPosition: {x: 0, y: 3.945097, z: -0.018615691}
-        solverRotation: {x: -0.04026451, y: -0, z: -0, w: 0.9991891}
+        solverPosition: {x: -0.013163281, y: 2.213097, z: 1.9378366}
+        solverRotation: {x: -0.037199557, y: 0.3823731, z: 0.015408561, w: 0.9231304}
         defaultLocalPosition: {x: -0, y: 0.02330003, z: -0.0018809056}
         defaultLocalRotation: {x: -0.04026451, y: 0, z: -0, w: 0.9991891}
-        length: 0.027271722
+        length: 0.02727172
         sqrMag: 0
-        axis: {x: 0, y: 0.027271722, z: -0.000000005634587}
+        axis: {x: -0.000000028198547, y: 0.02727172, z: 0.000000022264437}
       - transform: {fileID: 4000012137490736}
         weight: 1
-        solverPosition: {x: 0, y: 3.9722803, z: -0.02081008}
-        solverRotation: {x: -0.04026451, y: -0, z: -0, w: 0.9991891}
+        solverPosition: {x: -0.014714949, y: 2.2402804, z: 1.936285}
+        solverRotation: {x: -0.037199557, y: 0.3823731, z: 0.015408561, w: 0.9231304}
         defaultLocalPosition: {x: -0, y: 0.0272718, z: 0}
         defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
         length: 0
         sqrMag: 0
-        axis: {x: 0, y: 0.027271722, z: -0.000000005634587}
+        axis: {x: -0.000000028198547, y: 0.02727172, z: 0.000000022264437}
     lookAt:
-      IKPosition: {x: 0, y: 3.9722803, z: 2.9791899}
+      IKPosition: {x: 2.1066053, y: 2.2402804, z: 4.0576057}
       IKPositionWeight: 0
       root: {fileID: 4000013693089566}
       target: {fileID: 0}
@@ -1631,7 +1631,7 @@ MonoBehaviour:
         defaultLocalRotation: {x: -0.04026451, y: 0, z: -0, w: 0.9991891}
         length: 0
         sqrMag: 0
-        axis: {x: 0, y: -0.080463715, z: 0.99675757}
+        axis: {x: -0.0000000732425, y: -0.08046372, z: 0.9967576}
       - transform: {fileID: 4000012137490736}
         weight: 1
         solverPosition: {x: 0, y: 0, z: 0}
@@ -1640,7 +1640,7 @@ MonoBehaviour:
         defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
         length: 0
         sqrMag: 0
-        axis: {x: 0, y: -0.080463715, z: 0.99675757}
+        axis: {x: -0.0000000732425, y: -0.08046372, z: 0.9967576}
       head:
         transform: {fileID: 4000010384753486}
         weight: 1
@@ -1650,7 +1650,7 @@ MonoBehaviour:
         defaultLocalRotation: {x: 0, y: -0, z: -0, w: 1}
         length: 0
         sqrMag: 0
-        axis: {x: 0, y: -0.00000013411045, z: 1}
+        axis: {x: -0.000000021073427, y: -0.00000013411045, z: 1}
       eyes: []
       bodyWeight: 0.5
       headWeight: 1
@@ -1714,10 +1714,10 @@ MonoBehaviour:
     pelvis:
       transform: {fileID: 4000010859037258}
       positionOffset: {x: 0, y: 0, z: 0}
-      position: {x: 0, y: 3.9217968, z: -0.016734784}
+      position: {x: -0.011833279, y: 2.189797, z: 1.9391667}
       positionWeight: 0
       rotationOffset: {x: 0, y: 0, z: 0}
-      rotation: {x: -0, y: 0, z: 0}
+      rotation: {x: -0, y: 44.999996, z: -0}
       rotationWeight: 0
 --- !u!114 &114000010691961614
 MonoBehaviour:
@@ -1869,7 +1869,7 @@ MonoBehaviour:
     ForwardSecondary: 273
     BackSecondary: 274
     RightSecondary: 275
-    LeftSecondary: 0
+    LeftSecondary: 276
     Sprint: 304
     Jump: 32
     Action: 102
@@ -1877,21 +1877,21 @@ MonoBehaviour:
     CameraRight: 101
     CameraLeft: 113
     CameraZoomAxis: Mouse ScrollWheel
-    CameraZoomInKey: 0
-    CameraZoomOutKey: 0
+    CameraZoomInKey: 112
+    CameraZoomOutKey: 108
     Pause: 27
     Inventory: 9
     Radio: 114
-    Crafting: 0
+    Crafting: 99
   PlayerIKSetUp: {fileID: 114000010011769092}
   ClimbingRaycastMask:
     serializedVersion: 2
     m_Bits: 1553
   handSpacing: 0.386
   climbDistance: 0.45
-  startClimbTime: 0.3
-  ClimbTime: 0.4
-  endClimbTime: 0.3
+  startClimbTime: 0.1
+  ClimbTime: 1
+  endClimbTime: 0.1
   climbForward: 0.1
   minClimbHeight: 0.15
 --- !u!114 &114000012333483624
@@ -1927,10 +1927,13 @@ MonoBehaviour:
   climbHeight: 1
   walkingSpeed: 0.6
   sprintingSpeed: 1
-  jumpForce: 0.06
+  jumpForce: 1.3
   minFallDamageVelocity: 5
   fallDamageModifier: 1
   raycastHeight: 0.01
+  airControll: 1
+  terminalVelocity: 2
+  jumpingFallModifier: 0.08
 --- !u!114 &114000013014602212
 MonoBehaviour:
   m_ObjectHideFlags: 1
