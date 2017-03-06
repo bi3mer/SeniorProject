@@ -53,7 +53,6 @@ public class LightCategory : EquipableCategory
 
 	private const string maxFuelAttrName = "maxFuel";
 
-
 	/// <summary>
 	/// Initializes a new instance of the <see cref="LightCategory"/> class.
 	/// </summary>

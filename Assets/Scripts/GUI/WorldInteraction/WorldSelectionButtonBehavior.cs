@@ -29,6 +29,10 @@ public class WorldSelectionButtonBehavior : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Sets the action to the button's onclick listener.
+	/// </summary>
+	/// <param name="action">Action.</param>
 	public void SetAction(UnityAction action)
 	{
 		associatedButton.onClick.RemoveAllListeners();

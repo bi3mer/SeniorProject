@@ -22,13 +22,13 @@ public class WorldSelectionGUIDirector : MonoBehaviour
 	[Tooltip("UI Text item that appears when there is no valid option")]
 	private Text noValidOptionText;
 
+	[SerializeField]
+	[Tooltip("Text displayed when there are not valid actions to be selected")]
+	private string noValidActionText = "No valid actions";
+
 	private List<WorldSelectionButtonBehavior> options;
 
 	private OverworldItemOptionSelection requester;
-
-	private const string noValidItemText = "No valid items";
-
-	private const string noValidActionText = "No valid actions";
 
 	/// <summary>
 	/// Awake this instance.
@@ -106,6 +106,12 @@ public class WorldSelectionGUIDirector : MonoBehaviour
 		requester = requestingItem;
 	}
 
+	/// <summary>
+	/// Creates a world selection button and assigns the action to it's onclick.
+	/// </summary>
+	/// <returns>The world selection button.</returns>
+	/// <param name="buttonName">Button name.</param>
+	/// <param name="desiredAction">Desired action.</param>
 	private WorldSelectionButtonBehavior createWorldSelectionButton(string buttonName, UnityAction desiredAction)
 	{
 		WorldSelectionButtonBehavior option = GameObject.Instantiate(worldSelectionTemplate).GetComponent<WorldSelectionButtonBehavior>();
@@ -116,7 +122,6 @@ public class WorldSelectionGUIDirector : MonoBehaviour
 
 		return option;
 	}
-
 
 	/// <summary>
 	/// Finishs the selection.

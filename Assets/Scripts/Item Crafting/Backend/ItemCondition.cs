@@ -48,6 +48,10 @@
 		set;
 	}
 
+	/// <summary>
+	/// Gets or sets the condition value.
+	/// </summary>
+	/// <value>The condition value.</value>
 	public float ConditionValue
 	{
 		get;
@@ -64,6 +68,10 @@
 		return booleanOperator (value, ThresholdValue);
 	}
 
+	/// <summary>
+	/// Checks to see if the condition is met. Compares the ConditionValue to the ThresholdValue.
+	/// </summary>
+	/// <returns><c>true</c>, if condition was checked, <c>false</c> otherwise.</returns>
 	public bool CheckCondition()
 	{
 		return booleanOperator(ConditionValue, ThresholdValue);
