@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.16980883, g: 0.2052846, b: 0.29454157, a: 1}
+  m_IndirectSpecularColor: {r: 0.17129868, g: 0.20810539, b: 0.29897428, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2172,6 +2172,106 @@ Prefab:
       propertyPath: possibleColors.ctime4
       value: 65535
       objectReference: {fileID: 0}
+    - target: {fileID: 224000011312386572, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000011312386572, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000013501597012, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000013501597012, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000013501597012, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 110.66114
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000013501597012, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -22.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000013501597012, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 211.32228
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000013501597012, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010987891812, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010987891812, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010987891812, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 110.66114
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010987891812, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -62.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010987891812, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 211.32228
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010987891812, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012494265652, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000011312386572, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012046483300, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012046483300, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012046483300, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: -9.907455
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000013138705168, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 12cac1228c3fb431483d6d77ddf40555, type: 2}
   m_IsPrefabParent: 0
@@ -2893,72 +2993,6 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
---- !u!1 &1042541512 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000010924640366, guid: 7b4e5226e628633408ece05e9d3c6a4d,
-    type: 2}
-  m_PrefabInternal: {fileID: 681741328}
---- !u!114 &1042541513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1042541512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: event:/Ambient/Weather/Basic_Rain
-  PlayEvent: 1
-  StopEvent: 0
-  CollisionTag: 
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
---- !u!114 &1042541514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1042541512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9468c5f457ace64f8d4df6d642b107f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LoadEvent: 1
-  UnloadEvent: 0
-  Banks:
-  - Master Bank
-  CollisionTag: 
-  PreloadSamples: 0
---- !u!114 &1042541521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1042541512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: event:/Ambient/Music/Basic_Music
-  PlayEvent: 1
-  StopEvent: 0
-  CollisionTag: 
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
 --- !u!21 &1055003845
 Material:
   serializedVersion: 6
@@ -4215,6 +4249,48 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
+--- !u!1001 &1369358717
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4000010738509168, guid: 59772e9f4be5e4f548a626736b168eb1, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010738509168, guid: 59772e9f4be5e4f548a626736b168eb1, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010738509168, guid: 59772e9f4be5e4f548a626736b168eb1, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010738509168, guid: 59772e9f4be5e4f548a626736b168eb1, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010738509168, guid: 59772e9f4be5e4f548a626736b168eb1, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010738509168, guid: 59772e9f4be5e4f548a626736b168eb1, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010738509168, guid: 59772e9f4be5e4f548a626736b168eb1, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010738509168, guid: 59772e9f4be5e4f548a626736b168eb1, type: 2}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 59772e9f4be5e4f548a626736b168eb1, type: 2}
+  m_IsPrefabParent: 0
 --- !u!21 &1456779348
 Material:
   serializedVersion: 6
@@ -4514,37 +4590,37 @@ Prefab:
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationX.scalar
-      value: 0.0115533
+      value: 0.013637403
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationY.scalar
-      value: 0.019532494
+      value: -0.033541366
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: EmissionModule.rate.scalar
-      value: 32.55945
+      value: 43.688324
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: -1.1191295
+      value: 1.9217787
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.y.scalar
-      value: 0.6619553
+      value: 0.78136563
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: -0.44765183
+      value: 0.7687115
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.z.scalar
-      value: 0.26478213
+      value: 0.31254625
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ecc262ca63bb3d54ba8476a9fa126d5c, type: 2}
