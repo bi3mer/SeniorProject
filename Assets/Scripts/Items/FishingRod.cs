@@ -64,7 +64,7 @@ public class FishingRod : Tool
     {
         get
         {
-            return Game.Player.Controller.IsWaterInView;
+            return Game.Player.Controller.IsOnLand && Game.Player.Controller.IsWaterInView;
         }
     }
 
