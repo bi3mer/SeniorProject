@@ -21,6 +21,7 @@ GameObject:
   - 4: {fileID: 4000013363656288}
   - 33: {fileID: 33000011443703926}
   - 23: {fileID: 23000010592771932}
+  - 65: {fileID: 65000012360131564}
   m_Layer: 0
   m_Name: ENV_BigRoadBarrier_Orange
   m_TagString: Untagged
@@ -34,10 +35,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010187902942}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.571, y: 0, z: -0.227}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: 0.27804694, z: -0, w: 0.96056753}
+  m_LocalPosition: {x: 3.135, y: 136.48247, z: -2.465}
+  m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_LocalEulerAnglesHint: {x: 0, y: 32.398003, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -77,3 +78,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010187902942}
   m_Mesh: {fileID: 4300000, guid: 6e0f99ddd7e3d9443a21cf797f572f3f, type: 3}
+--- !u!65 &65000012360131564
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010187902942}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.40264016, y: 0.24, z: 0.08000001}
+  m_Center: {x: 0.007239923, y: 0.12, z: -0.000000007450581}
