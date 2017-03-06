@@ -66,6 +66,10 @@ public class WeatherSystem
 	// Precipitation flag for storm and delegates for beginning of storm and end
 	private const float minPrecipitationForStorm = 20f;
 
+	// possible vectors for 8 directions
+	private readonly Vector2[] defaultDirectionVector = new Vector2[] {new Vector2(0,0), new Vector2(1,1), new Vector2(0,1), new Vector2(-1,1),
+	                                                                   new Vector2(-1,0), new Vector2(-1,-1), new Vector2(0,-1), new Vector2(1,-1)};
+
 	private bool ongoingStorm = false;
 	private bool updateWeather = true;
 
@@ -93,6 +97,29 @@ public class WeatherSystem
 			return new Vector3(this.WeatherInformation[(int) Weather.WindSpeedX],
 			                   0,
 			                   this.WeatherInformation[(int) Weather.WindSpeedY]);
+		}
+	}
+
+	/// <summary>
+	/// Gets the cartesian wind direction2d. 
+	/// </summary>
+	/// <value>The cartesian wind direction2d.</value>
+	public Vector2 NormalizedOctantWindDirection2d
+	{
+		get
+		{
+			const int numDirections = 8;
+			const float twoPi       = 2f * Mathf.PI;
+
+			Vector2 wind = this.WindDirection2d;
+
+			// positive angle of vector in degrees
+			float angle = (Mathf.Atan2(wind.y, wind.x) + twoPi) % twoPi;
+
+			// conver the angle to one of 8 directions
+			int index = Mathf.RoundToInt(((numDirections * angle) / twoPi)) % numDirections;
+
+			return defaultDirectionVector[index];
 		}
 	}
 
