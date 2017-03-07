@@ -140,7 +140,6 @@ public class ItemPoolManager : MonoBehaviour
 		{
 			Debug.LogError("Point " + location + " is out of city bounds.");
 		}
-
 	}
 
 	/// <summary>
