@@ -124,7 +124,7 @@ public class ItemPoolManager : MonoBehaviour
 	{
 		Tuple<int, int> coord = PointToGrid(new Vector2(location.x, location.z));
 
-		if(coord.X > 0 && coord.Y > 0 && coord.X < grid.GetLength(0) && coord.Y < grid.GetLength(1))
+		if(coord.X >= 0 && coord.Y >= 0 && coord.X < grid.GetLength(0) && coord.Y < grid.GetLength(1))
 		{
 			if(grid[coord.X, coord.Y] == null)
 			{
