@@ -137,9 +137,7 @@ public class ClothCategory : ItemCategory
 	{
 		PlayerController player = Game.Instance.PlayerInstance.Controller;
 
-		//		player.FireWarmthIncreaseRate = player.FireWarmthIncreaseRate + fireWarmthDifference;
-		//		player.OutsideWarmthIncreaseRate = player.OutsideWarmthIncreaseRate + outsideWarmthDifference;
-		//		player.ShelterWarmthIncreaseRate = player.ShelterWarmthIncreaseRate + shelterWarmthDifference;
+		player.PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
 
 		OnPlayer = 0f;
 		GetAttribute(onPlayerAttributeName).Value = OnPlayer;
