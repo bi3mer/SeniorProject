@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
     private bool isReading;
 	private bool isWaterInView;
 
-	private PlayerStatManager playerStatManager;
+	public PlayerStatManager PlayerStatManager;
 
     private float buttonZoomAmount = 0.1f;
 
@@ -158,7 +158,7 @@ public class PlayerController : MonoBehaviour
 	void Start()
     {
 		// set up player stats
-		playerStatManager = new PlayerStatManager();
+		PlayerStatManager = new PlayerStatManager();
 
         isGrounded = false;
         updateStats = true;
@@ -184,15 +184,15 @@ public class PlayerController : MonoBehaviour
         playerCamera = Camera.main.GetComponent<CameraController>();
 
         // start reducing hunger
-		playerStatManager.HungerRate.UseDefaultHungerReductionRate();
+		PlayerStatManager.HungerRate.UseDefaultHungerReductionRate();
         StartCoroutine(UpdateHunger());
 
         // start updating warmth
-		playerStatManager.WarmthRate.UseDefaultWarmthReductionRate();
+		PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate();
         StartCoroutine(UpdateWarmth());
 
 		// start updating health
-		playerStatManager.HealthRate.UseDefaultHealthRate ();
+		PlayerStatManager.HealthRate.UseDefaultHealthRate ();
 		StartCoroutine (UpdateHealth ());
 
         // set up rigidbody
@@ -414,22 +414,22 @@ public class PlayerController : MonoBehaviour
         // Only calculate fall damage when landing on the ground
         if (isGrounded)
         {
-			playerStatManager.HealthRate.TakeFallDamage ((int)movement.CurrentFallDammage);
-			Game.Instance.PlayerInstance.Health = playerStatManager.HealthRate.CurrentStat;
+			PlayerStatManager.HealthRate.TakeFallDamage ((int)movement.CurrentFallDammage);
+			Game.Instance.PlayerInstance.Health = PlayerStatManager.HealthRate.CurrentStat;
             healthUpdatedEvent.Invoke();
         }
 
         // check if we're in water
 		if (IsInWater) 
 		{
-			playerStatManager.WarmthRate.UseWaterWarmthReductionRate ();
+			PlayerStatManager.WarmthRate.UseWaterWarmthReductionRate ();
 		} 
 		else
 		{
-			playerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
+			PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
 		}
 
-		playerStatManager.ApplyCorrectHealthReductionRate ();
+		PlayerStatManager.ApplyCorrectHealthReductionRate ();
     }
 
 	/// <summary>
@@ -440,9 +440,9 @@ public class PlayerController : MonoBehaviour
 	{
 		while (updateStats) 
 		{
-			yield return new WaitForSeconds(Mathf.Abs(playerStatManager.HealthRate.PerSeconds));	
-			playerStatManager.HealthRate.ApplyRateToStat ();
-			Game.Instance.PlayerInstance.Health = playerStatManager.HealthRate.CurrentStat;
+			yield return new WaitForSeconds(Mathf.Abs(PlayerStatManager.HealthRate.PerSeconds));	
+			PlayerStatManager.HealthRate.ApplyRateToStat ();
+			Game.Instance.PlayerInstance.Health = PlayerStatManager.HealthRate.CurrentStat;
 			healthUpdatedEvent.Invoke ();
 		}
 	}
@@ -455,9 +455,9 @@ public class PlayerController : MonoBehaviour
     {
 		while (updateStats)
 		{
-			yield return new WaitForSeconds(Mathf.Abs(playerStatManager.HungerRate.PerSeconds));
-			playerStatManager.HungerRate.ApplyRateToStat ();
-			Game.Instance.PlayerInstance.Hunger = playerStatManager.HungerRate.CurrentStat;
+			yield return new WaitForSeconds(Mathf.Abs(PlayerStatManager.HungerRate.PerSeconds));
+			PlayerStatManager.HungerRate.ApplyRateToStat ();
+			Game.Instance.PlayerInstance.Hunger = PlayerStatManager.HungerRate.CurrentStat;
 			hungerUpdatedEvent.Invoke();
 		}
     }
@@ -471,9 +471,9 @@ public class PlayerController : MonoBehaviour
     {
 		while (updateStats)
 		{
-			yield return new WaitForSeconds(Mathf.Abs(playerStatManager.WarmthRate.PerSeconds));
-			playerStatManager.WarmthRate.ApplyRateToStat ();
-			Game.Instance.PlayerInstance.Warmth = playerStatManager.WarmthRate.CurrentStat;
+			yield return new WaitForSeconds(Mathf.Abs(PlayerStatManager.WarmthRate.PerSeconds));
+			PlayerStatManager.WarmthRate.ApplyRateToStat ();
+			Game.Instance.PlayerInstance.Warmth = PlayerStatManager.WarmthRate.CurrentStat;
 			warmthUpdatedEvent.Invoke();
 		}
     }
@@ -699,11 +699,11 @@ public class PlayerController : MonoBehaviour
             // Set warmth rates to the proper value
             if (value)
             {
-				playerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate ();
+				PlayerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate ();
             }
             else
             {
-				playerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
+				PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
             }
 
             isInShelter = value;
@@ -723,11 +723,11 @@ public class PlayerController : MonoBehaviour
         {
             if (value)
             {
-				playerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate ();
+				PlayerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate ();
             }
             else
             {
-				playerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
+				PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
             }
 
             isByFire = value;

@@ -9,6 +9,10 @@ public class WarmthRateManager : StatRate
 	private const int heatSourceUnit = 2;
 	private const int heatSourceSeconds = 1;
 
+	private const int secondsForByFireWithCloth = 1;
+	private const int secondsForInWaterWithCloth = 3;
+
+
 	// set default values for warmth rates
 	private StatRate defaultWarmthReductionRate;
 
@@ -79,10 +83,31 @@ public class WarmthRateManager : StatRate
 	/// </summary>
 	public void UseHeatSourceWarmthIncreaseRate()
 	{
-		this.Units = nearHeatSourceWarmthIncreaseRate.Units;
-		this.PerSeconds = nearHeatSourceWarmthIncreaseRate.PerSeconds;
+		this.Units = GetTemperatureBasedWarmthRate().Units + nearHeatSourceWarmthIncreaseRate.Units;
+		this.PerSeconds = GetTemperatureBasedWarmthRate().PerSeconds + nearHeatSourceWarmthIncreaseRate.PerSeconds;
 	}
-		
+
+	/// <summary>
+	/// Uses the cloth rate.
+	/// </summary>
+	/// <param name="units">Units.</param>
+	public void UseClothRate(int clothUnits)
+	{
+		this.Units = this.Units + clothUnits;
+		if (Game.Instance.PlayerInstance.Controller.IsByFire) 
+		{
+			this.PerSeconds = secondsForByFireWithCloth;
+		} 
+		else if (Game.Instance.PlayerInstance.Controller.IsInWater) 
+		{
+			this.PerSeconds = secondsForInWaterWithCloth;
+		} 
+		else 
+		{
+			this.PerSeconds = defaultWarmthReductionRate.PerSeconds;
+		}
+	}
+
 	/// <summary>
 	/// Gets the temperature based warmth rate.
 	/// </summary>
