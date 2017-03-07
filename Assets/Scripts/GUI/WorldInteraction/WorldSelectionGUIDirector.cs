@@ -7,12 +7,12 @@ using UnityEngine.Events;
 public class WorldSelectionGUIDirector : MonoBehaviour 
 {
 	[SerializeField]
-	[Tooltip("Entire panel display")]
-	private GameObject displayPanel;
+	[Tooltip("Entire panel display that is used to display items on the center of the screen")]
+	private GameObject screenDisplayPanel;
 
 	[SerializeField]
-	[Tooltip("The panel in which the selection ui objects should go")]
-	private GameObject worldSelectionPanel;
+	[Tooltip("The panel in the center of the screen in which the selection ui objects should go")]
+	private GameObject worldSelectionPanel;	
 
 	[SerializeField]
 	[Tooltip("The template for selection ui objects")]
@@ -60,7 +60,7 @@ public class WorldSelectionGUIDirector : MonoBehaviour
 			noValidOptionText.gameObject.SetActive(true);
 		}
 
-		displayPanel.SetActive(true);
+		screenDisplayPanel.SetActive(true);
 
 		requester = requestingItem;
 	}
@@ -102,8 +102,13 @@ public class WorldSelectionGUIDirector : MonoBehaviour
 			noValidOptionText.gameObject.SetActive(true);
 		}
 
-		displayPanel.SetActive(true);
+		screenDisplayPanel.SetActive(true);
 		requester = requestingItem;
+	}
+
+	public void PopulateWithActions(List<ItemAction> actions, GameObject targetPanel)
+	{
+		
 	}
 
 	/// <summary>
@@ -138,7 +143,7 @@ public class WorldSelectionGUIDirector : MonoBehaviour
 	public void CloseSelection()
 	{
 		ClearOptions();
-		displayPanel.SetActive(false);
+		screenDisplayPanel.SetActive(false);
 		noValidOptionText.gameObject.SetActive(false);
 	}
 
