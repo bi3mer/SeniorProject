@@ -32,9 +32,13 @@ public class BeaconInteractable : MonoBehaviour
     [Tooltip("The beacon's color once it is turned on.")]
     [SerializeField]
     private Color beaconOnColor;
+
     [Tooltip("The beacon's color once it is turned off.")]
     [SerializeField]
     private Color beaconOffColor;
+
+    [SerializeField]
+    private EndingController endingController;
 
     private const string materialEmissionColor = "_EmissionColor";
 
@@ -59,6 +63,9 @@ public class BeaconInteractable : MonoBehaviour
             // Tween the light shaft
             lightPlanes.transform.DOScaleZ(lightPlaneLength, turnOnTime);
 
+            GetComponent<InteractableObject>().enabled = false;
+
+            endingController.BeaconTurnedOn();
         }
     } 
 }

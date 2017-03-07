@@ -65,6 +65,8 @@ public class InteractableObject : MonoBehaviour
         set 
         {
             display.gameObject.SetActive(value);
+            // Replace instances of \n with the newline code \n. This is a unity quirk. But it'll let us use \n in the inspector to call for new lines
+            text = text.Replace("\\n", "\n");
             display.text = text;
         }
     }
@@ -82,7 +84,9 @@ public class InteractableObject : MonoBehaviour
         {
             text = value;
             if (Show)
-            {
+            {   
+                // Replace instances of \n with the newline code \n. This is a unity quirk. But it'll let us use \n in the inspector to call for new lines
+                text = text.Replace("\\n", "\n");
                 display.text = text;
             }
         }
