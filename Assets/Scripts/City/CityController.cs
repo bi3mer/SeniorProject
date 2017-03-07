@@ -75,8 +75,8 @@ public class CityController : MonoBehaviour
 
 		float cityWidth = cityBounds.size.x;
 		float cityDepth = cityBounds.size.z;
-		waterItemGenerator.SetCityInformation(cityWidth, cityDepth, cityCenter, districts);
-		itemPoolManager.SetUpItemPoolManager(cityDepth, cityDepth, cityCenter);
+		waterItemGenerator.SetCityInformation(cityWidth, cityDepth, cityBounds.center, districts);
+		itemPoolManager.SetUpItemPoolManager(cityDepth, cityDepth, cityBounds.center);
 
         // Generate blocks in each district
         for (int i = 0; i < districts.Length; ++i)

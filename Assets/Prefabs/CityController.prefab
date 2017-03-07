@@ -77,8 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a74938624ce19ac4c911c819b2503eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  streetWidth: 1.5
-  distanceBetweenBuildingCenters: 45
+  streetWidth: 2.8
+  distanceBetweenBuildingCenters: 20
   positionJitter: 0.27
   distributionCurve:
     serializedVersion: 2
@@ -97,10 +97,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   heightJitter: 0.1
-  buildingScale: 1
+  buildingScale: 0.9
   maxPlacementTries: 3
-  CityCenterBuilding: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
-    type: 2}
+  CityCenterBuilding: {fileID: 100000, guid: 5e50794d6a3810a4fbdfc912c2f2e6f6, type: 3}
 --- !u!114 &114000011626432178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -178,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b37f1aeffdb7443875f22ad632497f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceBetweenSeedPoints: 50
+  distanceBetweenSeedPoints: 100
   configurations:
   - districtName: residential
     WeenieBuildingTemplate: {fileID: 1000010255927246, guid: 549121b14d0f7904d88d4311ec33716b,
@@ -599,7 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac25302f69efea24bbd43ffa6bc570c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceBetweenControlPoints: 4
+  distanceBetweenControlPoints: 10
   jitter: 0.1
 --- !u!114 &114000014275874900
 MonoBehaviour:
@@ -617,7 +616,8 @@ MonoBehaviour:
   materialInstances: 3
   TestDistrict:
     districtName: shopping
-    WeenieBuildingTemplate: {fileID: 0}
+    WeenieBuildingTemplate: {fileID: 100000, guid: 5e50794d6a3810a4fbdfc912c2f2e6f6,
+      type: 3}
     Doors: []
     AdditionalBuildingTemplates: []
     MaxFloors: 1
