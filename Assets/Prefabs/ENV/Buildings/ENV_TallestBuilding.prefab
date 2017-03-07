@@ -1927,6 +1927,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1000012924744790
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000011579280992}
+  m_Layer: 0
+  m_Name: TallestBuildingTeleportCheat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1000013005320684
 GameObject:
   m_ObjectHideFlags: 1
@@ -3022,7 +3037,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 32, y: -90, z: 0}
   m_Children: []
   m_Father: {fileID: 4000013540729600}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!4 &4000010212709386
 Transform:
   m_ObjectHideFlags: 1
@@ -3178,7 +3193,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000013540729600}
-  m_RootOrder: 11
+  m_RootOrder: 12
 --- !u!4 &4000010647440484
 Transform:
   m_ObjectHideFlags: 1
@@ -3309,7 +3324,7 @@ Transform:
   m_Children:
   - {fileID: 4000011271578694}
   m_Father: {fileID: 4000013540729600}
-  m_RootOrder: 7
+  m_RootOrder: 8
 --- !u!4 &4000010790459682
 Transform:
   m_ObjectHideFlags: 1
@@ -3502,7 +3517,7 @@ Transform:
   m_Children:
   - {fileID: 4000011805475258}
   m_Father: {fileID: 4000013540729600}
-  m_RootOrder: 6
+  m_RootOrder: 7
 --- !u!4 &4000010975769510
 Transform:
   m_ObjectHideFlags: 1
@@ -3868,6 +3883,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000011925547568}
   m_RootOrder: 1
+--- !u!4 &4000011579280992
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012924744790}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.2030563, y: 75.461136, z: -4.753433}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4000013540729600}
+  m_RootOrder: 0
 --- !u!4 &4000011638065772
 Transform:
   m_ObjectHideFlags: 1
@@ -4168,7 +4196,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000013540729600}
-  m_RootOrder: 15
+  m_RootOrder: 16
 --- !u!4 &4000012360676238
 Transform:
   m_ObjectHideFlags: 1
@@ -4325,7 +4353,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000013540729600}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!4 &4000012685399432
 Transform:
   m_ObjectHideFlags: 1
@@ -4364,7 +4392,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: -177.317, z: 0}
   m_Children: []
   m_Father: {fileID: 4000013540729600}
-  m_RootOrder: 13
+  m_RootOrder: 15
 --- !u!4 &4000012772840748
 Transform:
   m_ObjectHideFlags: 1
@@ -4479,7 +4507,7 @@ Transform:
   - {fileID: 4000013423388030}
   - {fileID: 4000014025398050}
   m_Father: {fileID: 4000013540729600}
-  m_RootOrder: 10
+  m_RootOrder: 11
 --- !u!4 &4000013046834146
 Transform:
   m_ObjectHideFlags: 1
@@ -4545,7 +4573,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_Children: []
   m_Father: {fileID: 4000013540729600}
-  m_RootOrder: 16
+  m_RootOrder: 17
 --- !u!4 &4000013150459350
 Transform:
   m_ObjectHideFlags: 1
@@ -4597,7 +4625,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000013540729600}
-  m_RootOrder: 4
+  m_RootOrder: 6
 --- !u!4 &4000013262766142
 Transform:
   m_ObjectHideFlags: 1
@@ -4624,7 +4652,7 @@ Transform:
   m_Children:
   - {fileID: 4000013277004914}
   m_Father: {fileID: 4000013540729600}
-  m_RootOrder: 8
+  m_RootOrder: 10
 --- !u!4 &4000013273894698
 Transform:
   m_ObjectHideFlags: 1
@@ -4841,25 +4869,26 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010512083558}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.5684805, y: -70.1, z: -1.2871815}
+  m_LocalPosition: {x: -55.5, y: -70.3, z: -32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 4000011579280992}
   - {fileID: 4000012681003690}
   - {fileID: 4000010209542522}
-  - {fileID: 4000013617905428}
   - {fileID: 4000010921261728}
-  - {fileID: 4000013253063448}
+  - {fileID: 4000013617905428}
   - {fileID: 4000011925547568}
+  - {fileID: 4000013253063448}
   - {fileID: 4000010964621208}
   - {fileID: 4000010784015096}
-  - {fileID: 4000013263316726}
   - {fileID: 4000011278896460}
+  - {fileID: 4000013263316726}
   - {fileID: 4000013031886314}
   - {fileID: 4000010595124074}
   - {fileID: 4000013586408384}
-  - {fileID: 4000012754259002}
   - {fileID: 4000011752357910}
+  - {fileID: 4000012754259002}
   - {fileID: 4000012359691800}
   - {fileID: 4000013116109290}
   m_Father: {fileID: 0}
@@ -4900,7 +4929,7 @@ Transform:
   - {fileID: 4000014151667846}
   - {fileID: 4000012331877448}
   m_Father: {fileID: 4000013540729600}
-  m_RootOrder: 12
+  m_RootOrder: 13
 --- !u!4 &4000013598430712
 Transform:
   m_ObjectHideFlags: 1
@@ -4926,7 +4955,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000013540729600}
-  m_RootOrder: 2
+  m_RootOrder: 4
 --- !u!4 &4000013621879292
 Transform:
   m_ObjectHideFlags: 1
@@ -11967,7 +11996,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be3f89982c190304b82c2722e7a2f4a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: There's nothing left for \n me down there...
+  text: There's nothing left for me down there...
   action:
     m_PersistentCalls:
       m_Calls: []
