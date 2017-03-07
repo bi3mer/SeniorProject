@@ -616,7 +616,8 @@ MonoBehaviour:
   materialInstances: 3
   TestDistrict:
     districtName: shopping
-    WeenieBuildingTemplate: {fileID: 0}
+    WeenieBuildingTemplate: {fileID: 100000, guid: 5e50794d6a3810a4fbdfc912c2f2e6f6,
+      type: 3}
     Doors: []
     AdditionalBuildingTemplates: []
     MaxFloors: 1
