@@ -42,13 +42,21 @@ public class FloodWater : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Update the water level
+	/// Updates the water level based on tide and the weather.
 	/// </summary>
-	void FixedUpdate()
+	private void updateWaterLevel()
 	{
 		// TODO: this should be updated in the future to handle precipitation
 		//       from the weather
 		this.transform.position = this.getTideLevel();
+	}
+
+	/// <summary>
+	/// Update the water level
+	/// </summary>
+	void FixedUpdate()
+	{
+		this.updateWaterLevel();
 	}
 
 	/// <summary>

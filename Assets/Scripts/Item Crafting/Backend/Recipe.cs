@@ -7,33 +7,13 @@
 public class Recipe  
 {
 	/// <summary>
-	/// list of resource requirements for a recipe. Items under this category are used up during crafting.
+	/// list of requirements for a recipe
 	/// </summary>
 	/// <value>The requirements.</value>
-	public List<Requirement> ResourceRequirements
+	public List<Requirement> Requirements
 	{ 
 		get; 
 		set; 
-	}
-
-	/// <summary>
-	/// List of tool requirements for a recipe. Items under this category are not used up during crafting.
-	/// </summary>
-	/// <value>The tool requirement.</value>
-	public List<Requirement> ToolRequirements
-	{
-		get;
-		set;
-	}
-
-	/// <summary>
-	/// Gets or sets a value indicating whether this <see cref="Recipe"/> is given a tier when crafted.
-	/// </summary>
-	/// <value><c>true</c> if tiered; otherwise, <c>false</c>.</value>
-	public bool Tiered
-	{
-		get;
-		set;
 	}
 
 	/// <summary>
@@ -69,7 +49,7 @@ public class Recipe
 	/// <param name="req">Req.</param>
 	public void AddRequirement(Requirement req)
 	{
-		ResourceRequirements.Add (req);
+		Requirements.Add (req);
 	}
 
 	/// <summary>
@@ -78,9 +58,9 @@ public class Recipe
 	/// <returns><c>true</c>, if all requirements completed, <c>false</c> otherwise.</returns>
 	public bool CheckCompleted()
 	{
-		for (int i = 0; i < ResourceRequirements.Count; ++i) 
+		for (int i = 0; i < Requirements.Count; ++i) 
 		{
-			if (!ResourceRequirements [i].isFullfilled ()) {
+			if (!Requirements [i].isFullfilled ()) {
 				return false;
 			}	
 		}

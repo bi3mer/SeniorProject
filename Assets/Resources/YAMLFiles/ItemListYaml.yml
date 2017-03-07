@@ -19,17 +19,17 @@
     - "GUI_ITM_Bucket"
   itemCategories: 
     - !!solid
-      flexibility: 3.0
-      durability: 2.5
+      flexibility: 1.0
+      durability: 0.5
       elasticity: 0.6
       stickiness: 0.1
       thickness: 0.1
       sharpness: 0.2
     - !!plant
-      waterContent: 3.2
+      waterContent: 1.2
       toughness: 3.0
-      sweet: 1.0
-      bitter: 4.0
+      sweet: 0.0
+      bitter: 0.0
       sour: 0.0
       salty: 0.0
       spicy: 0.0
@@ -44,25 +44,24 @@
    types:
      - "rod"
      - "fuel"
-     - "base solid"
    flavorText: "It's...a stick."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
   itemCategories:
     - !!solid
-      flexibility: 0.15
-      durability: 2.6
+      flexibility: 0.2
+      durability: 0.5
       elasticity: 0.1
       stickiness: 0.1
       thickness: 0.4
       sharpness: 0.3
     - !!plant
-      waterContent: 1.8
-      toughness: 4.5
+      waterContent: 0.8
+      toughness: 5.0
       sweet: 0.0
-      bitter: 4.0
-      sour: 1.0
+      bitter: 0.0
+      sour: 0.0
       salty: 0.0
       spicy: 0.0
       stomachEffect: 0.0
@@ -82,7 +81,7 @@
   itemCategories: 
     - !!solid
       flexibility: 0.2
-      durability: 4.5
+      durability: 0.5
       elasticity: 0.1
       stickiness: 0.1
       thickness: 0.4
@@ -94,6 +93,7 @@
    itemName: "Poor Fishing Rod"
    rarity: "common"
    types:
+    - "Advanced Tool"
     - "equipable"
    flavorText: "Not a very good fishing rod. Breaks easily."
    modifyingActionNames:
@@ -101,8 +101,8 @@
    actionModifiedSprites:
   itemCategories: 
     - !!solid
-      flexibility: 1.5
-      durability: 2
+      flexibility: 0.5
+      durability: 1
       elasticity: 0.1
       stickiness: 0
       thickness: 0.4
@@ -116,6 +116,7 @@
    inventorySprite: "GUI_ITM_MediumFishingRod"
    worldModel: "ITM/Fishing Rods/MediumFishingRod"
    types:
+    - "Advanced Tool"
     - "equipable"
    flavorText: "Pretty good fishing rod. Will last awhile."
    modifyingActionNames:
@@ -124,7 +125,7 @@
   itemCategories: 
     - !!solid
       flexibility: 1
-      durability: 3
+      durability: 5
       elasticity: 1
       stickiness: 0
       thickness: 2
@@ -138,6 +139,7 @@
    inventorySprite: "GUI_ITM_GoodFishingRod"
    worldModel: "ITM/Fishing Rods/GoodFishingRod"
    types:
+    - "Advanced Tool"
     - "equipable"
    flavorText: "Fantastic fishing rod! Best catches and last a long time!"
    modifyingActionNames:
@@ -146,7 +148,7 @@
   itemCategories: 
     - !!solid
       flexibility: 2
-      durability: 5
+      durability: 20
       elasticity: 2
       stickiness: 0
       thickness: 2
@@ -185,8 +187,8 @@
    actionModifiedSprites:
   itemCategories: 
     - !!cloth
-      threadDensity: 3
-      impermiability: 2
+      threadDensity: 1
+      impermiability: 0.5
       fabricThickness: 2
       onPlayer: 0
 - itemName: "Excellent Woven Blanket"
@@ -203,9 +205,9 @@
    actionModifiedSprites:
   itemCategories: 
     - !!cloth
-      threadDensity: 4
+      threadDensity: 2.5
       impermiability: 3
-      fabricThickness: 3.5
+      fabricThickness: 2.5
       onPlayer: 0
 - itemName: "Medicine Box"
   baseItem: 
@@ -221,7 +223,7 @@
    actionModifiedSprites:
   itemCategories:
     - !!medicine
-      healthGain: 30.0
+      healthGain: 0.0
       sickness: "all"
 - itemName: "Bandage"
   baseItem:
@@ -237,7 +239,7 @@
    actionModifiedSprites:
   itemCategories:
     - !!medicine
-      healthGain: 10.0
+      healthGain: 20.0
       sickness: “none”
 - itemName: "Egg"
   baseItem:
@@ -319,19 +321,6 @@
     - !!fireBase
       burnRateMultiplier: 0.9
       startingFuel: 60.0
-- itemName: "Rope Bound Knife"
-  baseItem:
-   itemName: "Rope Bound Knife"
-   rarity: "uncommon"
-   inventorySprite: "GUI_ITM_Knife"
-   worldModel: "ITM/Tools/ITM_Knife"
-   types:
-    - "blade"
-   flavorText: "A knife made by wrapping rope around one end."
-   modifyingActionNames:
-   actionModifiedModels:
-   actionModifiedSprites:
-  itemCategories:
 - itemName: "Match"
   baseItem: 
    itemName: "Match"
@@ -419,39 +408,19 @@
    inventorySprite: "GUI_ITM_ScrapMetal"
    worldModel: "ITM/Raw Materials/ITM_ScrapMetal"
    types:
-    - "base solid"
+    - "floatable object"
    flavorText: "Leftover metal. Would be good for crafting tools."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
   itemCategories: 
     - !!solid
-      flexibility: 0.1
-      durability: 4
+      flexibility: 0.5
+      durability: 1
       elasticity: 0.1
       stickiness: 0
-      thickness: 0.5
-      sharpness: 1
-- itemName: "Wood Plank"
-  baseItem: 
-   itemName: "Wood Plank"
-   rarity: "common"
-   inventorySprite: "GUI_ITM_WoodPlank"
-   worldModel: "ITM/WoodPlanks/ITM_WoodPlank1"
-   types:
-    - "floatable object"
-   flavorText: "A piece of wood."
-   modifyingActionNames:
-   actionModifiedModels:
-   actionModifiedSprites:
-  itemCategories: 
-    - !!solid
-      flexibility: 0.1
-      durability: 4
-      elasticity: 0.1
-      stickiness: 0
-      thickness: 0.5
-      sharpness: 1
+      thickness: 0.4
+      sharpness: 0.3
 - itemName: "Golf Club"
   baseItem: 
    itemName: "Golf Club"
@@ -547,8 +516,10 @@
     - !!solid
       flexibility: 0.5
       durability: 1
+      elasticity: 0.1
       stickiness: 0
       thickness: 0.4
+      sharpness: 0.3
 - itemName: "Good Raft"
   baseItem:
    itemName: "Good Raft"
@@ -567,13 +538,15 @@
     - !!solid
       flexibility: 0.5
       durability: 1
+      elasticity: 0.1
       stickiness: 0
       thickness: 0.4
+      sharpness: 0.3
 - itemName: "Excellent Raft"
   baseItem:
    itemName: "Excellent Raft"
    rarity: "common"
-   inventorySprite: "GUI_ITM_WoodPlank"
+   inventorySprite: "GUI_ITM_Wood Plank"
    worldModel: "ITM/Rafts/ITM_TopTier_Raft"
    types:
      - "advanced tool"
@@ -587,17 +560,7 @@
     - !!solid
       flexibility: 0.5
       durability: 1
+      elasticity: 0.1
       stickiness: 0
       thickness: 0.4
-- itemName: "Idol of Yam"
-  baseItem: 
-   itemName: "Idol of Yam"
-   rarity: "rare"
-   inventorySprite: "GUI_ITM_BlueSpottedGrouper"
-   worldModel: "ITM/Ropes/ITM_FishRelic"
-   types:
-    - "equipable"
-   flavorText: "A token of prayer to the god that slew the sea serpent."
-  itemCategories:
-    - !!idol
-      benefitName: "Warmth"
+      sharpness: 0.3
