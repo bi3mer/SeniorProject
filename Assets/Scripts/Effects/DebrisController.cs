@@ -107,18 +107,16 @@ public class DebrisController : MonoBehaviour
 	/// </summary>
 	private void UpdateParticleSystem()
 	{
-		// Set Debris Emission to be multiplied by a given value. At 200 emission we almost max out particles.
 		ParticleSystem.EmissionModule DebrisEmission = Debris.emission;
-		DebrisEmission.rate = debrisLevel * debrisMultiplier;
 
-		// Set the Debris emission rate, if it's less than the threshold turn off emission.
+		// Set the Debris emission rate, if it's less than the threshold turn off emission. If not, multiply it by a given value.
 		if (DebrisLevel < DebrisStartThreshold)
 		{
 			DebrisEmission.rate = 0f;
 		}
 		else
 		{
-			DebrisEmission.rate = DebrisLevel;
+			DebrisEmission.rate = debrisLevel * debrisMultiplier;
 		}
 
 		// Set the wind speed via velocity over lifetime

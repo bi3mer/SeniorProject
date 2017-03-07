@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17129868, g: 0.20810539, b: 0.29897428, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -412,11 +412,6 @@ Prefab:
       propertyPath: action.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 61620508}
-    - target: {fileID: 114000013851649318, guid: 69b891bdd4fb7cf498133d688d62ad64,
-        type: 2}
-      propertyPath: action.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: BoardRaft
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 69b891bdd4fb7cf498133d688d62ad64, type: 2}
   m_IsPrefabParent: 0
@@ -1013,16 +1008,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114000010221364680, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
-        type: 2}
-      propertyPath: activePool
-      value: 
-      objectReference: {fileID: 1483490350}
-    - target: {fileID: 114000010221364680, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
-        type: 2}
-      propertyPath: inactivePool
-      value: 
-      objectReference: {fileID: 878818695}
     - target: {fileID: 114000014275874900, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
         type: 2}
       propertyPath: TestDistrict.districtProceduralMaterials.Array.data[0]
@@ -1188,6 +1173,16 @@ Prefab:
       propertyPath: TestDistrict.districtProceduralWindowMaterials.Array.data[2]
       value: 
       objectReference: {fileID: 1055003845}
+    - target: {fileID: 114000010221364680, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+        type: 2}
+      propertyPath: activePool
+      value: 
+      objectReference: {fileID: 1483490350}
+    - target: {fileID: 114000010221364680, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+        type: 2}
+      propertyPath: inactivePool
+      value: 
+      objectReference: {fileID: 878818695}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d, type: 2}
   m_IsPrefabParent: 0
@@ -2195,7 +2190,7 @@ Prefab:
     - target: {fileID: 224000013501597012, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 110.66114
+      value: 111.53324
       objectReference: {fileID: 0}
     - target: {fileID: 224000013501597012, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
@@ -2205,7 +2200,7 @@ Prefab:
     - target: {fileID: 224000013501597012, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 211.32228
+      value: 213.06648
       objectReference: {fileID: 0}
     - target: {fileID: 224000013501597012, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
@@ -2225,7 +2220,7 @@ Prefab:
     - target: {fileID: 224000010987891812, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 110.66114
+      value: 111.53324
       objectReference: {fileID: 0}
     - target: {fileID: 224000010987891812, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
@@ -2235,7 +2230,7 @@ Prefab:
     - target: {fileID: 224000010987891812, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 211.32228
+      value: 213.06648
       objectReference: {fileID: 0}
     - target: {fileID: 224000010987891812, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
@@ -2245,7 +2240,7 @@ Prefab:
     - target: {fileID: 224000012494265652, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -48.734467
       objectReference: {fileID: 0}
     - target: {fileID: 224000011312386572, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
@@ -2265,7 +2260,7 @@ Prefab:
     - target: {fileID: 224000012046483300, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: -9.907455
+      value: -12.267105
       objectReference: {fileID: 0}
     - target: {fileID: 224000013138705168, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
@@ -2526,7 +2521,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000012163821502, guid: 4d0db4ff21e6e0448843b49e49cdab4b, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4.1
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4000012163821502, guid: 4d0db4ff21e6e0448843b49e49cdab4b, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2993,6 +2988,48 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
+--- !u!1001 &981670008
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400010, guid: 2cea168450a79486e94c931fe953714a, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2cea168450a79486e94c931fe953714a, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2cea168450a79486e94c931fe953714a, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2cea168450a79486e94c931fe953714a, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2cea168450a79486e94c931fe953714a, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2cea168450a79486e94c931fe953714a, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2cea168450a79486e94c931fe953714a, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2cea168450a79486e94c931fe953714a, type: 2}
+      propertyPath: m_RootOrder
+      value: 15
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 2cea168450a79486e94c931fe953714a, type: 2}
+  m_IsPrefabParent: 0
 --- !u!21 &1055003845
 Material:
   serializedVersion: 6
@@ -4590,37 +4627,37 @@ Prefab:
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationX.scalar
-      value: 0.013637403
+      value: -0.042667918
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationY.scalar
-      value: -0.033541366
+      value: -0.0040021488
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: EmissionModule.rate.scalar
-      value: 43.688324
+      value: 49.01273
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: 1.9217787
+      value: 0.22930624
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.y.scalar
-      value: 0.78136563
+      value: -2.4446917
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: 0.7687115
+      value: 0.091722496
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.z.scalar
-      value: 0.31254625
+      value: -0.97787666
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ecc262ca63bb3d54ba8476a9fa126d5c, type: 2}
