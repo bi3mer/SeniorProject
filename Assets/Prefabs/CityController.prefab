@@ -99,8 +99,7 @@ MonoBehaviour:
   heightJitter: 0.1
   buildingScale: 1
   maxPlacementTries: 3
-  CityCenterBuilding: {fileID: 1000012943341336, guid: 9ba31da0e553b1a4d88ccb9db0377693,
-    type: 2}
+  CityCenterBuilding: {fileID: 100000, guid: 5e50794d6a3810a4fbdfc912c2f2e6f6, type: 3}
 --- !u!114 &114000011626432178
 MonoBehaviour:
   m_ObjectHideFlags: 1
