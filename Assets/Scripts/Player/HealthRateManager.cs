@@ -55,7 +55,7 @@ public class HealthRateManager : StatRate
 	}
 
 	/// <summary>
-	/// Uses the hunge zero health reduction rate.
+	/// Uses the hunger zero health reduction rate.
 	/// </summary>
 	public void UseHungerZeroHealthReductionRate()
 	{
