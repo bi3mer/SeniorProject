@@ -1088,7 +1088,7 @@ public class PlayerController : MonoBehaviour
 
 
     /// <summary>
-    /// Makes the player behave like they're on land. Called when the player teleports.
+    /// Makes the player behave like they're on land. Called when the player teleports. Or by other things that'd move the player to be on land.
     /// </summary>
     public void SetIsOnLand()
     {

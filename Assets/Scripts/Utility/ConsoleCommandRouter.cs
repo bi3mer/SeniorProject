@@ -176,7 +176,10 @@ public class ConsoleCommandRouter : MonoBehaviour
 	}
 
 
-
+    /// <summary>
+    /// Teleports the player to a gameobject.
+    /// </summary>
+    /// <param name="args">Arguments</param>
     public string TeleportToEnding(params string[] args)
     {
         Game.Instance.PlayerInstance.Controller.transform.position = tallestBuildingTeleportLocation.transform.position;
@@ -184,7 +187,10 @@ public class ConsoleCommandRouter : MonoBehaviour
         return "You're at the ending now champ";
     }
 
-
+    /// <summary>
+    /// Sets the player's health to a number
+    /// </summary>
+    /// <param name="args">Arguments</param>
     public string SetHealth(params string[] args)
     {
         Game.Instance.PlayerInstance.Health = int.Parse(args[0]);
