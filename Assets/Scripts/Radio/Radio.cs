@@ -294,6 +294,21 @@ public class Radio : MonoBehaviour
 				weather.Stop ();
 			}
 
+			if (this.CurrentChannel == RadioChannel.Music)
+			{
+
+				if (channel == RadioChannel.Music) 
+				{
+					Game.Instance.EventManager.RadioMusicTurnedOn ();
+				} 
+				else 
+				{
+					Game.Instance.EventManager.RadioMusicTurnedOff ();
+				}
+
+
+			}
+
 			this.CurrentChannel = channel;
 		}
 	}

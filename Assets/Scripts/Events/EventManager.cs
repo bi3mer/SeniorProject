@@ -28,6 +28,11 @@ public class EventManager
 	public event WeatherUpdatedDelegate WeatherUpdatedSubscription;
 	public delegate void WeatherUpdatedDelegate(float precipitation);
 
+	/// <summary>
+	/// Radio music channel event
+	/// </summary>
+	public event RadioMusicDelegate RadioMusicSubscription;
+	public delegate void RadioMusicDelegate(bool turnedOn);
 
 	/// <summary>
 	/// Storm start function called by WeatherSystem. Notifies StormStartedSubscription subscribers.
@@ -70,6 +75,29 @@ public class EventManager
 		if (WeatherUpdatedSubscription != null) 
 		{
 			WeatherUpdatedSubscription (precipitation);
+		}
+	}
+
+
+	/// <summary>
+	/// Radio music turned on function called by Radio. Notifies RadioMusicSubscription subscribers.
+	/// </summary>
+	public void RadioMusicTurnedOn()
+	{
+		if (RadioMusicSubscription != null) 
+		{
+			RadioMusicSubscription (true);
+		}
+	}
+
+	/// <summary>
+	/// Radio music turned off function called by Radio. Notifies RadioMusicSubscription subscribers.
+	/// </summary>
+	public void RadioMusicTurnedOff()
+	{
+		if (RadioMusicSubscription != null) 
+		{
+			RadioMusicSubscription (false);
 		}
 	}
 }

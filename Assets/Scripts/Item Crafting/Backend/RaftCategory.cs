@@ -15,8 +15,13 @@ public class RaftCategory : ItemCategory
         set;
     }
 
+    private float byWater;
+
+    private const string byWaterAttrName = "by water";
     private const string speedAttrName = "speed";
     private string setDownActName = "Set Down";
+
+    private const float isByWaterThreshold = 1f;
 
     /// <summary>
     /// Creates a copy of this raft category.
@@ -32,8 +37,6 @@ public class RaftCategory : ItemCategory
         category.Attributes = new List<Attribute>();
 
         ItemAction setDown = new ItemAction(setDownActName, new UnityAction(category.SetDown));
-
-        category.Actions.Add(setDown);
 
         finishDuplication(category);
 
@@ -51,7 +54,20 @@ public class RaftCategory : ItemCategory
 
         Actions = new List<ItemAction>();
 
+        if (Game.Instance.PlayerInstance.Controller.IsWaterInView)
+        {
+            byWater = 1f;
+        }
+        else
+        {
+            byWater = 0;
+        }
+
         ItemAction setDown = new ItemAction(setDownActName, new UnityAction(SetDown));
+        ItemCondition setDownCondition = new ItemCondition(byWaterAttrName, isByWaterThreshold, new BooleanOperator.BooleanOperatorDelegate(BooleanOperator.Equal));
+
+        setDown.Conditions.Add(setDownCondition);
+
         Actions.Add(setDown);
     }
 
