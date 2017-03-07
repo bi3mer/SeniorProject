@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class RaftInteractable : InteractableObject {
     [SerializeField]
