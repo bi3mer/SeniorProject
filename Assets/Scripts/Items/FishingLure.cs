@@ -63,9 +63,7 @@ public class FishingLure: MonoBehaviour
                 bobHeight = Mathf.Lerp(minBobHeight, maxBobHeight, Mathf.Abs(Mathf.Cos(Time.time)));
 
                 // Drift with wind
-                Vector3 velocity = Game.Instance.WeatherInstance.WindDirection3d;
-                velocity.y = 0f;
-                rbody.velocity = velocity * driftSpeed * Time.deltaTime;
+                rbody.velocity = Game.Instance.WeatherInstance.WindDirection3d * driftSpeed * Time.deltaTime;
             }
         }
     }
