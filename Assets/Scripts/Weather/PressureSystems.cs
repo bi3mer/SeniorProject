@@ -163,6 +163,25 @@ public class PressureSystems
 	}
 
 	/// <summary>
+	/// Return a list of low pressure systems.
+	/// </summary>
+	/// <returns>The pressure systems.</returns>
+	public List<PressureSystem> LowPressureSystems()
+	{
+		List<PressureSystem> lowPressureSystems = new List<PressureSystem>();
+
+		for(int i = 0; i < this.LocalPressureSystems.Count; ++i)
+		{
+			if(this.LocalPressureSystems[i].IsHighPressure == false)
+			{
+				lowPressureSystems.Add(this.LocalPressureSystems[i]);
+			}
+		}
+
+		return lowPressureSystems;
+	}
+
+	/// <summary>
 	/// Calculates the perpindicular vector to the vector passed in.
 	/// </summary>
 	/// <returns>The perpindicular vector.</returns>

@@ -61,6 +61,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private string roofFootstepSoundEvent = "event:/Player/Movement/Walking/Concrete";
 
+    public bool IsGrounded
+    {
+        get
+        {
+            return isGrounded;
+        }
+    }
     private bool isGrounded;
     private bool updateStats;
     private bool isFlying;
@@ -143,6 +150,11 @@ public class PlayerController : MonoBehaviour
     // If true, the player won't be able to move. Used when the player is being moved by some other means, like a cutscene or climbing
     private bool freezePlayer;
 
+    /// <summary>
+    /// If true, the camera can not be moved. Used during pause.
+    /// </summary>
+    private bool freezeCamera;
+
     // Some Animator tags
     private const string playerAnimatorTurn = "Turn";
     private const string playerAnimatorForward = "Forward";
@@ -208,6 +220,7 @@ public class PlayerController : MonoBehaviour
         Game.Instance.DebugModeSubscription += this.toggleDebugMode;
         Game.Instance.PauseInstance.ResumeUpdate += this.Resume;
         Game.Instance.PauseInstance.PauseUpdate += this.Pause;
+        Game.Instance.PauseInstance.MenuPauseUpdate += this.MenuPause;
 
         // create event emitter
         eventEmitter = FMODUnity.RuntimeManager.CreateInstance(roofFootstepSoundEvent);
@@ -252,24 +265,27 @@ public class PlayerController : MonoBehaviour
         UpdatePlayerStats();
         FindVisibleInteractables();
 
-        // check for camera related input
-        if (Input.GetKeyDown(controlScheme.CameraLeft))
+        if(!freezeCamera)
         {
-            playerCamera.RotateLeft();
-        }
-        if (Input.GetKeyDown(controlScheme.CameraRight))
-        {
-            playerCamera.RotateRight();
-        }
-        if (Input.GetKey(controlScheme.CameraZoomInKey))
-        {
-            playerCamera.Zoom(buttonZoomAmount);
-        }
-        if (Input.GetKey(controlScheme.CameraZoomOutKey))
-        {
-            playerCamera.Zoom(-buttonZoomAmount);
-        }
-        playerCamera.Zoom(Input.GetAxis(controlScheme.CameraZoomAxis));
+	        // check for camera related input
+	        if (Input.GetKeyDown(controlScheme.CameraLeft))
+	        {
+	            playerCamera.RotateLeft();
+	        }
+	        if (Input.GetKeyDown(controlScheme.CameraRight))
+	        {
+	            playerCamera.RotateRight();
+	        }
+	        if (Input.GetKey(controlScheme.CameraZoomInKey))
+	        {
+	            playerCamera.Zoom(buttonZoomAmount);
+	        }
+	        if (Input.GetKey(controlScheme.CameraZoomOutKey))
+	        {
+	            playerCamera.Zoom(-buttonZoomAmount);
+	        }
+	        playerCamera.Zoom(Input.GetAxis(controlScheme.CameraZoomAxis));
+	    }
 
         if (!freezePlayer)
         {
@@ -364,8 +380,12 @@ public class PlayerController : MonoBehaviour
             if (direction != Vector3.zero)
             {
                 movement.Move(direction, sprinting, playerAnimator);
-                eventEmitter.setPitch(movement.Speed);
-                StartWalkingSound();
+
+				if (isGrounded) 
+				{
+					eventEmitter.setPitch (movement.Speed);
+					StartWalkingSound ();
+				}
             }
             else
             {
@@ -495,10 +515,6 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool(playerAnimatorSwimming, true);
             return;
         }
-        else if (movement == waterMovement)
-        {
-            isGrounded = true;
-        }
         else if (IsOnRaft)
         {
             PlayerAnimator.SetBool(playerAnimatorFalling, false);
@@ -508,7 +524,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
         else
-        {
+        { 
             // Check if the player is close enough to the ground
             RaycastHit hit;
             // We have to raycast SLIGHTLY above the player's bottom. Because if we start at the bottom there's a good chance it'll end up going through the ground.
@@ -517,7 +533,7 @@ public class PlayerController : MonoBehaviour
                 isGrounded = true;
                 playerAnimator.SetBool(playerAnimatorFalling, false);
                 // update movement
-                if (hit.collider.CompareTag(landTag) && movement != landMovement && !belowWater)
+                if (hit.collider.gameObject.layer == groundedMask && movement != landMovement && !belowWater)
                 {
                     playerAnimator.SetBool(playerAnimatorSwimming, false);
                     movement.Idle(playerAnimator);
@@ -526,10 +542,14 @@ public class PlayerController : MonoBehaviour
                     movement.OnStateEnter();
                 }
             }
-            else
+            else if(!belowWater)
             {
                 isGrounded = false;
                 playerAnimator.SetBool(playerAnimatorFalling, true);
+            }
+            else
+            {
+                isGrounded = true;
             }
         }
     }
@@ -564,7 +584,11 @@ public class PlayerController : MonoBehaviour
     /// <param name="raftMovement"></param>
     public void DisembarkRaft(RaftMovement raftMovement)
     {
-        movement = waterMovement;
+        movement = landMovement;
+        PlayerAnimator.SetBool(playerAnimatorFalling, false);
+        PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
+        PlayerAnimator.SetBool(playerAnimatorSwimming, false);
+        PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
         transform.parent = defaultParent;
 
         // update raft's interactivity
@@ -776,8 +800,11 @@ public class PlayerController : MonoBehaviour
     public void Resume()
     {
         updateStats = true;
+		freezePlayer = false;
+		freezeCamera = false;
 
-        // TODO: Resume any other stopped preccesses
+		StartCoroutine(UpdateHunger());
+		StartCoroutine(UpdateWarmth());
     }
 
     /// <summary>
@@ -786,8 +813,16 @@ public class PlayerController : MonoBehaviour
     public void Pause()
     {
         updateStats = false;
+		MenuPause();
+    }
 
-        // TODO: Stop any needed processes
+    /// <summary>
+    /// Handles the pausing for menus.
+    /// </summary>
+    public void MenuPause()
+    {
+		freezePlayer = true;
+		freezeCamera = true;
     }
 
     /// <summary>
@@ -848,21 +883,10 @@ public class PlayerController : MonoBehaviour
         handHolder = lH.parent;
 
         // Raycast to see if there is a ledge in front of the player.
-        RaycastHit hit1, hit2, hit3, heightPoint;
+        RaycastHit hit1 = new RaycastHit(), hit2 = new RaycastHit(), hit3 = new RaycastHit(), heightPoint = new RaycastHit();
 
-        // Raycasts to the wall, if any of these casts fail we can't climb...
-        // Raycast order is Right hand, left hand, player center, then we find out if the ledge's height is within our max climb height
-        // The second to last cast uses a 9999f to represent a height above everything.
-        // The last raycast is to check to make sure there's no cieling above us to prevent climbing while indoors.
-        // Lastly check to make sure the ledge's height is within the max climb height for the movement type, and then make sure it's greater than the controller's step offset (this prevents climbing up things the player can just walk over)
-        if (Physics.Raycast(rH.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), rH.transform.forward, out hit1, climbDistance, ClimbingRaycastMask) &&
-            Physics.Raycast(lH.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), lH.transform.forward, out hit3, climbDistance, ClimbingRaycastMask) &&
-            Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), PlayerIKSetUp.transform.forward, out hit2, climbDistance, ClimbingRaycastMask) &&
-            Physics.Raycast(hit2.point + new Vector3(0f, 9999f, 0f) + PlayerIKSetUp.transform.forward * raycastClimbForward, Vector3.down, out heightPoint, Mathf.Infinity, ClimbingRaycastMask) &&
-            !Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), Vector3.up, Vector3.Distance(PlayerIKSetUp.transform.position, heightPoint.point), ClimbingRaycastMask) &&
-            movement.GetClimbHeight() > heightPoint.point.y - PlayerIKSetUp.transform.position.y &&
-            Mathf.Abs(heightPoint.point.y - PlayerIKSetUp.transform.position.y) > minClimbHeight
-            )
+     
+        if (ClimbingRaycasts(lH, rH, ref hit1, ref hit2, ref hit3, ref heightPoint))
         {
             // From here on out things get complicated. The following math is used to get the angle needed to rotate the player to face the wall.
             float cLine, l1, l2, l3, d1, a1, p, d2;
@@ -954,6 +978,40 @@ public class PlayerController : MonoBehaviour
         {
             freezePlayer = false;
             movement.Jump(playerAnimator);
+        }
+    }
+
+    /// <summary>
+    /// Raycasts to the wall, if any of these casts fail we can't climb...
+    /// Raycast order is Right hand, left hand, player center, then we find out if the ledge's height is within our max climb height
+    /// The second to last cast uses a 9999f to represent a height above everything.
+    /// The last raycast is to check to make sure there's no cieling above us to prevent climbing while indoors.
+    /// Lastly check to make sure the ledge's height is within the max climb height for the movement type, and then make sure it's greater than the controller's step offset (this prevents climbing up things the player can just walk over)
+    /// </summary>
+    /// <param name="lH">The left hand's transform</param>
+    /// <param name="rH">The right hand's transform</param>
+    /// <param name="hit1">first raycast hit</param>
+    /// <param name="hit2">second raycast hit</param>
+    /// <param name="hit3">third raycast hit</param>
+    /// <param name="heightPoint">fourth raycast hit</param>
+    /// <returns></returns>
+    private bool ClimbingRaycasts(Transform lH, Transform rH, ref RaycastHit hit1, ref RaycastHit hit2, ref RaycastHit hit3, ref RaycastHit heightPoint)
+    {
+        if (
+            Physics.Raycast(rH.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), rH.transform.forward, out hit1, climbDistance, ClimbingRaycastMask, QueryTriggerInteraction.Ignore) &&
+            Physics.Raycast(lH.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), lH.transform.forward, out hit3, climbDistance, ClimbingRaycastMask, QueryTriggerInteraction.Ignore) &&
+            Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), PlayerIKSetUp.transform.forward, out hit2, climbDistance, ClimbingRaycastMask, QueryTriggerInteraction.Ignore) &&
+            Physics.Raycast(hit2.point + new Vector3(0f, 9999f, 0f) + PlayerIKSetUp.transform.forward * raycastClimbForward, Vector3.down, out heightPoint, Mathf.Infinity, ClimbingRaycastMask, QueryTriggerInteraction.Ignore) &&
+            !Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), Vector3.up, Vector3.Distance(PlayerIKSetUp.transform.position, heightPoint.point), ClimbingRaycastMask, QueryTriggerInteraction.Ignore) &&
+            movement.GetClimbHeight() > heightPoint.point.y - PlayerIKSetUp.transform.position.y &&
+            Mathf.Abs(heightPoint.point.y - PlayerIKSetUp.transform.position.y) > minClimbHeight
+        )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

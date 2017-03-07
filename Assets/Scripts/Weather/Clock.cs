@@ -14,6 +14,12 @@ public class Clock : MonoBehaviour
 	[Tooltip("Should the clock in the scene stop updating the weather")]
 	private bool freezeWeatherUpdates;
 
+	public float Tick
+	{
+		get;
+		private set;
+	}
+
 	/// <summary>
 	/// The twenty four hours.
 	/// </summary>
@@ -99,13 +105,15 @@ public class Clock : MonoBehaviour
 	/// </summary>
 	void Awake() 
 	{
+		this.Tick = this.tick;
+
 		this.CurrentTime = 0f;
 
 		// 60 minutes in an hour
-		this.Hour = this.tick * 60f;
+		this.Hour = this.Tick * 60f;
 
 		// 1440 minutes in a day
-		this.TwentyFourHours = this.tick * 1440f;
+		this.TwentyFourHours = this.Tick * 1440f;
 
 		// divide hour by 2 to get half an hour
 		this.HalfHour = this.Hour / 2f;
@@ -155,11 +163,11 @@ public class Clock : MonoBehaviour
 		}
 
 		// update time
-		this.CurrentTime += Time.deltaTime / this.tick;
+		this.CurrentTime += Time.deltaTime / this.Tick;
 
-		if(this.lastGameSecond + this.tick < this.CurrentTime)
+		if(this.lastGameSecond + this.Tick < this.CurrentTime)
 		{
-			this.lastGameSecond += this.tick;
+			this.lastGameSecond += this.Tick;
 
 			if(this.CurrentTime >= this.TwentyFourHours)
 			{

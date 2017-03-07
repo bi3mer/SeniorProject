@@ -66,7 +66,12 @@ public class WeatherSystem
 	// Precipitation flag for storm and delegates for beginning of storm and end
 	private const float minPrecipitationForStorm = 20f;
 
+	// possible vectors for 8 directions
+	private readonly Vector2[] defaultDirectionVector = new Vector2[] {new Vector2(0,0), new Vector2(1,1), new Vector2(0,1), new Vector2(-1,1),
+	                                                                   new Vector2(-1,0), new Vector2(-1,-1), new Vector2(0,-1), new Vector2(1,-1)};
+
 	private bool ongoingStorm = false;
+	private bool updateWeather = true;
 
 	/// <summary>
 	/// Gets the wind direction in 2d.
@@ -92,6 +97,29 @@ public class WeatherSystem
 			return new Vector3(this.WeatherInformation[(int) Weather.WindSpeedX],
 			                   0,
 			                   this.WeatherInformation[(int) Weather.WindSpeedY]);
+		}
+	}
+
+	/// <summary>
+	/// Gets the cartesian wind direction2d. 
+	/// </summary>
+	/// <value>The cartesian wind direction2d.</value>
+	public Vector2 NormalizedOctantWindDirection2d
+	{
+		get
+		{
+			const int numDirections = 8;
+			const float twoPi       = 2f * Mathf.PI;
+
+			Vector2 wind = this.WindDirection2d;
+
+			// positive angle of vector in degrees
+			float angle = (Mathf.Atan2(wind.y, wind.x) + twoPi) % twoPi;
+
+			// conver the angle to one of 8 directions
+			int index = Mathf.RoundToInt(((numDirections * angle) / twoPi)) % numDirections;
+
+			return defaultDirectionVector[index];
 		}
 	}
 
@@ -387,6 +415,22 @@ public class WeatherSystem
 	}
 
 	/// <summary>
+	/// Enables the weather updates.
+	/// </summary>
+	public void EnableWeather()
+	{
+		updateWeather = true;
+	}
+
+	/// <summary>
+	/// Disables the weather updates.
+	/// </summary>
+	public void DisableWeather()
+	{
+		updateWeather = false;
+	}
+
+	/// <summary>
 	/// Returns a <see cref="System.String"/> that represents the current <see cref="WeatherSystem"/>.
 	/// </summary>
 	/// <returns>A <see cref="System.String"/> that represents the current <see cref="WeatherSystem"/>.</returns>
@@ -411,14 +455,19 @@ public class WeatherSystem
 	/// </summary>
 	public void UpdateSystem()
 	{
-		this.WeatherPressureSystems.UpdatePressureSystem();
-		this.UpdateWeather(Game.Instance.PlayerInstance.WorldTransform.position);
+		if(updateWeather)
+		{
+			this.WeatherPressureSystems.UpdatePressureSystem();
+			this.UpdateWeather(Game.Instance.PlayerInstance.WorldTransform.position);
+		}
 	}
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WeatherSystem"/> class.
 	/// </summary>
-	public WeatherSystem(CityBoundaries bounds)
+	/// <param name="bounds">Bounds of the city.</param>
+	/// <param name="pauseController">Pause system instance.</param>
+	public WeatherSystem(CityBoundaries bounds, PauseSystem pauseController)
 	{
 #if UNITY_EDITOR
 		if(!Application.isPlaying)
@@ -429,5 +478,7 @@ public class WeatherSystem
 
 		this.WeatherInformation = new float[Weather.GetNames(typeof(Weather)).Length];
 		this.WeatherPressureSystems = new PressureSystems(bounds);
+		pauseController.PauseUpdate += DisableWeather;
+		pauseController.ResumeUpdate += EnableWeather;
 	}
 }
