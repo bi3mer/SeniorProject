@@ -14,9 +14,11 @@ public class RaftCategory : ItemCategory
         get;
         set;
     }
-
+ 
     private const string speedAttrName = "speed";
     private string setDownActName = "Set Down";
+
+    private const float byWaterThreshold = 1f;
 
     /// <summary>
     /// Creates a copy of this raft category.
@@ -29,11 +31,12 @@ public class RaftCategory : ItemCategory
         category.Actions = new List<ItemAction>();
         category.Attributes = new List<Attribute>();
 
-        ItemAction setDown = new ItemAction(setDownActName, new UnityAction(SetDown));
-
-        category.Actions.Add(setDown);
-
         category.Speed = Speed;
+        if (Game.Instance.PlayerInstance.Controller.IsWaterInView)
+        {
+            ItemAction setDown = new ItemAction(setDownActName, new UnityAction(category.SetDown));
+            category.Actions.Add(setDown);
+        }
 
         finishDuplication(category);
 
@@ -46,14 +49,9 @@ public class RaftCategory : ItemCategory
     public override void ReadyCategory()
     {
         Attributes = new List<Attribute>();
-
         Attributes.Add(new Attribute(speedAttrName, Speed));
 
         Actions = new List<ItemAction>();
-
-        ItemAction setDown = new ItemAction(setDownActName, new UnityAction(SetDown));
-
-        Actions.Add(setDown);
     }
 
     /// <summary>
