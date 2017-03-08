@@ -1906,13 +1906,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   climbHeight: 0.75
-  swimmingSpeed: 0.4
+  swimmingSpeed: 0.6
   minFallDamageVelocity: 8
   fallDamageModifier: 0.5
   SplashManager: {fileID: 0}
-  splashSize: 5
+  splashSize: 20
   splashSpeed: 0.5
-  swimmingHeight: 0.31
+  swimmingHeight: 0.29
 --- !u!114 &114000012874215022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1927,7 +1927,7 @@ MonoBehaviour:
   climbHeight: 1
   walkingSpeed: 0.6
   sprintingSpeed: 1
-  jumpForce: 1.3
+  jumpForce: 1.6
   minFallDamageVelocity: 5
   fallDamageModifier: 1
   raycastHeight: 0.01
