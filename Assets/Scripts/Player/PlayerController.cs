@@ -385,6 +385,10 @@ public class PlayerController : MonoBehaviour
 				{
 					isWaterInView = true;
 				}
+                else
+                {
+                    isWaterInView = false;
+                }
 			}
         }
     }

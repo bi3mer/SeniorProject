@@ -15,13 +15,8 @@ public class RaftCategory : ItemCategory
         set;
     }
 
-    private float byWater;
-
-    private const string byWaterAttrName = "by water";
     private const string speedAttrName = "speed";
     private string setDownActName = "Set Down";
-
-    private const float isByWaterThreshold = 1f;
 
     /// <summary>
     /// Creates a copy of this raft category.
@@ -31,12 +26,14 @@ public class RaftCategory : ItemCategory
     {
         RaftCategory category = new RaftCategory();
 
-        category.Speed = Speed;
-
         category.Actions = new List<ItemAction>();
         category.Attributes = new List<Attribute>();
 
-        ItemAction setDown = new ItemAction(setDownActName, new UnityAction(category.SetDown));
+        ItemAction setDown = new ItemAction(setDownActName, new UnityAction(SetDown));
+
+        category.Actions.Add(setDown);
+
+        category.Speed = Speed;
 
         finishDuplication(category);
 
@@ -54,19 +51,7 @@ public class RaftCategory : ItemCategory
 
         Actions = new List<ItemAction>();
 
-        if (Game.Instance.PlayerInstance.Controller.IsWaterInView)
-        {
-            byWater = 1f;
-        }
-        else
-        {
-            byWater = 0;
-        }
-
         ItemAction setDown = new ItemAction(setDownActName, new UnityAction(SetDown));
-        ItemCondition setDownCondition = new ItemCondition(byWaterAttrName, isByWaterThreshold, new BooleanOperator.BooleanOperatorDelegate(BooleanOperator.Equal));
-
-        setDown.Conditions.Add(setDownCondition);
 
         Actions.Add(setDown);
     }
@@ -85,24 +70,15 @@ public class RaftCategory : ItemCategory
 
         item.name = baseItem.ItemName;
 
-        // place the raft away from character
-        item.transform.position = new Vector3(Game.Instance.PlayerInstance.WorldTransform.position.x, Game.Instance.PlayerInstance.WorldTransform.position.y, Game.Instance.PlayerInstance.WorldTransform.position.z + 3);
+        // place the raft in front of character
+        Vector3 playerPos = Game.Instance.PlayerInstance.WorldTransform.position;
+        Vector3 playerDir = Game.Instance.PlayerInstance.WorldTransform.forward;
+        float itemDist = 2f;
+        item.transform.position = playerPos + playerDir * itemDist;
         Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
 
         SetActionComplete(setDownActName);
 
         baseItem.RemovalFlag = true;
-    }
-
-    /// <summary>
-    /// Finds the closest place to place raft in water.
-    /// </summary>
-    /// <returns></returns>
-    public Vector3 FindClosestWater()
-    {
-        // TO DO: add a way to detect water.
-        Vector3 raftPosition = new Vector3(Game.Instance.PlayerInstance.WorldTransform.position.x, Game.Instance.PlayerInstance.WorldTransform.position.y, Game.Instance.PlayerInstance.WorldTransform.position.z); 
-
-        return raftPosition;
     }
 }
