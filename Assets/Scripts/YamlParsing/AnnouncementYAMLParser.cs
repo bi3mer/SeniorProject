@@ -13,7 +13,8 @@ public class AnnouncementYAMLParser
 	/// <summary>
 	/// The TTS filename.
 	/// </summary>
-	public string TTSFilename;
+	[SerializeField]
+	private string TTSFilename;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AnnouncementYAMLParser"/> class.

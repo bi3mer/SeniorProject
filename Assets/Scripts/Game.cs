@@ -15,7 +15,7 @@
 		Scheme = GameSettingsInstance.Scheme;
         Loader = new GameLoader();
         DeathManagerInstance = new DeathManager();
-		AnnouncementFactoryInstance = new AnnouncementFactory ();
+		announcementFactoryInstance = new AnnouncementFactory ();
 		WeatherInstance = new WeatherSystem(this.CityBounds, PauseInstance);
     }
 
@@ -291,7 +291,7 @@
 	/// Gets or sets the announcement factory instance.
 	/// </summary>
 	/// <value>The announcement factory instance.</value>
-	public AnnouncementFactory AnnouncementFactoryInstance 
+	private AnnouncementFactory announcementFactoryInstance 
 	{
 		get;
 		set;

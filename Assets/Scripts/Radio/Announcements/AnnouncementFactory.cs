@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using Crosstales.RTVoice;
+using System.IO;
 
 public class AnnouncementFactory
 {
@@ -34,6 +35,12 @@ public class AnnouncementFactory
 	/// The announcement parser.
 	/// </summary>
 	private AnnouncementYAMLParser announcementParser;
+
+	/// <summary>
+	/// The announcement folder path.
+	/// </summary>
+	[SerializeField]
+	private const string announcementFolderPath = "/Sounds/Announcements/";
 
 	/// <summary>
 	/// The mystery TTSYAML file path.
@@ -100,7 +107,7 @@ public class AnnouncementFactory
 		{
 			//TODO: allow rate, volume, and pitch to be set by YAML.
 			// Pipe the announcement to a new wav file
-			Speaker.Speak(AnnouncementDatabase[i].Text, loadingAudioSource, null, false, rate, volume, Application.dataPath + "/Sounds/Announcements/" + AnnouncementDatabase[i].EventPath, pitch);
+			Speaker.Speak(AnnouncementDatabase[i].Text, loadingAudioSource, null, false, rate, volume, Application.dataPath + announcementFolderPath + AnnouncementDatabase[i].EventPath, pitch);
 
 			// Add it to the correct database for use later
 			if (AnnouncementDatabase [i].Category == AnnouncementCategory.Location) 
