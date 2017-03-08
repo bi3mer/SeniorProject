@@ -1244,7 +1244,7 @@ MonoBehaviour:
   acceleration: 1.5
   maxSpeed: 1.2
   stopThreshold: 0.03
-  heightAboveWater: 0.015
+  heightAboveWater: -0.015
   BoardRaftText: (F) Board raft
   DisembarkRaftText: (F) Disembark raft
   PlayerAnimator: {fileID: 0}
