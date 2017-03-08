@@ -69,8 +69,8 @@ public class RaftCategory : ItemCategory
         item.name = baseItem.ItemName;
 
         // place the raft in front of character
-        Vector3 playerPos = Game.Instance.PlayerInstance.WorldTransform.position;
-        Vector3 playerDir = Game.Instance.PlayerInstance.WorldTransform.forward;
+        Vector3 playerPos = Game.Instance.PlayerInstance.Controller.PlayerAnimator.transform.position;
+        Vector3 playerDir = Game.Instance.PlayerInstance.Controller.PlayerAnimator.transform.forward;
         float itemDist = 2f;
         item.transform.position = playerPos + playerDir * itemDist;
         Game.Instance.ItemPoolInstance.AddItemFromWorld(item);

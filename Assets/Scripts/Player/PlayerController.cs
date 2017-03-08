@@ -688,6 +688,15 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the closest interactable item.
+    /// </summary>
+    /// <returns></returns>
+    public Collider ClosestItem()
+    {
+        return closestInteractable;
+    }
+
+    /// <summary>
     /// Returns true if the player is currently in a shelter
     /// </summary>
     public bool IsInShelter
