@@ -42,6 +42,7 @@ GameObject:
   - 114: {fileID: 114000011796935804}
   - 114: {fileID: 114000011684390236}
   - 114: {fileID: 114000010296232540}
+  - 114: {fileID: 114000010357929396}
   m_Layer: 0
   m_Name: WeatherEffects
   m_TagString: Untagged
@@ -587,6 +588,21 @@ MonoBehaviour:
   minGameTimeForLightningStrike: 10
   maxGameTimeForLightningStrike: 30
   lightingYSpawnOffset: 10
+--- !u!114 &114000010357929396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010414017512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
+  weatherIntensityDivisor: 10
+  maxWeatherVolume: 3
+  weatherVolume: 2
 --- !u!114 &114000010667489446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -664,10 +680,10 @@ MonoBehaviour:
   MainRain: {fileID: 198000010173776360}
   RainFog: {fileID: 198000011775040566}
   windMitigation: 8
-  rainLevel: 15.655032
+  rainLevel: 18.831518
   FogStartThreshold: 50
   fogMod: 0.5
-  windVectorXZ: {x: -1.1771258, y: -0.3021369}
+  windVectorXZ: {x: -1.4926523, y: 0.7084266}
   fogWindMod: 0.4
   splashManager: {fileID: 114000012391922068}
   splashSize: 0.4
@@ -1133,7 +1149,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationX:
-      scalar: 0.0052732835
+      scalar: -0.012364376
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1168,7 +1184,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationY:
-      scalar: 0.02054472
+      scalar: 0.026051696
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1267,7 +1283,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 31.310064
+      scalar: 37.663036
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1695,7 +1711,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: -1.1771258
+      scalar: -1.4926523
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1720,7 +1736,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     y:
-      scalar: 0.3021369
+      scalar: -0.7084266
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4907,19 +4923,19 @@ ParticleSystem:
       minMaxState: 0
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 16777215
         key1:
           serializedVersion: 2
           rgba: 4294967295
         key2:
           serializedVersion: 2
-          rgba: 0
+          rgba: 4278190080
         key3:
           serializedVersion: 2
           rgba: 0
@@ -4944,15 +4960,15 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 65535
-        atime2: 0
-        atime3: 0
+        atime1: 1311
+        atime2: 64224
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 2
+        m_NumAlphaKeys: 4
       minGradient:
         key0:
           serializedVersion: 2
@@ -5764,9 +5780,9 @@ ParticleSystem:
       minMaxState: 1
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 3
-    type: 0
+    type: 1
     collisionMode: 0
     plane0: {fileID: 0}
     plane1: {fileID: 0}
@@ -5810,7 +5826,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     m_Bounce:
-      scalar: 1
+      scalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -7867,7 +7883,7 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.4745098, g: 0.6313726, b: 0.7411765, a: 0.32941177}
+      maxColor: {r: 0.4745098, g: 0.6313726, b: 0.7411765, a: 0.039215688}
       minMaxState: 0
     startSize:
       scalar: 10
@@ -10240,7 +10256,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: -0.47085032
+      scalar: -0.5970609
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10290,7 +10306,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     z:
-      scalar: 0.12085476
+      scalar: -0.28337064
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -11769,19 +11785,19 @@ ParticleSystem:
       minMaxState: 0
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 16777215
         key1:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 2701131775
         key2:
           serializedVersion: 2
-          rgba: 0
+          rgba: 2684354560
         key3:
           serializedVersion: 2
           rgba: 0
@@ -11806,15 +11822,15 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 65535
-        atime2: 0
-        atime3: 0
-        atime4: 0
+        atime1: 1966
+        atime2: 63569
+        atime3: 65535
+        atime4: 65535
         atime5: 0
         atime6: 0
         atime7: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 2
+        m_NumAlphaKeys: 4
       minGradient:
         key0:
           serializedVersion: 2
@@ -12656,9 +12672,9 @@ ParticleSystem:
       minMaxState: 1
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 3
-    type: 0
+    type: 1
     collisionMode: 0
     plane0: {fileID: 0}
     plane1: {fileID: 0}
@@ -12702,7 +12718,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     m_Bounce:
-      scalar: 1
+      scalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -15225,19 +15241,19 @@ ParticleSystem:
       minMaxState: 0
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 16777215
         key1:
           serializedVersion: 2
           rgba: 4294967295
         key2:
           serializedVersion: 2
-          rgba: 0
+          rgba: 4278190080
         key3:
           serializedVersion: 2
           rgba: 0
@@ -15262,15 +15278,15 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 65535
-        atime2: 0
-        atime3: 0
+        atime1: 3277
+        atime2: 62258
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 2
+        m_NumAlphaKeys: 4
       minGradient:
         key0:
           serializedVersion: 2
@@ -16112,9 +16128,9 @@ ParticleSystem:
       minMaxState: 1
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 3
-    type: 0
+    type: 1
     collisionMode: 0
     plane0: {fileID: 0}
     plane1: {fileID: 0}
@@ -16158,7 +16174,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     m_Bounce:
-      scalar: 1
+      scalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
