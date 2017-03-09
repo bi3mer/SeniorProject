@@ -72,7 +72,7 @@ public class Lightning : MonoBehaviour
 		StartCoroutine(this.spawnNextLightningStrike());
 
 		// notify subscribers
-		Game.Instance.EventManager.WeatherLightningSubscription (this.lightningInstance.transform.position);
+		Game.Instance.EventManager.LightningStrike (this.lightningInstance.transform.position);
 	}
 
 	/// <summary>
