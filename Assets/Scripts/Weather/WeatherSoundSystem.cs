@@ -14,6 +14,17 @@ public class WeatherSoundSystem : MonoBehaviour
 	private FMOD.Studio.EventInstance weatherSounds;
 
 	/// <summary>
+	/// The lightning sound event path.
+	/// </summary>
+	[SerializeField]
+	private string LightningEventPath = "event:/Ambient/Weather/Basic_Thunder";
+
+	/// <summary>
+	/// The lightning sound event.
+	/// </summary>
+	private FMOD.Studio.EventInstance lightningSound;
+
+	/// <summary>
 	/// This divides the windSpeedMagnitude to give us the new volume of the base weather sound
 	/// </summary>
 	[SerializeField]
@@ -31,6 +42,13 @@ public class WeatherSoundSystem : MonoBehaviour
 	[SerializeField]
 	private float weatherVolume = 2.0f;
 
+
+	/// <summary>
+	/// The current lightning volume.
+	/// </summary>
+	[SerializeField]
+	private float lightningVolume = 2.0f;
+
 	/// <summary>
 	/// Starts the weather sounds.
 	/// </summary>
@@ -40,8 +58,12 @@ public class WeatherSoundSystem : MonoBehaviour
 		weatherSounds.setVolume (weatherVolume);
 		weatherSounds.start ();
 
+		lightningSound = FMODUnity.RuntimeManager.CreateInstance (LightningEventPath);
+		lightningSound.setVolume (lightningVolume);
+
 		// subscribe to event manager for weather updates
 		Game.Instance.EventManager.WeatherUpdatedSubscription += updateWeatherIntensity;
+		Game.Instance.EventManager.WeatherLightningSubscription += triggerLightning;
 	}
 
 	/// <summary>
@@ -57,5 +79,15 @@ public class WeatherSoundSystem : MonoBehaviour
 			weatherVolume = newWeatherVolume;
 			weatherSounds.setVolume (weatherVolume);
 		}
+	}
+
+
+	/// <summary>
+	/// Plays the lightning strike sound according to the location of the lightning.
+	/// </summary>
+	/// <param name="lightningPos">Lightning position.</param>
+	private void triggerLightning(Vector3 lightningPos)
+	{
+		lightningSound.start ();
 	}
 }
