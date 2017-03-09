@@ -23,12 +23,15 @@ public class FaderManager : MonoBehaviour
     [SerializeField]
     private GameObject MainMenuButton;
 
+    private const int mainMenuSceneNumber = 0;
+
     /// <summary>
     /// Fade in the ending stuff
     /// </summary>
     /// <param name="fadeTime">Time the fade takes</param>
     public void EndGameFade(float fadeTime)
     {
+        //An alpha value of 1 is fully visable. It represents an color a value of 255 in the A channel. 
         DOTween.ToAlpha(() => faderImage.color, x => faderImage.color = x, 1, fadeTime);
         DOTween.ToAlpha(() => logoImage.color, y => logoImage.color = y, 1, fadeTime);
     }
@@ -46,6 +49,6 @@ public class FaderManager : MonoBehaviour
     /// </summary>
     public void GoToMain()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(mainMenuSceneNumber);
     }
 }

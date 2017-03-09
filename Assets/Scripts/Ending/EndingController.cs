@@ -62,20 +62,12 @@ public class EndingController : MonoBehaviour
     private const string playerTag = "Player";
 
     /// <summary>
-    /// Setup for the ending to play.
-    /// </summary>
-    void Start()
-    {
-
-    }
-    
-    /// <summary>
     /// Called to trigger the ending
     /// </summary>
     /// <param name="other"></param>
     public void EndingTrigger(Collider other, bool deathTrigger)
     {
-        if (other.gameObject.tag == playerTag && !endingActivated && !deathTrigger)
+        if (other.CompareTag(playerTag) && !endingActivated && !deathTrigger)
         {
             endingActivated = true;
 
@@ -94,7 +86,7 @@ public class EndingController : MonoBehaviour
             Camera.main.transform.DOMove(cameraPosition.position, cameraTweenTime);
             Camera.main.transform.DORotate(cameraPosition.eulerAngles, cameraTweenTime);
         }
-        else if (other.gameObject.tag == playerTag && deathTrigger)
+        else if (other.CompareTag(playerTag) && deathTrigger)
         {
             StartCoroutine(SuicideCoroutine());
         }
@@ -154,5 +146,4 @@ public class EndingController : MonoBehaviour
         // Show the main menu button
         fader.ShowMainMenuButton();
     }
-
 }

@@ -28,8 +28,10 @@ public class TeleportPlayer : MonoBehaviour
     }
 
     // The Locations
-    public TeleportLocation LocationA;
-    public TeleportLocation LocationB;
+    [SerializeField]
+    private TeleportLocation LocationA;
+    [SerializeField]
+    private TeleportLocation LocationB;
 
     /// <summary>
     /// Teleports the player to the A position.

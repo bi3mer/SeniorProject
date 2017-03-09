@@ -3,7 +3,6 @@ using System.Collections;
 
 public class EndingTrigger : MonoBehaviour
 {
-
     [SerializeField]
     private EndingController endingController;
 
@@ -19,5 +18,4 @@ public class EndingTrigger : MonoBehaviour
     {
         endingController.EndingTrigger(other, deathTrigger);
     }
-
 }
