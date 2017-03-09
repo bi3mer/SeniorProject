@@ -8,7 +8,6 @@ using System.Collections;
 /// </summary>
 public class PlayerAnimationEvents : MonoBehaviour
 {
-
     [SerializeField]
     private LandMovement playerLandMovement;
     
@@ -18,5 +17,13 @@ public class PlayerAnimationEvents : MonoBehaviour
     public void CallJumpForce()
     {
         playerLandMovement.JumpForce();
+    }
+
+    /// <summary>
+    /// Sets the player's jumping bool to false;
+    /// </summary>
+    public void CallJumpLand()
+    {
+        playerLandMovement.JumpLand();
     }
 }

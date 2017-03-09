@@ -102,14 +102,15 @@
       types:
         - "rod"
         - "fuel"
+        - "base solid"
       flavorText: "It's...a stick."
       modifyingActionNames:
       actionModifiedModels:
       actionModifiedSprites:
      itemCategories:
        - !!solid
-         flexibility: 0.2
-         durability: 0.5
+         flexibility: 0.15
+         durability: 2.6
          elasticity: 0.1
          stickiness: 0.1
          thickness: 0.4
@@ -164,24 +165,21 @@
    - stackId: 7
      itemAmount: 1
      item:
-      inventorySprite: "GUI_ITM_PoorFishingRod"
-      worldModel: "ITM/Fishing Rods/BadFishingRod"
-      itemName: "Poor Fishing Rod"
+      itemName: "Scrap Metal"
       rarity: "common"
+      inventorySprite: "GUI_ITM_ScrapMetal"
+      worldModel: "ITM/Raw Materials/ITM_ScrapMetal"
       types:
-       - "Advanced Tool"
-       - "equipable"
-      flavorText: "Not a very good fishing rod. Breaks easily."
+       - "base solid"
+      flavorText: "Leftover metal. Would be good for crafting tools."
       modifyingActionNames:
       actionModifiedModels:
       actionModifiedSprites:
      itemCategories: 
-        - !!solid
-          flexibility: 0.5
-          durability: 1
-          elasticity: 0.1
-          stickiness: 0
-          thickness: 0.4
-          sharpness: 0.3
-        - !!fishingRod
-          equiped: 0
+      - !!solid
+        flexibility: 0.1
+        durability: 4
+        elasticity: 0.1
+        stickiness: 0
+        thickness: 0.5
+        sharpness: 1

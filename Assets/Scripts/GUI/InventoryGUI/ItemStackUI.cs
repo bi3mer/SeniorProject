@@ -221,6 +221,7 @@ public class ItemStackUI : MonoBehaviour
 		else if(targetStack.Item.DiscardFlag)
 		{
 			GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(targetStack);
+			GuiInstanceManager.InventoryUiInstance.TargetInventory.UpdateTypeAmount(targetStack.Item.Types, originalStack.Amount - targetStack.Amount);
 			targetStack = originalStack;
 		}
 
