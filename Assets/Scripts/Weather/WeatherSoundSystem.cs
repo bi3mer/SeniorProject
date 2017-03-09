@@ -42,12 +42,11 @@ public class WeatherSoundSystem : MonoBehaviour
 	[SerializeField]
 	private float weatherVolume = 2.0f;
 
-
 	/// <summary>
 	/// The current lightning volume.
 	/// </summary>
 	[SerializeField]
-	private float lightningVolume = 2.0f;
+	private float lightningVolume = 1.5f;
 
 	/// <summary>
 	/// Starts the weather sounds.
@@ -88,6 +87,7 @@ public class WeatherSoundSystem : MonoBehaviour
 	/// <param name="lightningPos">Lightning position.</param>
 	private void triggerLightning(Vector3 lightningPos)
 	{
+		lightningSound.set3DAttributes (FMODUnity.RuntimeUtils.To3DAttributes (lightningPos));
 		lightningSound.start ();
 	}
 }
