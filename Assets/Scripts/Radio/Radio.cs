@@ -13,6 +13,8 @@ public class Radio : MonoBehaviour
 	[SerializeField]
 	private FMOD.Studio.EventInstance musicChannel;
 	private List<string> musicCarousel;
+	private Dictionary<string, int> musicCarouselClipLengths;
+	private int musicClipsTotalLenth = 0;
 
 	[SerializeField]
 	private FMOD.Studio.EventInstance mysteryChannel;
@@ -92,6 +94,16 @@ public class Radio : MonoBehaviour
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
 		staticChannel = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
 
+		// save clip lengths for looping later
+		musicCarouselClipLengths = new Dictionary<string, int>();
+
+		FMOD.Studio.EventDescription e;
+		int clipLength;
+		musicChannel.getDescription (out e);
+		e.getLength (out clipLength);
+		musicCarouselClipLengths.Add(MusicDefaultPath, clipLength);
+		musicClipsTotalLenth += clipLength;
+
 		Game.Instance.EventManager.StormStartedSubscription += startStatic;
 		Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
 		Game.Instance.EventManager.PlayerBoardRaftSubscription += addRaftClip;
@@ -134,14 +146,42 @@ public class Radio : MonoBehaviour
 				// check that the current state isn't playing or starting so we don't double up on sounds
 				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING && state != FMOD.Studio.PLAYBACK_STATE.STARTING)
 				{
+					// first, figure out which clip we should be on based on how much time has passed
+					// get the seconds past, and use modulus to reduce it down to within the length of the total clips for this channel
+					int millisecondsPassed = (int) (Time.time * 1000);
+					int timeLeft = millisecondsPassed % musicClipsTotalLenth;
+					int clipToPlay = 0;
+
+					// iterate over each clip and find the one we're on based on how much time has passed
+					for (int i = 0; i < musicCarousel.Count; i++) {
+
+						// get the length of the clip we're on
+						int currentClipLength = 0;
+						musicCarouselClipLengths.TryGetValue (musicCarousel [i], out currentClipLength);
+
+						// if it's greater than the time left, subtract its length from the time length and continue
+						if (timeLeft >= currentClipLength) {
+
+							timeLeft -= currentClipLength;
+						} 
+
+						// otherwise, this is the clip we are on. Keep the time left and set the musicCounter to i.
+						else {
+
+							musicCounter = i;
+							break;
+						}
+					}
+
 					// reset the counter for the carousel if we've reached the last sound
 					if (musicCounter > (musicCarousel.Count - 1)) 
 					{
 						musicCounter = 0;
 					}
 
+					// set the clip and the time left that we found earlier
 					musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel [musicCounter]);
-					musicCounter += 1;
+					musicChannel.setTimelinePosition (timeLeft);
 					musicChannel.start ();
 				}
 			}
