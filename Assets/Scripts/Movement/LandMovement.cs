@@ -18,6 +18,10 @@ public class LandMovement : Movement
     private float fallDamageModifier;
 
     [SerializeField]
+    [Tooltip("Value the speed is multiplied by when moving against the wind.")]
+    private float againstWindSpeedModifier = 0.5f;
+
+    [SerializeField]
     [Tooltip("Height, starting from the floor to raycast towards walls")]
     private float raycastHeight;
 
@@ -112,6 +116,13 @@ public class LandMovement : Movement
         {
 			Speed = sprintingSpeed;
             playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorSprint);
+        }
+
+        // Make player move at slower speed if moving in the direction of wind
+        Vector2 dir = new Vector2(direction.x, direction.z);
+        if (Vector3.Dot(dir.normalized, Game.Instance.WeatherInstance.NormalizedOctantWindDirection2d) == -1)
+        {
+            Speed *= againstWindSpeedModifier;
         }
 
         Vector3 moveVector = lastDirection * Speed;
