@@ -107,6 +107,7 @@ public class EndingController : MonoBehaviour
     IEnumerator EndingCoroutine()
     {
         // Don't let player be kill
+        // TODO: Change all instances of this line to be handled by calling a function that stops the players health from updating at all.
         Game.Instance.PlayerInstance.Health = 100;
         
         // Wait for rescue.
