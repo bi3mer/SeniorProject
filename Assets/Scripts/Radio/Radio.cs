@@ -87,6 +87,8 @@ public class Radio : MonoBehaviour
 		mysteryCarousel = new List<string> ();
 
 		musicCarousel.Add ("event:/Radio/Music/Music2");
+		musicCarousel.Add ("event:/Radio/Music/Music3");
+		musicCarousel.Add ("event:/Radio/Music/Music4");
 		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery1");
 		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery2");
 
@@ -100,11 +102,33 @@ public class Radio : MonoBehaviour
 		int clipLength;
 		musicChannel.getDescription (out e);
 		e.getLength (out clipLength);
-		musicCarouselClipLengths.Add(MusicDefaultPath, clipLength);
+		musicCarouselClipLengths.Add(musicCarousel[0], clipLength);
 		musicClipsTotalLenth += clipLength;
 
-		musicCarousel.Add ("event:/Radio/Music/Music3");
-		musicCarousel.Add ("event:/Radio/Music/Music4");
+		Debug.Log (clipLength);
+		clipLength = 0;
+
+		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[1]);
+		musicChannel.getDescription (out e);
+		e.getLength (out clipLength);
+		Debug.Log (clipLength);
+		musicCarouselClipLengths.Add("event:/Radio/Music/Music3", clipLength);
+		musicClipsTotalLenth += clipLength;
+
+		Debug.Log (clipLength);
+
+
+		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[2]);
+		musicChannel.getDescription (out e);
+		e.getLength (out clipLength);
+		musicCarouselClipLengths.Add("event:/Radio/Music/Music4", clipLength);
+		musicClipsTotalLenth += clipLength;
+
+		Debug.Log (clipLength);
+
+
+		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
+
 
 
 		Game.Instance.EventManager.StormStartedSubscription += startStatic;
@@ -159,30 +183,14 @@ public class Radio : MonoBehaviour
 					{
 						int currentClipLength = 0;
 
-						// if this clip has played, then we know its length already
-						if (musicCarouselClipLengths.ContainsKey (musicCarousel [i])) {
-							musicCarouselClipLengths.TryGetValue (musicCarousel [i], out currentClipLength);
-						}
+//						if (musicCarouselClipLengths.ContainsKey(musicCarousel[i])
+						musicCarouselClipLengths.TryGetValue (musicCarousel [i], out currentClipLength);
 
-						// otherwise, we need to save the clip length.
-						else 
-						{
-							musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel [i]);
-							FMOD.Studio.EventDescription e;
-							int clipLength;
-							musicChannel.getDescription (out e);
-							e.getLength (out clipLength);
-							musicCarouselClipLengths.Add(musicCarousel [i], clipLength);
-							musicClipsTotalLenth += clipLength;
-							currentClipLength = clipLength;
-						}
-							
-						// if this clip's length > than the time left, reduce time left by the clip length
+						// if this the time left is >= this clip's length, reduce time left by the clip length
 						if (timeLeft >= currentClipLength) 
 						{
 							timeLeft -= currentClipLength;
 						} 
-
 						// otherwise, this is the clip we are want. Keep the time left and set the musicCounter to i
 						else 
 						{
@@ -191,12 +199,6 @@ public class Radio : MonoBehaviour
 						}
 					}
 
-//					// reset the counter for the carousel to 0 if we've reached past the last sound
-//					if (musicCounter > (musicCarousel.Count - 1)) 
-//					{
-//						musicCounter = 0;
-//					}
-//
 					// set the clip and the time left that we found earlier
 					musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel [musicCounter]);
 					musicChannel.setTimelinePosition (timeLeft);
