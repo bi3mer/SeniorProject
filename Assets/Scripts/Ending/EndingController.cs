@@ -101,7 +101,7 @@ public class EndingController : MonoBehaviour
     }
 
     /// <summary>
-    /// The corouting for the ending if the player doesn't kill themselves.
+    /// The coroutine for the ending if the player doesn't kill themselves.
     /// </summary>
     /// <returns></returns>
     IEnumerator EndingCoroutine()
