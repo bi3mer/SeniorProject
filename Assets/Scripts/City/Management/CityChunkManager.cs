@@ -16,8 +16,6 @@ public class CityChunkManager : MonoBehaviour
     private int chunksAwayToLoad;
 
     private Tuple<int, int> currentChunk;
-    private int chunksAcross;
-    private int chunksDown;
 
     /// <summary>
     /// Initialize configuration.
@@ -35,39 +33,52 @@ public class CityChunkManager : MonoBehaviour
     /// <param name="city">Initialized city.</param>
     public void Init (City city)
     {
-        // Grid the city, with the city center chunk being at chunk (0, 0)
-        chunksAcross = Mathf.FloorToInt(city.BoundingBox.extents.x / ChunkSize);
-        chunksDown   = Mathf.FloorToInt(city.BoundingBox.extents.y / ChunkSize);
-        Chunks = new CityChunk[2 * chunksAcross, 2 * chunksDown];
+        // Grid the city
+        ChunksAcross = 2 * Mathf.FloorToInt(city.BoundingBox.extents.x / ChunkSize) + 1;
+        ChunksDown   = 2 * Mathf.FloorToInt(city.BoundingBox.extents.z / ChunkSize) + 1;
+        Chunks = new CityChunk[ChunksAcross + 1, ChunksDown + 1];
 
         // Set up for building iterator
-        Vector3 center = city.BoundingBox.center;
         IEnumerator<Building> buildings = Game.Instance.CityInstance.GetEnumerator();
 
         // Populate the grid data
-        for (int i = -chunksAcross; i < chunksAcross; ++i)
+        for (int i = 0; i <= ChunksAcross; ++i)
         {
-            for (int j = -chunksDown; j < chunksDown; ++j)
+            for (int j = 0; j <= ChunksDown; ++j)
             {
                 // Chunk coverage area
-                Vector3 min = new Vector3(i * ChunkSize + center.x, city.BoundingBox.min.y, j * ChunkSize + center.z);
-                Vector3 max = new Vector3((i + 1) * ChunkSize + center.x, city.BoundingBox.max.y, (j + 1) * ChunkSize + center.z);
-                Bounds bounds = new Bounds(min, max);
+                float x = i * ChunkSize + city.BoundingBox.center.x - city.BoundingBox.extents.x;
+                float z = j * ChunkSize + city.BoundingBox.center.z - city.BoundingBox.extents.z;
 
-                CityChunk chunk = new CityChunk(bounds);
+                Bounds bounds = new Bounds(
+                    new Vector3(x, city.BoundingBox.center.y, z), 
+                    new Vector3(ChunkSize, city.BoundingBox.size.y, ChunkSize));
+
+                CityChunk chunk = new CityChunk(i, j, bounds);
 
                 // Add buildings conatined in area
-                buildings.Reset();
+                /*buildings.Reset();
                 while (buildings.MoveNext())
                 {
                     if (bounds.Contains(buildings.Current.RootPosition))
                     {
                         chunk.Buildings.Add(buildings.Current);
                     }
-                }
+                }*/
 
                 Chunks[i, j] = chunk;
             }
+        }
+    }
+
+    /// <summary>
+    /// Update current chunk based on player location.
+    /// </summary>
+    void Update ()
+    {
+        if (Game.Player.IsInWorld && Chunks != null)
+        {
+            CurrentChunk = worldLocationToGrid(Game.Player.WorldTransform.position);
         }
     }
 
@@ -84,6 +95,24 @@ public class CityChunkManager : MonoBehaviour
     /// Number of chunks away to load.
     /// </summary>
     public int ChunksAwayToLoad
+    {
+        get;
+        private set;
+    }
+
+    /// <summary>
+    /// Number of chunks to cover x-axis extent of city.
+    /// </summary>
+    public int ChunksAcross
+    {
+        get;
+        private set;
+    }
+
+    /// <summary>
+    /// Number of chunks to cover y-axis of city.
+    /// </summary>
+    public int ChunksDown
     {
         get;
         private set;
@@ -120,10 +149,47 @@ public class CityChunkManager : MonoBehaviour
         {
             if (value != currentChunk)
             {
-                updateChunks();
                 currentChunk = value;
+                updateChunks();
             }
         }
+    }
+
+    /// <summary>
+    /// Get grid coordinate location from location in world coordinates.
+    /// </summary>
+    /// <param name="location">Location in world coordinates to check.</param>
+    /// <returns>Grid coordinate location that conatins the point.</returns>
+    private Tuple<int, int> worldLocationToGrid(Vector3 location)
+    {
+        for (int i = 0; i <= ChunksAcross; ++i)
+        {
+            for (int j = 0; j <= ChunksDown; ++j)
+            {
+                if (Chunks[i, j].BoundingBox.Contains(location))
+                {
+                    return Chunks[i, j].Location;
+                }
+            }
+        }
+
+        // Not on grid, return closest chunk
+        float min = Mathf.Infinity;
+        Tuple<int, int> chunk = null;
+        for (int i = 0; i <= ChunksAcross; ++i)
+        {
+            for (int j = 0; j <= ChunksDown; ++j)
+            {
+                float dist = Chunks[i, j].BoundingBox.SqrDistance(location);
+                if (dist < min)
+                {
+                    min = dist;
+                    chunk = Chunks[i, j].Location;
+                }
+            }
+        }
+
+        return chunk;
     }
 
     /// <summary>
@@ -131,14 +197,14 @@ public class CityChunkManager : MonoBehaviour
     /// </summary>
     private void updateChunks ()
     {
-        if (FreezeLoading || Chunks == null)
+        if (FreezeLoading)
         {
             return;
         }
 
-        for (int i = -chunksAcross; i < chunksAcross; ++i)
+        for (int i = 0; i <= ChunksAcross; ++i)
         {
-            for (int j = -chunksDown; j < chunksDown; ++j)
+            for (int j = 0; j <= ChunksDown; ++j)
             {
                 if (Mathf.Abs(CurrentChunk.X - i) <= chunksAwayToLoad && Mathf.Abs(CurrentChunk.Y - j) <= chunksAwayToLoad)
                 {
@@ -167,7 +233,8 @@ public class CityChunkManager : MonoBehaviour
             StopCoroutine(chunk.CurrentCoroutine);
         }
 
-        StartCoroutine(chunk.Load());
+        chunk.CurrentCoroutine = chunk.Load();
+        StartCoroutine(chunk.CurrentCoroutine);
     }
 
     /// <summary>
@@ -185,6 +252,7 @@ public class CityChunkManager : MonoBehaviour
             StopCoroutine(chunk.CurrentCoroutine);
         }
 
-        StartCoroutine(chunk.Unload());
+        chunk.CurrentCoroutine = chunk.Unload();
+        StartCoroutine(chunk.CurrentCoroutine);
     }
 }

@@ -8,13 +8,26 @@ using System.Collections.Generic;
 public class CityChunk
 {
     /// <summary>
-    /// Creates a instance of CityChunk
+    /// Creates in instance of CityChunk.
     /// </summary>
-    /// <param name="bounds">Bounds defining chunk coverage.</param>
-    public CityChunk (Bounds bounds)
+    /// <param name="x">x-axis coordinate of grid.</param>
+    /// <param name="y">z-axis coordinate of grid.</param>
+    /// <param name="bounds">Area covered by chunk.</param>
+    public CityChunk (int x, int y, Bounds bounds)
     {
+        Location = new Tuple<int, int>(x, y);
         BoundingBox = bounds;
         IsLoaded = false;
+        Buildings = new List<Building>();
+    }
+
+    /// <summary>
+    /// Location of this chunk in the chunk grid.
+    /// </summary>
+    public Tuple<int, int> Location
+    {
+        get;
+        private set;
     }
 
     /// <summary>
@@ -44,6 +57,9 @@ public class CityChunk
         private set;
     }
 
+    /// <summary>
+    /// Current loading or unloading co-routine. Returns null if there is no current co-routine.
+    /// </summary>
     public IEnumerator CurrentCoroutine
     {
         get;
@@ -56,6 +72,7 @@ public class CityChunk
     public IEnumerator Load()
     {
         IsLoaded = true;
+        Debug.Log("Loading chunk (" + Location.X + ", " + Location.Y + ")");
 
         for (int i = 0; i < Buildings.Count; ++i)
         {
@@ -73,6 +90,7 @@ public class CityChunk
     public IEnumerator Unload()
     {
         IsLoaded = false;
+        Debug.Log("Unloading chunk (" + Location.X + ", " + Location.Y + ")");
 
         for (int i = 0; i < Buildings.Count; ++i)
         {
