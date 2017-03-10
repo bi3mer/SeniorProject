@@ -64,7 +64,8 @@ public class EndingController : MonoBehaviour
     /// <summary>
     /// Called to trigger the ending
     /// </summary>
-    /// <param name="other"></param>
+    /// <param name="other">The collider that entered one of the ending triggers, should be the player</param>
+    /// /// <param name="deathrigger">Did the player enter the death trigger?</param>
     public void EndingTrigger(Collider other, bool deathTrigger)
     {
         if (other.CompareTag(playerTag) && !endingActivated && !deathTrigger)
