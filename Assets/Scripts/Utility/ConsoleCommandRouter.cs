@@ -56,7 +56,7 @@ public class ConsoleCommandRouter : MonoBehaviour
     /// <param name="args">Arguments.</param>
     public string Test(params string[] args) 
 	{
-		return "Colan Rulez";
+		return "Test CONFIRMED";
 	}
 
 	/// <summary>

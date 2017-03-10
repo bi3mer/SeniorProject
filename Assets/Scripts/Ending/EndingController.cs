@@ -12,11 +12,11 @@ public class EndingController : MonoBehaviour
     [SerializeField]
     private Collider deathTrigger;
 
-    [Tooltip("Make sure these are hidden.")]
+    [Tooltip("Gameobjects to set inactive when the ending starts")]
     [SerializeField]
     public GameObject[] hideThese;
 
-    [Tooltip("Make sure these are disabled.")]
+    [Tooltip("Scripts to disable when the ending starts.")]
     [SerializeField]
     public  MonoBehaviour[] disableThese;
 

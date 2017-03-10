@@ -50,6 +50,9 @@ public class BeaconInteractable : MonoBehaviour
         beaconLightMaterial.SetColor(materialEmissionColor, beaconOffColor);
 	}
 
+    /// <summary>
+    /// Called to turn the light on and point it up in the air.
+    /// </summary>
     public void TurnLightOn()
     {
         if(!isOn)
