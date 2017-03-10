@@ -461,9 +461,12 @@ public class PlayerController : MonoBehaviour
 		while (updateStats) 
 		{
 			yield return new WaitForSeconds(PlayerStatManager.HealthRate.PerSeconds);	
-			PlayerStatManager.HealthRate.ApplyRateToStat ();
-			Game.Instance.PlayerInstance.Health = PlayerStatManager.HealthRate.CurrentStat;
-			healthUpdatedEvent.Invoke ();
+			if (!PlayerStatManager.StopStats) 
+			{
+				PlayerStatManager.HealthRate.ApplyRateToStat ();
+				Game.Instance.PlayerInstance.Health = PlayerStatManager.HealthRate.CurrentStat;
+				healthUpdatedEvent.Invoke ();
+			}
 		}
 	}
 
@@ -475,10 +478,13 @@ public class PlayerController : MonoBehaviour
     {
 		while (updateStats)
 		{
-			yield return new WaitForSeconds(PlayerStatManager.HungerRate.PerSeconds);
-			PlayerStatManager.HungerRate.ApplyRateToStat ();
-			Game.Instance.PlayerInstance.Hunger = PlayerStatManager.HungerRate.CurrentStat;
-			hungerUpdatedEvent.Invoke();
+			yield return new WaitForSeconds (PlayerStatManager.HungerRate.PerSeconds);
+			if (!PlayerStatManager.StopStats) 
+			{
+				PlayerStatManager.HungerRate.ApplyRateToStat ();
+				Game.Instance.PlayerInstance.Hunger = PlayerStatManager.HungerRate.CurrentStat;
+				hungerUpdatedEvent.Invoke ();
+			}
 		}
     }
 
@@ -492,9 +498,12 @@ public class PlayerController : MonoBehaviour
 		while (updateStats)
 		{
 			yield return new WaitForSeconds(PlayerStatManager.WarmthRate.PerSeconds);
-			PlayerStatManager.WarmthRate.ApplyRateToStat ();
-			Game.Instance.PlayerInstance.Warmth = PlayerStatManager.WarmthRate.CurrentStat;
-			warmthUpdatedEvent.Invoke();
+			if (!PlayerStatManager.StopStats) 
+			{
+				PlayerStatManager.WarmthRate.ApplyRateToStat ();
+				Game.Instance.PlayerInstance.Warmth = PlayerStatManager.WarmthRate.CurrentStat;
+				warmthUpdatedEvent.Invoke ();
+			}
 		}
     }
 

@@ -29,6 +29,31 @@ public class PlayerStatManager
 	}
 
 	/// <summary>
+	/// Starts the player's stat updates.
+	/// </summary>
+	public void StartStatUpdates()
+	{
+		this.StopStats = false;
+		this.WarmthRate.UseDefaultWarmthReductionRate ();
+		this.HungerRate.UseDefaultHungerReductionRate ();
+		this.HealthRate.UseDefaultHealthRate ();
+	}
+
+	/// <summary>
+	/// Stops the player's stat updates.
+	/// </summary>
+	public void StopStatUpdates()
+	{
+		this.StopStats = true;
+		this.WarmthRate.ChangeRateValues (0, 1);
+		this.HungerRate.ChangeRateValues (0, 1);
+		this.HealthRate.ChangeRateValues (0, 1);
+		this.WarmthRate.ApplyRateToStat ();
+		this.HungerRate.ApplyRateToStat ();
+		this.HealthRate.ApplyRateToStat ();
+	}
+
+	/// <summary>
 	/// Gets the warmth rate.
 	/// </summary>
 	/// <value>The warmth rate.</value>
@@ -56,6 +81,16 @@ public class PlayerStatManager
 	{
 		get;
 		private set;
+	}
+
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="PlayerStatManager"/> stop stats.
+	/// </summary>
+	/// <value><c>true</c> if stop stats; otherwise, <c>false</c>.</value>
+	public bool StopStats 
+	{
+		get;
+		set;
 	}
 }
 
