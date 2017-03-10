@@ -1764,6 +1764,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 712a74f364a38ed48b76c23798d7009c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxBobHeight: 0.1
+  minBobHeight: 0
+  driftSpeed: 0.3
 --- !u!114 &114000011875518606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1946,7 +1949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toolName: Poor Fishing Rod
-  castingForce: {x: 5, y: 15}
+  castingForce: {x: 10, y: 15}
   reelingSpeed: 0.4
   fishingLineWeight: 1.2
 --- !u!114 &114000013267112544
@@ -1997,14 +2000,14 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 10, z: 1}
   m_Parameters:
-    startWidth: 0.02
-    endWidth: 0.02
+    startWidth: 0.005
+    endWidth: 0.005
     m_StartColor:
       serializedVersion: 2
-      rgba: 4294967295
+      rgba: 2533359615
     m_EndColor:
       serializedVersion: 2
-      rgba: 4294967295
+      rgba: 2533359615
   m_UseWorldSpace: 1
 --- !u!136 &136000013939538332
 CapsuleCollider:
