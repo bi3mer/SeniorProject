@@ -1085,4 +1085,17 @@ public class PlayerController : MonoBehaviour
             return false;
         }
     }
+
+
+    /// <summary>
+    /// Makes the player behave like they're on land. Called when the player teleports. Or by other things that'd move the player to be on land.
+    /// </summary>
+    public void SetIsOnLand()
+    {
+        movement = landMovement;
+        PlayerAnimator.SetBool(playerAnimatorFalling, false);
+        PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
+        PlayerAnimator.SetBool(playerAnimatorSwimming, false);
+        PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
+    }
 }

@@ -38,13 +38,25 @@ public class ConsoleCommandRouter : MonoBehaviour
 	private GameObject debugCreatureGUI;
 	private GameObject instantiatedCreatureGUI = null;
 
-	/// <summary>
-	/// Testing console with very important command
-	/// </summary>
-	/// <param name="args">Arguments.</param>
-	public string Test(params string[] args) 
+
+
+    [SerializeField]
+    private string teleportToTallestBuilding = "ending";
+
+    [SerializeField]
+    private GameObject tallestBuildingTeleportLocation;
+
+
+    [SerializeField]
+    private string health = "health";
+
+    /// <summary>
+    /// Testing console with very important command
+    /// </summary>
+    /// <param name="args">Arguments.</param>
+    public string Test(params string[] args) 
 	{
-		return "Colan Rulez";
+		return "Test CONFIRMED";
 	}
 
 	/// <summary>
@@ -163,10 +175,37 @@ public class ConsoleCommandRouter : MonoBehaviour
 		return Game.Instance.WeatherInstance.ToString();
 	}
 
-	/// <summary>
-	/// initialize console commands
-	/// </summary>
-	void Start () 
+
+    /// <summary>
+    /// Teleports the player to a gameobject.
+    /// </summary>
+    /// <param name="args">Arguments</param>
+    public string TeleportToEnding(params string[] args)
+    {
+        Game.Instance.PlayerInstance.Controller.transform.position = tallestBuildingTeleportLocation.transform.position;
+        Game.Instance.PlayerInstance.Controller.SetIsOnLand();
+        return "You're at the ending now champ";
+    }
+
+    /// <summary>
+    /// Sets the player's health to a number
+    /// </summary>
+    /// <param name="args">Arguments</param>
+    public string SetHealth(params string[] args)
+    {
+        Game.Instance.PlayerInstance.Health = int.Parse(args[0]);
+        Game.Instance.PlayerInstance.Warmth = int.Parse(args[0]);
+        Game.Instance.PlayerInstance.Hunger = int.Parse(args[0]);
+
+        return "All Health Stats set to:  " + args[0];
+    }
+
+
+
+    /// <summary>
+    /// initialize console commands
+    /// </summary>
+    void Start () 
 	{
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.testCommand,    this.Test);
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugMode,      this.DebugMode);
@@ -175,5 +214,7 @@ public class ConsoleCommandRouter : MonoBehaviour
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.pressureSystem, this.ActivatePressureSystem);
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.printWeather,   this.PrintWeather);
 		ConsoleCommandsRepository.Instance.RegisterCommand(this.creatureCount,  this.DebugCreatureCountGUI);
-	}
+        ConsoleCommandsRepository.Instance.RegisterCommand(this.teleportToTallestBuilding, this.TeleportToEnding);
+        ConsoleCommandsRepository.Instance.RegisterCommand(this.health, this.SetHealth);
+    }
 }

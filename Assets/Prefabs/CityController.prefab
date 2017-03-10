@@ -99,7 +99,7 @@ MonoBehaviour:
   heightJitter: 0.1
   buildingScale: 0.9
   maxPlacementTries: 3
-  CityCenterBuilding: {fileID: 100000, guid: 5e50794d6a3810a4fbdfc912c2f2e6f6, type: 3}
+  CityCenterBuilding: {fileID: 100000, guid: 85c452bcdee401c48ad8a500701ee3fd, type: 3}
 --- !u!114 &114000011626432178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -150,8 +150,8 @@ MonoBehaviour:
   cityBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 150, y: 150, z: 150}
-  buildingColliderRadius: 4
-  buildingVisibleRadius: 16
+  buildingColliderRadius: 16
+  buildingVisibleRadius: 18
 --- !u!114 &114000013392317438
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -598,7 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac25302f69efea24bbd43ffa6bc570c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceBetweenControlPoints: 10
+  distanceBetweenControlPoints: 14
   jitter: 0.1
 --- !u!114 &114000014275874900
 MonoBehaviour:
