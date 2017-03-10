@@ -68,7 +68,7 @@ public class LightItem : Tool
 		fuelCondition = new ItemCondition(lightBase.CurrentFuelLevel, lightBase.MaxFuel, BooleanOperator.Less);
 		addFuelAction.Conditions.Add(fuelCondition);
 
-		ItemAction turnOnOffAction = new ItemAction(turnOnOffActName, new UnityAction(OnOff));
+		ItemAction turnOnOffAction = new ItemAction(turnOnOffActName, new UnityAction(ToggleOn));
 
 		optionSelectionHandler.AddPossibleAction(addFuelAction);
 		optionSelectionHandler.AddPossibleAction(turnOnOffAction);
@@ -139,7 +139,7 @@ public class LightItem : Tool
 	/// <summary>
 	/// Switches the lantern from on to off and vice versa.
 	/// </summary>
-	public void OnOff()
+	public void ToggleOn()
 	{
 		On = !On;
 
