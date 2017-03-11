@@ -11,8 +11,7 @@ public class WarmthRateManager : StatRate
 
 	private const int secondsForByFireWithCloth = 1;
 	private const int secondsForInWaterWithCloth = 3;
-
-
+	private const int unitsInShelter = 0;
 
 	// set default values for warmth rates
 	private StatRate defaultWarmthReductionRate;
@@ -84,12 +83,18 @@ public class WarmthRateManager : StatRate
 	/// </summary>
 	public void UseHeatSourceWarmthIncreaseRate()
 	{
+		// fire in shelter or fire outside
 		if (Game.Instance.PlayerInstance.Controller.IsByFire) 
 		{
-			this.PerSeconds = secondsForByFireWithCloth;
+			this.Units = GetTemperatureBasedWarmthRate ().Units + nearHeatSourceWarmthIncreaseRate.Units;
+			this.PerSeconds = nearHeatSourceWarmthIncreaseRate.PerSeconds;
+		} 
+		// just in shelter
+		else if (Game.Instance.PlayerInstance.Controller.IsInShelter && !Game.Instance.PlayerInstance.Controller.IsByFire) 
+		{
+			this.Units = unitsInShelter;
+			this.PerSeconds = nearHeatSourceWarmthIncreaseRate.PerSeconds;
 		}
-		this.Units = GetTemperatureBasedWarmthRate().Units + nearHeatSourceWarmthIncreaseRate.Units;
-		this.PerSeconds = GetTemperatureBasedWarmthRate().PerSeconds + nearHeatSourceWarmthIncreaseRate.PerSeconds;
 	}
 
 	/// <summary>
@@ -99,7 +104,7 @@ public class WarmthRateManager : StatRate
 	public void UseClothRate(int clothUnits)
 	{
 		this.Units = this.Units + clothUnits;
-		if (Game.Instance.PlayerInstance.Controller.IsByFire) 
+		if (Game.Instance.PlayerInstance.Controller.IsByFire)
 		{
 			this.PerSeconds = secondsForByFireWithCloth;
 		} 

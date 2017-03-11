@@ -417,7 +417,7 @@ public class PlayerController : MonoBehaviour
 		{
 			PlayerStatManager.WarmthRate.UseWaterWarmthReductionRate ();
 		} 
-		else if (IsByFire) 
+		else if (IsByFire || IsInShelter) 
 		{
 			PlayerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate ();
 		}
@@ -696,17 +696,7 @@ public class PlayerController : MonoBehaviour
             return isInShelter;
         }
         set
-        {
-            // Set warmth rates to the proper value
-            if (value)
-            {
-				PlayerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate ();
-            }
-            else
-            {
-				PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
-            }
-
+		{
             isInShelter = value;
         }
     }
