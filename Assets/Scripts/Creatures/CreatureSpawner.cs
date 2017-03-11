@@ -72,9 +72,9 @@ public abstract class CreatureSpawner : MonoBehaviour
 	/// <returns>The spawn location.</returns>
 	protected virtual Vector3 findSpawnLocation()
 	{
-		return new Vector3(Game.Instance.PlayerInstance.WorldTransform.position.x - this.floatInRadius, 
+		return new Vector3(Game.Instance.PlayerInstance.WorldPosition.x - this.floatInRadius, 
 		                   Game.Instance.WaterLevelHeight + this.waterLevelOffset,
-			               Game.Instance.PlayerInstance.WorldTransform.position.z - this.floatInRadius);
+			               Game.Instance.PlayerInstance.WorldPosition.z - this.floatInRadius);
 	}
 
 	/// <summary>
