@@ -14,11 +14,15 @@ public class RaftCategory : ItemCategory
         get;
         set;
     }
+
  
     private const string speedAttrName = "speed";
     private string setDownActName = "Set Down";
 
     private const float byWaterThreshold = 1f;
+    
+    // the distance the raft will be placed from the player
+    private const float itemDist = 1.5f;
 
     /// <summary>
     /// Creates a copy of this raft category.
@@ -71,7 +75,6 @@ public class RaftCategory : ItemCategory
         // place the raft in front of character
         Vector3 playerPos = Game.Instance.PlayerInstance.Controller.PlayerAnimator.transform.position;
         Vector3 playerDir = Game.Instance.PlayerInstance.Controller.PlayerAnimator.transform.forward;
-        float itemDist = 1.5f;
         item.transform.position = playerPos + playerDir * itemDist;
         Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
 
