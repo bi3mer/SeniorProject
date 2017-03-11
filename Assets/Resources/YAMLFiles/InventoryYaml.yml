@@ -70,10 +70,10 @@
        - "Weave Basket"
       actionModifiedModels:
        - "ITM/Ropes/ITM_Rope"
-       - "ITM/Small\ Containers/ITM_Bucket"
+       - "ITM/Small\ Containers/ITM_Basket"
       actionModifiedSprites:
        - "GUI_ITM_Rope"
-       - "GUI_ITM_Bucket"
+       - "GUI_ITM_Basket"
      itemCategories: 
        - !!solid
          flexibility: 1.0
