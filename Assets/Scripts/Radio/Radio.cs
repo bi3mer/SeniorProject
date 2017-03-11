@@ -14,11 +14,13 @@ public class Radio : MonoBehaviour
 	private FMOD.Studio.EventInstance musicChannel;
 	private List<string> musicCarousel;
 	private Dictionary<string, int> musicCarouselClipLengths;
-	private int musicClipsTotalLenth = 0;
+	private int musicClipsTotalLength = 0;
 
 	[SerializeField]
 	private FMOD.Studio.EventInstance mysteryChannel;
 	private List<string> mysteryCarousel;
+	private Dictionary<string, int> mysteryCarouselClipLengths;
+	private int mysteryClipsTotalLength = 0;
 
 	// Static channel right now just plays when current active channel is null
 	[SerializeField]
@@ -30,7 +32,7 @@ public class Radio : MonoBehaviour
 
 	// Default channel sound event paths
 	[SerializeField]
-	public string MusicDefaultPath = "event:/Radio/Music/Music1";
+	public string MusicDefaultPath = "event:/Radio/Music/Soulja_Boy";
 	[SerializeField]
 	public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
 	[SerializeField]
@@ -43,8 +45,10 @@ public class Radio : MonoBehaviour
 	private RadioChannel CurrentChannel { get; set; }
 	private string announcement;
 
+	private bool weatherStarting = false;
+
 	// Counter for how many times weather played
-	private int weatherCounter;
+	private int weatherCounter = 0;
 	private WeatherSystem currentWeather;
 
 	// Counter for which sound in carousels we are on. Resets to zero at end of carousel
@@ -75,21 +79,19 @@ public class Radio : MonoBehaviour
 			Game.Instance.RadioInstance = this;
 		}
 
+		// Update the weather and play if radio on
+		StartCoroutine(updateWeather());
+
 		isOn = false;
 
 		CurrentChannel = RadioChannel.Null;
-
-		// Update the weather and play if radio on
-		StartCoroutine(updateWeather());
 
 		// Load in default sounds for all other channels
 		musicCarousel = new List<string> ();
 		mysteryCarousel = new List<string> ();
 
-		musicCarousel.Add ("event:/Radio/Music/Music2");
-		musicCarousel.Add ("event:/Radio/Music/Music3");
-		musicCarousel.Add ("event:/Radio/Music/Music4");
-		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery1");
+		musicCarousel.Add ("event:/Radio/Music/Soulja_Boy");
+		mysteryCarousel.Add ("event:/Radio/Mystery/Evacuate_3_Block");
 		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery2");
 
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
@@ -103,33 +105,19 @@ public class Radio : MonoBehaviour
 		musicChannel.getDescription (out e);
 		e.getLength (out clipLength);
 		musicCarouselClipLengths.Add(musicCarousel[0], clipLength);
-		musicClipsTotalLenth += clipLength;
+		musicClipsTotalLength += clipLength;
 
-		Debug.Log (clipLength);
-		clipLength = 0;
-
-		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[1]);
-		musicChannel.getDescription (out e);
+		mysteryCarouselClipLengths = new Dictionary<string, int>();
+		mysteryChannel.getDescription (out e);
 		e.getLength (out clipLength);
-		Debug.Log (clipLength);
-		musicCarouselClipLengths.Add("event:/Radio/Music/Music3", clipLength);
-		musicClipsTotalLenth += clipLength;
+		mysteryCarouselClipLengths.Add(mysteryCarousel[0], clipLength);
+		mysteryClipsTotalLength += clipLength;
+	
+		AddToCarousel (RadioChannel.Music, "event:/Radio/Music/Apocalypse");
+		AddToCarousel (RadioChannel.Music, "event:/Radio/Music/Better_Safe");
 
-		Debug.Log (clipLength);
-
-
-		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[2]);
-		musicChannel.getDescription (out e);
-		e.getLength (out clipLength);
-		musicCarouselClipLengths.Add("event:/Radio/Music/Music4", clipLength);
-		musicClipsTotalLenth += clipLength;
-
-		Debug.Log (clipLength);
-
-
-		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
-
-
+		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/School_Musical");
+		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/Relgious_Fanatic");
 
 		Game.Instance.EventManager.StormStartedSubscription += startStatic;
 		Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
@@ -147,6 +135,8 @@ public class Radio : MonoBehaviour
 			// Find the current channel and turn it on if it's not already playing 
 			FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
 
+//			Debug.Log (CurrentChannel);
+
 			if (CurrentChannel == RadioChannel.Mystery) 
 			{
 				mysteryChannel.getPlaybackState (out state);
@@ -154,15 +144,35 @@ public class Radio : MonoBehaviour
 				// check that the current state isn't playing or starting so we don't double up on sounds
 				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING && state != FMOD.Studio.PLAYBACK_STATE.STARTING)  
 				{
-					// reset the counter for the carousel if we've reached the last sound
-					if (mysteryCounter > (mysteryCarousel.Count - 1)) 
+					// figure out which clip we should be on (and at what time) based on how much time has passed
+					// get the seconds passed so far, and use modulus to reduce it down to within the length of the total clips for this channel
+					int millisecondsPassed = (int) (Time.time * 1000);
+					int timeLeft = millisecondsPassed % mysteryClipsTotalLength;
+
+					// iterate over each clip and find the one should play on based on how much time has passed
+					for (int i = 0; i < mysteryCarousel.Count; i++) 
 					{
-						mysteryCounter = 0;
+						int currentClipLength = 0;
+
+						mysteryCarouselClipLengths.TryGetValue (mysteryCarousel [i], out currentClipLength);
+
+						// if this the time left is >= this clip's length, reduce time left by the clip length
+						if (timeLeft >= currentClipLength) 
+						{
+							timeLeft -= currentClipLength;
+						} 
+						// otherwise, this is the clip we are want. Keep the time left and set the musicCounter to i
+						else 
+						{
+							mysteryCounter = i;
+							break;
+						}
 					}
 
+					// set the clip and the time left that we found earlier
 					mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel [mysteryCounter]);
-					mysteryCounter += 1;
-					mysteryChannel.start (); 
+					mysteryChannel.setTimelinePosition (timeLeft);
+					mysteryChannel.start ();
 				}
 			}
 
@@ -176,14 +186,13 @@ public class Radio : MonoBehaviour
 					// figure out which clip we should be on (and at what time) based on how much time has passed
 					// get the seconds passed so far, and use modulus to reduce it down to within the length of the total clips for this channel
 					int millisecondsPassed = (int) (Time.time * 1000);
-					int timeLeft = millisecondsPassed % musicClipsTotalLenth;
+					int timeLeft = millisecondsPassed % musicClipsTotalLength;
 
 					// iterate over each clip and find the one should play on based on how much time has passed
 					for (int i = 0; i < musicCarousel.Count; i++) 
 					{
 						int currentClipLength = 0;
 
-//						if (musicCarouselClipLengths.ContainsKey(musicCarousel[i])
 						musicCarouselClipLengths.TryGetValue (musicCarousel [i], out currentClipLength);
 
 						// if this the time left is >= this clip's length, reduce time left by the clip length
@@ -259,11 +268,30 @@ public class Radio : MonoBehaviour
 		if (channel == RadioChannel.Music) 
 		{
 			musicCarousel.Add (soundEvent);
+			FMOD.Studio.EventInstance eventInstance;
+			FMOD.Studio.EventDescription eventDescription;
+			int clipLength = 0;
+
+			eventInstance = FMODUnity.RuntimeManager.CreateInstance (soundEvent);
+			eventInstance.getDescription (out eventDescription);
+			eventDescription.getLength (out clipLength);
+			musicCarouselClipLengths.Add(soundEvent, clipLength);
+			musicClipsTotalLength += clipLength;
 		}
 
 		else if (channel == RadioChannel.Mystery) 
 		{
 			mysteryCarousel.Add (soundEvent);
+			FMOD.Studio.EventInstance eventInstance;
+			FMOD.Studio.EventDescription eventDescription;
+			int clipLength = 0;
+
+			eventInstance = FMODUnity.RuntimeManager.CreateInstance (soundEvent);
+			eventInstance.getDescription (out eventDescription);
+			eventDescription.getLength (out clipLength);
+			mysteryCarouselClipLengths.Add(soundEvent, clipLength);
+			mysteryClipsTotalLength += clipLength;
+
 		}
 	}
 
@@ -320,6 +348,10 @@ public class Radio : MonoBehaviour
 			}
 		}
 	}
+
+
+
+
 
 	/// <summary>
 	/// Set new selected channel.
