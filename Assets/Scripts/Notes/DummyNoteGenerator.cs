@@ -22,7 +22,7 @@ public class DummyNoteGenerator : MonoBehaviour
 	/// </summary>
 	private void loadNotes()
 	{
-		NoteYAMLParser parser = new NoteYAMLParser("NoteListYaml.yml");
+		NoteYAMLParser parser = new NoteYAMLParser("Notes.yml");
 		List<NoteData> noteList = parser.LoadNotes();
 		NoteFactory factory = new NoteFactory ();
 
