@@ -18,6 +18,10 @@ public class LandMovement : Movement
     private float fallDamageModifier;
 
     [SerializeField]
+    [Tooltip("Value the speed is multiplied by when moving against the wind.")]
+    private float againstWindSpeedModifier = 0.5f;
+
+    [SerializeField]
     [Tooltip("Height, starting from the floor to raycast towards walls")]
     private float raycastHeight;
 
@@ -28,6 +32,7 @@ public class LandMovement : Movement
     private const float playerAnimatorSprint = 1f;
     private const float playerAnimatorWalk = .5f;
     private const float playerAnimatorIdle = 0f;
+    private const int playerAnimatorArmsLayer = 1;
     private CharacterController controller;
     private PlayerController playerController;
 
@@ -114,6 +119,19 @@ public class LandMovement : Movement
             playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorSprint);
         }
 
+        // Make player move at slower speed if moving in the direction of wind
+        Vector2 dir = new Vector2(direction.x, direction.z);
+        if (Vector3.Dot(dir.normalized, Game.Instance.WeatherInstance.NormalizedOctantWindDirection2d) == -1)
+        {
+            Speed *= againstWindSpeedModifier;
+            // Set the player's blend weight to be 1.
+            playerAnimator.SetLayerWeight(playerAnimatorArmsLayer, 1f);
+        }
+        else
+        {
+            // Set the player's blend weight to be 0.
+            playerAnimator.SetLayerWeight(playerAnimatorArmsLayer, 0f);
+        }
         Vector3 moveVector = lastDirection * Speed;
 
         moveVector += new Vector3(0f, yVelocity, 0f);

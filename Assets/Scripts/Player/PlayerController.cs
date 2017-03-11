@@ -233,37 +233,6 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// When colliding with a trigger. Used for interactable object interaction. For raft interactions.
-    /// </summary>
-    /// <param name="other">Collider with trigger</param>
-    void OnTriggerEnter(Collider other)
-    {
-        // enter into the range of an interactable item 
-        // TODO: Figure out why the player can't find the raft when on board with cone view.
-		if (IsOnRaft && other.CompareTag (interactiveTag)) {
-			interactable = other.GetComponent<InteractableObject> ();
-			interactable.Show = true;
-		}
-    }
-
-    /// <summary>
-    /// When leaving the trigger area. Used to signal an interactable object is not in range.For raft interactions.
-    /// </summary>
-    /// <param name="other">Collider with trigger</param>
-    void OnTriggerExit(Collider other)
-    {
-        // leaving the range of an interactable item
-        if (IsOnRaft && other.CompareTag(interactiveTag))
-        {
-            if (interactable != null)
-            {
-                interactable.Show = false;
-                interactable = null;
-            }
-        }
-    }
-
-    /// <summary>
     /// Get player input and update accordingly.
     /// </summary>
     void Update()
@@ -416,6 +385,10 @@ public class PlayerController : MonoBehaviour
 				{
 					isWaterInView = true;
 				}
+                else
+                {
+                    isWaterInView = false;
+                }
 			}
         }
     }
@@ -589,16 +562,6 @@ public class PlayerController : MonoBehaviour
         float raftHeight = raftMovement.gameObject.GetComponent<BoxCollider>().bounds.size.y;
         transform.position = position + Vector3.up * raftHeight;
         transform.parent = raftMovement.transform;
-
-        // update raft's interactivity
-        interactable.Text = raftMovement.DisembarkRaftText;
-        interactable.SetAction(delegate { DisembarkRaft(raftMovement); });
-
-        // Give the raft the player's animator to control.
-        raftMovement.PlayerAnimator = PlayerAnimator;
-
-        // Notify subscribers
-        Game.Instance.EventManager.RaftBoarded();
     }
 
     /// <summary>
@@ -613,10 +576,6 @@ public class PlayerController : MonoBehaviour
         PlayerAnimator.SetBool(playerAnimatorSwimming, false);
         PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
         transform.parent = defaultParent;
-
-        // update raft's interactivity
-        interactable.Text = raftMovement.BoardRaftText;
-        interactable.SetAction(delegate { BoardRaft(raftMovement); });
     }
 
     /// <summary>
@@ -666,12 +625,8 @@ public class PlayerController : MonoBehaviour
                 if (Vector3.Angle(playerAnimator.transform.forward, targetDir) < ViewAngle / 2)
                 {
                     float targetDist = Vector3.Distance(playerAnimator.transform.position, target.position);
-
-                    // check that the interactable object is not behind a non-interactable object
-                    if (!Physics.Raycast(playerAnimator.transform.position, targetDir, targetDist, obstacleMask))
-                    {
-                        CheckClosestInteractable(interactablesInRadius[i], targetDist);
-                    }
+              
+                    CheckClosestInteractable(interactablesInRadius[i], targetDist);
                 }
             }
 
@@ -730,6 +685,15 @@ public class PlayerController : MonoBehaviour
         // shifts the angle to the front of the character.
         angleInDegrees += transform.eulerAngles.y;
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+    }
+
+    /// <summary>
+    /// Returns the closest interactable item.
+    /// </summary>
+    /// <returns></returns>
+    public Collider ClosestItem()
+    {
+        return closestInteractable;
     }
 
     /// <summary>
