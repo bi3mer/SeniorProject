@@ -69,10 +69,13 @@ public class CityController : MonoBehaviour
         // Pick a vertex that is shared by the largest number of districts
         // and create the talest builing there.
         Vector3 cityCenter = GenerationUtility.GetMostCommonVertex(districts);
-        Building tallestBuilding = new TemplateBuilding(this.gameObject.transform, cityCenter, buildingGenerator.CityCenterBuilding);
-        tallestBuilding.Load();
 
-		float cityWidth = cityBounds.size.x;
+        //Rather than generate the tallest building, move the one in the scene to the specified position.
+        buildingGenerator.CityCenterBuilding.transform.position = cityCenter;
+        Building tallestBuilding = new TemplateBuilding(this.gameObject.transform, cityCenter, buildingGenerator.CityCenterBuilding);
+        //tallestBuilding.Load();
+
+        float cityWidth = cityBounds.size.x;
 		float cityDepth = cityBounds.size.z;
 		waterItemGenerator.SetCityInformation(cityWidth, cityDepth, cityBounds.center, districts);
 		itemPoolManager.SetUpItemPoolManager(cityDepth, cityDepth, cityBounds.center);

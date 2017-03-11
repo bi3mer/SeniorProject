@@ -18,7 +18,7 @@ Material:
     - first:
         name: _BumpMap
       second:
-        m_Texture: {fileID: 2800000, guid: 485d24756f0ad794e91a071741a5c7a9, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9014759ab27e74c4cad9e35f82b5579a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -48,13 +48,13 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 2800000, guid: 530e043c3bed53243847ed9e0d998738, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6c053bdf064ccf048918d1602376f4e7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
         name: _MetallicGlossMap
       second:
-        m_Texture: {fileID: 2800000, guid: cb2480b40b9d6de4cb6d60fcb0948689, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7db82a93619494c408bf3e7a67b72d86, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -72,7 +72,7 @@ Material:
     m_Floats:
     - first:
         name: _BumpScale
-      second: 0.51
+      second: 0.3
     - first:
         name: _Cutoff
       second: 0.5
@@ -84,10 +84,10 @@ Material:
       second: 0
     - first:
         name: _GlossMapScale
-      second: 1
+      second: 0.421
     - first:
         name: _Glossiness
-      second: 0.626
+      second: 0.5
     - first:
         name: _GlossyReflections
       second: 1
