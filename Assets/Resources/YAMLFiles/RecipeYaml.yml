@@ -1,4 +1,38 @@
 ---
+- recipeName: "Raft"
+  tiered: true
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "floatable object"
+     amountRequired: 1
+   - itemType: "rope"
+     amountRequired: 1
+  statsToCheck:
+   - statName: "durability"
+     statAffectingItems:
+      - "floatable object"
+      - "rope"
+     qualityThreshold:
+      - 5
+      - 15
+   - statName: "flexibility"
+     statAffectingItems:
+      - "rope"
+     qualityThreshold:
+      - 1
+      - 2
+   - statName: "stickiness"
+     statAffectingItems:
+      - "floatable object"
+     qualityThreshold:
+      - 0
+      - 0
+   - statName: "thickness"
+     statAffectingItems:
+      - "floatable object"
+     qualityThreshold:
+      - 2
+      - 4
 - recipeName: "Fishing Rod"
   tiered: true
   toolRequirements:

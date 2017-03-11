@@ -98,18 +98,37 @@
      qualityThreshold:
       - 2
       - 4
-- recipeName: "Idol of Yam"
-  tiered: false
+- recipeName: "Raft"
+  tiered: true
   toolRequirements:
-   - itemType: "blade"
-     amountRequired: 1
   resourceRequirements:
-   - itemType: "base solid"
-     amountRequired: 1
+   - itemType: "floatable object"
+     amountRequired: 5
+   - itemType: "rope"
+     amountRequired: 4
   statsToCheck:
    - statName: "durability"
      statAffectingItems:
-      - "base solid"
+      - "floatable object"
+      - "rope"
+     qualityThreshold:
+      - 5
+      - 15
+   - statName: "flexibility"
+     statAffectingItems:
+      - "rope"
+     qualityThreshold:
+      - 1
+      - 2
+   - statName: "stickiness"
+     statAffectingItems:
+      - "floatable object"
+     qualityThreshold:
+      - 0
+      - 0
+   - statName: "thickness"
+     statAffectingItems:
+      - "floatable object"
      qualityThreshold:
       - 2
-      - 3
+      - 4
