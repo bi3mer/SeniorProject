@@ -39,6 +39,17 @@ public class FishAgent : MonoBehaviour
 		this.agentLayer = LayerMask.GetMask(new string[] {FishAgent.predatorLayerString});
 	}
 
+	/// <summary>
+	/// Defines the configuration.
+	/// </summary>
+	private void defineConfiguration()
+	{
+		if(this.config == null)
+		{
+			this.config = this.GetComponent<FishAgentConfig>();
+		}
+	}
+
     /// <summary>
     /// Initialize with basic info
     /// </summary>
@@ -52,9 +63,16 @@ public class FishAgent : MonoBehaviour
 		this.config.RandomizeSelf();
 
 		// Start with random velocity
-		this.Velocity = new Vector3(Random.Range(-this.config.MaxVelocity, this.config.MaxVelocity), 
-			                        0, 
-			                        Random.Range(-this.config.MaxVelocity, this.config.MaxVelocity));
+		this.randomizeVelocity();
+	}
+
+	/// <summary>
+	/// Raises the enable event.
+	/// </summary>
+	void OnEnable()
+	{
+		this.defineConfiguration();
+		this.randomizeVelocity();
 	}
 	
     /// <summary>
@@ -74,7 +92,7 @@ public class FishAgent : MonoBehaviour
         // convert 2d calculations to 3d
 		this.Velocity           = VectorUtility.twoDimensional3d(velocity);
         this.acceleration       = VectorUtility.twoDimensional3d(acceleration);
-        this.transform.position = Game.Instance.CityBounds.BoundVector3d(VectorUtility.twoDimensional3d(position));
+//        this.transform.position = Game.Instance.CityBounds.BoundVector3d(VectorUtility.twoDimensional3d(position));
         
 		// set alignment
         if(velocity.magnitude > 0)
@@ -171,7 +189,7 @@ public class FishAgent : MonoBehaviour
 		Vector2 result = new Vector2();
 
         // Get all neighbors
-		Collider2D[] neighbors = Physics2D.OverlapCircleAll(this.transform.position, this.config.SeparationRadius, this.gameObject.layer);
+		Collider2D[] neighbors = Physics2D.OverlapCircleAll(this.transform.position, this.config.AllignmentRadius, this.gameObject.layer);
 
         // check if neighbors is full or not
         if (neighbors.Length > 0)
@@ -227,4 +245,14 @@ public class FishAgent : MonoBehaviour
     {
 		return Vector3.Angle(this.Velocity, agent - this.transform.position) <= this.config.MaxFieldOfViewAngle;
     } 
+
+    /// <summary>
+    /// Randomizes the velocity.
+    /// </summary>
+    private void randomizeVelocity()
+    {
+		this.Velocity = new Vector3(Random.Range(-this.config.MaxVelocity, this.config.MaxVelocity), 
+			                        0, 
+			                        Random.Range(-this.config.MaxVelocity, this.config.MaxVelocity));
+    }
 }

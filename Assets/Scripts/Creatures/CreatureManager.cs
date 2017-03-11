@@ -15,6 +15,8 @@ public class CreatureManager
 	/// </summary>
 	private CreatureTracker[] creatures;
 
+	private Rigidbody[] rbCreatures;
+
 	/// <summary>
 	/// The ideal amount of creatures in the scene
 	/// </summary>
@@ -53,10 +55,11 @@ public class CreatureManager
 		if(this.creaturePool.Count == 0)
 		{
 			// spawn creature
-			GameObject spawnedCreature         = GameObject.Instantiate(creature);
-			newCreature                        = spawnedCreature.AddComponent<CreatureTracker>();
-			newCreature.Index                  = this.CreatureCount;
-			this.creatures[this.CreatureCount] = newCreature;
+			GameObject spawnedCreature           = GameObject.Instantiate(creature);
+			newCreature                          = spawnedCreature.AddComponent<CreatureTracker>();
+			newCreature.Index                    = this.CreatureCount;
+			this.creatures[this.CreatureCount]   = newCreature;
+			this.rbCreatures[this.CreatureCount] = spawnedCreature.GetComponent<Rigidbody>();
 		}
 		else
 		{
@@ -69,6 +72,10 @@ public class CreatureManager
 
 		// set position of new creature
 		newCreature.transform.position = position;
+
+		// initialize velocity and rotation to 0
+		this.rbCreatures[newCreature.Index].velocity = Vector3.zero;
+		this.rbCreatures[newCreature.Index].rotation = Quaternion.identity;
 
 		// increase count of creatures
 		++this.CreatureCount;
@@ -147,6 +154,7 @@ public class CreatureManager
 	{
 		this.creaturePool       = new Stack<int>();
 		this.creatures          = new CreatureTracker[maxCount];
+		this.rbCreatures        = new Rigidbody[maxCount];
 		this.IdealCreatureCount = idealCount;
 		this.CreatureCount      = 0;
 	}
