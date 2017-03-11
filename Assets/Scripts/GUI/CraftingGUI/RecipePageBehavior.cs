@@ -265,7 +265,7 @@ public class RecipePageBehavior : MonoBehaviour
 			Destroy(child.gameObject);
 		}
 
-		List<Stack> validItems = Game.Instance.PlayerInstance.Inventory.GetAllItemsWithTag(itemTag);
+		List<ItemStack> validItems = Game.Instance.PlayerInstance.Inventory.GetAllItemsWithTag(itemTag);
 
 		for(int i = 0; i < validItems.Count; ++i)
 		{
