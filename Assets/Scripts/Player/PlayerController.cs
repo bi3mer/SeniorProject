@@ -444,6 +444,10 @@ public class PlayerController : MonoBehaviour
 		{
 			PlayerStatManager.WarmthRate.UseWaterWarmthReductionRate ();
 		} 
+		else if (IsByFire) 
+		{
+			PlayerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate ();
+		}
 		else
 		{
 			PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
@@ -754,15 +758,6 @@ public class PlayerController : MonoBehaviour
         }
         set
         {
-            if (value)
-            {
-				PlayerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate ();
-            }
-            else
-            {
-				PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
-            }
-
             isByFire = value;
         }
     }
