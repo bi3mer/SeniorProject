@@ -498,18 +498,12 @@ public class PlayerController : MonoBehaviour
 		while (updateStats)
 		{
 			yield return new WaitForSeconds(PlayerStatManager.WarmthRate.PerSeconds);
-//			if (!PlayerStatManager.StopStats) 
-//			{
-				Debug.Log ("BEFORE: " + PlayerStatManager.WarmthRate.Units + " per " + PlayerStatManager.WarmthRate.PerSeconds);
+			if (!PlayerStatManager.StopStats) 
+			{
 				PlayerStatManager.WarmthRate.ApplyRateToStat ();
-				Debug.Log ("BEFORE: " + PlayerStatManager.WarmthRate.Units + " per " + PlayerStatManager.WarmthRate.PerSeconds);
-				Debug.Log ("changed stat in rate manager: " + PlayerStatManager.WarmthRate.CurrentStat);
 				Game.Instance.PlayerInstance.Warmth = PlayerStatManager.WarmthRate.CurrentStat;
 				warmthUpdatedEvent.Invoke ();
-				Debug.Log (PlayerStatManager.WarmthRate.Units + " per " + PlayerStatManager.WarmthRate.PerSeconds);
-//			}
-
-			Debug.Log (PlayerStatManager.WarmthRate.CurrentStat);
+			}
 		}
     }
 
@@ -763,13 +757,10 @@ public class PlayerController : MonoBehaviour
             if (value)
             {
 				PlayerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate ();
-				Debug.Log ("is BY fire");
-				Debug.Log (PlayerStatManager.WarmthRate.Units + " per " + PlayerStatManager.WarmthRate.PerSeconds);
             }
             else
             {
 				PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
-				Debug.Log ("is not BY fire");
             }
 
             isByFire = value;
