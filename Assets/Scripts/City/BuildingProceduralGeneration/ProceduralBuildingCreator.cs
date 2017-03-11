@@ -54,10 +54,15 @@ public class ProceduralBuildingCreator : MonoBehaviour
     private const float attachmentWindowRotationMod = 90f;
 
     // The string name to access the standard shader's smoothness value
-    private const string StandardShaderSmoothness = "_GlossMapScale";
-    //How smooth building materials should be.
+    private const string standardShaderSmoothness = "_GlossMapScale";
+    // The string name to access the standard shader's bump value
+    private const string standardShaderBump = "_BumpScale";
+    // How smooth building materials should be.
     [Range(0f, 1f)]
-    private float materialSmoothness = .5f;
+    private float materialSmoothness = .72f;
+    // How normal the maps are.
+    [Range(0f, 1f)]
+    private float normalWeight = .1f;
 
     // The number of tries to try any potentially failing random generation.
     private const int numberOfTries = 5;
@@ -101,8 +106,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {
                 Material newMaterial = new Material(district.DistrictMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictMaterials[i]);
-                newMaterial.SetFloat(StandardShaderSmoothness, materialSmoothness);
+                newMaterial.SetFloat(standardShaderSmoothness, materialSmoothness);
                 newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.value);
+                newMaterial.SetFloat(standardShaderBump , normalWeight);
                 district.districtProceduralMaterials.Add(newMaterial);
             }
         }
@@ -113,8 +119,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {
                 Material newMaterial = new Material(district.DistrictWindowMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictWindowMaterials[i]);
-                newMaterial.SetFloat(StandardShaderSmoothness, materialSmoothness);
+                newMaterial.SetFloat(standardShaderSmoothness, materialSmoothness);
                 newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.value);
+                newMaterial.SetFloat(standardShaderBump, normalWeight);
                 district.districtProceduralWindowMaterials.Add(newMaterial);
             }
         }
@@ -194,7 +201,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             // Delete old windows
             for (int i = windowMeshes.Count - 1; i >= 0; --i)
             {
-                DestroyImmediate(windowMeshes[i].gameObject);
+                Destroy(windowMeshes[i].gameObject);
             }
         }
 
