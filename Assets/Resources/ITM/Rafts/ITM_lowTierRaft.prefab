@@ -102,6 +102,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011011973356}
+  - 65: {fileID: 65000012901231754}
+  - 54: {fileID: 54000013401240164}
+  - 114: {fileID: 114000011518752436}
   m_Layer: 9
   m_Name: ITM_lowTierRaft
   m_TagString: Interactable
@@ -402,9 +405,9 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011833487012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.738203, y: -7.4184284, z: 12.423862}
-  m_LocalScale: {x: 0.044824306, y: 0.04482431, z: 0.04475319}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -3.1762033, y: 0.918, z: 2.5969698}
+  m_LocalScale: {x: 0.022, y: 0.02, z: 0.0265}
+  m_LocalEulerAnglesHint: {x: 0, y: -47.347004, z: 0}
   m_Children:
   - {fileID: 4000011639806088}
   - {fileID: 4000011949078112}
@@ -1198,3 +1201,52 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013593423824}
   m_Mesh: {fileID: 4300014, guid: 9778a34b01d5eb84cb075bf3c102bbf1, type: 3}
+--- !u!54 &54000013401240164
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011833487012}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0.2
+  m_AngularDrag: 0.6
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
+--- !u!65 &65000012901231754
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011833487012}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 51.22921, y: 6.4858794, z: 19.951881}
+  m_Center: {x: -1.6568465, y: 0.00094771385, z: 0.10054066}
+--- !u!114 &114000011518752436
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011833487012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 056b1c54651d1044fbcba30ee385e4bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  climbHeight: 0.356
+  IsActive: 0
+  acceleration: 1.5
+  maxSpeed: 1.2
+  stopThreshold: 0.03
+  heightAboveWater: -0.015
+  BoardRaftText: (F) Board raft
+  DisembarkRaftText: (F) Disembark raft
+  PlayerAnimator: {fileID: 0}
+  updateIsStoppedTimer: 2
+  updatePlayerPositionTimer: 2

@@ -182,4 +182,8 @@ public class RaftMovement : Movement
         return 0f;
     }
 
+    public void SetMaxSpeed(float speed)
+    {
+        maxSpeed = speed;
+    }
 }
