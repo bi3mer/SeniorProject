@@ -6,7 +6,7 @@ public class WarmthRateManager : StatRate
 	private StatRate inWaterWarmthReductionRate;
 	private const int speedOfWarmthRateDecreaseInWater = 2;
 	private StatRate nearHeatSourceWarmthIncreaseRate;
-	private const int heatSourceUnit = 2;
+	private const int heatSourceUnit = 8;
 	private const int heatSourceSeconds = 1;
 
 	private const int secondsForByFireWithCloth = 1;
@@ -83,8 +83,11 @@ public class WarmthRateManager : StatRate
 	/// </summary>
 	public void UseHeatSourceWarmthIncreaseRate()
 	{
-		this.Units = GetTemperatureBasedWarmthRate().Units + nearHeatSourceWarmthIncreaseRate.Units;
-		this.PerSeconds = GetTemperatureBasedWarmthRate().PerSeconds + nearHeatSourceWarmthIncreaseRate.PerSeconds;
+		Debug.Log ("BEFORE: " + this.Units + " per " + this.PerSeconds);
+		this.Units = this.Units + nearHeatSourceWarmthIncreaseRate.Units;
+		this.PerSeconds = nearHeatSourceWarmthIncreaseRate.PerSeconds;
+		Debug.Log ("AFTER: " + this.Units + " per " + this.PerSeconds);
+		this.ApplyRateToStat ();
 	}
 
 	/// <summary>
