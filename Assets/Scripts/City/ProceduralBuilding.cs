@@ -30,6 +30,7 @@ public class ProceduralBuilding : Building
         Position = position;
         NumberOfFloors = numberOfFloors;
         Configuration = configuration;
+        Seed = seed;
         IsLoaded = false;
     }
 

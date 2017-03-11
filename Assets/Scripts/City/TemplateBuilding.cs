@@ -40,7 +40,9 @@ public class TemplateBuilding : Building
             return new Bounds();
         }
 
-        return Instance.GetComponentInChildren<Collider>().bounds;
+        Debug.Log(Instance);
+
+        return Instance.GetComponent<MeshCollider>().bounds;
     }
 
     /// <summary>

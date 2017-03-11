@@ -28,8 +28,7 @@ public class BuildingGenerator : MonoBehaviour
 
     [SerializeField]
     [Tooltip("Scale applied to generated buildings.")]
-    [Range(0, 1)]
-    private float buildingScale;
+    private Vector3 buildingScale;
 
     [SerializeField]
     [Tooltip("The maximum number of times a building is attempted to be placed before ending placemet.")]
@@ -64,16 +63,9 @@ public class BuildingGenerator : MonoBehaviour
     /// <returns></returns>
     public Building[] Generate (int seed, Block block, DistrictConfiguration configuration, Bounds cityBounds, Vector3 cityCenter, bool generateWeenie)
     {
-        // Warn about any configuration errors
-
-        // In case someone confiures the additional buildings and expects that to happen.
-        if (configuration.AdditionalBuildingTemplates.Length > 0)
-        {
-            Debug.LogWarning ("Additional buildings are not yet implemented.");
-        }
-
-        // Get the building creator
-        buildingCreator = GetComponent<ProceduralBuildingCreator>();
+        // Set any static variables for procedural buildings
+        ProceduralBuilding.Generator = GetComponent<ProceduralBuildingCreator>();
+        ProceduralBuilding.BuildingScale = buildingScale;
 
         List<Building> buildings = new List<Building>();
 
@@ -117,6 +109,7 @@ public class BuildingGenerator : MonoBehaviour
                     if (generateWeenie && Vector2.Distance(point, weeniePoint) < distanceBetweenBuildingCenters / 2f)
                     {
                         building = new TemplateBuilding(this.gameObject.transform, position, configuration.WeenieBuildingTemplate);
+                        building.Load();
                     }
                     else
                     {
@@ -126,6 +119,7 @@ public class BuildingGenerator : MonoBehaviour
                         int numberOfFloors = Mathf.FloorToInt(buildingHeight * floorRange) + configuration.MinFloors;
 
                         building = new ProceduralBuilding(this.gameObject.transform, position, System.Guid.NewGuid().GetHashCode(), numberOfFloors, configuration);
+                        building.Load();
                     }
 
                     // Add the building
