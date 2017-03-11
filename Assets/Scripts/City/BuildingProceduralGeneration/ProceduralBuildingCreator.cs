@@ -54,9 +54,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
     private const float attachmentWindowRotationMod = 90f;
 
     // The string name to access the standard shader's smoothness value
-    private const string StandardShaderSmoothness = "_GlossMapScale";
+    private const string standardShaderSmoothness = "_GlossMapScale";
     // The string name to access the standard shader's bump value
-    private const string StandardShaderBump = "_BumpScale";
+    private const string standardShaderBump = "_BumpScale";
     // How smooth building materials should be.
     [Range(0f, 1f)]
     private float materialSmoothness = .72f;
@@ -106,9 +106,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {
                 Material newMaterial = new Material(district.DistrictMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictMaterials[i]);
-                newMaterial.SetFloat(StandardShaderSmoothness, materialSmoothness);
+                newMaterial.SetFloat(standardShaderSmoothness, materialSmoothness);
                 newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.value);
-                newMaterial.SetFloat(StandardShaderBump , normalWeight);
+                newMaterial.SetFloat(standardShaderBump , normalWeight);
                 district.districtProceduralMaterials.Add(newMaterial);
             }
         }
@@ -119,9 +119,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {
                 Material newMaterial = new Material(district.DistrictWindowMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictWindowMaterials[i]);
-                newMaterial.SetFloat(StandardShaderSmoothness, materialSmoothness);
+                newMaterial.SetFloat(standardShaderSmoothness, materialSmoothness);
                 newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.value);
-                newMaterial.SetFloat(StandardShaderBump, normalWeight);
+                newMaterial.SetFloat(standardShaderBump, normalWeight);
                 district.districtProceduralWindowMaterials.Add(newMaterial);
             }
         }
