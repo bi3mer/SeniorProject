@@ -55,9 +55,12 @@ public class ProceduralBuildingCreator : MonoBehaviour
 
     // The string name to access the standard shader's smoothness value
     private const string StandardShaderSmoothness = "_GlossMapScale";
-    //How smooth building materials should be.
+    // How smooth building materials should be.
     [Range(0f, 1f)]
     private float materialSmoothness = .72f;
+    // How normal the maps are.
+    [Range(0f, 1f)]
+    private float normalWeight = .1f;
 
     // The number of tries to try any potentially failing random generation.
     private const int numberOfTries = 5;
@@ -103,6 +106,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictMaterials[i]);
                 newMaterial.SetFloat(StandardShaderSmoothness, materialSmoothness);
                 newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.value);
+                newMaterial.SetFloat("_BumpScale", normalWeight);
                 district.districtProceduralMaterials.Add(newMaterial);
             }
         }
@@ -115,6 +119,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictWindowMaterials[i]);
                 newMaterial.SetFloat(StandardShaderSmoothness, materialSmoothness);
                 newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.value);
+                newMaterial.SetFloat("_BumpScale", normalWeight);
                 district.districtProceduralWindowMaterials.Add(newMaterial);
             }
         }
