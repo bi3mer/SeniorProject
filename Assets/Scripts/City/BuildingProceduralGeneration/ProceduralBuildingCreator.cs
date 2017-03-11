@@ -57,7 +57,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
     private const string StandardShaderSmoothness = "_GlossMapScale";
     //How smooth building materials should be.
     [Range(0f, 1f)]
-    private float materialSmoothness = .5f;
+    private float materialSmoothness = .72f;
 
     // The number of tries to try any potentially failing random generation.
     private const int numberOfTries = 5;
@@ -194,7 +194,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
             // Delete old windows
             for (int i = windowMeshes.Count - 1; i >= 0; --i)
             {
-                DestroyImmediate(windowMeshes[i].gameObject);
+                Destroy(windowMeshes[i].gameObject);
             }
         }
 
