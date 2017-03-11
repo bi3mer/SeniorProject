@@ -33,7 +33,7 @@ public class CityChunkManager : MonoBehaviour
     /// <param name="city">Initialized city.</param>
     public void Init (City city)
     {
-        // Grid the city
+        // Grid the city (extents are 1/2 the size of the city)
         ChunksAcross = 2 * Mathf.FloorToInt(city.BoundingBox.extents.x / ChunkSize) + 1;
         ChunksDown   = 2 * Mathf.FloorToInt(city.BoundingBox.extents.z / ChunkSize) + 1;
         Chunks = new CityChunk[ChunksAcross + 1, ChunksDown + 1];
@@ -56,15 +56,7 @@ public class CityChunkManager : MonoBehaviour
 
                 CityChunk chunk = new CityChunk(i, j, bounds);
 
-                // Add buildings conatined in area
-                /*buildings.Reset();
-                while (buildings.MoveNext())
-                {
-                    if (bounds.Contains(buildings.Current.RootPosition))
-                    {
-                        chunk.Buildings.Add(buildings.Current);
-                    }
-                }*/
+                // TODO: Add buildings conatined in area
 
                 Chunks[i, j] = chunk;
             }

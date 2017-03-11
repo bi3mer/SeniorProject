@@ -22,6 +22,9 @@ public class DebugCity : MonoBehaviour
 
     private CityChunkManager chunkManager;
 
+    /// <summary>
+    /// Grab any variables that need grabbing.
+    /// </summary>
     void Start()
     {
         chunkManager = GetComponent<CityChunkManager>();
