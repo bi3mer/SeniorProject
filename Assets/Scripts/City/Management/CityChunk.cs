@@ -72,11 +72,12 @@ public class CityChunk
     public IEnumerator Load()
     {
         IsLoaded = true;
-        Debug.Log("Loading chunk (" + Location.X + ", " + Location.Y + ")");
+
+        SystemLogger.Write("Loading chunk (" + Location.X + ", " + Location.Y + ")");
 
         for (int i = 0; i < Buildings.Count; ++i)
         {
-            // Load building
+            // TODO: Load building
             yield return null;
         }
 
@@ -90,11 +91,12 @@ public class CityChunk
     public IEnumerator Unload()
     {
         IsLoaded = false;
-        Debug.Log("Unloading chunk (" + Location.X + ", " + Location.Y + ")");
+
+        SystemLogger.Write("Unloading chunk (" + Location.X + ", " + Location.Y + ")");
 
         for (int i = 0; i < Buildings.Count; ++i)
         {
-            // unload building
+            // TODO: Unload building
             yield return null;
         }
 
