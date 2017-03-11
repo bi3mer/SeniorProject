@@ -64,8 +64,7 @@ public class FishingRod : Tool
     {
         get
         {
-            // TODO: Determine if you can cast the rod from where you are currently standing
-            return true;
+            return Game.Player.Controller.IsOnLand && Game.Player.Controller.IsWaterInView;
         }
     }
 

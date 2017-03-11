@@ -124,14 +124,21 @@ public class ItemPoolManager : MonoBehaviour
 	{
 		Tuple<int, int> coord = PointToGrid(new Vector2(location.x, location.z));
 
-		if(grid[coord.X, coord.Y] == null)
+		if(coord.X >= 0 && coord.Y >= 0 && coord.X < grid.GetLength(0) && coord.Y < grid.GetLength(1))
 		{
-			grid[coord.X, coord.Y] = new ItemPoolInfo(location, item, activated);
+			if(grid[coord.X, coord.Y] == null)
+			{
+				grid[coord.X, coord.Y] = new ItemPoolInfo(location, item, activated);
+			}
+			else
+			{
+				grid[coord.X, coord.Y].ItemNames.Add(item);
+				grid[coord.X, coord.Y].Locations.Add(location);
+			}
 		}
 		else
 		{
-			grid[coord.X, coord.Y].ItemNames.Add(item);
-			grid[coord.X, coord.Y].Locations.Add(location);
+			Debug.LogError("Point " + location + " is out of city bounds.");
 		}
 	}
 
