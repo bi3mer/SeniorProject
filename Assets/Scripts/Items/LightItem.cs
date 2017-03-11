@@ -4,14 +4,14 @@ using UnityEngine.Events;
 
 public class LightItem : Tool 
 {
-    private string toolName;
-
     [SerializeField]
     [Tooltip("Location to parent the item on the player model")]
     private GameObject attachJoint;
 
     private Light lightSource;
     private LightCategory lightBase;
+
+    private GameObject lightObject;
 
     private bool on;
 
@@ -35,10 +35,12 @@ public class LightItem : Tool
 	void Start () 
 	{
 		On = false;
-		ToolName = "";
+		ToolName = toolName;
 		optionSelectionHandler = new OverworldItemOptionSelection(true);
 		transform.SetParent(attachJoint.transform, false);
-		ToolType = ToolTypes.Light;
+
+		lightObject = GetComponentInChildren<Transform>().gameObject;
+		lightObject.SetActive(false);
 	}
 
 	/// <summary>
@@ -47,19 +49,12 @@ public class LightItem : Tool
 	/// <param name="itemForTool">Item for tool.</param>
 	public override void SetUpTool(BaseItem itemForTool)
 	{
-		GameObject lightItem = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(itemForTool);
 		LightCategory lightCategory = (LightCategory) itemForTool.GetItemCategoryByClass(typeof(LightCategory));
-
-		lightItem.transform.SetParent(transform, false);
-
 		lightSource = GetComponentInChildren<Light>();
-
 		lightSource.intensity = lightCategory.Brightness;
 		lightSource.enabled = On;
 
 		lightBase = lightCategory;
-
-		toolName = lightItem.name;
 
 		optionSelectionHandler.Reset();
 
@@ -100,6 +95,7 @@ public class LightItem : Tool
 	public override void Equip()
 	{
 		On = false;
+		lightObject.SetActive(true);
 	}
 
 	/// <summary>
@@ -114,6 +110,7 @@ public class LightItem : Tool
 			GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
 		}
 
+		lightObject.SetActive(false);
 		StopAllCoroutines();
 	}
 
