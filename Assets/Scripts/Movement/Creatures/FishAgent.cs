@@ -87,11 +87,12 @@ public class FishAgent : MonoBehaviour
 		Vector2 velocity = Vector2.ClampMagnitude(VectorUtility.XZ(this.Velocity) + acceleration2d * Time.deltaTime, this.config.MaxVelocity);
 
         // Set new position
-        Vector2 position = VectorUtility.XZ(this.transform.position) + (velocity * Time.deltaTime);
+        this.transform.position = this.transform.position + VectorUtility.twoDimensional3d(velocity * Time.deltaTime);
+//        Debug.Log(this.transform.position.ToString() + " + " + velocity.ToString() + " * " + Time.deltaTime.ToString());
 
         // convert 2d calculations to 3d
-		this.Velocity           = VectorUtility.twoDimensional3d(velocity);
-        this.acceleration       = VectorUtility.twoDimensional3d(acceleration);
+		this.Velocity     = VectorUtility.twoDimensional3d(velocity);
+        this.acceleration = VectorUtility.twoDimensional3d(acceleration);
         
 		// set alignment
         if(velocity.magnitude > 0)
@@ -188,7 +189,7 @@ public class FishAgent : MonoBehaviour
 		Vector2 result = new Vector2();
 
         // Get all neighbors
-		Collider2D[] neighbors = Physics2D.OverlapCircleAll(this.transform.position, this.config.AllignmentRadius, this.gameObject.layer);
+		Collider2D[] neighbors = Physics2D.OverlapCircleAll(this.transform.position, this.config.AlignmentRadius, this.gameObject.layer);
 
         // check if neighbors is full or not
         if (neighbors.Length > 0)
@@ -231,7 +232,7 @@ public class FishAgent : MonoBehaviour
     {
         return this.config.CohesionWeight * this.Cohesion() 
              + this.config.SeparationWeight * this.Separation()
-			 + this.config.AllignmentWeight * this.Alignment()
+			 + this.config.AlignmentWeight * this.Alignment()
              + this.config.WanderWeight * this.Wander();
     }
 
