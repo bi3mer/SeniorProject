@@ -36,6 +36,6 @@
 	/// <param name="value">Value.</param>
 	public bool CheckCondition(float value)
 	{
-		return booleanOperator (value, ThresholdValue);
+        return booleanOperator (value, ThresholdValue);
 	}
 }

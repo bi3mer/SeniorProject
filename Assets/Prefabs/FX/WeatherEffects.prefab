@@ -43,6 +43,7 @@ GameObject:
   - 114: {fileID: 114000011684390236}
   - 114: {fileID: 114000010296232540}
   - 114: {fileID: 114000010357929396}
+  - 114: {fileID: 114000013590725202}
   m_Layer: 0
   m_Name: WeatherEffects
   m_TagString: Untagged
@@ -319,7 +320,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010414017512}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -125.571, y: 0, z: -1.115}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -356,8 +357,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013978944166}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.75, z: 0}
-  m_LocalScale: {x: 11.683229, y: 11.683233, z: 11.683233}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 14515.177, y: 14515.175, z: 14515.175}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000011601800120}
@@ -600,9 +601,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
+  LightningEventPath: event:/Ambient/Weather/Basic_Thunder
   weatherIntensityDivisor: 10
   maxWeatherVolume: 3
   weatherVolume: 2
+  lightningVolume: 1.5
 --- !u!114 &114000010667489446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -619,7 +622,7 @@ MonoBehaviour:
   windMitigation: 8
   debrisMultiplier: 1
   debrisLevel: 0
-  DebrisStartThreshold: 30
+  DebrisStartThreshold: 50
   windVectorXZ: {x: 0, y: 0}
 --- !u!114 &114000010728337554
 MonoBehaviour:
@@ -680,10 +683,10 @@ MonoBehaviour:
   MainRain: {fileID: 198000010173776360}
   RainFog: {fileID: 198000011775040566}
   windMitigation: 8
-  rainLevel: 18.831518
+  rainLevel: 55.272472
   FogStartThreshold: 50
   fogMod: 0.5
-  windVectorXZ: {x: -1.4926523, y: 0.7084266}
+  windVectorXZ: {x: 2.6196556, y: 6.436308}
   fogWindMod: 0.4
   splashManager: {fileID: 114000012391922068}
   splashSize: 0.4
@@ -729,9 +732,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
+  LightningEventPath: event:/Ambient/Weather/Basic_Thunder
   weatherIntensityDivisor: 10
   maxWeatherVolume: 3
   weatherVolume: 2
+  lightningVolume: 1.5
 --- !u!114 &114000011796935804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -756,7 +761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UsePositionX: 1
-  UsePositionY: 1
+  UsePositionY: 0
   UsePositionZ: 1
   Parent: {fileID: 0}
 --- !u!114 &114000012391922068
@@ -788,7 +793,7 @@ MonoBehaviour:
   windMitigation: 8
   debrisMultiplier: 6
   debrisLevel: 0
-  DebrisStartThreshold: 60
+  DebrisStartThreshold: 90
   windVectorXZ: {x: 0, y: 0}
 --- !u!114 &114000013357707624
 MonoBehaviour:
@@ -811,6 +816,23 @@ MonoBehaviour:
   refractLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114000013590725202
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010414017512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
+  LightningEventPath: event:/Ambient/Weather/Basic_Thunder
+  weatherIntensityDivisor: 10
+  maxWeatherVolume: 3
+  weatherVolume: 2
+  lightningVolume: 1.5
 --- !u!114 &114000013893003440
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -827,7 +849,7 @@ MonoBehaviour:
   windMitigation: 8
   debrisMultiplier: 6
   debrisLevel: 0
-  DebrisStartThreshold: 60
+  DebrisStartThreshold: 90
   windVectorXZ: {x: 0, y: 0}
 --- !u!198 &198000010173776360
 ParticleSystem:
@@ -1149,7 +1171,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationX:
-      scalar: -0.012364376
+      scalar: -0.112334765
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1184,7 +1206,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationY:
-      scalar: 0.026051696
+      scalar: -0.045721617
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1283,7 +1305,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 37.663036
+      scalar: 110.544945
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1711,7 +1733,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: -1.4926523
+      scalar: 2.6196556
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1736,7 +1758,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     y:
-      scalar: -0.7084266
+      scalar: -6.436308
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2596,7 +2618,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 8
+      scalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2744,7 +2766,7 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 0.34117648, g: 0.36078432, b: 0.2509804, a: 1}
-      maxColor: {r: 0.42352942, g: 0.77254903, b: 0.39607844, a: 1}
+      maxColor: {r: 0.4, g: 0.5058824, b: 0.39215687, a: 1}
       minMaxState: 2
     startSize:
       scalar: 0.15
@@ -2937,7 +2959,7 @@ ParticleSystem:
         m_RotationOrder: 0
       minMaxState: 3
     randomizeRotationDirection: 0
-    gravityModifier: 0
+    gravityModifier: 1
     maxNumParticles: 1000
     size3D: 0
     rotation3D: 1
@@ -4289,7 +4311,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 8
+      scalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4630,7 +4652,7 @@ ParticleSystem:
         m_RotationOrder: 0
       minMaxState: 3
     randomizeRotationDirection: 0
-    gravityModifier: 0
+    gravityModifier: 1
     maxNumParticles: 1000
     size3D: 0
     rotation3D: 1
@@ -9858,7 +9880,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 0
+      scalar: 27.636236
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10256,7 +10278,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: -0.5970609
+      scalar: 1.0478623
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10306,7 +10328,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     z:
-      scalar: -0.28337064
+      scalar: -2.5745232
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -11141,7 +11163,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 8
+      scalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -11492,7 +11514,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     randomizeRotationDirection: 0
-    gravityModifier: 0
+    gravityModifier: 1
     maxNumParticles: 1000
     size3D: 0
     rotation3D: 0
@@ -12874,7 +12896,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 8
+      scalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -13215,7 +13237,7 @@ ParticleSystem:
         m_RotationOrder: 0
       minMaxState: 3
     randomizeRotationDirection: 0
-    gravityModifier: 0
+    gravityModifier: 1
     maxNumParticles: 1000
     size3D: 0
     rotation3D: 1
@@ -14597,7 +14619,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 8
+      scalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -14948,7 +14970,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     randomizeRotationDirection: 0
-    gravityModifier: 0
+    gravityModifier: 1
     maxNumParticles: 1000
     size3D: 0
     rotation3D: 0
