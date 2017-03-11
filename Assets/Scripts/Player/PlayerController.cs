@@ -33,14 +33,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float hungerReductionRate;
 
-    [Header("Sickness Resource Settings")]
-    [SerializeField]
-    private float pneumoniaWarmthReductionRate;
-    [SerializeField]
-    private float pneumoniaHungerReductionRate;
-    [SerializeField]
-    private float foodPoisoningHungerReductionRate;
-
     [Header("HUD Settings")]
     [SerializeField]
     private UnityEvent hungerUpdatedEvent;
@@ -458,6 +450,17 @@ public class PlayerController : MonoBehaviour
         if (IsInWater)
         {
             currentWarmthChangeRate = waterWarmthReductionRate;
+        }
+
+        // check if sick with food poisoning
+        if (player.HealthStatus == PlayerHealthStatus.FoodPoisoning)
+        {
+            currentHungerChangeRate = currentHungerChangeRate * 2;
+        }
+        // check if sick with pneumonia
+        if (player.HealthStatus == PlayerHealthStatus.Pneumonia)
+        {
+            currentWarmthChangeRate = currentWarmthChangeRate * 2;
         }
     }
 

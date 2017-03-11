@@ -244,23 +244,30 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public void Eat()
 	{
+        Player player = Game.Player;
 		if (StomachEffect < 0) 
 		{
-			// TODO: stomach illness code
+            player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
 		} 
 		else if (StomachEffect > 0) 
 		{
-			// TODO: cure for stomach illness
+            if (player.HealthStatus == PlayerHealthStatus.FoodPoisoning)
+            {
+                player.HealthStatus = PlayerHealthStatus.None;
+            }
 		}	
 
 		if (PneumoniaEffect < 0) 
 		{
-			// TODO: pneumonia code
-		} 
+            player.HealthStatus = PlayerHealthStatus.Pneumonia;
+        } 
 		else if (PneumoniaEffect > 0) 
 		{
-			// TODO: pneumonia cure code
-		}
+            if (player.HealthStatus == PlayerHealthStatus.Pneumonia)
+            {
+                player.HealthStatus = PlayerHealthStatus.None;
+            }
+        }
 
 		baseItem.RemovalFlag = true;
 	}
