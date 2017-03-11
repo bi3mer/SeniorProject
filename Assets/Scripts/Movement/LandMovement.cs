@@ -32,6 +32,7 @@ public class LandMovement : Movement
     private const float playerAnimatorSprint = 1f;
     private const float playerAnimatorWalk = .5f;
     private const float playerAnimatorIdle = 0f;
+    private const int playerAnimatorArmsLayer = 1;
     private CharacterController controller;
     private PlayerController playerController;
 
@@ -123,8 +124,14 @@ public class LandMovement : Movement
         if (Vector3.Dot(dir.normalized, Game.Instance.WeatherInstance.NormalizedOctantWindDirection2d) == -1)
         {
             Speed *= againstWindSpeedModifier;
+            // Set the player's blend weight to be 1.
+            playerAnimator.SetLayerWeight(playerAnimatorArmsLayer, 1f);
         }
-
+        else
+        {
+            // Set the player's blend weight to be 0.
+            playerAnimator.SetLayerWeight(playerAnimatorArmsLayer, 0f);
+        }
         Vector3 moveVector = lastDirection * Speed;
 
         moveVector += new Vector3(0f, yVelocity, 0f);
