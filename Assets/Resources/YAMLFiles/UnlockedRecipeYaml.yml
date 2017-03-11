@@ -103,9 +103,9 @@
   toolRequirements:
   resourceRequirements:
    - itemType: "floatable object"
-     amountRequired: 1
+     amountRequired: 5
    - itemType: "rope"
-     amountRequired: 1
+     amountRequired: 4
   statsToCheck:
    - statName: "durability"
      statAffectingItems:
