@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class FireInteractable : InteractableObject, HasSelectionInterface
+public class FireInteractable : InteractableObject
 {
 	/// <summary>
 	/// Gets or sets the fire base category object.
@@ -37,6 +37,8 @@ public class FireInteractable : InteractableObject, HasSelectionInterface
 
 	private const float fireUpdateWaitTime = 0.2f;
 
+	private OverworldItemOptionSelection itemSelectionHandler;
+
 	/// <summary>
 	/// Sets openInventory as an action that should fire off when PerformAction is called.
 	/// </summary>
@@ -47,6 +49,7 @@ public class FireInteractable : InteractableObject, HasSelectionInterface
 		fireParticles = GetComponentInChildren<ParticleSystem>();
 		fireParticles.gameObject.SetActive(false);
 		Text = lightFirePrompt;
+		itemSelectionHandler = new OverworldItemOptionSelection(false);
 
 		SetAction
 		(
@@ -64,11 +67,11 @@ public class FireInteractable : InteractableObject, HasSelectionInterface
 	{
 		if(lit)
 		{
-			GuiInstanceManager.WorldSelectionGuiInstance.DisplayItemOptions(ItemTypes.Fuel, this);
+			itemSelectionHandler.ShowPossibleItems(ItemTypes.Fuel, new UnityAction(AddFuel));
 		}
 		else
 		{
-			GuiInstanceManager.WorldSelectionGuiInstance.DisplayItemOptions(ItemTypes.Igniter, this);
+			itemSelectionHandler.ShowPossibleItems(ItemTypes.Igniter, new UnityAction(IgniteFire));
 		}
 	}
 
@@ -104,9 +107,9 @@ public class FireInteractable : InteractableObject, HasSelectionInterface
 	/// Add fuel to the fire.
 	/// </summary>
 	/// <param name="fuelName">Fuel name.</param>
-	public void AddFuel(string fuelName)
+	public void AddFuel()
 	{
-		BaseItem item = Game.Instance.PlayerInstance.Inventory.GetInventoryBaseItem(fuelName);
+		BaseItem item = Game.Instance.PlayerInstance.Inventory.GetInventoryBaseItem(itemSelectionHandler.SelectedItem);
 		FireBase.AddFuel(item.GetItemAttribute(burnTimeAttrName).Value);
 
 		// For now, you can only add fuel one at a time
@@ -116,34 +119,17 @@ public class FireInteractable : InteractableObject, HasSelectionInterface
 	/// <summary>
 	/// Ignites the fire.
 	/// </summary>
-	/// <param name="igniterName">Igniter name.</param>
-	public void IgniteFire(string igniterName)
+	public void IgniteFire()
 	{
 		lit = true;
 		Text = fuelFirePrompt;
 
 		// TODO: In the future, certain fire bases may need more ignition to ignite
-		Game.Instance.PlayerInstance.Inventory.UseItem(igniterName, 1);
+		Game.Instance.PlayerInstance.Inventory.UseItem(itemSelectionHandler.SelectedItem, 1);
 		fireParticles.gameObject.SetActive(true);
 
 		Game.Instance.PlayerInstance.Controller.IsByFire = true;
 		StartCoroutine(UpdateFire());
-	}
-
-	/// <summary>
-	/// Callback action that will be fired off when an item has been selected.
-	/// </summary>
-	/// <param name="itemName">Item name.</param>
-	public void ItemSelectedCallbackAction(string itemName)
-	{
-		if(lit)
-		{
-			AddFuel(itemName);
-		}
-		else
-		{
-			IgniteFire(itemName);
-		}
 	}
 
 	/// <summary>

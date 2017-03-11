@@ -4,10 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(BezierLine))]
 public class FishingRod : Tool
 {
-    [SerializeField]
-    [BaseItemPopup]
-    private string toolName;
-
     // TODO: Animations
 
     [Header("Casting Settings")]

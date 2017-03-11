@@ -132,3 +132,16 @@
      qualityThreshold:
       - 2
       - 4
+- recipeName: "Lantern"
+  tiered: false
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "container"
+     amountRequired: 1
+   - itemType: "fuel"
+     amountRequired: 2
+   - itemType: "igniter"
+     amountRequired: 1
+   - itemType: "base solid"
+     amountRequired: 1
+  statsToCheck:

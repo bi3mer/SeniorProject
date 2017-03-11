@@ -17,7 +17,7 @@ public class InteractableObject : MonoBehaviour
     /// <summary>
     /// Initializes text and hides it.
     /// </summary>
-    void Start()
+    void Awake()
     {
     	if(!SetupComplete)
     	{

@@ -1,4 +1,4 @@
-﻿---
+---
 - itemName: "River Reed"
   baseItem: 
    itemName: "River Reed"
@@ -13,10 +13,10 @@
     - “Weave Basket”
    actionModifiedModels:
     - "ITM/Ropes/ITM_Rope"
-    - “ITM/Small\ Containers/ITM_Bucket”
+    - “ITM/Small\ Containers/ITM_Basket”
    actionModifiedSprites:
     - "GUI_ITM_Rope"
-    - "GUI_ITM_Bucket"
+    - "GUI_ITM_Basket"
   itemCategories: 
     - !!solid
       flexibility: 3.0
@@ -601,3 +601,21 @@
   itemCategories:
     - !!idol
       benefitName: "Warmth"
+- itemName: "Lantern"
+  baseItem: 
+   itemName: "Lantern"
+   rarity: "rare"
+   inventorySprite: "GUI_ITM_Lantern"
+   worldModel: "ITM/Tools/ITM_Lantern"
+   types:
+    - "equipable"
+   flavorText: "A lantern to the light the way. Requires fuel."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!light
+      maxFuel: 20
+      brightness: 2
+      currentFuelLevel: 10
+      burnRate: 0.5
