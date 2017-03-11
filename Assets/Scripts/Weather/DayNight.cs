@@ -56,7 +56,7 @@ public class DayNight : MonoBehaviour
             }
             else
             {
-                planetaryObject.intensity = Mathf.Lerp(moonMinBrightness, moonMaxBrightness, (planetaryObject.transform.position.y - transform.position.y) / sunMaxHeight);
+                planetaryObject.intensity = Mathf.Lerp(moonMinBrightness, moonMaxBrightness, (planetaryObject.transform.position.y - transform.position.y) / moonMaxHeight);
             }
         }
 
