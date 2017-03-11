@@ -49,7 +49,7 @@ public class RandomUtility
     }
 
     /// <summary>
-    /// Random Vector
+	/// Generates a random Vector2
     /// </summary>
     /// <returns>The vector.</returns>
     /// <param name="min">Minimum.</param>
@@ -60,7 +60,7 @@ public class RandomUtility
     }
 
     /// <summary>
-    /// Randoms the vector3d.
+	/// Generates a random Vector3
     /// </summary>
     /// <returns>The vector3d.</returns>
     /// <param name="min">Minimum.</param>
