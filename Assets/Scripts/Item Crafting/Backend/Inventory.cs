@@ -20,19 +20,49 @@ public class Inventory
 	private string inventoryName;
 
 	// Contents of the inventory keyed by their name
-	private Stack[] contents;
+	protected Stack[] contents;
 
 	private InventoryYamlParser parser;
+
+    private Dictionary<string, int> itemCountByType;
+
 	/// <summary>
-	/// Sets up the inventory
-	/// TODO: Remove the definition of the inventory
+	/// Initializes a new instance of the <see cref="Inventory"/> class.
 	/// </summary>
-	public Inventory(string name, string inventoryFile)
+	/// <param name="name">Name.</param>
+	/// <param name="size">Size.</param>
+	public Inventory(string name, int size)
+	{
+		contents = new Stack[size];
+		inventoryName = name;
+		InventorySize = size;
+		itemCountByType = new Dictionary<string, int>();
+
+		for(int i = 0; i < ItemTypes.Types.Length; ++i)
+		{
+			itemCountByType.Add(ItemTypes.Types[i], 0);
+		}
+	}
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Inventory"/> class.
+	/// </summary>
+	/// <param name="name">Name of inventory.</param>
+	/// <param name="inventoryFile">Inventory file.</param>
+	public Inventory(string name, string inventoryFile, int size)
 	{
 		contents = new Stack[inventorySize];
 		inventoryName = name;
 
 		parser = new InventoryYamlParser(inventoryFile);
+		InventorySize = size;
+		itemCountByType = new Dictionary<string, int>();
+
+		for(int i = 0; i < ItemTypes.Types.Length; ++i)
+		{
+			itemCountByType.Add(ItemTypes.Types[i], 0);
+		}
+
 		LoadInventory();
 	}
 
@@ -49,11 +79,17 @@ public class Inventory
 			{
 
 				BaseItem item = inventoryInfo [i].Item;
+
+				UpdateTypeAmount(item.Types, inventoryInfo[i].ItemAmount);
+
 				item.InitializeBaseItem ();
 
-				for (int j = 0; j < inventoryInfo[i].ItemCategories.Count; ++j) 
+				if(inventoryInfo[i].ItemCategories != null && inventoryInfo[i].ItemCategories.Count > 0)
 				{
-					item.AddItemCategory (inventoryInfo[i].ItemCategories [j]);
+					for (int j = 0; j < inventoryInfo[i].ItemCategories.Count; ++j) 
+					{
+						item.AddItemCategory (inventoryInfo[i].ItemCategories [j]);
+					}
 				}
 
 				item.SetUpBaseItem ();
@@ -96,6 +132,7 @@ public class Inventory
 				{
 					stackAmount = contents[i].Amount;
 					contents[i].Amount -= amountLeft;
+					UpdateTypeAmount(contents[i].Item.Types, -amountLeft);
 
 					amountLeft -= stackAmount;
 
@@ -170,19 +207,44 @@ public class Inventory
 	}
 
 	/// <summary>
+	/// Gets the names of items given a type.
+	/// </summary>
+	/// <returns>The items by type.</returns>
+	/// <param name="type">Type.</param>
+    public List<string> GetItemsByType(string type)
+    {
+    	List<string> desiredItems = new List<string>();
+
+    	for(int i = 0; i < contents.Length; ++i)
+    	{
+    		if(contents[i] != null && contents[i].Item.Types.Contains(type))
+    		{
+    			desiredItems.Add(contents[i].Item.ItemName);
+    		}
+    	}
+
+    	return desiredItems;
+    }
+
+	/// <summary>
 	/// Add item to inventory.
 	/// </summary>
-	/// <param name="newItem">New item to be added.</param>
-	public void AddItem(BaseItem newItem, int amount)
+	/// <returns>The added item.</returns>
+	/// <param name="newItem">New item.</param>
+	/// <param name="amount">Amount.</param>
+	public Stack AddItem(BaseItem newItem, int amount)
 	{
 		int loc = GetNextOpenSlot ();
 		contents[loc] = new Stack(newItem, amount, Guid.NewGuid().ToString("N"));
+		UpdateTypeAmount(newItem.Types, amount);
+
+		return contents[loc];
 	}
 
 	/// <summary>
 	/// Removes the item from the inventory.
 	/// </summary>
-	/// <param name="item">Item to remove.</param>
+	/// <param name="stack">Item to remove.</param>
 	public void RemoveStack(Stack stack)
 	{
 		for (int i = 0; i < contents.Length; ++i) 
@@ -206,9 +268,9 @@ public class Inventory
 	/// </summary>
 	/// <returns>All items with tag.</returns>
 	/// <param name="itemTag">Tag that contains desired items.</param>
-	public List<BaseItem> GetAllItemsWithTag(string itemTag)
+	public List<Stack> GetAllItemsWithTag(string itemTag)
 	{
-		List<BaseItem> result = new List<BaseItem> ();
+		List<Stack> result = new List<Stack> ();
 
 		for (int i = 0; i < contents.Length; ++i) 
 		{
@@ -216,7 +278,7 @@ public class Inventory
 			{
 				if (contents [i].Item.Types.Contains (itemTag.ToLower())) 
 				{
-					result.Add (contents [i].Item);
+					result.Add (contents [i]);
 				}
 			}
 		}
@@ -275,4 +337,62 @@ public class Inventory
 			Array.Resize(ref contents, inventorySize);
 		}
 	}
+
+	/// <summary>
+	/// Updates the type amount.
+	/// </summary>
+	/// <param name="types">Types.</param>
+	/// <param name="changedAmount">Changed amount. Negative for removed amount, positive for added.</param>
+	public void UpdateTypeAmount(List<string> types, int changedAmount)
+	{
+		for(int i = 0; i < types.Count; ++i)
+		{
+			itemCountByType[types[i]] += changedAmount;
+		}
+	}
+
+	/// <summary>
+	/// Checks if recipe possible given items in the inventory.
+	/// </summary>
+	/// <returns><c>true</c>, if recipe possible was checked, <c>false</c> otherwise.</returns>
+	/// <param name="recipe">Recipe.</param>
+	public bool CheckRecipePossible(Recipe recipe)
+    {
+    	Requirement requirement;
+
+    	for(int i = 0; i < recipe.ResourceRequirements.Count; ++i)
+    	{
+			requirement = recipe.ResourceRequirements[i];
+
+    		if(itemCountByType[requirement.ItemType] < requirement.AmountRequired)
+    		{
+    			return false;
+    		}
+    	}
+
+    	if(recipe.ToolRequirements != null)
+    	{
+			for(int i = 0; i < recipe.ToolRequirements.Count; ++i)
+	    	{
+				requirement = recipe.ToolRequirements[i];
+
+	    		if(itemCountByType[requirement.ItemType] < requirement.AmountRequired)
+	    		{
+	    			return false;
+	    		}
+	    	}
+	    }
+
+    	return true;
+    }
+
+    /// <summary>
+    /// Checks if the requirement is met.
+    /// </summary>
+    /// <returns><c>true</c>, if requirement met was checked, <c>false</c> otherwise.</returns>
+    /// <param name="requirement">Requirement.</param>
+    public bool CheckRequirementMet(Requirement requirement)
+    {
+    	return itemCountByType[requirement.ItemType] >= requirement.AmountRequired;
+    }
 }

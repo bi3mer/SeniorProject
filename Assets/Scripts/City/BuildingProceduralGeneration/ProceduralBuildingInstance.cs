@@ -6,7 +6,6 @@ using System.Collections;
 /// </summary>
 public class ProceduralBuildingInstance : MonoBehaviour
 {
-    public bool IsVisible;
     public ProceduralBuildingBase BuildingBase;
     public ProceduralBuildingWindow Windows;
     public float WindowSpacing;

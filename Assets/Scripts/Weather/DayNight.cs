@@ -4,44 +4,33 @@ using System.Collections;
 public class DayNight : MonoBehaviour 
 {
 	[SerializeField]
-	private Color DayColor;
-	[SerializeField]
-	private Color NightColor;
+	private Transform sun;
 
-	private Light DirectionaLight;
+	[SerializeField] 
+	private Transform moon;
+
+	private float previousTime = 0f;
 
 	/// <summary>
-	/// Updates the color.
+	/// Updates the planetary object transform as it rotates around
+	/// our world.
 	/// </summary>
-	/// <param name="targetColor">Target color.</param>
-	/// <param name="lerpConstant">Lerp constant.</param>
-	private void updateColor(Color baseColor, Color targetColor)
+	private void updatePlanetaryObject(Transform planetaryObject, float angle)
 	{
-		DirectionaLight.color = Color.Lerp(baseColor, targetColor, Game.Instance.ClockInstance.GetTwelveHourPercentage());
+		// TODO: should the be able to rotate around something other than the origin?
+		planetaryObject.RotateAround(Vector3.zero, Vector3.right, angle);
+		planetaryObject.LookAt(Vector3.zero);
 	}
 
 	/// <summary>
-	/// Update the color of the light from day to night and vise versa
+	/// Updates the transforms of the sun and the moon
 	/// </summary>
+	/// <returns>The transforms.</returns>
 	void Update()
 	{
-		if(Game.Instance.ClockInstance.IsDay)
-		{
-			this.updateColor(this.NightColor, this.DayColor);
-		}
-		else
-		{
-			this.updateColor(this.DayColor, this.NightColor);
-		}
-	}
+		float angle = (Game.Instance.ClockInstance.CurrentTime - this.previousTime) / Game.Instance.ClockInstance.TwelveHours;
 
-	/// <summary>
-	/// Get the light the script is attached to and set 
-	/// default color
-	/// </summary>
-	void Start()
-	{
-		this.DirectionaLight = this.GetComponent<Light>();
-		this.DirectionaLight.color = this.NightColor;
+		this.updatePlanetaryObject(this.sun,  angle);
+		this.updatePlanetaryObject(this.moon, angle);
 	}
 }

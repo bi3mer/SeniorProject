@@ -1,31 +1,35 @@
----
+﻿---
 - itemName: "River Reed"
   baseItem: 
    itemName: "River Reed"
    rarity: "common"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_RiverWeed"
    worldModel: "ITM/Plants/ITM_RiverWeed"
    types:
     - "edible"
-   flavorText: ""
+   flavorText: "A common reed that often grows in water."
    modifyingActionNames:
     - "Weave Rope"
+    - “Weave Basket”
    actionModifiedModels:
     - "ITM/Ropes/ITM_Rope"
+    - “ITM/Small\ Containers/ITM_Bucket”
    actionModifiedSprites:
+    - "GUI_ITM_Rope"
+    - "GUI_ITM_Bucket"
   itemCategories: 
     - !!solid
-      flexibility: 1.0
-      durability: 0.5
+      flexibility: 3.0
+      durability: 2.5
       elasticity: 0.6
       stickiness: 0.1
       thickness: 0.1
       sharpness: 0.2
     - !!plant
-      waterContent: 1.2
+      waterContent: 3.2
       toughness: 3.0
-      sweet: 0.0
-      bitter: 0.0
+      sweet: 1.0
+      bitter: 4.0
       sour: 0.0
       salty: 0.0
       spicy: 0.0
@@ -34,29 +38,31 @@
 - itemName: "Stick"
   baseItem: 
    itemName: "Stick"
-   rarity: "uncommon"
-   inventorySprite: ""
+   rarity: "common"
+   inventorySprite: "GUI_ITM_Stick"
    worldModel: "ITM/Rods/Stick"
    types:
      - "rod"
-   flavorText: ""
+     - "fuel"
+     - "base solid"
+   flavorText: "It's...a stick."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
   itemCategories:
     - !!solid
-      flexibility: 0.2
-      durability: 0.5
+      flexibility: 0.15
+      durability: 2.6
       elasticity: 0.1
       stickiness: 0.1
       thickness: 0.4
       sharpness: 0.3
     - !!plant
-      waterContent: 0.8
-      toughness: 5.0
+      waterContent: 1.8
+      toughness: 4.5
       sweet: 0.0
-      bitter: 0.0
-      sour: 0.0
+      bitter: 4.0
+      sour: 1.0
       salty: 0.0
       spicy: 0.0
       stomachEffect: 0.0
@@ -64,39 +70,39 @@
 - itemName: "Empty Can"
   baseItem: 
    itemName: "Empty Can"
-   rarity: "rare"
-   inventorySprite: ""
+   rarity: "common"
+   inventorySprite: "GUI_ITM_TinCanOpen"
    worldModel: "ITM/Small Containers/EmptyTinCan"
    types:
     - "hook"
-   flavorText: ""
+   flavorText: "An empty tin can. Careful with the lid. It's sharp."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
   itemCategories: 
     - !!solid
       flexibility: 0.2
-      durability: 0.5
+      durability: 4.5
       elasticity: 0.1
       stickiness: 0.1
       thickness: 0.4
       sharpness: 0.3
 - itemName: "Poor Fishing Rod"
   baseItem:
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_PoorFishingRod"
    worldModel: "ITM/Fishing Rods/BadFishingRod"
    itemName: "Poor Fishing Rod"
    rarity: "common"
    types:
-    - "Advanced Tool"
+    - "equipable"
    flavorText: "Not a very good fishing rod. Breaks easily."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
   itemCategories: 
     - !!solid
-      flexibility: 0.5
-      durability: 1
+      flexibility: 1.5
+      durability: 2
       elasticity: 0.1
       stickiness: 0
       thickness: 0.4
@@ -107,10 +113,10 @@
   baseItem: 
    itemName: "Good Fishing Rod"
    rarity: "uncommon"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_MediumFishingRod"
    worldModel: "ITM/Fishing Rods/MediumFishingRod"
    types:
-    - "Advanced Tool"
+    - "equipable"
    flavorText: "Pretty good fishing rod. Will last awhile."
    modifyingActionNames:
    actionModifiedModels:
@@ -118,7 +124,7 @@
   itemCategories: 
     - !!solid
       flexibility: 1
-      durability: 5
+      durability: 3
       elasticity: 1
       stickiness: 0
       thickness: 2
@@ -129,10 +135,10 @@
   baseItem: 
    itemName: "Excellent Fishing Rod"
    rarity: "rare"
-   inventorySprite: ""
+   inventorySprite: "GUI_ITM_GoodFishingRod"
    worldModel: "ITM/Fishing Rods/GoodFishingRod"
    types:
-    - "Advanced Tool"
+    - "equipable"
    flavorText: "Fantastic fishing rod! Best catches and last a long time!"
    modifyingActionNames:
    actionModifiedModels:
@@ -140,10 +146,458 @@
   itemCategories: 
     - !!solid
       flexibility: 2
-      durability: 20
+      durability: 5
       elasticity: 2
       stickiness: 0
       thickness: 2
       sharpness: 2
     - !!fishingRod
       equiped: 0
+- itemName: "Poor Woven Blanket"
+  baseItem: 
+   itemName: "Poor Woven Blanket"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_Bandage"
+   worldModel: "ITM/Healing/ITM_Bandage"
+   types:
+    - "cloth"
+   flavorText: "A coarsely woven blanket. Scratchy and barely keeps the wind out."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!cloth
+      threadDensity: 0.5
+      impermiability: 0.2
+      fabricThickness: 1
+      onPlayer: 0
+- itemName: "Good Woven Blanket"
+  baseItem: 
+   itemName: "Good Woven Blanket"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_Bandage"
+   worldModel: "ITM/Healing/ITM_Bandage"
+   types:
+    - "cloth"
+   flavorText: "A blanket made by weaving. Came out pretty well. Decently warm."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!cloth
+      threadDensity: 3
+      impermiability: 2
+      fabricThickness: 2
+      onPlayer: 0
+- itemName: "Excellent Woven Blanket"
+  baseItem: 
+   itemName: "Excellent Woven Blanket"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_Bandage"
+   worldModel: "ITM/Healing/ITM_Bandage"
+   types:
+    - "cloth"
+   flavorText: "A blanket made with masterful weaving. Incredibly warm."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!cloth
+      threadDensity: 4
+      impermiability: 3
+      fabricThickness: 3.5
+      onPlayer: 0
+- itemName: "Medicine Box"
+  baseItem: 
+   itemName: "Medicine Box"
+   rarity: "uncommon"
+   inventorySprite: "GUI_ITM_BandageBox"
+   worldModel: "ITM/Healing/ITM_BandageBox"
+   types:
+     - "medicinal"
+   flavorText: "Fixes you up."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories:
+    - !!medicine
+      healthGain: 30.0
+      sickness: "all"
+- itemName: "Bandage"
+  baseItem:
+   itemName: "Bandage"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_Bandage"
+   worldModel: "ITM/Healing/ITM_Bandage"
+   types:
+     - "medicinal"
+   flavorText: "For the most minor of flesh wounds."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories:
+    - !!medicine
+      healthGain: 10.0
+      sickness: “none”
+- itemName: "Egg"
+  baseItem:
+   itemName: "Egg"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_Egg"
+   worldModel: "ITM/Food/ITM_egg"
+   types:
+     - "edible"
+   flavorText: "An egg from a water bird."
+   modifyingActionNames:
+     - "Cook"
+   actionModifiedModels: 
+    - "ITM/Food/ITM_CookedFish"
+   actionModifiedSprites:
+    - "GUI_ITM_CookedFish"
+  itemCategories:
+    - !!flesh
+      hungerGain: 20.0
+      healthEffect: 0.25
+- itemName: "Matchbook"
+  baseItem:
+   itemName: "Matchbook"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_Matchbook"
+   worldModel: "ITM/Tools/ITM_matchBook"
+   types:
+     - "igniter"
+   flavorText: "Can be used to light fuel on fire."
+   modifyingActionNames:
+   actionModifiedModels: 
+   actionModifiedSprites:
+  itemCategories:
+- itemName: "Poor Fire Pit"
+  baseItem:
+   itemName: "Poor Fire Pit"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_ScrapMetal"
+   worldModel: "ITM/Campfire/ENV_Campfire"
+   types:
+     - "fuel"
+   flavorText: "A shoddy fire pit. Place into world and ignite to start a fire. Burns out quickly."
+   modifyingActionNames:
+   actionModifiedModels: 
+   actionModifiedSprites:
+  itemCategories:
+    - !!fireBase
+      burnRateMultiplier: 1.5
+      startingFuel: 20.0
+- itemName: "Good Fire Pit"
+  baseItem:
+   itemName: "Good Fire Pit"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_ScrapMetal"
+   worldModel: "ITM/Campfire/ENV_Campfire"
+   types:
+     - "fuel"
+   flavorText: "A fire pit. Place into world and ignite to start a fire. Burns fairly long."
+   modifyingActionNames:
+   actionModifiedModels: 
+   actionModifiedSprites:
+  itemCategories:
+    - !!fireBase
+      burnRateMultiplier: 1.0
+      startingFuel: 40.0
+- itemName: "Excellent Fire Pit"
+  baseItem:
+   itemName: "Excellent Fire Pit"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_ScrapMetal"
+   worldModel: "ITM/Campfire/ENV_Campfire"
+   types:
+     - "fuel"
+   flavorText: "A wonderful fire pit. Place into world and ignite to start a fire. Burns slowly."
+   modifyingActionNames:
+   actionModifiedModels: 
+   actionModifiedSprites:
+  itemCategories:
+    - !!fireBase
+      burnRateMultiplier: 0.9
+      startingFuel: 60.0
+- itemName: "Rope Bound Knife"
+  baseItem:
+   itemName: "Rope Bound Knife"
+   rarity: "uncommon"
+   inventorySprite: "GUI_ITM_Knife"
+   worldModel: "ITM/Tools/ITM_Knife"
+   types:
+    - "blade"
+   flavorText: "A knife made by wrapping rope around one end."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories:
+- itemName: "Match"
+  baseItem: 
+   itemName: "Match"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_Flare"
+   worldModel: "ITM/Tools/ITM_individualMatch"
+   types:
+    - "flammable"
+   flavorText: "A match! For lighting fires to cook and keep warm."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Notebook"
+  baseItem: 
+   itemName: "Notebook"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_NoteBook"
+   worldModel: "ITM/Notes/ITM_NoteBook"
+   types:
+    - ""
+   flavorText: "Pages and pages of ravings from a mad scientist."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Radio Antenna"
+  baseItem: 
+   itemName: "Radio Antenna"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_RadioAntenna"
+   worldModel: "ITM/Communication/ITM_RadioAntenna"
+   types:
+    - ""
+   flavorText: "An antenna reciever."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Paper Scrap"
+  baseItem: 
+   itemName: "Paper Scrap"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_PaperScrap"
+   worldModel: "ITM/Notes/ITM_PaperScrap"
+   types:
+    - ""
+   flavorText: "A scrap of paper."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Scrap Metal"
+  baseItem: 
+   itemName: "Scrap Metal"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_ScrapMetal"
+   worldModel: "ITM/Raw Materials/ITM_ScrapMetal"
+   types:
+    - "base solid"
+   flavorText: "Leftover metal. Would be good for crafting tools."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0.1
+      durability: 4
+      elasticity: 0.1
+      stickiness: 0
+      thickness: 0.5
+      sharpness: 1
+- itemName: "Wood Plank"
+  baseItem: 
+   itemName: "Wood Plank"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_WoodPlank"
+   worldModel: "ITM/WoodPlanks/ITM_WoodPlank1"
+   types:
+    - "floatable object"
+   flavorText: "A piece of wood."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0.1
+      durability: 4
+      elasticity: 0.1
+      stickiness: 0
+      thickness: 0.5
+      sharpness: 1
+- itemName: "Golf Club"
+  baseItem: 
+   itemName: "Golf Club"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_GolfClub"
+   worldModel: "ITM/Rods/GolfClub"
+   types:
+    - "rod"
+   flavorText: "Doubles as an excellent giant stick."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Pipe"
+  baseItem: 
+   itemName: "Pipe"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_Pipe"
+   worldModel: "ITM/Rods/ITM_Pipe"
+   types:
+    - "rod"
+   flavorText: "A long, hollow tube made of plastic."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Umbrella"
+  baseItem: 
+   itemName: "Umbrella"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_Umbrella"
+   worldModel: "ITM/Rods/Umbrella"
+   types:
+    - "rod"
+   flavorText: "To keep you dry."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
+- itemName: "Rope"
+  baseItem: 
+   itemName: "Rope"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_Rope"
+   worldModel: "ITM/Ropes/ITM_Rope"
+   types:
+    - "rope"
+   flavorText: "For things you use rope for."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+- itemName: "Poor Raft"
+  baseItem: 
+   itemName: "Poor Raft"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_WoodPlank"
+   worldModel: "ITM/Rafts/ITM_lowTierRaft"
+   types:
+    - "advanced tool"
+   flavorText: "What can I say? It floats..."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!raft
+      speed: 1.0
+    - !!solid
+      flexibility: 0.5
+      durability: 1
+      stickiness: 0
+      thickness: 0.4
+- itemName: "Good Raft"
+  baseItem:
+   itemName: "Good Raft"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_WoodPlank"
+   worldModel: "ITM/Rafts/ITM_StandardRaft"
+   types:
+     - "advanced tool"
+   flavorText: "A way to get places."
+   modifyingActionNames:
+   actionModifiedModels: 
+   actionModifiedSprites:
+  itemCategories:
+    - !!raft
+      speed: 1.2
+    - !!solid
+      flexibility: 0.5
+      durability: 1
+      stickiness: 0
+      thickness: 0.4
+- itemName: "Excellent Raft"
+  baseItem:
+   itemName: "Excellent Raft"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_WoodPlank"
+   worldModel: "ITM/Rafts/ITM_TopTier_Raft"
+   types:
+     - "advanced tool"
+   flavorText: "An absolutely fabulous raft."
+   modifyingActionNames:
+   actionModifiedModels: 
+   actionModifiedSprites:
+  itemCategories:
+    - !!raft
+      speed: 1.3
+    - !!solid
+      flexibility: 0.5
+      durability: 1
+      stickiness: 0
+      thickness: 0.4
+- itemName: "Idol of Yam"
+  baseItem: 
+   itemName: "Idol of Yam"
+   rarity: "rare"
+   inventorySprite: "GUI_ITM_BlueSpottedGrouper"
+   worldModel: "ITM/Ropes/ITM_FishRelic"
+   types:
+    - "equipable"
+   flavorText: "A token of prayer to the god that slew the sea serpent."
+  itemCategories:
+    - !!idol
+      benefitName: "Warmth"

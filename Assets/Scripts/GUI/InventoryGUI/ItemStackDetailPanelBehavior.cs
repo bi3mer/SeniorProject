@@ -10,8 +10,6 @@ using System.Collections.Generic;
 /// </summary>
 public class ItemStackDetailPanelBehavior : MonoBehaviour 
 {
-	public static ItemStackDetailPanelBehavior Instance;
-
 	[Tooltip("the scroll bar section that contains the attributes")]
 	[SerializeField]
 	private GameObject AttributeScroll;
@@ -35,6 +33,22 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	[Tooltip("the UI component that show the possible sub-actions of an item")]
 	[SerializeField]
 	private ItemActionButtonUI SubActionButtonUI;
+
+	[Tooltip("The button to close the entire panel")]
+	[SerializeField]
+	private Button CloseButton;
+
+	[Tooltip("The button to close the subaction panel")]
+	[SerializeField]
+	private Button CloseSubactionPanel;
+
+	[Tooltip("Toggle for stat panel")]
+	[SerializeField]
+	private Toggle StatPanelToggle;
+
+	[Tooltip("Text object where flavor text will be displayed")]
+	[SerializeField]
+	private Text FlavorText;
 
 	/// <summary>
 	/// Gets the attributes.
@@ -70,14 +84,29 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	private ItemStackUI selected;
 
 	/// <summary>
-	/// Start this instance of itemStackPanelBehavior.
+	/// Setup ItemStackDetailPanelBehavior on awake
 	/// </summary>
-	void Start()
+	void Awake()
 	{
-		Instance = this;
+		GuiInstanceManager.ItemStackDetailPanelInstance = this;
 		Attributes = new List<ItemAttributeUI> ();
 		PossibleActions = new List<ItemActionButtonUI> ();
 		PossibleSubActions = new Dictionary<string, List<ItemActionButtonUI>> ();
+	}
+
+	/// <summary>
+	/// Sets the selected item.
+	/// </summary>
+	/// <param name="selectedItem">Selected item.</param>
+	public void SetSelectedItem(GameObject selectedItem)
+	{
+		this.selected = selectedItem.GetComponent<ItemStackUI>();
+		FlavorText.text = this.selected.GetStack().Item.FlavorText;
+		StatPanelToggle.isOn = false;
+
+		// creates a duplicate object that may be used to modify with actions
+		// created at 0, since no amount of the stack has been specified to be used
+		selected.PreserveOriginal (0);
 	}
 
 	/// <summary>
@@ -112,22 +141,26 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// Sets the item data.
 	/// </summary>
 	/// <param name="item">Item.</param>
-	/// <param name="numToModify">Number to modify.</param>
-	public void SetItemData(GameObject item, int numberOfStacksToModify)
+	public void SetItemData(GameObject item)
 	{
-		// TODO : refactor to account for singleton use
-		Instance = this;
-
 		Attributes.Clear();
 		PossibleActions.Clear ();
 		PossibleSubActions.Clear ();
 
 		// create duplicate of object that might be affected by entered changes
 		selected = item.GetComponent<ItemStackUI>();
-		selected.PreserveOriginal (numberOfStacksToModify);
 
 		// display attributes and actions
 		DisplayAttributesAndAction();
+	}
+
+	/// <summary>
+	/// Updates the selected amount.
+	/// </summary>
+	/// <param name="amountToModify">Amount to modify.</param>
+	public void UpdateSelectedAmount(int amountToModify)
+	{
+		selected.UpdateTargetStack (amountToModify);
 	}
 
 	/// <summary>
@@ -139,8 +172,10 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		Attributes.Clear();
 		PossibleActions.Clear ();
 		PossibleSubActions.Clear ();
-		selected.CheckForModification ();
-		InventoryUI.Instance.RefreshInventoryPanel ();
+		GuiInstanceManager.ItemAmountPanelInstance.CloseEntirePanel();
+
+		GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel();
+
 		EventSystem.current.SetSelectedGameObject(null);
 	}
 
@@ -151,7 +186,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	{
 		List<Attribute> attr = selected.GetItemAttributes ();
 
-		// removes the attributes from the attribute section
+		// adds attributes
 		for(int i = 0; i < attr.Count; ++i)
 		{
 			ItemAttributeUI stat = GameObject.Instantiate (StatElementUI);
@@ -169,7 +204,6 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		// has a key of "base"
 		for(int i = 0; i < possibleItemActions.Count; ++i)
 		{
-			//Debug.Log(possibleItemActions [i].ActionName);
 			// "base" actions are directly added into the action section as clicking them do not open up more options
 			if (possibleItemActions[i].SubActions.Count < 1) 
 			{
@@ -200,7 +234,6 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 				PossibleActions.Add (action);
 			}
 		}
-
 	}
 
 	/// <summary>
@@ -208,15 +241,28 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void RefreshItemPanel()
 	{
-		ChooseItemAmountPanelBehavior.Instance.ItemNameDisplay.text = selected.GetItemName ();
+		selected.CheckForModification();
 
-		List<Attribute> attr = selected.GetItemAttributes ();
-
-		for(int i = 0; i < attr.Count; ++i)
+		if(selected.GetStack() != null)
 		{
-			Attributes.Find(n => n.AttributeName.text.Equals(attr[i].Name)).GetComponent<ItemAttributeUI> ().SetAttributeValue (attr [i].Value);
-		}
+			GuiInstanceManager.ItemAmountPanelInstance.ItemNameDisplay.text = selected.GetItemName ();
 
+			List<Attribute> attr = selected.GetItemAttributes ();
+
+			for(int i = 0; i < attr.Count; ++i)
+			{
+				Attributes.Find(n => n.AttributeName.text.Equals(attr[i].Name)).SetAttributeValue (attr [i].Value);
+			}
+
+			RefreshItemActions();
+		}
+	}
+
+	/// <summary>
+	/// Refreshs the item actions.
+	/// </summary>
+	public void RefreshItemActions()
+	{
 		List<ItemAction> acts = selected.GetPossibleActions ();
 
 		int buttonUsed = 0;
@@ -274,6 +320,10 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// <param name="id">Identifier.</param>
 	public void CreateSubAction(List<ItemAction> actions)
 	{
+		SubActionButtonPanel.gameObject.SetActive(true);
+		CloseButton.gameObject.SetActive(false);
+		CloseSubactionPanel.gameObject.SetActive(true);
+
 		for(int i = 0; i < actions.Count; ++i)
 		{
 			ItemActionButtonUI act = GameObject.Instantiate (SubActionButtonUI);
@@ -299,5 +349,9 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		{
 			GameObject.Destroy (children [j]);
 		}
+
+		SubActionButtonPanel.gameObject.SetActive(false);
+		CloseButton.gameObject.SetActive(true);
+		CloseSubactionPanel.gameObject.SetActive(false);
 	}
 }

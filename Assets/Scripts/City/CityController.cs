@@ -12,10 +12,20 @@ public class CityController : MonoBehaviour
     [Tooltip("Bounds defnining the size of the city.")]
     private Bounds cityBounds;
 
+    [SerializeField]
+    [Tooltip("Radius that building colliders at turned off.")]
+    private float buildingColliderRadius;
+
+    [SerializeField]
+    [Tooltip("Radius that buildings are visibly hidden.")]
+    private float buildingVisibleRadius;
+
     private DistrictGenerator districtGenerator;
     private BlockGenerator blockGenerator;
     private BuildingGenerator buildingGenerator;
     private RooftopGeneration rooftopItemGenerator;
+    private WaterItemGeneration waterItemGenerator;
+    private ItemPoolManager itemPoolManager;
 
     /// <summary>
     /// Grabs other generators and starts generation.
@@ -26,6 +36,8 @@ public class CityController : MonoBehaviour
         blockGenerator = GetComponent<BlockGenerator>();
         buildingGenerator = GetComponent<BuildingGenerator>();
         rooftopItemGenerator = GetComponent<RooftopGeneration>();
+        waterItemGenerator = GetComponent<WaterItemGeneration>();
+        itemPoolManager = GetComponent<ItemPoolManager>();
 
         // Check to see if the seed has been configured in the inspector
         if (seed == 0)
@@ -36,6 +48,9 @@ public class CityController : MonoBehaviour
 
         // Start city generation
         Game.Instance.CityInstance = GenerateCity(seed);
+
+        // Start async builing updates
+        StartCoroutine(updateBuildings());
  	}
 	
     /// <summary>
@@ -53,27 +68,40 @@ public class CityController : MonoBehaviour
     {
         District[] districts = districtGenerator.Generate(seed, cityBounds);
 
-        // TODO: calculate true city center
-        Vector3 cityCenter = Vector3.zero;
+        // Pick a vertex that is shared by the largest number of districts
+        // and create the talest builing there.
+        Vector3 cityCenter = GenerationUtility.GetMostCommonVertex(districts);
+        Building tallestBuilding = buildingGenerator.CreateCityCenterBuilding(cityCenter);
+
+		float cityWidth = cityBounds.size.x;
+		float cityDepth = cityBounds.size.z;
+		waterItemGenerator.SetCityInformation(cityWidth, cityDepth, cityBounds.center, districts);
+		itemPoolManager.SetUpItemPoolManager(cityDepth, cityDepth, cityBounds.center);
 
         // Generate blocks in each district
         for (int i = 0; i < districts.Length; ++i)
         {
             District district = districts[i];
             Block[] blocks = blockGenerator.Generate(seed, district);
-            
+
+			List<float> doorExtents = rooftopItemGenerator.GetItemExtents(district.Configuration.Doors);
+
+            // Pick a block to generate the weenie building in
+            int weenieBlock = Random.Range(0, blocks.Length);
+
             // Generate buildings in each block and add the blocks to the district
             for (int j = 0; j < blocks.Length; ++j)
             {
                 Block block = blocks[j];
-                Building[] buildings = buildingGenerator.Generate(seed, block, district.Configuration, cityBounds, cityCenter);
+                Building[] buildings = buildingGenerator.Generate(seed, block, district.Configuration, cityBounds, cityCenter, (weenieBlock == j));
 
                 for (int k = 0; k < buildings.Length; ++k)
                 {
                     Building building = buildings[k];
-           
-                    rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name);
-                    
+
+                    waterItemGenerator.AddBuildingToWaterGenerationMap(building.BoundingBox);
+					rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name, doorExtents, district.Configuration.Doors, building.Instance);
+
                     block.Buildings.Add(building);
                 }
 
@@ -81,6 +109,43 @@ public class CityController : MonoBehaviour
             }
         }
 
-        return new City(districts, cityBounds, cityCenter);
+		waterItemGenerator.GenerateInWater();
+
+		rooftopItemGenerator.AddTemplatesToItemPool();
+		waterItemGenerator.AddTemplatesToItemPool();
+
+		StartCoroutine(itemPoolManager.StartManagingPool());
+
+        return new City(districts, cityBounds, cityCenter, tallestBuilding);
+    }
+
+    /// <summary>
+    /// Asychronous method which loops through all builings and updates according to current state.
+    /// </summary>
+    private IEnumerator updateBuildings()
+    {
+        Building building;
+        IEnumerator<Building> buildings = Game.Instance.CityInstance.GetEnumerator();
+
+        while (buildings.MoveNext())
+        {
+            if (Game.Instance.PlayerInstance.IsInWorld && !Game.Instance.PauseInstance.IsPaused)
+            {
+                // Get building
+                building = buildings.Current;
+
+                // Get player position
+                Vector3 playerRootPosition = Game.Instance.PlayerInstance.WorldTransform.position;
+                playerRootPosition.y = 0f;
+
+                // Update gameobject and colliders based on player proximity
+                building.IsVisible = (Vector3.Distance(playerRootPosition, building.RootPosition) < buildingVisibleRadius);
+                building.IsCollidible = (Vector3.Distance(playerRootPosition, building.RootPosition) < buildingColliderRadius);
+            }
+
+            yield return null;
+        }
+
+        yield return updateBuildings();
     }
 }

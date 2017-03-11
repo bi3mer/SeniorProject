@@ -9,6 +9,18 @@ public abstract class Tool : MonoBehaviour
     public abstract void Equip();
     public abstract void Unequip();
 
+    /// <summary>
+    /// The name of the tool, eg. "fishing rod"
+    /// </summary>
+    public string ToolName
+    {
+        get;
+        protected set;
+    }
+
+    /// <summary>
+    /// Return true if the tools is being used.
+    /// </summary>
     public bool InUse
     {
         get;

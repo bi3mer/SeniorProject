@@ -1,21 +1,79 @@
----
+﻿---
 - inventoryName: "player"
-  items: 
+  items:
    - stackId: 0
+     itemAmount: 4
+     item: 
+      itemName: "Medicine Box"
+      rarity: "uncommon"
+      inventorySprite: "GUI_ITM_BandageBox"
+      worldModel: "ITM/Healing/ITM_BandageBox"
+      types: 
+       - "medicinal"
+      flavorText: "Fixes you up."
+      modifyingActionNames: 
+      actionModifiedModels: 
+      actionModifiedSprites: 
+     itemCategories: 
+       - !!medicine
+         healthGain: 0.0
+         sickness: “all”
+   - stackId: 1
+     itemAmount: 2
+     item:
+      itemName: "Egg"
+      rarity: "common"
+      inventorySprite: "GUI_ITM_Egg"
+      worldModel: "ITM/Food/ITM_egg"
+      types:
+       - "edible"
+      flavorText: "An egg from a water bird."
+      modifyingActionNames:
+       - "Cook"
+      actionModifiedModels: 
+       - "ITM/Food/ITM_CookedFish"
+      actionModifiedSprites:
+       - "GUI_ITM_CookedFish"
+     itemCategories:
+       - !!flesh
+         hungerGain: 20.0
+         healthEffect: 0.25
+   - stackId: 2
+     itemAmount: 2
+     item:
+      itemName: "Bandage"
+      rarity: "common"
+      inventorySprite: "GUI_ITM_Bandage"
+      worldModel: "ITM/Healing/ITM_Bandage"
+      types:
+       - "medicinal"
+      flavorText: "For the most minor of flesh wounds."
+      modifyingActionNames:
+      actionModifiedModels:
+      actionModifiedSprites:
+     itemCategories:
+      - !!medicine
+        healthGain: 20.0
+        sickness: "none"
+   - stackId: 3
      itemAmount: 4
      item: 
       itemName: "River Reed"
       rarity: "common"
-      inventorySprite: ""
+      inventorySprite: "GUI_ITM_RiverWeed"
       worldModel: "ITM/Plants/ITM_RiverWeed"
       types:
        - "edible"
-      flavorText: ""
+      flavorText: "A common reed that often grows in water."
       modifyingActionNames:
        - "Weave Rope"
+       - "Weave Basket"
       actionModifiedModels:
        - "ITM/Ropes/ITM_Rope"
+       - "ITM/Small\ Containers/ITM_Bucket"
       actionModifiedSprites:
+       - "GUI_ITM_Rope"
+       - "GUI_ITM_Bucket"
      itemCategories: 
        - !!solid
          flexibility: 1.0
@@ -34,23 +92,25 @@
          spicy: 0.0
          stomachEffect: 0.0
          pneumoniaEffect: 0.0
-   - stackId: 1
-     itemAmount: 2
+   - stackId: 4
+     itemAmount: 10
      item: 
       itemName: "Stick"
       rarity: "uncommon"
-      inventorySprite: ""
+      inventorySprite: "GUI_ITM_Stick"
       worldModel: "ITM/Rods/Stick"
       types:
         - "rod"
-      flavorText: ""
+        - "fuel"
+        - "base solid"
+      flavorText: "It's...a stick."
       modifyingActionNames:
       actionModifiedModels:
       actionModifiedSprites:
      itemCategories:
        - !!solid
-         flexibility: 0.2
-         durability: 0.5
+         flexibility: 0.15
+         durability: 2.6
          elasticity: 0.1
          stickiness: 0.1
          thickness: 0.4
@@ -65,16 +125,18 @@
          spicy: 0.0
          stomachEffect: 0.0
          pneumoniaEffect: 0.0
-   - stackId: 2
+       - !!fuel
+         burnTime: 10.0
+   - stackId: 5
      itemAmount: 2
      item: 
       itemName: "Empty Can"
       rarity: "rare"
-      inventorySprite: ""
+      inventorySprite: "GUI_ITM_TinCanOpen"
       worldModel: "ITM/Small Containers/EmptyTinCan"
       types:
        - "hook"
-      flavorText: ""
+      flavorText: "An empty tin can. Careful with the lid. It's sharp."
       modifyingActionNames:
       actionModifiedModels:
       actionModifiedSprites:
@@ -86,3 +148,59 @@
          stickiness: 0.1
          thickness: 0.4
          sharpness: 0.3
+   - stackId: 6
+     itemAmount: 1
+     item: 
+      itemName: "Matchbook"
+      rarity: "common"
+      inventorySprite: "GUI_ITM_Matchbook"
+      worldModel: "ITM/Tools/ITM_matchBook"
+      types:
+       - "igniter"
+      flavorText: "Can be used to light fuel on fire."
+      modifyingActionNames:
+      actionModifiedModels: 
+      actionModifiedSprites:
+     itemCategories:
+   - stackId: 7
+     itemAmount: 5
+     item:
+      itemName: "Scrap Metal"
+      rarity: "common"
+      inventorySprite: "GUI_ITM_ScrapMetal"
+      worldModel: "ITM/Raw Materials/ITM_ScrapMetal"
+      types:
+       - "base solid"
+      flavorText: "Leftover metal. Would be good for crafting tools."
+      modifyingActionNames:
+      actionModifiedModels:
+      actionModifiedSprites:
+     itemCategories: 
+      - !!solid
+        flexibility: 0.1
+        durability: 4
+        elasticity: 0.1
+        stickiness: 0
+        thickness: 0.5
+        sharpness: 1
+   - stackId: 8
+     itemAmount: 5
+     item:
+      itemName: "Wood Plank"
+      rarity: "common"
+      inventorySprite: "GUI_ITM_WoodPlank"
+      worldModel: "ITM/WoodPlanks/ITM_WoodPlank1"
+      types:
+       - "floatable object"
+      flavorText: "A piece of wood."
+      modifyingActionNames:
+      actionModifiedModels:
+      actionModifiedSprites:
+     itemCategories: 
+      - !!solid
+        flexibility: 0.1
+        durability: 4
+        elasticity: 0.1
+        stickiness: 0
+        thickness: 0.5
+        sharpness: 1

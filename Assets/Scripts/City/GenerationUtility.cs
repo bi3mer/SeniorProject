@@ -160,4 +160,49 @@ public class GenerationUtility
         // Check to see which point is closest
         return (firstOffset.sqrMagnitude < secondOffset.sqrMagnitude) ? 1 : -1;
     }
+
+    /// <summary>
+    /// Get the location of the vertex that is shared by the most districts.
+    /// Does not garuntee any order.
+    /// </summary>
+    /// <param name="districts">List of populated districts.</param>
+    /// <returns>Location of vertex shared by most districts.</returns>
+    public static Vector3 GetMostCommonVertex(District[] districts)
+    {
+        // Tally the vertex frequencies
+        Dictionary<Vector3, int> frequencies = new Dictionary<Vector3, int>();
+        for (int i = 0; i < districts.Length; ++i)
+        {
+            District district = districts[i];
+
+            for (int j = 0; j < district.EdgeVerticies.Length; ++j)
+            {
+                Vector3 vert = district.EdgeVerticies[j];
+
+                int frequency;
+                if (frequencies.TryGetValue(vert, out frequency))
+                {
+                    frequencies[vert] = frequency + 1;
+                }
+                else
+                {
+                    frequencies.Add(vert, 1);
+                }
+            }
+        }
+
+        // Return one of the most popular, doesn't matter which
+        int max = 0;
+        Vector3 mostPopular = Vector3.zero;
+        foreach (Vector3 key in frequencies.Keys)
+        {
+            if (frequencies[key] > max)
+            {
+                max = frequencies[key];
+                mostPopular = key;
+            }
+        }
+
+        return mostPopular;
+    }
 }

@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Collections;
 
-public class RooftopPointGenerator 
+public class RooftopPointGenerator: SamplingPointGenerator
 {
-	// The maximum angle a surface can be to still be considered a viable surface for object placement
-	private const float maxAngle = 0.35f;
-
 	// Maximum attempts to place a point
 	private const int maximumAttempts = 10;
 
@@ -15,10 +12,7 @@ public class RooftopPointGenerator
 
 	// The maximum distance away from the doorway in which the door being there will affect whether or not objects may be placed there
 	// This will be multiplied against the short side of the surface
-	private const float maxDoorwayEffectPercent = 0.5f;
-
-	// Minimum distance objects must be from each other by default, not accounting for the doorway which will increase it
-	private const float defaultMinDistanceAway = 1f;
+	private const float maxDoorwayEffectPercent = 0.25f;
 
 	// the number of new points that will be created around an existing sampling point
 	private const int newPointsPerSamplingPoint = 3;
@@ -29,29 +23,26 @@ public class RooftopPointGenerator
 	// no sampling points may be placed within that border
 	private const float borderPercent = 0.1f;
 
-	private float cellSize;
-
-	private ItemPlacementSamplePoint[,] grid;
-
 	private List<float> generatableObjectExtents;
 
 	private List<float> generatableDoorExtents;
-
-	private const string waterTag = "Water";
 
 	/// <summary>
 	/// Takes the sampling points and checks to see if they are on locations that are not at too steep an incline on the building's surface.
 	/// Then converts the sampling points to their world coordinates.
 	/// </summary>
 	/// <returns>The valid points.</returns>
-	/// <param name="targetBound">Target bound.</param>
+	/// <param name="targetBound">Target bounds.</param>
 	/// <param name="targetCenter">Target center.</param>
+	/// <param name="itemInfo">Item info based on district.</param>
+	/// <param name="district">Distric this belongs tot.</param>
 	/// <param name="doorExtents">Door extents.</param>
-	/// <param name="itemExtents">Item extents.</param>
-	/// <param name="hasDoor">If set to <c>true</c> has door. (optional)</param>
-	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, DistrictItemConfiguration itemInfo, bool hasDoor = false)
+	/// <param name="doorTemplates">Door templates.</param>
+	/// <param name="hasDoor">If set to <c>true</c> has door.</param>
+	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, DistrictItemConfiguration itemInfo, 
+														 string district, List<float> doorExtents, List<GameObject> doorTemplates, bool hasDoor = false)
 	{
-		generatableDoorExtents = itemInfo.DoorExtents;
+		generatableDoorExtents = doorExtents;
 		generatableObjectExtents = itemInfo.ItemExtents;
 
 		Vector3 max = targetBound.max;
@@ -74,17 +65,15 @@ public class RooftopPointGenerator
 		float rayOffset = 1f;
 
 		// Generates points to place objects, as well a door object.
-		// TODO: Function that generates points without taking a door into consideration
-
 		List<ItemPlacementSamplePoint> samplingPoints;
 
 		if(hasDoor)
 		{
-			samplingPoints = generatePoints (targetCenter, generatableDoorExtents, itemInfo, hasDoor, width, depth, height);
+			samplingPoints = generatePoints (targetCenter, generatableDoorExtents, itemInfo, district, hasDoor, width, depth, height);
 		}
 		else
 		{
-			samplingPoints = generatePoints (targetCenter, generatableObjectExtents,itemInfo, hasDoor, width, depth, height);
+			samplingPoints = generatePoints (targetCenter, generatableObjectExtents,itemInfo, district, hasDoor, width, depth, height);
 		}
 
 		float initialRayStartHeight = height + rayOffset;
@@ -98,11 +87,11 @@ public class RooftopPointGenerator
 			// where Vector2(0, 0) is the bottom left corner, and Vector2(width, depth) is the upper right corner
 			// it is converted into a global position here
 			// validPoints contains global positions
-			Vector2 globalPosition = convertToWorldSpace (samplingPoints[i].PointOnTargetSurface, targetCenter, width, depth);
+			Vector2 globalPosition = convertToWorldSpace (samplingPoints[i].LocalTargetSurfaceLocation, targetCenter, width, depth);
 
 			if (Physics.Raycast (new Vector3(globalPosition.x, initialRayStartHeight, globalPosition.y), Vector3.down, out hit, initialRayStartHeight)) 
 			{
-				if (verifyRaycastHit(hit)) 
+				if (verifyRaycastHit(hit, false)) 
 				{
 					// the point in which the ray comes into contact with the surface of the building is where the object should be placed
 					samplingPoints[i].WorldSpaceLocation = hit.point;
@@ -122,11 +111,12 @@ public class RooftopPointGenerator
 	/// <param name="center">Center.</param>
 	/// <param name="firstPointExtents">First point extents.</param>
 	/// <param name="itemInfo">The information about the district the rooftop belongs to.</param>
+	/// <param name="district">The district this generating for.</param></param>
 	/// <param name="hasDoor">If set to <c>true</c> has door.</param>
 	/// <param name="width">Width.</param>
 	/// <param name="depth">Depth.</param>
 	/// <param name="height">Height.</param>
-	private List<ItemPlacementSamplePoint> generatePoints(Vector3 center, List<float> firstPointExtents, DistrictItemConfiguration itemInfo, bool hasDoor, float width, float depth, float height)
+	private List<ItemPlacementSamplePoint> generatePoints(Vector3 center, List<float> firstPointExtents, DistrictItemConfiguration itemInfo, string district, bool hasDoor, float width, float depth, float height)
 	{
 		float shorterLength = width;
 		float maxDoorwayEffectArea = maxDoorwayEffectPercent * shorterLength;
@@ -138,20 +128,30 @@ public class RooftopPointGenerator
 
 		// generate the first point randomly away from the doorway
 		ItemPlacementSamplePoint firstPoint = new ItemPlacementSamplePoint();
-		firstPoint.ItemIndex = itemInfo.GetWeightedRandomItemIndex();
-		firstPoint.PointOnTargetSurface = createFirstPoint (center, width, depth, height, firstPoint.ItemIndex, firstPointExtents);
-		firstPoint.GridPoint = PointToGrid(firstPoint.PointOnTargetSurface);
-		firstPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, firstPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea, hasDoor);
+
+		if(hasDoor)
+		{
+			firstPoint.ItemIndex = Random.Range(0, firstPointExtents.Count);
+		}
+		else
+		{
+			firstPoint.ItemIndex = Game.Instance.WorldItemFactoryInstance.GetRandomItemIndex(district, false);
+		}
+
+		firstPoint.LocalTargetSurfaceLocation = createFirstPoint (center, width, depth, height, firstPoint.ItemIndex, firstPointExtents);
+		firstPoint.GridPoint = PointToGrid(firstPoint.LocalTargetSurfaceLocation);
+		firstPoint.MinDistance = getMinDistance(firstPoint.LocalTargetSurfaceLocation, firstPoint.LocalTargetSurfaceLocation, shorterLength/2f, maxDoorwayEffectArea, hasDoor);
 		firstPoint.Size = firstPointExtents[firstPoint.ItemIndex];
+		firstPoint.District = district;
 
 		// Building failed to have any sample points after attempting the maximum attempts
 		// not a good building, skip
-		if (firstPoint.PointOnTargetSurface.Equals (Vector2.zero)) 
+		if (firstPoint.LocalTargetSurfaceLocation.Equals (Vector2.zero)) 
 		{
 			return new List<ItemPlacementSamplePoint>();
 		}
 
-		return generateSubsequentPoints(width, depth, height, firstPoint, itemInfo, hasDoor); 
+		return generateSubsequentPoints(width, depth, height, firstPoint, itemInfo, district, hasDoor); 
 	}
 
 	/// <summary>
@@ -164,9 +164,10 @@ public class RooftopPointGenerator
 	/// <param name="height">Height.</param>
 	/// <param name="firstPoint">First point.</param>
 	/// <param name="itemInfo"> District item info. </param> 
+	/// <param name="district">District this belongs to.</param>
 	/// <param name="useGaussianMinDistance">If set to <c>true</c> use gaussian minimum distance.</param>
 	private List<ItemPlacementSamplePoint> generateSubsequentPoints(float width, float depth, float height, 
-														  ItemPlacementSamplePoint firstPoint, DistrictItemConfiguration itemInfo, bool useGaussianMinDistance)
+														  ItemPlacementSamplePoint firstPoint, DistrictItemConfiguration itemInfo, string district, bool useGaussianMinDistance)
 	{
 		float shorterLength = width;
 		float maxDoorwayEffectArea = maxDoorwayEffectPercent * shorterLength;
@@ -183,12 +184,14 @@ public class RooftopPointGenerator
 
 		List<ItemPlacementSamplePoint> samplePoints = new List<ItemPlacementSamplePoint>();
 
-		grid[(int) firstPoint.GridPoint.x, (int) firstPoint.GridPoint.y] = firstPoint;
+		grid[firstPoint.GridPoint.X, firstPoint.GridPoint.Y] = firstPoint;
 
 		// the door acts as an origin point, however no other sampling points should be placed around it
 		// thus the door's point itself should not be returned as part of the sampling points
 		processList.Add(firstPoint);
 		samplePoints.Add(firstPoint);
+
+		WorldItemFactory itemFactory = Game.Instance.WorldItemFactoryInstance;
 
 		// generate other points from points in queue.
 		while (processList.Count != 0)
@@ -203,29 +206,30 @@ public class RooftopPointGenerator
 			for (int i = 0; i < newPointsPerSamplingPoint; ++i)
 			{
 				newPoint = new ItemPlacementSamplePoint ();
-				newPoint.ItemIndex = itemInfo.GetWeightedRandomItemIndex();
+				newPoint.ItemIndex = itemFactory.GetRandomItemIndex(district, false);
 
-				newPoint.PointOnTargetSurface = generateRandomPointAround(point.PointOnTargetSurface, point.MinDistance + point.Size);
-				newPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, newPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea, useGaussianMinDistance);
-				newPoint.GridPoint = PointToGrid(newPoint.PointOnTargetSurface);
+				newPoint.LocalTargetSurfaceLocation = generateRandomPointAround(point.LocalTargetSurfaceLocation, point.MinDistance + point.Size);
+				newPoint.MinDistance = getMinDistance(firstPoint.LocalTargetSurfaceLocation, newPoint.LocalTargetSurfaceLocation, shorterLength/2f, maxDoorwayEffectArea, useGaussianMinDistance);
+				newPoint.GridPoint = PointToGrid(newPoint.LocalTargetSurfaceLocation);
 				newPoint.Size = generatableObjectExtents[newPoint.ItemIndex];
 
 				tries = 0;
 
 				//check that the point is in the building's region and whether a neighboring point is too close
-				while (tries < maximumAttempts && (!inRangeOfBuilding (newPoint.PointOnTargetSurface, width, depth, newPoint.Size) || HasOverlappingNeighbors(newPoint)))
+				while (tries < maximumAttempts && (!inRangeOfBuilding (newPoint.LocalTargetSurfaceLocation, width, depth, newPoint.Size) || HasOverlappingNeighbors(newPoint)))
 				{
-					newPoint.PointOnTargetSurface = generateRandomPointAround (point.PointOnTargetSurface, point.MinDistance + point.Size);
-					newPoint.MinDistance = getMinDistance(firstPoint.PointOnTargetSurface, newPoint.PointOnTargetSurface, shorterLength/2f, maxDoorwayEffectArea, useGaussianMinDistance);
-					newPoint.GridPoint = PointToGrid(newPoint.PointOnTargetSurface);
+					newPoint.LocalTargetSurfaceLocation = generateRandomPointAround (point.LocalTargetSurfaceLocation, point.MinDistance + point.Size);
+					newPoint.MinDistance = getMinDistance(firstPoint.LocalTargetSurfaceLocation, newPoint.LocalTargetSurfaceLocation, shorterLength/2f, maxDoorwayEffectArea, useGaussianMinDistance);
+					newPoint.GridPoint = PointToGrid(newPoint.LocalTargetSurfaceLocation);
 					++tries;
 				}
 
 				if(tries < maximumAttempts)
 				{
 					//update processList and samplePoints with new point
-					newPoint.GridPoint = PointToGrid(newPoint.PointOnTargetSurface);
-					grid[(int) newPoint.GridPoint.x, (int) newPoint.GridPoint.y] = newPoint;
+					newPoint.GridPoint = PointToGrid(newPoint.LocalTargetSurfaceLocation);
+					newPoint.District = district;
+					grid[newPoint.GridPoint.X, newPoint.GridPoint.Y] = newPoint;
 
 					processList.Add(newPoint);
 					samplePoints.Add(newPoint);
@@ -240,27 +244,6 @@ public class RooftopPointGenerator
 		}
 
 		return samplePoints;
-	}
-
-	/// <summary>
-	/// Generates the random point around an existing targetPoint.
-	/// </summary>
-	/// <returns>Random point relative to the building.</returns>
-	/// <param name="targetPoint">Point to generate around.</param>
-	/// <param name="minDistance">Minimum distance from the current point that the new point must be.</param>
-	private Vector2 generateRandomPointAround(Vector2 targetPoint, float minDistance)
-	{
-		// random radius between mindist and 2 * mindist
-		// The random number will generate from 0 to 1, so to make
-		// it 1 to 2, 1 is added to it
-		float radius = minDistance * (Random.Range(0f, 1f)  + 1);
-
-		//random angle in radians
-		float angle = 2 * Mathf.PI * Random.Range(0f, 1f); 
-
-		//the new point is generated around the point (x, y)
-		Vector2 point = new Vector2(targetPoint.x + radius * Mathf.Cos(angle), targetPoint.y + radius * Mathf.Sin(angle));
-		return point;
 	}
 
 	/// <summary>
@@ -289,6 +272,9 @@ public class RooftopPointGenerator
 	/// <returns>The minimum distance.</returns>
 	/// <param name="door">Door.</param>
 	/// <param name="currentPosition">Current position.</param>
+	/// <param name="maxDistanceAway">Max distance away.</param>
+	/// <param name="maxDoorwayEffectArea">Maximum distance at which door's presence will effect the density of points</param>
+	/// <param name="useGaussian">If set to <c>true</c> uses gaussian distribution.</param>
 	private float getMinDistance(Vector2 door, Vector2 currentPosition, float maxDistanceAway, float maxDoorwayEffectArea, bool useGaussian)
 	{
 		if(useGaussian)
@@ -317,7 +303,12 @@ public class RooftopPointGenerator
 		float size = generatableExtents[itemIndex];
 
 		// Generates a point within the bounds and converts it to a global location
-		Vector2 objectLocation = new Vector2(Random.Range(width * borderPercent + size, width - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, depth - (depth * borderPercent + size)));
+		float xMin = width * borderPercent + size;
+		float xMax = width - (width * borderPercent + size);
+		float yMin = depth * borderPercent + size;
+		float yMax = depth - (depth * borderPercent + size);
+
+		Vector2 objectLocation = new Vector2(Random.Range(xMin, xMax), Random.Range (yMin, yMax));
 		Vector2 objectGlobalLocation = convertToWorldSpace(objectLocation, center, width, depth);
 		float rayOffset = 1f;
 		float initialRayStartHeight = height + rayOffset;
@@ -331,12 +322,11 @@ public class RooftopPointGenerator
 		// 2) the raycast is not hitting anything
 		// 3) the raycast is not hitting the target gamebobject
 		// 4) the angle of the surface that the raycast hits exceeds the maxAngle
-		while (tries < maximumAttempts && (hit.transform == null || !verifyRaycastHit(hit)))
+		while (tries < maximumAttempts && (hit.transform == null || !verifyRaycastHit(hit, false)))
 		{
-			objectLocation = new Vector2(Random.Range(width * borderPercent + size, 1 - (width * borderPercent + size)), Random.Range (depth * borderPercent + size, 1 - (depth * borderPercent + size)));
+			objectLocation = new Vector2(Random.Range(xMin, xMax), Random.Range (yMin, yMax));
 
 			objectGlobalLocation = convertToWorldSpace(objectLocation, center, width, depth);
-
 			Physics.Raycast (new Vector3 (objectGlobalLocation.x, initialRayStartHeight, objectGlobalLocation.y), Vector3.down, out hit, height);
 		
 			++tries;
@@ -348,24 +338,6 @@ public class RooftopPointGenerator
 		}
 
 		return objectLocation;
-	}
-
-	/// <summary>
-	/// Verifies that the raycastHit hits a point that is not water and not at an inclination greater than the maxAngle.
-	/// </summary>
-	/// <returns><c>true</c>, if raycast hits a point that meets specifications <c>false</c> otherwise.</returns>
-	/// <param name="hit">Hit.</param>
-	private bool verifyRaycastHit(RaycastHit hit)
-	{
-		if(!hit.collider.CompareTag(waterTag))
-		{
-			if((Mathf.Abs (Mathf.Acos (Vector3.Dot (hit.normal, Vector3.up))) <= maxAngle))
-			{
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	/// <summary>
@@ -386,88 +358,12 @@ public class RooftopPointGenerator
 	}
 
 	/// <summary>
-	/// Determines whether this point has neighbors that are too close.
-	/// </summary>
-	/// <returns><c>true</c> if this instance has overlapping neighbors the specified samplePoint; otherwise, <c>false</c>.</returns>
-	/// <param name="samplePoint">Sample point.</param>
-	private bool HasOverlappingNeighbors(ItemPlacementSamplePoint samplePoint)
-	{
-		Vector2 point = samplePoint.PointOnTargetSurface;
-		Vector2 gridPoint = samplePoint.GridPoint;
-		
-		float minDistance = samplePoint.MinDistance;
-
-		// how many neighboring cells should be checked against in the grid
-		int neighborCellCheck = Mathf.CeilToInt((minDistance + samplePoint.Size)/cellSize);
-
-		// gets the start and  end grid location to be checked, and clamps them to be within the size of the grid
-		int minX = (int) gridPoint.x - neighborCellCheck;
-		int maxX = (int) gridPoint.x + neighborCellCheck;
-
-		int minY = (int) gridPoint.y - neighborCellCheck;
-		int maxY = (int) gridPoint.y + neighborCellCheck;
-
-		if(minX < 0)
-		{
-			minX = 0;
-		}
-
-		if(maxX >= grid.GetLength(0))
-		{
-			maxX = grid.GetLength(0) - 1;
-		}
-
-		if(minY < 0)
-		{
-			minY = 0;
-		}
-
-		if(maxY >= grid.GetLength(1))
-		{
-			maxY = grid.GetLength(1) - 1;
-		}
-
-		// goes through grid points
-		// if there is a point in the grid location specified, then check too see if the distance between point in the grid and the sample point 
-		// is too small, which means that there is an overlap
-		// if there is already a point in the grid in the sample point's grid location, then that point is automatically considered an overlap
-		for (int i = minX; i <= maxX; ++i) 
-		{
-			for (int j = minY; j <= maxY; ++j) 
-			{
-				if (j != gridPoint.y || i != gridPoint.x) 
-				{
-					ItemPlacementSamplePoint gridSample = grid [i, j];
-
-					if (gridSample != null && 
-						Vector2.Distance(gridSample.PointOnTargetSurface, point) < (Mathf.Max(minDistance, gridSample.MinDistance) 
-																					+ samplePoint.Size + gridSample.Size)) 
-					{
-						return true;
-					}
-				}
-				else
-				{
-					ItemPlacementSamplePoint gridSample = grid [i, j];
-					if(gridSample != null)
-					{
-						return true;
-					}
-				}
-			}
-		}
-
-		return false;
-	}
-
-	/// <summary>
 	/// Gets the grid coordinates for a sampling point
 	/// </summary>
 	/// <returns>The to grid.</returns>
 	/// <param name="samplingPoint">Sampling point.</param>
-	/// <param name="cellSize">Cell size.</param>
-	private Vector2 PointToGrid(Vector2 samplingPoint)
+	protected Tuple<int, int> PointToGrid(Vector2 samplingPoint)
 	{
-		return new Vector2 ((int)(samplingPoint.x / cellSize), (int)(samplingPoint.y / cellSize));
+		return new Tuple<int, int> ((int)(samplingPoint.x / cellSize), (int)(samplingPoint.y / cellSize));
 	}
 }

@@ -1,0 +1,9 @@
+--- 
+- 
+  category: Player
+  eventPath: "Player1.wav"
+  text: "This is a placeholder announcement for when the player gets on the raft."
+- 
+  category: Weather
+  eventPath: "Player2.wav"
+  text: "This is a placeholder announcement for storms."

@@ -1,4 +1,15 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+
+/// <summary>
+/// Types of possible player health statuses
+/// </summary>
+public enum PlayerHealthStatus
+{
+    None,
+    FoodPoisoning,
+    Pneumonia
+};
 
 public class Player
 {
@@ -7,6 +18,11 @@ public class Player
     private const int maxHunger = 100;
     private const string playerInventoryName = "player";
     private const string inventoryFileName = "InventoryYaml.yml";
+    private const int playerInventorySize = 20;
+    private int health;
+    private Vector3 worldPosition;
+
+    public const float FoodPoisoningChance = 0.3f;
 
     /// <summary>
     /// Player constructor.
@@ -14,11 +30,25 @@ public class Player
     /// </summary>
     public Player ()
     {
+        ResetStatus();
+    }
+
+    /// <summary>
+    /// Resets player to initial status.
+    /// </summary>
+    public void ResetStatus ()
+    {
         Health = MaxHealth = maxHealth;
         Warmth = MaxWarmth = maxWarmth;
         Hunger = MaxHunger = maxHunger;
-		Inventory = new Inventory (playerInventoryName, inventoryFileName);
-		EquippedTool = "";
+
+        HealthStatus = PlayerHealthStatus.None;
+
+        Inventory = new PlayerInventory(playerInventoryName, inventoryFileName, playerInventorySize);
+
+        // set the transform if in unity editor so scenes without a player will
+        // still work
+		this.WorldPosition = Vector3.zero;
     }
 
 	/// <summary>
@@ -53,13 +83,48 @@ public class Player
     }
 
     /// <summary>
+    /// Gets the position of the player in the world
+    /// </summary>
+    /// <value>The world position.</value>
+    public Vector3 WorldPosition
+    {
+    	get
+    	{
+    		if(this.IsInWorld)
+    		{
+    			return this.WorldTransform.position;
+    		}
+    		else
+    		{
+    			return this.worldPosition;
+    		}
+    	}
+    	private set
+    	{
+    		this.worldPosition = value;
+    	}
+    }
+
+    /// <summary>
     /// The player's current health. 
     /// Used for physical dammage.
     /// </summary>
     public int Health
     {
-        get;
-        set;
+        get
+        {
+        	return health;
+        }
+
+        set
+        {
+        	health = value;
+
+        	if(health <= 0)
+        	{
+        		Game.Instance.DeathManagerInstance.Death();
+        	}
+        }
     }
 
     /// <summary>
@@ -116,31 +181,27 @@ public class Player
     /// Gets the player's on-person intenvory.
     /// </summary>
     /// <value>The player's intenvory.</value>
-    public Inventory Inventory
+    public PlayerInventory Inventory
     {
     	get;
     	private set;
     }
 
     /// <summary>
-    /// Gets or sets the equipped tool.
+    /// Controls the player's tools.
     /// </summary>
-    /// <value>The equipped tool.</value>
-    public string EquippedTool
+    public PlayerTools Toolbox
     {
-    	get;
-    	set;
+        get;
+        set;
     }
 
     /// <summary>
-    /// Gets a value indicating whether this instance has a tool equipped.
+    /// The player's current health status.
     /// </summary>
-    /// <value><c>true</c> if this instance has tool; otherwise, <c>false</c>.</value>
-    public bool HasTool
+    public PlayerHealthStatus HealthStatus
     {
-    	get
-    	{
-    		return !EquippedTool.Equals("");
-    	}
+        get;
+        set;
     }
 }

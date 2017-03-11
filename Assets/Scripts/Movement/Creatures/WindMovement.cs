@@ -9,6 +9,7 @@ public class WindMovement : MonoBehaviour
 	private float windMitigation = 200f;
 
 	private Rigidbody rb;
+	private Vector3 previousVelocity;
 
 	/// <summary>
 	/// gets rigid body
@@ -16,6 +17,7 @@ public class WindMovement : MonoBehaviour
 	void Start()
 	{
 		this.rb = this.GetComponent<Rigidbody>();
+		this.previousVelocity = Vector3.zero;
 	}
 
 	/// <summary>
@@ -24,6 +26,8 @@ public class WindMovement : MonoBehaviour
 	void FixedUpdate()
 	{
 		// reduce intensity of wind vector on jelly fish
-		this.rb.velocity = Game.Instance.WeatherInstance.WindDirection3d / this.windMitigation;
+		Vector3 velocity = Game.Instance.WeatherInstance.WindDirection3d / this.windMitigation;
+		this.rb.velocity += velocity - this.previousVelocity;
+		this.previousVelocity = velocity;
 	}
 }

@@ -7,9 +7,81 @@ using System.Collections.Generic;
 /// This class holds all the relevant info needed to define a district.
 /// It holds things like the building pieces the district contains, that districts materials, window types, etc.
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class DistrictConfiguration
 {
+    /// <summary>
+    /// Strcuture for accessing additional building placement configuration.
+    /// </summary>
+    [Serializable]
+    public class BuildingTemplatePlacement
+    {
+        /// <summary>
+        /// GameObject template for building to be placed.
+        /// </summary>
+        [Tooltip("Template for building to be placed.")]
+        public GameObject Building;
+
+        /// <summary>
+        /// Frequency of building placement on a scale of O to 1.
+        /// </summary>
+        [Tooltip("Frequency of building placement.")]
+        [Range(0f, 1f)]
+        public float PlacementFrequency = 0.5f;
+    }
+
+    [Tooltip("Name of district type.")]
+    [SerializeField]
+    [DistrictPopup]
+    private string districtName;
+
+    /// <summary>
+    /// The name of the district.
+    /// </summary>
+    public string Name
+    {
+        get
+        {
+            return districtName;
+        }
+    }
+
+
+    [Header("Template Building Placement")]
+
+    /// <summary>
+    /// The Weenie building template.
+    /// </summary>
+    [Tooltip("Template for the district Weenie Building. To be placed once.")]
+    public GameObject WeenieBuildingTemplate;
+
+    /// <summary>
+    /// The doors in the district.
+    /// </summary>
+	[Tooltip("Doors that may be generated in the district")]
+    public List<GameObject> Doors;
+
+    /// <summary>
+    /// Any additional building templates to be added to a district, to be placed according to the specified frequency.
+    /// </summary>
+    [Tooltip("Any additional building templates to be added to a district, to be placed according to the specified frequency.")]
+    public BuildingTemplatePlacement[] AdditionalBuildingTemplates;
+
+
+    [Header("Procedural Building Construction")]
+
+    /// <summary>
+    /// The maximum number of floors for buildings in this district.
+    /// </summary>
+    [Tooltip("The maximum number of floors for buildings in this district.")]
+    public int MaxFloors;
+
+    /// <summary>
+    /// The minimum number of floors for buildings in this district.
+    /// </summary>
+    [Tooltip("The minimum number of floors for buildings in this district.")]
+    public int MinFloors;
+
     [SerializeField]
     [Range(0, 100)]
     private float minAttachmentChance;
@@ -29,19 +101,6 @@ public class DistrictConfiguration
         get
         {
             return maxAttachmentChance;
-        }
-    }
-
-    [SerializeField]
-    private string districtName;
-    /// <summary>
-    /// The name of the district.
-    /// </summary>
-    public string Name
-    {
-        get
-        {
-            return districtName;
         }
     }
 
@@ -211,6 +270,74 @@ public class DistrictConfiguration
         }
     }
 
+   
+    [SerializeField]
+    private Gradient materialAlbedoColors;
+    /// <summary>
+    /// Aditional colors building's albedo can take on to increase building variability.
+    /// </summary>
+    public Gradient MaterialAlbedoColors
+    {
+        get
+        {
+            return materialAlbedoColors;
+        }
+    }
+
     public List<Material> districtProceduralMaterials = new List<Material>();
     public List<Material> districtProceduralWindowMaterials = new List<Material>();
+    [SerializeField]
+    [Range(0f, 100f)]
+    private float windowWasherChance = 30f;
+    /// <summary>
+    /// On any given building in this district it has this percent of a chance of having a window washer on it (if the building is compatible)
+    /// </summary>
+    public float WindowWasherChance
+    {
+        get
+        {
+            return windowWasherChance;
+        }
+    }
+
+    [SerializeField]
+    private WindowWasher[] districtWindowWashers;
+    /// <summary>
+    /// Window washers (if any) that can be spawned in this District
+    /// </summary>
+    public WindowWasher[] DistrictWindowWashers
+    {
+        get
+        {
+            return districtWindowWashers;
+        }
+    }
+
+    [SerializeField]
+    [Tooltip("X is evaluated between 0 and 1, Y is evaluated between 0 and Positive Infinity")]
+    private AnimationCurve windowWasherMaxLengthCurve;
+    /// <summary>
+    /// A curve between 0 and 1 that defines the max length of window washers in the district.
+    /// </summary>
+    public AnimationCurve WindowWasherMaxLengthCurve
+    {
+        get
+        {
+            return windowWasherMaxLengthCurve;
+        }
+    }
+
+    [SerializeField]
+    [Range(0f, 100f)]
+    private float windowWasherStartUpChance = 30f;
+    /// <summary>
+    /// The percent chance that a window washer in this district will start in the up position.
+    /// </summary>
+    public float WindowWasherStartUpChance
+    {
+        get
+        {
+            return windowWasherStartUpChance;
+        }
+    }
 }

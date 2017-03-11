@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using UnityEngine.Events;
 
 /// <summary>
 /// Item amount affect panel behavior.
@@ -45,17 +46,22 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	private int currentAmount;
 	//the maximum number of units that can be selected for the current item
 	private int maxAmount;
-	// the current selected item from the inventory
-	private GameObject selectedItem;
 
-	public static ChooseItemAmountPanelBehavior Instance;
+	// the current selected item from the inventory
+	public GameObject SelectedItem
+	{
+		get;
+		set;
+	}
+
+	private ItemActionButtonUI selectedActionButton;
 
 	/// <summary>
-	/// Start this instance of ChooseItemAmountPanelBehavior.
+	/// Awake this instance of ChooseItemAmountPanelBehavior.
 	/// </summary>
-	void Start()
+	void Awake()
 	{
-		Instance = this;
+		GuiInstanceManager.ItemAmountPanelInstance = this;
 	}
 
 	/// <summary>
@@ -99,63 +105,110 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Opens the panel. Clears the information left behind from the last time it was open. Sets
+	/// Opens the panel that allows users to select the desired number of items to affect with the action. 
+	/// Clears the information left behind from the last time it was open. Sets
 	/// the max amount to be the number of units available from the selected item.
 	/// </summary>
-	/// <param name="selected">The item selected.</param>
-	public void OpenPanel(GameObject selected)
+	public void OpenItemAmountPanel()
 	{
-		Plus.gameObject.SetActive (true);
-		Minus.gameObject.SetActive (true);
-		Ok.gameObject.SetActive (true);
-		Cancel.gameObject.SetActive (true);
-		Close.gameObject.SetActive (false);
+		ItemNameDisplay.text = SelectedItem.GetComponent<ItemStackUI>().ItemName.text;
+		maxAmount = (int)SelectedItem.GetComponent<ItemStackUI>().GetMaxAmount();
 
-		itemStackDetailPanel.SetActive (true);
-		itemAmountAffectPanel.SetActive (true);
-		attributesAndActionPanel.SetActive (false);
-		selectedItem = selected;
+		// if there is more than 1 of an item, then ask user to choose how many to affect
+		if(maxAmount > 1)
+		{
+			currentAmount = 0;
+			NumDisplay.text = currentAmount.ToString();
 
-		ItemNameDisplay.text = selectedItem.GetComponent<ItemStackUI>().ItemName.text;
-		maxAmount = (int)selectedItem.GetComponent<ItemStackUI>().GetStack().Amount;
-		currentAmount = 0;
-		NumDisplay.text = currentAmount.ToString();
+			Close.gameObject.SetActive (false);
 
-		Minus.gameObject.SetActive (true);
-		Plus.gameObject.SetActive (true);
-		// checks to see if the buttons should be activated or not
-		// by default they are activated since 1 is the default number of
-		// units, however if there is only 1 unit of that item, then 
-		// the plus sign should not be displayed
-		Change (0);
+			itemAmountAffectPanel.SetActive (true);
+
+			Minus.gameObject.SetActive (true);
+			Plus.gameObject.SetActive (true);
+
+			// checks to see if the buttons should be activated or not
+			// by default they are activated since 1 is the default number of
+			// units, however if there is only 1 unit of that item, then 
+			// the plus sign should not be displayed
+			Change (0);
+		}
+		else
+		{
+			// if there's only one, automatically fire off the action
+			currentAmount = 1;
+			FinalizeAction();
+		}
 	}
 
 	/// <summary>
 	/// Close the panel.
 	/// </summary>
-	public void ClosePanel()
+	public void CancelChosenAmount()
 	{
 		itemAmountAffectPanel.SetActive (false);
-		itemStackDetailPanel.SetActive (false);
-		attributesAndActionPanel.SetActive (false);
-		EventSystem.current.SetSelectedGameObject(null);
+		attributesAndActionPanel.SetActive (true);
+		Close.gameObject.SetActive (true);
 	}
 
 	/// <summary>
-	/// Opens the panel containing information about the selected item.
+	/// Closes the entire item info panel.
 	/// </summary>
-	public void OpenItemInfoPanel()
+	public void CloseEntirePanel()
 	{
-		Plus.gameObject.SetActive (false);
-		Minus.gameObject.SetActive (false);
-		Ok.gameObject.SetActive (false);
-		Cancel.gameObject.SetActive (false);
-		Close.gameObject.SetActive (true);
-		attributesAndActionPanel.SetActive (true);
+		itemStackDetailPanel.SetActive (false);
+	}
 
-		// display attributes and actions
-		// TODO : fix issue where item panel keeps adding attributes and actions from previously clicked item
-		//InventoryUI.Instance.DisableItemStackButtons();
-		ItemStackDetailPanelBehavior.Instance.SetItemData(selectedItem, currentAmount);
+	/// <summary>
+	/// Opens the item detail panel.
+	/// </summary>
+	/// <param name="selected">Selected.</param>
+	public void OpenItemDetailPanel(GameObject selected)
+	{
+		ItemStackUI selectedItemUI = selected.GetComponent<ItemStackUI> ();
+
+		if(selectedItemUI.GetStack() != null)
+		{
+			SelectedItem = selected;
+			itemStackDetailPanel.SetActive (true);
+			attributesAndActionPanel.SetActive (true);
+			itemAmountAffectPanel.SetActive (false);
+
+			ItemNameDisplay.text = selectedItemUI.ItemName.text;
+			currentAmount = 0;
+			NumDisplay.text = currentAmount.ToString();
+
+			// checks to see if the buttons should be activated or not
+			// by default they are activated since 1 is the default number of
+			// units, however if there is only 1 unit of that item, then 
+			// the plus sign should not be displayed
+			Change (0);
+
+			GuiInstanceManager.ItemStackDetailPanelInstance.SetSelectedItem (SelectedItem);
+			GuiInstanceManager.ItemStackDetailPanelInstance.ClearAttributesAndActions();
+			GuiInstanceManager.ItemStackDetailPanelInstance.ClearSubActionPanel();
+			GuiInstanceManager.ItemStackDetailPanelInstance.SetItemData(SelectedItem);
+			attributesAndActionPanel.SetActive (true);
+		}
+	}
+
+	/// <summary>
+	/// Chooses the number of items to affect.
+	/// </summary>
+	public void ChooseNumOfItemsToAffect(ItemActionButtonUI actionButton)
+	{
+		selectedActionButton = actionButton;
+		OpenItemAmountPanel();
+	}
+
+	/// <summary>
+	/// Executes the action.
+	/// </summary>
+	public void FinalizeAction()
+	{
+		GuiInstanceManager.ItemStackDetailPanelInstance.UpdateSelectedAmount(currentAmount);
+		selectedActionButton.PerformAction();
+		Close.gameObject.SetActive (true);
+		itemAmountAffectPanel.SetActive (false);
 	}
 }
