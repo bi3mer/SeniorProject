@@ -39,7 +39,8 @@ public class LightItem : Tool
 		optionSelectionHandler = new OverworldItemOptionSelection(true);
 		transform.SetParent(attachJoint.transform, false);
 
-		lightObject = GetComponentInChildren<Transform>().gameObject;
+		lightObject = transform.GetChild(0).gameObject;
+		lightSource = GetComponentInChildren<Light>();
 		lightObject.SetActive(false);
 	}
 
@@ -50,7 +51,6 @@ public class LightItem : Tool
 	public override void SetUpTool(BaseItem itemForTool)
 	{
 		LightCategory lightCategory = (LightCategory) itemForTool.GetItemCategoryByClass(typeof(LightCategory));
-		lightSource = GetComponentInChildren<Light>();
 		lightSource.intensity = lightCategory.Brightness;
 		lightSource.enabled = On;
 

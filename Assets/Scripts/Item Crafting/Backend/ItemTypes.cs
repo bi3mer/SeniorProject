@@ -45,6 +45,16 @@
 	/// </summary>
 	public static string Fuel = "fuel";
 
+    /// <summary>
+    /// Objects that can float.
+    /// </summary>
+    public static string FloatableObject = "floatable object";
+
+    /// <summary>
+    /// Objects that is the most advanced tools.
+    /// </summary>
+    public static string AdvancedTool = "advanced tool";
+
 	/// <summary>
 	/// Objects that can heal.
 	/// </summary>
@@ -66,5 +76,5 @@
 	/// </summary>
 	public static string BaseSolid = "base solid";
 
-	public static string[] Types = new string[]{Rope, Hook, Sharp, Rod, Container, Edible, Equipable, Igniter, Fuel, Medicinal, Blade, Cloth, BaseSolid};
+	public static string[] Types = new string[]{Rope, Hook, Sharp, Rod, Container, Edible, Equipable, Igniter, Fuel, AdvancedTool, FloatableObject, Medicinal, Blade, Cloth, BaseSolid};
 }
