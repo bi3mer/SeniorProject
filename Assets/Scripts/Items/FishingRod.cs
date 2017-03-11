@@ -106,6 +106,9 @@ public class FishingRod : Tool
         WasCast = false;
     }
 
+	/// <summary>
+	/// Reel this instance.
+	/// </summary>
     private void Reel ()
     {
 
@@ -117,6 +120,9 @@ public class FishingRod : Tool
         StartCoroutine(WaitToFinish());
     }
 
+	/// <summary>
+	/// Cast this instance.
+	/// </summary>
     private void Cast ()
     {
         WasCast = true;
@@ -131,11 +137,17 @@ public class FishingRod : Tool
         fishingLure.Cast(force);
     }
 
+	/// <summary>
+	/// Fail this instance.
+	/// </summary>
     private void Fail ()
     {
         // TODO: Play fail animation
     }
 
+	/// <summary>
+	/// Updates the fishing line.
+	/// </summary>
     private void UpdateFishingLine ()
     {
         // We don't need to update unless we using the fishing line
@@ -161,6 +173,10 @@ public class FishingRod : Tool
         line.ControlPoint = control;
     }
 
+	/// <summary>
+	/// Sets the fishing line active.
+	/// </summary>
+	/// <param name="value">If set to <c>true</c> value.</param>
     private void SetFishingLineActive(bool value)
     {
         // hide or show the fishing line and fishing lure
@@ -168,9 +184,13 @@ public class FishingRod : Tool
         fishingLure.gameObject.SetActive(value);
     }
 
+	/// <summary>
+	/// Waits to finish.
+	/// </summary>
+	/// <returns>The to finish.</returns>
     private IEnumerator WaitToFinish()
     {
-        // Check each fram to see if reeling is complete
+        // Check each frame to see if reeling is complete
         while (WasCast)
         {
             if (!fishingLure.IsReeling)
