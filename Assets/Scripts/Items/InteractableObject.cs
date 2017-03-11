@@ -60,7 +60,11 @@ public class InteractableObject : MonoBehaviour
     {
         get 
         { 
-            return display.gameObject.activeInHierarchy;
+            if(display != null)
+            { 
+                return display.gameObject.activeInHierarchy;
+            }
+            return false;
         }
         set 
         {
