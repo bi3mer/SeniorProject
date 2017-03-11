@@ -102,7 +102,8 @@ public class CreatureManager
 	/// they aren't in the radius
 	/// </summary>
 	/// <param name="radius">Radius.</param>
-	public void CheckCreaturePosiitons(float radius)
+	/// <param name="waterLevelOffset">Water level offset.</param>
+	public void UpdateCreatureInfo(float radius, float waterLevelOffset)
 	{
 		for(int i = 0; i < this.creatures.Length; ++i)
 		{
@@ -127,6 +128,10 @@ public class CreatureManager
 				// kill the creature if outside of the given radius
 				this.PutCreatureInPool(i);
 			}
+
+			this.creatures[i].transform.position = new Vector3(this.creatures[i].transform.position.x,
+			                                                   Game.Instance.WaterLevelHeight + waterLevelOffset,
+			                                                   this.creatures[i].transform.position.z);
 		}
 	}
 
