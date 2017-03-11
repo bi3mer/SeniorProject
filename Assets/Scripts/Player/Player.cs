@@ -48,9 +48,7 @@ public class Player
 
         // set the transform if in unity editor so scenes without a player will
         // still work
-        #if UNITY_EDITOR
 		this.WorldPosition = Vector3.zero;
-        #endif
     }
 
 	/// <summary>
