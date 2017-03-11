@@ -263,6 +263,7 @@ MonoBehaviour:
   worldSelectionPanel: {fileID: 1000013690164136}
   worldSelectionTemplate: {fileID: 1000010141563694}
   noValidOptionText: {fileID: 114000011751405468}
+  noValidActionText: No valid actions
 --- !u!114 &114000011351126814
 MonoBehaviour:
   m_ObjectHideFlags: 1

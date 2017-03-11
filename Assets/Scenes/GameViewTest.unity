@@ -262,21 +262,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114000011347958684, guid: ff82fe7632e4040e299216c1c117bd87,
-        type: 2}
-      propertyPath: noValidOptionText
-      value: 
-      objectReference: {fileID: 455550013}
-    - target: {fileID: 114000012672878052, guid: ff82fe7632e4040e299216c1c117bd87,
-        type: 2}
-      propertyPath: associatedButton
-      value: 
-      objectReference: {fileID: 1157294724}
-    - target: {fileID: 114000012288163642, guid: ff82fe7632e4040e299216c1c117bd87,
-        type: 2}
-      propertyPath: dimensionDrivingPanel
-      value: 
-      objectReference: {fileID: 840087598}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ff82fe7632e4040e299216c1c117bd87, type: 2}
   m_IsPrefabParent: 0
@@ -390,32 +375,32 @@ Prefab:
     - target: {fileID: 224000010744646084, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224000010744646084, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224000011641031748, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224000011641031748, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224000012485208420, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224000012485208420, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224000011312386572, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
@@ -599,12 +584,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 421073924}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &455550013 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114000011751405468, guid: ff82fe7632e4040e299216c1c117bd87,
-    type: 2}
-  m_PrefabInternal: {fileID: 147873103}
-  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1001 &512283881
 Prefab:
   m_ObjectHideFlags: 0
@@ -971,11 +950,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 730584154}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!224 &840087598 stripped
-RectTransform:
-  m_PrefabParentObject: {fileID: 224000010888420280, guid: ff82fe7632e4040e299216c1c117bd87,
-    type: 2}
-  m_PrefabInternal: {fileID: 147873103}
 --- !u!1 &842551077
 GameObject:
   m_ObjectHideFlags: 0
@@ -1225,12 +1199,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7b4e5226e628633408ece05e9d3c6a4d, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1157294724 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114000010099162328, guid: ff82fe7632e4040e299216c1c117bd87,
-    type: 2}
-  m_PrefabInternal: {fileID: 147873103}
-  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &1197761596
 GameObject:
   m_ObjectHideFlags: 0
