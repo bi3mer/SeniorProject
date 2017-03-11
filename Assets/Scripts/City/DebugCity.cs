@@ -111,7 +111,7 @@ public class DebugCity : MonoBehaviour
                         for (int k = 0; k < block.Buildings.Count; ++k)
                         {
                             Gizmos.color = Color.black;
-                            Gizmos.DrawSphere(block.Buildings[k].RootPosition, 0.15f);
+                            Gizmos.DrawSphere(block.Buildings[k].Position, 0.15f);
                         }
                     }
                 }

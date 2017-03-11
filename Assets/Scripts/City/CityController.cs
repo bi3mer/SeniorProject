@@ -57,9 +57,6 @@ public class CityController : MonoBehaviour
 
         // Initialize city chunking
         cityChunkManager.Init(Game.Instance.CityInstance);
-
-        // Start async builing updates
-        StartCoroutine(updateBuildings());
  	}
 	
     /// <summary>
@@ -80,7 +77,7 @@ public class CityController : MonoBehaviour
         // Pick a vertex that is shared by the largest number of districts
         // and create the talest builing there.
         Vector3 cityCenter = GenerationUtility.GetMostCommonVertex(districts);
-        Building tallestBuilding = buildingGenerator.CreateCityCenterBuilding(cityCenter);
+        Building tallestBuilding = new TemplateBuilding(this.gameObject.transform, cityCenter, buildingGenerator.CityCenterBuilding);
 
 		float cityWidth = cityBounds.size.x;
 		float cityDepth = cityBounds.size.z;
@@ -109,7 +106,7 @@ public class CityController : MonoBehaviour
                     Building building = buildings[k];
 
                     waterItemGenerator.AddBuildingToWaterGenerationMap(building.BoundingBox);
-					rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name, doorExtents, district.Configuration.Doors, building.Instance);
+					rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.Position, district.Name, doorExtents, district.Configuration.Doors, building.Instance);
 
                     block.Buildings.Add(building);
                 }
@@ -126,35 +123,5 @@ public class CityController : MonoBehaviour
 		StartCoroutine(itemPoolManager.StartManagingPool());
 
         return new City(districts, cityBounds, cityCenter, tallestBuilding);
-    }
-
-    /// <summary>
-    /// Asychronous method which loops through all builings and updates according to current state.
-    /// </summary>
-    private IEnumerator updateBuildings()
-    {
-        Building building;
-        IEnumerator<Building> buildings = Game.Instance.CityInstance.GetEnumerator();
-
-        while (buildings.MoveNext())
-        {
-            if (Game.Instance.PlayerInstance.IsInWorld && !Game.Instance.PauseInstance.IsPaused)
-            {
-                // Get building
-                building = buildings.Current;
-
-                // Get player position
-                Vector3 playerRootPosition = Game.Instance.PlayerInstance.WorldTransform.position;
-                playerRootPosition.y = 0f;
-
-                // Update gameobject and colliders based on player proximity
-                building.IsVisible = (Vector3.Distance(playerRootPosition, building.RootPosition) < buildingVisibleRadius);
-                building.IsCollidible = (Vector3.Distance(playerRootPosition, building.RootPosition) < buildingColliderRadius);
-            }
-
-            yield return null;
-        }
-
-        yield return updateBuildings();
     }
 }

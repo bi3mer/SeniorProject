@@ -1,0 +1,80 @@
+﻿using UnityEngine;
+using System.Collections;
+
+/// <summary>
+/// A building based on a prefab.
+/// </summary>
+public class TemplateBuilding : Building
+{
+    /// <summary>
+    /// Creates an instance of a <see cref="TemplateBuilding" /> class.
+    /// </summary>
+    /// <param name="template">The prefab gameobject.</param>
+    /// <param name="parent">The gameobject the building should be parented to.</param>
+    /// <param name="position">The position of the building.</param>
+    public TemplateBuilding (Transform parent, Vector3 position, GameObject template)
+    {
+        Parent = parent;
+        Position = position;
+        Template = template;
+        IsLoaded = false;
+    }
+    
+    /// <summary>
+    /// Prefab to instantiate.
+    /// </summary>
+    public GameObject Template
+    {
+        get;
+        private set;
+    }
+
+    /// <summary>
+    /// Calculates the bounds of the building.
+    /// </summary>
+    /// <returns></returns>
+    protected override Bounds calculateBounds()
+    {
+        if (Instance == null)
+        {
+            return new Bounds();
+        }
+
+        return Instance.GetComponentInChildren<Collider>().bounds;
+    }
+
+    /// <summary>
+    /// Loads the instance of the building into the scene.
+    /// </summary>
+    public override void Load()
+    {
+        if (IsLoaded)
+        {
+            return;
+        }
+
+        Instance = GameObject.Instantiate(Template) as GameObject;
+        Instance.transform.position = Position;
+        Instance.transform.parent = Parent;
+
+        IsLoaded = true;
+    }
+
+    /// <summary>
+    /// Unloads the instance of the building from the scene.
+    /// </summary>
+    public override void Unload()
+    {
+        if (!IsLoaded)
+        {
+            return;
+        }
+
+        if (Instance != null)
+        {
+            GameObject.Destroy(Instance);
+        }
+
+        IsLoaded = false;
+    }
+}
