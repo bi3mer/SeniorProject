@@ -28,6 +28,7 @@ GameObject:
   - 114: {fileID: 114000013392317438}
   - 114: {fileID: 114000011626432178}
   - 114: {fileID: 114000010221364680}
+  - 114: {fileID: 114000011026012388}
   m_Layer: 0
   m_Name: CityController
   m_TagString: Untagged
@@ -100,6 +101,19 @@ MonoBehaviour:
   buildingScale: 0.9
   maxPlacementTries: 3
   CityCenterBuilding: {fileID: 100000, guid: 85c452bcdee401c48ad8a500701ee3fd, type: 3}
+--- !u!114 &114000011026012388
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013389127986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55d1d6801fb3965488a47da023b42eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunkSize: 25
+  chunksAwayToLoad: 1
 --- !u!114 &114000011626432178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -134,6 +148,7 @@ MonoBehaviour:
   showBlockPerimeter: 1
   showBlockControlPoint: 0
   showBuildingPositions: 1
+  showChunkBoundaries: 1
   showItemPositions: 1
 --- !u!114 &114000012868407098
 MonoBehaviour:
