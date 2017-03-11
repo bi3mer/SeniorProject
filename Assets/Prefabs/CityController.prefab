@@ -665,6 +665,10 @@ MonoBehaviour:
     - {fileID: 2100000, guid: 05b05e8cd922b804c8f92da169e6829d, type: 2}
     - {fileID: 2100000, guid: 21c659b9377eb304dadf72e50c5dae0d, type: 2}
     - {fileID: 2100000, guid: af7413b900cc8dd439e2fb7127b323ca, type: 2}
+    - {fileID: 2100000, guid: 41b954197c4205440a97af5819fb2ecd, type: 2}
+    - {fileID: 2100000, guid: bf8152983f038814395354ad82e91b5c, type: 2}
+    - {fileID: 2100000, guid: 493bd609ae5a38b4182373c075b6b72d, type: 2}
+    - {fileID: 2100000, guid: 13775d9b82d164e41a11ba0b452be283, type: 2}
     districtWindowMaterials:
     - {fileID: 2100000, guid: 67d597f6c1f779a40b530b049978c114, type: 2}
     - {fileID: 2100000, guid: 450b1e3de4f440243a09a693bcf83c45, type: 2}
