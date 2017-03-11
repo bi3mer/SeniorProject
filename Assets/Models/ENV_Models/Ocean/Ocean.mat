@@ -18,14 +18,14 @@ Material:
     - first:
         name: _Albedo1
       second:
-        m_Texture: {fileID: 2800000, guid: df0effdda0879ce43a99af49e99851e1, type: 3}
-        m_Scale: {x: 60, y: 60}
+        m_Texture: {fileID: 2800000, guid: 9f73b76944603644e8768023463b4e18, type: 3}
+        m_Scale: {x: 400, y: 400}
         m_Offset: {x: 0, y: 0}
     - first:
         name: _Albedo2
       second:
         m_Texture: {fileID: 2800000, guid: b894c06e81978c748bc26d64b30eb265, type: 3}
-        m_Scale: {x: 60, y: 60}
+        m_Scale: {x: 900, y: 900}
         m_Offset: {x: 0, y: 0}
     - first:
         name: _BumpMap
@@ -61,7 +61,7 @@ Material:
         name: _Displacement2
       second:
         m_Texture: {fileID: 2800000, guid: a0c10ff906524a5499648c09d43df7f7, type: 3}
-        m_Scale: {x: 6, y: 6}
+        m_Scale: {x: 2, y: 12}
         m_Offset: {x: 0, y: 0}
     - first:
         name: _EmissionMap
@@ -132,7 +132,7 @@ Material:
       second: 1
     - first:
         name: _Displacement
-      second: 0.13
+      second: 0.01
     - first:
         name: _DisplacementSpeed1
       second: 0.05
@@ -144,7 +144,7 @@ Material:
       second: 0
     - first:
         name: _Foam
-      second: 2.15
+      second: 4.91
     - first:
         name: _FoamFalloff
       second: -2.45
@@ -168,7 +168,7 @@ Material:
       second: 1
     - first:
         name: _Opacity
-      second: 0.677
+      second: 0.659
     - first:
         name: _Parallax
       second: 0.02
@@ -195,10 +195,10 @@ Material:
       second: 1
     - first:
         name: _TessMax
-      second: 31
+      second: 42.64
     - first:
         name: _TessMin
-      second: 18.21
+      second: 25.8
     - first:
         name: _TessValue
       second: 32
@@ -217,10 +217,10 @@ Material:
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _DeepColor
-      second: {r: 0, g: 0, b: 0, a: 0}
+      second: {r: 0.4044118, g: 0.4044118, b: 0.4044118, a: 0}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _ShallowColor
-      second: {r: 1, g: 1, b: 1, a: 0}
+      second: {r: 1, g: 1, b: 1, a: 1}

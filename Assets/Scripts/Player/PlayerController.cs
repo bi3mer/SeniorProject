@@ -241,9 +241,12 @@ public class PlayerController : MonoBehaviour
         // enter into the range of an interactable item 
         // TODO: Figure out why the player can't find the raft when on board with cone view.
 		if (IsOnRaft && other.CompareTag (interactiveTag)) {
-			interactable = other.GetComponent<InteractableObject> ();
-			interactable.Show = true;
-		}
+            if(other.GetComponent<InteractableObject>() != null)
+            { 
+			    interactable = other.GetComponent<InteractableObject> ();
+			    interactable.Show = true;
+            }
+        }
     }
 
     /// <summary>

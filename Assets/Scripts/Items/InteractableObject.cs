@@ -64,8 +64,11 @@ public class InteractableObject : MonoBehaviour
         }
         set 
         {
-            display.gameObject.SetActive(value);
-            display.text = text;
+            if (display != null)
+            { 
+                display.gameObject.SetActive(value);
+                display.text = text;
+            }
         }
     }
 
