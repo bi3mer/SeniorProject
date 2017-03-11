@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 public class LightItem : Tool 
 {
@@ -25,8 +26,6 @@ public class LightItem : Tool
 
 	private const string maxDurationAttrName = "maxDuration";
 
-    private OverworldItemOptionSelection optionSelectionHandler;
-
     private ItemCondition fuelCondition;
 
 	/// <summary>
@@ -36,7 +35,6 @@ public class LightItem : Tool
 	{
 		On = false;
 		ToolName = "";
-		optionSelectionHandler = new OverworldItemOptionSelection(true);
 		transform.SetParent(attachJoint.transform, false);
 		ToolType = ToolTypes.Light;
 	}
@@ -61,17 +59,18 @@ public class LightItem : Tool
 
 		toolName = lightItem.name;
 
-		optionSelectionHandler.Reset();
+		List<ItemAction> actions = new List<ItemAction>();
 
 		ItemAction addFuelAction = new ItemAction(addFuelActName, new UnityAction(AddFuel));
-		addFuelAction.TypeUsed = ItemTypes.Fuel;
+		addFuelAction.TypeUsed.Add(ItemTypes.Fuel);
 		fuelCondition = new ItemCondition(lightBase.CurrentFuelLevel, lightBase.MaxFuel, BooleanOperator.Less);
 		addFuelAction.Conditions.Add(fuelCondition);
 
 		ItemAction turnOnOffAction = new ItemAction(turnOnOffActName, new UnityAction(OnOff));
+		actions.Add(addFuelAction);
+		actions.Add(turnOnOffAction);
 
-		optionSelectionHandler.AddPossibleAction(addFuelAction);
-		optionSelectionHandler.AddPossibleAction(turnOnOffAction);
+		GuiInstanceManager.EquippedItemGuiInstance.SetEquipped(itemForTool.InventorySprite, actions);
 	}
 
 	/// <summary>
@@ -122,7 +121,7 @@ public class LightItem : Tool
 	/// </summary>
 	public override void Use()
 	{
-		optionSelectionHandler.ShowPossibleActions();
+		OnOff();
 	}
 
 	/// <summary>
@@ -130,7 +129,7 @@ public class LightItem : Tool
 	/// </summary>
 	public void AddFuel()
 	{
-		BaseItem item = Game.Instance.PlayerInstance.Inventory.GetInventoryBaseItem(optionSelectionHandler.SelectedItem);
+		BaseItem item = Game.Instance.PlayerInstance.Inventory.GetInventoryBaseItem(GuiInstanceManager.EquippedItemGuiInstance.GetSelected());
 		lightBase.AddFuel(item.GetItemAttribute(burnTimeAttrName).Value);
 		Game.Instance.PlayerInstance.Inventory.UseItem(item.ItemName, 1);
 		fuelCondition.ConditionValue = lightBase.CurrentFuelLevel;
