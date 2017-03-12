@@ -1,19 +1,15 @@
 fileFormatVersion: 2
-guid: 48fb2418da191354eaa634a6c4ab3253
+guid: 4138ee286e68e484b90d7c46e7bd9bc3
 timeCreated: 1488786260
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: bend1Handle
-    100002: flatstem
-    100004: //RootNode
-    400000: bend1Handle
-    400002: flatstem
-    400004: //RootNode
-    2300000: flatstem
-    3300000: flatstem
-    4300000: flatstem
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: pCylinder1
     9500000: //RootNode
   materials:
     importMaterials: 0
