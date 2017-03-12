@@ -3432,9 +3432,9 @@ MonoBehaviour:
   fallDamageModifier: 1
   againstWindSpeedModifier: 0.5
   raycastHeight: 0.01
-  airControll: 0
+  airControll: 1
   terminalVelocity: 2
-  jumpingFallModifier: 0.5
+  jumpingFallModifier: 0.08
 --- !u!114 &114000013014602212
 MonoBehaviour:
   m_ObjectHideFlags: 1
