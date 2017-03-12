@@ -67,14 +67,7 @@ public class GameViewBehavior : MonoBehaviour
 
 			if (Input.GetKeyDown(controlScheme.Radio)) 
 			{
-                if (radioCanvas.activeInHierarchy)
-                {
-                    radioModelAnimation.DeactivateRadio();
-                }
-                else
-                {
-                    OnRadioClick();
-                }
+				OnRadioClick ();
 			}
 
 			if (Input.GetKeyDown(controlScheme.Crafting)) 
