@@ -93,6 +93,7 @@ GameObject:
   - 23: {fileID: 23000014045366662}
   - 65: {fileID: 65000010162351594}
   - 54: {fileID: 54000014162656272}
+  - 114: {fileID: 114000010443858882}
   m_Layer: 10
   m_Name: ITM_Rope
   m_TagString: Interactable
@@ -291,13 +292,14 @@ GameObject:
   - 23: {fileID: 23000010619247922}
   - 65: {fileID: 65000013864470396}
   - 54: {fileID: 54000014200440910}
+  - 114: {fileID: 114000010898716860}
   m_Layer: 9
   m_Name: ITM_WoodPlank2 (1)
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000010702551370
 GameObject:
   m_ObjectHideFlags: 1
@@ -397,6 +399,7 @@ GameObject:
   - 23: {fileID: 23000011843040200}
   - 65: {fileID: 65000010074860334}
   - 54: {fileID: 54000010390177968}
+  - 114: {fileID: 114000010328454598}
   m_Layer: 10
   m_Name: ITM_Rope (2)
   m_TagString: Interactable
@@ -1155,13 +1158,14 @@ GameObject:
   - 65: {fileID: 65000011388633792}
   - 33: {fileID: 33000013951371022}
   - 23: {fileID: 23000014119736110}
+  - 114: {fileID: 114000012101995716}
   m_Layer: 0
   m_Name: ENV_Campfire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000012169141176
 GameObject:
   m_ObjectHideFlags: 1
@@ -1191,13 +1195,14 @@ GameObject:
   - 23: {fileID: 23000013058241422}
   - 65: {fileID: 65000010523935726}
   - 54: {fileID: 54000013299818570}
+  - 114: {fileID: 114000012878965832}
   m_Layer: 9
   m_Name: ITM_WoodPlank2 (2)
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000012184498382
 GameObject:
   m_ObjectHideFlags: 1
@@ -1853,6 +1858,7 @@ GameObject:
   - 23: {fileID: 23000013067374338}
   - 65: {fileID: 65000011575164174}
   - 54: {fileID: 54000010251358646}
+  - 114: {fileID: 114000010817855210}
   m_Layer: 10
   m_Name: ITM_Rope (3)
   m_TagString: Interactable
@@ -1889,13 +1895,14 @@ GameObject:
   - 23: {fileID: 23000012771544444}
   - 65: {fileID: 65000011191947084}
   - 54: {fileID: 54000010748462728}
+  - 114: {fileID: 114000011271713698}
   m_Layer: 9
   m_Name: ITM_WoodPlank2
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000013298961880
 GameObject:
   m_ObjectHideFlags: 1
@@ -2245,6 +2252,7 @@ GameObject:
   - 23: {fileID: 23000011081659468}
   - 65: {fileID: 65000011633008026}
   - 54: {fileID: 54000013771690554}
+  - 114: {fileID: 114000011979986442}
   m_Layer: 10
   m_Name: ITM_Rope (1)
   m_TagString: Interactable
@@ -2925,7 +2933,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012854515306}
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 1.032, y: 0.5, z: -3.39}
+  m_LocalPosition: {x: 1.038, y: 0.5, z: -3.39}
   m_LocalScale: {x: 1.335862, y: 1.3358622, z: 1.3358622}
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
   m_Children: []
@@ -2994,7 +3002,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010628880918}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -0.96, y: 0.44399977, z: 2.86}
+  m_LocalPosition: {x: -0.954, y: 0.44399977, z: 2.86}
   m_LocalScale: {x: 1.3358635, y: 1.3358622, z: 1.3358636}
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
   m_Children: []
@@ -3419,7 +3427,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013659882790}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -0.96, y: 1.64, z: -2.96}
+  m_LocalPosition: {x: -0.954, y: 1.64, z: -2.96}
   m_LocalScale: {x: 1.3358642, y: 1.3358622, z: 1.3358643}
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
   m_Children: []
@@ -3945,10 +3953,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012782841644}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.59, z: 0}
+  m_LocalRotation: {x: -0, y: 0.99999416, z: -0, w: 0.003423037}
+  m_LocalPosition: {x: -124.06, y: -1.3, z: -1.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 179.619, z: 0}
   m_Children:
   - {fileID: 4000011403874256}
   - {fileID: 4000011949311416}
@@ -4394,7 +4402,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014184146584}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 1.0320001, y: 0.444, z: -2.068}
+  m_LocalPosition: {x: 1.038, y: 0.444, z: -2.068}
   m_LocalScale: {x: 1.3358628, y: 1.3358622, z: 1.3358629}
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
   m_Children: []
@@ -10773,6 +10781,91 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
+--- !u!114 &114000010328454598
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010783473342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Rope
+  action:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+--- !u!114 &114000010443858882
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010259546824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Rope
+  action:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+--- !u!114 &114000010817855210
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013227554416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Rope
+  action:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+--- !u!114 &114000010898716860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010681608786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Wood Plank
+  action:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+--- !u!114 &114000011271713698
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013264916568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Wood Plank
+  action:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114000011425455168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10805,6 +10898,40 @@ MonoBehaviour:
   betweenKeys: /
   keys:
   - Jump
+--- !u!114 &114000011979986442
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013727958378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Rope
+  action:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+--- !u!114 &114000012101995716
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012168587766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be3f89982c190304b82c2722e7a2f4a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Add Fuel
+  action:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114000012481509410
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10838,6 +10965,23 @@ MonoBehaviour:
   keys:
   - CameraLeft
   - CameraRight
+--- !u!114 &114000012878965832
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012176052798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Wood Plank
+  action:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114000013270801350
 MonoBehaviour:
   m_ObjectHideFlags: 1
