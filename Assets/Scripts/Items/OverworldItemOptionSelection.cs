@@ -66,7 +66,7 @@ public class OverworldItemOptionSelection
 	/// <summary>
 	/// Shows the possible items in a gui on screen.
 	/// </summary>
-	/// <param name="itemType">Item type.</param>
+	/// <param name="itemTypes">List of item types that are possible items.</param>
 	/// <param name="callback">Callback.</param>
 	public void ShowPossibleItems(List<string> itemTypes, UnityAction callback)
 	{

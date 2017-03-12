@@ -39,8 +39,9 @@ public class WorldSelectionGUIDirector : MonoBehaviour
 	/// <summary>
 	/// Displays the item options.
 	/// </summary>
-	/// <param name="itemType">Item type.</param>
-	/// <param name="requestingItem">Requesting item.</param>
+	/// <param name="itemTypes">Items of types that should be displayed.</param>
+	/// <param name="requestingItem">Requesting item that stores selected options.</param>
+	/// <param name="targetPanel">Target panel where the options will appear.</param>
 	public void DisplayItemOptions(List<string> itemTypes, OverworldItemOptionSelection requestingItem, GameObject targetPanel = null)
 	{
 		if(targetPanel == null)
@@ -67,10 +68,11 @@ public class WorldSelectionGUIDirector : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Displaies the actions.
+	/// Displays the items possible actions.
 	/// </summary>
-	/// <param name="actions">Actions.</param>
-	/// <param name="requestingItem">Requesting item.</param>
+	/// <param name="actions">Actions that should be displayed.</param>
+	/// <param name="requestingItem">Requesting item that stores the selected options.</param>
+	/// <param name="targetPanel">Target panel where the options will appear.</param>
 	public void DisplayActions(List<ItemAction> actions, OverworldItemOptionSelection requestingItem, GameObject targetPanel = null)
 	{
 		bool conditionsFulfilled = true;
@@ -115,8 +117,9 @@ public class WorldSelectionGUIDirector : MonoBehaviour
 	/// Creates a world selection button and assigns the action to it's onclick.
 	/// </summary>
 	/// <returns>The world selection button.</returns>
-	/// <param name="buttonName">Button name.</param>
-	/// <param name="desiredAction">Desired action.</param>
+	/// <param name="buttonName">Text that should appear on button.</param>
+	/// <param name="desiredAction">Desired action that occurs onclick.</param>
+	/// <param name="targetPanel">Target panel where button should appear.</param>
 	private WorldSelectionButtonBehavior createWorldSelectionButton(string buttonName, UnityAction desiredAction, GameObject targetPanel)
 	{
 		WorldSelectionButtonBehavior option = GameObject.Instantiate(worldSelectionTemplate).GetComponent<WorldSelectionButtonBehavior>();
@@ -131,7 +134,7 @@ public class WorldSelectionGUIDirector : MonoBehaviour
 	/// <summary>
 	/// Finishs the selection.
 	/// </summary>
-	/// <param name="selected">Selected.</param>
+	/// <param name="selectedItem">Selected.</param>
 	public void FinishSelection(string selectedItem)
 	{
 		requester.OptionSelectedCallbackAction(selectedItem);
@@ -158,8 +161,9 @@ public class WorldSelectionGUIDirector : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Clears the options.
+	/// Clears the options from the target panel.
 	/// </summary>
+	/// <param name="targetPanel">Target panel.</param>
 	public void ClearOptions(GameObject targetPanel)
 	{
 		GameObject target = targetPanel;

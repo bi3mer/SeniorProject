@@ -5,8 +5,16 @@ using UnityEngine.UI;
 
 public class EquippedItemDropdown : MonoBehaviour 
 {
-	public GameObject DisplayAreaPanel;
-	public GameObject ContentPanel;
+	[Tooltip("The entire panel that contains all contents of what should be shown when the equipped item button is clicked")]
+	[SerializeField]
+	private GameObject displayAreaPanel;
+
+	[Tooltip("The panel where the options will be parented under")]
+	[SerializeField]
+	public GameObject contentPanel;
+
+	[Tooltip("The image where the item icon will be placed")]
+	[SerializeField]
 	public Image equippedItemHolder;
 	 
 	private OverworldItemOptionSelection itemSelectionHandler;
@@ -21,8 +29,8 @@ public class EquippedItemDropdown : MonoBehaviour
 	{
 		GuiInstanceManager.EquippedItemGuiInstance = this;
 		itemSelectionHandler = new OverworldItemOptionSelection(true);
-		itemSelectionHandler.TargetContainerPanel = DisplayAreaPanel;
-		itemSelectionHandler.TargetContentPanel = ContentPanel;
+		itemSelectionHandler.TargetContainerPanel = displayAreaPanel;
+		itemSelectionHandler.TargetContentPanel = contentPanel;
 		gameObject.SetActive(false);
 	}
 
@@ -31,7 +39,7 @@ public class EquippedItemDropdown : MonoBehaviour
 	/// </summary>
 	public void ToggleDisplay()
 	{
-		if(DisplayAreaPanel.activeSelf)
+		if(displayAreaPanel.activeSelf)
 		{
 			HideOptions();
 		}
@@ -48,7 +56,7 @@ public class EquippedItemDropdown : MonoBehaviour
 	{
 		if(hasActions)
 		{
-			DisplayAreaPanel.SetActive(true);
+			displayAreaPanel.SetActive(true);
 			itemSelectionHandler.ShowPossibleActions();
 		}	
 	}
@@ -58,8 +66,8 @@ public class EquippedItemDropdown : MonoBehaviour
 	/// </summary>
 	public void HideOptions()
 	{
-		DisplayAreaPanel.SetActive(false);
-		GuiInstanceManager.WorldSelectionGuiInstance.ClearOptions(ContentPanel);
+		displayAreaPanel.SetActive(false);
+		GuiInstanceManager.WorldSelectionGuiInstance.ClearOptions(contentPanel);
 	}
 
 	/// <summary>

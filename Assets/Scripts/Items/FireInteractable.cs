@@ -135,12 +135,14 @@ public class FireInteractable : InteractableObject
 			{
 				((PlantCategory)category).Cook();
 			}
-
-			category = duplicate.GetItemCategoryByClass(typeof(FleshCategory));
-
-			if(category != null)
+			else
 			{
-				((FleshCategory)category).Cook();
+				category = duplicate.GetItemCategoryByClass(typeof(FleshCategory));
+
+				if(category != null)
+				{
+					((FleshCategory)category).Cook();
+				}
 			}
 
 			Game.Instance.PlayerInstance.Inventory.AddItem(duplicate, 1);

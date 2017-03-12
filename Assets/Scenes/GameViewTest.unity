@@ -37,8 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0039961464, g: 0.00021792928, b: 0.000000051529558,
-    a: 1}
+  m_IndirectSpecularColor: {r: 0.4368103, g: 0.48440862, b: 0.56459606, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1461,8 +1460,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e51ac4f4cfe5444eb240f8107d6f78f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DisplayAreaPanel: {fileID: 1682770708}
-  ContentPanel: {fileID: 996012887}
+  displayAreaPanel: {fileID: 1682770708}
+  contentPanel: {fileID: 996012887}
   equippedItemHolder: {fileID: 811502467}
 --- !u!114 &305245228
 MonoBehaviour:
@@ -4024,37 +4023,37 @@ Prefab:
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: -0.4284528
+      value: 0.08128826
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.z.scalar
-      value: -0.40776873
+      value: 0.58050144
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationX.scalar
-      value: -0.017792268
+      value: 0.025329152
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationY.scalar
-      value: 0.018694779
+      value: -0.0035468694
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: EmissionModule.rate.scalar
-      value: 35.156628
+      value: 35.11481
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: -1.071132
+      value: 0.20322065
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.y.scalar
-      value: -1.0194218
+      value: 1.4512535
       objectReference: {fileID: 0}
     - target: {fileID: 114000010296232540, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
@@ -9012,10 +9011,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b05fa1541e394bdbaebadeb4c902a98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildings:
-  - {fileID: 1197761598}
-  doors:
-  - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
 --- !u!114 &1321603151
 MonoBehaviour:
   m_ObjectHideFlags: 0
