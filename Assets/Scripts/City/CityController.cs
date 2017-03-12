@@ -23,6 +23,9 @@ public class CityController : MonoBehaviour
     private DistrictGenerator districtGenerator;
     private BlockGenerator blockGenerator;
     private BuildingGenerator buildingGenerator;
+
+    private CityChunkManager cityChunkManager;
+
     private RooftopGeneration rooftopItemGenerator;
     private WaterItemGeneration waterItemGenerator;
     private ItemPoolManager itemPoolManager;
@@ -35,6 +38,9 @@ public class CityController : MonoBehaviour
         districtGenerator = GetComponent<DistrictGenerator>();
         blockGenerator = GetComponent<BlockGenerator>();
         buildingGenerator = GetComponent<BuildingGenerator>();
+
+        cityChunkManager = GetComponent<CityChunkManager>();
+
         rooftopItemGenerator = GetComponent<RooftopGeneration>();
         waterItemGenerator = GetComponent<WaterItemGeneration>();
         itemPoolManager = GetComponent<ItemPoolManager>();
@@ -48,6 +54,9 @@ public class CityController : MonoBehaviour
 
         // Start city generation
         Game.Instance.CityInstance = GenerateCity(seed);
+
+        // Initialize city chunking
+        cityChunkManager.Init(Game.Instance.CityInstance);
 
         // Start async builing updates
         StartCoroutine(updateBuildings());
@@ -75,8 +84,8 @@ public class CityController : MonoBehaviour
 
 		float cityWidth = cityBounds.size.x;
 		float cityDepth = cityBounds.size.z;
-		waterItemGenerator.SetCityInformation(cityWidth, cityDepth, cityCenter, districts);
-		itemPoolManager.SetUpItemPoolManager(cityDepth, cityDepth, cityCenter);
+		waterItemGenerator.SetCityInformation(cityWidth, cityDepth, cityBounds.center, districts);
+		itemPoolManager.SetUpItemPoolManager(cityDepth, cityDepth, cityBounds.center);
 
         // Generate blocks in each district
         for (int i = 0; i < districts.Length; ++i)

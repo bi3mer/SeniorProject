@@ -70,10 +70,10 @@
        - "Weave Basket"
       actionModifiedModels:
        - "ITM/Ropes/ITM_Rope"
-       - "ITM/Small\ Containers/ITM_Bucket"
+       - "ITM/Small\ Containers/ITM_Basket"
       actionModifiedSprites:
        - "GUI_ITM_Rope"
-       - "GUI_ITM_Bucket"
+       - "GUI_ITM_Basket"
      itemCategories: 
        - !!solid
          flexibility: 1.0
@@ -163,7 +163,7 @@
       actionModifiedSprites:
      itemCategories:
    - stackId: 7
-     itemAmount: 1
+     itemAmount: 5
      item:
       itemName: "Scrap Metal"
       rarity: "common"
@@ -172,6 +172,27 @@
       types:
        - "base solid"
       flavorText: "Leftover metal. Would be good for crafting tools."
+      modifyingActionNames:
+      actionModifiedModels:
+      actionModifiedSprites:
+     itemCategories: 
+      - !!solid
+        flexibility: 0.1
+        durability: 4
+        elasticity: 0.1
+        stickiness: 0
+        thickness: 0.5
+        sharpness: 1
+   - stackId: 8
+     itemAmount: 5
+     item:
+      itemName: "Wood Plank"
+      rarity: "common"
+      inventorySprite: "GUI_ITM_WoodPlank"
+      worldModel: "ITM/WoodPlanks/ITM_WoodPlank1"
+      types:
+       - "floatable object"
+      flavorText: "A piece of wood."
       modifyingActionNames:
       actionModifiedModels:
       actionModifiedSprites:

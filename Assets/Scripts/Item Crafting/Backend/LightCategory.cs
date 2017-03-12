@@ -54,14 +54,6 @@ public class LightCategory : EquipableCategory
 	private const string maxFuelAttrName = "maxFuel";
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="LightCategory"/> class.
-	/// </summary>
-	public LightCategory()
-	{
-		toolType = ToolTypes.Light;
-	}
-
-	/// <summary>
 	/// Gets a copy of the ItemCategory.
 	/// </summary>
 	/// <returns>The duplicate.</returns>

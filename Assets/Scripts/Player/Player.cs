@@ -20,6 +20,7 @@ public class Player
     private const string inventoryFileName = "InventoryYaml.yml";
     private const int playerInventorySize = 20;
     private int health;
+    private Vector3 worldPosition;
 
     public const float FoodPoisoningChance = 0.3f;
 
@@ -44,6 +45,10 @@ public class Player
         HealthStatus = PlayerHealthStatus.None;
 
         Inventory = new PlayerInventory(playerInventoryName, inventoryFileName, playerInventorySize);
+
+        // set the transform if in unity editor so scenes without a player will
+        // still work
+		this.WorldPosition = Vector3.zero;
     }
 
 	/// <summary>
@@ -75,6 +80,29 @@ public class Player
     {
         get;
         set;
+    }
+
+    /// <summary>
+    /// Gets the position of the player in the world
+    /// </summary>
+    /// <value>The world position.</value>
+    public Vector3 WorldPosition
+    {
+    	get
+    	{
+    		if(this.IsInWorld)
+    		{
+    			return this.WorldTransform.position;
+    		}
+    		else
+    		{
+    			return this.worldPosition;
+    		}
+    	}
+    	private set
+    	{
+    		this.worldPosition = value;
+    	}
     }
 
     /// <summary>

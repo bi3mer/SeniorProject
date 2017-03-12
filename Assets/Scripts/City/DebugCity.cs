@@ -16,7 +16,19 @@ public class DebugCity : MonoBehaviour
     [SerializeField]
     private bool showBuildingPositions;
     [SerializeField]
+    private bool showChunkBoundaries;
+    [SerializeField]
     private bool showItemPositions;
+
+    private CityChunkManager chunkManager;
+
+    /// <summary>
+    /// Grab any variables that need grabbing.
+    /// </summary>
+    void Start()
+    {
+        chunkManager = GetComponent<CityChunkManager>();
+    }
 
     /// <summary>
     /// Draws city using Gizmos.
@@ -103,6 +115,27 @@ public class DebugCity : MonoBehaviour
                         {
                             Gizmos.color = Color.black;
                             Gizmos.DrawSphere(block.Buildings[k].RootPosition, 0.15f);
+                        }
+                    }
+                }
+            }
+
+            if (showChunkBoundaries)
+            {
+                if (chunkManager.Chunks != null)
+                {
+                    for (int i = 0; i <= chunkManager.ChunksAcross; ++i)
+                    {
+                        for (int j = 0; j <= chunkManager.ChunksDown; ++j)
+                        {
+                            Gizmos.color = Color.red;
+
+                            if (chunkManager.Chunks[i, j].IsLoaded)
+                            {
+                                Gizmos.color = Color.green;
+                            }
+
+                            drawBox(chunkManager.Chunks[i, j].BoundingBox);
                         }
                     }
                 }

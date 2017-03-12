@@ -21,7 +21,7 @@ GameObject:
   - 4: {fileID: 4000012466445852}
   - 198: {fileID: 198000011409129032}
   - 199: {fileID: 199000013914854736}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FX_Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - 4: {fileID: 4000010491080862}
   - 198: {fileID: 198000011745590018}
   - 199: {fileID: 199000013072674020}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FX_FireSparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - 65: {fileID: 65000013350571784}
   - 33: {fileID: 33000010462588098}
   - 23: {fileID: 23000011580118670}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ENV_Campfire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   - 4: {fileID: 4000012796502012}
   - 198: {fileID: 198000013142729520}
   - 199: {fileID: 199000010672385066}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FX_Fire_Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011780269018}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.502}
+  m_LocalPosition: {x: -124.58773, y: 0.6864002, z: -0.8377161}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:

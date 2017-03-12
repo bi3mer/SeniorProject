@@ -5,8 +5,6 @@ using System.Collections.Generic;
 
 public class LightItem : Tool 
 {
-    private string toolName;
-
     [SerializeField]
     [Tooltip("Location to parent the item on the player model")]
     private GameObject attachJoint;
@@ -14,6 +12,7 @@ public class LightItem : Tool
     private Light lightSource;
     private LightCategory lightBase;
 
+    private GameObject lightObject;
     private bool on;
 
     private const string addFuelActName = "Add Fuel";
@@ -34,9 +33,12 @@ public class LightItem : Tool
 	void Start () 
 	{
 		On = false;
-		ToolName = "";
+		ToolName = toolName;
 		transform.SetParent(attachJoint.transform, false);
-		ToolType = ToolTypes.Light;
+
+		lightObject = transform.GetChild(0).gameObject;
+		lightSource = GetComponentInChildren<Light>();
+		lightObject.SetActive(false);
 	}
 
 	/// <summary>
@@ -45,20 +47,11 @@ public class LightItem : Tool
 	/// <param name="itemForTool">Item for tool.</param>
 	public override void SetUpTool(BaseItem itemForTool)
 	{
-		GameObject lightItem = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(itemForTool);
 		LightCategory lightCategory = (LightCategory) itemForTool.GetItemCategoryByClass(typeof(LightCategory));
-
-		lightItem.transform.SetParent(transform, false);
-
-		lightSource = GetComponentInChildren<Light>();
-
 		lightSource.intensity = lightCategory.Brightness;
 		lightSource.enabled = On;
 
 		lightBase = lightCategory;
-
-		toolName = lightItem.name;
-
 		List<ItemAction> actions = new List<ItemAction>();
 
 		ItemAction addFuelAction = new ItemAction(addFuelActName, new UnityAction(AddFuel));
@@ -66,9 +59,13 @@ public class LightItem : Tool
 		fuelCondition = new ItemCondition(lightBase.CurrentFuelLevel, lightBase.MaxFuel, BooleanOperator.Less);
 		addFuelAction.Conditions.Add(fuelCondition);
 
-		ItemAction turnOnOffAction = new ItemAction(turnOnOffActName, new UnityAction(OnOff));
+		ItemAction turnOnOffAction = new ItemAction(turnOnOffActName, new UnityAction(ToggleOn));
+
+		ItemAction unequipAction = new ItemAction(unequipActName, new UnityAction(lightCategory.UnEquip));
+
 		actions.Add(addFuelAction);
 		actions.Add(turnOnOffAction);
+		actions.Add(unequipAction);
 
 		GuiInstanceManager.EquippedItemGuiInstance.SetEquipped(itemForTool.InventorySprite, actions);
 	}
@@ -99,6 +96,7 @@ public class LightItem : Tool
 	public override void Equip()
 	{
 		On = false;
+		lightObject.SetActive(true);
 	}
 
 	/// <summary>
@@ -108,11 +106,7 @@ public class LightItem : Tool
 	{
 		On = false;
 
-		if(gameObject.transform.childCount > 0)
-		{
-			GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
-		}
-
+		lightObject.SetActive(false);
 		StopAllCoroutines();
 	}
 
@@ -121,7 +115,7 @@ public class LightItem : Tool
 	/// </summary>
 	public override void Use()
 	{
-		OnOff();
+		ToggleOn();
 	}
 
 	/// <summary>
@@ -130,6 +124,7 @@ public class LightItem : Tool
 	public void AddFuel()
 	{
 		BaseItem item = Game.Instance.PlayerInstance.Inventory.GetInventoryBaseItem(GuiInstanceManager.EquippedItemGuiInstance.GetSelected());
+
 		lightBase.AddFuel(item.GetItemAttribute(burnTimeAttrName).Value);
 		Game.Instance.PlayerInstance.Inventory.UseItem(item.ItemName, 1);
 		fuelCondition.ConditionValue = lightBase.CurrentFuelLevel;
@@ -138,7 +133,7 @@ public class LightItem : Tool
 	/// <summary>
 	/// Switches the lantern from on to off and vice versa.
 	/// </summary>
-	public void OnOff()
+	public void ToggleOn()
 	{
 		On = !On;
 

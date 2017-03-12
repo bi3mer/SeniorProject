@@ -42,29 +42,33 @@ public class FireInteractable : InteractableObject
 	private List<string> burnItemTypes;
 
 	private List<string> startFireItemTypes;
-
 	/// <summary>
 	/// Sets openInventory as an action that should fire off when PerformAction is called.
 	/// </summary>
 	public override void SetUp()
 	{
-		base.SetUp();
-		lit = false;
-		fireParticles = GetComponentInChildren<ParticleSystem>();
-		fireParticles.gameObject.SetActive(false);
-		Text = lightFirePrompt;
-		itemSelectionHandler = new OverworldItemOptionSelection(false);
+		if(!setupComplete)
+		{
+			base.SetUp();
+			lit = false;
+			fireParticles = GetComponentInChildren<ParticleSystem>();
+			fireParticles.gameObject.SetActive(false);
+			Text = lightFirePrompt;
+			itemSelectionHandler = new OverworldItemOptionSelection(false);
 
-		burnItemTypes = new List<string> {ItemTypes.Fuel, ItemTypes.Edible};
-		startFireItemTypes = new List<string> {ItemTypes.Igniter};
+			burnItemTypes = new List<string> {ItemTypes.Fuel, ItemTypes.Edible};
+			startFireItemTypes = new List<string> {ItemTypes.Igniter};
 
-		SetAction
-		(
-			delegate 
-			{ 
-				UseFirePit(); 
-			}
-		);
+			SetAction
+			(
+				delegate 
+				{ 
+					UseFirePit(); 
+				}
+			);
+
+			setupComplete = true;
+		}
 	}
 
 	/// <summary>
@@ -124,19 +128,22 @@ public class FireInteractable : InteractableObject
 		}
 		else if(item.Types.Contains(ItemTypes.Edible))
 		{
-			ItemCategory category = item.GetItemCategoryByClass(typeof(PlantCategory));
-
+			BaseItem duplicate = item.GetItemToModify();
+			ItemCategory category = duplicate.GetItemCategoryByClass(typeof(PlantCategory));
+				
 			if(category != null)
 			{
 				((PlantCategory)category).Cook();
 			}
 
-			category = item.GetItemCategoryByClass(typeof(FleshCategory));
+			category = duplicate.GetItemCategoryByClass(typeof(FleshCategory));
 
 			if(category != null)
 			{
 				((FleshCategory)category).Cook();
 			}
+
+			Game.Instance.PlayerInstance.Inventory.AddItem(duplicate, 1);
 		}
 
 		// For now, you can only add fuel one at a time

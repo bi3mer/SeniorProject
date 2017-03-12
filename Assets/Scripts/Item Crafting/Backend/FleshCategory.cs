@@ -29,6 +29,7 @@ public class FleshCategory : ItemCategory
     /// </summary>
     private const string defaultCookedNameAddition = "Cooked ";
     private const string defaultEmptyNameAddition = "Empty ";
+    private const string burntNameAddition = "Burnt ";
 
     private const string healthEffectAttrName = "healthEffect";
     private const string hungerGainAttrName = "hungerGain";
@@ -37,6 +38,8 @@ public class FleshCategory : ItemCategory
     private const string eatActName = "Eat";
 
     private const float healthEffectDecreaseRate = 0.25f;
+    private const float hungerGainDecreaseRate = 0.5f;
+    private const float hungerGainIncreaseRate = 1.25f;
 
     /// <summary>
     /// Creates a copy of this flesh category.
@@ -51,10 +54,8 @@ public class FleshCategory : ItemCategory
         category.Actions = new List<ItemAction>();
         category.Attributes = new List<Attribute>();
 
-        ItemAction cook = new ItemAction(cookActName, new UnityAction(category.Cook));
         ItemAction eat = new ItemAction(eatActName, new UnityAction(category.Eat));
 
-        category.Actions.Add(cook);
         category.Actions.Add(eat);
 
         finishDuplication(category);
@@ -74,10 +75,7 @@ public class FleshCategory : ItemCategory
 
         Actions = new List<ItemAction>();
 
-        ItemAction cook = new ItemAction(cookActName, new UnityAction(Cook));
         ItemAction eat = new ItemAction(eatActName, new UnityAction(Eat));
-
-        Actions.Add(cook);
         Actions.Add(eat);
     }
 
@@ -86,11 +84,34 @@ public class FleshCategory : ItemCategory
     /// </summary>
     public void Cook()
     {
-        baseItem.ChangeName(defaultCookedNameAddition + baseItem.ItemName);
-        HealthEffect -= healthEffectDecreaseRate;
+    	if(baseItem.ItemName.Contains(defaultCookedNameAddition))
+    	{
+			string baseName = baseItem.ItemName.Replace(defaultCookedNameAddition, "");
+			baseItem.ChangeName(burntNameAddition + baseName);
+    		baseItem.Types.Remove(ItemTypes.Edible);
+    		baseItem.Types.Add(ItemTypes.Fuel);
+
+    		FuelCategory fuelCategory = new FuelCategory();
+    		fuelCategory.BurnTime = HungerGain;
+
+    		baseItem.AddItemCategory(fuelCategory);
+
+    		HealthEffect += healthEffectDecreaseRate;
+    		HungerGain *= hungerGainDecreaseRate;
+
+			GetAttribute (healthEffectAttrName).Value = HealthEffect;
+			GetAttribute (hungerGainAttrName).Value = HungerGain;
+    	}
+    	else
+    	{
+	        baseItem.ChangeName(defaultCookedNameAddition + baseItem.ItemName);
+	        HealthEffect -= healthEffectDecreaseRate;
+	        HungerGain *= hungerGainIncreaseRate;
+			GetAttribute (healthEffectAttrName).Value = HealthEffect;
+			GetAttribute (hungerGainAttrName).Value = HungerGain;
+	    }
 
         baseItem.DirtyFlag = true;
-        SetActionComplete(cookActName);
     }
 
     /// <summary>
