@@ -12,14 +12,6 @@ public class CityController : MonoBehaviour
     [Tooltip("Bounds defnining the size of the city.")]
     private Bounds cityBounds;
 
-    [SerializeField]
-    [Tooltip("Radius that building colliders at turned off.")]
-    private float buildingColliderRadius;
-
-    [SerializeField]
-    [Tooltip("Radius that buildings are visibly hidden.")]
-    private float buildingVisibleRadius;
-
     private DistrictGenerator districtGenerator;
     private BlockGenerator blockGenerator;
     private BuildingGenerator buildingGenerator;

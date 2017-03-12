@@ -105,5 +105,7 @@ public class ProceduralBuilding : Building
         {
             GameObject.Destroy(Instance);
         }
+
+        IsLoaded = false;
     }
 }
