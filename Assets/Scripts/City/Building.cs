@@ -102,5 +102,18 @@ public abstract class Building
     /// <summary>
     /// Unloads the instance of the building from the scene.
     /// </summary>
-    public abstract void Unload();
+    public void Unload()
+    {
+        if (!IsLoaded)
+        {
+            return;
+        }
+
+        if (Instance != null)
+        {
+            GameObject.Destroy(Instance);
+        }
+
+        IsLoaded = false;
+    }
 }

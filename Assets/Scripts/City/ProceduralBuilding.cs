@@ -90,22 +90,4 @@ public class ProceduralBuilding : Building
 
         IsLoaded = true;
     }
-
-    /// <summary>
-    /// Unloads the instance of the building from the scene.
-    /// </summary>
-    public override void Unload()
-    {
-        if (!IsLoaded)
-        {
-            return;
-        }
-
-        if (Instance != null)
-        {
-            GameObject.Destroy(Instance);
-        }
-
-        IsLoaded = false;
-    }
 }
