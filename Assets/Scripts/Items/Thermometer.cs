@@ -42,6 +42,7 @@ public class Thermometer : Tool
 	public override void Use ()
 	{
 		// UI model on-screen transformations
+		CheckThermometer = true;
 	}
 
 	/// <summary>

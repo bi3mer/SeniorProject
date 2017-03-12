@@ -45,6 +45,7 @@ public class Barometer : Tool
 	public override void Use ()
 	{
 		// UI model on-screen transformations
+		CheckBarometer = true;
 	}
 
 	/// <summary>
