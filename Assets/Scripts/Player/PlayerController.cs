@@ -455,11 +455,13 @@ public class PlayerController : MonoBehaviour
         // check if sick with food poisoning
         if (player.HealthStatus == PlayerHealthStatus.FoodPoisoning)
         {
+            // food poisoning doubles the hunger change rate
             currentHungerChangeRate = currentHungerChangeRate * 2;
         }
         // check if sick with pneumonia
         if (player.HealthStatus == PlayerHealthStatus.Pneumonia)
         {
+            // pnuemonia doubles the warmth change rate
             currentWarmthChangeRate = currentWarmthChangeRate * 2;
         }
     }
