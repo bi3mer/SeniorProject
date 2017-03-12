@@ -1039,7 +1039,8 @@ public class PlayerController : MonoBehaviour
             Physics.Raycast(hit2.point + new Vector3(0f, 9999f, 0f) + PlayerIKSetUp.transform.forward * raycastClimbForward, Vector3.down, out heightPoint, Mathf.Infinity, ClimbingRaycastMask, QueryTriggerInteraction.Ignore) &&
             !Physics.Raycast(PlayerIKSetUp.transform.position + new Vector3(0f, movement.GetRaycastHeight(), 0f), Vector3.up, Vector3.Distance(PlayerIKSetUp.transform.position, heightPoint.point), ClimbingRaycastMask, QueryTriggerInteraction.Ignore) &&
             movement.GetClimbHeight() > heightPoint.point.y - PlayerIKSetUp.transform.position.y &&
-            Mathf.Abs(heightPoint.point.y - PlayerIKSetUp.transform.position.y) > minClimbHeight
+            heightPoint.point.y - PlayerIKSetUp.transform.position.y > minClimbHeight &&
+            heightPoint.point.y > PlayerIKSetUp.transform.position.y 
         )
         {
             return true;
