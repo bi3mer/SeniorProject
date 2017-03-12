@@ -23,11 +23,37 @@ public class TeleportPlayer : MonoBehaviour
                 return location;
             }
         }
-        //Is this location currently accessable?
+        // Is this location currently accessable?
         public bool CanTeleportTo;
     }
 
-    //The Location
-    public TeleportLocation LocationA;
-    public TeleportLocation LocationB;
+    // The Locations
+    [SerializeField]
+    private TeleportLocation LocationA;
+    [SerializeField]
+    private TeleportLocation LocationB;
+
+    /// <summary>
+    /// Teleports the player to the A position.
+    /// </summary>
+    public void TeleportToA()
+    {
+        if(LocationA.CanTeleportTo)
+        { 
+        Game.Instance.PlayerInstance.Controller.gameObject.transform.position = LocationA.Location.position;
+        Game.Instance.PlayerInstance.Controller.gameObject.transform.rotation = LocationA.Location.rotation;
+        }
+    }
+
+    /// <summary>
+    /// Teleports the player to the B position.
+    /// </summary>
+    public void TeleportToB()
+    {
+        if (LocationB.CanTeleportTo)
+        {
+            Game.Instance.PlayerInstance.Controller.gameObject.transform.position = LocationB.Location.position;
+            Game.Instance.PlayerInstance.Controller.gameObject.transform.rotation = LocationB.Location.rotation;
+        }
+    }
 }

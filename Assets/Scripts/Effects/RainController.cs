@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 
 /// <summary>
@@ -34,17 +35,16 @@ public class RainController : MonoBehaviour
         }
         set
         {
-            if (0f <= value && value <= 100f)
-            {
-                rainLevel = value;
-                UpdateParticleSystem();
-            }
-            else
-            {
-                Debug.LogError("Rain Ammount can only accept values between 0 and 100");
-            }
+			// keep value between 0 and 100
+			rainLevel = Mathf.Clamp(value, 0f, 100f);
+            UpdateParticleSystem();
         }
     }
+
+    [SerializeField]
+    [Range(0,20)]
+    private float windMitigation = 8f;
+
     [SerializeField]
     [Range(0, 100)]
     private float rainLevel;
@@ -83,13 +83,28 @@ public class RainController : MonoBehaviour
     // The attribute associated with the particle shader that controlls the blend between the rain textures.
     private const string particleMaterialBlendAttribute = "_Opacity";
 
+    // Used to create splashes on rain hits.
+    [SerializeField]
+    private FXSplashManager splashManager;
+    [SerializeField]
+    private float splashSize = .4f;
+    private ParticleSystem rainParticleSystem;
+    private List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
+
     /// <summary>
     /// Grab the renderer to set the material's blend amount.
     /// </summary>
-    void Start()
+    void Awake()
     {
         // Grab the renderer.
         MainRainRenderer = MainRain.GetComponent<ParticleSystemRenderer>();
+
+        rainParticleSystem = GetComponent<ParticleSystem>();
+
+        if (splashManager == null)
+        {
+            splashManager = transform.parent.GetComponentInChildren<FXSplashManager>();
+        }
     }
 
 	/// <summary>
@@ -103,7 +118,7 @@ public class RainController : MonoBehaviour
         }
         else
         {
-        	this.WindVectorXZ = Game.Instance.WeatherInstance.WindDirection2d;
+			this.WindVectorXZ = Game.Instance.WeatherInstance.WindDirection2d / this.windMitigation;
         	this.RainLevel    = Game.Instance.WeatherInstance.WeatherInformation[(int) Weather.Precipitation];
         }
     }
@@ -148,6 +163,20 @@ public class RainController : MonoBehaviour
         ParticleVelocity.z = -WindVectorXZ.y * fogWindMod;
 
         // Set the rotation of the rain based on the wind.
-        MainRain.startRotation3D = new Vector3(Mathf.Deg2Rad*-WindVectorXZ.y, Mathf.Deg2Rad*-WindVectorXZ.x, 0f);
+        MainRain.startRotation3D = new Vector3(Mathf.Deg2Rad* -WindVectorXZ.y, Mathf.Deg2Rad* -WindVectorXZ.x, 0f);
+    }
+
+    /// <summary>
+    /// Called when the rain hits something. Spawns a splash.
+    /// </summary>
+    /// <param name="other"></param>
+    void OnParticleCollision(GameObject other)
+    {
+        rainParticleSystem.GetCollisionEvents(other, collisionEvents);
+
+        for (int i = 0; i < collisionEvents.Count; ++i)
+        {
+            splashManager.CreateSplash(collisionEvents[0].intersection, splashSize, 1f);
+        }
     }
 }

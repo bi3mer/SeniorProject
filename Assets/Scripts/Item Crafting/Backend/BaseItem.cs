@@ -108,7 +108,12 @@ public class BaseItem : CollectableItem
 	/// <summary>
 	/// Event that can be subscribed to by functions of UpdateItemEvent format
 	/// </summary>
-	public event UpdateItemEvent UpdateItemInformation;
+	public event UpdateItemEvent UpdateItemName;
+
+	/// <summary>
+	/// Occurs when item changes the sprite it should display.
+	/// </summary>
+	public event UpdateItemEvent UpdateItemSprite;
 
 	/// <summary>
 	/// All categories that the item contains.
@@ -121,9 +126,14 @@ public class BaseItem : CollectableItem
 	private List<Attribute> itemAttributes;
 
 	/// <summary>
-	/// If the item has been changed, DirtyFlag is true.
+	/// If the item attribute has been changed, and a new item has resulted, DirtyFlag is true.
 	/// </summary>
 	public bool DirtyFlag = false;
+
+	/// <summary>
+	/// If the item has been changed, but no new item has resulted, UpdateExistingFlag is true.
+	/// </summary>
+	public bool UpdateExistingFlag = false;
 
 	/// <summary>
 	/// flag checked by the InventoryItemBehavior to see if the BaseItem should actually be removed from the inventory
@@ -230,6 +240,8 @@ public class BaseItem : CollectableItem
 	/// <param name="category">Category.</param>
 	public void AddItemCategory(ItemCategory category)
 	{
+		category.SetBaseItem(this);
+		category.ReadyCategory();
 		categoryList.Add (category);
 	}
 
@@ -295,17 +307,25 @@ public class BaseItem : CollectableItem
 	public void ChangeName(string name)
 	{
 		ItemName = name;
-		FireItemChangedEvent ();
+		FireItemNameChangedEvent ();
 	}
 
 	/// <summary>
 	/// Fires a text change event that fires any functions subscribed that the BaseItem has changed.
 	/// </summary>
-	public void FireItemChangedEvent()
+	public void FireItemNameChangedEvent()
 	{
-		if (UpdateItemInformation != null) 
+		if (UpdateItemName != null) 
 		{
-			UpdateItemInformation (this);
+			UpdateItemName (this);
+		}
+	}
+
+	public void FireItemSpriteChangedEvent()
+	{
+		if(UpdateItemSprite != null)
+		{
+			UpdateItemSprite(this);
 		}
 	}
 
@@ -404,5 +424,26 @@ public class BaseItem : CollectableItem
 	public void Discard()
 	{
 		DiscardFlag = true;
+	}
+
+	/// <summary>
+	/// Changes the model and sprite used to represent the item as specified by ActionModifiedModels and ActionModifiedSprites.
+	/// </summary>
+	/// <param name="newModelIndex">Index number of the new model.</param>
+	public void SetNewModel(int newModelIndex)
+	{
+		if(newModelIndex >= 0)
+		{
+			if(ActionModifiedModels != null && ActionModifiedModels.Count > newModelIndex)
+			{
+				WorldModel = ActionModifiedModels[newModelIndex];
+			}
+
+			if(ActionModifiedSprites != null && ActionModifiedSprites.Count > newModelIndex)
+			{
+				InventorySprite = ActionModifiedSprites[newModelIndex];
+				FireItemSpriteChangedEvent();
+			}
+		}
 	}
 }

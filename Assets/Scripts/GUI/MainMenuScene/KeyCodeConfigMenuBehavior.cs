@@ -42,9 +42,15 @@ public class KeyCodeConfigMenuBehavior : MonoBehaviour
 	private Button radioKeyButton;
 	[SerializeField]
 	private Button craftingKeyButton;
+    [SerializeField]
+    private Button zoomInKeyButton;
+    [SerializeField]
+    private Button zoomOutKeyButton;
 
-	// Text Components of each button
-	private Text forwardText;
+
+
+    // Text Components of each button
+    private Text forwardText;
 	private Text backText;
 	private Text rightText;
 	private Text leftText;
@@ -62,8 +68,10 @@ public class KeyCodeConfigMenuBehavior : MonoBehaviour
 	private Text inventoryText;
 	private Text radioText;
 	private Text craftingText;
+    private Text zoomInText;
+    private Text zoomOutText;
 
-	private ControlScheme controlSchemeInstance = Game.Instance.Scheme;
+    private ControlScheme controlSchemeInstance;
 	private bool waitingForUserInputKey;
 	private Event keyEvent;
 	private KeyCode newKeyCode;
@@ -74,6 +82,7 @@ public class KeyCodeConfigMenuBehavior : MonoBehaviour
 	void Start()
 	{
 		// set text elements for button labels
+		controlSchemeInstance = Game.Instance.GameSettingsInstance.Scheme;
 		forwardText = forwardKeyButton.GetComponentInChildren<Text>();
 		backText = backKeyButton.GetComponentInChildren<Text> ();
 		rightText = rightKeyButton.GetComponentInChildren<Text> ();
@@ -92,9 +101,11 @@ public class KeyCodeConfigMenuBehavior : MonoBehaviour
 		inventoryText = inventoryKeyButton.GetComponentInChildren<Text> ();
 		radioText = radioKeyButton.GetComponentInChildren<Text> ();
 		craftingText = craftingKeyButton.GetComponentInChildren<Text> ();
+        zoomInText =  zoomInKeyButton.GetComponentInChildren<Text>();
+        zoomOutText = zoomOutKeyButton.GetComponentInChildren<Text>();
 
-		// set initial button labels from set keycodes
-		forwardText.text = controlSchemeInstance.Forward.ToString();
+        // set initial button labels from set keycodes
+        forwardText.text = controlSchemeInstance.Forward.ToString();
 		backText.text = controlSchemeInstance.Back.ToString();
 		rightText.text = controlSchemeInstance.Right.ToString();
 		leftText.text = controlSchemeInstance.Left.ToString();
@@ -112,6 +123,8 @@ public class KeyCodeConfigMenuBehavior : MonoBehaviour
 		inventoryText.text = controlSchemeInstance.Inventory.ToString();
 		radioText.text = controlSchemeInstance.Radio.ToString();
 		craftingText.text = controlSchemeInstance.Crafting.ToString();
+        zoomInText.text = controlSchemeInstance.CameraZoomInKey.ToString();
+        zoomOutText.text = controlSchemeInstance.CameraZoomOutKey.ToString();
 	}
 
 	/// <summary>
@@ -225,10 +238,18 @@ public class KeyCodeConfigMenuBehavior : MonoBehaviour
 		case "CraftingKeyButton":
 			craftingText.text = newKeyCode.ToString ();
 			controlSchemeInstance.Crafting = newKeyCode;
-			break;
-		}
+	    	break;
+        case "ZoomInKeyButton":
+            zoomInText.text = newKeyCode.ToString();
+            controlSchemeInstance.CameraZoomInKey = newKeyCode;
+            break;
+        case "ZoomOutKeyButton":
+            zoomOutText.text = newKeyCode.ToString();
+            controlSchemeInstance.CameraZoomOutKey = newKeyCode;
+            break;
+        }
 
-		yield return null;
+        yield return null;
 	}
 
 	/// <summary>

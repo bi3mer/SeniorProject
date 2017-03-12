@@ -36,3 +36,9 @@ Assets/FMODStudioCache.asset
 Assets/StreamingAssets/*.bank
 fmod.log
 fmod_editor.log
+
+# logging
+logfile.txt
+
+# scene menu
+*Assets/Editor/SceneMenu.cs*

@@ -7,7 +7,7 @@ public class ItemDiscarder
 	// <summary>
 	/// The radius at which points will be placed around the player for discarding items
 	/// </summary>
-	private float discardRadius = 1f;
+	private float discardRadius = 0.4f;
 
 	/// <summary>
 	/// Discards the items from the inventory and places them in the world.
@@ -27,11 +27,13 @@ public class ItemDiscarder
 
 		for (int i = 0; i < itemsToDiscard.Count; ++i)
 		{
-			GameObject item = factory.CreateInteractableItem(itemsToDiscard[i].Item, itemsToDiscard[i].Amount);
+			GameObject item = factory.CreatePickUpInteractableItem(itemsToDiscard[i].Item, itemsToDiscard[i].Amount);
 			item.transform.position = new Vector3(centerPos.x + discardRadius * Mathf.Cos(Mathf.Deg2Rad *(angleIncrementations * currentDiscardSlot)),
 												  centerPos.y,
 												  centerPos.z + discardRadius * Mathf.Sin(Mathf.Deg2Rad * (angleIncrementations * currentDiscardSlot)));
 			item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
+
+			Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
 
 			++ currentDiscardSlot;
 
@@ -40,5 +42,7 @@ public class ItemDiscarder
 				currentDiscardSlot = 0;
 			}
 		}
+
+		itemsToDiscard.Clear();
 	}
 }

@@ -10,10 +10,14 @@ public class ConsoleCommandRouter : MonoBehaviour
 	private string testCommand = "test";
 
 	[SerializeField]
-	private string debugMovement = "fly";
+	private string debugMode = "god";
 
 	[SerializeField]
 	private string debugWeather = "weather";
+
+	[SerializeField]
+	private string printWeather = "wstr";
+
 	[SerializeField]
 	private GameObject debugWeatherGUI;
 	private GameObject instantiatedWeather = null;
@@ -26,13 +30,33 @@ public class ConsoleCommandRouter : MonoBehaviour
 	private PressureSystemVisualization pressureScript;
 	private const string pressureMessage = "Pressure script visualization ";
 
-	/// <summary>
-	/// Testing console with very important command
-	/// </summary>
-	/// <param name="args">Arguments.</param>
-	public string Test(params string[] args) 
+
+	[SerializeField]
+	private string creatureCount = "creature_count";
+
+	[SerializeField]
+	private GameObject debugCreatureGUI;
+	private GameObject instantiatedCreatureGUI = null;
+
+
+
+    [SerializeField]
+    private string teleportToTallestBuilding = "ending";
+
+    [SerializeField]
+    private GameObject tallestBuildingTeleportLocation;
+
+
+    [SerializeField]
+    private string health = "health";
+
+    /// <summary>
+    /// Testing console with very important command
+    /// </summary>
+    /// <param name="args">Arguments.</param>
+    public string Test(params string[] args) 
 	{
-		return "Colan Rulez";
+		return "Test CONFIRMED";
 	}
 
 	/// <summary>
@@ -40,9 +64,18 @@ public class ConsoleCommandRouter : MonoBehaviour
 	/// </summary>
 	/// <returns>The movement.</returns>
 	/// <param name="args">Arguments.</param>
-	public string DebugMovement(params string[] args)
+	public string DebugMode(params string[] args)
 	{
-		return "Gabby has not implemented this yet";
+		string response = "Debug mode activated";
+
+		if(Game.Instance.DebugMode)
+		{	
+			response = "Debug mode de-activated";
+		}
+
+		Game.Instance.DebugMode = !Game.Instance.DebugMode;
+
+		return response;
 	}
 
 	/// <summary>
@@ -102,14 +135,86 @@ public class ConsoleCommandRouter : MonoBehaviour
 	}
 
 	/// <summary>
-	/// initialize console commands
+	/// Opens debug creature count gui
 	/// </summary>
-	void Start () 
+	/// <returns>The weather GU.</returns>
+	/// <param name="args">Arguments.</param>
+	public string DebugCreatureCountGUI(params string[] args)
 	{
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.testCommand, this.Test);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugMovement, this.DebugMovement);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugWeather, this.DebugWeatherGUI);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.timeScale, this.SetTimeScale);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.pressureSystem, this.ActivatePressureSystem);
+		string returnInfo = "Instantiated GUI";
+
+		if(this.instantiatedCreatureGUI == null)
+		{
+			// instantiate object and save
+			this.instantiatedCreatureGUI = Instantiate(this.debugCreatureGUI);
+		}
+		else
+		{
+			if(this.instantiatedCreatureGUI.active)
+			{
+				this.instantiatedCreatureGUI.SetActive(false);
+				returnInfo = "Removed GUI";
+			}
+			else
+			{
+				this.instantiatedCreatureGUI.SetActive(true);
+			}
+
+		}
+
+		return returnInfo;
 	}
+
+	/// <summary>
+	/// Prints the weather.
+	/// </summary>
+	/// <returns>The weather.</returns>
+	/// <param name="args">Arguments.</param>
+	public string PrintWeather(params string[] args)
+	{
+		return Game.Instance.WeatherInstance.ToString();
+	}
+
+
+    /// <summary>
+    /// Teleports the player to a gameobject.
+    /// </summary>
+    /// <param name="args">Arguments</param>
+    public string TeleportToEnding(params string[] args)
+    {
+        Game.Instance.PlayerInstance.Controller.transform.position = tallestBuildingTeleportLocation.transform.position;
+        Game.Instance.PlayerInstance.Controller.SetIsOnLand();
+        return "You're at the ending now champ";
+    }
+
+    /// <summary>
+    /// Sets the player's health to a number
+    /// </summary>
+    /// <param name="args">Arguments</param>
+    public string SetHealth(params string[] args)
+    {
+        Game.Instance.PlayerInstance.Health = int.Parse(args[0]);
+        Game.Instance.PlayerInstance.Warmth = int.Parse(args[0]);
+        Game.Instance.PlayerInstance.Hunger = int.Parse(args[0]);
+
+        return "All Health Stats set to:  " + args[0];
+    }
+
+
+
+    /// <summary>
+    /// initialize console commands
+    /// </summary>
+    void Start () 
+	{
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.testCommand,    this.Test);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugMode,      this.DebugMode);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugWeather,   this.DebugWeatherGUI);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.timeScale,      this.SetTimeScale);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.pressureSystem, this.ActivatePressureSystem);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.printWeather,   this.PrintWeather);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.creatureCount,  this.DebugCreatureCountGUI);
+        ConsoleCommandsRepository.Instance.RegisterCommand(this.teleportToTallestBuilding, this.TeleportToEnding);
+        ConsoleCommandsRepository.Instance.RegisterCommand(this.health, this.SetHealth);
+    }
 }

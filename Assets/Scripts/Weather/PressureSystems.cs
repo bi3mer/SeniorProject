@@ -20,10 +20,20 @@ public class PressureSystems
 {
 	// Values found at: http://www.theweatherprediction.com/habyhints2/410/ and can 
 	// be accessed by enumeration PressureConstants
-	private readonly float[] pressureConstants     = {1086f, 1020f, 1000f, 1000f, 980f, 870f};
-	private const int startNumberOfPressureSystems = 4;
-	private const int boundaryLength               = 10;
-	private const float centerAttractorForce       = 2f;
+	private readonly float[] pressureConstants           = {1086f, 1020f, 1000f, 1000f, 980f, 870f};
+	private const int startNumberOfPressureSystems       = 10;
+	private const float highPressureCenterAttractorForce = 2f;
+	private const float lowPressureCenterAttractorForce  = 4f;
+
+	/// <summary>
+	/// Get and set the city bounds that the pressure system can move in
+	/// </summary>
+	/// <value>The city bounds.</value>
+	public Bounds CityBounds
+	{
+		get;
+		private set;
+	}
 
 	/// <summary>
 	/// Gets the local pressure systems.
@@ -36,9 +46,10 @@ public class PressureSystems
 	}
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="PressureSystem"/> class.
+	/// Initializes a new instance of the <see cref="PressureSystems"/> class.
 	/// </summary>
-	public PressureSystems()
+	/// <param name="bounds">Bounds.</param>
+	public PressureSystems(CityBoundaries bounds)
 	{
 		this.LocalPressureSystems = new List<PressureSystem>();
 
@@ -47,7 +58,7 @@ public class PressureSystems
 			PressureSystem ps = new PressureSystem();
 
 			// calculate random position for vector
-			ps.Position = new Vector2(this.randomCoordinate, this.randomCoordinate);
+			ps.Position = bounds.RandomVector2d;
 
 			// add vector to pressure system
 			this.LocalPressureSystems.Add(ps);
@@ -98,19 +109,27 @@ public class PressureSystems
 				}
 
 				// apply force to current acting forces on the pressure system
-				forces += force;
+				forces += (force / Vector3.Distance(this.LocalPressureSystems[i].Position, this.LocalPressureSystems[j].Position)).normalized;
 			}
 
 			// apply forces applied by center of map.
 			// Note: this assumes the center is at 0,0. This can be easily updated 
 			//       in the future.
-			forces += -normalizedIVector * PressureSystems.centerAttractorForce;
+			if(this.LocalPressureSystems[i].IsHighPressure)
+			{
+				forces += -normalizedIVector * PressureSystems.highPressureCenterAttractorForce;
+			}
+			else
+			{
+				forces += -normalizedIVector * PressureSystems.lowPressureCenterAttractorForce;
+			}
+
 
 			// add system to list
 			newPressureSystem.Add(this.LocalPressureSystems[i]);
 
 			// change position and bound vector to be with in boundaries of the map
-			newPressureSystem[i].Position = this.boundVector(forces + newPressureSystem[i].Position);
+			newPressureSystem[i].Position = Game.Instance.CityBounds.BoundVector2d(forces + newPressureSystem[i].Position);
 		}
 
 		// replace old system with new
@@ -144,6 +163,25 @@ public class PressureSystems
 	}
 
 	/// <summary>
+	/// Return a list of low pressure systems.
+	/// </summary>
+	/// <returns>The pressure systems.</returns>
+	public List<PressureSystem> LowPressureSystems()
+	{
+		List<PressureSystem> lowPressureSystems = new List<PressureSystem>();
+
+		for(int i = 0; i < this.LocalPressureSystems.Count; ++i)
+		{
+			if(this.LocalPressureSystems[i].IsHighPressure == false)
+			{
+				lowPressureSystems.Add(this.LocalPressureSystems[i]);
+			}
+		}
+
+		return lowPressureSystems;
+	}
+
+	/// <summary>
 	/// Calculates the perpindicular vector to the vector passed in.
 	/// </summary>
 	/// <returns>The perpindicular vector.</returns>
@@ -152,39 +190,6 @@ public class PressureSystems
 	{
 		// http://mathworld.wolfram.com/PerpendicularVector.html
 		return new Vector2(-vector.y, vector.x);
-	}
-
-	/// <summary>
-	/// Bounds the coordinate.
-	/// </summary>
-	/// <returns>The coordinate.</returns>
-	/// <param name="coordiante">Coordiante.</param>
-	private float boundCoordinate(float coordinate)
-	{
-		return Mathf.Clamp(coordinate, -PressureSystems.boundaryLength, PressureSystems.boundaryLength);
-	}
-
-	/// <summary>
-	/// Bounds the vector based on the boundaries of the map.
-	/// </summary>
-	/// <returns>The vector.</returns>
-	/// <param name="vec">Vec.</param>
-	private Vector2 boundVector(Vector2 vector)
-	{
-		return new Vector2(this.boundCoordinate(vector.x), this.boundCoordinate(vector.y));
-	}
-
-	/// <summary>
-	/// Randoms the coordinate.
-	/// </summary>
-	/// <returns>The coordinate.</returns>
-	private float randomCoordinate
-	{
-		get
-		{
-			// return random coordinate in range of map
-			return Random.Range(-PressureSystems.boundaryLength, PressureSystems.boundaryLength);
-		}
 	}
 
 	/// <summary>

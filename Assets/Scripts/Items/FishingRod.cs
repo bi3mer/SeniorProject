@@ -4,6 +4,10 @@ using UnityEngine;
 [RequireComponent(typeof(BezierLine))]
 public class FishingRod : Tool
 {
+    [SerializeField]
+    [BaseItemPopup]
+    private string toolName;
+
     // TODO: Animations
 
     [Header("Casting Settings")]
@@ -26,6 +30,7 @@ public class FishingRod : Tool
         fishingLure.ReelingSpeed = reelingSpeed;
         line = GetComponent<BezierLine>();
         WasCast = false;
+        ToolName = toolName;
 	}
 
     /// <summary>
@@ -59,8 +64,7 @@ public class FishingRod : Tool
     {
         get
         {
-            // TODO: Determine if you can cast the rod from where you are currently standing
-            return true;
+            return Game.Player.Controller.IsOnLand && Game.Player.Controller.IsWaterInView;
         }
     }
 

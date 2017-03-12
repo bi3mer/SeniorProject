@@ -13,6 +13,10 @@ public class DebugCity : MonoBehaviour
     private bool showBlockPerimeter;
     [SerializeField]
     private bool showBlockControlPoint;
+    [SerializeField]
+    private bool showBuildingPositions;
+    [SerializeField]
+    private bool showItemPositions;
 
     /// <summary>
     /// Draws city using Gizmos.
@@ -20,6 +24,7 @@ public class DebugCity : MonoBehaviour
     void OnDrawGizmos()
     {
         City city = Game.Instance.CityInstance;
+        ItemPoolManager poolManager = Game.Instance.ItemPoolInstance;
         
         // Make sure the city is defined
         if (city != null)
@@ -29,6 +34,28 @@ public class DebugCity : MonoBehaviour
             {
                 Gizmos.color = Color.blue;
                 drawBox(city.BoundingBox);
+            }
+
+			if(showItemPositions)
+            {
+            	ItemPoolInfo[,] itemInfo = poolManager.GetItemPool();
+            	int i, j, k;
+
+				Gizmos.color = Color.yellow;
+
+				for(i = 0; i < itemInfo.GetLength(0); ++i)
+            	{
+					for(j = 0; j < itemInfo.GetLength(1); ++j)
+            		{
+						if(itemInfo[i, j] != null && itemInfo[i, j].Locations.Count > 0)
+            			{
+            				for(k = 0; k < itemInfo[i, j].Locations.Count; ++k)
+            				{
+            					Gizmos.DrawSphere(itemInfo[i, j].Locations[k], 0.25f);
+            				}
+            			}
+            		}
+            	}
             }
 
             // In each district
@@ -69,6 +96,15 @@ public class DebugCity : MonoBehaviour
                         Gizmos.DrawSphere(block.Center, 0.2f);
                     }
 
+                    if (showBuildingPositions)
+                    {
+                        // In each building
+                        for (int k = 0; k < block.Buildings.Count; ++k)
+                        {
+                            Gizmos.color = Color.black;
+                            Gizmos.DrawSphere(block.Buildings[k].RootPosition, 0.15f);
+                        }
+                    }
                 }
             }
         }

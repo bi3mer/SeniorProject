@@ -33,16 +33,14 @@ public struct buildingIndex
 /// </summary>
 public class ProceduralBuildingCreator : MonoBehaviour
 {
-    // Aditional colors building's albedo can take on to increase building variability.
-    [SerializeField]
-    private Gradient materialAlbedoColors;
 
     [SerializeField]
     private ProceduralBuildingInstance proceduralBuildingTemplate;
 
-    // The number of material instances to make per material.
+    [Tooltip("The number of material instances to make per material, higher numbers lead to more varied cities but more memory usage.")]
     [SerializeField]
     private int materialInstances = 1;
+    private int materialInstancesSoftCap = 15;
 
     // Height of a single story
     private const float storyHeightUnits = .75f;
@@ -56,7 +54,36 @@ public class ProceduralBuildingCreator : MonoBehaviour
     private const float attachmentWindowRotationMod = 90f;
 
     // The string name to access the standard shader's smoothness value
-    private const string StandardShaderSmoothness = "_GlossMapScale";
+    private const string standardShaderSmoothness = "_GlossMapScale";
+    // The string name to access the standard shader's bump value
+    private const string standardShaderBump = "_BumpScale";
+    // How smooth building materials should be.
+    [Range(0f, 1f)]
+    private float materialSmoothness = .72f;
+    // How normal the maps are.
+    [Range(0f, 1f)]
+    private float normalWeight = .1f;
+
+    // The number of tries to try any potentially failing random generation.
+    private const int numberOfTries = 5;
+
+    // A float representing a distance taller than roofs, to insure we can start a raycast from above them.
+    private const float aboveRoofHeight = 5f;
+    // A float for if an object needs to be rotated to be placed properly.
+    private const float adjustmentAngle = 90f;
+
+    private const float WindowWasherRotMod = 180f;
+
+    public DistrictConfiguration TestDistrict;
+    public BaseSize TestSize;
+    public int TestStoriesTall;
+    public float TestAttatchmentPercentage;
+
+    [ContextMenu("CreateTestBuilding")]
+    public void CreateTestBuilding()
+    {
+        CreateBuilding(TestDistrict, TestSize, TestAttatchmentPercentage, TestStoriesTall);
+    }
 
     /// <summary>
     /// Creates all the procedural materials for a single district.
@@ -64,6 +91,12 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// <param name="district"></param>
     void CreateMaterialsForDistrict(DistrictConfiguration district)
     {
+        // We'll probably settle around 5-10.
+        if(materialInstances > materialInstancesSoftCap)
+        {
+            Debug.LogWarning("materialInstances may be too high. Consider lowering it to improve performance");
+        }
+
         district.districtProceduralMaterials.Clear();
         district.districtProceduralWindowMaterials.Clear();
 
@@ -73,8 +106,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {
                 Material newMaterial = new Material(district.DistrictMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictMaterials[i]);
-                // Setting all the material's smoothess to 5 to reduce glossiness.
-                newMaterial.SetFloat(StandardShaderSmoothness, .5f);
+                newMaterial.SetFloat(standardShaderSmoothness, materialSmoothness);
+                newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.value);
+                newMaterial.SetFloat(standardShaderBump , normalWeight);
                 district.districtProceduralMaterials.Add(newMaterial);
             }
         }
@@ -85,7 +119,9 @@ public class ProceduralBuildingCreator : MonoBehaviour
             {
                 Material newMaterial = new Material(district.DistrictWindowMaterials[i].shader);
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictWindowMaterials[i]);
-                newMaterial.color = materialAlbedoColors.Evaluate(Random.Range(0f, 1f));
+                newMaterial.SetFloat(standardShaderSmoothness, materialSmoothness);
+                newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.value);
+                newMaterial.SetFloat(standardShaderBump, normalWeight);
                 district.districtProceduralWindowMaterials.Add(newMaterial);
             }
         }
@@ -103,7 +139,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
         }
         
         ProceduralBuildingInstance newBuilding = (ProceduralBuildingInstance)Instantiate(proceduralBuildingTemplate, Vector3.zero, Quaternion.Euler(Vector3.zero));
-        newBuilding.IsVisible = true;
 
         // Choose a material for all the building bits
         Material buildingMaterial = (Material) district.districtProceduralMaterials[Random.Range(0, district.districtProceduralMaterials.Count)];
@@ -118,6 +153,7 @@ public class ProceduralBuildingCreator : MonoBehaviour
         createAttachments(newBuilding, district, size, attatchmentPercentage, storiesTall, buildingMeshes);
         addWindows(newBuilding, district, size, attatchmentPercentage, storiesTall, windowMeshes);
 
+
         // Set all the materials we added to lists while making the meshes.
         if (buildingMeshes.Count > 1)
         {
@@ -128,11 +164,47 @@ public class ProceduralBuildingCreator : MonoBehaviour
         }
         if (windowMeshes.Count > 1)
         {
+            // Try to add window washer using a window's location
+            if (district.DistrictWindowWashers.Length > 0)
+            {   
+                // Check to see if a window washer is needed.
+                // Since WindowWasherChance is a float between 0-100, we use that range for generating a random float
+                if (RandomUtility.RandomHundredPercent <= district.WindowWasherChance)
+                {
+                    // Base washer position on a window's position/rotation.
+                    Transform washerLocation = windowMeshes[Random.Range(0, windowMeshes.Count - 1)].transform;
+                    addWindowWasher(newBuilding, district, storiesTall, washerLocation);
+                }
+            }
+
+            MeshFilter[] windowMeshFilters = new MeshFilter[windowMeshes.Count];
             for (int i = 0; i < windowMeshes.Count; ++i)
             {
-                windowMeshes[i].material = windowMaterial;
+                windowMeshFilters[i] = windowMeshes[i].GetComponent<MeshFilter>();
+            }
+
+            // Combine all the window meshes
+            CombineInstance[] combine = new CombineInstance[windowMeshFilters.Length];
+            for (int i = 0; i < windowMeshFilters.Length; ++i)
+            {
+                combine[i].mesh = windowMeshFilters[i].sharedMesh;
+                combine[i].transform = windowMeshes[i].transform.localToWorldMatrix;
+                windowMeshFilters[i].gameObject.SetActive(false);
+            }
+            newBuilding.gameObject.AddComponent<MeshFilter>().sharedMesh = new Mesh();
+            MeshRenderer windowRenderer = newBuilding.gameObject.AddComponent<MeshRenderer>();
+            windowRenderer.material = windowMaterial;
+            newBuilding.transform.GetComponent<MeshFilter>().sharedMesh.CombineMeshes(combine);
+            newBuilding.gameObject.AddComponent<MeshCollider>().sharedMesh = newBuilding.transform.GetComponent<MeshFilter>().sharedMesh;
+            newBuilding.transform.gameObject.SetActive(true);
+
+            // Delete old windows
+            for (int i = windowMeshes.Count - 1; i >= 0; --i)
+            {
+                Destroy(windowMeshes[i].gameObject);
             }
         }
+
         return newBuilding;
     }
 
@@ -469,6 +541,42 @@ public class ProceduralBuildingCreator : MonoBehaviour
         // Move the window up based on the story of the building we're putting windows on. 
         // Use half of storyHeightUnits so that the windows get placed in the middle of stories and not on the top of a story.
         window.transform.position += new Vector3(0f, (buildingStory * storyHeightUnits) + storyHeightUnits / 2f, 0f);
+    }
+
+    /// <summary>
+    /// Adds a window washer on the building at an available spot if any.
+    /// </summary>
+    private void addWindowWasher(ProceduralBuildingInstance newBuilding, DistrictConfiguration district, int storiesTall, Transform washerLocation)
+    {
+       WindowWasher newWashersPrefab = district.DistrictWindowWashers[Random.Range(0, district.DistrictWindowWashers.Length - 1)];    
+        Vector3 washerRotation = Vector3.zero;
+        Vector3 washerPosition = Vector3.zero;
+
+        // Pick a window washer prefab to use
+        WindowWasher newWasher;
+        newWasher = (WindowWasher)Instantiate(newWashersPrefab);
+        newWasher.transform.SetParent(newBuilding.transform);
+        newWasher.transform.eulerAngles = washerLocation.rotation.eulerAngles + new Vector3(0f, WindowWasherRotMod, 0f);
+        newWasher.transform.position = washerLocation.position;
+
+        RaycastHit placementHit;
+        newWasher.transform.position = new Vector3(newWasher.transform.position.x,
+            newBuilding.transform.position.y + storiesTall * storyHeightUnits,
+            newWasher.transform.position.z);
+
+        // Set max lower distance based on the animation curve.
+        // Again this curve is only evaluated between 0 and 1 on the X axis.
+        newWasher.MaxLowerDistance = district.WindowWasherMaxLengthCurve.Evaluate(Random.value);
+
+        // Set if the new washer starts up or not. This is a percent chance so we use a range of 0-100 to evaluate.
+        if (RandomUtility.RandomHundredPercent <= district.WindowWasherStartUpChance)
+        {
+            newWasher.StartUp = true;
+        }
+        else
+        {
+            newWasher.StartUp = false;
+        }
     }
 }
 

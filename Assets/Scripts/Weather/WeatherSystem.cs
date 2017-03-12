@@ -42,13 +42,14 @@ public class WeatherSystem
 	private const float relativeHumidityIntercept         = 402.68743138357206f;
 
 	// precipitation
-	private readonly float[] precipitationCoefficients = {0.00000000e+00f,  -0.00000000e+00f,  -0.00000000e+00f,
-                                                         -0.00000000e+00f,   0.00000000e+00f,   0.00000000e+00f,
-                                                         -4.46876693e-06f,   2.07456756e-07f,   1.50875127e-07f,
-                                                          9.82522088e-04f,  -3.10613821e-07f,  -0.00000000e+00f,
-                                                         -0.00000000e+00f,   0.00000000e+00f,  -0.00000000e+00f,
-                                                         -0.00000000e+00f,   0.00000000e+00f,  -0.00000000e+00f,
-                                                         -0.00000000e+00f,   0.00000000e+00f,   0.00000000e+00f};
+	private readonly float[] precipitationCoefficients = { 0f,0f,0f,
+	                                                       0f,0f,0f,
+		                                                  -3.85205537e-06f, -5.77718149e-09f,  4.79910109e-08f,
+		                                                   9.82160232e-04f, -7.69745423e-08f, 0f,
+		                                                   9.82160232e-04f, -7.69745423e-08f, 0f,
+		                                                   0f,0f,0f,
+		                                                   0f,0f,0f,
+		                                                   0f,0f,0f};
 	private readonly int[,] precipitationPowers        = {{0, 0, 0, 0, 0},{1, 0, 0, 0, 0},{0, 1, 0, 0, 0},{0, 0, 1, 0, 0},
 		                                                  {0, 0, 0, 1, 0},{0, 0, 0, 0, 1},{2, 0, 0, 0, 0},{1, 1, 0, 0, 0},
 		                                                  {1, 0, 1, 0, 0},{1, 0, 0, 1, 0},{1, 0, 0, 0, 1},{0, 2, 0, 0, 0},
@@ -61,6 +62,16 @@ public class WeatherSystem
 	private const float relativeHumidityConstant  = 243.04f;
 	private const float percentageDivisor         = 100f;
 	private const float temperatureCoefficient    = 17.625f;
+
+	// Precipitation flag for storm and delegates for beginning of storm and end
+	private const float minPrecipitationForStorm = 20f;
+
+	// possible vectors for 8 directions
+	private readonly Vector2[] defaultDirectionVector = new Vector2[] {new Vector2(0,0), new Vector2(1,1), new Vector2(0,1), new Vector2(-1,1),
+	                                                                   new Vector2(-1,0), new Vector2(-1,-1), new Vector2(0,-1), new Vector2(1,-1)};
+
+	private bool ongoingStorm = false;
+	private bool updateWeather = true;
 
 	/// <summary>
 	/// Gets the wind direction in 2d.
@@ -86,6 +97,29 @@ public class WeatherSystem
 			return new Vector3(this.WeatherInformation[(int) Weather.WindSpeedX],
 			                   0,
 			                   this.WeatherInformation[(int) Weather.WindSpeedY]);
+		}
+	}
+
+	/// <summary>
+	/// Gets the cartesian wind direction2d. 
+	/// </summary>
+	/// <value>The cartesian wind direction2d.</value>
+	public Vector2 NormalizedOctantWindDirection2d
+	{
+		get
+		{
+			const int numDirections = 8;
+			const float twoPi       = 2f * Mathf.PI;
+
+			Vector2 wind = this.WindDirection2d;
+
+			// positive angle of vector in degrees
+			float angle = (Mathf.Atan2(wind.y, wind.x) + twoPi) % twoPi;
+
+			// conver the angle to one of 8 directions
+			int index = Mathf.RoundToInt(((numDirections * angle) / twoPi)) % numDirections;
+
+			return defaultDirectionVector[index];
 		}
 	}
 
@@ -333,6 +367,30 @@ public class WeatherSystem
 	}
 
 	/// <summary>
+	/// Updates the delegates.
+	/// </summary>
+	private void updateStormDelegates()
+	{
+		if(this.ongoingStorm)
+		{
+			if(this.WeatherInformation[(int) Weather.Precipitation] < WeatherSystem.minPrecipitationForStorm)
+			{
+				this.ongoingStorm = false;
+
+				// update subscribed
+				Game.Instance.EventManager.StormStop ();
+			}
+		}
+		else if(this.WeatherInformation[(int) Weather.Precipitation] >= WeatherSystem.minPrecipitationForStorm)
+		{
+			this.ongoingStorm = true;
+
+			// update subscribed
+			Game.Instance.EventManager.StormStart ();
+		}
+	}
+
+	/// <summary>
 	/// Updates the weather array variable
 	/// </summary>
 	/// <param name="position">Position.</param>
@@ -349,6 +407,47 @@ public class WeatherSystem
 		this.WeatherInformation[(int) Weather.RelativeDewPoint]   = this.getRelativeDewPoint();
 		this.WeatherInformation[(int) Weather.Precipitation]      = this.getPrecipitation();
 		this.setWindSpeedVector(position, center);
+
+		this.updateStormDelegates();
+
+		// update weather sounds
+		Game.Instance.EventManager.WeatherUpdated (this.getPrecipitation());
+	}
+
+	/// <summary>
+	/// Enables the weather updates.
+	/// </summary>
+	public void EnableWeather()
+	{
+		updateWeather = true;
+	}
+
+	/// <summary>
+	/// Disables the weather updates.
+	/// </summary>
+	public void DisableWeather()
+	{
+		updateWeather = false;
+	}
+
+	/// <summary>
+	/// Returns a <see cref="System.String"/> that represents the current <see cref="WeatherSystem"/>.
+	/// </summary>
+	/// <returns>A <see cref="System.String"/> that represents the current <see cref="WeatherSystem"/>.</returns>
+	public override string ToString()
+	{
+		const string newLine = "\n";
+
+		string weather = "Pressure: " + this.WeatherInformation[(int) Weather.Pressure] + newLine;
+		weather += "Temperature: " + this.WeatherInformation[(int) Weather.Temperature] + newLine;
+		weather += "Wind Magnitude: " + this.WeatherInformation[(int) Weather.WindSpeedMagnitude] + newLine;
+		weather += "Wind X: " + this.WeatherInformation[(int) Weather.WindSpeedX] + newLine;
+		weather += "Wind X: " + this.WeatherInformation[(int) Weather.WindSpeedX] + newLine;
+		weather += "Relative Humidity: " + this.WeatherInformation[(int) Weather.RelativeHumidity] + newLine;
+		weather += "Relative Dew Point: " + this.WeatherInformation[(int) Weather.RelativeDewPoint] + newLine;
+		weather += "Precipitation: " + this.WeatherInformation[(int) Weather.Precipitation] + newLine;
+
+		return weather;
 	}
 
 	/// <summary>
@@ -356,16 +455,30 @@ public class WeatherSystem
 	/// </summary>
 	public void UpdateSystem()
 	{
-		this.WeatherPressureSystems.UpdatePressureSystem();
-		this.UpdateWeather(Game.Instance.PlayerInstance.WorldTransform.position);
+		if(updateWeather)
+		{
+			this.WeatherPressureSystems.UpdatePressureSystem();
+			this.UpdateWeather(Game.Instance.PlayerInstance.WorldPosition);
+		}
 	}
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WeatherSystem"/> class.
 	/// </summary>
-	public WeatherSystem()
+	/// <param name="bounds">Bounds of the city.</param>
+	/// <param name="pauseController">Pause system instance.</param>
+	public WeatherSystem(CityBoundaries bounds, PauseSystem pauseController)
 	{
+#if UNITY_EDITOR
+		if(!Application.isPlaying)
+		{
+			return;
+		}
+#endif
+
 		this.WeatherInformation = new float[Weather.GetNames(typeof(Weather)).Length];
-		this.WeatherPressureSystems = new PressureSystems();
+		this.WeatherPressureSystems = new PressureSystems(bounds);
+		pauseController.PauseUpdate += DisableWeather;
+		pauseController.ResumeUpdate += EnableWeather;
 	}
 }

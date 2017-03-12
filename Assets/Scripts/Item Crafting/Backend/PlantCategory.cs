@@ -155,6 +155,7 @@ public class PlantCategory : ItemCategory
 		ItemAction dry = new ItemAction (dryActName, new UnityAction(category.Dry));
 		ItemAction eat = new ItemAction (eatActName, new UnityAction(category.Eat));
 
+
 		// the actions must be added in the same order as they were in the original copy of the category
 		// unable to pass along UnityAction delegate, as that will continue to point to the original copy of the item category
 		category.Actions.Add (cook);

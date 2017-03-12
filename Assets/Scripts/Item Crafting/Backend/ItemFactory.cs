@@ -5,8 +5,6 @@ using System.Collections;
 /// <summary>
 /// Factory that creates an base items given its name and complex crafted items given recipe and ingredients.
 /// Currently just a placeholder class only able to craft a fishing rod.
-/// TODO: Configure this to reference a YAML file so that all "craft" actions can go under a single function.
-/// TODO: Enable this class to craft base items.
 /// </summary>
 
 public class ItemFactory 
@@ -16,13 +14,51 @@ public class ItemFactory
 	/// </summary>
 	public delegate void CraftItem(List<BaseItem> ingredients);
 
+	/// <summary>
+	/// Gets the item database.
+	/// </summary>
+	/// <value>The item database.</value>
 	public Dictionary<string, BaseItem> ItemDatabase
 	{
 		get;
 		private set;
 	}
 
-	public Dictionary<string, List<string>> ItemsByLocation
+	/// <summary>
+	/// Gets the land items by district.
+	/// </summary>
+	/// <value>The items that generates on land by district.</value>
+	public Dictionary<string, List<string>> LandItemsByDistrict
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets the items that generates in the water by district.
+	/// </summary>
+	/// <value>The water items by district.</value>
+	public Dictionary<string, List<string>> WaterItemsByDistrict
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets the rarity info of items that appear on land by district
+	/// </summary>
+	/// <value>The land district item rarity info.</value>
+	public Dictionary<string, DistrictItemRarityConfiguration> LandDistrictItemRarityInfo
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets the rarity info of items that appear on water by district
+	/// </summary>
+	/// <value>The water district item rarity info.</value>
+	public Dictionary<string, DistrictItemRarityConfiguration> WaterDistrictItemRarityInfo
 	{
 		get;
 		private set;
@@ -48,19 +84,28 @@ public class ItemFactory
 	public ItemFactory () 
 	{
 		ItemDatabase = new Dictionary<string, BaseItem> ();
-		ItemsByLocation = new Dictionary<string, List<string>>();
+		LandItemsByDistrict = new Dictionary<string, List<string>>();
+		WaterItemsByDistrict = new Dictionary<string, List<string>>();
 
 		itemParser = new ItemSerializer(itemFileName, districtItemFileName);
-		LoadItemInformation ();
+		loadItemInformation ();
+		loadItemRarityInformation();
 	}
 
 	/// <summary>
 	/// Gets the blueprints for every item and stores if in the itemDatabase.
 	/// </summary>
-	private void LoadItemInformation()
+	private void loadItemInformation()
 	{
 		ItemDatabase = itemParser.DeserializeItemInformation ();
-		ItemsByLocation = itemParser.DeserializeDistrictItemData();
+
+		Dictionary<string, List<string>> waterInfo = new Dictionary<string, List<string>>();
+		Dictionary<string, List<string>> landInfo = new Dictionary<string, List<string>>();
+
+		itemParser.DeserializeDistrictItemData(ref landInfo, ref waterInfo);
+
+		LandItemsByDistrict = landInfo;
+		WaterItemsByDistrict = waterInfo;
 	}
 
 	/// <summary>
@@ -86,28 +131,37 @@ public class ItemFactory
 		List<string> tags = new List<string> ();
 		Ingredient currentIngredient;
 
-		for (int i = 0; i < recipe.Requirements.Count; ++i) 
+		for (int i = 0; i < recipe.ResourceRequirements.Count; ++i) 
 		{
-			tags.Add (recipe.Requirements [i].ItemType);
+			tags.Add (recipe.ResourceRequirements [i].ItemType);
 		}
 
 		Dictionary<string, List<Ingredient>> ingredientsByType = SortIngredientsByTag (tags, ingredients);
+		string itemName = "";
 
-		int qualityLevel = GetResultingItemLevel(recipe, ingredientsByType);
+		if(recipe.Tiered)
+		{
+			int qualityLevel = GetResultingItemLevel(recipe, ingredientsByType);
 
-		for (int i = 0; i < recipe.Requirements.Count; ++i) 
+			itemName = itemLevels [qualityLevel] + " " + recipe.RecipeName;
+		}
+		else
+		{
+			itemName = recipe.RecipeName;
+		}
+
+		for (int i = 0; i < recipe.ResourceRequirements.Count; ++i) 
 		{
 			// for now, the crafting recipes only allow for one item to be selected
 			// as an ingredient per requirement, but the list is in place in preparation
 			// for multi-item per requirement recipes that will be implemented later
-			for (int j = 0; j < ingredientsByType [recipe.Requirements [i].ItemType].Count; ++j) 
+			for (int j = 0; j < ingredientsByType [recipe.ResourceRequirements [i].ItemType].Count; ++j) 
 			{
-				currentIngredient = ingredientsByType [recipe.Requirements [i].ItemType] [j];
+				currentIngredient = ingredientsByType [recipe.ResourceRequirements [i].ItemType] [j];
 				targetInventory.UseItem (currentIngredient.IngredientName, currentIngredient.Amount);
 			}
 		}
 
-		string itemName = itemLevels [qualityLevel] + " " + recipe.RecipeName;
 		BaseItem craftedItem;
 
 		craftedItem = GetBaseItem (itemName);
@@ -170,12 +224,23 @@ public class ItemFactory
 		BaseItem currentItem;
 		Inventory inventory = Game.Instance.PlayerInstance.Inventory;
 
+		// flag that indicates whether or not a smaller stat results in a higher quality item
+		bool smallerStatsPreferred = false;
+
 		// checks each crafting stat that is marked as a stat to check when considering the item's quality level
 		for (int x = 0; x < recipe.StatsToCheck.Count; ++x) 
 		{
 			string stat = recipe.StatsToCheck [x].StatName;
 			List<string> affectingItems = recipe.StatsToCheck [x].StatAffectingItems;
 			float result = 0;
+
+			if(recipe.StatsToCheck[x].QualityThreshold.Count > 1)
+			{
+				if(recipe.StatsToCheck[x].QualityThreshold[0] > recipe.StatsToCheck[x].QualityThreshold[1])
+				{
+					smallerStatsPreferred = true;
+				}
+			}
 
 			// checks each item type that is marked as an item that affects the outcome of the crafting stat
 			for (int y = 0; y < affectingItems.Count; ++y)
@@ -190,6 +255,7 @@ public class ItemFactory
 				// The contribution from the type of item is the average of the values from each of the items, scaled depending on how much of that
 				// item was used to fulfill the recipe. So if 2 of one item was used, and only 1 of another, then the first will affect the final
 				// contribution twice as much as the second object.
+
 				for (int z = 0; z < ingredientsByType [affectingItems [y]].Count; ++z) 
 				{
 					currentItem = inventory.GetInventoryBaseItem(ingredientsByType [affectingItems [y]] [z].IngredientName);
@@ -212,13 +278,19 @@ public class ItemFactory
 			if (qualityLevel > 0) 
 			{
 				// a single crafting stat sum may decrease the level multiple times
-				while (result < recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
-				{
-					--qualityLevel;
 
-					if (qualityLevel <= 0) 
+				if(smallerStatsPreferred)
+				{
+					while (qualityLevel > 0 && result > recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
 					{
-						break;
+						--qualityLevel;
+					}
+				}
+				else
+				{
+					while (qualityLevel > 0 && result < recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
+					{
+						--qualityLevel;
 					}
 				}
 			} 
@@ -263,5 +335,96 @@ public class ItemFactory
 		}
 
 		return null;
+	}
+
+	/// <summary>
+	/// Loads the item rarity information.
+	/// </summary>
+	private void loadItemRarityInformation()
+	{
+		List<float> rarityValues = new List<float>();
+		LandDistrictItemRarityInfo = new Dictionary<string, DistrictItemRarityConfiguration>();
+		WaterDistrictItemRarityInfo = new Dictionary<string, DistrictItemRarityConfiguration>();
+		int i = 0;
+
+		// the districts keys are the same  for both land and water
+		foreach(string key in LandItemsByDistrict.Keys)
+		{
+			for(i = 0; i < LandItemsByDistrict[key].Count; ++i)
+			{
+				rarityValues.Add(ItemRarity.GetRarity(GetBaseItem(LandItemsByDistrict[key][i]).Rarity));
+			}
+
+			LandDistrictItemRarityInfo.Add(key, new DistrictItemRarityConfiguration());
+			LandDistrictItemRarityInfo[key].SetUpVoseAlias(rarityValues);
+			rarityValues.Clear();
+
+			for(i = 0; i < WaterItemsByDistrict[key].Count; ++i)
+			{
+				rarityValues.Add(ItemRarity.GetRarity(GetBaseItem(WaterItemsByDistrict[key][i]).Rarity));
+			}
+
+			WaterDistrictItemRarityInfo.Add(key, new DistrictItemRarityConfiguration());
+			WaterDistrictItemRarityInfo[key].SetUpVoseAlias(rarityValues);
+			rarityValues.Clear();
+		}
+	}
+
+	/// <summary>
+	/// Gets the index of the weighted random item in a district.
+	/// </summary>
+	/// <returns>The weighted random item index.</returns>
+	/// <param name="district">District.</param>
+	/// <param name="onWater">Whether or not the item index is intended for items that only generate on water.</param>
+	public int GetWeightedRandomItemIndex(string district, bool onWater)
+	{
+		if(onWater)
+		{
+			return WaterDistrictItemRarityInfo[district].GetWeightedRandomItemIndex();
+		}
+		else
+		{
+			return LandDistrictItemRarityInfo[district].GetWeightedRandomItemIndex();
+		}
+	}
+
+	/// <summary>
+	/// Gets a weighted random base item in a district.
+	/// </summary>
+	/// <returns>The weighted random base item.</returns>
+	/// <param name="district">District.</param>
+	/// <param name="onLand">Whether or not the item index is intended for items that only generate on land.</param>
+	public BaseItem GetWeightedRandomBaseItem(string district, bool onLand)
+	{
+		int index = GetWeightedRandomItemIndex(district, onLand);
+
+		if(onLand)
+		{
+			return ItemDatabase[LandItemsByDistrict[district][index]];
+		}
+		else
+		{
+			return ItemDatabase[WaterItemsByDistrict[district][index]];
+		}
+	}
+
+	/// <summary>
+	/// Gets the item names by tag.
+	/// </summary>
+	/// <returns>The item names by tag.</returns>
+	/// <param name="desiredTag">Desired tag.</param>
+	public List<string> GetItemNamesByTag(string desiredTag)
+	{
+		List<string> desiredItemNames = new List<string>();
+
+		foreach(string key in ItemDatabase.Keys)
+		{
+			if(ItemDatabase[key].Types.Contains(desiredTag))
+			{
+				desiredItemNames.Add(key);
+			}
+		}
+
+		return desiredItemNames;
 	}
 }

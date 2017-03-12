@@ -1,0 +1,134 @@
+---
+- recipeName: "Fishing Rod"
+  tiered: true
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "rod"
+     amountRequired: 1
+   - itemType: "rope"
+     amountRequired: 1
+   - itemType: "hook"
+     amountRequired: 1
+  statsToCheck:
+   - statName: "durability"
+     statAffectingItems:
+      - "rod"
+      - "rope"
+      - "hook"
+     qualityThreshold:
+      - 2
+      - 4
+   - statName: "elasticity"
+     statAffectingItems:
+      - "rod"
+      - "rope"
+     qualityThreshold:
+      - 0.5
+      - 1
+   - statName: "flexibility"
+     statAffectingItems:
+      - "rod"
+      - "rope"
+     qualityThreshold:
+      - 0.5
+      - 1
+   - statName: "sharpness"
+     statAffectingItems:
+      - "hook"
+     qualityThreshold:
+      - 0.5
+      - 1
+   - statName: "stickiness"
+     statAffectingItems:
+      - "rod"
+     qualityThreshold:
+      - 0
+      - 0
+   - statName: "thickness"
+     statAffectingItems:
+      - "rod"
+     qualityThreshold:
+      - 2
+      - 4
+- recipeName: "Fire Pit"
+  tiered: true
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "fuel"
+     amountRequired: 5
+  statsToCheck:
+   - statName: "burnRate"
+     statAffectingItems:
+      - "fuel"
+     qualityThreshold:
+      - 5
+      - 20
+- recipeName: "Woven Blanket"
+  tiered: true
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "rope"
+     amountRequired: 4
+  statsToCheck:
+   - statName: "thickness"
+     statAffectingItems:
+      - "rope"
+     qualityThreshold:
+      - 0.5
+      - 0.1
+   - statName: "flexibility"
+     statAffectingItems:
+      - "rope"
+     qualityThreshold:
+      - 1
+      - 2
+- recipeName: "Rope Bound Knife"
+  tiered: false
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "sharp"
+     amountRequired: 1
+   - itemType: "rope"
+     amountRequired: 1
+  statsToCheck:
+   - statName: "durability"
+     statAffectingItems:
+      - "sharp"
+      - "rope"
+     qualityThreshold:
+      - 2
+      - 4
+- recipeName: "Raft"
+  tiered: true
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "floatable object"
+     amountRequired: 5
+   - itemType: "rope"
+     amountRequired: 4
+  statsToCheck:
+   - statName: "durability"
+     statAffectingItems:
+      - "floatable object"
+      - "rope"
+     qualityThreshold:
+      - 5
+      - 15
+   - statName: "flexibility"
+     statAffectingItems:
+      - "rope"
+     qualityThreshold:
+      - 1
+      - 2
+   - statName: "stickiness"
+     statAffectingItems:
+      - "floatable object"
+     qualityThreshold:
+      - 0
+      - 0
+   - statName: "thickness"
+     statAffectingItems:
+      - "floatable object"
+     qualityThreshold:
+      - 2
+      - 4

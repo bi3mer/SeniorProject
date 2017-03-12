@@ -23,13 +23,34 @@ public class ItemActionButtonUI : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Prepares the action. If no subactions, prompts for a number to modify.
+	/// Otherwise, displays up subactions.
+	/// </summary>
+	public void StartAction()
+	{
+		if(subActions == null || subActions.Count < 1)
+		{
+			// this is a button which should execute an item action
+			// thus it should first allow the player to select how manny items should be affected by this action
+			GuiInstanceManager.ItemAmountPanelInstance.ChooseNumOfItemsToAffect(this);
+		}
+		else
+		{
+			// this is a button whose action is to display the subactions
+			GuiInstanceManager.ItemStackDetailPanelInstance.ClearSubActionPanel ();
+			action ();
+			GuiInstanceManager.ItemStackDetailPanelInstance.RefreshItemActions ();
+		}
+	}
+
+	/// <summary>
 	/// Performs the action. Refreshes the panel that displays the item's information.
 	/// </summary>
 	public void PerformAction()
 	{
-		ItemStackDetailPanelBehavior.Instance.ClearSubActionPanel ();
+		GuiInstanceManager.ItemStackDetailPanelInstance.ClearSubActionPanel ();
 		action ();
-		ItemStackDetailPanelBehavior.Instance.RefreshItemPanel ();
+		GuiInstanceManager.ItemStackDetailPanelInstance.RefreshItemPanel ();
 	}
 
 
@@ -57,6 +78,6 @@ public class ItemActionButtonUI : MonoBehaviour
 	/// </summary>
 	public void ShowSubActions()
 	{
-		ItemStackDetailPanelBehavior.Instance.CreateSubAction (subActions);
+		GuiInstanceManager.ItemStackDetailPanelInstance.CreateSubAction (subActions);
 	}
 }

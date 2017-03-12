@@ -12,12 +12,17 @@ public class InteractableObject : MonoBehaviour
 
     private TextMesh display;
 
+    bool SetupComplete = false;
+
     /// <summary>
     /// Initializes text and hides it.
     /// </summary>
     void Start()
     {
-        SetUp();
+    	if(!SetupComplete)
+    	{
+        	SetUp();
+        }
     }
 
     /// <summary>
@@ -37,17 +42,19 @@ public class InteractableObject : MonoBehaviour
     /// <summary>
     /// Sets up the InteractableObject.
     /// </summary>
-    public void SetUp()
+    public virtual void SetUp()
     {
     	if(display == null)
     	{
 			display = GetComponentInChildren<TextMesh>();
 		}
+
+		SetupComplete = true;
         Show = false;
     }
 
     /// <summary>
-    /// Shows or hieds text describing the interactable object action to the player.
+    /// Shows or hides text describing the interactable object action to the player.
     /// </summary>
     public bool Show
     {

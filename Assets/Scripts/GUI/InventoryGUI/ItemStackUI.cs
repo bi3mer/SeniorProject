@@ -7,21 +7,66 @@ using System.Collections.Generic;
 public class ItemStackUI : MonoBehaviour 
 {
 	public UnityAction Action;
+	public GameObject HoverPanel;
 	public Text ItemName;
 	public Text ItemAmount;
+	public Image InventorySprite;
 	private Stack targetStack;
 	private Stack originalStack;
+
+	private string currentSpritePath;
+
+	private bool occupied;
+
+	/// <summary>
+	/// Awakens this instance.
+	/// </summary>
+	void Awake()
+	{
+		HoverPanel.SetActive(false);
+		InventorySprite.gameObject.SetActive(false);
+		occupied = false;
+	}
 
 	/// <summary>
 	/// Subscribes to name change event
 	/// </summary>
 	public void SetUpInventoryItem(Stack baseStack)
 	{
-		baseStack.Item.UpdateItemInformation += HandleItemNameTextChangeEvent;
+		baseStack.Item.UpdateItemName += HandleItemNameTextChangeEvent;
 		baseStack.UpdateStackAmount += HandleItemAmountTextChangeEvent;
+		baseStack.Item.UpdateItemSprite += HandleItemIconChangeEvent;
+
 		targetStack = baseStack;
 		ItemName.text = targetStack.Item.ItemName;
 		ItemAmount.text = targetStack.Amount.ToString();
+
+		Sprite itemSprite = GuiInstanceManager.InventoryUiInstance.ItemSpriteManager.GetSprite(baseStack.Item.InventorySprite);
+
+		if(itemSprite != null)
+		{
+			InventorySprite.sprite = itemSprite;
+			currentSpritePath = baseStack.Item.InventorySprite;
+			InventorySprite.gameObject.SetActive(true);
+		}
+		else
+		{
+			Debug.LogError("Sprite " + targetStack.Item.InventorySprite + "for " + targetStack.Item.ItemName + " could not be found");
+		}
+
+		occupied = true;
+		HoverPanel.SetActive(false);
+	}
+
+	/// <summary>
+	/// Unsubscribe this instance from all event subscriptions. Must be called before destroying this structure!
+	/// Unable to use destructor due to significant lag.
+	/// </summary>
+	public void Unsubscribe(Stack baseStack)
+	{
+		baseStack.Item.UpdateItemName -= HandleItemNameTextChangeEvent;
+		baseStack.UpdateStackAmount -= HandleItemAmountTextChangeEvent;
+		baseStack.Item.UpdateItemSprite -= HandleItemIconChangeEvent;
 	}
 
 	/// <summary>
@@ -33,6 +78,17 @@ public class ItemStackUI : MonoBehaviour
 		targetStack = baseStack;
 		ItemName.text = targetStack.Item.ItemName;
 		ItemAmount.text = targetStack.Amount.ToString();
+	
+		if(!baseStack.Item.InventorySprite.Equals(currentSpritePath))
+		{
+			currentSpritePath = baseStack.Item.InventorySprite;
+			Sprite itemSprite = GuiInstanceManager.InventoryUiInstance.ItemSpriteManager.GetSprite(baseStack.Item.InventorySprite);
+
+			if(itemSprite != null)
+			{
+				InventorySprite.sprite = itemSprite;
+			}
+		}
 	}
 
 	/// <summary>
@@ -51,6 +107,25 @@ public class ItemStackUI : MonoBehaviour
 	public void HandleItemAmountTextChangeEvent(int newAmount)
 	{
 		ItemAmount.text = newAmount.ToString();
+	}
+
+	/// <summary>
+	/// Function that will be used to handle changes to the item's inventory sprite.
+	/// </summary>
+	/// <param name="item">Item.</param>
+	public void HandleItemIconChangeEvent(BaseItem item)
+	{
+		currentSpritePath = item.InventorySprite;
+		Sprite itemSprite = GuiInstanceManager.InventoryUiInstance.ItemSpriteManager.GetSprite(item.InventorySprite);
+
+		if(itemSprite != null)
+		{
+			InventorySprite.sprite = itemSprite;
+		}
+		else
+		{
+			Debug.LogError("Sprite " + item.InventorySprite + "for " + item.ItemName + " could not be found");
+		}
 	}
 
 	/// <summary>
@@ -95,34 +170,75 @@ public class ItemStackUI : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Updates the target stack with the proper amount.
+	/// </summary>
+	/// <param name="numToModify">Number to modify.</param>
+	public void UpdateTargetStack(int numToModify)
+	{
+		int difference = numToModify - targetStack.Amount;
+		targetStack.Amount = numToModify;
+
+		originalStack.Amount -= difference;
+	}
+
+	/// <summary>
 	/// Checks to see if the targetItem has been modified. If so, then a new item has been created
 	/// and needs to be added to the inventory. Otherwise, merge the duplicate item back into the
 	/// original. The targetItem is the original item again.
 	/// </summary>
 	public void CheckForModification()
 	{
+		bool createdNewItem = false;
+
 		// if some number of the item has been modified and the modified items are not flagged for removal (possible through eating or discarding)
 		if (targetStack.Item.DirtyFlag && targetStack.Amount > 0 && !targetStack.Item.RemovalFlag) 
 		{
 			targetStack.Item.DirtyFlag = false;
-			Game.Instance.PlayerInstance.Inventory.AddItem (targetStack.Item, targetStack.Amount);
+
+			Stack addedItem = GuiInstanceManager.InventoryUiInstance.TargetInventory.AddItem (targetStack.Item, targetStack.Amount);
+			GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
+			ItemStackUI createdStack = GuiInstanceManager.InventoryUiInstance.GetStackUI(addedItem.Id);
+			GuiInstanceManager.ItemAmountPanelInstance.OpenItemDetailPanel(createdStack.gameObject);
+
+			createdNewItem = true;
+		}
+		else if(targetStack.Item.UpdateExistingFlag)
+		{
+			targetStack.Item.UpdateExistingFlag = false;
+			originalStack.Item = targetStack.Item;
+
+			// force update stack amount
+			originalStack.Amount = targetStack.Amount;
+			targetStack = originalStack;
 		} 
-		else if(!targetStack.Item.RemovalFlag && !targetStack.Item.DiscardFlag)
+		else if(!targetStack.Item.RemovalFlag && !targetStack.Item.DiscardFlag )
 		{
 			// if no number of the item has been modified and items are not flagged for removal, add back on the items set aside for modifcations
 			// to the original stack
 			originalStack.Amount += targetStack.Amount;
+			targetStack = originalStack;
 		}
 		else if(targetStack.Item.DiscardFlag)
 		{
-			InventoryUI.Instance.ItemsToDiscard.Add(targetStack);
+			GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(targetStack);
+			GuiInstanceManager.InventoryUiInstance.TargetInventory.UpdateTypeAmount(targetStack.Item.Types, originalStack.Amount - targetStack.Amount);
+			targetStack = originalStack;
 		}
 
-		targetStack = originalStack;
-
-		if(targetStack.Amount <= 0)
+		if(originalStack.Amount <= 0)
 		{
-			Game.Instance.PlayerInstance.Inventory.RemoveStack(targetStack);
+			GuiInstanceManager.InventoryUiInstance.TargetInventory.RemoveStack(originalStack);
+
+			if(!createdNewItem)
+			{
+				GuiInstanceManager.ItemStackDetailPanelInstance.ClosePanel();
+			}
+
+			targetStack = null;
+		}
+		else
+		{
+			PreserveOriginal(0);
 		}
 	}
 
@@ -133,5 +249,33 @@ public class ItemStackUI : MonoBehaviour
 	public Stack GetStack()
 	{
 		return targetStack;
+	}
+
+	/// <summary>
+	/// Gets the max amount usuable in this stack.
+	/// If preserve original has already been called, then the original stack's value will be used.
+	/// Otherwise, the target stack's value will be used.
+	/// </summary>
+	/// <returns>The max amount.</returns>
+	public int GetMaxAmount()
+	{
+		if(targetStack.Amount > 0)
+		{
+			return targetStack.Amount;
+		}
+
+		return originalStack.Amount;
+	}
+
+	/// <summary>
+	/// Sets the hover panel active or inactive.
+	/// </summary>
+	/// <param name="active">If set to <c>true</c> active.</param>
+	public void SetHoverPanelActive(bool active)
+	{
+		if(occupied)
+		{
+			HoverPanel.SetActive(active);
+		}
 	}
 }

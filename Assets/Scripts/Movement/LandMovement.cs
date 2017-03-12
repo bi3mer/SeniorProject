@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using DG.Tweening;
 
-public class LandMovement : Movement 
+[RequireComponent(typeof(CharacterController))]
+public class LandMovement : Movement
 {
     [SerializeField]
     private float walkingSpeed;
@@ -15,21 +17,75 @@ public class LandMovement : Movement
     [SerializeField]
     private float fallDamageModifier;
 
+    [SerializeField]
+    [Tooltip("Value the speed is multiplied by when moving against the wind.")]
+    private float againstWindSpeedModifier = 0.5f;
+
+    [SerializeField]
+    [Tooltip("Height, starting from the floor to raycast towards walls")]
+    private float raycastHeight;
+
     private const string playerAnimatorTurn = "Turn";
     private const string playerAnimatorForward = "Forward";
     private const string playerAnimatorJump = "Jump";
+    private const string playerAnimatorClimb = "Climb";
     private const float playerAnimatorSprint = 1f;
     private const float playerAnimatorWalk = .5f;
     private const float playerAnimatorIdle = 0f;
+    private const int playerAnimatorArmsLayer = 1;
+    private CharacterController controller;
+    private PlayerController playerController;
+
+    private bool jumping;
+    [SerializeField]
+    private bool airControll;
+    private float lastSpeed;
+    private Vector3 lastDirection;
+
+    [SerializeField]
+    private float terminalVelocity = -1f;
+    [SerializeField]
+    private float jumpingFallModifier = .5f;
+    private float lastYVelocity = 0f;
+    private float yVelocity = 0f;
+
+    /// <summary>
+    /// Get the character controller so we can call move functions
+    /// </summary>
+    void Start()
+    {
+        controller = GetComponent<CharacterController>();
+        playerController = GetComponent<PlayerController>();
+    }
 
     /// <summary>
     /// Calculate accumulated fall damage
     /// </summary>
     void FixedUpdate()
     {
-        if (RigidBody.velocity.y < -minFallDamageVelocity)
+        if (controller.velocity.y < -minFallDamageVelocity)
         {
-            AccumulatedFallDammage += fallDamageModifier;
+            AccumulatedFallDamage += fallDamageModifier;
+        }
+        if (!playerController.IsGrounded || jumping)
+        {
+            float gravity;
+            if (jumping)
+            {
+                gravity = Physics.gravity.y * jumpingFallModifier;
+            }
+            else
+            {
+                gravity = Physics.gravity.y;
+            }
+
+            yVelocity = lastYVelocity + gravity;
+            yVelocity = Mathf.Clamp(yVelocity, -terminalVelocity, jumpForce);
+            lastYVelocity = yVelocity;
+        }
+        else
+        {
+            yVelocity = Physics.gravity.y;
         }
     }
 
@@ -39,50 +95,138 @@ public class LandMovement : Movement
     /// <param name="direction">The direction to walk the player.</param>
     public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
-        float speed = 0f;
-        // Walking
-        if (!sprinting)
+        if(!jumping || airControll)
         {
-            speed = walkingSpeed;
+            lastDirection = direction;
+        }
+        else
+        {
+            direction = Vector3.zero;
+        }
+
+        Speed = lastSpeed;
+
+        // Walking
+        if (!sprinting && (!jumping || airControll))
+        {
+			Speed = walkingSpeed;
             playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorWalk);
         }
         // Sprinting
-        else
+        else if (!jumping || airControll)
         {
-            speed = sprintingSpeed;
+			Speed = sprintingSpeed;
             playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorSprint);
         }
-  
-        RigidBody.velocity = direction.normalized * speed + Vector3.up * RigidBody.velocity.y;
 
-        Vector3 facingRotation = Vector3.Normalize(new Vector3(RigidBody.velocity.x, 0f, RigidBody.velocity.z));
-        if (facingRotation != Vector3.zero)
+        // Make player move at slower speed if moving in the direction of wind
+        Vector2 dir = new Vector2(direction.x, direction.z);
+        if (Vector3.Dot(dir.normalized, Game.Instance.WeatherInstance.NormalizedOctantWindDirection2d) == -1)
         {
-            playerAnimator.transform.forward = facingRotation;
+            Speed *= againstWindSpeedModifier;
+            // Set the player's blend weight to be 1.
+            playerAnimator.SetLayerWeight(playerAnimatorArmsLayer, 1f);
         }
+        else
+        {
+            // Set the player's blend weight to be 0.
+            playerAnimator.SetLayerWeight(playerAnimatorArmsLayer, 0f);
+        }
+        Vector3 moveVector = lastDirection * Speed;
+
+        moveVector += new Vector3(0f, yVelocity, 0f);
+        moveVector *= Time.fixedDeltaTime;
+
+        controller.Move(moveVector);
+
+        if (!jumping || airControll)
+        { 
+            Vector3 facingRotation = Vector3.Normalize(new Vector3(controller.velocity.x, 0f, controller.velocity.z));
+            if (facingRotation != Vector3.zero)
+            {
+                playerAnimator.transform.forward = facingRotation;                
+            }
+        }
+        lastSpeed = Speed;
     }
 
     /// <summary>
     /// Plays the idle animation
     /// </summary>
+    /// <param name="playerAnimator">The player's animator</param>
     public override void Idle(Animator playerAnimator)
-    {
+	{
         playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorIdle);
+        controller.Move(new Vector3(0f, yVelocity, 0f) * Time.fixedDeltaTime);
     }
 
     /// <summary>
-    /// The player aesthetic jumps.
+    /// The player aesthetic jumps
     /// </summary>
+    /// <param name="playerAnimator">The player's animator</param>
     public override void Jump(Animator playerAnimator)
     {
+        jumping = true;
         playerAnimator.SetTrigger(playerAnimatorJump);
+        lastYVelocity = jumpForce;
     }
+
+    /// <summary>
+    /// The player's climb animation plays
+    /// </summary>
+    /// <param name="playerAnimator">The player's animator</param>
+    public override void Climb(Animator playerAnimator)
+    {
+        // TODO: Switch this to the climb animation.
+        playerAnimator.SetTrigger(playerAnimatorClimb);
+    }
+
     /// <summary>
     /// The player's rigidbody gets the jump force applied. Called via the animator.
     /// </summary>
     public void JumpForce()
     {
-        RigidBody.AddForce(Vector3.up * jumpForce);
+
+    }
+
+    /// <summary>
+    /// The sets jumping back to false. Called via the animator.
+    /// </summary>
+    public void JumpLand()
+    {
+        jumping = false;
+    }
+
+    /// <summary>
+    /// The height the player can climb while in this movement state
+    /// </summary>
+    public override float GetClimbHeight()
+    {
+        return climbHeight;
+    }
+
+    /// <summary>
+    /// The height of the climbing raycast while in this movement state
+    /// </summary>
+    public override float GetRaycastHeight()
+    {
+        return raycastHeight;
+    }
+
+    /// <summary>
+    /// Called when the player enters the state.
+    /// </summary>
+    public override void OnStateEnter()
+    {
+
+    }
+
+    /// <summary>
+    /// Called when the player exits the state.
+    /// </summary>
+    public override void OnStateExit()
+    {
+
     }
 
 }

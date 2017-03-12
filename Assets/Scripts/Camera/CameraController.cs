@@ -31,7 +31,7 @@ public class CameraController : MonoBehaviour
     private AnimationCurve zoomXRotationCurve;
 
     private int currentView;
-    private Camera camera;
+    private Camera targetCamera;
 
     /// <summary>
     /// Initialize camera based on starting view specified.
@@ -41,7 +41,7 @@ public class CameraController : MonoBehaviour
         // in case a starting position is entered that is out of the range
         currentView = startingView % CameraPositions.Length;
         // grab the camera
-        camera = GetComponent<Camera>();
+        targetCamera = GetComponent<Camera>();
 
         ZoomLevel = initialZoomLevel;
 	}

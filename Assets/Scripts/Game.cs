@@ -5,13 +5,26 @@
 
     private Game ()
     {
-        PlayerInstance = new Player();
-		WeatherInstance = new WeatherSystem();
+		this.CityBounds = new CityBoundaries();
+	    PlayerInstance = new Player();
+		EventManager = new EventManager ();
 		PauseInstance = new PauseSystem();
 		WorldItemFactoryInstance = new WorldItemFactory();
 		ItemFactoryInstance = new ItemFactory();
 		GameSettingsInstance = new GameSettings ();
 		Scheme = GameSettingsInstance.Scheme;
+        Loader = new GameLoader();
+        DeathManagerInstance = new DeathManager();
+		announcementFactoryInstance = new AnnouncementFactory ();
+		WeatherInstance = new WeatherSystem(this.CityBounds, PauseInstance);
+    }
+
+    /// <summary>
+    /// Resets the game from the start.
+    /// </summary>
+    public void Reset ()
+    {
+        PlayerInstance.ResetStatus();
     }
  
     /// <summary>
@@ -30,12 +43,33 @@
     }
 
     /// <summary>
+    /// Shorcut to calling Instance.PlayerInstance
+    /// </summary>
+    public static Player Player
+    {
+        get
+        {
+            return Instance.PlayerInstance;
+        }
+    }
+
+    /// <summary>
     /// The current player instance.
     /// </summary>
     public Player PlayerInstance
     {
         get;
         private set;
+    }
+
+	/// <summary>
+    /// Gets the city bounds.
+    /// </summary>
+    /// <value>The city bounds.</value>
+    public CityBoundaries CityBounds
+    {
+    	get;
+    	private set;
     }
 
     /// <summary>
@@ -74,6 +108,16 @@
 	/// </summary>
 	/// <value>The weather instance.</value>
 	public WeatherSystem WeatherInstance
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Gets the event manager instance.
+	/// </summary>
+	/// <value>The event manager instance.</value>
+	public EventManager EventManager
 	{
 		get;
 		private set;
@@ -199,6 +243,55 @@
 	/// </summary>
 	/// <value>Player control scheme</value>
 	public ControlScheme Scheme 
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
+	/// Gets or sets the game view instance.
+	/// </summary>
+	/// <value>The game view instance.</value>
+    public GameViewBehavior GameViewInstance
+    {
+    	get;
+    	set;
+    }
+
+    /// <summary>
+    /// Tracks and reports game loading.
+    /// </summary>
+    public GameLoader Loader
+    {
+        get;
+        private set;
+    }
+
+    /// <summary>
+    /// Gets the death manager instance.
+    /// </summary>
+    /// <value>The death manager instance.</value>
+    public DeathManager DeathManagerInstance
+    {
+    	get;
+    	private set;
+    }
+
+	/// <summary>
+	/// Gets or sets the item pool instance.
+	/// </summary>
+	/// <value>The item pool instance.</value>
+    public ItemPoolManager ItemPoolInstance 
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
+	/// Gets or sets the announcement factory instance.
+	/// </summary>
+	/// <value>The announcement factory instance.</value>
+	private AnnouncementFactory announcementFactoryInstance 
 	{
 		get;
 		set;
