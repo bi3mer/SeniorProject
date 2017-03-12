@@ -61,6 +61,7 @@ public class ProceduralBuilding : Building
         private set;
     }
 
+
     /// <summary>
     /// Loads the instance of the building into the scene.
     /// </summary>
@@ -82,10 +83,10 @@ public class ProceduralBuilding : Building
         float attatchmentChance = Random.Range(Configuration.MinAttachmentChance, Configuration.MaxAttachmentChance);
 
         // Create building
-        ProceduralBuildingInstance buildingInstance = Generator.CreateBuilding(Configuration, baseSize, attatchmentChance, NumberOfFloors);
-        buildingInstance.gameObject.transform.position = Position;
-        buildingInstance.gameObject.transform.localScale = BuildingScale;
-        buildingInstance.gameObject.transform.parent = Parent;
+        Instance = Generator.CreateBuilding(Configuration, baseSize, attatchmentChance, NumberOfFloors).gameObject;
+        Instance.transform.position = Position;
+        Instance.transform.localScale = BuildingScale;
+        Instance.transform.parent = Parent;
 
         IsLoaded = true;
     }
