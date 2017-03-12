@@ -135,6 +135,7 @@ GameObject:
   - 23: {fileID: 23000010820551564}
   - 114: {fileID: 114000012320806462}
   - 114: {fileID: 114000010081769660}
+  - 65: {fileID: 65000010707835908}
   m_Layer: 4
   m_Name: ENV_OceanPlane
   m_TagString: Water
@@ -558,6 +559,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012563267608}
   m_Mesh: {fileID: 4300000, guid: aa2771e7191659e4280d6bbd802b3102, type: 3}
+--- !u!65 &65000010707835908
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011961198834}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1937.9698, y: 0, z: 1937.97}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!108 &108000011414395396
 Light:
   m_ObjectHideFlags: 1
