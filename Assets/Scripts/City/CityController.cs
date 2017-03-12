@@ -44,11 +44,7 @@ public class CityController : MonoBehaviour
             seed = Game.Instance.GameSettingsInstance.ProceduralCityGenerationSeed;
         }
 
-        // Start city generation
-        Game.Instance.CityInstance = GenerateCity(seed);
-
-        // Initialize city chunking
-        cityChunkManager.Init(Game.Instance.CityInstance);
+        StartCoroutine(GenerateCity(seed));
  	}
 	
     /// <summary>
@@ -62,8 +58,11 @@ public class CityController : MonoBehaviour
     /// <summary>
     /// Generate the city by generating districts, populating them with blocks, and filling the blocks with buildings.
     /// </summary>
-    private City GenerateCity (int seed)
+    private IEnumerator GenerateCity (int seed)
     {
+        GameLoaderTask task = Game.Instance.Loader.CreateGameLoaderTask("Building the city");
+        GameLoaderTask task2 = Game.Instance.Loader.CreateGameLoaderTask("Populating the city");
+
         District[] districts = districtGenerator.Generate(seed, cityBounds);
 
         // Pick a vertex that is shared by the largest number of districts
@@ -77,6 +76,10 @@ public class CityController : MonoBehaviour
 		waterItemGenerator.SetCityInformation(cityWidth, cityDepth, cityBounds.center, districts);
 		itemPoolManager.SetUpItemPoolManager(cityDepth, cityDepth, cityBounds.center);
 
+        yield return null;
+
+        float districtPercentage = 1.0f / (float)districts.Length;
+
         // Generate blocks in each district
         for (int i = 0; i < districts.Length; ++i)
         {
@@ -87,6 +90,8 @@ public class CityController : MonoBehaviour
 
             // Pick a block to generate the weenie building in
             int weenieBlock = Random.Range(0, blocks.Length);
+
+            float blockPercentage = districtPercentage / (float)blocks.Length;
 
             // Generate buildings in each block and add the blocks to the district
             for (int j = 0; j < blocks.Length; ++j)
@@ -105,16 +110,41 @@ public class CityController : MonoBehaviour
                 }
 
                 district.Blocks.Add(block);
+
+                task.PercentageComplete += blockPercentage;
+                yield return null;
             }
+
+            task.PercentageComplete += districtPercentage;
+            yield return null;
         }
 
-		waterItemGenerator.GenerateInWater();
+        City city = new City(districts, cityBounds, cityCenter, tallestBuilding);
+        Game.Instance.CityInstance = city;
+
+        task.PercentageComplete = 1.0f;
+        yield return null;
+
+        waterItemGenerator.GenerateInWater();
+
+        task2.PercentageComplete = 0.3f;
+        yield return null;
 
 		rooftopItemGenerator.AddTemplatesToItemPool();
-		waterItemGenerator.AddTemplatesToItemPool();
 
-		StartCoroutine(itemPoolManager.StartManagingPool());
+        task2.PercentageComplete = 0.6f;
+        yield return null;
 
-        return new City(districts, cityBounds, cityCenter, tallestBuilding);
+        waterItemGenerator.AddTemplatesToItemPool();
+
+        task2.PercentageComplete = 0.9f;
+        yield return null;
+
+        StartCoroutine(itemPoolManager.StartManagingPool());
+
+        task2.PercentageComplete = 1.0f;
+        yield return null;
+
+        cityChunkManager.Init(city);
     }
 }
