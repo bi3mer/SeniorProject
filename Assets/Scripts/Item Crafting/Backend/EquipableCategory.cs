@@ -1,4 +1,6 @@
-﻿public abstract class EquipableCategory : ItemCategory 
+﻿using System;
+
+public abstract class EquipableCategory : ItemCategory 
 {
 	/// <summary>
 	/// Gets or sets the equiped state. 1 is equiped, 0 is unequiped.
@@ -39,5 +41,14 @@
 			GetAttribute(equipedAttributeName).Value = Equiped;
 			baseItem.UpdateExistingFlag = true;
         }
+	}
+
+	/// <summary>
+	/// Gets the type of the associated tool.
+	/// </summary>
+	/// <returns>The associated tool type.</returns>
+	public string getAssociatedToolType()
+	{
+		return toolType;
 	}
 }

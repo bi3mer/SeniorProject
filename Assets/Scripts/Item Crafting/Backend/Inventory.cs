@@ -20,9 +20,11 @@ public class Inventory
 	private string inventoryName;
 
 	// Contents of the inventory keyed by their name
-	protected Stack[] contents;
+	protected ItemStack[] contents;
 
 	private InventoryYamlParser parser;
+
+    private Dictionary<string, int> itemCountByType;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Inventory"/> class.
@@ -31,9 +33,15 @@ public class Inventory
 	/// <param name="size">Size.</param>
 	public Inventory(string name, int size)
 	{
-		contents = new Stack[size];
+		contents = new ItemStack[size];
 		inventoryName = name;
 		InventorySize = size;
+		itemCountByType = new Dictionary<string, int>();
+
+		for(int i = 0; i < ItemTypes.Types.Length; ++i)
+		{
+			itemCountByType.Add(ItemTypes.Types[i], 0);
+		}
 	}
 
 	/// <summary>
@@ -43,11 +51,17 @@ public class Inventory
 	/// <param name="inventoryFile">Inventory file.</param>
 	public Inventory(string name, string inventoryFile, int size)
 	{
-		contents = new Stack[inventorySize];
+		contents = new ItemStack[inventorySize];
 		inventoryName = name;
 
 		parser = new InventoryYamlParser(inventoryFile);
 		InventorySize = size;
+		itemCountByType = new Dictionary<string, int>();
+
+		for(int i = 0; i < ItemTypes.Types.Length; ++i)
+		{
+			itemCountByType.Add(ItemTypes.Types[i], 0);
+		}
 
 		LoadInventory();
 	}
@@ -65,6 +79,9 @@ public class Inventory
 			{
 
 				BaseItem item = inventoryInfo [i].Item;
+
+				UpdateTypeAmount(item.Types, inventoryInfo[i].ItemAmount);
+
 				item.InitializeBaseItem ();
 
 				if(inventoryInfo[i].ItemCategories != null && inventoryInfo[i].ItemCategories.Count > 0)
@@ -77,7 +94,7 @@ public class Inventory
 
 				item.SetUpBaseItem ();
 
-				Stack stack = new Stack(item, inventoryInfo[i].ItemAmount,  Guid.NewGuid().ToString("N"));
+				ItemStack stack = new ItemStack(item, inventoryInfo[i].ItemAmount,  Guid.NewGuid().ToString("N"));
 				contents[i] = stack;
 			}
 			else
@@ -91,7 +108,7 @@ public class Inventory
 	/// Gets the contents of the inventory.
 	/// </summary>
 	/// <returns>The inventory.</returns>
-	public Stack[] GetInventory()
+	public ItemStack[] GetInventory()
 	{
 		return contents;
 	}
@@ -115,6 +132,7 @@ public class Inventory
 				{
 					stackAmount = contents[i].Amount;
 					contents[i].Amount -= amountLeft;
+					UpdateTypeAmount(contents[i].Item.Types, -amountLeft);
 
 					amountLeft -= stackAmount;
 
@@ -139,10 +157,10 @@ public class Inventory
 	/// <returns>The stacks.</returns>
 	/// <param name="name">Name of the item.</param>
 	/// <param name="amount">Amount of the item to get.</param>
-	public List<Stack> GetStacks(string name, int amount)
+	public List<ItemStack> GetStacks(string name, int amount)
 	{
 		int currentAmount = 0;
-		List<Stack> stacksNeeded = new List<Stack> ();
+		List<ItemStack> stacksNeeded = new List<ItemStack> ();
 
 		for (int i = 0; i < contents.Length; ++i) 
 		{
@@ -214,10 +232,11 @@ public class Inventory
 	/// <returns>The added item.</returns>
 	/// <param name="newItem">New item.</param>
 	/// <param name="amount">Amount.</param>
-	public Stack AddItem(BaseItem newItem, int amount)
+	public ItemStack AddItem(BaseItem newItem, int amount)
 	{
 		int loc = GetNextOpenSlot ();
-		contents[loc] = new Stack(newItem, amount, Guid.NewGuid().ToString("N"));
+		contents[loc] = new ItemStack(newItem, amount, Guid.NewGuid().ToString("N"));
+		UpdateTypeAmount(newItem.Types, amount);
 
 		return contents[loc];
 	}
@@ -226,7 +245,7 @@ public class Inventory
 	/// Removes the item from the inventory.
 	/// </summary>
 	/// <param name="stack">Item to remove.</param>
-	public void RemoveStack(Stack stack)
+	public void RemoveStack(ItemStack stack)
 	{
 		for (int i = 0; i < contents.Length; ++i) 
 		{
@@ -249,9 +268,9 @@ public class Inventory
 	/// </summary>
 	/// <returns>All items with tag.</returns>
 	/// <param name="itemTag">Tag that contains desired items.</param>
-	public List<Stack> GetAllItemsWithTag(string itemTag)
+	public List<ItemStack> GetAllItemsWithTag(string itemTag)
 	{
-		List<Stack> result = new List<Stack> ();
+		List<ItemStack> result = new List<ItemStack> ();
 
 		for (int i = 0; i < contents.Length; ++i) 
 		{
@@ -273,7 +292,7 @@ public class Inventory
 	/// </summary>
 	/// <param name="current">Current.</param>
 	/// <param name="target">Target.</param>
-	public void CombineStacks(Stack current, Stack target)
+	public void CombineStacks(ItemStack current, ItemStack target)
 	{
 		if (target.Amount + current.Amount <= inventorySize) 
 		{
@@ -318,4 +337,62 @@ public class Inventory
 			Array.Resize(ref contents, inventorySize);
 		}
 	}
+
+	/// <summary>
+	/// Updates the type amount.
+	/// </summary>
+	/// <param name="types">Types.</param>
+	/// <param name="changedAmount">Changed amount. Negative for removed amount, positive for added.</param>
+	public void UpdateTypeAmount(List<string> types, int changedAmount)
+	{
+		for(int i = 0; i < types.Count; ++i)
+		{
+			itemCountByType[types[i]] += changedAmount;
+		}
+	}
+
+	/// <summary>
+	/// Checks if recipe possible given items in the inventory.
+	/// </summary>
+	/// <returns><c>true</c>, if recipe possible was checked, <c>false</c> otherwise.</returns>
+	/// <param name="recipe">Recipe.</param>
+	public bool CheckRecipePossible(Recipe recipe)
+    {
+    	Requirement requirement;
+
+    	for(int i = 0; i < recipe.ResourceRequirements.Count; ++i)
+    	{
+			requirement = recipe.ResourceRequirements[i];
+
+    		if(itemCountByType[requirement.ItemType] < requirement.AmountRequired)
+    		{
+    			return false;
+    		}
+    	}
+
+    	if(recipe.ToolRequirements != null)
+    	{
+			for(int i = 0; i < recipe.ToolRequirements.Count; ++i)
+	    	{
+				requirement = recipe.ToolRequirements[i];
+
+	    		if(itemCountByType[requirement.ItemType] < requirement.AmountRequired)
+	    		{
+	    			return false;
+	    		}
+	    	}
+	    }
+
+    	return true;
+    }
+
+    /// <summary>
+    /// Checks if the requirement is met.
+    /// </summary>
+    /// <returns><c>true</c>, if requirement met was checked, <c>false</c> otherwise.</returns>
+    /// <param name="requirement">Requirement.</param>
+    public bool CheckRequirementMet(Requirement requirement)
+    {
+    	return itemCountByType[requirement.ItemType] >= requirement.AmountRequired;
+    }
 }

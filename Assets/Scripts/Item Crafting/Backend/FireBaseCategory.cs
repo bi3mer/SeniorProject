@@ -37,6 +37,10 @@ public class FireBaseCategory : ItemCategory
 
     private const string setDownActName = "Set Down";
 
+    private const string startingFuelAttrName = "startingFuel";
+
+    private const string fuelRemainingAttrName = "fuelRemaining";
+
     /// <summary>
     /// Creates a copy of this fuel category.
     /// </summary>
@@ -68,6 +72,8 @@ public class FireBaseCategory : ItemCategory
     {
         Attributes = new List<Attribute>();
         Attributes.Add(new Attribute(burnRateMultiplierAttrName, BurnRateMultiplier));
+        Attributes.Add(new Attribute(startingFuelAttrName, StartingFuel));
+        Attributes.Add(new Attribute(fuelRemainingAttrName, FuelRemaining));
 
         Actions = new List<ItemAction>();
         Actions.Add(new ItemAction(setDownActName, new UnityAction(SetDown)));
@@ -101,7 +107,7 @@ public class FireBaseCategory : ItemCategory
 	public void SetDown()
 	{
 		// create the object with the model
-		GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem, 1);
+		GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem);
 		FireInteractable fireBase = item.AddComponent<FireInteractable>();
 
 		fireBase.SetUp();

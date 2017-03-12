@@ -78,6 +78,7 @@ public class PlayerTools
             if (potentialTool.ToolName.Equals(item.ItemName))
             {
                 tool = potentialTool;
+				tool.SetUpTool(item);
             }
         }
 

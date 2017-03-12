@@ -57,7 +57,7 @@ public class ShelterCategory : ItemCategory
     public void SetDown()
     {
         // create the object with the model
-        GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem, 1);
+        GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem);
         ShelterInteractable shelter = item.AddComponent<ShelterInteractable>();
 
         shelter.SetUp();

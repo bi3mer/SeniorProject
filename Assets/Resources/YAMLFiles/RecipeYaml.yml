@@ -1,6 +1,8 @@
 ---
 - recipeName: "Fishing Rod"
-  requirements:
+  tiered: true
+  toolRequirements:
+  resourceRequirements:
    - itemType: "rod"
      amountRequired: 1
    - itemType: "rope"
@@ -14,28 +16,28 @@
       - "rope"
       - "hook"
      qualityThreshold:
-      - 5
-      - 15
+      - 2
+      - 4
    - statName: "elasticity"
      statAffectingItems:
       - "rod"
       - "rope"
      qualityThreshold:
+      - 0.5
       - 1
-      - 2
    - statName: "flexibility"
      statAffectingItems:
       - "rod"
       - "rope"
      qualityThreshold:
+      - 0.5
       - 1
-      - 2
    - statName: "sharpness"
      statAffectingItems:
       - "hook"
      qualityThreshold:
-      - 3
-      - 5
+      - 0.5
+      - 1
    - statName: "stickiness"
      statAffectingItems:
       - "rod"
@@ -49,7 +51,9 @@
       - 2
       - 4
 - recipeName: "Fire Pit"
-  requirements:
+  tiered: true
+  toolRequirements:
+  resourceRequirements:
    - itemType: "fuel"
      amountRequired: 5
   statsToCheck:
@@ -59,7 +63,85 @@
      qualityThreshold:
       - 5
       - 20
-
-
-
-
+- recipeName: "Woven Blanket"
+  tiered: true
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "rope"
+     amountRequired: 4
+  statsToCheck:
+   - statName: "thickness"
+     statAffectingItems:
+      - "rope"
+     qualityThreshold:
+      - 0.5
+      - 0.1
+   - statName: "flexibility"
+     statAffectingItems:
+      - "rope"
+     qualityThreshold:
+      - 1
+      - 2
+- recipeName: "Rope Bound Knife"
+  tiered: false
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "sharp"
+     amountRequired: 1
+   - itemType: "rope"
+     amountRequired: 1
+  statsToCheck:
+   - statName: "durability"
+     statAffectingItems:
+      - "sharp"
+      - "rope"
+     qualityThreshold:
+      - 2
+      - 4
+- recipeName: "Raft"
+  tiered: true
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "floatable object"
+     amountRequired: 5
+   - itemType: "rope"
+     amountRequired: 4
+  statsToCheck:
+   - statName: "durability"
+     statAffectingItems:
+      - "floatable object"
+      - "rope"
+     qualityThreshold:
+      - 5
+      - 15
+   - statName: "flexibility"
+     statAffectingItems:
+      - "rope"
+     qualityThreshold:
+      - 1
+      - 2
+   - statName: "stickiness"
+     statAffectingItems:
+      - "floatable object"
+     qualityThreshold:
+      - 0
+      - 0
+   - statName: "thickness"
+     statAffectingItems:
+      - "floatable object"
+     qualityThreshold:
+      - 2
+      - 4
+- recipeName: "Lantern"
+  tiered: false
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "container"
+     amountRequired: 1
+   - itemType: "fuel"
+     amountRequired: 2
+   - itemType: "igniter"
+     amountRequired: 1
+   - itemType: "base solid"
+     amountRequired: 1
+  statsToCheck:
