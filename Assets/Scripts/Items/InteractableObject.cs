@@ -60,12 +60,19 @@ public class InteractableObject : MonoBehaviour
     {
         get 
         { 
-            return display.gameObject.activeInHierarchy;
+            if(display != null)
+            { 
+                return display.gameObject.activeInHierarchy;
+            }
+            return false;
         }
         set 
         {
-            display.gameObject.SetActive(value);
-            display.text = text;
+            if (display != null)
+            { 
+                display.gameObject.SetActive(value);
+                display.text = text;
+            }
         }
     }
 
