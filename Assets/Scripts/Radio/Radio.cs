@@ -55,6 +55,9 @@ public class Radio : MonoBehaviour
 	private int mysteryCounter = 0;
 	private int musicCounter = 0;
 
+	// Millisecond conversion
+	private const int millisecond = 1000;
+
 	[Tooltip("The lowest degree of the range of the knob's rotation in which music will play")]
 	public float lowMusic;
 	[Tooltip("The highest degree of the range of the knob's rotation in which music will play")]
@@ -135,8 +138,6 @@ public class Radio : MonoBehaviour
 			// Find the current channel and turn it on if it's not already playing 
 			FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
 
-//			Debug.Log (CurrentChannel);
-
 			if (CurrentChannel == RadioChannel.Mystery) 
 			{
 				mysteryChannel.getPlaybackState (out state);
@@ -146,7 +147,7 @@ public class Radio : MonoBehaviour
 				{
 					// figure out which clip we should be on (and at what time) based on how much time has passed
 					// get the seconds passed so far, and use modulus to reduce it down to within the length of the total clips for this channel
-					int millisecondsPassed = (int) (Time.time * 1000);
+					int millisecondsPassed = (int) (Time.time * millisecond);
 					int timeLeft = millisecondsPassed % mysteryClipsTotalLength;
 
 					// iterate over each clip and find the one should play on based on how much time has passed
@@ -185,7 +186,7 @@ public class Radio : MonoBehaviour
 				{
 					// figure out which clip we should be on (and at what time) based on how much time has passed
 					// get the seconds passed so far, and use modulus to reduce it down to within the length of the total clips for this channel
-					int millisecondsPassed = (int) (Time.time * 1000);
+					int millisecondsPassed = (int) (Time.time * millisecond);
 					int timeLeft = millisecondsPassed % musicClipsTotalLength;
 
 					// iterate over each clip and find the one should play on based on how much time has passed
