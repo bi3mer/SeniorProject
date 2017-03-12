@@ -640,7 +640,7 @@ public class PlayerController : MonoBehaviour
                     interactable = null;
                 }
 
-                if (closestInteractable != null && closestInteractable.CompareTag(interactiveTag) && interactable.GetComponent<InteractableObject>() != null)
+                if (closestInteractable != null && closestInteractable.CompareTag(interactiveTag) && interactable != null &&  interactable.GetComponent<InteractableObject>() != null)
                 {
                     interactable = closestInteractable.GetComponent<InteractableObject>();
                     interactable.Show = true;
