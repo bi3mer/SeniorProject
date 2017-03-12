@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 public class LightItem : Tool 
 {
@@ -12,7 +13,6 @@ public class LightItem : Tool
     private LightCategory lightBase;
 
     private GameObject lightObject;
-
     private bool on;
 
     private const string addFuelActName = "Add Fuel";
@@ -25,8 +25,6 @@ public class LightItem : Tool
 
 	private const string maxDurationAttrName = "maxDuration";
 
-    private OverworldItemOptionSelection optionSelectionHandler;
-
     private ItemCondition fuelCondition;
 
 	/// <summary>
@@ -36,7 +34,6 @@ public class LightItem : Tool
 	{
 		On = false;
 		ToolName = toolName;
-		optionSelectionHandler = new OverworldItemOptionSelection(true);
 		transform.SetParent(attachJoint.transform, false);
 
 		lightObject = transform.GetChild(0).gameObject;
@@ -55,18 +52,22 @@ public class LightItem : Tool
 		lightSource.enabled = On;
 
 		lightBase = lightCategory;
-
-		optionSelectionHandler.Reset();
+		List<ItemAction> actions = new List<ItemAction>();
 
 		ItemAction addFuelAction = new ItemAction(addFuelActName, new UnityAction(AddFuel));
-		addFuelAction.TypeUsed = ItemTypes.Fuel;
+		addFuelAction.TypeUsed.Add(ItemTypes.Fuel);
 		fuelCondition = new ItemCondition(lightBase.CurrentFuelLevel, lightBase.MaxFuel, BooleanOperator.Less);
 		addFuelAction.Conditions.Add(fuelCondition);
 
 		ItemAction turnOnOffAction = new ItemAction(turnOnOffActName, new UnityAction(ToggleOn));
 
-		optionSelectionHandler.AddPossibleAction(addFuelAction);
-		optionSelectionHandler.AddPossibleAction(turnOnOffAction);
+		ItemAction unequipAction = new ItemAction(unequipActName, new UnityAction(lightCategory.UnEquip));
+
+		actions.Add(addFuelAction);
+		actions.Add(turnOnOffAction);
+		actions.Add(unequipAction);
+
+		GuiInstanceManager.EquippedItemGuiInstance.SetEquipped(itemForTool.InventorySprite, actions);
 	}
 
 	/// <summary>
@@ -105,11 +106,6 @@ public class LightItem : Tool
 	{
 		On = false;
 
-		if(gameObject.transform.childCount > 0)
-		{
-			GameObject.Destroy(gameObject.transform.GetChild(0).gameObject);
-		}
-
 		lightObject.SetActive(false);
 		StopAllCoroutines();
 	}
@@ -119,7 +115,7 @@ public class LightItem : Tool
 	/// </summary>
 	public override void Use()
 	{
-		optionSelectionHandler.ShowPossibleActions();
+		ToggleOn();
 	}
 
 	/// <summary>
@@ -127,7 +123,8 @@ public class LightItem : Tool
 	/// </summary>
 	public void AddFuel()
 	{
-		BaseItem item = Game.Instance.PlayerInstance.Inventory.GetInventoryBaseItem(optionSelectionHandler.SelectedItem);
+		BaseItem item = Game.Instance.PlayerInstance.Inventory.GetInventoryBaseItem(GuiInstanceManager.EquippedItemGuiInstance.GetSelected());
+
 		lightBase.AddFuel(item.GetItemAttribute(burnTimeAttrName).Value);
 		Game.Instance.PlayerInstance.Inventory.UseItem(item.ItemName, 1);
 		fuelCondition.ConditionValue = lightBase.CurrentFuelLevel;

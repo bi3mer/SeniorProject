@@ -24,6 +24,26 @@ public class OverworldItemOptionSelection
 	}
 
 	/// <summary>
+	/// Gets or sets the target content panel.
+	/// </summary>
+	/// <value>The target content panel.</value>
+	public GameObject TargetContentPanel
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
+	/// Gets or sets the target container panel.
+	/// </summary>
+	/// <value>The target container panel.</value>
+	public GameObject TargetContainerPanel
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
 	/// Initializes a new instance of the <see cref="OverworldItemOptionSelection"/> class.
 	/// </summary>
 	/// <param name="hasMultipleActions">If set to <c>true</c> has multiple actions.</param>
@@ -40,17 +60,17 @@ public class OverworldItemOptionSelection
 	public void ShowPossibleActions()
 	{
 		selectedAction = null;
-		GuiInstanceManager.WorldSelectionGuiInstance.DisplayActions(possibleActions, this);
+		GuiInstanceManager.WorldSelectionGuiInstance.DisplayActions(possibleActions, this, TargetContentPanel);
 	}
 
 	/// <summary>
-	/// Shows the possible items in a gui on scree.
+	/// Shows the possible items in a gui on screen.
 	/// </summary>
-	/// <param name="itemType">Item type.</param>
+	/// <param name="itemTypes">List of item types that are possible items.</param>
 	/// <param name="callback">Callback.</param>
-	public void ShowPossibleItems(string itemType, UnityAction callback)
+	public void ShowPossibleItems(List<string> itemTypes, UnityAction callback)
 	{
-		GuiInstanceManager.WorldSelectionGuiInstance.DisplayItemOptions(itemType, this);
+		GuiInstanceManager.WorldSelectionGuiInstance.DisplayItemOptions(itemTypes, this, TargetContentPanel);
 		callbackAction = callback;
 	}
 
@@ -86,7 +106,7 @@ public class OverworldItemOptionSelection
 	private void HandleItemSelectionActionCallback(string selection)
 	{
 		SelectedItem = selection;
-		GuiInstanceManager.WorldSelectionGuiInstance.CloseSelection();
+		GuiInstanceManager.WorldSelectionGuiInstance.CloseSelection(TargetContentPanel, TargetContainerPanel);
 		callbackAction();
 	}
 
@@ -100,21 +120,21 @@ public class OverworldItemOptionSelection
 		{
 			SelectedItem = selection;
 			selectedAction.AssignedAction();
-			GuiInstanceManager.WorldSelectionGuiInstance.CloseSelection();
+			GuiInstanceManager.WorldSelectionGuiInstance.CloseSelection(TargetContentPanel, TargetContainerPanel);
 		}
 		else
 		{
 			selectedAction = possibleActions.Find(x => x.ActionName.Equals(selection));
 
-			if(selectedAction.TypeUsed != null)
+			if(selectedAction.TypeUsed != null && selectedAction.TypeUsed.Count > 0)
 			{
-				GuiInstanceManager.WorldSelectionGuiInstance.ClearOptions();
-				GuiInstanceManager.WorldSelectionGuiInstance.DisplayItemOptions(selectedAction.TypeUsed, this);
+				GuiInstanceManager.WorldSelectionGuiInstance.ClearOptions(TargetContentPanel);
+				GuiInstanceManager.WorldSelectionGuiInstance.DisplayItemOptions(selectedAction.TypeUsed, this, TargetContentPanel);
 			}
 			else
 			{
 				selectedAction.AssignedAction();
-				GuiInstanceManager.WorldSelectionGuiInstance.CloseSelection();
+				GuiInstanceManager.WorldSelectionGuiInstance.CloseSelection(TargetContentPanel, TargetContainerPanel);
 			}
 		}
 	}

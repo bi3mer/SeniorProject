@@ -609,7 +609,7 @@
    worldModel: "ITM/Tools/ITM_Lantern"
    types:
     - "equipable"
-   flavorText: "A lantern to the light the way. Requires fuel."
+   flavorText: "A lantern to light the way. Requires fuel."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
