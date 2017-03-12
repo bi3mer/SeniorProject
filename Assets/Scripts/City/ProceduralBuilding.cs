@@ -62,20 +62,6 @@ public class ProceduralBuilding : Building
     }
 
     /// <summary>
-    /// Calculates the bounds of the building.
-    /// </summary>
-    /// <returns></returns>
-    protected override Bounds calculateBounds()
-    {
-        //if (Instance == null)
-        {
-            return new Bounds();
-        }
-
-        // TODO: Calculate bounds
-    }
-
-    /// <summary>
     /// Loads the instance of the building into the scene.
     /// </summary>
     public override void Load()

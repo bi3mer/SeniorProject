@@ -62,7 +62,37 @@ public abstract class Building
     /// Calculates the bounds of the building.
     /// </summary>
     /// <returns></returns>
-    protected abstract Bounds calculateBounds();
+    private Bounds calculateBounds()
+    {
+        Bounds bounds = new Bounds(Position, Vector3.zero);
+
+        if (Instance == null)
+        {
+            return bounds;
+        }
+
+        try
+        {
+            Collider collider = Instance.transform.GetComponent<Collider>();
+            if (collider != null)
+            {
+                bounds.Encapsulate(collider.bounds);
+            }
+        }
+        catch { }
+
+        Transform[] allChildren = Instance.GetComponentsInChildren<Transform>();
+        for (int i = 0; i < allChildren.Length; ++i)
+        {
+            try
+            {
+                bounds.Encapsulate(allChildren[i].GetComponent<Collider>().bounds);
+            }
+            catch { }
+        }
+
+        return bounds;
+    }
 
     /// <summary>
     /// Loads the instance of the building into the scene.

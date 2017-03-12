@@ -98,7 +98,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   heightJitter: 0.1
-  buildingScale: {x: 0, y: 0, z: 0}
+  buildingScale: {x: 1, y: 1, z: 1}
   maxPlacementTries: 3
   cityCenterBuilding: {fileID: 1000010512083558, guid: 9ba31da0e553b1a4d88ccb9db0377693,
     type: 2}
