@@ -64,7 +64,7 @@ public class RaftCategory : ItemCategory
     public void SetDown()
     {
         // create the object with the model
-        GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem, 1);
+        GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem);
         RaftInteractable raft = item.AddComponent<RaftInteractable>();
 
         raft.Raft = this;
