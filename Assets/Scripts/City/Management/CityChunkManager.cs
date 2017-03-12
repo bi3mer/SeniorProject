@@ -56,7 +56,15 @@ public class CityChunkManager : MonoBehaviour
 
                 CityChunk chunk = new CityChunk(i, j, bounds);
 
-                // TODO: Add buildings conatined in area
+                buildings.Reset();
+                do
+                {
+                    if (chunk.BoundingBox.Contains(buildings.Current.Position))
+                    {
+                        chunk.Buildings.Add(buildings.Current);
+                    }
+                }
+                while (buildings.MoveNext());
 
                 Chunks[i, j] = chunk;
             }

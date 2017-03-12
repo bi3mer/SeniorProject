@@ -98,9 +98,10 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   heightJitter: 0.1
-  buildingScale: 0.9
+  buildingScale: {x: 1, y: 1, z: 1}
   maxPlacementTries: 3
-  CityCenterBuilding: {fileID: 100000, guid: 85c452bcdee401c48ad8a500701ee3fd, type: 3}
+  cityCenterBuilding: {fileID: 1000010512083558, guid: 9ba31da0e553b1a4d88ccb9db0377693,
+    type: 2}
 --- !u!114 &114000011026012388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -199,7 +200,6 @@ MonoBehaviour:
       type: 2}
     Doors:
     - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
-    AdditionalBuildingTemplates: []
     MaxFloors: 5
     MinFloors: 1
     minAttachmentChance: 0
@@ -335,7 +335,6 @@ MonoBehaviour:
       type: 2}
     Doors:
     - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
-    AdditionalBuildingTemplates: []
     MaxFloors: 8
     MinFloors: 3
     minAttachmentChance: 0
@@ -471,7 +470,6 @@ MonoBehaviour:
       type: 2}
     Doors:
     - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
-    AdditionalBuildingTemplates: []
     MaxFloors: 8
     MinFloors: 3
     minAttachmentChance: 0
@@ -634,7 +632,6 @@ MonoBehaviour:
     WeenieBuildingTemplate: {fileID: 100000, guid: 5e50794d6a3810a4fbdfc912c2f2e6f6,
       type: 3}
     Doors: []
-    AdditionalBuildingTemplates: []
     MaxFloors: 1
     MinFloors: 1
     minAttachmentChance: 100
