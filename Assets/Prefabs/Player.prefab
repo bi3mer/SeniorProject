@@ -2869,7 +2869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toolName: Lantern
-  attachJoint: {fileID: -1492455264}
+  attachJoint: {fileID: 0}
 --- !u!114 &114000011253523438
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3328,8 +3328,8 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  pneumoniaWarmthDecrease: 2
-  foodPoisonHungerDecrease: 2
+  pneumoniaWarmthDecrease: -2
+  foodPoisonHungerDecrease: -2
   pneumoniaTime: 60
   foodPoisioningTime: 60
   verticalSpeed: 0.01
