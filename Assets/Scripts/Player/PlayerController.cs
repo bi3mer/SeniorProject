@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour
     private float fireWarmthIncreaseRate;
     [SerializeField]
     private float hungerReductionRate;
+    [SerializeField]
+    private float foodPoisonMultiplier;
+    [SerializeField]
+    private float pneumoniaMultiplier;
 
     [Header("HUD Settings")]
     [SerializeField]
@@ -456,13 +460,13 @@ public class PlayerController : MonoBehaviour
         if (player.HealthStatus == PlayerHealthStatus.FoodPoisoning)
         {
             // food poisoning doubles the hunger change rate
-            currentHungerChangeRate = currentHungerChangeRate * 2;
+            currentHungerChangeRate = currentHungerChangeRate * foodPoisonMultiplier;
         }
         // check if sick with pneumonia
         if (player.HealthStatus == PlayerHealthStatus.Pneumonia)
         {
             // pnuemonia doubles the warmth change rate
-            currentWarmthChangeRate = currentWarmthChangeRate * 2;
+            currentWarmthChangeRate = currentWarmthChangeRate * pneumoniaMultiplier;
         }
     }
 

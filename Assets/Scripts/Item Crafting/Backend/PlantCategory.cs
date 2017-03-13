@@ -247,7 +247,10 @@ public class PlantCategory : ItemCategory
         Player player = Game.Player;
 		if (StomachEffect < 0) 
 		{
-            player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
+            if (player.HealthStatus == PlayerHealthStatus.None)
+            {
+                player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
+            }
 		} 
 		else if (StomachEffect > 0) 
 		{
@@ -259,7 +262,10 @@ public class PlantCategory : ItemCategory
 
 		if (PneumoniaEffect < 0) 
 		{
-            player.HealthStatus = PlayerHealthStatus.Pneumonia;
+            if (player.HealthStatus == PlayerHealthStatus.None)
+            {
+                player.HealthStatus = PlayerHealthStatus.Pneumonia;
+            }
         } 
 		else if (PneumoniaEffect > 0) 
 		{
