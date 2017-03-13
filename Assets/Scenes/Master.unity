@@ -1003,37 +1003,37 @@ Prefab:
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: 0.07140128
+      value: 0.15751655
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.z.scalar
-      value: 0.9700298
+      value: -0.5186917
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationX.scalar
-      value: 0.04232553
+      value: -0.022632195
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationY.scalar
-      value: -0.0031154687
+      value: -0.006872956
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: EmissionModule.rate.scalar
-      value: 48.724686
+      value: 33.42347
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: 0.1785032
+      value: 0.39379138
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.y.scalar
-      value: 2.4250743
+      value: -1.2967292
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ecc262ca63bb3d54ba8476a9fa126d5c, type: 2}
@@ -5010,15 +5010,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000014162203346, guid: 506066716530f894eb73570c546ea52e, type: 2}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000014162203346, guid: 506066716530f894eb73570c546ea52e, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000014162203346, guid: 506066716530f894eb73570c546ea52e, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000014162203346, guid: 506066716530f894eb73570c546ea52e, type: 2}
       propertyPath: m_LocalRotation.w
@@ -5048,6 +5048,40 @@ Prefab:
       propertyPath: fader
       value: 
       objectReference: {fileID: 2057178752}
+    - target: {fileID: 4000014162203346, guid: 506066716530f894eb73570c546ea52e, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013803826606, guid: 506066716530f894eb73570c546ea52e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013803826606, guid: 506066716530f894eb73570c546ea52e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013803826606, guid: 506066716530f894eb73570c546ea52e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013803826606, guid: 506066716530f894eb73570c546ea52e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013803826606, guid: 506066716530f894eb73570c546ea52e, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013832638560, guid: 506066716530f894eb73570c546ea52e,
+        type: 2}
+      propertyPath: text
+      value: Take the stairs
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011875586340, guid: 506066716530f894eb73570c546ea52e,
+        type: 2}
+      propertyPath: text
+      value: Take the stairs
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 506066716530f894eb73570c546ea52e, type: 2}
   m_IsPrefabParent: 0

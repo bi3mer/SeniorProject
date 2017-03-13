@@ -86,6 +86,7 @@ public class EndingController : MonoBehaviour
             // Rotate the camera, and move it to the ending zone
             Camera.main.transform.DOMove(cameraPosition.position, cameraTweenTime);
             Camera.main.transform.DORotate(cameraPosition.eulerAngles, cameraTweenTime);
+            Camera.main.GetComponent<CameraController>().EndingTriggered = true;
         }
         else if (other.CompareTag(playerTag) && deathTrigger)
         {
