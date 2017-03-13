@@ -674,6 +674,13 @@ MonoBehaviour:
     - {fileID: 2100000, guid: f4c160b21e5385b4e933e0c9c9ae4cb7, type: 2}
     - {fileID: 2100000, guid: 52a93ec1c29c1254d857a20c09deb898, type: 2}
     - {fileID: 2100000, guid: 06621b41045298443a6c94a2c7b8c622, type: 2}
+    - {fileID: 2100000, guid: 05b05e8cd922b804c8f92da169e6829d, type: 2}
+    - {fileID: 2100000, guid: 21c659b9377eb304dadf72e50c5dae0d, type: 2}
+    - {fileID: 2100000, guid: af7413b900cc8dd439e2fb7127b323ca, type: 2}
+    - {fileID: 2100000, guid: 41b954197c4205440a97af5819fb2ecd, type: 2}
+    - {fileID: 2100000, guid: bf8152983f038814395354ad82e91b5c, type: 2}
+    - {fileID: 2100000, guid: 493bd609ae5a38b4182373c075b6b72d, type: 2}
+    - {fileID: 2100000, guid: 13775d9b82d164e41a11ba0b452be283, type: 2}
     districtWindowMaterials:
     - {fileID: 2100000, guid: 67d597f6c1f779a40b530b049978c114, type: 2}
     - {fileID: 2100000, guid: 450b1e3de4f440243a09a693bcf83c45, type: 2}
@@ -685,6 +692,8 @@ MonoBehaviour:
     - {fileID: 2100000, guid: aa5a858bff5b10444a5f3627fc70634c, type: 2}
     - {fileID: 2100000, guid: 6f43a5fbea6c68b4b9f19386fce97a71, type: 2}
     - {fileID: 2100000, guid: e96f0d8a3eae8d34ba0ee36e77d9c536, type: 2}
+    - {fileID: 2100000, guid: a075ff058b240c640824de4308849866, type: 2}
+    - {fileID: 2100000, guid: eb820b5416ad08d4683e5a6fd246d84d, type: 2}
     materialAlbedoColors:
       key0:
         serializedVersion: 2
