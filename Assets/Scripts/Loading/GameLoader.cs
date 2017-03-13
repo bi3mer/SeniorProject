@@ -51,4 +51,23 @@ public class GameLoader
             return totalComplete / tasks.Count;
         }
     }
+
+    /// <summary>
+    /// Get the name of the currently processing task.
+    /// </summary>
+    public string CurrentTask
+    {
+        get
+        {
+            for (int i = 0; i < tasks.Count; ++i)
+            {
+                if (tasks[i].PercentageComplete < 1.0f)
+                {
+                    return tasks[i].Name + "...";
+                }
+            }
+
+            return "";
+        }
+    }
 }
