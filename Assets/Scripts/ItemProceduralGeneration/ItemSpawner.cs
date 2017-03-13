@@ -48,10 +48,10 @@ public class ItemSpawner : InteractableObject
 	/// Sets up spawner. Sets the action as the interactable object action, and gets the size of the item around which items should be spawned. 
 	/// </summary>
 	/// <param name="centralItem">The bounds of the gameobject this script is attached to..</param>
-	public void SetUpSpawner(Bounds centralItem, string districtName)
+	public void SetUpSpawner(float size, string districtName)
 	{
 		// the radius of the item is half the size
-		centralItemRadius = Mathf.Max(centralItem.extents.x, centralItem.extents.z);
+		centralItemRadius = size;
 		district = districtName;
 
 		// if items should be spawned around central item without need for interaction, spawn here

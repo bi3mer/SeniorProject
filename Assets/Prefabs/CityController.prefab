@@ -166,8 +166,6 @@ MonoBehaviour:
   cityBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 150, y: 150, z: 150}
-  buildingColliderRadius: 16
-  buildingVisibleRadius: 18
 --- !u!114 &114000013392317438
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,7 +179,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolManager: {fileID: 114000010221364680}
   itemGenerationChance: 0.8
-  doorGenerationChance: 0.74
+  doorGenerationChance: 0.3
+  shelterGenerationChance: 0
 --- !u!114 &114000013433191368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -193,13 +192,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b37f1aeffdb7443875f22ad632497f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceBetweenSeedPoints: 100
+  distanceBetweenSeedPoints: 25
   configurations:
   - districtName: residential
     WeenieBuildingTemplate: {fileID: 1000010255927246, guid: 549121b14d0f7904d88d4311ec33716b,
       type: 2}
     Doors:
     - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
+    Shelters: []
     MaxFloors: 5
     MinFloors: 1
     minAttachmentChance: 0
@@ -335,6 +335,7 @@ MonoBehaviour:
       type: 2}
     Doors:
     - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
+    Shelters: []
     MaxFloors: 8
     MinFloors: 3
     minAttachmentChance: 0
@@ -470,6 +471,7 @@ MonoBehaviour:
       type: 2}
     Doors:
     - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
+    Shelters: []
     MaxFloors: 8
     MinFloors: 3
     minAttachmentChance: 0
@@ -632,6 +634,7 @@ MonoBehaviour:
     WeenieBuildingTemplate: {fileID: 100000, guid: 5e50794d6a3810a4fbdfc912c2f2e6f6,
       type: 3}
     Doors: []
+    Shelters: []
     MaxFloors: 1
     MinFloors: 1
     minAttachmentChance: 100

@@ -2834,7 +2834,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1.5
-  m_Range: 10
+  m_Range: 20
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -3280,11 +3280,6 @@ MonoBehaviour:
   interactiveTag: Interactable
   landTag: Land
   waterTag: Water
-  waterWarmthReductionRate: -1
-  outsideWarmthReductionRate: -2
-  shelterWarmthIncreaseRate: 1
-  fireWarmthIncreaseRate: 0.2
-  hungerReductionRate: 20
   hungerUpdatedEvent:
     m_PersistentCalls:
       m_Calls:

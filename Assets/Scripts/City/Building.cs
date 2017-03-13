@@ -41,6 +41,18 @@ public abstract class Building
         protected set;
     }
 
+    public ItemPlacementSamplePoint[] AttachmentInformation
+    {
+    	get;
+    	set;
+    }
+
+    public GameObject[] Attachments
+    {
+    	get;
+    	set;
+    }
+
     /// <summary>
     /// The bounds defining the size of the builing
     /// </summary>
@@ -115,5 +127,36 @@ public abstract class Building
         }
 
         IsLoaded = false;
+    }
+
+    /// <summary>
+    /// Generates ab attachment.
+    /// </summary>
+    /// <returns>The attachment.</returns>
+    /// <param name="attachmentTemplate">Attachment template.</param>
+    /// <param name="location">Location.</param>
+    /// <param name="attachedBuilding">Attached building.</param>
+    /// <param name="size">Size.</param>
+    /// <param name="district">District.</param>
+    /// <param name="prespawnItems">If set to <c>true</c> prespawn items.</param>
+    protected GameObject generateAttachment(GameObject attachmentTemplate, Vector3 location, GameObject attachedBuilding, float size, string district, bool prespawnItems)
+    {
+		GameObject attachment = GameObject.Instantiate(attachmentTemplate);
+
+		attachment.SetActive(true);
+		Transform attachmentTransform = attachment.transform;
+		attachmentTransform.position = location;
+		attachmentTransform.SetParent(attachedBuilding.transform, true);
+
+		// a will only be rotated in 4 ways -- 0, 90, 180, and 270 degrees. A random number from 0 to 3 is generated and multiplied by 90  degrees
+		attachmentTransform.rotation = Quaternion.Euler(attachmentTransform.eulerAngles.x, Random.Range(0, 4) * 90, attachmentTransform.eulerAngles.z);
+
+		// since spawning of items may occur immediately, make sure that door is positioned properly before spawner set up is called
+		ItemSpawner spawner = attachment.GetComponent<ItemSpawner>();
+
+		spawner.SetUpSpawner(size, district);
+		spawner.SpawnWithoutInteraction = prespawnItems;
+
+		return attachment;
     }
 }

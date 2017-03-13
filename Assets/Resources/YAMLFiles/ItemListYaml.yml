@@ -44,7 +44,6 @@
    types:
      - "rod"
      - "fuel"
-     - "base solid"
    flavorText: "It's...a stick."
    modifyingActionNames:
    actionModifiedModels:
@@ -379,7 +378,6 @@
    inventorySprite: "GUI_ITM_RadioAntenna"
    worldModel: "ITM/Communication/ITM_RadioAntenna"
    types:
-    - ""
    flavorText: "An antenna reciever."
    modifyingActionNames:
    actionModifiedModels:
@@ -399,7 +397,6 @@
    inventorySprite: "GUI_ITM_PaperScrap"
    worldModel: "ITM/Notes/ITM_PaperScrap"
    types:
-    - ""
    flavorText: "A scrap of paper."
    modifyingActionNames:
    actionModifiedModels:
@@ -440,6 +437,7 @@
    worldModel: "ITM/WoodPlanks/ITM_WoodPlank1"
    types:
     - "floatable object"
+    - "base solid"
    flavorText: "A piece of wood."
    modifyingActionNames:
    actionModifiedModels:
@@ -466,11 +464,11 @@
    actionModifiedSprites:
   itemCategories: 
     - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
-      stickiness: 0
-      thickness: 0
+      flexibility: 0.1
+      durability: 4
+      elasticity: 0.1
+      stickiness: 0.2
+      thickness: 1
       sharpness: 0
 - itemName: "Pipe"
   baseItem: 
@@ -486,11 +484,11 @@
    actionModifiedSprites:
   itemCategories: 
     - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
-      stickiness: 0
-      thickness: 0
+      flexibility: 0.5
+      durability: 3
+      elasticity: 0.1
+      stickiness: 0.3
+      thickness: 1.5
       sharpness: 0
 - itemName: "Umbrella"
   baseItem: 
@@ -500,18 +498,18 @@
    worldModel: "ITM/Rods/Umbrella"
    types:
     - "rod"
-   flavorText: "To keep you dry."
+   flavorText: "To keep you dry. Or it would've if it wasn't torn."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
   itemCategories: 
     - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
-      stickiness: 0
-      thickness: 0
-      sharpness: 0
+      flexibility: 1
+      durability: 2
+      elasticity: 0.2
+      stickiness: 0.5
+      thickness: 1.5
+      sharpness: 0.3
 - itemName: "Rope"
   baseItem: 
    itemName: "Rope"

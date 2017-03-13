@@ -33,7 +33,51 @@ public class DistrictItemConfiguration
 		set;
 	}
 
+	/// <summary>
+	/// Gets or sets the Items that can be generated.
+	/// </summary>
+	/// <value>The item templates.</value>
 	public List<GameObject> ItemTemplates
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
+	/// Gets or sets the door extents.
+	/// </summary>
+	/// <value>The door extents.</value>
+	public List<float> DoorExtents
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
+	/// Gets or sets the door templates.
+	/// </summary>
+	/// <value>The door templates.</value>
+	public List<GameObject> DoorTemplates
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
+	/// Gets or sets the shelter extents.
+	/// </summary>
+	/// <value>The shelter extents.</value>
+	public List<float> ShelterExtents
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
+	/// Gets or sets the shelter templates.
+	/// </summary>
+	/// <value>The shelter templates.</value>
+	public List<GameObject> ShelterTemplates
 	{
 		get;
 		set;

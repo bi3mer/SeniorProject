@@ -23,10 +23,6 @@ public class RooftopPointGenerator: SamplingPointGenerator
 	// no sampling points may be placed within that border
 	private const float borderPercent = 0.1f;
 
-	private List<float> generatableObjectExtents;
-
-	private List<float> generatableDoorExtents;
-
 	/// <summary>
 	/// Takes the sampling points and checks to see if they are on locations that are not at too steep an incline on the building's surface.
 	/// Then converts the sampling points to their world coordinates.
@@ -38,13 +34,11 @@ public class RooftopPointGenerator: SamplingPointGenerator
 	/// <param name="district">Distric this belongs tot.</param>
 	/// <param name="doorExtents">Door extents.</param>
 	/// <param name="doorTemplates">Door templates.</param>
-	/// <param name="hasDoor">If set to <c>true</c> has door.</param>
+	/// <param name="hasDoor">If set to <c>true</c> has a door attachment.</param>
+	/// <param name="hasShelter">If set to <c>true</c> has a shelter attachment.</param>
 	public List<ItemPlacementSamplePoint> GetValidPoints(Bounds targetBound, Vector3 targetCenter, DistrictItemConfiguration itemInfo, 
-														 string district, List<float> doorExtents, List<GameObject> doorTemplates, bool hasDoor = false)
+														 string district, bool hasDoor = false, bool hasShelter = false)
 	{
-		generatableDoorExtents = doorExtents;
-		generatableObjectExtents = itemInfo.ItemExtents;
-
 		Vector3 max = targetBound.max;
 		Vector3 min = targetBound.min;
 
@@ -69,11 +63,11 @@ public class RooftopPointGenerator: SamplingPointGenerator
 
 		if(hasDoor)
 		{
-			samplingPoints = generatePoints (targetCenter, generatableDoorExtents, itemInfo, district, hasDoor, width, depth, height);
+			samplingPoints = generatePoints (targetCenter, itemInfo, district, hasDoor, hasShelter, width, depth, height);
 		}
 		else
 		{
-			samplingPoints = generatePoints (targetCenter, generatableObjectExtents,itemInfo, district, hasDoor, width, depth, height);
+			samplingPoints = generatePoints (targetCenter,itemInfo, district, hasDoor, hasShelter, width, depth, height);
 		}
 
 		float initialRayStartHeight = height + rayOffset;
@@ -109,14 +103,14 @@ public class RooftopPointGenerator: SamplingPointGenerator
 	/// </summary>
 	/// <returns>The points.</returns>
 	/// <param name="center">Center.</param>
-	/// <param name="firstPointExtents">First point extents.</param>
 	/// <param name="itemInfo">The information about the district the rooftop belongs to.</param>
 	/// <param name="district">The district this generating for.</param></param>
 	/// <param name="hasDoor">If set to <c>true</c> has door.</param>
 	/// <param name="width">Width.</param>
 	/// <param name="depth">Depth.</param>
 	/// <param name="height">Height.</param>
-	private List<ItemPlacementSamplePoint> generatePoints(Vector3 center, List<float> firstPointExtents, DistrictItemConfiguration itemInfo, string district, bool hasDoor, float width, float depth, float height)
+	private List<ItemPlacementSamplePoint> generatePoints(Vector3 center, DistrictItemConfiguration itemInfo, string district, 
+	                                                      bool hasDoor, bool hasShelter, float width, float depth, float height)
 	{
 		float shorterLength = width;
 		float maxDoorwayEffectArea = maxDoorwayEffectPercent * shorterLength;
@@ -128,14 +122,25 @@ public class RooftopPointGenerator: SamplingPointGenerator
 
 		// generate the first point randomly away from the doorway
 		ItemPlacementSamplePoint firstPoint = new ItemPlacementSamplePoint();
+		List<float> firstPointExtents = null;
 
 		if(hasDoor)
 		{
-			firstPoint.ItemIndex = Random.Range(0, firstPointExtents.Count);
+			firstPoint.ItemIndex = Random.Range(0, itemInfo.DoorExtents.Count);
+			firstPoint.Type = ItemPlacementSamplePoint.PointType.DOOR;
+			firstPointExtents = itemInfo.DoorExtents;
+		}
+		else if(hasShelter)
+		{
+			firstPoint.ItemIndex = Random.Range(0, itemInfo.ShelterExtents.Count);
+			firstPoint.Type = ItemPlacementSamplePoint.PointType.SHELTER;
+			firstPointExtents = itemInfo.ShelterExtents;
 		}
 		else
 		{
 			firstPoint.ItemIndex = Game.Instance.WorldItemFactoryInstance.GetRandomItemIndex(district, false);
+			firstPoint.Type = ItemPlacementSamplePoint.PointType.ITEM;
+			firstPointExtents = itemInfo.ItemExtents;
 		}
 
 		firstPoint.LocalTargetSurfaceLocation = createFirstPoint (center, width, depth, height, firstPoint.ItemIndex, firstPointExtents);
@@ -166,8 +171,8 @@ public class RooftopPointGenerator: SamplingPointGenerator
 	/// <param name="itemInfo"> District item info. </param> 
 	/// <param name="district">District this belongs to.</param>
 	/// <param name="useGaussianMinDistance">If set to <c>true</c> use gaussian minimum distance.</param>
-	private List<ItemPlacementSamplePoint> generateSubsequentPoints(float width, float depth, float height, 
-														  ItemPlacementSamplePoint firstPoint, DistrictItemConfiguration itemInfo, string district, bool useGaussianMinDistance)
+	private List<ItemPlacementSamplePoint> generateSubsequentPoints(float width, float depth, float height, ItemPlacementSamplePoint firstPoint, 
+	                                                                DistrictItemConfiguration itemInfo, string district, bool useGaussianMinDistance)
 	{
 		float shorterLength = width;
 		float maxDoorwayEffectArea = maxDoorwayEffectPercent * shorterLength;
@@ -211,7 +216,7 @@ public class RooftopPointGenerator: SamplingPointGenerator
 				newPoint.LocalTargetSurfaceLocation = generateRandomPointAround(point.LocalTargetSurfaceLocation, point.MinDistance + point.Size);
 				newPoint.MinDistance = getMinDistance(firstPoint.LocalTargetSurfaceLocation, newPoint.LocalTargetSurfaceLocation, shorterLength/2f, maxDoorwayEffectArea, useGaussianMinDistance);
 				newPoint.GridPoint = PointToGrid(newPoint.LocalTargetSurfaceLocation);
-				newPoint.Size = generatableObjectExtents[newPoint.ItemIndex];
+				newPoint.Size = itemInfo.ItemExtents[newPoint.ItemIndex];
 
 				tries = 0;
 
@@ -229,6 +234,7 @@ public class RooftopPointGenerator: SamplingPointGenerator
 					//update processList and samplePoints with new point
 					newPoint.GridPoint = PointToGrid(newPoint.LocalTargetSurfaceLocation);
 					newPoint.District = district;
+					newPoint.Type = ItemPlacementSamplePoint.PointType.ITEM;
 					grid[newPoint.GridPoint.X, newPoint.GridPoint.Y] = newPoint;
 
 					processList.Add(newPoint);

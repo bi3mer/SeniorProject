@@ -12013,15 +12013,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a8ce19232d780a43b49bed5d36ab56d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightPlanes: {fileID: 1000012681971540}
+  lightPlanes: {fileID: 0}
   lightPlaneLength: 9000
   onRotation: {x: -69, y: 0, z: 0}
-  RotatingBeacon: {fileID: 1000010567129176}
+  RotatingBeacon: {fileID: 0}
   turnOnTime: 1.5
   beaconLightMaterial: {fileID: 2100000, guid: 329e113c5339a104f8332bea4fe85d49, type: 2}
   beaconOnColor: {r: 1, g: 1, b: 1, a: 1}
   beaconOffColor: {r: 0, g: 0, b: 0, a: 1}
-  endingController: {fileID: 114000012063314328}
+  endingController: {fileID: 0}
 --- !u!114 &114000012063314328
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12043,7 +12043,7 @@ MonoBehaviour:
   timeToWait: 10
   cameraPosition: {fileID: 4000010209542522}
   cameraTweenTime: 0.2
-  ladder: {fileID: 1000011958608226}
+  ladder: {fileID: 1000012569833294}
   ladderPosition: {fileID: 4000013617905428}
   ladderDropTime: 5
   waitBeforeEndingFadeOut: 4

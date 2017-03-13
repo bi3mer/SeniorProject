@@ -32,6 +32,7 @@ public class ProceduralBuilding : Building
         Configuration = configuration;
         Seed = seed;
         IsLoaded = false;
+        Attachments = new GameObject[0];
     }
 
     /// <summary>
@@ -87,6 +88,14 @@ public class ProceduralBuilding : Building
         Instance.transform.position = Position;
         Instance.transform.localScale = BuildingScale;
         Instance.transform.parent = Parent;
+
+		bool prespawn;
+		for(int i = 0; i < Attachments.Length; ++i)
+        {
+			prespawn = (AttachmentInformation[i].Type == ItemPlacementSamplePoint.PointType.SHELTER);
+        	generateAttachment(Attachments[i], AttachmentInformation[i].WorldSpaceLocation, Instance, AttachmentInformation[i].Size, 
+        	                   AttachmentInformation[i].District, prespawn);
+        }
 
         IsLoaded = true;
     }
