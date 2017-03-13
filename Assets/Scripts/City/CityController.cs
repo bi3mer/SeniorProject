@@ -61,6 +61,7 @@ public class CityController : MonoBehaviour
     /// <summary>
     /// Generate the city by generating districts, populating them with blocks, and filling the blocks with buildings.
     /// </summary>
+    /// <param name="seed">The city generation seed.</param>
     private IEnumerator GenerateCity (int seed)
     {
         GameLoaderTask task = Game.Instance.Loader.CreateGameLoaderTask(buildString);

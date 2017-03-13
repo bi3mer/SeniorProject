@@ -223,7 +223,7 @@ MonoBehaviour:
   progressBarEase: 0.4
   flavorText: {fileID: 114000012650736836}
   flavorTextFilePath: LoadingScreenFlavorText.yml
-  flavorTextDisplayTime: 3
+  flavorTextDisplayTime: 10
 --- !u!114 &114000011768715982
 MonoBehaviour:
   m_ObjectHideFlags: 1
