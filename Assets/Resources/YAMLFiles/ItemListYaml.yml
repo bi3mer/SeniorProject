@@ -622,3 +622,33 @@
       brightness: 2
       currentFuelLevel: 10
       burnRate: 0.5
+- itemName: "Thermometer"
+  baseItem: 
+   itemName: "Thermometer"
+   rarity: "rare"
+   inventorySprite: "GUI_ITM_Thermometer"
+   worldModel: "ITM/Weather\ Instruments/ITM_Thermometer"
+   types:
+    - "equipable"
+   flavorText: "Reads the temperature."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!equipable
+      equiped: 0
+- itemName: "Barometer"
+  baseItem: 
+   itemName: "Barometer"
+   rarity: "rare"
+   inventorySprite: "GUI_ITM_Barometer"
+   worldModel: "ITM/Weather\ Instruments/ITM_Barometer"
+   types:
+    - "equipable"
+   flavorText: "Reads the air pressure."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!equipable
+      equiped: 0

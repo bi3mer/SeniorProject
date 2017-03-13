@@ -5,10 +5,6 @@ using System.Collections.Generic;
 
 public class LightItem : Tool 
 {
-    [SerializeField]
-    [Tooltip("Location to parent the item on the player model")]
-    private GameObject attachJoint;
-
     private Light lightSource;
     private LightCategory lightBase;
 
