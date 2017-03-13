@@ -20,6 +20,15 @@ public class RaftMovement : Movement
     private float stopThreshold;
     [SerializeField]
     private float heightAboveWater;
+    [SerializeField]
+    private float playerStandHeight = 0.33f;
+    public float PlayerStandHeight
+    {
+        get
+        {
+            return playerStandHeight;
+        }
+    }
 
     public string BoardRaftText;
     public string DisembarkRaftText;
@@ -104,16 +113,16 @@ public class RaftMovement : Movement
     /// Updates the players position on the raft.
     /// </summary>
     /// <returns>The raft position.</returns>
-    private IEnumerator updatePlayerRaftPosition()
-    {
+  //  private IEnumerator updatePlayerRaftPosition()
+ //   {
 		// TODO: update this in the future so it will work with more than 
         //       one raft in the scene.
-        while(Game.Instance.PlayerInstance.Controller.IsOnRaft)
-        {
-            Game.Instance.PlayerInstance.Controller.BoardRaft(this);
-			yield return new WaitForSeconds(this.updatePlayerPositionTimer);
-    	}
-    }
+   //     while(Game.Instance.PlayerInstance.Controller.IsOnRaft)
+ //       {
+ //  //         Game.Instance.PlayerInstance.Controller.BoardRaft(this);
+//			yield return new WaitForSeconds(this.updatePlayerPositionTimer);
+ //   	}
+ //   }
 
     /// <summary>
     /// Applies a force the raft in the specified direction.

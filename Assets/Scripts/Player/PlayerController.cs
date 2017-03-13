@@ -164,6 +164,9 @@ public class PlayerController : MonoBehaviour
     private const string playerAnimatorFalling = "Falling";
 
 
+    private CapsuleCollider playerCollider;
+    private CharacterController characterController;
+
     /// <summary>
     /// Set up player movement
     /// </summary>
@@ -224,6 +227,9 @@ public class PlayerController : MonoBehaviour
 
         // create event emitter
         eventEmitter = FMODUnity.RuntimeManager.CreateInstance(roofFootstepSoundEvent);
+
+        playerCollider = GetComponent<CapsuleCollider>();
+        characterController = GetComponent<CharacterController>();
     }
 
     /// <summary>
@@ -491,22 +497,22 @@ public class PlayerController : MonoBehaviour
     {
         bool belowWater = (Game.Instance.WaterLevelHeight > PlayerIKSetUp.transform.position.y + waterWadeHeight);
 
-        // If the player is low enough to be in the water, this overrides everything else
-        if (movement != waterMovement && belowWater)
+        if (IsOnRaft)
+        {
+            PlayerAnimator.SetBool(playerAnimatorFalling, false);
+            PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
+            PlayerAnimator.SetBool(playerAnimatorSwimming, false);
+            PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
+            return;
+        }
+        // If the player is low enough to be in the water
+        else if (movement != waterMovement && belowWater)
         {
             movement.Idle(playerAnimator);
             movement.OnStateExit();
             movement = waterMovement;
             movement.OnStateEnter();
             playerAnimator.SetBool(playerAnimatorSwimming, true);
-            return;
-        }
-        else if (IsOnRaft)
-        {
-            PlayerAnimator.SetBool(playerAnimatorFalling, false);
-            PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
-            PlayerAnimator.SetBool(playerAnimatorSwimming, false);
-            PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
             return;
         }
         else
@@ -545,13 +551,19 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void BoardRaft(RaftMovement raftMovement)
     {
-        movement = raftMovement;
-
-        // place player on raft
-        Vector3 position = raftMovement.gameObject.transform.position;
-        float raftHeight = raftMovement.gameObject.GetComponent<BoxCollider>().bounds.size.y;
-        transform.position = position + Vector3.up * raftHeight;
-        transform.parent = raftMovement.transform;
+       if(movement != raftMovement)
+       { 
+            movement = raftMovement;
+            // place player on raft
+            Vector3 position = raftMovement.gameObject.transform.position;
+            transform.parent = raftMovement.transform;
+            transform.DOLocalMove(new Vector3(0f, raftMovement.PlayerStandHeight, 0f), .5f);
+            setPlayerCollision(false);
+        }
+        else
+        {
+            DisembarkRaft(raftMovement);
+        }
     }
 
     /// <summary>
@@ -566,6 +578,7 @@ public class PlayerController : MonoBehaviour
         PlayerAnimator.SetBool(playerAnimatorSwimming, false);
         PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
         transform.parent = defaultParent;
+        setPlayerCollision(true);
     }
 
     /// <summary>
@@ -823,6 +836,23 @@ public class PlayerController : MonoBehaviour
         if (eventEmitter != null)
         {
             eventEmitter.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        }
+    }
+
+    /// <summary>
+    /// When the player is on the raft, or other times when it shouldn't have collision.
+    /// </summary>
+    private void setPlayerCollision(bool enable)
+    {
+        if (!enable)
+        {
+            playerCollider.enabled = false;
+            characterController.enabled = false;
+        }
+        else
+        {
+            playerCollider.enabled = true;
+            characterController.enabled = true;
         }
     }
 
