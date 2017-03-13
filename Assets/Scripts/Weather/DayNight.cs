@@ -25,7 +25,8 @@ public class DayNight : MonoBehaviour
     private float sunMaxHeight;
 
     /// <summary>
-    /// Get the sun and moon
+    /// Set max height for the sun and the moon. Also moves the position of
+    /// the GameObject if it is not centered at 0,0,0
     /// </summary>
     void Awake()
     {
