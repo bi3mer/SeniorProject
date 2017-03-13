@@ -93,7 +93,7 @@ GameObject:
   - 23: {fileID: 23000014045366662}
   - 65: {fileID: 65000010162351594}
   - 54: {fileID: 54000014162656272}
-  - 114: {fileID: 114000013281937466}
+  - 114: {fileID: 114000013194348060}
   m_Layer: 10
   m_Name: ITM_Rope
   m_TagString: Interactable
@@ -114,24 +114,6 @@ GameObject:
   - 65: {fileID: 65000014056610038}
   m_Layer: 0
   m_Name: ENV_Cinderblock (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1000010403077120
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 4000014201454550}
-  - 23: {fileID: 23000012322254482}
-  - 102: {fileID: 102000013812727862}
-  - 114: {fileID: 114000014195807120}
-  m_Layer: 0
-  m_Name: ENV_Jump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -219,6 +201,7 @@ GameObject:
   - 4: {fileID: 4000010149830426}
   - 33: {fileID: 33000010475920552}
   - 23: {fileID: 23000011143888792}
+  - 65: {fileID: 65000012031761030}
   m_Layer: 0
   m_Name: ENV_PaintCan_Gray (1)
   m_TagString: Untagged
@@ -274,7 +257,7 @@ GameObject:
   - 23: {fileID: 23000010619247922}
   - 65: {fileID: 65000013864470396}
   - 54: {fileID: 54000014200440910}
-  - 114: {fileID: 114000010131650092}
+  - 114: {fileID: 114000010540994878}
   m_Layer: 9
   m_Name: ITM_WoodPlank2 (1)
   m_TagString: Interactable
@@ -344,6 +327,7 @@ GameObject:
   - 4: {fileID: 4000012867313342}
   - 33: {fileID: 33000012641753220}
   - 23: {fileID: 23000010339627012}
+  - 65: {fileID: 65000013745281010}
   m_Layer: 0
   m_Name: ENV_PaintCan_Yellow
   m_TagString: Untagged
@@ -381,7 +365,7 @@ GameObject:
   - 23: {fileID: 23000011843040200}
   - 65: {fileID: 65000010074860334}
   - 54: {fileID: 54000010390177968}
-  - 114: {fileID: 114000013141962478}
+  - 114: {fileID: 114000010945322476}
   m_Layer: 10
   m_Name: ITM_Rope (2)
   m_TagString: Interactable
@@ -576,6 +560,7 @@ GameObject:
   - 4: {fileID: 4000012977294450}
   - 33: {fileID: 33000013946776020}
   - 23: {fileID: 23000012211769100}
+  - 65: {fileID: 65000011574333982}
   m_Layer: 0
   m_Name: ENV_PaintCan_Blue
   m_TagString: Untagged
@@ -841,6 +826,7 @@ GameObject:
   - 4: {fileID: 4000012827927038}
   - 33: {fileID: 33000011603374652}
   - 23: {fileID: 23000012225124826}
+  - 65: {fileID: 65000011062281134}
   m_Layer: 0
   m_Name: ENV_CementSack
   m_TagString: Untagged
@@ -946,6 +932,7 @@ GameObject:
   - 4: {fileID: 4000010879464462}
   - 33: {fileID: 33000010283026206}
   - 23: {fileID: 23000011208332954}
+  - 65: {fileID: 65000012739739450}
   m_Layer: 0
   m_Name: ENV_PaintCan_Gray
   m_TagString: Untagged
@@ -1140,7 +1127,7 @@ GameObject:
   - 65: {fileID: 65000011388633792}
   - 33: {fileID: 33000013951371022}
   - 23: {fileID: 23000014119736110}
-  - 114: {fileID: 114000010377567368}
+  - 114: {fileID: 114000012927024168}
   m_Layer: 0
   m_Name: ENV_Campfire
   m_TagString: Untagged
@@ -1158,6 +1145,7 @@ GameObject:
   - 4: {fileID: 4000013794654836}
   - 33: {fileID: 33000010006737668}
   - 23: {fileID: 23000010733618046}
+  - 65: {fileID: 65000010375611528}
   m_Layer: 0
   m_Name: ENV_TrafficCone (1)
   m_TagString: Untagged
@@ -1177,7 +1165,7 @@ GameObject:
   - 23: {fileID: 23000013058241422}
   - 65: {fileID: 65000010523935726}
   - 54: {fileID: 54000013299818570}
-  - 114: {fileID: 114000010421490260}
+  - 114: {fileID: 114000014136186870}
   m_Layer: 9
   m_Name: ITM_WoodPlank2 (2)
   m_TagString: Interactable
@@ -1663,6 +1651,7 @@ GameObject:
   - 4: {fileID: 4000014048586766}
   - 33: {fileID: 33000011178761078}
   - 23: {fileID: 23000013092141878}
+  - 65: {fileID: 65000014259671972}
   m_Layer: 0
   m_Name: ENV_CementSack (1)
   m_TagString: Untagged
@@ -1715,6 +1704,7 @@ GameObject:
   - 4: {fileID: 4000013582453772}
   - 33: {fileID: 33000010972572742}
   - 23: {fileID: 23000011235301166}
+  - 65: {fileID: 65000012217375462}
   m_Layer: 0
   m_Name: ENV_BigRoadBarrier_Orange
   m_TagString: Untagged
@@ -1840,7 +1830,7 @@ GameObject:
   - 23: {fileID: 23000013067374338}
   - 65: {fileID: 65000011575164174}
   - 54: {fileID: 54000010251358646}
-  - 114: {fileID: 114000013096096926}
+  - 114: {fileID: 114000012393108908}
   m_Layer: 10
   m_Name: ITM_Rope (3)
   m_TagString: Interactable
@@ -1877,7 +1867,7 @@ GameObject:
   - 23: {fileID: 23000012771544444}
   - 65: {fileID: 65000011191947084}
   - 54: {fileID: 54000010748462728}
-  - 114: {fileID: 114000010264519120}
+  - 114: {fileID: 114000010680786226}
   m_Layer: 9
   m_Name: ITM_WoodPlank2
   m_TagString: Interactable
@@ -2112,6 +2102,7 @@ GameObject:
   - 4: {fileID: 4000010847343670}
   - 33: {fileID: 33000011209348004}
   - 23: {fileID: 23000010304289072}
+  - 65: {fileID: 65000013453990114}
   m_Layer: 0
   m_Name: ENV_Antenna_Base
   m_TagString: Untagged
@@ -2217,7 +2208,7 @@ GameObject:
   - 23: {fileID: 23000011081659468}
   - 65: {fileID: 65000011633008026}
   - 54: {fileID: 54000013771690554}
-  - 114: {fileID: 114000014289649764}
+  - 114: {fileID: 114000013017337024}
   m_Layer: 10
   m_Name: ITM_Rope (1)
   m_TagString: Interactable
@@ -2324,6 +2315,7 @@ GameObject:
   - 4: {fileID: 4000010531544906}
   - 33: {fileID: 33000013824007556}
   - 23: {fileID: 23000012889726006}
+  - 65: {fileID: 65000012219289450}
   m_Layer: 0
   m_Name: ENV_TrafficCone
   m_TagString: Untagged
@@ -3322,7 +3314,6 @@ Transform:
   - {fileID: 4000011880645094}
   - {fileID: 4000011994759666}
   - {fileID: 4000012053973590}
-  - {fileID: 4000014201454550}
   m_Father: {fileID: 4000012844292100}
   m_RootOrder: 13
 --- !u!4 &4000011885104368
@@ -4444,19 +4435,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000013390302626}
   m_RootOrder: 28
---- !u!4 &4000014201454550
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010403077120}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -2.286, y: 2.691, z: -1.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
-  m_Children: []
-  m_Father: {fileID: 4000011883818376}
-  m_RootOrder: 5
 --- !u!4 &4000014274014090
 Transform:
   m_ObjectHideFlags: 1
@@ -6701,35 +6679,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 2100000, guid: f2166a20b2bea0f45a327627df570501, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedWireframeHidden: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
---- !u!23 &23000012322254482
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010403077120}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: 073333db5a5826e4396bdd440843f00c, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -9587,6 +9536,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.067716494, y: 0.24756268, z: 0.012012216}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65000010375611528
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012169141176}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.13934329, y: 0.15612105, z: 0.13934329}
+  m_Center: {x: -0.0000017508864, y: 0.07668947, z: -0.000012990087}
 --- !u!65 &65000010445690682
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -9743,6 +9704,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.12993741, y: 0.04208956, z: 0.24840248}
   m_Center: {x: 0.0006182939, y: 0.018890578, z: -0.002198439}
+--- !u!65 &65000011062281134
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011643689166}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.12993741, y: 0.04208956, z: 0.24840248}
+  m_Center: {x: 0.0006182939, y: 0.018890578, z: -0.002198439}
 --- !u!65 &65000011081878302
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -9827,6 +9800,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.067716494, y: 0.24756268, z: 0.012012216}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65000011574333982
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011031598236}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.061563477, y: 0.081310526, z: 0.061563477}
+  m_Center: {x: 0.00000989344, y: 0.040494733, z: -0.0000095376745}
 --- !u!65 &65000011575164174
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -9935,6 +9920,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.067716494, y: 0.24756268, z: 0.012012216}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65000012031761030
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010569357114}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.061563477, y: 0.081310526, z: 0.061563477}
+  m_Center: {x: 0.00000989344, y: 0.040494733, z: -0.0000095376745}
 --- !u!65 &65000012093001926
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -9971,6 +9968,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.7, z: 0.1}
   m_Center: {x: 1.85, y: 2.35, z: 0.31}
+--- !u!65 &65000012217375462
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013118188904}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.40264016, y: 0.24, z: 0.08000003}
+  m_Center: {x: 0.007239923, y: 0.12, z: -0.000000007234814}
+--- !u!65 &65000012219289450
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013925842286}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.13934329, y: 0.15612105, z: 0.13934329}
+  m_Center: {x: -0.0000017508864, y: 0.07668947, z: -0.000012990087}
 --- !u!65 &65000012248872752
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -10103,6 +10124,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.7, z: 0.1}
   m_Center: {x: 0.88, y: 2.35, z: -0.525}
+--- !u!65 &65000012739739450
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011803756946}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.061563477, y: 0.081310526, z: 0.061563477}
+  m_Center: {x: 0.00000989344, y: 0.040494733, z: -0.0000095376745}
 --- !u!65 &65000013384992936
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -10127,6 +10160,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.067716494, y: 0.24756268, z: 0.012012216}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65000013453990114
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013637718932}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.086997695, y: 1.0816832, z: 0.086998}
+  m_Center: {x: -0.000021249056, y: 0.5409212, z: 0.00003070198}
 --- !u!65 &65000013471834386
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -10151,6 +10196,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.067716494, y: 0.24756268, z: 0.012012216}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65000013745281010
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010750259522}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.061563477, y: 0.081310526, z: 0.061563477}
+  m_Center: {x: 0.00000989344, y: 0.040494733, z: -0.0000095376745}
 --- !u!65 &65000013774438122
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -10259,6 +10316,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.10000001, y: 0.05000001, z: 0.050000004}
   m_Center: {x: -0.000000009313226, y: 0.025000004, z: -0.000000004656613}
+--- !u!65 &65000014259671972
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013093432058}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.12993741, y: 0.04208956, z: 0.24840248}
+  m_Center: {x: 0.00061829394, y: 0.018890578, z: -0.002198439}
 --- !u!65 &65000014261908652
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -10502,31 +10571,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!102 &102000013812727862
-TextMesh:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010403077120}
-  m_Text: 'PRESS SPACE
-
-    TO JUMP OVER
-
-    SMALL GAPS'
-  m_OffsetZ: 0
-  m_CharacterSize: 0.005
-  m_LineSpacing: 1
-  m_Anchor: 4
-  m_Alignment: 1
-  m_TabSize: 4
-  m_FontSize: 220
-  m_FontStyle: 0
-  m_RichText: 1
-  m_Font: {fileID: 12800000, guid: 8e68b38c19c97ae4987fe63b6ac945a7, type: 3}
-  m_Color:
-    serializedVersion: 2
-    rgba: 4294967295
 --- !u!102 &102000013937145636
 TextMesh:
   serializedVersion: 3
@@ -10552,7 +10596,7 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &114000010131650092
+--- !u!114 &114000010540994878
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -10569,7 +10613,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
---- !u!114 &114000010264519120
+--- !u!114 &114000010680786226
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -10586,35 +10630,18 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
---- !u!114 &114000010377567368
+--- !u!114 &114000010945322476
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012168587766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be3f89982c190304b82c2722e7a2f4a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: Add Fuel
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
---- !u!114 &114000010421490260
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012176052798}
+  m_GameObject: {fileID: 1000010783473342}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Wood Plank
+  text: Rope
   action:
     m_PersistentCalls:
       m_Calls: []
@@ -10652,6 +10679,23 @@ MonoBehaviour:
   betweenKeys: /
   keys:
   - Jump
+--- !u!114 &114000012393108908
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013227554416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Rope
+  action:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114000012481509410
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10685,12 +10729,29 @@ MonoBehaviour:
   keys:
   - CameraLeft
   - CameraRight
---- !u!114 &114000013096096926
+--- !u!114 &114000012927024168
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013227554416}
+  m_GameObject: {fileID: 1000012168587766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be3f89982c190304b82c2722e7a2f4a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Add Fuel
+  action:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+--- !u!114 &114000013017337024
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013727958378}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
@@ -10702,12 +10763,12 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
---- !u!114 &114000013141962478
+--- !u!114 &114000013194348060
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010783473342}
+  m_GameObject: {fileID: 1000010259546824}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
@@ -10735,23 +10796,6 @@ MonoBehaviour:
   betweenKeys: /
   keys:
   - Action
---- !u!114 &114000013281937466
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010259546824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: Rope
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!114 &114000013464424584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10803,22 +10847,23 @@ MonoBehaviour:
   - Left
   - Back
   - Right
---- !u!114 &114000014195807120
+--- !u!114 &114000014136186870
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010403077120}
+  m_GameObject: {fileID: 1000012176052798}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0da4b5274d9d1a4c8fab92c8b38fc2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beforeKeys: press\n
-  afterKeys: \nto\nclimb\nledges
-  betweenKeys: /
-  keys:
-  - Jump
+  text: Wood Plank
+  action:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114000014228195992
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10835,23 +10880,6 @@ MonoBehaviour:
   betweenKeys: /
   keys:
   - Jump
---- !u!114 &114000014289649764
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013727958378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: Rope
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!135 &135000011458382982
 SphereCollider:
   m_ObjectHideFlags: 1
