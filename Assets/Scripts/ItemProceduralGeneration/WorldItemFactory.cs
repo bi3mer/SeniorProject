@@ -70,7 +70,7 @@ public class WorldItemFactory
 	public GameObject CreatePickUpInteractableItem(BaseItem itemToCreate, int amount)
 	{
 		// create the object with the model
-		GameObject item = CreateGenericInteractableItem(itemToCreate, amount);
+		GameObject item = CreateGenericInteractableItem(itemToCreate);
 		PickUpItem pickup = item.AddComponent<PickUpItem>();
 		pickup.SetUp();
 		pickup.Item = itemToCreate;
@@ -116,8 +116,7 @@ public class WorldItemFactory
 	/// </summary>
 	/// <returns>The generic interactable item.</returns>
 	/// <param name="itemToCreate">Item to create.</param>
-	/// <param name="amount">Amount.</param>
-	public GameObject CreateGenericInteractableItem(BaseItem itemToCreate, int amount)
+	public GameObject CreateGenericInteractableItem(BaseItem itemToCreate)
 	{
 		if(!worldItemTemplates.ContainsKey(itemToCreate.ItemName))
 		{

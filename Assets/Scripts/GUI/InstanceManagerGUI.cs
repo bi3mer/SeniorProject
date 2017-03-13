@@ -32,4 +32,9 @@ public static class GuiInstanceManager
 	/// The panel that pops up when the user needs to select an item to execute a specific action, as prompted during item interaction.
 	/// </summary>
 	public static WorldSelectionGUIDirector WorldSelectionGuiInstance;
+
+	/// <summary>
+	/// The GUI handler that shows the equiped item.
+	/// </summary>
+	public static EquippedItemDropdown EquippedItemGuiInstance;
 }

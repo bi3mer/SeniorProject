@@ -6,10 +6,7 @@ using System.Collections;
 public class SicknessNotification : MonoBehaviour
 {
     [SerializeField]
-    private bool playerSick;
-
-    [SerializeField]
-    private GameObject notifBar;
+    private GameObject notificationBar;
     [SerializeField]
     private Text text; 
 
@@ -17,29 +14,52 @@ public class SicknessNotification : MonoBehaviour
     private float endingPosition;
 
     [SerializeField]
+    [Tooltip ("How long it takes for the notification bar to get to it's final position.")]
     private float enterTime;
     [SerializeField]
+    [Tooltip("How long it takes for the notification bar to get to it's exit the screen.")]
     private float exitTime;
+
+    [SerializeField]
+    private string foodPoisoningText;
+    [SerializeField]
+    private string pneumoniaText;
+    [SerializeField]
+    private string noSicknessText;
+
+    // for testing purposes
+    [SerializeField]
+    private PlayerHealthStatus tester;
 
     private Vector3 startingPosition;
     private Player player;
+    private PlayerHealthStatus prevStatus;
 
-    private const string foodPoisoningText = "Oh no! You have food poisioning!";
-    private const string pneumoniaText = "Oh no! You have pneumonia!";
-
-    // Use this for initialization
+    /// <summary>
+    /// Set starting position of the notification bar.
+    /// </summary>
     void Start ()
     {
-        startingPosition = notifBar.transform.localPosition;
-
+        startingPosition = notificationBar.transform.localPosition;
         player = Game.Player;
 	}
 	
-	// Update is called once per frame
+	/// <summary>
+    /// Drop down notification bar if player becomes sick.
+    /// </summary>
 	void Update ()
     {
-        if (playerSick)
+        player.HealthStatus = tester;
+
+        // check for if there is a status change
+        if (prevStatus != player.HealthStatus)
         {
+            // close the notification bar before changing text
+            if (notificationBar.transform.localPosition.y == endingPosition)
+            {
+                CloseNotification();
+            }
+
             if (player.HealthStatus == PlayerHealthStatus.FoodPoisoning)
             {
                 text.text = foodPoisoningText;
@@ -48,14 +68,21 @@ public class SicknessNotification : MonoBehaviour
             {
                 text.text = pneumoniaText;
             }
-
-            notifBar.transform.DOLocalMoveY(endingPosition, enterTime);
+            else
+            {
+                text.text = noSicknessText;
+            }
+            notificationBar.transform.DOLocalMoveY(endingPosition, enterTime);
         }
-	}
 
+        prevStatus = player.HealthStatus;
+    }
+
+    /// <summary>
+    /// Closes out notification bar.
+    /// </summary>
     public void CloseNotification()
     {
-        notifBar.transform.DOLocalMoveY(startingPosition.y, exitTime);
-        playerSick = false;
+        notificationBar.transform.DOLocalMoveY(startingPosition.y, exitTime);
     }
 }

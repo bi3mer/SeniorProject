@@ -61,13 +61,6 @@ public class DistrictConfiguration
 	[Tooltip("Doors that may be generated in the district")]
     public List<GameObject> Doors;
 
-    /// <summary>
-    /// Any additional building templates to be added to a district, to be placed according to the specified frequency.
-    /// </summary>
-    [Tooltip("Any additional building templates to be added to a district, to be placed according to the specified frequency.")]
-    public BuildingTemplatePlacement[] AdditionalBuildingTemplates;
-
-
     [Header("Procedural Building Construction")]
 
     /// <summary>
