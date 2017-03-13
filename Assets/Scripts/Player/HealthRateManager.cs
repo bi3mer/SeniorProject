@@ -71,6 +71,18 @@ public class HealthRateManager : StatRate
 		this.Units = warmthZeroHealthReductionRate.Units;
 		this.PerSeconds = warmthZeroHealthReductionRate.PerSeconds;
 	}
+
+	/// <summary>
+	/// Uses the health energy.
+	/// </summary>
+	/// <param name="amountOfHealthUnitsAffected">Amount of health units affected.</param>
+	public void UseHealthEnergy(int amountOfHealthUnitsAffected)
+	{
+		this.Units = amountOfHealthUnitsAffected;
+		this.PerSeconds = 1;
+		this.ApplyRateToStat ();
+		UseDefaultHealthRate (); // change back to default reduction rate after consuming food and accounting for it's energy
+	}
 }
 
 

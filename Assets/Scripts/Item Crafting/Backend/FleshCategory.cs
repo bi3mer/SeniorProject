@@ -133,7 +133,7 @@ public class FleshCategory : ItemCategory
             }
         }
 
-        Game.Instance.PlayerInstance.Hunger += (int)HungerGain;
+		Game.Instance.PlayerInstance.Controller.PlayerStatManager.HungerRate.UseFoodEnergy((int)HungerGain);
 
         if (baseItem.ModifyingActionNames.IndexOf(eatActName) > -1)
         {
