@@ -138,6 +138,9 @@ public class Radio : MonoBehaviour
 			// Find the current channel and turn it on if it's not already playing 
 			FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
 
+			// get the seconds passed so far
+			int millisecondsPassed = (int) (Time.time * millisecond);
+
 			if (CurrentChannel == RadioChannel.Mystery) 
 			{
 				mysteryChannel.getPlaybackState (out state);
@@ -146,12 +149,11 @@ public class Radio : MonoBehaviour
 				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING && state != FMOD.Studio.PLAYBACK_STATE.STARTING)  
 				{
 					// figure out which clip we should be on (and at what time) based on how much time has passed
-					// get the seconds passed so far, and use modulus to reduce it down to within the length of the total clips for this channel
-					int millisecondsPassed = (int) (Time.time * millisecond);
+					// use modulus to reduce seconds passed so far down to within the length of the total clips for this channel
 					int timeLeft = millisecondsPassed % mysteryClipsTotalLength;
 
 					// iterate over each clip and find the one should play on based on how much time has passed
-					for (int i = 0; i < mysteryCarousel.Count; i++) 
+					for (int i = 0; i < mysteryCarousel.Count; ++i) 
 					{
 						int currentClipLength = 0;
 
@@ -162,7 +164,7 @@ public class Radio : MonoBehaviour
 						{
 							timeLeft -= currentClipLength;
 						} 
-						// otherwise, this is the clip we are want. Keep the time left and set the musicCounter to i
+						// otherwise, this is the clip we want. Keep the time left and set the musicCounter to i
 						else 
 						{
 							mysteryCounter = i;
@@ -185,12 +187,11 @@ public class Radio : MonoBehaviour
 				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING && state != FMOD.Studio.PLAYBACK_STATE.STARTING)
 				{
 					// figure out which clip we should be on (and at what time) based on how much time has passed
-					// get the seconds passed so far, and use modulus to reduce it down to within the length of the total clips for this channel
-					int millisecondsPassed = (int) (Time.time * millisecond);
+					// use modulus to reduce seconds passed so far down to within the length of the total clips for this channel
 					int timeLeft = millisecondsPassed % musicClipsTotalLength;
 
 					// iterate over each clip and find the one should play on based on how much time has passed
-					for (int i = 0; i < musicCarousel.Count; i++) 
+					for (int i = 0; i < musicCarousel.Count; ++i) 
 					{
 						int currentClipLength = 0;
 
@@ -201,7 +202,7 @@ public class Radio : MonoBehaviour
 						{
 							timeLeft -= currentClipLength;
 						} 
-						// otherwise, this is the clip we are want. Keep the time left and set the musicCounter to i
+						// otherwise, this is the clip we want. Keep the time left and set the musicCounter to i
 						else 
 						{
 							musicCounter = i;
@@ -292,7 +293,6 @@ public class Radio : MonoBehaviour
 			eventDescription.getLength (out clipLength);
 			mysteryCarouselClipLengths.Add(soundEvent, clipLength);
 			mysteryClipsTotalLength += clipLength;
-
 		}
 	}
 
@@ -349,10 +349,6 @@ public class Radio : MonoBehaviour
 			}
 		}
 	}
-
-
-
-
 
 	/// <summary>
 	/// Set new selected channel.
@@ -493,5 +489,3 @@ public class Radio : MonoBehaviour
 		// TODO: Add raft clip to carousel
 	}
 }
-
-
