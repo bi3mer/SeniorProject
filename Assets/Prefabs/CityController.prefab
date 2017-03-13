@@ -179,8 +179,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolManager: {fileID: 114000010221364680}
   itemGenerationChance: 0.8
-  doorGenerationChance: 0.3
-  shelterGenerationChance: 0.68
+  doorGenerationChance: 0.28
+  shelterGenerationChance: 0.6
 --- !u!114 &114000013433191368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b37f1aeffdb7443875f22ad632497f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceBetweenSeedPoints: 25
+  distanceBetweenSeedPoints: 100
   configurations:
   - districtName: residential
     WeenieBuildingTemplate: {fileID: 1000010255927246, guid: 549121b14d0f7904d88d4311ec33716b,
