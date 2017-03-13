@@ -211,16 +211,26 @@ public class Inventory
 	/// </summary>
 	/// <returns>The items by type.</returns>
 	/// <param name="type">Type.</param>
-    public List<string> GetItemsByType(string type)
+    public List<string> GetItemsByType(List<string> types)
     {
     	List<string> desiredItems = new List<string>();
+    	bool match = false;
 
     	for(int i = 0; i < contents.Length; ++i)
     	{
-    		if(contents[i] != null && contents[i].Item.Types.Contains(type))
+    		match = false;
+
+    		if(contents[i] != null && !desiredItems.Contains(contents[i].Item.ItemName))
     		{
-    			desiredItems.Add(contents[i].Item.ItemName);
-    		}
+	    		for(int j = 0; j < types.Count && !match; ++j)
+	    		{
+		    		if(contents[i].Item.Types.Contains(types[j]))
+		    		{
+		    			desiredItems.Add(contents[i].Item.ItemName);
+		    			match = true;
+		    		}
+		    	}
+		    }
     	}
 
     	return desiredItems;

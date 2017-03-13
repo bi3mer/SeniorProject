@@ -104,6 +104,7 @@ public class PlayerTools
         if (previous != null)
         {
             previous.Unequip();
+            GuiInstanceManager.EquippedItemGuiInstance.Unequipped();
             // TODO: Wait for unequip to finish
         }
         

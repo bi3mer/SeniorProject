@@ -29,7 +29,7 @@ public class FireInteractable : InteractableObject
 	private const int maxParticlesAmount = 100;
 
 	private const string lightFirePrompt = "Light Fire";
-	private const string fuelFirePrompt = "Add Fuel";
+	private const string fuelFirePrompt = "Burn Item";
 
 	private const string burnTimeAttrName = "burnTime"; 
 
@@ -39,25 +39,36 @@ public class FireInteractable : InteractableObject
 
 	private OverworldItemOptionSelection itemSelectionHandler;
 
+	private List<string> burnItemTypes;
+
+	private List<string> startFireItemTypes;
 	/// <summary>
 	/// Sets openInventory as an action that should fire off when PerformAction is called.
 	/// </summary>
 	public override void SetUp()
 	{
-		base.SetUp();
-		lit = false;
-		fireParticles = GetComponentInChildren<ParticleSystem>();
-		fireParticles.gameObject.SetActive(false);
-		Text = lightFirePrompt;
-		itemSelectionHandler = new OverworldItemOptionSelection(false);
+		if(!setupComplete)
+		{
+			base.SetUp();
+			lit = false;
+			fireParticles = GetComponentInChildren<ParticleSystem>();
+			fireParticles.gameObject.SetActive(false);
+			Text = lightFirePrompt;
+			itemSelectionHandler = new OverworldItemOptionSelection(false);
 
-		SetAction
-		(
-			delegate 
-			{ 
-				UseFirePit(); 
-			}
-		);
+			burnItemTypes = new List<string> {ItemTypes.Fuel, ItemTypes.Edible};
+			startFireItemTypes = new List<string> {ItemTypes.Igniter};
+
+			SetAction
+			(
+				delegate 
+				{ 
+					UseFirePit(); 
+				}
+			);
+
+			setupComplete = true;
+		}
 	}
 
 	/// <summary>
@@ -67,11 +78,11 @@ public class FireInteractable : InteractableObject
 	{
 		if(lit)
 		{
-			itemSelectionHandler.ShowPossibleItems(ItemTypes.Fuel, new UnityAction(AddFuel));
+			itemSelectionHandler.ShowPossibleItems(burnItemTypes, new UnityAction(BurnItem));
 		}
 		else
 		{
-			itemSelectionHandler.ShowPossibleItems(ItemTypes.Igniter, new UnityAction(IgniteFire));
+			itemSelectionHandler.ShowPossibleItems(startFireItemTypes, new UnityAction(IgniteFire));
 		}
 	}
 
@@ -107,10 +118,35 @@ public class FireInteractable : InteractableObject
 	/// Add fuel to the fire.
 	/// </summary>
 	/// <param name="fuelName">Fuel name.</param>
-	public void AddFuel()
+	public void BurnItem()
 	{
 		BaseItem item = Game.Instance.PlayerInstance.Inventory.GetInventoryBaseItem(itemSelectionHandler.SelectedItem);
-		FireBase.AddFuel(item.GetItemAttribute(burnTimeAttrName).Value);
+
+		if(item.Types.Contains(ItemTypes.Fuel))
+		{
+			FireBase.AddFuel(item.GetItemAttribute(burnTimeAttrName).Value);
+		}
+		else if(item.Types.Contains(ItemTypes.Edible))
+		{
+			BaseItem duplicate = item.GetItemToModify();
+			ItemCategory category = duplicate.GetItemCategoryByClass(typeof(PlantCategory));
+				
+			if(category != null)
+			{
+				((PlantCategory)category).Cook();
+			}
+			else
+			{
+				category = duplicate.GetItemCategoryByClass(typeof(FleshCategory));
+
+				if(category != null)
+				{
+					((FleshCategory)category).Cook();
+				}
+			}
+
+			Game.Instance.PlayerInstance.Inventory.AddItem(duplicate, 1);
+		}
 
 		// For now, you can only add fuel one at a time
 		Game.Instance.PlayerInstance.Inventory.UseItem(item.ItemName, 1);

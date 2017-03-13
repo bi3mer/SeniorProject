@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(BezierLine))]
 public class FishingRod : Tool
@@ -27,6 +29,21 @@ public class FishingRod : Tool
         line = GetComponent<BezierLine>();
         WasCast = false;
         ToolName = toolName;
+	}
+
+	/// <summary>
+	/// Sets up the tool so that it is linked to the proper item in the inventory.
+	/// </summary>
+	/// <param name="itemForTool">Item for tool.</param>
+	public override void SetUpTool(BaseItem itemForTool)
+	{
+		List<ItemAction> actions = new List<ItemAction>();
+		FishingRodCategory fishingCategory = (FishingRodCategory) itemForTool.GetItemCategoryByClass(typeof(FishingRodCategory));
+
+	 	ItemAction unequipAction = new ItemAction(unequipActName, new UnityAction(fishingCategory.UnEquip));
+		actions.Add(unequipAction);
+
+		GuiInstanceManager.EquippedItemGuiInstance.SetEquipped(itemForTool.InventorySprite, actions);
 	}
 
     /// <summary>
