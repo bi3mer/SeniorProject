@@ -9,44 +9,45 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1000014105672324}
+  m_RootGameObject: {fileID: 1000011519308714}
   m_IsPrefabParent: 1
---- !u!1 &1000014105672324
+--- !u!1 &1000011519308714
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 4000014291400624}
-  - 33: {fileID: 33000012824140042}
-  - 23: {fileID: 23000013976466128}
+  - 4: {fileID: 4000014209726298}
+  - 33: {fileID: 33000010571733958}
+  - 23: {fileID: 23000012910068788}
+  - 95: {fileID: 95000010509489398}
   m_Layer: 0
-  m_Name: ITM_deadleaf
+  m_Name: ITM_redflower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4000014291400624
+--- !u!4 &4000014209726298
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000014105672324}
+  m_GameObject: {fileID: 1000011519308714}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &23000013976466128
+--- !u!23 &23000012910068788
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000014105672324}
+  m_GameObject: {fileID: 1000011519308714}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -54,7 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 7606b402752c0ef43a7e5899d3e2e43f, type: 2}
+  - {fileID: 2100000, guid: 66362d7af26dc2a499def7a76c7cbeb4, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -70,10 +71,27 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &33000012824140042
+--- !u!33 &33000010571733958
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000014105672324}
-  m_Mesh: {fileID: 4300000, guid: 97214dfb35e7e794294e889cf5679632, type: 3}
+  m_GameObject: {fileID: 1000011519308714}
+  m_Mesh: {fileID: 4300000, guid: af6ae254d991b2842bbe7b2b45a53f6c, type: 3}
+--- !u!95 &95000010509489398
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011519308714}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: af6ae254d991b2842bbe7b2b45a53f6c, type: 3}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1

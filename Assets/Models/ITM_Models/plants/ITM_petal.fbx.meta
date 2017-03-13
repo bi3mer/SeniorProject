@@ -10,6 +10,7 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: pPlane1
+    4300002: ITM_petal
     9500000: //RootNode
   materials:
     importMaterials: 0
@@ -35,7 +36,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.003
+    globalScale: 0.1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
