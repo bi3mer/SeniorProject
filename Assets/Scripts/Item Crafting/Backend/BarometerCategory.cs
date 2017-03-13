@@ -5,14 +5,6 @@ using UnityEngine.Events;
 public class BarometerCategory : EquipableCategory
 {
 	/// <summary>
-	/// Initializes a new instance of the <see cref="BarometerCategory"/> class.
-	/// </summary>
-	public BarometerCategory()
-	{
-		toolType = ToolTypes.Barometer;
-	}
-
-	/// <summary>
 	/// Gets a copy of the ItemCategory.
 	/// </summary>
 	/// <returns>The duplicate.</returns>

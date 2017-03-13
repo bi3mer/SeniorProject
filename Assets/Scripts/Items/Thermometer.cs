@@ -1,28 +1,36 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Thermometer : Tool
 {
-	[Tooltip("Thermometer tool name.")]
-	[SerializeField]
-	private string toolName;
-
 	[Tooltip("Text component that displays thermometer value.")]
 	[SerializeField]
 	private Text thermometerValueText;
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="Thermometer"/> class.
-	/// </summary>
-	public Thermometer ()
-	{
-		ToolName = toolName;
-	}
-
 	void Start ()
 	{
-		Equip();// will be Unequip() once tool can be equipped and unequipped from within the inventory
+		//ToolName = toolName; // temporary, need to add it to yaml so that toolname can be directly used,
+		// it will still show up as the dropdown in the editor though
+		ToolName = "thermometer";
+		CheckThermometer = true; // will be set to false once tool can be equipped and unequipped from within the inventory
+	}
+
+	/// <summary>
+	/// Sets up the tool so that it is linked to the proper item in the inventory.
+	/// </summary>
+	/// <param name="itemForTool">Item for tool.</param>
+	public override void SetUpTool(BaseItem itemForTool)
+	{
+		List<ItemAction> actions = new List<ItemAction>();
+		ThermometerCategory thermometerCategory = (ThermometerCategory) itemForTool.GetItemCategoryByClass(typeof(ThermometerCategory));
+
+		ItemAction unequipAction = new ItemAction(unequipActName, new UnityAction(thermometerCategory.UnEquip));
+		actions.Add(unequipAction);
+
+		GuiInstanceManager.EquippedItemGuiInstance.SetEquipped(itemForTool.InventorySprite, actions);
 	}
 
 	/// <summary>

@@ -33,6 +33,7 @@ public abstract class CraftingSystemSerializer
 	private const string fireBaseCategoryTag = "fireBase";
     private const string raftCategoryTag = "raft";
 	private const string idolCategoryTag = "idol";
+	private const string lightCategoryTag = "light";
 	private const string barometerTag = "barometer";
 	private const string thermometerTag = "thermometer";
 
@@ -79,6 +80,9 @@ public abstract class CraftingSystemSerializer
 
 		categoryNames.Add(idolCategoryTag);
 		categoryTypes.Add(typeof(IdolCategory));
+
+		categoryNames.Add(lightCategoryTag);
+		categoryTypes.Add(typeof(LightCategory));
 
 		categoryNames.Add (barometerTag);
 		categoryTypes.Add (typeof(BarometerCategory));

@@ -1,31 +1,39 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Barometer : Tool
 {
-	[Tooltip("Barometer tool name.")]
-	[SerializeField]
-	private string toolName;
-
 	[Tooltip("Text component that displays barometer value.")]
 	[SerializeField]
 	private Text barometerValueText;
-
-	/// <summary>
-	/// Initializes a new instance of the <see cref="Barometer"/> class.
-	/// </summary>
-	public Barometer ()
-	{
-		ToolName = toolName;
-	}
 
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
 	void Start()
 	{
-		Equip(); // will be Unequip once tool can be equipped and unequipped from within the inventory
+		//ToolName = toolName; // temporary, need to add it to yaml so that toolname can be directly used,
+		// it will still show up as the dropdown in the editor though
+		ToolName = "barometer";
+		CheckBarometer = true; // will be set to false once tool can be equipped and unequipped from within the inventory
+	}
+
+	/// <summary>
+	/// Sets up the tool so that it is linked to the proper item in the inventory.
+	/// </summary>
+	/// <param name="itemForTool">Item for tool.</param>
+	public override void SetUpTool(BaseItem itemForTool)
+	{
+		List<ItemAction> actions = new List<ItemAction>();
+		BarometerCategory barometerCategory = (BarometerCategory) itemForTool.GetItemCategoryByClass(typeof(BarometerCategory));
+
+		ItemAction unequipAction = new ItemAction(unequipActName, new UnityAction(barometerCategory.UnEquip));
+		actions.Add(unequipAction);
+
+		GuiInstanceManager.EquippedItemGuiInstance.SetEquipped(itemForTool.InventorySprite, actions);
 	}
 
 	/// <summary>

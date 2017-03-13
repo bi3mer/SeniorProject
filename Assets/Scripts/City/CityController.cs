@@ -12,17 +12,12 @@ public class CityController : MonoBehaviour
     [Tooltip("Bounds defnining the size of the city.")]
     private Bounds cityBounds;
 
-    [SerializeField]
-    [Tooltip("Radius that building colliders at turned off.")]
-    private float buildingColliderRadius;
-
-    [SerializeField]
-    [Tooltip("Radius that buildings are visibly hidden.")]
-    private float buildingVisibleRadius;
-
     private DistrictGenerator districtGenerator;
     private BlockGenerator blockGenerator;
     private BuildingGenerator buildingGenerator;
+
+    private CityChunkManager cityChunkManager;
+
     private RooftopGeneration rooftopItemGenerator;
     private WaterItemGeneration waterItemGenerator;
     private ItemPoolManager itemPoolManager;
@@ -35,6 +30,9 @@ public class CityController : MonoBehaviour
         districtGenerator = GetComponent<DistrictGenerator>();
         blockGenerator = GetComponent<BlockGenerator>();
         buildingGenerator = GetComponent<BuildingGenerator>();
+
+        cityChunkManager = GetComponent<CityChunkManager>();
+
         rooftopItemGenerator = GetComponent<RooftopGeneration>();
         waterItemGenerator = GetComponent<WaterItemGeneration>();
         itemPoolManager = GetComponent<ItemPoolManager>();
@@ -49,8 +47,8 @@ public class CityController : MonoBehaviour
         // Start city generation
         Game.Instance.CityInstance = GenerateCity(seed);
 
-        // Start async builing updates
-        StartCoroutine(updateBuildings());
+        // Initialize city chunking
+        cityChunkManager.Init(Game.Instance.CityInstance);
  	}
 	
     /// <summary>
@@ -71,7 +69,8 @@ public class CityController : MonoBehaviour
         // Pick a vertex that is shared by the largest number of districts
         // and create the talest builing there.
         Vector3 cityCenter = GenerationUtility.GetMostCommonVertex(districts);
-        Building tallestBuilding = buildingGenerator.CreateCityCenterBuilding(cityCenter);
+        Building tallestBuilding = new TemplateBuilding(this.gameObject.transform, cityCenter, buildingGenerator.CityCenterBuilding);
+        tallestBuilding.Load();
 
 		float cityWidth = cityBounds.size.x;
 		float cityDepth = cityBounds.size.z;
@@ -100,7 +99,7 @@ public class CityController : MonoBehaviour
                     Building building = buildings[k];
 
                     waterItemGenerator.AddBuildingToWaterGenerationMap(building.BoundingBox);
-					rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.RootPosition, district.Name, doorExtents, district.Configuration.Doors, building.Instance);
+					rooftopItemGenerator.PopulateRoof(building.BoundingBox, building.Position, district.Name, doorExtents, district.Configuration.Doors, building.Instance);
 
                     block.Buildings.Add(building);
                 }
@@ -117,35 +116,5 @@ public class CityController : MonoBehaviour
 		StartCoroutine(itemPoolManager.StartManagingPool());
 
         return new City(districts, cityBounds, cityCenter, tallestBuilding);
-    }
-
-    /// <summary>
-    /// Asychronous method which loops through all builings and updates according to current state.
-    /// </summary>
-    private IEnumerator updateBuildings()
-    {
-        Building building;
-        IEnumerator<Building> buildings = Game.Instance.CityInstance.GetEnumerator();
-
-        while (buildings.MoveNext())
-        {
-            if (Game.Instance.PlayerInstance.IsInWorld && !Game.Instance.PauseInstance.IsPaused)
-            {
-                // Get building
-                building = buildings.Current;
-
-                // Get player position
-                Vector3 playerRootPosition = Game.Instance.PlayerInstance.WorldTransform.position;
-                playerRootPosition.y = 0f;
-
-                // Update gameobject and colliders based on player proximity
-                building.IsVisible = (Vector3.Distance(playerRootPosition, building.RootPosition) < buildingVisibleRadius);
-                building.IsCollidible = (Vector3.Distance(playerRootPosition, building.RootPosition) < buildingColliderRadius);
-            }
-
-            yield return null;
-        }
-
-        yield return updateBuildings();
     }
 }

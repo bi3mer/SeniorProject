@@ -5,14 +5,6 @@ using UnityEngine.Events;
 public class ThermometerCategory : EquipableCategory
 {
 	/// <summary>
-	/// Initializes a new instance of the <see cref="ThermometerCategory"/> class.
-	/// </summary>
-	public ThermometerCategory()
-	{
-		toolType = ToolTypes.Thermometer;
-	}
-
-	/// <summary>
 	/// Gets a copy of the ItemCategory.
 	/// </summary>
 	/// <returns>The duplicate.</returns>

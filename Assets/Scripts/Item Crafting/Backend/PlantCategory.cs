@@ -151,14 +151,11 @@ public class PlantCategory : ItemCategory
 		category.Actions = new List<ItemAction> ();
 		category.Attributes = new List<Attribute> ();
 
-		ItemAction cook = new ItemAction (cookActName, new UnityAction(category.Cook));
 		ItemAction dry = new ItemAction (dryActName, new UnityAction(category.Dry));
 		ItemAction eat = new ItemAction (eatActName, new UnityAction(category.Eat));
 
-
 		// the actions must be added in the same order as they were in the original copy of the category
 		// unable to pass along UnityAction delegate, as that will continue to point to the original copy of the item category
-		category.Actions.Add (cook);
 		category.Actions.Add (dry);
 		category.Actions.Add (eat);
 
@@ -184,7 +181,6 @@ public class PlantCategory : ItemCategory
 
 		Actions = new List<ItemAction> ();
 
-		ItemAction cook = new ItemAction (cookActName, new UnityAction(Cook));
 		ItemAction dry = new ItemAction (dryActName, new UnityAction(Dry));
 
 		ItemAction eat = new ItemAction (eatActName, new UnityAction(Eat));
@@ -192,7 +188,6 @@ public class PlantCategory : ItemCategory
 
 		eat.Conditions.Add (eatCondition);
 
-		Actions.Add (cook);
 		Actions.Add (dry);
 		Actions.Add (eat);
 	}
@@ -217,9 +212,6 @@ public class PlantCategory : ItemCategory
 		{
 			baseItem.ChangeName(defaultCookedNameAddition + baseItem.ItemName);
 		}
-
-		baseItem.DirtyFlag = true;
-		SetActionComplete (cookActName);
 	}
 
 	/// <summary>

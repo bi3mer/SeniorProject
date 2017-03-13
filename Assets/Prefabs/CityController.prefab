@@ -28,6 +28,7 @@ GameObject:
   - 114: {fileID: 114000013392317438}
   - 114: {fileID: 114000011626432178}
   - 114: {fileID: 114000010221364680}
+  - 114: {fileID: 114000011026012388}
   m_Layer: 0
   m_Name: CityController
   m_TagString: Untagged
@@ -97,9 +98,23 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   heightJitter: 0.1
-  buildingScale: 0.9
+  buildingScale: {x: 1, y: 1, z: 1}
   maxPlacementTries: 3
-  CityCenterBuilding: {fileID: 100000, guid: 85c452bcdee401c48ad8a500701ee3fd, type: 3}
+  cityCenterBuilding: {fileID: 1000010512083558, guid: 9ba31da0e553b1a4d88ccb9db0377693,
+    type: 2}
+--- !u!114 &114000011026012388
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013389127986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55d1d6801fb3965488a47da023b42eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunkSize: 25
+  chunksAwayToLoad: 1
 --- !u!114 &114000011626432178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -134,6 +149,7 @@ MonoBehaviour:
   showBlockPerimeter: 1
   showBlockControlPoint: 0
   showBuildingPositions: 1
+  showChunkBoundaries: 1
   showItemPositions: 1
 --- !u!114 &114000012868407098
 MonoBehaviour:
@@ -184,7 +200,6 @@ MonoBehaviour:
       type: 2}
     Doors:
     - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
-    AdditionalBuildingTemplates: []
     MaxFloors: 5
     MinFloors: 1
     minAttachmentChance: 0
@@ -320,7 +335,6 @@ MonoBehaviour:
       type: 2}
     Doors:
     - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
-    AdditionalBuildingTemplates: []
     MaxFloors: 8
     MinFloors: 3
     minAttachmentChance: 0
@@ -456,7 +470,6 @@ MonoBehaviour:
       type: 2}
     Doors:
     - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
-    AdditionalBuildingTemplates: []
     MaxFloors: 8
     MinFloors: 3
     minAttachmentChance: 0
@@ -619,7 +632,6 @@ MonoBehaviour:
     WeenieBuildingTemplate: {fileID: 100000, guid: 5e50794d6a3810a4fbdfc912c2f2e6f6,
       type: 3}
     Doors: []
-    AdditionalBuildingTemplates: []
     MaxFloors: 1
     MinFloors: 1
     minAttachmentChance: 100
