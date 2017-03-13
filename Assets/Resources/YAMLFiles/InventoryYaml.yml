@@ -204,19 +204,3 @@
         stickiness: 0
         thickness: 0.5
         sharpness: 1
-   - stackId: 9
-     itemAmount: 1
-     item: 
-      itemName: "Shelter"
-      rarity: "common"
-      inventorySprite: "GUI_ITM_Shovel"
-      worldModel: "ITM/Shanty Shelters/ENV_shanty_shelter_1"
-      types:
-       - "igniter"
-      flavorText: "Keep yourself out of the rain."
-      modifyingActionNames:
-      actionModifiedModels: 
-      actionModifiedSprites:
-     itemCategories:
-       - !!shelter
-         warmthRate: 1.0
