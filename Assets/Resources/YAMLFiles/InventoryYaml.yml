@@ -16,7 +16,7 @@
       actionModifiedSprites: 
      itemCategories: 
        - !!medicine
-         healthGain: 0.0
+         healthGain: 30.0
          sickness: “all”
    - stackId: 1
      itemAmount: 2

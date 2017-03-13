@@ -526,9 +526,12 @@
    actionModifiedSprites:
   itemCategories: 
     - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
+      flexibility: 4
+      durability: 2
+      elasticity: 0.5
+      stickiness: 0.2
+      thickness: 0.5
+      sharpness: 1
 - itemName: "Poor Raft"
   baseItem: 
    itemName: "Poor Raft"
