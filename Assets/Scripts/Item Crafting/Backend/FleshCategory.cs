@@ -123,17 +123,17 @@ public class FleshCategory : ItemCategory
         if (HealthEffect < 0)
         {
             // Health effects don't stack
-            if (Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.None)
+            if (Game.Player.HealthStatus == PlayerHealthStatus.None)
             {
                 // Random chance of getting food poisoning
                 if (RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
                 {
-                    Game.Instance.PlayerInstance.HealthStatus = PlayerHealthStatus.FoodPoisoning;
+                    Game.Player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
                 }
             }
         }
 
-        Game.Instance.PlayerInstance.Hunger += (int)HungerGain;
+		Game.Player.Controller.PlayerStatManager.HungerRate.UseFoodEnergy((int)HungerGain);
 
         if (baseItem.ModifyingActionNames.IndexOf(eatActName) > -1)
         {

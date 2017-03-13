@@ -90,135 +90,6 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &26489578
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 26489580}
-  - 82: {fileID: 26489579}
-  m_Layer: 0
-  m_Name: New Game Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!82 &26489579
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 26489578}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 30247571}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!4 &26489580
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 26489578}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 18
---- !u!83 &30247571
-AudioClip:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_LoadType: 0
-  m_Channels: 0
-  m_Frequency: 0
-  m_BitsPerSample: 0
-  m_Length: 0
-  m_IsTrackerFormat: 0
-  m_SubsoundIndex: 0
-  m_PreloadAudioData: 1
-  m_LoadInBackground: 0
-  m_Legacy3D: 0
-  m_Resource:
-    m_Source: 
-    m_Offset: 0
-    m_Size: 0
-  m_CompressionFormat: 0
-  m_EditorResource:
-    m_Source: 
-    m_Offset: 0
-    m_Size: 0
-  m_EditorCompressionFormat: 0
 --- !u!1 &43918138 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1000012785013276, guid: 12cac1228c3fb431483d6d77ddf40555,
@@ -548,28 +419,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 69b891bdd4fb7cf498133d688d62ad64, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &166769666 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000013227554416, guid: d7c68f115fbdec94caae02e8130c968a,
-    type: 2}
-  m_PrefabInternal: {fileID: 1445386723}
---- !u!114 &166769672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 166769666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: Rope
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!21 &235005563
 Material:
   serializedVersion: 6
@@ -2468,28 +2317,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7b4e5226e628633408ece05e9d3c6a4d, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &691809876 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000013264916568, guid: d7c68f115fbdec94caae02e8130c968a,
-    type: 2}
-  m_PrefabInternal: {fileID: 1445386723}
---- !u!114 &691809882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 691809876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: Wood Plank
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!1001 &748016177
 Prefab:
   m_ObjectHideFlags: 0
@@ -2969,56 +2796,12 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
---- !u!1 &802781857 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000013727958378, guid: d7c68f115fbdec94caae02e8130c968a,
-    type: 2}
-  m_PrefabInternal: {fileID: 1445386723}
---- !u!114 &802781863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 802781857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: Rope
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!114 &832473591 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114000011969998666, guid: 7b4e5226e628633408ece05e9d3c6a4d,
     type: 2}
   m_PrefabInternal: {fileID: 681741328}
   m_Script: {fileID: 11500000, guid: 7b2826667703cfb4889a1c64e429f85d, type: 3}
---- !u!1 &848967627 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000012168587766, guid: d7c68f115fbdec94caae02e8130c968a,
-    type: 2}
-  m_PrefabInternal: {fileID: 1445386723}
---- !u!114 &848967634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 848967627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be3f89982c190304b82c2722e7a2f4a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: Add Fuel
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!1 &878818694
 GameObject:
   m_ObjectHideFlags: 0
@@ -3172,28 +2955,6 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
---- !u!1 &925795349 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000010681608786, guid: d7c68f115fbdec94caae02e8130c968a,
-    type: 2}
-  m_PrefabInternal: {fileID: 1445386723}
---- !u!114 &925795355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 925795349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: Wood Plank
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!114 &930691641 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114000010254980152, guid: 1d75bacdca00e034bb3a6ae82ecde064,
@@ -3247,28 +3008,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2cea168450a79486e94c931fe953714a, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &997353437 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000012176052798, guid: d7c68f115fbdec94caae02e8130c968a,
-    type: 2}
-  m_PrefabInternal: {fileID: 1445386723}
---- !u!114 &997353443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 997353437}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: Wood Plank
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!1001 &1013639983
 Prefab:
   m_ObjectHideFlags: 0
@@ -4311,28 +4050,6 @@ GameObject:
   m_PrefabParentObject: {fileID: 1000011297642030, guid: 1d75bacdca00e034bb3a6ae82ecde064,
     type: 2}
   m_PrefabInternal: {fileID: 578829223}
---- !u!1 &1297372576 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000010259546824, guid: d7c68f115fbdec94caae02e8130c968a,
-    type: 2}
-  m_PrefabInternal: {fileID: 1445386723}
---- !u!114 &1297372582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1297372576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: Rope
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!1 &1297534933 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1000012924744790, guid: 9ba31da0e553b1a4d88ccb9db0377693,
@@ -4589,42 +4306,6 @@ Prefab:
     - target: {fileID: 4000012844292100, guid: d7c68f115fbdec94caae02e8130c968a, type: 2}
       propertyPath: m_RootOrder
       value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012844292100, guid: d7c68f115fbdec94caae02e8130c968a, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 179.619
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013727958378, guid: d7c68f115fbdec94caae02e8130c968a, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013264916568, guid: d7c68f115fbdec94caae02e8130c968a, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000013227554416, guid: d7c68f115fbdec94caae02e8130c968a, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000012176052798, guid: d7c68f115fbdec94caae02e8130c968a, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000010783473342, guid: d7c68f115fbdec94caae02e8130c968a, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000010681608786, guid: d7c68f115fbdec94caae02e8130c968a, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000010259546824, guid: d7c68f115fbdec94caae02e8130c968a, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000012168587766, guid: d7c68f115fbdec94caae02e8130c968a, type: 2}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d7c68f115fbdec94caae02e8130c968a, type: 2}
@@ -5003,28 +4684,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &1510510740 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000010783473342, guid: d7c68f115fbdec94caae02e8130c968a,
-    type: 2}
-  m_PrefabInternal: {fileID: 1445386723}
---- !u!114 &1510510746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1510510740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: Rope
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!4 &1567000574 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4000012718690724, guid: 152809fbdfae55545ba0bc02e1879c65,
@@ -5705,22 +5364,22 @@ Prefab:
     - target: {fileID: 224000011523189930, guid: 0de39b5b6a6fb404b9feb26052ec15dd,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 376.5
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: 224000011523189930, guid: 0de39b5b6a6fb404b9feb26052ec15dd,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 186.5
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 224000011523189930, guid: 0de39b5b6a6fb404b9feb26052ec15dd,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 753
+      value: 640
       objectReference: {fileID: 0}
     - target: {fileID: 224000011523189930, guid: 0de39b5b6a6fb404b9feb26052ec15dd,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 373
+      value: 480
       objectReference: {fileID: 0}
     - target: {fileID: 224000011523189930, guid: 0de39b5b6a6fb404b9feb26052ec15dd,
         type: 2}

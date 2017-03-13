@@ -224,6 +224,10 @@ public class ItemStackUI : MonoBehaviour
 			GuiInstanceManager.InventoryUiInstance.TargetInventory.UpdateTypeAmount(targetStack.Item.Types, originalStack.Amount - targetStack.Amount);
 			targetStack = originalStack;
 		}
+		else if(targetStack.Item.RemovalFlag)
+		{
+			targetStack = originalStack;
+		}
 
 		if(originalStack.Amount <= 0)
 		{
