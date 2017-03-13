@@ -3,6 +3,9 @@ using System.Collections;
 
 public class InteractableSetUp : MonoBehaviour 
 {
+	/// <summary>
+	/// The name of the item.
+	/// </summary>
 	[Tooltip("Name of the item. Used to get baseItem.")]
 	public string ItemName;
 
