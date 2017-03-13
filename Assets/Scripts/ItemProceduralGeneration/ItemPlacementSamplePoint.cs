@@ -75,6 +75,10 @@ public class ItemPlacementSamplePoint
 		set;
 	}
 
+	/// <summary>
+	/// Gets or sets the type of object that will be placed at this location. Either Door, Shelter, or Item.
+	/// </summary>
+	/// <value>The type.</value>
 	public PointType Type
 	{
 		get;
