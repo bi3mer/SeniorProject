@@ -10,6 +10,8 @@ public class Barometer : Tool
 	[SerializeField]
 	private Text barometerValueText;
 
+	private GameObject barometerObject;
+
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
@@ -17,8 +19,12 @@ public class Barometer : Tool
 	{
 		//ToolName = toolName; // temporary, need to add it to yaml so that toolname can be directly used,
 		// it will still show up as the dropdown in the editor though
-		ToolName = "barometer";
-		CheckBarometer = true; // will be set to false once tool can be equipped and unequipped from within the inventory
+		ToolName = toolName;
+		CheckBarometer = false; // will be set to false once tool can be equipped and unequipped from within the inventory
+		transform.SetParent(attachJoint.transform, false);
+		barometerObject = transform.GetChild(0).gameObject;
+
+		barometerObject.SetActive(false);
 	}
 
 	/// <summary>
@@ -28,7 +34,7 @@ public class Barometer : Tool
 	public override void SetUpTool(BaseItem itemForTool)
 	{
 		List<ItemAction> actions = new List<ItemAction>();
-		BarometerCategory barometerCategory = (BarometerCategory) itemForTool.GetItemCategoryByClass(typeof(BarometerCategory));
+		EquipableCategory barometerCategory = (EquipableCategory) itemForTool.GetItemCategoryByClass(typeof(EquipableCategory));
 
 		ItemAction unequipAction = new ItemAction(unequipActName, new UnityAction(barometerCategory.UnEquip));
 		actions.Add(unequipAction);
@@ -53,7 +59,7 @@ public class Barometer : Tool
 	public override void Use ()
 	{
 		// UI model on-screen transformations
-		CheckBarometer = true;
+		CheckBarometer = !CheckBarometer;
 	}
 
 	/// <summary>
@@ -62,7 +68,7 @@ public class Barometer : Tool
 	public override void Equip ()
 	{
 		// TODO: Run equip animation
-		CheckBarometer = true;
+		CheckBarometer = false;
 	}
 
 	/// <summary>

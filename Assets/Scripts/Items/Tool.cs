@@ -4,6 +4,10 @@ using UnityEngine;
 public abstract class Tool : MonoBehaviour
 {
 	[SerializeField]
+    [Tooltip("Location to parent the item on the player model")]
+    protected GameObject attachJoint;
+
+	[SerializeField]
 	[BaseItemPopup]
     protected string toolName;
 

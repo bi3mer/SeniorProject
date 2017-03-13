@@ -10,12 +10,19 @@ public class Thermometer : Tool
 	[SerializeField]
 	private Text thermometerValueText;
 
+	private GameObject thermometerObject;
+
 	void Start ()
 	{
 		//ToolName = toolName; // temporary, need to add it to yaml so that toolname can be directly used,
 		// it will still show up as the dropdown in the editor though
-		ToolName = "thermometer";
-		CheckThermometer = true; // will be set to false once tool can be equipped and unequipped from within the inventory
+		ToolName = toolName;
+		CheckThermometer = false; // will be set to false once tool can be equipped and unequipped from within the inventory
+
+		transform.SetParent(attachJoint.transform, false);
+		thermometerObject = transform.GetChild(0).gameObject;
+
+		thermometerObject.SetActive(false);
 	}
 
 	/// <summary>
@@ -25,7 +32,7 @@ public class Thermometer : Tool
 	public override void SetUpTool(BaseItem itemForTool)
 	{
 		List<ItemAction> actions = new List<ItemAction>();
-		ThermometerCategory thermometerCategory = (ThermometerCategory) itemForTool.GetItemCategoryByClass(typeof(ThermometerCategory));
+		EquipableCategory thermometerCategory = (EquipableCategory) itemForTool.GetItemCategoryByClass(typeof(EquipableCategory));
 
 		ItemAction unequipAction = new ItemAction(unequipActName, new UnityAction(thermometerCategory.UnEquip));
 		actions.Add(unequipAction);
@@ -50,7 +57,7 @@ public class Thermometer : Tool
 	public override void Use ()
 	{
 		// UI model on-screen transformations
-		CheckThermometer = true;
+		CheckThermometer = !CheckThermometer;
 	}
 
 	/// <summary>
@@ -59,7 +66,7 @@ public class Thermometer : Tool
 	public override void Equip ()
 	{
 		// TODO: Run equip animation
-		CheckThermometer = true;
+		CheckThermometer = false;
 	}
 
 	/// <summary>
