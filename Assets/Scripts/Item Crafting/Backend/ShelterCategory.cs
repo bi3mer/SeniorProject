@@ -8,7 +8,7 @@ public class ShelterCategory : ItemCategory
     /// <summary>
     /// Gets and sets the warmth rate.
     /// </summary>
-    public float WarmthRate
+    public int WarmthRate
     {
         get;
         set;
