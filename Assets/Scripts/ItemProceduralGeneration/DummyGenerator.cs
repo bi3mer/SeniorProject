@@ -13,6 +13,8 @@ public class DummyGenerator : MonoBehaviour
 
 	public List<GameObject> doors;
 
+	public List<GameObject> shelters;
+
 	private RooftopGeneration generation;
 
 	private ItemPoolManager poolManager;
@@ -25,10 +27,15 @@ public class DummyGenerator : MonoBehaviour
 		poolManager.SetUpItemPoolManager(20f, 20f, Vector3.zero);
 
 		List<float> doorExtents = generation.GetItemExtents(doors);
+		List<float> shelterExtents = generation.GetItemExtents(shelters);
+
+		generation.AddDoorsToDistrict(doors, doorExtents, "residential");
+		generation.AddSheltersToDistrict(shelters, shelterExtents, "residential");
 
 		for(int i = 0; i  < buildings.Count; ++i)
 		{
-			generation.PopulateRoof(buildings[i].bounds, buildings[i].transform.position, "residential", doorExtents, doors, buildings[i].gameObject);
+			TemplateBuilding building = new TemplateBuilding(null, buildings[i].transform.position, buildings[i].gameObject);
+			generation.PopulateRoof(building, "residential");
 		}
 
 		generation.AddTemplatesToItemPool();

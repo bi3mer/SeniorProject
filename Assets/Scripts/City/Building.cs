@@ -42,6 +42,26 @@ public abstract class Building
     }
 
     /// <summary>
+    /// Gets or sets the door and shelter attachment information.
+    /// </summary>
+    /// <value>The attachment information.</value>
+    public ItemPlacementSamplePoint[] AttachmentInformation
+    {
+    	get;
+    	set;
+    }
+
+    /// <summary>
+    /// Gets or sets the attachments. These include doors and shelters.
+    /// </summary>
+    /// <value>The attachments.</value>
+    public GameObject[] Attachments
+    {
+    	get;
+    	set;
+    }
+
+    /// <summary>
     /// The bounds defining the size of the builing
     /// </summary>
     public Bounds BoundingBox

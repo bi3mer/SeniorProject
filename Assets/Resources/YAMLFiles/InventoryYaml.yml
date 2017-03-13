@@ -102,7 +102,6 @@
       types:
         - "rod"
         - "fuel"
-        - "base solid"
       flavorText: "It's...a stick."
       modifyingActionNames:
       actionModifiedModels:
@@ -192,6 +191,7 @@
       worldModel: "ITM/WoodPlanks/ITM_WoodPlank1"
       types:
        - "floatable object"
+       - "base solid"
       flavorText: "A piece of wood."
       modifyingActionNames:
       actionModifiedModels:

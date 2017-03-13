@@ -844,6 +844,46 @@ Prefab:
       propertyPath: Parent
       value: 
       objectReference: {fileID: 90818788}
+    - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: EmissionModule.rate.scalar
+      value: 31.75304
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: VelocityModule.x.scalar
+      value: -0.30569434
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: VelocityModule.z.scalar
+      value: -3.2602746
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: InitialModule.startRotationX.scalar
+      value: -0.1422563
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: InitialModule.startRotationY.scalar
+      value: 0.013338432
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: EmissionModule.rate.scalar
+      value: 127.01216
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: VelocityModule.x.scalar
+      value: -0.76423585
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
+        type: 2}
+      propertyPath: VelocityModule.y.scalar
+      value: -8.150686
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ecc262ca63bb3d54ba8476a9fa126d5c, type: 2}
   m_IsPrefabParent: 0
@@ -886,6 +926,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114000010221364680, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+        type: 2}
+      propertyPath: activePool
+      value: 
+      objectReference: {fileID: 1483490350}
+    - target: {fileID: 114000010221364680, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+        type: 2}
+      propertyPath: inactivePool
+      value: 
+      objectReference: {fileID: 878818695}
     - target: {fileID: 114000014275874900, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
         type: 2}
       propertyPath: TestDistrict.districtProceduralMaterials.Array.data[0]
@@ -1051,41 +1101,6 @@ Prefab:
       propertyPath: TestDistrict.districtProceduralWindowMaterials.Array.data[2]
       value: 
       objectReference: {fileID: 1055003845}
-    - target: {fileID: 114000010221364680, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
-        type: 2}
-      propertyPath: activePool
-      value: 
-      objectReference: {fileID: 1483490350}
-    - target: {fileID: 114000010221364680, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
-        type: 2}
-      propertyPath: inactivePool
-      value: 
-      objectReference: {fileID: 878818695}
-    - target: {fileID: 114000010239616376, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
-        type: 2}
-      propertyPath: CityCenterBuilding
-      value: 
-      objectReference: {fileID: 100000, guid: 85c452bcdee401c48ad8a500701ee3fd, type: 3}
-    - target: {fileID: 114000013616052872, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
-        type: 2}
-      propertyPath: distanceBetweenControlPoints
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012868407098, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
-        type: 2}
-      propertyPath: cityBounds.m_Extent.x
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012868407098, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
-        type: 2}
-      propertyPath: cityBounds.m_Extent.y
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012868407098, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
-        type: 2}
-      propertyPath: cityBounds.m_Extent.z
-      value: 150
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d, type: 2}
   m_IsPrefabParent: 0
@@ -3104,6 +3119,11 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012411851364, guid: 61aaab44d7940e349b778f790a6ebdff,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 61aaab44d7940e349b778f790a6ebdff, type: 2}
@@ -5364,22 +5384,22 @@ Prefab:
     - target: {fileID: 224000011523189930, guid: 0de39b5b6a6fb404b9feb26052ec15dd,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 320
+      value: 375.5
       objectReference: {fileID: 0}
     - target: {fileID: 224000011523189930, guid: 0de39b5b6a6fb404b9feb26052ec15dd,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 240
+      value: 193
       objectReference: {fileID: 0}
     - target: {fileID: 224000011523189930, guid: 0de39b5b6a6fb404b9feb26052ec15dd,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 640
+      value: 751
       objectReference: {fileID: 0}
     - target: {fileID: 224000011523189930, guid: 0de39b5b6a6fb404b9feb26052ec15dd,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 480
+      value: 386
       objectReference: {fileID: 0}
     - target: {fileID: 224000011523189930, guid: 0de39b5b6a6fb404b9feb26052ec15dd,
         type: 2}

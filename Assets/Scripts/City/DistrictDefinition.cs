@@ -61,6 +61,12 @@ public class DistrictConfiguration
 	[Tooltip("Doors that may be generated in the district")]
     public List<GameObject> Doors;
 
+    /// <summary>
+    /// The shelters in the district.
+    /// </summary>
+    [Tooltip("Shelters that may be generated in the district")]
+    public List<GameObject> Shelters;
+
     [Header("Procedural Building Construction")]
 
     /// <summary>
