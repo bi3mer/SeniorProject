@@ -337,7 +337,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011961198834}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 122, y: 0, z: -57}
   m_LocalScale: {x: 2.83171, y: 2.8317099, z: 2.8317099}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -351,7 +351,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010414017512}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -125.571, y: 0, z: -1.115}
+  m_LocalPosition: {x: -146.2, y: 0, z: 37.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -679,11 +679,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
-  LightningEventPath: event:/Ambient/Weather/Basic_Thunder
   weatherIntensityDivisor: 10
   maxWeatherVolume: 3
   weatherVolume: 2
-  lightningVolume: 1.5
 --- !u!114 &114000010667489446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -702,6 +700,7 @@ MonoBehaviour:
   debrisLevel: 0
   DebrisStartThreshold: 30
   windVectorXZ: {x: 0, y: 0}
+  lerpSpeed: 0.001
 --- !u!114 &114000010728337554
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -727,11 +726,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
-  LightningEventPath: event:/Ambient/Weather/Basic_Thunder
   weatherIntensityDivisor: 10
   maxWeatherVolume: 3
   weatherVolume: 2
-  lightningVolume: 1.5
 --- !u!114 &114000010825775734
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -750,6 +747,7 @@ MonoBehaviour:
   debrisLevel: 0
   DebrisStartThreshold: 80
   windVectorXZ: {x: 0, y: 0}
+  lerpSpeed: 0.001
 --- !u!114 &114000010928583048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -782,10 +780,10 @@ MonoBehaviour:
   MainRain: {fileID: 198000010173776360}
   RainFog: {fileID: 198000011775040566}
   windMitigation: 8
-  rainLevel: 53.684994
+  rainLevel: 74.87883
   FogStartThreshold: 50
   fogMod: 0.5
-  windVectorXZ: {x: -2.9268804, y: 6.0754066}
+  windVectorXZ: {x: 3.6411984, y: 9.289998}
   fogWindMod: 0.4
   splashManager: {fileID: 114000012391922068}
   splashSize: 0.4
@@ -807,6 +805,7 @@ MonoBehaviour:
   debrisLevel: 0
   DebrisStartThreshold: 95
   windVectorXZ: {x: 0, y: 0}
+  lerpSpeed: 0.0001
 --- !u!114 &114000011684390236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -819,11 +818,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
-  LightningEventPath: event:/Ambient/Weather/Basic_Thunder
   weatherIntensityDivisor: 10
   maxWeatherVolume: 3
   weatherVolume: 2
-  lightningVolume: 1.5
 --- !u!114 &114000011796935804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -894,6 +891,7 @@ MonoBehaviour:
   debrisLevel: 0
   DebrisStartThreshold: 60
   windVectorXZ: {x: 0, y: 0}
+  lerpSpeed: 0.01
 --- !u!114 &114000013893003440
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -912,6 +910,7 @@ MonoBehaviour:
   debrisLevel: 0
   DebrisStartThreshold: 60
   windVectorXZ: {x: 0, y: 0}
+  lerpSpeed: 0.01
 --- !u!198 &198000010173776360
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1232,7 +1231,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationX:
-      scalar: -0.10603584
+      scalar: -0.16214105
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1267,7 +1266,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationY:
-      scalar: 0.0510837
+      scalar: -0.0635509
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1366,7 +1365,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 107.36999
+      scalar: 149.75766
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1794,7 +1793,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: -2.9268804
+      scalar: 3.6411984
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1819,7 +1818,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     y:
-      scalar: -6.0754066
+      scalar: -9.289998
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -9941,7 +9940,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 26.842497
+      scalar: 37.439415
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10339,7 +10338,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: -1.1707522
+      scalar: 1.4564794
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10389,7 +10388,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     z:
-      scalar: -2.4301627
+      scalar: -3.7159994
       maxCurve:
         serializedVersion: 2
         m_Curve:
