@@ -12,6 +12,9 @@ public class CityController : MonoBehaviour
     [Tooltip("Bounds defnining the size of the city.")]
     private Bounds cityBounds;
 
+    private const string buildString = "Building the city";
+    private const string itemString = "Populating the city";
+
     private DistrictGenerator districtGenerator;
     private BlockGenerator blockGenerator;
     private BuildingGenerator buildingGenerator;
@@ -60,8 +63,8 @@ public class CityController : MonoBehaviour
     /// </summary>
     private IEnumerator GenerateCity (int seed)
     {
-        GameLoaderTask task = Game.Instance.Loader.CreateGameLoaderTask("Building the city");
-        GameLoaderTask task2 = Game.Instance.Loader.CreateGameLoaderTask("Populating the city");
+        GameLoaderTask task = Game.Instance.Loader.CreateGameLoaderTask(buildString);
+        GameLoaderTask task2 = Game.Instance.Loader.CreateGameLoaderTask(itemString);
 
         District[] districts = districtGenerator.Generate(seed, cityBounds);
 
