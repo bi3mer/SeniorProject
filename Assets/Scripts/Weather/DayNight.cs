@@ -64,7 +64,7 @@ public class DayNight : MonoBehaviour
     		this.sun.transform.position  = this.moon.transform.position;
     		this.sun.transform.rotation  = this.moon.transform.rotation;
 
-    		// use temp variables to set the moon's new rotatio nad position
+    		// use temp variables to set the moon's new rotation and position
     		this.moon.transform.position = tempPosition;
     		this.moon.transform.rotation = tempRotation;
     	}
