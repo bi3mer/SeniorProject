@@ -24,6 +24,9 @@
     /// </summary>
     public void Reset ()
     {
+		// stop all sounds so they can be started again
+		FMODUnity.RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+
         PlayerInstance.ResetStatus();
     }
  
