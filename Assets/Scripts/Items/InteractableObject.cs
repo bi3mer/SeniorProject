@@ -10,6 +10,7 @@ public class InteractableObject : MonoBehaviour
     [SerializeField]
     private UnityEvent action;
 
+    [SerializeField]
     private TextMesh display;
 
     protected bool setupComplete = false;

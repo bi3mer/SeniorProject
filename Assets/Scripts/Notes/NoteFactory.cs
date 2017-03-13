@@ -11,7 +11,7 @@ public class NoteFactory
 	private const string noteFileName = "Notes.yml";
 
 	[SerializeField]
-	private Vector3 defaultpos = new Vector3(-124.726f, .704f, -1f);
+	private Vector3 defaultpos = new Vector3(-145.1589f, 0.6875932f, 37.23586f);
 
 	private GameObject triggerObjectPrefab;
 

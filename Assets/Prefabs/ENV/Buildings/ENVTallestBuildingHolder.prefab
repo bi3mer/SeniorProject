@@ -4870,10 +4870,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011262782924}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: -70.30001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_Children:
   - {fileID: 4000012860846928}
   - {fileID: 4000014000920438}
@@ -5133,7 +5133,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011559753332}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -55.5, y: 0, z: -32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12086,7 +12086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be3f89982c190304b82c2722e7a2f4a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Climb Up
+  text: Take the stairs
   action:
     m_PersistentCalls:
       m_Calls:
@@ -12147,7 +12147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be3f89982c190304b82c2722e7a2f4a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Climb Up
+  text: Take the stairs
   action:
     m_PersistentCalls:
       m_Calls:
