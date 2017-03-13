@@ -10,6 +10,7 @@ public class NoteFactory
 	private const string triggerObjectLocation = "ItemGeneration/InteractableText";
 	private const string noteFileName = "Notes.yml";
 
+	[SerializeField]
 	private Vector3 defaultpos = new Vector3(-124.726f, .704f, -1f);
 
 	private GameObject triggerObjectPrefab;
@@ -37,7 +38,6 @@ public class NoteFactory
 
 		for(int i = 0; i < noteDatabase.Count; ++i)
 		{
-			Debug.Log (noteDatabase [i]);
 			worldNoteTemplates.Add (noteDatabase[i].Title, (GameObject)Resources.Load (noteDatabase [i].WorldModel));
 		}
 	}
