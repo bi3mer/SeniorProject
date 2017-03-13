@@ -21,18 +21,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private string waterTag;
 
-    [Header("Environmental Resource Settings")]
-    [SerializeField]
-    private float waterWarmthReductionRate;
-    [SerializeField]
-    private float outsideWarmthReductionRate;
-    [SerializeField]
-    private float shelterWarmthIncreaseRate;
-    [SerializeField]
-    private float fireWarmthIncreaseRate;
-    [SerializeField]
-    private float hungerReductionRate;
-
     [Header("HUD Settings")]
     [SerializeField]
     private UnityEvent hungerUpdatedEvent;
@@ -88,8 +76,7 @@ public class PlayerController : MonoBehaviour
     private bool isReading;
 	private bool isWaterInView;
 
-    private float currentWarmthChangeRate;
-    private float currentHungerChangeRate;
+	public PlayerStatManager PlayerStatManager;
 
     private float buttonZoomAmount = 0.1f;
 
@@ -182,6 +169,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
 	void Start()
     {
+		// set up player stats
+		PlayerStatManager = new PlayerStatManager();
+
         isGrounded = false;
         updateStats = true;
         isInShelter = false;
@@ -206,12 +196,16 @@ public class PlayerController : MonoBehaviour
         playerCamera = Camera.main.GetComponent<CameraController>();
 
         // start reducing hunger
-        currentHungerChangeRate = hungerReductionRate;
+		PlayerStatManager.HungerRate.UseDefaultHungerReductionRate();
         StartCoroutine(UpdateHunger());
 
         // start updating warmth
-        currentWarmthChangeRate = outsideWarmthReductionRate;
+		PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate();
         StartCoroutine(UpdateWarmth());
+
+		// start updating health
+		PlayerStatManager.HealthRate.UseDefaultHealthRate ();
+		StartCoroutine (UpdateHealth ());
 
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
@@ -230,37 +224,6 @@ public class PlayerController : MonoBehaviour
 
         // create event emitter
         eventEmitter = FMODUnity.RuntimeManager.CreateInstance(roofFootstepSoundEvent);
-    }
-
-    /// <summary>
-    /// When colliding with a trigger. Used for interactable object interaction. For raft interactions.
-    /// </summary>
-    /// <param name="other">Collider with trigger</param>
-    void OnTriggerEnter(Collider other)
-    {
-        // enter into the range of an interactable item 
-        // TODO: Figure out why the player can't find the raft when on board with cone view.
-		if (IsOnRaft && other.CompareTag (interactiveTag)) {
-			interactable = other.GetComponent<InteractableObject> ();
-			interactable.Show = true;
-		}
-    }
-
-    /// <summary>
-    /// When leaving the trigger area. Used to signal an interactable object is not in range.For raft interactions.
-    /// </summary>
-    /// <param name="other">Collider with trigger</param>
-    void OnTriggerExit(Collider other)
-    {
-        // leaving the range of an interactable item
-        if (IsOnRaft && other.CompareTag(interactiveTag))
-        {
-            if (interactable != null)
-            {
-                interactable.Show = false;
-                interactable = null;
-            }
-        }
     }
 
     /// <summary>
@@ -416,6 +379,10 @@ public class PlayerController : MonoBehaviour
 				{
 					isWaterInView = true;
 				}
+                else
+                {
+                    isWaterInView = false;
+                }
 			}
         }
     }
@@ -437,54 +404,65 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void UpdatePlayerStats()
     {
-        Player player = Game.Instance.PlayerInstance;
-
         // Only calculate fall damage when landing on the ground
         if (isGrounded)
         {
-            player.Health -= (int)movement.CurrentFallDammage;
+			PlayerStatManager.HealthRate.TakeFallDamage ((int)movement.CurrentFallDammage);
+			Game.Instance.PlayerInstance.Health = PlayerStatManager.HealthRate.CurrentStat;
             healthUpdatedEvent.Invoke();
         }
 
         // check if we're in water
-        if (IsInWater)
-        {
-            currentWarmthChangeRate = waterWarmthReductionRate;
-        }
+		if (IsInWater) 
+		{
+			PlayerStatManager.WarmthRate.UseWaterWarmthReductionRate ();
+		} 
+		else if (IsByFire || IsInShelter) 
+		{
+			PlayerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate ();
+		}
+		else
+		{
+			PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
+		}
+
+		PlayerStatManager.ApplyCorrectHealthReductionRate ();
     }
+
+	/// <summary>
+	/// Updates the health.
+	/// </summary>
+	/// <returns>The health.</returns>
+	private IEnumerator UpdateHealth()
+	{
+		while (updateStats) 
+		{
+			yield return new WaitForSeconds(PlayerStatManager.HealthRate.PerSeconds);	
+			if (!PlayerStatManager.StopStats) 
+			{
+				PlayerStatManager.HealthRate.ApplyRateToStat ();
+				Game.Instance.PlayerInstance.Health = PlayerStatManager.HealthRate.CurrentStat;
+				healthUpdatedEvent.Invoke ();
+			}
+		}
+	}
 
     /// <summary>
     /// Updates hunger.
-    /// TODO: Refactor to have more intuitive rate system.
     /// </summary>
     /// <returns>The hunger.</returns>
     private IEnumerator UpdateHunger()
     {
-        int newHunger = 0;
-
-        while (updateStats)
-        {
-            yield return new WaitForSeconds(Mathf.Abs(currentHungerChangeRate));
-
-            if (currentHungerChangeRate > 0)
-            {
-                newHunger = Game.Instance.PlayerInstance.Hunger + 1;
-            }
-            else
-            {
-                newHunger = Game.Instance.PlayerInstance.Hunger - 1;
-            }
-
-            if (newHunger <= 0)
-            {
-                --Game.Instance.PlayerInstance.Health;
-            }
-            else if (newHunger < Game.Instance.PlayerInstance.MaxHunger)
-            {
-                Game.Instance.PlayerInstance.Hunger = newHunger;
-                hungerUpdatedEvent.Invoke();
-            }
-        }
+		while (updateStats)
+		{
+			yield return new WaitForSeconds (PlayerStatManager.HungerRate.PerSeconds);
+			if (!PlayerStatManager.StopStats) 
+			{
+				PlayerStatManager.HungerRate.ApplyRateToStat ();
+				Game.Instance.PlayerInstance.Hunger = PlayerStatManager.HungerRate.CurrentStat;
+				hungerUpdatedEvent.Invoke ();
+			}
+		}
     }
 
     /// <summary>
@@ -494,31 +472,16 @@ public class PlayerController : MonoBehaviour
     /// <returns>The warmth.</returns>
 	private IEnumerator UpdateWarmth()
     {
-        int newWarmth = 0;
-
-        while (updateStats)
-        {
-            yield return new WaitForSeconds(Mathf.Abs(currentWarmthChangeRate));
-
-            if (currentWarmthChangeRate > 0)
-            {
-                newWarmth = Game.Instance.PlayerInstance.Warmth + 1;
-            }
-            else
-            {
-                newWarmth = Game.Instance.PlayerInstance.Warmth - 1;
-            }
-
-            if (newWarmth <= 0)
-            {
-                --Game.Instance.PlayerInstance.Health;
-            }
-            else if (newWarmth < Game.Instance.PlayerInstance.MaxWarmth)
-            {
-                Game.Instance.PlayerInstance.Warmth = newWarmth;
-                warmthUpdatedEvent.Invoke();
-            }
-        }
+		while (updateStats)
+		{
+			yield return new WaitForSeconds(PlayerStatManager.WarmthRate.PerSeconds);
+			if (!PlayerStatManager.StopStats) 
+			{
+				PlayerStatManager.WarmthRate.ApplyRateToStat ();
+				Game.Instance.PlayerInstance.Warmth = PlayerStatManager.WarmthRate.CurrentStat;
+				warmthUpdatedEvent.Invoke ();
+			}
+		}
     }
 
     /// <summary>
@@ -589,16 +552,6 @@ public class PlayerController : MonoBehaviour
         float raftHeight = raftMovement.gameObject.GetComponent<BoxCollider>().bounds.size.y;
         transform.position = position + Vector3.up * raftHeight;
         transform.parent = raftMovement.transform;
-
-        // update raft's interactivity
-        interactable.Text = raftMovement.DisembarkRaftText;
-        interactable.SetAction(delegate { DisembarkRaft(raftMovement); });
-
-        // Give the raft the player's animator to control.
-        raftMovement.PlayerAnimator = PlayerAnimator;
-
-        // Notify subscribers
-        Game.Instance.EventManager.RaftBoarded();
     }
 
     /// <summary>
@@ -613,10 +566,6 @@ public class PlayerController : MonoBehaviour
         PlayerAnimator.SetBool(playerAnimatorSwimming, false);
         PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
         transform.parent = defaultParent;
-
-        // update raft's interactivity
-        interactable.Text = raftMovement.BoardRaftText;
-        interactable.SetAction(delegate { BoardRaft(raftMovement); });
     }
 
     /// <summary>
@@ -666,12 +615,8 @@ public class PlayerController : MonoBehaviour
                 if (Vector3.Angle(playerAnimator.transform.forward, targetDir) < ViewAngle / 2)
                 {
                     float targetDist = Vector3.Distance(playerAnimator.transform.position, target.position);
-
-                    // check that the interactable object is not behind a non-interactable object
-                    if (!Physics.Raycast(playerAnimator.transform.position, targetDir, targetDist, obstacleMask))
-                    {
-                        CheckClosestInteractable(interactablesInRadius[i], targetDist);
-                    }
+              
+                    CheckClosestInteractable(interactablesInRadius[i], targetDist);
                 }
             }
 
@@ -679,7 +624,7 @@ public class PlayerController : MonoBehaviour
             if (closestInteractable != prevInteractable)
             {
                 // only stop showing if there was a previous collider
-                if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag) && interactable != null)
+                if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag) && interactable != null && interactable.GetComponent<InteractableObject>() != null)
                 {
                     interactable.Show = false;
                     interactable = null;
@@ -733,6 +678,15 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the closest interactable item.
+    /// </summary>
+    /// <returns></returns>
+    public Collider ClosestItem()
+    {
+        return closestInteractable;
+    }
+
+    /// <summary>
     /// Returns true if the player is currently in a shelter
     /// </summary>
     public bool IsInShelter
@@ -742,17 +696,7 @@ public class PlayerController : MonoBehaviour
             return isInShelter;
         }
         set
-        {
-            // Set warmth rates to the proper value
-            if (value)
-            {
-                currentWarmthChangeRate = shelterWarmthIncreaseRate;
-            }
-            else
-            {
-                currentWarmthChangeRate = outsideWarmthReductionRate;
-            }
-
+		{
             isInShelter = value;
         }
     }
@@ -768,15 +712,6 @@ public class PlayerController : MonoBehaviour
         }
         set
         {
-            if (value)
-            {
-                currentWarmthChangeRate = fireWarmthIncreaseRate;
-            }
-            else
-            {
-                currentWarmthChangeRate = outsideWarmthReductionRate;
-            }
-
             isByFire = value;
         }
     }
@@ -792,54 +727,6 @@ public class PlayerController : MonoBehaviour
 			return isWaterInView;
 		}
 	}
-
-    /// <summary>
-    /// Gets or sets the fire warmth increase rate.
-    /// </summary>
-    /// <value>The fire warmth increase rate.</value>
-    public float FireWarmthIncreaseRate
-    {
-        get
-        {
-            return fireWarmthIncreaseRate;
-        }
-        set
-        {
-            fireWarmthIncreaseRate = value;
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the outside warmth increase rate.
-    /// </summary>
-    /// <value>The outside warmth increase rate.</value>
-    public float OutsideWarmthIncreaseRate
-    {
-        get
-        {
-            return outsideWarmthReductionRate;
-        }
-        set
-        {
-            outsideWarmthReductionRate = value;
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the shelter warmth increase rate.
-    /// </summary>
-    /// <value>The shelter warmth increase rate.</value>
-    public float ShelterWarmthIncreaseRate
-    {
-        get
-        {
-            return shelterWarmthIncreaseRate;
-        }
-        set
-        {
-            shelterWarmthIncreaseRate = value;
-        }
-    }
 
     /// <summary>
     /// If the player is reading returns true.

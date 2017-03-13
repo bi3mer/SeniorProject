@@ -38,9 +38,7 @@ public class IdolCategory : EquipableCategory
 	/// <param name="benefit">Benefit.</param>
 	public IdolCategory(string benefit)
 	{
-		toolType = ToolTypes.Idol;
 		BenefitName = benefit;
-
 		Benefit = new IdolBenefit(benefit);
 	}
 

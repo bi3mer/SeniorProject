@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013187182448}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: FrontLowerFinTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012960255432}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: TailEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,7 +49,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010832813542}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Spine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011386563176}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: TailBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010905423990}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: SideRightFinTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011766831564}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: TopFinTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013547281006}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: CHA_Fish_Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000010492952384}
   - 137: {fileID: 137000011801574534}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: SideFin1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000014103289714}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: TailModifier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010628224558}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: MouthTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011655673542}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: FrontLowerFinBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012506683564}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: LowerMouthBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010376974032}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: BackLowerFinBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012118306888}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: SideRightFinBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   - 65: {fileID: 65000013149291338}
   - 114: {fileID: 114000010935356686}
   - 114: {fileID: 114000010960519042}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: CHA_MohawkGawkerFish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000012504021316}
   - 137: {fileID: 137000013595377056}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: BottomBackFin2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +266,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013430664260}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: CHA_FishGeo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,7 +281,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011669761198}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Spine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010926882472}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: BackLowerFinTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -311,7 +311,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011267511040}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: MiddleLowerFinRightTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,7 +326,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010699590918}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: TopFinBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +341,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010772115648}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: SideLeftFinBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -357,7 +357,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000012302343694}
   - 137: {fileID: 137000012889241662}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: BottomMiddleFin2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -372,7 +372,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012711203106}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: MouthBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -387,7 +387,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010827731652}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: MiddleLowerFinLeftTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -403,7 +403,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000011410465224}
   - 137: {fileID: 137000014024677474}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: FishBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +418,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010222823912}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: SideLeftFinTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +434,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013686578548}
   - 137: {fileID: 137000013795431814}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: TopFin3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -449,7 +449,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012017593972}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: LowerMouthTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -464,7 +464,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000014060519304}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: MiddleLowerFinBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -972,6 +972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a825660c2f37a402a80399a1b0ae7e61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Velocity: {x: 0, y: 0, z: 0}
 --- !u!137 &137000011801574534
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

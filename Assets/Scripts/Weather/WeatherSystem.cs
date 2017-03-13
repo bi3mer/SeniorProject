@@ -458,7 +458,7 @@ public class WeatherSystem
 		if(updateWeather)
 		{
 			this.WeatherPressureSystems.UpdatePressureSystem();
-			this.UpdateWeather(Game.Instance.PlayerInstance.WorldTransform.position);
+			this.UpdateWeather(Game.Instance.PlayerInstance.WorldPosition);
 		}
 	}
 

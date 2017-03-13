@@ -56,7 +56,7 @@ public class ContainerCategory : ItemCategory
 	{
 		// create the object with the model
 		// TODO: Get information about how many are to be
-		GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem, 1);
+		GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem);
 		InventoryInteractable container = item.AddComponent<InventoryInteractable>();
 		container.SetUp();
 
