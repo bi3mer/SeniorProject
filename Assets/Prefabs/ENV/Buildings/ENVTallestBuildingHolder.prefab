@@ -12031,6 +12031,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  display: {fileID: 0}
 --- !u!114 &114000011063395724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12075,6 +12076,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  display: {fileID: 0}
 --- !u!114 &114000011875586340
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12103,6 +12105,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  display: {fileID: 0}
 --- !u!114 &114000012022700434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12164,6 +12167,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  display: {fileID: 0}
 --- !u!120 &120000010156997498
 LineRenderer:
   m_ObjectHideFlags: 1
