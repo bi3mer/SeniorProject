@@ -111,7 +111,7 @@ Material:
       second: 0.9
     - first:
         name: _AlbedoBlend
-      second: 0.688
+      second: 0.666
     - first:
         name: _AlbedoSpeed1
       second: 0.3
@@ -168,7 +168,7 @@ Material:
       second: 1
     - first:
         name: _Opacity
-      second: 0.493
+      second: 0.704
     - first:
         name: _Parallax
       second: 0.02
