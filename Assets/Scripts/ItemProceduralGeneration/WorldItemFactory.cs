@@ -19,7 +19,7 @@ public class WorldItemFactory
 	/// <summary>
 	/// The name of the layer that items generated to the world by this factory should be.
 	/// </summary>
-	private const string layerName = "PassInteractable";
+	private const string layerName = "CollideInteractable";
 
 	/// <summary>
 	/// The name of the tag that items generated to the world by this factory should have.
