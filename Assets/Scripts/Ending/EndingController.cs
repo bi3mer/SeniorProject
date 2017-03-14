@@ -97,6 +97,7 @@ public class EndingController : MonoBehaviour
     /// <summary>
     /// Called by the beacon script to signify that the ending has begun, and the player needs to wait for rescue.
     /// </summary>
+    [ContextMenu("RunEnding")]
     public void BeaconTurnedOn()
     {
         StartCoroutine(EndingCoroutine());
