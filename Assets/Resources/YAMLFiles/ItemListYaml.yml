@@ -256,7 +256,7 @@
   itemCategories:
     - !!flesh
       hungerGain: 20.0
-      healthEffect: 0.25
+      healthEffect: -0.2
 - itemName: "Matchbook"
   baseItem:
    itemName: "Matchbook"

@@ -37,7 +37,7 @@
      itemCategories:
        - !!flesh
          hungerGain: 20.0
-         healthEffect: -0.25
+         healthEffect: -0.2
    - stackId: 2
      itemAmount: 2
      item:
