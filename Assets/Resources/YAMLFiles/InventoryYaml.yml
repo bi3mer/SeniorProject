@@ -6,7 +6,7 @@
      item: 
       itemName: "Medicine Box"
       rarity: "uncommon"
-      inventorySprite: "GUI_ITM_BandageBox"
+      inventorySprite: "GUI_ITM_MedicineBox"
       worldModel: "ITM/Healing/ITM_BandageBox"
       types: 
        - "medicinal"
@@ -17,7 +17,7 @@
      itemCategories: 
        - !!medicine
          healthGain: 30.0
-         sickness: “all”
+         sickness: "all"
    - stackId: 1
      itemAmount: 10
      item:
@@ -43,7 +43,7 @@
      item:
       itemName: "Bandage"
       rarity: "common"
-      inventorySprite: "GUI_ITM_Bandage"
+      inventorySprite: "GUI_ITM_BandageBox"
       worldModel: "ITM/Healing/ITM_Bandage"
       types:
        - "medicinal"
@@ -204,20 +204,3 @@
         stickiness: 0
         thickness: 0.5
         sharpness: 1
-   - stackId: 9
-     itemAmount: 1
-     item:
-      itemName: "Medicine Box"
-      rarity: "uncommon"
-      inventorySprite: "GUI_ITM_BandageBox"
-      worldModel: "ITM/Healing/ITM_BandageBox"
-      types:
-       - "medicinal"
-      flavorText: "Fixes you up."
-      modifyingActionNames:
-      actionModifiedModels:
-      actionModifiedSprites:
-     itemCategories:
-      - !!medicine
-        healthGain: 30.0
-        sickness: "all"

@@ -210,7 +210,7 @@
   baseItem: 
    itemName: "Medicine Box"
    rarity: "uncommon"
-   inventorySprite: "GUI_ITM_BandageBox"
+   inventorySprite: "GUI_ITM_MedicineBox"
    worldModel: "ITM/Healing/ITM_BandageBox"
    types:
      - "medicinal"
