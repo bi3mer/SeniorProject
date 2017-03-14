@@ -899,11 +899,20 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool(playerAnimatorSwimming, false);
 
             // Move hand targets up!
-            lH.transform.position = new Vector3(lH.transform.position.x, heightPoint.point.y, lH.transform.position.z);
-            rH.transform.position = new Vector3(rH.transform.position.x, heightPoint.point.y, rH.transform.position.z);
+            if (movement == waterMovement)
+            {
+                lH.transform.position = new Vector3(lH.transform.position.x, heightPoint.point.y - waterMovement.SwimmingHeight, lH.transform.position.z);
+                rH.transform.position = new Vector3(rH.transform.position.x, heightPoint.point.y - waterMovement.SwimmingHeight, rH.transform.position.z);
+            }
+            else
+            {
+                lH.transform.position = new Vector3(lH.transform.position.x, heightPoint.point.y, lH.transform.position.z);
+                rH.transform.position = new Vector3(rH.transform.position.x, heightPoint.point.y, rH.transform.position.z);
 
-            // Code to move the players hands and the player forward to the wall.
-            DOTween.To(() => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.RightHand).IKPositionWeight, x => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.RightHand).IKPositionWeight = x, 1f, startClimbTime);
+            }
+
+                // Code to move the players hands and the player forward to the wall.
+                DOTween.To(() => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.RightHand).IKPositionWeight, x => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.RightHand).IKPositionWeight = x, 1f, startClimbTime);
             DOTween.To(() => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.LeftHand).IKPositionWeight, x => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.LeftHand).IKPositionWeight = x, 1f, startClimbTime);
             Tween tween = transform.DOMove(hit2.point, startClimbTime);
 
@@ -930,6 +939,10 @@ public class PlayerController : MonoBehaviour
             handHolder.transform.localPosition = Vector3.zero;
 
             freezePlayer = false;
+
+            // If I climbed I am on land
+            movement = landMovement;
+
         }
         // Call the normal jump.
         else
