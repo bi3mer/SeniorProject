@@ -16,10 +16,10 @@
       actionModifiedSprites: 
      itemCategories: 
        - !!medicine
-         healthGain: 0.0
+         healthGain: 30.0
          sickness: “all”
    - stackId: 1
-     itemAmount: 2
+     itemAmount: 10
      item:
       itemName: "Egg"
       rarity: "common"
@@ -37,7 +37,7 @@
      itemCategories:
        - !!flesh
          hungerGain: 20.0
-         healthEffect: 0.25
+         healthEffect: -0.25
    - stackId: 2
      itemAmount: 2
      item:
@@ -102,7 +102,6 @@
       types:
         - "rod"
         - "fuel"
-        - "base solid"
       flavorText: "It's...a stick."
       modifyingActionNames:
       actionModifiedModels:
@@ -192,6 +191,7 @@
       worldModel: "ITM/WoodPlanks/ITM_WoodPlank1"
       types:
        - "floatable object"
+       - "base solid"
       flavorText: "A piece of wood."
       modifyingActionNames:
       actionModifiedModels:
@@ -204,3 +204,20 @@
         stickiness: 0
         thickness: 0.5
         sharpness: 1
+   - stackId: 9
+     itemAmount: 1
+     item:
+      itemName: "Medicine Box"
+      rarity: "uncommon"
+      inventorySprite: "GUI_ITM_BandageBox"
+      worldModel: "ITM/Healing/ITM_BandageBox"
+      types:
+       - "medicinal"
+      flavorText: "Fixes you up."
+      modifyingActionNames:
+      actionModifiedModels:
+      actionModifiedSprites:
+     itemCategories:
+      - !!medicine
+        healthGain: 30.0
+        sickness: "all"

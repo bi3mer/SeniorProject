@@ -18,6 +18,10 @@ public class LoadingScreen : MonoBehaviour
     private Text progressText;
 
     [SerializeField]
+    [Tooltip("The text to show current task.")]
+    private Text taskText;
+
+    [SerializeField]
     [Tooltip("Ease of interpolating progress bar value.")]
     [Range(0, 1)]
     private float progressBarEase;
@@ -45,11 +49,6 @@ public class LoadingScreen : MonoBehaviour
     /// </summary>
 	void Start ()
     {
-        // TEST VALUES
-        testTask = Game.Instance.Loader.CreateGameLoaderTask("Test");
-        testTimeout = 0f;
-        // ENDTEST
-
         loadingScreen.SetActive(true);
 
         if (progressBar != null)
@@ -75,19 +74,14 @@ public class LoadingScreen : MonoBehaviour
     /// </summary>
 	void Update ()
     {
-        // TEST VALUES WILL BE REMOVED
-        if (testTimeout <= 0f)
-        {
-            testTask.PercentageComplete += UnityEngine.Random.Range(0.05f, 0.3f);
-            testTimeout = UnityEngine.Random.Range(0.5f, 2f);
-        }
-
-        testTimeout -= Time.deltaTime;
-        // END TEST
-
 	    if (progressText != null)
         {
             progressText.text = GetPercentageString(Game.Instance.Loader.PercentageComplete);
+        }
+
+        if (taskText != null)
+        {
+            taskText.text = Game.Instance.Loader.CurrentTask;
         }
 
         if (progressBar != null)

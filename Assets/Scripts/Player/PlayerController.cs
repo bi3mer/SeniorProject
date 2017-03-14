@@ -428,26 +428,30 @@ public class PlayerController : MonoBehaviour
             // food poisoning doubles the hunger change rate
             Game.Instance.PlayerInstance.Controller.PlayerStatManager.HungerRate.ChangeRateValues(foodPoisonHungerDecrease, foodPoisioningTime);
         }
+        else
+        {
+            Game.Instance.PlayerInstance.Controller.PlayerStatManager.HungerRate.UseDefaultHungerReductionRate();
+        }
+
         // check if sick with pneumonia
         if (Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.Pneumonia)
         {
             // pnuemonia doubles the warmth change rate
             Game.Instance.PlayerInstance.Controller.PlayerStatManager.WarmthRate.ChangeRateValues(pneumoniaWarmthDecrease, pneumoniaTime);
         }
-
         // check if we're in water
-        if (IsInWater) 
-		{
-			PlayerStatManager.WarmthRate.UseWaterWarmthReductionRate ();
-		} 
-		else if (IsByFire || IsInShelter) 
-		{
-			PlayerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate ();
-		}
-		else
-		{
-			PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
-		}
+        else if (IsInWater)
+        {
+            PlayerStatManager.WarmthRate.UseWaterWarmthReductionRate();
+        }
+        else if (IsByFire || IsInShelter)
+        {
+            PlayerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate();
+        }
+        else
+        {
+            PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate();
+        }
 
 		PlayerStatManager.ApplyCorrectHealthReductionRate ();
     }
