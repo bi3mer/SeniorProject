@@ -26,9 +26,10 @@ GameObject:
   - 65: {fileID: 65000010916185238}
   - 65: {fileID: 65000014264115480}
   - 65: {fileID: 65000013961158934}
+  - 114: {fileID: 114000014144141060}
   m_Layer: 9
   m_Name: ENV_WindowWasher
-  m_TagString: Land
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,7 +44,7 @@ GameObject:
   - 4: {fileID: 4000013851826162}
   m_Layer: 9
   m_Name: RopeAttachLocation1
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -59,7 +60,7 @@ GameObject:
   - 120: {fileID: 120000011565366448}
   m_Layer: 9
   m_Name: SecondRopeLineRenderer
-  m_TagString: Land
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,7 +75,7 @@ GameObject:
   - 4: {fileID: 4000012402838368}
   m_Layer: 9
   m_Name: RopeAttachLocation2
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,7 +90,7 @@ GameObject:
   - 4: {fileID: 4000012961753538}
   m_Layer: 9
   m_Name: RopeAttachLocation3
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +109,7 @@ GameObject:
   - 65: {fileID: 65000010053391898}
   m_Layer: 9
   m_Name: ENV_WindowWasherSupport
-  m_TagString: Land
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,7 +126,7 @@ GameObject:
   - 65: {fileID: 65000013180113982}
   m_Layer: 9
   m_Name: WindowWasherGround
-  m_TagString: Land
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -140,14 +141,14 @@ GameObject:
   - 4: {fileID: 4000012148869080}
   m_Layer: 9
   m_Name: RopeAttachLocation4
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1000014183905886
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -157,7 +158,7 @@ GameObject:
   - 102: {fileID: 102000010708374116}
   m_Layer: 9
   m_Name: TextMesh
-  m_TagString: Land
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,10 +174,9 @@ GameObject:
   - 114: {fileID: 114000012687556424}
   - 54: {fileID: 54000011720505816}
   - 120: {fileID: 120000010831116910}
-  - 114: {fileID: 114000011268269196}
   m_Layer: 9
   m_Name: Window Washer
-  m_TagString: Land
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -195,8 +195,9 @@ Transform:
   - {fileID: 4000011979510674}
   - {fileID: 4000013851826162}
   - {fileID: 4000012402838368}
+  - {fileID: 4000011904715294}
   m_Father: {fileID: 4000011968643462}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!4 &4000010414060748
 Transform:
   m_ObjectHideFlags: 1
@@ -211,7 +212,7 @@ Transform:
   - {fileID: 4000012961753538}
   - {fileID: 4000012148869080}
   m_Father: {fileID: 4000011968643462}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!4 &4000011904715294
 Transform:
   m_ObjectHideFlags: 1
@@ -219,12 +220,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014183905886}
   m_LocalRotation: {x: 0.4999171, y: 0.4999171, z: -0.5000829, w: 0.5000829}
-  m_LocalPosition: {x: -0.553, y: 0.013, z: 0.46}
+  m_LocalPosition: {x: -0.20899382, y: 0.049, z: 0.4579991}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 89.981, y: 0, z: -90}
   m_Children: []
-  m_Father: {fileID: 4000011968643462}
-  m_RootOrder: 0
+  m_Father: {fileID: 4000010028245174}
+  m_RootOrder: 3
 --- !u!4 &4000011968643462
 Transform:
   m_ObjectHideFlags: 1
@@ -232,11 +233,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014197162040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -143.55643, y: 1.03, z: 35.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 4000011904715294}
   - {fileID: 4000013553497934}
   - {fileID: 4000010028245174}
   - {fileID: 4000010414060748}
@@ -306,7 +306,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000011968643462}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!4 &4000013851826162
 Transform:
   m_ObjectHideFlags: 1
@@ -565,34 +565,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
---- !u!114 &114000011268269196
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000014197162040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be3f89982c190304b82c2722e7a2f4a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: Use Lift
-  action:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114000012687556424}
-        m_MethodName: TeleportPlayer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!114 &114000012687556424
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -619,7 +591,35 @@ MonoBehaviour:
   washerBaseLength: 1.1
   placementCenter: {fileID: 1000013414948478}
   StartUp: 0
-  myIntObject: {fileID: 114000011268269196}
+--- !u!114 &114000014144141060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010088449882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be3f89982c190304b82c2722e7a2f4a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Use Lift
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114000012687556424}
+        m_MethodName: TeleportPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  display: {fileID: 0}
 --- !u!120 &120000010831116910
 LineRenderer:
   m_ObjectHideFlags: 1
