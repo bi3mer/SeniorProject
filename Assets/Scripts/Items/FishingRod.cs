@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(BezierLine))]
@@ -51,7 +51,7 @@ public class FishingRod : Tool
     /// </summary>
     void FixedUpdate ()
     {
-        UpdateFishingLine();
+        updateFishingLine();
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public class FishingRod : Tool
         private set
         {
             InUse = value;
-            SetFishingLineActive(value);
+            setFishingLineActive(value);
         }
     }
 
@@ -88,15 +88,15 @@ public class FishingRod : Tool
     {
         if (WasCast)
         {
-            Reel();
+            reel();
         }
         else if (CanCast)
         {
-            Cast();
+            cast();
         }
         else
         {
-            Fail();
+            fail();
         }
     }
 
@@ -119,7 +119,10 @@ public class FishingRod : Tool
         WasCast = false;
     }
 
-    private void Reel ()
+	/// <summary>
+	/// Reel this instance.
+	/// </summary>
+    private void reel ()
     {
 
         // TODO: Play reeling animation.
@@ -127,10 +130,13 @@ public class FishingRod : Tool
         fishingLure.Reel(transform.position);
         
         // Wait until reeling is done before saying the cast is done
-        StartCoroutine(WaitToFinish());
+        StartCoroutine(waitToFinish());
     }
 
-    private void Cast ()
+	/// <summary>
+	/// Cast this instance.
+	/// </summary>
+    private void cast ()
     {
         WasCast = true;
 
@@ -144,12 +150,18 @@ public class FishingRod : Tool
         fishingLure.Cast(force);
     }
 
-    private void Fail ()
+	/// <summary>
+	/// Fail this instance.
+	/// </summary>
+    private void fail ()
     {
         // TODO: Play fail animation
     }
 
-    private void UpdateFishingLine ()
+	/// <summary>
+	/// Updates the fishing line.
+	/// </summary>
+    private void updateFishingLine ()
     {
         // We don't need to update unless we using the fishing line
         if (!WasCast)
@@ -174,16 +186,24 @@ public class FishingRod : Tool
         line.ControlPoint = control;
     }
 
-    private void SetFishingLineActive(bool value)
+	/// <summary>
+	/// Sets the fishing line active.
+	/// </summary>
+	/// <param name="value">If set to <c>true</c> value.</param>
+    private void setFishingLineActive(bool value)
     {
         // hide or show the fishing line and fishing lure
         line.RendererComponent.enabled = value;
         fishingLure.gameObject.SetActive(value);
     }
 
-    private IEnumerator WaitToFinish()
+	/// <summary>
+	/// Waits to finish.
+	/// </summary>
+	/// <returns>The to finish.</returns>
+    private IEnumerator waitToFinish()
     {
-        // Check each fram to see if reeling is complete
+        // Check each frame to see if reeling is complete
         while (WasCast)
         {
             if (!fishingLure.IsReeling)

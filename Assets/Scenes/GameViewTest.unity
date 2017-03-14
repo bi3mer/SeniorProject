@@ -4023,37 +4023,37 @@ Prefab:
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: 0.08128826
+      value: 0.5196764
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.z.scalar
-      value: 0.58050144
+      value: 0.37665942
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationX.scalar
-      value: 0.025329152
+      value: 0.016434867
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationY.scalar
-      value: -0.0035468694
+      value: -0.022675158
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: EmissionModule.rate.scalar
-      value: 35.11481
+      value: 39.0737
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: 0.20322065
+      value: 1.2991909
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.y.scalar
-      value: 1.4512535
+      value: 0.94164854
       objectReference: {fileID: 0}
     - target: {fileID: 114000010296232540, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
@@ -9011,6 +9011,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b05fa1541e394bdbaebadeb4c902a98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildings:
+  - {fileID: 0}
+  doors: []
+  shelters: []
 --- !u!114 &1321603151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9043,6 +9047,7 @@ MonoBehaviour:
   poolManager: {fileID: 1321603151}
   itemGenerationChance: 0
   doorGenerationChance: 0
+  shelterGenerationChance: 0
 --- !u!1 &1329357755
 GameObject:
   m_ObjectHideFlags: 0

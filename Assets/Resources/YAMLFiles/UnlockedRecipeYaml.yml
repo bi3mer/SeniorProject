@@ -173,3 +173,21 @@
      qualityThreshold:
       - 2
       - 4
+- recipeName: "Thermometer"
+  tiered: false
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "container"
+     amountRequired: 1
+   - itemType: "base solid"
+     amountRequired: 1
+  statsToCheck:
+- recipeName: "Barometer"
+  tiered: false
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "container"
+     amountRequired: 1
+   - itemType: "base solid"
+     amountRequired: 1
+  statsToCheck:
