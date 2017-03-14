@@ -337,8 +337,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011961198834}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 122, y: 0, z: -57}
-  m_LocalScale: {x: 2.83171, y: 2.8317099, z: 2.8317099}
+  m_LocalPosition: {x: 123, y: 0, z: -65}
+  m_LocalScale: {x: 2.456717, y: 2.4567168, z: 2.4567168}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4000014040906088}
@@ -351,7 +351,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010414017512}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -146.2, y: 0, z: 37.2}
+  m_LocalPosition: {x: -145, y: 0, z: 62.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -761,9 +761,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sun: {fileID: 108000012053014964}
   moon: {fileID: 108000011414395396}
-  moonMinBrightness: 0.33
+  moonMinBrightness: 0.5
   moonMaxBrightness: 0.75
-  sunMinBrightness: 0.33
+  sunMinBrightness: 0.5
   sunMaxBrightness: 1.5
 --- !u!114 &114000011275620152
 MonoBehaviour:
@@ -1231,7 +1231,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationX:
-      scalar: -0.16214105
+      scalar: -0.1302919
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1266,7 +1266,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationY:
-      scalar: -0.0635509
+      scalar: -0.008153381
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1365,7 +1365,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 149.75766
+      scalar: 118.06244
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1793,7 +1793,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 3.6411984
+      scalar: 0.4671543
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1818,7 +1818,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     y:
-      scalar: -9.289998
+      scalar: -7.465176
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -9940,7 +9940,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 37.439415
+      scalar: 29.51561
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10338,7 +10338,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 1.4564794
+      scalar: 0.18686172
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10388,7 +10388,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     z:
-      scalar: -3.7159994
+      scalar: -2.9860704
       maxCurve:
         serializedVersion: 2
         m_Curve:
