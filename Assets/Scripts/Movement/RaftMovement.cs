@@ -48,6 +48,7 @@ public class RaftMovement : Movement
     void Awake()
     {
         raftBody = GetComponent<Rigidbody>();
+        raftBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
     /// <summary>
