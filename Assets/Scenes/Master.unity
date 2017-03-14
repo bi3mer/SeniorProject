@@ -262,6 +262,11 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
+--- !u!1 &113719491 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000014221202382, guid: 12cac1228c3fb431483d6d77ddf40555,
+    type: 2}
+  m_PrefabInternal: {fileID: 641551466}
 --- !u!21 &118359980
 Material:
   serializedVersion: 6
@@ -873,42 +878,42 @@ Prefab:
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: EmissionModule.rate.scalar
-      value: 34.816216
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: 1.2493021
+      value: -0.718364
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.z.scalar
-      value: -3.4448926
+      value: 2.853912
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationX.scalar
-      value: -0.15031178
+      value: 0.1245254
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationY.scalar
-      value: -0.05451109
+      value: 0.031344544
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: EmissionModule.rate.scalar
-      value: 139.26486
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: 3.1232553
+      value: -1.79591
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.y.scalar
-      value: -8.612231
+      value: 7.13478
       objectReference: {fileID: 0}
     - target: {fileID: 4000011538390944, guid: ecc262ca63bb3d54ba8476a9fa126d5c, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1250,6 +1255,11 @@ Prefab:
       propertyPath: TestDistrict.districtProceduralWindowMaterials.Array.data[2]
       value: 
       objectReference: {fileID: 1055003845}
+    - target: {fileID: 114000010239616376, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+        type: 2}
+      propertyPath: cityCenterBuilding
+      value: 
+      objectReference: {fileID: 1422621592}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d, type: 2}
   m_IsPrefabParent: 0
@@ -2232,22 +2242,22 @@ Prefab:
     - target: {fileID: 224000011606156642, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 414
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: 224000011606156642, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 307
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 224000011606156642, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 828
+      value: 640
       objectReference: {fileID: 0}
     - target: {fileID: 224000011606156642, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 614
+      value: 480
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 12cac1228c3fb431483d6d77ddf40555, type: 2}
@@ -2861,7 +2871,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 1698585284}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -4474,6 +4484,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 59772e9f4be5e4f548a626736b168eb1, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1422621592 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000010512083558, guid: 9ba31da0e553b1a4d88ccb9db0377693,
+    type: 2}
+  m_PrefabInternal: {fileID: 1474043252}
 --- !u!1001 &1445386723
 Prefab:
   m_ObjectHideFlags: 0
@@ -4684,7 +4699,7 @@ Prefab:
         type: 2}
       propertyPath: hideThese.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 113719491}
     - target: {fileID: 114000012063314328, guid: 9ba31da0e553b1a4d88ccb9db0377693,
         type: 2}
       propertyPath: hideThese.Array.data[1]
@@ -5395,6 +5410,32 @@ Material:
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
+--- !u!83 &1698585284
+AudioClip:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_LoadType: 0
+  m_Channels: 0
+  m_Frequency: 0
+  m_BitsPerSample: 0
+  m_Length: 0
+  m_IsTrackerFormat: 0
+  m_SubsoundIndex: 0
+  m_PreloadAudioData: 1
+  m_LoadInBackground: 0
+  m_Legacy3D: 0
+  m_Resource:
+    m_Source: 
+    m_Offset: 0
+    m_Size: 0
+  m_CompressionFormat: 0
+  m_EditorResource:
+    m_Source: 
+    m_Offset: 0
+    m_Size: 0
+  m_EditorCompressionFormat: 0
 --- !u!21 &1813621908
 Material:
   serializedVersion: 6
