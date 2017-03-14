@@ -620,6 +620,21 @@
       brightness: 2
       currentFuelLevel: 10
       burnRate: 0.5
+- itemName: "Shelter"
+  baseItem:
+   itemName: "Shelter"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_Shovel"
+   worldModel: "ITM/Shanty Shelters/ENV_shanty_shelter_1"
+   types:
+    - "advanced tool"
+   flavorText: "It's just a little holey."
+   modifyingActionNames:
+   actionModifiedModels: 
+   actionModifiedSprites:
+  itemCategories:
+    - !!shelter
+      warmthRate: 1
 - itemName: "Thermometer"
   baseItem: 
    itemName: "Thermometer"

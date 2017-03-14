@@ -11,7 +11,7 @@ public class WarmthRateManager : StatRate
 
 	private const int secondsForByFireWithCloth = 1;
 	private const int secondsForInWaterWithCloth = 3;
-	private const int unitsInShelter = 0;
+	private int unitsInShelter = 0;
 
 	// set default values for warmth rates
 	private StatRate defaultWarmthReductionRate;
@@ -165,6 +165,11 @@ public class WarmthRateManager : StatRate
 			return null;
 		}
 	}
+
+    public void SetUnitsInShelter(int unit)
+    {
+        unitsInShelter = unit;
+    }
 }
 
 
