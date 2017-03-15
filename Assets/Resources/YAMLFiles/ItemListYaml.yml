@@ -210,7 +210,7 @@
   baseItem: 
    itemName: "Medicine Box"
    rarity: "uncommon"
-   inventorySprite: "GUI_ITM_BandageBox"
+   inventorySprite: "GUI_ITM_MedicineBox"
    worldModel: "ITM/Healing/ITM_BandageBox"
    types:
      - "medicinal"
@@ -256,7 +256,7 @@
   itemCategories:
     - !!flesh
       hungerGain: 20.0
-      healthEffect: 0.25
+      healthEffect: -0.2
 - itemName: "Matchbook"
   baseItem:
    itemName: "Matchbook"

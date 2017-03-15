@@ -37,7 +37,7 @@ public class FleshCategory : ItemCategory
     private const string cookActName = "Cook";
     private const string eatActName = "Eat";
 
-    private const float healthEffectDecreaseRate = 0.25f;
+    private const float healthEffectIncreaseRate = 0.25f;
     private const float hungerGainDecreaseRate = 0.5f;
     private const float hungerGainIncreaseRate = 1.25f;
 
@@ -96,7 +96,7 @@ public class FleshCategory : ItemCategory
 
     		baseItem.AddItemCategory(fuelCategory);
 
-    		HealthEffect += healthEffectDecreaseRate;
+    		HealthEffect -= healthEffectIncreaseRate;
     		HungerGain *= hungerGainDecreaseRate;
 
 			GetAttribute (healthEffectAttrName).Value = HealthEffect;
@@ -105,7 +105,7 @@ public class FleshCategory : ItemCategory
     	else
     	{
 	        baseItem.ChangeName(defaultCookedNameAddition + baseItem.ItemName);
-	        HealthEffect -= healthEffectDecreaseRate;
+	        HealthEffect += healthEffectIncreaseRate;
 	        HungerGain *= hungerGainIncreaseRate;
 			GetAttribute (healthEffectAttrName).Value = HealthEffect;
 			GetAttribute (hungerGainAttrName).Value = HungerGain;

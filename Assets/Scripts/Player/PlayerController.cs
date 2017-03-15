@@ -29,6 +29,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private UnityEvent warmthUpdatedEvent;
 
+    [Header("Resource Settings")]
+    [SerializeField]
+    [Tooltip("How much warmth decreases when player has pneumonia.")]
+    private int pneumoniaWarmthDecrease;
+    [SerializeField]
+    [Tooltip("How much hunger decreases when player has food poisioning.")]
+    private int foodPoisonHungerDecrease;
+    [SerializeField]
+    [Tooltip("How many seconds per decrease of warmth.")]
+    private int pneumoniaTime;
+    [SerializeField]
+    [Tooltip("How many seconds per decrease of hunger.")]
+    private int foodPoisioningTime;
+
     [Header("DebugMode Settings")]
     [SerializeField]
     private float verticalSpeed;
@@ -412,19 +426,36 @@ public class PlayerController : MonoBehaviour
             healthUpdatedEvent.Invoke();
         }
 
+        // check if sick with food poisoning
+        if (Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.FoodPoisoning)
+        {
+            // food poisoning doubles the hunger change rate
+            Game.Instance.PlayerInstance.Controller.PlayerStatManager.HungerRate.ChangeRateValues(foodPoisonHungerDecrease, foodPoisioningTime);
+        }
+        else
+        {
+            Game.Instance.PlayerInstance.Controller.PlayerStatManager.HungerRate.UseDefaultHungerReductionRate();
+        }
+
+        // check if sick with pneumonia
+        if (Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.Pneumonia)
+        {
+            // pnuemonia doubles the warmth change rate
+            Game.Instance.PlayerInstance.Controller.PlayerStatManager.WarmthRate.ChangeRateValues(pneumoniaWarmthDecrease, pneumoniaTime);
+        }
         // check if we're in water
-		if (IsInWater) 
-		{
-			PlayerStatManager.WarmthRate.UseWaterWarmthReductionRate ();
-		} 
-		else if (IsByFire || IsInShelter) 
-		{
-			PlayerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate ();
-		}
-		else
-		{
-			PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
-		}
+        else if (IsInWater)
+        {
+            PlayerStatManager.WarmthRate.UseWaterWarmthReductionRate();
+        }
+        else if (IsByFire || IsInShelter)
+        {
+            PlayerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate();
+        }
+        else
+        {
+            PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate();
+        }
 
 		PlayerStatManager.ApplyCorrectHealthReductionRate ();
     }
