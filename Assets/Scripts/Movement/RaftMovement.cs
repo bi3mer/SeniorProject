@@ -116,10 +116,6 @@ public class RaftMovement : Movement
     /// <returns>The raft position.</returns>
     private IEnumerator updatePlayerRaftPosition()
     {
-        //  private IEnumerator updatePlayerRaftPosition()
-        //   {
-        // TODO: update this in the future so it will work with more than 
-        //       one raft in the scene.
         while (Game.Instance.PlayerInstance.Controller.IsOnRaft)
         {
             Game.Instance.PlayerInstance.Controller.BoardRaft(this);

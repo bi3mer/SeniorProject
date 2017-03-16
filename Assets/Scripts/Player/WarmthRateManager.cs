@@ -16,7 +16,7 @@ public class WarmthRateManager : StatRate
 	// set default values for warmth rates
 	private StatRate defaultWarmthReductionRate;
 
-	// default temperature checks and seconds intervals (sets warmth rate based on whether or not current temperature is ><= these values)
+	// default temperature checks and seconds intervals (sets warmth rate based on whether or not currengett temperature is ><= these values)
 	private const int defaultUnitWarmth = -1;
 
 	private const float tempTier6 = 60.0f;
@@ -166,6 +166,10 @@ public class WarmthRateManager : StatRate
 		}
 	}
 
+    /// <summary>
+    /// sets Units in shelter to a given int.
+    /// </summary>
+    /// <param name="unit">the number of units</param>
     public void SetUnitsInShelter(int unit)
     {
         unitsInShelter = unit;

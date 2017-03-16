@@ -32,6 +32,7 @@ public class CameraController : MonoBehaviour
 
     private int currentView;
     private Camera targetCamera;
+    [HideInInspector]
     public bool EndingTriggered = false;
 
     /// <summary>
@@ -76,14 +77,13 @@ public class CameraController : MonoBehaviour
     {
         get
         {
-            if(!EndingTriggered)
-            { 
-               return CameraPositions[currentView];
-
+            if(EndingTriggered)
+            {
+                return Camera.main.transform;
             }
             else
             {
-                return Camera.main.transform;
+                return CameraPositions[currentView];            
             }
         }
     }

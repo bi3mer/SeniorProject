@@ -74,7 +74,6 @@ public class CityController : MonoBehaviour
         Vector3 cityCenter = GenerationUtility.GetMostCommonVertex(districts);
         Building tallestBuilding = new TemplateBuilding(this.gameObject.transform, cityCenter, buildingGenerator.CityCenterBuilding);
         buildingGenerator.CityCenterBuilding.transform.position = tallestBuilding.Position;
-        // tallestBuilding.Load();
 
 		float cityWidth = cityBounds.size.x;
 		float cityDepth = cityBounds.size.z;

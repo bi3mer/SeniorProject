@@ -54,6 +54,11 @@ public class PlayerController : MonoBehaviour
     [Tooltip("How deep the player can be in water before they start swimming.")]
     private float waterWadeHeight;
 
+    [SerializeField]
+    [Tooltip("Time for the player to tween to be on the raft")]
+    private float raftBoardTime = .5f;
+
+
     private const float groundedRaycastHeight = 0.01f;
 	private const float distanceToCheckWater = 0.5f;
 
@@ -497,14 +502,12 @@ public class PlayerController : MonoBehaviour
     {
         bool belowWater = (Game.Instance.WaterLevelHeight > PlayerIKSetUp.transform.position.y + waterWadeHeight);
 
-
         if (IsOnRaft)
         {
             PlayerAnimator.SetBool(playerAnimatorFalling, false);
             PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
             PlayerAnimator.SetBool(playerAnimatorSwimming, false);
             PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
-            return;
         }
         // If the player is low enough to be in the water
         else if (movement != waterMovement && belowWater)
@@ -514,7 +517,6 @@ public class PlayerController : MonoBehaviour
             movement = waterMovement;
             movement.OnStateEnter();
             playerAnimator.SetBool(playerAnimatorSwimming, true);
-            return;
         }
         else
         { 
@@ -555,10 +557,11 @@ public class PlayerController : MonoBehaviour
         if (movement != raftMovement)
         {
             movement = raftMovement;
+
             // place player on raft
             Vector3 position = raftMovement.gameObject.transform.position;
             transform.parent = raftMovement.transform;
-            transform.DOLocalMove(new Vector3(0f, raftMovement.PlayerStandHeight, 0f), .5f);
+            transform.DOLocalMove(new Vector3(0f, raftMovement.PlayerStandHeight, 0f), raftBoardTime);
             setPlayerCollision(false);
         }
         else
@@ -589,19 +592,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void setPlayerCollision(bool enable)
     {
-        if (!enable)
-        {
-            playerCollider.enabled = false;
-            characterController.enabled = false;
-        }
-        else
-        {
-            playerCollider.enabled = true;
-            characterController.enabled = true;
-        }
+            playerCollider.enabled = enable;
+            characterController.enabled = enable;
     }
-
-
 
     /// <summary>
     /// Returns true of the player is on solid ground
@@ -946,8 +939,8 @@ public class PlayerController : MonoBehaviour
 
             }
 
-                // Code to move the players hands and the player forward to the wall.
-                DOTween.To(() => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.RightHand).IKPositionWeight, x => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.RightHand).IKPositionWeight = x, 1f, startClimbTime);
+            // Code to move the players hands and the player forward to the wall.
+            DOTween.To(() => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.RightHand).IKPositionWeight, x => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.RightHand).IKPositionWeight = x, 1f, startClimbTime);
             DOTween.To(() => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.LeftHand).IKPositionWeight, x => PlayerIKSetUp.GetGoalIK(AvatarIKGoal.LeftHand).IKPositionWeight = x, 1f, startClimbTime);
             Tween tween = transform.DOMove(hit2.point, startClimbTime);
 
