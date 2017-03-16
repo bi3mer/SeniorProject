@@ -6,7 +6,7 @@
      item: 
       itemName: "Medicine Box"
       rarity: "uncommon"
-      inventorySprite: "GUI_ITM_BandageBox"
+      inventorySprite: "GUI_ITM_MedicineBox"
       worldModel: "ITM/Healing/ITM_BandageBox"
       types: 
        - "medicinal"
@@ -17,9 +17,9 @@
      itemCategories: 
        - !!medicine
          healthGain: 30.0
-         sickness: “all”
+         sickness: "all"
    - stackId: 1
-     itemAmount: 2
+     itemAmount: 10
      item:
       itemName: "Egg"
       rarity: "common"
@@ -37,13 +37,13 @@
      itemCategories:
        - !!flesh
          hungerGain: 20.0
-         healthEffect: 0.25
+         healthEffect: -0.2
    - stackId: 2
      itemAmount: 2
      item:
       itemName: "Bandage"
       rarity: "common"
-      inventorySprite: "GUI_ITM_Bandage"
+      inventorySprite: "GUI_ITM_BandageBox"
       worldModel: "ITM/Healing/ITM_Bandage"
       types:
        - "medicinal"

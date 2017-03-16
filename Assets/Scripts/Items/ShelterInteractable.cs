@@ -27,7 +27,7 @@ public class ShelterInteractable : InteractableObject
     /// </summary>
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(playerTag))
+        if (other.tag == playerTag)
         {
             Game.Instance.PlayerInstance.Controller.PlayerStatManager.WarmthRate.SetUnitsInShelter(Shelter.WarmthRate);
             Game.Instance.PlayerInstance.Controller.IsInShelter = true;
@@ -39,7 +39,7 @@ public class ShelterInteractable : InteractableObject
     /// </summary>
     public void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag(playerTag))
+        if (other.tag == playerTag)
         {
             Game.Instance.PlayerInstance.Controller.IsInShelter = false;
         }
