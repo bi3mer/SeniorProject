@@ -274,7 +274,7 @@
   baseItem:
    itemName: "Poor Fire Pit"
    rarity: "common"
-   inventorySprite: "GUI_ITM_ScrapMetal"
+   inventorySprite: "GUI_ITM_ItemAtlas_Campfire"
    worldModel: "ITM/Campfire/ENV_Campfire"
    types:
      - "fuel"
@@ -625,7 +625,7 @@
   baseItem:
    itemName: "Shelter"
    rarity: "common"
-   inventorySprite: "GUI_ITM_Shovel"
+   inventorySprite: "GUI_ITM_ItemAtlas_Shelter"
    worldModel: "ITM/Shanty Shelters/ENV_shanty_shelter_1"
    types:
     - "advanced tool"
