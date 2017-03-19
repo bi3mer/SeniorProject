@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class IdolCategory : EquipableCategory 
 {
+	private const string warmthBenefitName = "Warmth";
+
 	/// <summary>
 	/// Gets the benefit of having the idol equipped. This is not defined by the yaml.
 	/// </summary>
@@ -26,20 +28,13 @@ public class IdolCategory : EquipableCategory
 	}
 
 	/// <summary>
-	/// Initializes a default instance of the <see cref="IdolCategory"/> class.
+	/// Gets or sets the benefit units.
 	/// </summary>
-	public IdolCategory()
+	/// <value>The benefit units.</value>
+	public int BenefitUnits
 	{
-	}
-
-	/// <summary>
-	/// Initializes a new instance of the <see cref="IdolCategory"/> class.
-	/// </summary>
-	/// <param name="benefit">Benefit.</param>
-	public IdolCategory(string benefit)
-	{
-		BenefitName = benefit;
-		Benefit = new IdolBenefit(benefit);
+		get;
+		set;
 	}
 
 	/// <summary>
@@ -48,7 +43,11 @@ public class IdolCategory : EquipableCategory
 	/// <returns>The duplicate.</returns>
 	public override ItemCategory GetDuplicate()
 	{
-		IdolCategory category = new IdolCategory(BenefitName);
+		IdolCategory category = new IdolCategory();
+		category.Benefit = Benefit;
+		category.BenefitName = BenefitName;
+		category.BenefitUnits = BenefitUnits;
+
 		category.Equiped = Equiped;
 		category.Actions = new List<ItemAction>();
 		category.Attributes = new List<Attribute>();
@@ -83,7 +82,7 @@ public class IdolCategory : EquipableCategory
 		Actions.Add(equip);
 		Actions.Add(unequip);
 
-		Benefit = new IdolBenefit(BenefitName);
+		Benefit = setBenefit();
 	}
 
 	/// <summary>
@@ -92,6 +91,28 @@ public class IdolCategory : EquipableCategory
 	public void Equip()
 	{
 		base.Equip();
-		Benefit.ActivateBenefit();
+		Benefit.ApplyBenefit();
+	}
+
+	/// <summary>
+	/// Sets the benefit based on the BenefitName provided.
+	/// </summary>
+	/// <returns>The benefit.</returns>
+	private IdolBenefit setBenefit()
+	{
+		IdolBenefit benefit = null;
+
+		switch(BenefitName)
+		{
+			case warmthBenefitName:
+				WarmthChangeBenefit warmthBenefit = new WarmthChangeBenefit();
+				warmthBenefit.RateChangeUnits = BenefitUnits;
+				benefit = warmthBenefit;
+				break;
+			default:
+				break;
+		}	
+
+		return benefit;
 	}
 }
