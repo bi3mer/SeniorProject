@@ -31,12 +31,17 @@ public class PlayerController : MonoBehaviour
 
     [Header("Resource Settings")]
     [SerializeField]
+    [Tooltip("How much warmth decreases when player has pneumonia.")]
     private int pneumoniaWarmthDecrease;
     [SerializeField]
+    [Tooltip("How much hunger decreases when player has food poisioning.")]
     private int foodPoisonHungerDecrease;
     [SerializeField]
+    [Tooltip("How many seconds per decrease of warmth.")]
     private int pneumoniaTime;
     [SerializeField]
+    [Tooltip("How many seconds per decrease of hunger.")]
+
     private int foodPoisioningTime;
 
     [Header("DebugMode Settings")]
