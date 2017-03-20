@@ -41,7 +41,6 @@ public class PlayerController : MonoBehaviour
     private int pneumoniaTime;
     [SerializeField]
     [Tooltip("How many seconds per decrease of hunger.")]
-
     private int foodPoisioningTime;
 
     [Header("DebugMode Settings")]

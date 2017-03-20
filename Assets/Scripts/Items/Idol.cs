@@ -57,5 +57,6 @@ public class Idol : Tool
 	/// </summary>
 	public override void Use()
 	{
+		// TODO: Click to pray
 	}
 }
