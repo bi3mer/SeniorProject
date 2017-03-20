@@ -19,7 +19,6 @@ public class DayNightSkybox : MonoBehaviour
     /// </summary>
 	void Update ()
     {
-        print(Game.Instance.ClockInstance.CurrentGameTimeInHours);
         // This goes up to 24. Representing one day.
         // Start at midnight so we want 1.
         // At high noon we want 0
