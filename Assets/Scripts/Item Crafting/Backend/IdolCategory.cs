@@ -28,7 +28,7 @@ public class IdolCategory : EquipableCategory
 	}
 
 	/// <summary>
-	/// Gets or sets the benefit units.
+	/// Gets or sets the benefit units. The units are the value that will be used by the benefit.
 	/// </summary>
 	/// <value>The benefit units.</value>
 	public int BenefitUnits
@@ -91,6 +91,8 @@ public class IdolCategory : EquipableCategory
 	public void Equip()
 	{
 		base.Equip();
+
+		// TODO: Move this to be applied as part of the Use function in tool
 		Benefit.ApplyBenefit();
 	}
 
