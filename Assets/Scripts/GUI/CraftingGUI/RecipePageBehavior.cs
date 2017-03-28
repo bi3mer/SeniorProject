@@ -290,6 +290,11 @@ public class RecipePageBehavior : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Gets the ingredient amount, taking into account previously selected ingredients.
+	/// </summary>
+	/// <returns>The ingredient amount.</returns>
+	/// <param name="item">Item.</param>
 	private int getIngredientAmount(ItemStack item)
 	{
 		int amount = item.Amount;
