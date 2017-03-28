@@ -66,6 +66,8 @@
       spicy: 0.0
       stomachEffect: 0.0
       pneumoniaEffect: 0.0
+    - !!fuel
+      burnTime: 10.0
 - itemName: "Empty Can"
   baseItem: 
    itemName: "Empty Can"
@@ -438,6 +440,7 @@
    types:
     - "floatable object"
     - "base solid"
+    - "fuel"
    flavorText: "A piece of wood."
    modifyingActionNames:
    actionModifiedModels:
@@ -450,6 +453,8 @@
       stickiness: 0
       thickness: 0.5
       sharpness: 1
+    - !!fuel
+      burnTime: 20.0
 - itemName: "Golf Club"
   baseItem: 
    itemName: "Golf Club"
