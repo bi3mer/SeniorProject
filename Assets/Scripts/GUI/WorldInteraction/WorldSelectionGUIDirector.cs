@@ -50,6 +50,8 @@ public class WorldSelectionGUIDirector : MonoBehaviour
 			screenDisplayPanel.SetActive(true);
 		}
 
+		GuiInstanceManager.WorldSelectionGuiInstance.ClearOptions(targetPanel);
+
 		List<string> itemNames = Game.Instance.PlayerInstance.Inventory.GetItemsByType(itemTypes);
 
 		for(int i = 0; i < itemNames.Count; ++i)
