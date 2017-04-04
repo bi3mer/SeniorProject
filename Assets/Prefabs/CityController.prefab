@@ -700,6 +700,9 @@ MonoBehaviour:
     - {fileID: 2100000, guid: e96f0d8a3eae8d34ba0ee36e77d9c536, type: 2}
     - {fileID: 2100000, guid: a075ff058b240c640824de4308849866, type: 2}
     - {fileID: 2100000, guid: eb820b5416ad08d4683e5a6fd246d84d, type: 2}
+    - {fileID: 2100000, guid: a73f8549665b3b8459aa91f8694cce04, type: 2}
+    - {fileID: 2100000, guid: f18c679bb7767a04f8ae5aa42a9a0249, type: 2}
+    - {fileID: 2100000, guid: 4f6597e010c06094c9e057a5297d4746, type: 2}
     materialAlbedoColors:
       key0:
         serializedVersion: 2
