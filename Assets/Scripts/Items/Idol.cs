@@ -25,7 +25,7 @@ public class Idol : Tool
 	/// <param name="itemForTool">Item for tool.</param>
 	public override void SetUpTool(BaseItem itemForTool)
 	{
-		idolBase = (IdolCategory) itemForTool.GetItemCategoryByClass(typeof(IdolCategory));
+		idolBase = (IdolCategory) itemForTool.GetItemCategoryByParentClass(typeof(IdolCategory));
 
 		List<ItemAction> actions = new List<ItemAction>();
 		ItemAction unequipAction = new ItemAction(unequipActName, new UnityAction(idolBase.UnEquip));
@@ -41,6 +41,7 @@ public class Idol : Tool
 	public override void Equip()
 	{
 		idolObject.SetActive(true);
+		idolBase.ApplyBenefit();
 	}
 
 	/// <summary>
@@ -49,6 +50,7 @@ public class Idol : Tool
 	public override void Unequip()
 	{
 		idolObject.SetActive(false);
+		idolBase.RemoveBenefit();
 	}
 
 
