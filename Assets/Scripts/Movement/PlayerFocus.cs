@@ -43,14 +43,14 @@ public class PlayerFocus : MonoBehaviour
     /// </summary>
     void Update ()
     {
-	    if (playerController.InteractablePublic == null)
+	    if (playerController.Interactable == null)
         {
             DOTween.To(() => bipedIk.solvers.lookAt.IKPositionWeight, x => bipedIk.solvers.lookAt.IKPositionWeight = x, 0f, focusSpeed);
         }
         // If the closest interactable is within view distance.
-        else if (Vector3.Distance(playerController.InteractablePublic.transform.position, transform.position) < maxViewDistance)
+        else if (Vector3.Distance(playerController.Interactable.transform.position, transform.position) < maxViewDistance)
         {
-            bipedIk.solvers.lookAt.target.DOMove(playerController.InteractablePublic.transform.position, focusSpeed);
+            bipedIk.solvers.lookAt.target.DOMove(playerController.Interactable.transform.position, focusSpeed);
             DOTween.To(() => bipedIk.solvers.lookAt.IKPositionWeight, x => bipedIk.solvers.lookAt.IKPositionWeight = x, 1f, focusSpeed);
         }
     }
