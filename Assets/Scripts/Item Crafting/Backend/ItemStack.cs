@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEngine;
 
 public class ItemStack
 {
@@ -6,6 +7,8 @@ public class ItemStack
 	/// The amount in a stack.
 	/// </summary>
 	private int amount;
+
+	private const int maxStackSize = 99;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Stack"/> class.
@@ -47,6 +50,14 @@ public class ItemStack
 		set;
 	}
 
+	public int MaxStackSize
+	{
+		get
+		{
+			return maxStackSize;
+		}
+	}
+
 	/// <summary>
 	/// Gets or sets the amount. When amount is changed, fires the UpdateStackAmount event
 	/// </summary>
@@ -59,7 +70,7 @@ public class ItemStack
 		}
 		set
 		{
-			amount = value;
+			amount = Mathf.Min(value, MaxStackSize);
 
 			// fires the UpdateStackAmountEvent
 			// this can be subscribed to by calling
