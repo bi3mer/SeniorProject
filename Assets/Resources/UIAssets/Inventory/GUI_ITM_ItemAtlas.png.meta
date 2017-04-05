@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 340180cbb35886e47844cdb268a24a8a
-timeCreated: 1489696373
+timeCreated: 1491432169
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -66,6 +66,7 @@ TextureImporter:
     21300118: GUI_ITM_Basket
     21300120: GUI_ITM_ItemAtlas_Campfire
     21300122: GUI_ITM_ItemAtlas_Shelter
+    21300124: GUI_ITM_ItemAtlas_Blanket
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -678,6 +679,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 768
+        y: 512
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GUI_ITM_ItemAtlas_Blanket
+      rect:
+        serializedVersion: 2
+        x: 1024
         y: 512
         width: 256
         height: 256
