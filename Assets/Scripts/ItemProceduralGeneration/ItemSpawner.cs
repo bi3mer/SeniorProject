@@ -4,38 +4,38 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 
-public class ItemSpawner : InteractableObject 
+public class ItemSpawner : InteractableObject
 {
-	[Tooltip("Animations or other actions that should fired off prior to items spawning")]
-	[SerializeField]
-	private UnityEvent prespawnActions;
+    [Tooltip("Animations or other actions that should fired off prior to items spawning")]
+    [SerializeField]
+    private UnityEvent prespawnActions;
 
-	[Tooltip("Can spawn again if interacted with again")]
-	[SerializeField]
-	private bool spawnsMultipleTimes;
+    [Tooltip("Can spawn again if interacted with again")]
+    [SerializeField]
+    private bool spawnsMultipleTimes;
 
-	[Tooltip("Distance away from the outer edge of the central object that items will be generated.")]
-	public float SpawnRadius;
+    [Tooltip("Distance away from the outer edge of the central object that items will be generated.")]
+    public float SpawnRadius;
 
-	[Tooltip("If true, spawns items after actions are executed. If false, waits for other code to calls the spawn action.")]
-	public bool SpawnAfterActions;
+    [Tooltip("If true, spawns items after actions are executed. If false, waits for other code to calls the spawn action.")]
+    public bool SpawnAfterActions;
 
-	[Tooltip("Items should appear around the object without need for interaction.")]
-	public bool SpawnWithoutInteraction;
+    [Tooltip("Items should appear around the object without need for interaction.")]
+    public bool SpawnWithoutInteraction;
 
-	[Tooltip("Max number of items to spawn")]
-	public int MaxSpawnNumber;
+    [Tooltip("Max number of items to spawn")]
+    public int MaxSpawnNumber;
 
-	[Tooltip("Min number of items to spawn")]
-	public int MinSpawnNumber;
+    [Tooltip("Min number of items to spawn")]
+    public int MinSpawnNumber;
 
-	private float centralItemRadius;
+    private float centralItemRadius;
 
-	private string district;
+    private string district;
 
-	private bool spawned;
+    private bool spawned;
 
-	private const float angleIncrementations = 40f;
+    private const float angleIncrementations = 40f;
 
     [Tooltip("The roof's door, if left null, the door won't open.")]
     [SerializeField]
@@ -65,6 +65,27 @@ public class ItemSpawner : InteractableObject
     [Tooltip("Time in seconds for items to move to position.")]
     [SerializeField]
     private float itemMoveTime;
+
+    [Tooltip("possible positions for posters to appear on the door")]
+    [SerializeField]
+    private Transform[] posterPositions;
+    public Transform[] PosterPositions
+    {
+        get
+        {
+            return posterPositions;
+        }
+    }
+    
+    [SerializeField]
+    private float posterRotationModMax;
+    public float PosterRotationModMax
+    {
+        get
+        {
+            return posterRotationModMax;
+        }
+    }
 
 
     /// <summary>
@@ -141,15 +162,6 @@ public class ItemSpawner : InteractableObject
 	/// </summary>
 	private void spawnItems()
 	{
-		//float spawnLocationRadius = centralItemRadius + SpawnRadius;
-
-	//	float currentSpawnSlot = 0;
-
-		// maxDiscardSlots is how points on the circle there are given the amount in which the angle increments
-		// a circle has 360 degrees, so the number of points is equal to 360 divided by the amount in which the angle increments
-		// however, at 360, the player has looped back to 0, so subtract the last slot, which will be considered to be 360, which equals 0
-	//	int maxSpawnSlots = Mathf.FloorToInt(360 / angleIncrementations) - 1;
-	//	Vector3 centerPos = transform.position;
 		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
 
 		int numberToSpawn = (int) Random.Range(MinSpawnNumber, MaxSpawnNumber);

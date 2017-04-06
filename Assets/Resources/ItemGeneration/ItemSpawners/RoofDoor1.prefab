@@ -26,6 +26,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1000010429134256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000011086933794}
+  m_Layer: 9
+  m_Name: PosterPositions (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1000010586227014
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000010605534914}
+  m_Layer: 9
+  m_Name: PosterPosition1 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1000011557060768
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,6 +89,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1000012107717060
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000013144338900}
+  m_Layer: 9
+  m_Name: PosterPosition1 (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1000012373148310
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000011152115562}
+  m_Layer: 9
+  m_Name: PosterPosition1 (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1000012658179278
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,6 +146,21 @@ GameObject:
   - 4: {fileID: 4000010455255124}
   m_Layer: 9
   m_Name: ItemLocation3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1000013375583368
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000013562850890}
+  m_Layer: 9
+  m_Name: PosterPosition1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,6 +226,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000012168170044}
   m_RootOrder: 0
+--- !u!4 &4000010605534914
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010586227014}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalPosition: {x: -0.262, y: 0.305, z: -0.649}
+  m_LocalScale: {x: 1.0000012, y: 1, z: 1.0000012}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4000011086933794}
+  m_RootOrder: 1
 --- !u!4 &4000010662692592
 Transform:
   m_ObjectHideFlags: 1
@@ -177,6 +265,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000012168170044}
   m_RootOrder: 3
+--- !u!4 &4000011086933794
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010429134256}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children:
+  - {fileID: 4000013562850890}
+  - {fileID: 4000010605534914}
+  - {fileID: 4000013144338900}
+  - {fileID: 4000011152115562}
+  m_Father: {fileID: 4000012168170044}
+  m_RootOrder: 6
+--- !u!4 &4000011152115562
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012373148310}
+  m_LocalRotation: {x: -0.28403512, y: -0.0016218715, z: 0.0010294177, w: 0.958812}
+  m_LocalPosition: {x: -0.051, y: 0.205, z: 0.388}
+  m_LocalScale: {x: 1.0000025, y: 1, z: 1.0000025}
+  m_LocalEulerAnglesHint: {x: -32.991, y: -0.245, z: 0.192}
+  m_Children: []
+  m_Father: {fileID: 4000011086933794}
+  m_RootOrder: 3
 --- !u!4 &4000012168170044
 Transform:
   m_ObjectHideFlags: 1
@@ -184,7 +302,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012658179278}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -141.83, y: 0.8170706, z: 60.81}
+  m_LocalPosition: {x: -140.32547, y: 0.851187, z: 62.69228}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_Children:
@@ -194,6 +312,7 @@ Transform:
   - {fileID: 4000010683402438}
   - {fileID: 4000010662692592}
   - {fileID: 4000014261437800}
+  - {fileID: 4000011086933794}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &4000012178035370
@@ -209,6 +328,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000012168170044}
   m_RootOrder: 1
+--- !u!4 &4000013144338900
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012107717060}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: 0, w: -0.7071068}
+  m_LocalPosition: {x: 0.905, y: 0.38599992, z: 0.0424}
+  m_LocalScale: {x: 1.0000013, y: 1, z: 1.0000013}
+  m_LocalEulerAnglesHint: {x: 0, y: -270, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4000011086933794}
+  m_RootOrder: 2
+--- !u!4 &4000013562850890
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013375583368}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.9005, y: 0.3709, z: -0.242}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4000011086933794}
+  m_RootOrder: 0
 --- !u!4 &4000014261437800
 Transform:
   m_ObjectHideFlags: 1
@@ -407,3 +552,9 @@ MonoBehaviour:
   - {fileID: 4000012178035370}
   - {fileID: 4000010455255124}
   itemMoveTime: 2
+  posterPositions:
+  - {fileID: 4000013562850890}
+  - {fileID: 4000010605534914}
+  - {fileID: 4000013144338900}
+  - {fileID: 4000011152115562}
+  posterRotationModMax: 20

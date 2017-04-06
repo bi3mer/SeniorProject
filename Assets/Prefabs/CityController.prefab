@@ -332,6 +332,13 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
+    districtPosters:
+    - {fileID: 1000011684602676, guid: e9e083e33e611c646ad0e3a27010577f, type: 2}
+    - {fileID: 1000010371433140, guid: 2596129558d54034fbe309daf20da20e, type: 2}
+    - {fileID: 1000011670615782, guid: a9c53abf065ccd34f998a05524a1d085, type: 2}
+    - {fileID: 1000011416309050, guid: cb110b039787ac84a9cd95be5d8f9f45, type: 2}
+    - {fileID: 1000010915934632, guid: 1c8122ad6ac7eeb4192ccc805e5486f7, type: 2}
+    - {fileID: 1000013218950874, guid: 0ffe2fc133cb0594f94d87a30b18bab9, type: 2}
   - districtName: shopping
     WeenieBuildingTemplate: {fileID: 1000012475015072, guid: a56d8459f0ab6b6489682f438e4bb632,
       type: 2}
@@ -471,6 +478,13 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
+    districtPosters:
+    - {fileID: 1000010915934632, guid: 1c8122ad6ac7eeb4192ccc805e5486f7, type: 2}
+    - {fileID: 1000010371433140, guid: 2596129558d54034fbe309daf20da20e, type: 2}
+    - {fileID: 1000011684602676, guid: e9e083e33e611c646ad0e3a27010577f, type: 2}
+    - {fileID: 1000011670615782, guid: a9c53abf065ccd34f998a05524a1d085, type: 2}
+    - {fileID: 1000011416309050, guid: cb110b039787ac84a9cd95be5d8f9f45, type: 2}
+    - {fileID: 1000013218950874, guid: 0ffe2fc133cb0594f94d87a30b18bab9, type: 2}
   - districtName: business
     WeenieBuildingTemplate: {fileID: 1000014284608772, guid: 7cded61ac185fec42bb5927b4b556f9e,
       type: 2}
@@ -610,6 +624,13 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
+    districtPosters:
+    - {fileID: 1000010915934632, guid: 1c8122ad6ac7eeb4192ccc805e5486f7, type: 2}
+    - {fileID: 1000010371433140, guid: 2596129558d54034fbe309daf20da20e, type: 2}
+    - {fileID: 1000011684602676, guid: e9e083e33e611c646ad0e3a27010577f, type: 2}
+    - {fileID: 1000011670615782, guid: a9c53abf065ccd34f998a05524a1d085, type: 2}
+    - {fileID: 1000013218950874, guid: 0ffe2fc133cb0594f94d87a30b18bab9, type: 2}
+    - {fileID: 1000011416309050, guid: cb110b039787ac84a9cd95be5d8f9f45, type: 2}
 --- !u!114 &114000013616052872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -806,6 +827,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
+    districtPosters: []
   TestSize: 2
   TestStoriesTall: 5
   TestAttatchmentPercentage: 20
