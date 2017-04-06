@@ -33,6 +33,7 @@ public class WorldItemFactory
 
 	private RangeAttribute itemAmountRange = new RangeAttribute(1, 10);
 
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WorldItemFactory"/> class.
 	/// </summary>
@@ -41,6 +42,19 @@ public class WorldItemFactory
 		worldItemTemplates = new Dictionary<string, GameObject>();
 		triggerObjectPrefab = (GameObject) Resources.Load(triggerObjectLocation);
 		LoadTemplates();
+
+		NoteYAMLParser parser = new NoteYAMLParser("Notes.yml");
+		List<NoteData> noteList = parser.LoadNotes();
+		NoteFactory factory = new NoteFactory ();
+
+		for (int i = 0; i < noteList.Count; ++i) 
+		{ 
+			factory.CreateInteractableItem (noteList[i]);
+		}
+	
+		// TODO: Replace this with code that references a not yet made extension of Shreya's GUI classes for notes
+		NoteUIController.Instance.SetText (noteList[0].Text + " -- " + noteList[0].Title);
+
 	}
 
 	/// <summary>
