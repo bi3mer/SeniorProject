@@ -254,8 +254,8 @@ public class Inventory
 			{
 				if (contents[i].Item.ItemName.Equals(newItem.ItemName)) 
 				{
-					contents[i].Amount += amount;
 					amountRemaining = Mathf.Max((contents[i].Amount + amount) - contents[i].MaxStackSize, 0); 
+					contents[i].Amount += amount;
 					loc = i;
 				}
 			}
@@ -264,7 +264,7 @@ public class Inventory
 		if(amountRemaining > 0)
 		{
 			loc = GetNextOpenSlot ();
-			contents[loc] = new ItemStack(newItem, amount, Guid.NewGuid().ToString("N"));
+			contents[loc] = new ItemStack(newItem, amountRemaining, Guid.NewGuid().ToString("N"));
 		}
 
 		UpdateTypeAmount(newItem.Types, amount);
