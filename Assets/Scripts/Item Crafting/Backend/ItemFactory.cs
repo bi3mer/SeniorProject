@@ -181,7 +181,6 @@ public class ItemFactory
 	private Dictionary<string, List<Ingredient>> SortIngredientsByTag(List<string> tags, List<Ingredient> ingredients)
 	{
 		Dictionary<string, List<Ingredient>> ingredientsByType = new Dictionary<string, List<Ingredient>> ();
-		BaseItem currentIngredient;
 		Inventory inventory =  Game.Instance.PlayerInstance.Inventory;
 		for (int i = 0; i < tags.Count; ++i) 
 		{
@@ -194,11 +193,9 @@ public class ItemFactory
 		// selected for rod is not also a rope.
 		for (int j = 0; j < ingredients.Count; ++j) 
 		{
-			currentIngredient = inventory.GetInventoryBaseItem(ingredients[j].IngredientName);
-
 			for (int k = 0; k < tags.Count; ++k) 
 			{
-				if (currentIngredient.Types.Contains (tags [k])) 
+				if (ingredients[j].UseType.Equals (tags [k])) 
 				{
 					ingredientsByType [tags [k]].Add (ingredients [j]);
 				}

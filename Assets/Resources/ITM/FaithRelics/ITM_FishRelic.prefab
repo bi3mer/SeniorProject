@@ -21,6 +21,7 @@ GameObject:
   - 4: {fileID: 4000014138433914}
   - 33: {fileID: 33000013598392810}
   - 23: {fileID: 23000013455360426}
+  - 65: {fileID: 65000012661109512}
   m_Layer: 0
   m_Name: ITM_FishRelic
   m_TagString: Untagged
@@ -77,3 +78,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010668461766}
   m_Mesh: {fileID: 4300000, guid: 84d886317a9f9bf458184e70b5529de9, type: 3}
+--- !u!65 &65000012661109512
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010668461766}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.07327576, y: 0.004, z: 0.11956212}
+  m_Center: {x: 0.003380159, y: 0, z: 0.0002380982}

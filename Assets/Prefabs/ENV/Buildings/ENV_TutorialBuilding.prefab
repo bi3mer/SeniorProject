@@ -2853,7 +2853,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012854515306}
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 1.032, y: 0.5, z: -3.39}
+  m_LocalPosition: {x: 1.055, y: 0.5, z: -3.39}
   m_LocalScale: {x: 1.335862, y: 1.3358622, z: 1.3358622}
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
   m_Children: []
@@ -2922,7 +2922,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010628880918}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -0.96, y: 0.44399977, z: 2.86}
+  m_LocalPosition: {x: -0.92, y: 0.44399977, z: 2.86}
   m_LocalScale: {x: 1.3358635, y: 1.3358622, z: 1.3358636}
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
   m_Children: []
@@ -3333,7 +3333,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013659882790}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -0.96, y: 1.64, z: -2.96}
+  m_LocalPosition: {x: -0.92, y: 1.64, z: -2.96}
   m_LocalScale: {x: 1.3358642, y: 1.3358622, z: 1.3358643}
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
   m_Children: []
@@ -3847,7 +3847,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012782841644}
   m_LocalRotation: {x: -0, y: 0.99999416, z: -0, w: 0.003423037}
-  m_LocalPosition: {x: -140.92325, y: 0.00000011920929, z: -47.276928}
+  m_LocalPosition: {x: -124.06, y: -1.3, z: -1.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 179.619, z: 0}
   m_Children:
@@ -4295,7 +4295,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014184146584}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 1.0320001, y: 0.444, z: -2.068}
+  m_LocalPosition: {x: 1.055, y: 0.444, z: -2.068}
   m_LocalScale: {x: 1.3358628, y: 1.3358622, z: 1.3358629}
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
   m_Children: []
@@ -10596,7 +10596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0da4b5274d9d1a4c8fab92c8b38fc2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beforeKeys: press
+  beforeKeys: 'press '
   afterKeys: \nto open\nyour radio
   betweenKeys: /
   keys:
@@ -10742,7 +10742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0da4b5274d9d1a4c8fab92c8b38fc2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beforeKeys: press
+  beforeKeys: 'press '
   afterKeys: \nto\ncraft\nitems
   betweenKeys: /
   keys:
@@ -10801,7 +10801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0da4b5274d9d1a4c8fab92c8b38fc2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beforeKeys: press
+  beforeKeys: 'press '
   afterKeys: \nto open your\ninventory
   betweenKeys: /
   keys:
