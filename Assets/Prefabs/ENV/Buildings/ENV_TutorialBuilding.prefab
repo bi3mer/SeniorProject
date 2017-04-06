@@ -11703,7 +11703,7 @@ MonoBehaviour:
   door: {fileID: 1000010168275784}
   doorRotationAngles: -57.56
   doorOpenTime: 1.5
-  CustomSetUp: 0
+  CustomSetUp: 1
   customDistrictName: residential
   customSize: 1
   itemLocations:
