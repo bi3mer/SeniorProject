@@ -25,6 +25,13 @@ public class WaterMovement : Movement
     [Tooltip("How low the player should be in the water. Should be similar to wade height")]
     [SerializeField]
     private float swimmingHeight;
+    public float SwimmingHeight
+    {
+        get
+        {
+            return swimmingHeight;
+        }
+    }
 
     /// <summary>
     /// Get the character controller so we can call move functions

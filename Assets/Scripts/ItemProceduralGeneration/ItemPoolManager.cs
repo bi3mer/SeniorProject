@@ -324,7 +324,14 @@ public class ItemPoolManager : MonoBehaviour
 			{
 				gridCell.Items[j].SetActive(false);
 				gridCell.Items[j].transform.SetParent(inactivePool);
+
+				if(!itemPool.ContainsKey(gridCell.ItemNames[j]))
+				{
+					itemPool.Add(gridCell.ItemNames[j], new List<GameObject>());
+				}
+
 				itemPool[gridCell.ItemNames[j]].Add(gridCell.Items[j]);
+
 				gridCell.Items.RemoveAt(j);
 			}
 
