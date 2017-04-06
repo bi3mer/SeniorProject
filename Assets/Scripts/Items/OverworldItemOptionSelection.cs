@@ -128,7 +128,6 @@ public class OverworldItemOptionSelection
 
 			if(selectedAction.TypeUsed != null && selectedAction.TypeUsed.Count > 0)
 			{
-				GuiInstanceManager.WorldSelectionGuiInstance.ClearOptions(TargetContentPanel);
 				GuiInstanceManager.WorldSelectionGuiInstance.DisplayItemOptions(selectedAction.TypeUsed, this, TargetContentPanel);
 			}
 			else
