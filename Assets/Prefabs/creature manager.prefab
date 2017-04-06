@@ -57,8 +57,8 @@ MonoBehaviour:
   - {fileID: 1000011000511242, guid: 1222c2969b2ae9b4c9e46436d8392d85, type: 2}
   minCreatureCount: 1
   maxCreatureCount: 2
-  maxSpawnRadius: 25
-  minSpawnRadius: 10
+  maxSpawnRadius: 200
+  minSpawnRadius: 0
   waterLevelOffset: -2
 --- !u!114 &114000013780096858
 MonoBehaviour:
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011553162466}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a69ca7bbc2034dc791dbac11b20abb7, type: 3}
   m_Name: 
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011553162466}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f162b8c95f004dbb876815a21a8c870, type: 3}
   m_Name: 
@@ -96,3 +96,4 @@ MonoBehaviour:
   maxSpawnRadius: 25
   minSpawnRadius: 10
   waterLevelOffset: -2
+  updateAfterStormEndTime: 20
