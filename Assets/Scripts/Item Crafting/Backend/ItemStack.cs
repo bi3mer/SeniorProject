@@ -8,7 +8,7 @@ public class ItemStack
 	/// </summary>
 	private int amount;
 
-	private const int maxStackSize = 4;
+	private const int maxStackSize = 99;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Stack"/> class.
