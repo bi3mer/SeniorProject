@@ -2,18 +2,15 @@
 
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "TriplanarWater"
+Shader "TriplanarWaterFallback"
 {
 	Properties
 	{
-		_TessValue( "Tessellation", Range( 1, 32 ) ) = 32
-		_TessMin( "Tess Min Distance", Float ) = 18.21
-		_TessMax( "Tess Max Distance", Float ) = 33.22
 		[HideInInspector] __dirty( "", Int ) = 1
 		_AlbedoBlend("AlbedoBlend", Range( 0 , 1)) = 0.02
 		_Albedo1("Albedo1", 2D) = "white" {}
 		_AlbedoSpeed1("AlbedoSpeed1", Float) = 0
-		_Albedo2("Albedo2", 2D) = "white" {}
+		_Albedo2("Albedo2", 2D) = "bump" {}
 		_Albedo2Speed("Albedo2Speed", Float) = 0
 		_Foamtexture("Foamtexture", 2D) = "white" {}
 		_Foam("Foam", Float) = 0
@@ -23,9 +20,9 @@ Shader "TriplanarWater"
 		_DeepColor("Deep Color", Color) = (0,0,0,0)
 		_Depth("Depth", Float) = 0
 		_DepthFalloff("Depth Falloff", Float) = 0
-		_Displacement1("Displacement1", 2D) = "bump" {}
+		_Displacement1("Displacement1", 2D) = "white" {}
 		_DisplacementSpeed1("DisplacementSpeed1", Float) = 0
-		_Displacement2("Displacement2", 2D) = "bump" {}
+		_Displacement2("Displacement2", 2D) = "white" {}
 		_DisplacementSpeed2("DisplacementSpeed2", Float) = 0
 		_Displacement("Displacement", Range( 0 , 1)) = 0
 		_SpecularMin("Specular Min", Float) = 0
@@ -42,28 +39,14 @@ Shader "TriplanarWater"
 		CGINCLUDE
 		#include "UnityCG.cginc"
 		#include "UnityShaderVariables.cginc"
-		#include "Tessellation.cginc"
 		#include "UnityPBSLighting.cginc"
 		#include "Lighting.cginc"
-		#pragma target 4.6
+		#pragma target 2.0
 		struct Input
 		{
 			float4 screenPos;
 			float2 texcoord_0;
 			float2 uv_texcoord;
-		};
-
-		struct appdata
-		{
-			float4 vertex : POSITION;
-			float4 tangent : TANGENT;
-			float3 normal : NORMAL;
-			float4 texcoord : TEXCOORD0;
-			float4 texcoord1 : TEXCOORD1;
-			float4 texcoord2 : TEXCOORD2;
-			float4 texcoord3 : TEXCOORD3;
-			fixed4 color : COLOR;
-			UNITY_INSTANCE_ID
 		};
 
 		uniform fixed4 _DeepColor;
@@ -93,18 +76,11 @@ Shader "TriplanarWater"
 		uniform fixed _DisplacementSpeed2;
 		uniform float4 _Displacement2_ST;
 		uniform fixed _Displacement;
-		uniform fixed _TessValue;
-		uniform fixed _TessMin;
-		uniform fixed _TessMax;
 
-		float4 tessFunction( appdata v0, appdata v1, appdata v2 )
+		void vertexDataFunc( inout appdata_full v, out Input o )
 		{
-			return UnityDistanceBasedTess( v0.vertex, v1.vertex, v2.vertex, _TessMin, _TessMax, _TessValue );
-		}
-
-		void vertexDataFunc( inout appdata v )
-		{
-			v.texcoord.xy = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+			UNITY_INITIALIZE_OUTPUT( Input, o );
+			o.texcoord_0.xy = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 			float2 uv_Displacement1 = v.texcoord;
 			uv_Displacement1.xy = v.texcoord.xy * _Displacement1_ST.xy + _Displacement1_ST.zw;
 			float2 temp_output_395_0 = ( float2( 0,0 ) * uv_Displacement1 );
@@ -118,11 +94,9 @@ Shader "TriplanarWater"
 			float eyeDepth437 = LinearEyeDepth(tex2Dproj(_CameraDepthTexture,UNITY_PROJ_COORD(i.screenPos)).r);
 			float temp_output_439_0 = abs( ( eyeDepth437 - i.screenPos.w ) );
 			float temp_output_417_0 = ( saturate( pow( ( temp_output_439_0 + _Foam ) , _FoamFalloff ) ) * tex2D( _Foamtexture,(abs( i.texcoord_0+_Time[1] * float2(-0.01,0.01 )))).r );
-			float4 temp_output_426_0 = lerp( lerp( _DeepColor , _ShallowColor , saturate( pow( ( temp_output_439_0 + _Depth ) , _DepthFalloff ) ) ) , fixed4(1,1,1,0) , temp_output_417_0 );
 			float2 uv_Albedo2 = i.uv_texcoord * _Albedo2_ST.xy + _Albedo2_ST.zw;
 			float2 uv_Albedo1 = i.uv_texcoord * _Albedo1_ST.xy + _Albedo1_ST.zw;
-			float4 temp_output_403_0 = lerp( tex2D( _Albedo2,(abs( uv_Albedo2+( _SinTime.y * _Albedo2Speed ) * float2(-0.1,-0.16 )))) , tex2D( _Albedo1,(abs( uv_Albedo1+( _AlbedoSpeed1 * _Time.y ) * float2(0.1,0.1 )))) , _AlbedoBlend );
-			o.Albedo = ( saturate( ( temp_output_426_0 * temp_output_403_0 ) )).rgb;
+			o.Albedo = ( saturate( ( lerp( lerp( _DeepColor , _ShallowColor , saturate( pow( ( temp_output_439_0 + _Depth ) , _DepthFalloff ) ) ) , fixed4(1,1,1,0) , temp_output_417_0 ) * lerp( tex2D( _Albedo2,(abs( uv_Albedo2+( _SinTime.y * _Albedo2Speed ) * float2(-0.1,-0.16 )))) , tex2D( _Albedo1,(abs( uv_Albedo1+( _AlbedoSpeed1 * _Time.y ) * float2(0.1,0.1 )))) , _AlbedoBlend ) ) )).rgb;
 			fixed3 temp_cast_2 = lerp( _SpecularMin , _SpecularMax , temp_output_417_0 );
 			o.Specular = temp_cast_2;
 			o.Smoothness = lerp( _SmoothnessMin , _SmoothnessMax , temp_output_417_0 );
@@ -132,7 +106,7 @@ Shader "TriplanarWater"
 		ENDCG
 		CGPROGRAM
 		#pragma exclude_renderers n3ds 
-		#pragma surface surf StandardSpecular alpha:fade keepalpha exclude_path:deferred vertex:vertexDataFunc tessellate:tessFunction nolightmap 
+		#pragma surface surf StandardSpecular alpha:fade keepalpha exclude_path:deferred vertex:vertexDataFunc 
 
 		ENDCG
 		Pass
@@ -170,7 +144,7 @@ Shader "TriplanarWater"
 				UNITY_INITIALIZE_OUTPUT( v2f, o );
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
 				Input customInputData;
-				vertexDataFunc( v );
+				vertexDataFunc( v, customInputData );
 				float3 worldPos = mul( unity_ObjectToWorld, v.vertex ).xyz;
 				half3 worldNormal = UnityObjectToWorldNormal( v.normal );
 				o.texcoords01 = float4( v.texcoord.xy, v.texcoord1.xy );
@@ -203,15 +177,12 @@ Shader "TriplanarWater"
 			ENDCG
 		}
 	}
-	Fallback "TriplanarWaterFallback"
+	Fallback "Diffuse"
 	CustomEditor "ASEMaterialInspector"
 }
-
-
-
 /*ASEBEGIN
 Version=5105
-0;92;1228;926;-1903.503;264.9005;1;True;True
+389;92;774;655;-1903.503;264.9005;1;True;True
 Node;AmplifyShaderEditor.CommentaryNode;328;-931.2647,-298.9059;Float;False;945.6796;624.4611;Top UV Mapping;5;287;187;174;175;411;
 Node;AmplifyShaderEditor.CommentaryNode;175;-831.6072,-247.6059;Float;False;224;239;Coverage in World mode;1;161;
 Node;AmplifyShaderEditor.CommentaryNode;174;-844.7574,33.245;Float;False;241;239;Coverage in Object mode;1;119;
@@ -219,14 +190,14 @@ Node;AmplifyShaderEditor.PosVertexDataNode;119;-794.7571,83.24481;Float;False
 Node;AmplifyShaderEditor.WorldPosInputsNode;161;-781.6069,-197.6064;Float;False
 Node;AmplifyShaderEditor.LerpOp;187;-563.1087,-85.70473;Float;False;0;FLOAT3;0,0,0;False;1;FLOAT3;0.0,0,0;False;2;FLOAT;0.0;False
 Node;AmplifyShaderEditor.BreakToComponentsNode;287;-380.9853,-77.33714;Float;False;FLOAT3;0;FLOAT3;0.0,0,0;False
-Node;AmplifyShaderEditor.SamplerNode;396;1242.6,-344.998;Float;True;Property;_Albedo2;Albedo2;3;0;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;0;SAMPLER2D;0,0;False;1;FLOAT2;1.0;False;2;FLOAT;1.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False
+Node;AmplifyShaderEditor.SamplerNode;396;1242.6,-344.998;Float;True;Property;_Albedo2;Albedo2;3;0;None;True;0;True;bump;Auto;False;Object;-1;Auto;Texture2D;0;SAMPLER2D;0,0;False;1;FLOAT2;1.0;False;2;FLOAT;1.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False
 Node;AmplifyShaderEditor.PannerNode;402;972.8998,-379.1978;Float;False;-0.1;-0.16;0;FLOAT2;0,0;False;1;FLOAT;0.0;False
 Node;AmplifyShaderEditor.SinTimeNode;400;466.1009,-601.8979;Float;False
 Node;AmplifyShaderEditor.RangedFloatNode;399;446.9999,-329.8976;Float;False;Property;_Albedo2Speed;Albedo2Speed;4;0;0;0;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;350;507.6301,648.8101;Float;False;0;FLOAT;0.0;False;1;FLOAT;0.0;False
 Node;AmplifyShaderEditor.RangedFloatNode;351;202.9307,752.3096;Float;False;Property;_DisplacementSpeed2;DisplacementSpeed2;16;0;0;0;0
 Node;AmplifyShaderEditor.TimeNode;344;111.2971,454.6761;Float;False
-Node;AmplifyShaderEditor.SamplerNode;330;1161.792,430.4776;Float;True;Property;_Displacement1;Displacement1;13;0;None;True;0;True;bump;Auto;False;Object;-1;Auto;Texture2D;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;1.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False
+Node;AmplifyShaderEditor.SamplerNode;330;1161.792,430.4776;Float;True;Property;_Displacement1;Displacement1;13;0;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;1.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False
 Node;AmplifyShaderEditor.PannerNode;349;937.4314,602.009;Float;False;-1;-1;0;FLOAT2;0,0;False;1;FLOAT;0.0;False
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;409;760.9993,628.3021;Float;False;0;FLOAT;0.0,0;False;1;FLOAT2;0.0;False
 Node;AmplifyShaderEditor.TextureCoordinatesNode;367;507.8993,-75.82469;Float;False;0;104;2;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False
@@ -245,7 +216,7 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;395;720,288;Float;False;0;FLOAT2;0
 Node;AmplifyShaderEditor.RangedFloatNode;348;432,528;Float;False;Property;_DisplacementSpeed1;DisplacementSpeed1;14;0;0;0;0
 Node;AmplifyShaderEditor.WireNode;412;464,448;Float;False;0;FLOAT;0.0;False
 Node;AmplifyShaderEditor.SamplerNode;104;1248,-160;Float;True;Property;_Albedo1;Albedo1;1;0;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;0;SAMPLER2D;0,0;False;1;FLOAT2;1.0;False;2;FLOAT;1.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False
-Node;AmplifyShaderEditor.SamplerNode;352;1168,640;Float;True;Property;_Displacement2;Displacement2;15;0;None;True;0;False;bump;Auto;False;Object;-1;Auto;Texture2D;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;1.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False
+Node;AmplifyShaderEditor.SamplerNode;352;1168,640;Float;True;Property;_Displacement2;Displacement2;15;0;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;1.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False
 Node;AmplifyShaderEditor.PannerNode;338;944,400;Float;False;1;1;0;FLOAT2;0,0;False;1;FLOAT;0.0;False
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;345;720,416;Float;False;0;FLOAT;0.0;False;1;FLOAT;0.0;False
 Node;AmplifyShaderEditor.AppendNode;411;-128,-64;Float;False;FLOAT2;0;0;0;0;0;FLOAT;0.0;False;1;FLOAT;0.0;False;2;FLOAT;0.0;False;3;FLOAT;0.0;False
@@ -288,7 +259,7 @@ Node;AmplifyShaderEditor.RangedFloatNode;445;1477.916,1311.373;Float;False;Prope
 Node;AmplifyShaderEditor.RangedFloatNode;449;1631.416,1700.173;Float;False;Property;_SmoothnessMax;Smoothness Max;21;0;0;0;0
 Node;AmplifyShaderEditor.RangedFloatNode;450;1637.916,1604.573;Float;False;Property;_SmoothnessMin;Smoothness Min;20;0;0;0;0
 Node;AmplifyShaderEditor.SamplerNode;435;471.5137,2466.291;Float;True;Property;_Foamtexture;Foamtexture;5;0;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;0;SAMPLER2D;0,0;False;1;FLOAT2;1.0;False;2;FLOAT;1.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;2748.003,339.1999;Fixed;False;True;6;Fixed;ASEMaterialInspector;StandardSpecular;TriplanarWater;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;3;False;0;0;Transparent;0.5;True;True;0;False;Transparent;Transparent;ForwardOnly;True;True;True;True;True;True;True;True;True;True;True;False;True;True;True;True;True;False;0;255;255;0;0;0;0;True;0;32;18.21;33.22;False;0.5;True;0;Zero;Zero;0;OneMinusDstColor;One;Add;Add;0;False;0;0,0,0,0;VertexOffset;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0.0;False;5;FLOAT;0.0;False;6;FLOAT3;0.0;False;7;FLOAT3;0.0;False;8;FLOAT;0.0;False;9;FLOAT;0.0;False;10;OBJECT;0.0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0.0,0,0;False;13;OBJECT;0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;2748.003,339.1999;Fixed;False;True;0;Fixed;ASEMaterialInspector;StandardSpecular;TriplanarWaterFallback;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;3;False;0;0;Transparent;0.5;True;True;0;False;Transparent;Transparent;ForwardOnly;True;True;True;True;True;True;True;True;True;True;True;False;True;True;True;True;True;False;0;255;255;0;0;0;0;False;0;25.2;18.21;33.22;False;0.5;True;0;Zero;Zero;0;OneMinusDstColor;One;Add;Add;0;False;0;0,0,0,0;VertexOffset;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0.0;False;5;FLOAT;0.0;False;6;FLOAT3;0.0;False;7;FLOAT3;0.0;False;8;FLOAT;0.0;False;9;FLOAT;0.0;False;10;OBJECT;0.0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0.0,0,0;False;13;OBJECT;0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False
 Node;AmplifyShaderEditor.RangedFloatNode;452;1921.594,204.601;Float;False;Property;_AlbedoFoamBlend;AlbedoFoamBlend;7;0;0.02;0;1
 Node;AmplifyShaderEditor.RangedFloatNode;453;2231.095,394.4004;Float;False;Property;_Opacity;Opacity;7;0;0.02;0;1
 Node;AmplifyShaderEditor.LerpOp;403;1977.099,-142.2;Float;False;0;FLOAT4;0.0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT;0.0;False
@@ -384,4 +355,4 @@ WireConnection;403;2;404;0
 WireConnection;460;0;426;0
 WireConnection;460;1;403;0
 ASEEND*/
-//CHKSM=3A124FBC9FB9C798494B95FCDDDAB2355C409433
+//CHKSM=90FD538936FBCBFC57FCCAE7ED0CB12639F36A26
