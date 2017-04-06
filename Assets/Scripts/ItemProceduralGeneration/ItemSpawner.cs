@@ -2,6 +2,7 @@
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 
 public class ItemSpawner : InteractableObject 
 {
@@ -36,12 +37,47 @@ public class ItemSpawner : InteractableObject
 
 	private const float angleIncrementations = 40f;
 
-	/// <summary>
-	/// Awake this instance.
-	/// </summary>
-	void Awake()
+    [Tooltip("The roof's door, if left null, the door won't open.")]
+    [SerializeField]
+    private GameObject door;
+
+    [Tooltip("How far the door should rotate to open.")]
+    [SerializeField]
+    private float doorRotationAngles;
+
+    [Tooltip("Time in seconds for the door to open.")]
+    [SerializeField]
+    private float doorOpenTime;
+
+    private bool doorIsOpen = false;
+
+    [Tooltip("Custom Set up for prefabs set in by hand.")]
+    [SerializeField]
+    private bool CustomSetUp;
+    [SerializeField]
+    private string customDistrictName;
+    [SerializeField]
+    private float customSize;
+
+    [SerializeField]
+    private Transform[] itemLocations;
+
+    [Tooltip("Time in seconds for items to move to position.")]
+    [SerializeField]
+    private float itemMoveTime;
+
+
+    /// <summary>
+    /// Awake this instance.
+    /// </summary>
+    void Awake()
 	{
 		SetUp();
+
+        if(CustomSetUp)
+        {
+            SetUpSpawner(customSize, customDistrictName);
+        }
 	}
 
 	/// <summary>
@@ -91,6 +127,12 @@ public class ItemSpawner : InteractableObject
 			}
 
 			spawned = true;
+
+            if(door != null && !doorIsOpen)
+            {
+                door.transform.DOLocalRotate(new Vector3(0f, doorRotationAngles, 0f), doorOpenTime);
+                doorIsOpen = true;
+            }
 		}
 	}
 
@@ -99,15 +141,15 @@ public class ItemSpawner : InteractableObject
 	/// </summary>
 	private void spawnItems()
 	{
-		float spawnLocationRadius = centralItemRadius + SpawnRadius;
+		//float spawnLocationRadius = centralItemRadius + SpawnRadius;
 
-		float currentSpawnSlot = 0;
+	//	float currentSpawnSlot = 0;
 
 		// maxDiscardSlots is how points on the circle there are given the amount in which the angle increments
 		// a circle has 360 degrees, so the number of points is equal to 360 divided by the amount in which the angle increments
 		// however, at 360, the player has looped back to 0, so subtract the last slot, which will be considered to be 360, which equals 0
-		int maxSpawnSlots = Mathf.FloorToInt(360 / angleIncrementations) - 1;
-		Vector3 centerPos = transform.position;
+	//	int maxSpawnSlots = Mathf.FloorToInt(360 / angleIncrementations) - 1;
+	//	Vector3 centerPos = transform.position;
 		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
 
 		int numberToSpawn = (int) Random.Range(MinSpawnNumber, MaxSpawnNumber);
@@ -115,19 +157,13 @@ public class ItemSpawner : InteractableObject
 		for (int i = 0; i < numberToSpawn  ; ++i)
 		{
 			GameObject item = factory.CreateRandomPickupInteractableItem(district);
-			item.transform.position = new Vector3(centerPos.x + spawnLocationRadius * Mathf.Cos(Mathf.Deg2Rad *(angleIncrementations * currentSpawnSlot)),
-												  centerPos.y,
-												  centerPos.z + spawnLocationRadius * Mathf.Sin(Mathf.Deg2Rad * (angleIncrementations * currentSpawnSlot)));
+
+            Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
+
+            item.transform.position = door.transform.position;
+            item.transform.DOMove(itemLocations[Random.Range(0, itemLocations.Length)].position, itemMoveTime);
 			item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
-
-			++ currentSpawnSlot;
-
-			if(currentSpawnSlot > maxSpawnSlots)
-			{
-				currentSpawnSlot = 0;
-			}
-
-			Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
+			
 		}
 	}
 }
