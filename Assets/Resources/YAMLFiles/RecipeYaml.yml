@@ -191,3 +191,12 @@
    - itemType: "base solid"
      amountRequired: 1
   statsToCheck:
+- recipeName: "Idol of Yam"
+  tiered: false
+  toolRequirements:
+   - itemType: "blade"
+     amountRequired: 1
+  resourceRequirements:
+   - itemType: "base solid"
+     amountRequired: 1
+  statsToCheck:

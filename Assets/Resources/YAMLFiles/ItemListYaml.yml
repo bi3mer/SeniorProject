@@ -274,7 +274,7 @@
   baseItem:
    itemName: "Poor Fire Pit"
    rarity: "common"
-   inventorySprite: "GUI_ITM_ScrapMetal"
+   inventorySprite: "GUI_ITM_ItemAtlas_Campfire"
    worldModel: "ITM/Campfire/ENV_Campfire"
    types:
      - "fuel"
@@ -598,10 +598,10 @@
    worldModel: "ITM/Ropes/ITM_FishRelic"
    types:
     - "equipable"
-   flavorText: "A token of prayer to the god that slew the sea serpent."
+   flavorText: "A token of prayer to the god that slew the sea serpent. Simply holding it makes you feel warmer...."
   itemCategories:
-    - !!idol
-      benefitName: "Warmth"
+    - !!warmthIdol
+      warmthBenefit: 3
 - itemName: "Lantern"
   baseItem: 
    itemName: "Lantern"
@@ -624,7 +624,7 @@
   baseItem:
    itemName: "Shelter"
    rarity: "common"
-   inventorySprite: "GUI_ITM_Shovel"
+   inventorySprite: "GUI_ITM_ItemAtlas_Shelter"
    worldModel: "ITM/Shanty Shelters/ENV_shanty_shelter_1"
    types:
     - "advanced tool"
