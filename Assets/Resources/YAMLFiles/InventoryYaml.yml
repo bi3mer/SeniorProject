@@ -192,6 +192,7 @@
       types:
        - "floatable object"
        - "base solid"
+       - "fuel"
       flavorText: "A piece of wood."
       modifyingActionNames:
       actionModifiedModels:
@@ -204,3 +205,5 @@
         stickiness: 0
         thickness: 0.5
         sharpness: 1
+      - !!fuel
+        burnTime: 20.0
