@@ -37,6 +37,8 @@ public class WorldItemFactory
 	private NoteFactory noteFactory;
 	private List<NoteData> noteList;
 
+	private bool noteGen = true;
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WorldItemFactory"/> class.
 	/// </summary>
@@ -77,18 +79,27 @@ public class WorldItemFactory
 	/// <param name="amount">Amount.</param>
 	public GameObject CreatePickUpInteractableItem(BaseItem itemToCreate, int amount)
 	{
-		// create the object with the model
-		GameObject item = CreateGenericInteractableItem(itemToCreate);
-		PickUpItem pickup = item.AddComponent<PickUpItem>();
-		pickup.SetUp();
-		pickup.Item = itemToCreate;
-		pickup.Show = false;
+		if (noteGen) 
+		{
+			return GetNextNote ();
+			noteGen = false;
+		} 
 
-		// TODO: Make the amount found in one stack to be a variable number
-		pickup.Amount = amount;
-		item.name = itemToCreate.ItemName;
+		else 
+		{
+			// create the object with the model
+			GameObject item = CreateGenericInteractableItem (itemToCreate);
+			PickUpItem pickup = item.AddComponent<PickUpItem> ();
+			pickup.SetUp ();
+			pickup.Item = itemToCreate;
+			pickup.Show = false;
 
-		return item;
+			// TODO: Make the amount found in one stack to be a variable number
+			pickup.Amount = amount;
+			item.name = itemToCreate.ItemName;
+
+			return item;
+		}
 	}
 
 	/// <summary>
@@ -97,26 +108,36 @@ public class WorldItemFactory
 	/// <returns>A random interactable item.</returns>
 	public GameObject CreateRandomPickupInteractableItem(string district)
 	{
-		// create the object with the model
-		BaseItem baseItem = Game.Instance.ItemFactoryInstance.GetWeightedRandomBaseItem(district, true);
-		GameObject item = GameObject.Instantiate (worldItemTemplates[baseItem.ItemName]);
 
-		// creates the trigger object that will handle interaction with player
-		GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
-		triggerObject.transform.SetParent(item.transform);
-		triggerObject.transform.localPosition = Vector3.zero;
+		if (noteGen) 
+		{
+			return GetNextNote ();
+			noteGen = false;
+		} 
 
-		PickUpItem pickup = item.AddComponent<PickUpItem>();
-		pickup.SetUp();
-		pickup.Item = baseItem;
-		pickup.Show = false;
+		else 
+		{
+			// create the object with the model
+			BaseItem baseItem = Game.Instance.ItemFactoryInstance.GetWeightedRandomBaseItem (district, true);
+			GameObject item = GameObject.Instantiate (worldItemTemplates [baseItem.ItemName]);
 
-		// TODO: Make the amount found in one stack to be a variable number
-		pickup.Amount = (int) Random.Range(itemAmountRange.min, itemAmountRange.max);
+			// creates the trigger object that will handle interaction with player
+			GameObject triggerObject = GameObject.Instantiate (triggerObjectPrefab);
+			triggerObject.transform.SetParent (item.transform);
+			triggerObject.transform.localPosition = Vector3.zero;
 
-		item.name = baseItem.ItemName;
+			PickUpItem pickup = item.AddComponent<PickUpItem> ();
+			pickup.SetUp ();
+			pickup.Item = baseItem;
+			pickup.Show = false;
 
-		return item;
+			// TODO: Make the amount found in one stack to be a variable number
+			pickup.Amount = (int)Random.Range (itemAmountRange.min, itemAmountRange.max);
+
+			item.name = baseItem.ItemName;
+
+			return item;
+		}
 	}
 
 	/// <summary>
@@ -202,6 +223,8 @@ public class WorldItemFactory
 		if (noteIndex < noteList.Count) 
 		{
 			return noteFactory.CreateInteractableItem (noteList [noteIndex]);
+
+			Debug.Log ("NOTE GENERATED");
 		}
 
 		return null;
