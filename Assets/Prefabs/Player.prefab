@@ -539,6 +539,7 @@ GameObject:
   - 114: {fileID: 114000012874215022}
   - 114: {fileID: 114000012333483624}
   - 143: {fileID: 143000011356706362}
+  - 114: {fileID: 114000010167408044}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1372,6 +1373,7 @@ GameObject:
   - 4: {fileID: 4000010110805804}
   - 33: {fileID: 33000013776654486}
   - 23: {fileID: 23000012951592136}
+  - 114: {fileID: 114000012747027134}
   m_Layer: 8
   m_Name: Look At Target
   m_TagString: Untagged
@@ -3693,6 +3695,21 @@ Light:
   m_BounceIntensity: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114000010167408044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011536698418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1d25913bbed8145b26f8aeb5d422fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
+  bipedIk: {fileID: 0}
+  focusSpeed: 1.2
+  maxViewDistance: 0.86
 --- !u!114 &114000010297988840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4039,7 +4056,7 @@ MonoBehaviour:
       IKPosition: {x: -125.571, y: 1.134089, z: 1.880224}
       IKPositionWeight: 0
       root: {fileID: 4000013370856100}
-      target: {fileID: 0}
+      target: {fileID: 4000010110805804}
       spine:
       - transform: {fileID: 4000011818603918}
         weight: 1
@@ -4072,12 +4089,12 @@ MonoBehaviour:
         sqrMag: 0
         axis: {x: 3.6266105e-11, y: 0.00000010450968, z: 1}
       eyes: []
-      bodyWeight: 0.5
+      bodyWeight: 0.259
       headWeight: 1
       eyesWeight: 1
-      clampWeight: 0.5
-      clampWeightHead: 0.7
-      clampWeightEyes: 0.5
+      clampWeight: 0.281
+      clampWeightHead: 0.83
+      clampWeightEyes: 0
       clampSmoothing: 2
       spineWeightCurve:
         serializedVersion: 2
@@ -4285,6 +4302,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerLandMovement: {fileID: 114000012874215022}
+--- !u!114 &114000012747027134
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013840044834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 733035825073529488bd59a81ef6d089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114000012874215022
 MonoBehaviour:
   m_ObjectHideFlags: 1
