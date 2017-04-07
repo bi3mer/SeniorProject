@@ -35,7 +35,7 @@ public class ButtonSounds : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Plaies the button sound.
+	/// Plays the button sound.
 	/// </summary>
 	public void PlayButtonSound()
 	{
