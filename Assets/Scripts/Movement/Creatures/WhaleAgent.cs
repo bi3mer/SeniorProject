@@ -4,6 +4,7 @@ using System.Collections;
 public class WhaleAgent : MonoBehaviour
 {
 	[SerializeField]
+	[Tooltip("The speed that the whale moves")]
 	private float whaleSpeed = 1f;
 
 	private Vector2 targetOne;
@@ -13,7 +14,7 @@ public class WhaleAgent : MonoBehaviour
 	/// <summary>
 	/// Updates the targets.
 	/// </summary>
-	private void UpdateTargets(Vector2 position)
+	private void updateTargets(Vector2 position)
 	{
 		// check if the distance is low between the two vectors
 		if(Vector2.SqrMagnitude(position - this.target) < Mathf.Epsilon)
@@ -74,6 +75,6 @@ public class WhaleAgent : MonoBehaviour
 		this.transform.LookAt(VectorUtility.twoDimensional3d(-this.target, this.transform.position.y));
 
 		// we may have to switch targets since we reached the current one
-		this.UpdateTargets(newPosition);
+		this.updateTargets(newPosition);
 	}
 }
