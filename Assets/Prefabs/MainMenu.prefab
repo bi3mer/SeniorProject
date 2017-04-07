@@ -2544,7 +2544,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: End Credits
+  m_Text: 'End Credits
+
+    Colan'
 --- !u!114 &114000010229857770
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -17,7 +17,7 @@ public class ButtonSounds : MonoBehaviour
 		{
 			if(ButtonSounds.instance == null)
 			{
-				ButtonSounds.instance = GameObject.FindObjectOfType<ButtonSounds>();
+				ButtonSounds.instance = ButtonSounds.instance.GetComponent<ButtonSounds>();
 			}
 
 			return ButtonSounds.instance;
@@ -32,6 +32,7 @@ public class ButtonSounds : MonoBehaviour
 	void Start()
 	{
 		this.source = this.GetComponent<AudioSource>();
+		instance    = this;
 	}
 
 	/// <summary>
