@@ -18,7 +18,7 @@ public class Player
     private const int maxHunger = 100;
     private const string playerInventoryName = "player";
     private const string inventoryFileName = "InventoryYaml.yml";
-    private const int playerInventorySize = 20;
+    private const int playerInventorySize = 10;
     private int health;
     private Vector3 worldPosition;
 

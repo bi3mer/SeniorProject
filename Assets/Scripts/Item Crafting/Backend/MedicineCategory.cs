@@ -125,6 +125,7 @@ public class MedicineCategory : ItemCategory
         if (Game.Player.HealthStatus == PlayerHealthStatus.Pneumonia)
         {
             Game.Player.HealthStatus = PlayerHealthStatus.None;
+			GuiInstanceManager.PlayerNotificationInsance.ShowNotification(PlayerNotification.NotificationType.CURE);
         }
 
         baseItem.RemovalFlag = true;
@@ -138,6 +139,7 @@ public class MedicineCategory : ItemCategory
         if (Game.Player.HealthStatus == PlayerHealthStatus.FoodPoisoning)
         {
             Game.Player.HealthStatus = PlayerHealthStatus.None;
+			GuiInstanceManager.PlayerNotificationInsance.ShowNotification(PlayerNotification.NotificationType.CURE);
         }
 
         baseItem.RemovalFlag = true;
@@ -148,6 +150,11 @@ public class MedicineCategory : ItemCategory
     /// </summary>
     public void CureAll()
     {
+    	if(Game.Player.HealthStatus != PlayerHealthStatus.None)
+    	{
+    		GuiInstanceManager.PlayerNotificationInsance.ShowNotification(PlayerNotification.NotificationType.CURE);
+    	}
+
         Game.Player.HealthStatus = PlayerHealthStatus.None;
 
         Game.Player.Health = Game.Player.MaxHealth;

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
 
-public class SicknessNotification : MonoBehaviour
+public class PlayerNotification : MonoBehaviour
 {
     [Header("Game Object Settings")]
     [SerializeField]
@@ -36,6 +36,8 @@ public class SicknessNotification : MonoBehaviour
     private string pneumoniaText;
     [SerializeField]
     private string noSicknessText;
+    [SerializeField]
+    private string inventoryFullText;
 
     private Vector2 endingAnchorMax;
     private Vector2 endingAnchorMin;
@@ -43,8 +45,8 @@ public class SicknessNotification : MonoBehaviour
     private Vector3 startingPosition;
     private Vector3 endingPosition;
     private Player player;
-    private PlayerHealthStatus prevStatus;
 
+    public enum NotificationType { STOMACH, PNEUMONIA, CURE, INVENTORYFULL };
     /// <summary>
     /// Set starting position of the notification bar.
     /// </summary>
@@ -65,39 +67,39 @@ public class SicknessNotification : MonoBehaviour
         CloseNotification();
 
         player = Game.Player;
+
+        GuiInstanceManager.PlayerNotificationInsance = this;
 	}
 	
 	/// <summary>
     /// Drop down notification bar if player becomes sick.
     /// </summary>
-	void Update ()
+	public void ShowNotification (NotificationType notification)
     {
-        // check for if there is a status change
-        if (prevStatus != player.HealthStatus)
+        // close the notification bar before changing text
+        if (notificationBar.transform.localPosition == endingPosition)
         {
-            // close the notification bar before changing text
-            if (notificationBar.transform.localPosition == endingPosition)
-            {
-                CloseNotification();
-            }
-
-            if (player.HealthStatus == PlayerHealthStatus.FoodPoisoning)
-            {
-                text.text = foodPoisoningText;
-            }
-            else if (player.HealthStatus == PlayerHealthStatus.Pneumonia)
-            {
-                text.text = pneumoniaText;
-            }
-            else
-            {
-                text.text = noSicknessText;
-            }
-       
-            notificationBar.transform.DOLocalMove(endingPosition, enterTime);
+            CloseNotification();
         }
 
-        prevStatus = player.HealthStatus;
+		if (notification == NotificationType.STOMACH)
+        {
+            text.text = foodPoisoningText;
+        }
+        else if (notification == NotificationType.PNEUMONIA)
+        {
+            text.text = pneumoniaText;
+        }
+        else if(notification == NotificationType.CURE)
+        {
+            text.text = noSicknessText;
+        }
+        else if(notification == NotificationType.INVENTORYFULL)
+        {
+        	text.text = inventoryFullText;
+        }
+   
+        notificationBar.transform.DOLocalMove(endingPosition, enterTime);
     }
 
     /// <summary>

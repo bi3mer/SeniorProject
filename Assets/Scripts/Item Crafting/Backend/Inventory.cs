@@ -245,10 +245,18 @@ public class Inventory
 	public ItemStack AddItem(BaseItem newItem, int amount)
 	{
 		int loc = GetNextOpenSlot ();
-		contents[loc] = new ItemStack(newItem, amount, Guid.NewGuid().ToString("N"));
-		UpdateTypeAmount(newItem.Types, amount);
 
-		return contents[loc];
+		if(loc < contents.Length)
+		{
+			contents[loc] = new ItemStack(newItem, amount, Guid.NewGuid().ToString("N"));
+			UpdateTypeAmount(newItem.Types, amount);
+			return contents[loc];
+		}
+		else
+		{
+		}
+
+		return null;
 	}
 
 	/// <summary>

@@ -196,11 +196,21 @@ public class ItemStackUI : MonoBehaviour
 			targetStack.Item.DirtyFlag = false;
 
 			ItemStack addedItem = GuiInstanceManager.InventoryUiInstance.TargetInventory.AddItem (targetStack.Item, targetStack.Amount);
-			GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
-			ItemStackUI createdStack = GuiInstanceManager.InventoryUiInstance.GetStackUI(addedItem.Id);
-			GuiInstanceManager.ItemAmountPanelInstance.OpenItemDetailPanel(createdStack.gameObject);
 
-			createdNewItem = true;
+			if(addedItem != null)
+			{
+				GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
+				ItemStackUI createdStack = GuiInstanceManager.InventoryUiInstance.GetStackUI(addedItem.Id);
+				GuiInstanceManager.ItemAmountPanelInstance.OpenItemDetailPanel(createdStack.gameObject);
+
+				createdNewItem = true;
+			}
+			else
+			{
+				GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(new ItemStack(targetStack.Item, targetStack.Amount, ""));
+				GuiInstanceManager.PlayerNotificationInsance.ShowNotification(PlayerNotification.NotificationType.INVENTORYFULL);
+				GuiInstanceManager.ItemStackDetailPanelInstance.ClosePanel();
+			}
 		}
 		else if(targetStack.Item.UpdateExistingFlag)
 		{
