@@ -124,8 +124,16 @@ public class ProceduralBuilding : Building
 		// since spawning of items may occur immediately, make sure that door is positioned properly before spawner set up is called
 		ItemSpawner spawner = attachment.GetComponent<ItemSpawner>();
 
+        
 		spawner.SetUpSpawner(size, district);
 		spawner.SpawnWithoutInteraction = prespawnItems;
+
+        GameObject poster = GameObject.Instantiate(Configuration.DistrictPosters[Random.Range(0, Configuration.DistrictPosters.Length)]);
+        int posterPos = Random.Range(0, spawner.PosterPositions.Length);
+        poster.transform.position = spawner.PosterPositions[posterPos].position;
+        poster.transform.SetParent(spawner.gameObject.transform);
+        poster.transform.rotation = spawner.PosterPositions[posterPos].rotation;
+        poster.transform.eulerAngles += new Vector3(0f, 0f, Random.Range(-spawner.PosterRotationModMax, spawner.PosterRotationModMax));
 
 		return attachment;
     }
