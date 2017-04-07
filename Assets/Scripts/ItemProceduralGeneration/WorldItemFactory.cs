@@ -33,6 +33,9 @@ public class WorldItemFactory
 
 	private RangeAttribute itemAmountRange = new RangeAttribute(1, 10);
 
+	private int noteIndex = 0;
+	private NoteFactory noteFactory;
+	private List<NoteData> noteList;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WorldItemFactory"/> class.
@@ -44,17 +47,8 @@ public class WorldItemFactory
 		LoadTemplates();
 
 		NoteYAMLParser parser = new NoteYAMLParser("Notes.yml");
-		List<NoteData> noteList = parser.LoadNotes();
-		NoteFactory factory = new NoteFactory ();
-
-		for (int i = 0; i < noteList.Count; ++i) 
-		{ 
-			factory.CreateInteractableItem (noteList[i]);
-		}
-	
-		// TODO: Replace this with code that references a not yet made extension of Shreya's GUI classes for notes
-		NoteUIController.Instance.SetText (noteList[0].Text + " -- " + noteList[0].Title);
-
+		noteList = parser.LoadNotes();
+		noteFactory = new NoteFactory ();
 	}
 
 	/// <summary>
@@ -196,5 +190,23 @@ public class WorldItemFactory
 	public int GetRandomItemIndex(string district, bool onWater)
 	{
 		return Game.Instance.ItemFactoryInstance.GetWeightedRandomItemIndex(district, onWater);
+	}
+
+	/// <summary>
+	/// Returns the game object for the next note in the list of notes.
+	/// We keep track of the index we're on so duplicate notes aren't being created.
+	/// </summary>
+	/// <returns>The next note.</returns>
+	public GameObject GetNextNote()
+	{
+		if (noteIndex < noteList.Count) 
+		{
+			return noteFactory.CreateInteractableItem (noteList [noteIndex]);
+		}
+
+		return null;
+
+	// NoteUIController.Instance.SetText (noteList[0].Text + " -- " + noteList[0].Title);
+
 	}
 }
