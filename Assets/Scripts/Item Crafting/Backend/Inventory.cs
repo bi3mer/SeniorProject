@@ -95,6 +95,7 @@ public class Inventory
 
 				item.SetUpBaseItem ();
 
+				// ToString("N") is used to specify that a 32 bit number is being converted into a string
 				ItemStack stack = new ItemStack(item, inventoryInfo[i].ItemAmount,  Guid.NewGuid().ToString("N"));
 				contents[i] = stack;
 			}
@@ -254,7 +255,7 @@ public class Inventory
 			{
 				if (contents[i].Item.ItemName.Equals(newItem.ItemName)) 
 				{
-					amountRemaining = Mathf.Max((contents[i].Amount + amount) - contents[i].MaxStackSize, 0); 
+					amountRemaining = (contents[i].Amount + amount) - contents[i].MaxStackSize; 
 					contents[i].Amount += amount;
 					loc = i;
 				}

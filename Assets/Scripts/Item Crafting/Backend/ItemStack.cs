@@ -8,8 +8,6 @@ public class ItemStack
 	/// </summary>
 	private int amount;
 
-	private const int maxStackSize = 99;
-
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Stack"/> class.
 	/// </summary>
@@ -21,6 +19,7 @@ public class ItemStack
 		Id = identifier;
 		amount = stackAmount;
 		Item = item;
+		MaxStackSize = 99;
 	}
 
 	/// <summary>
@@ -28,6 +27,7 @@ public class ItemStack
 	/// </summary>
 	public ItemStack()
 	{
+		MaxStackSize = 99;
 	}
 
 	/// <summary>
@@ -53,10 +53,8 @@ public class ItemStack
 
 	public int MaxStackSize
 	{
-		get
-		{
-			return maxStackSize;
-		}
+		get;
+		private set;
 	}
 
 	/// <summary>
