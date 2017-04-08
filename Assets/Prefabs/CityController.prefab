@@ -100,8 +100,7 @@ MonoBehaviour:
   heightJitter: 0.1
   buildingScale: {x: 1, y: 1, z: 1}
   maxPlacementTries: 3
-  cityCenterBuilding: {fileID: 1000010512083558, guid: 9ba31da0e553b1a4d88ccb9db0377693,
-    type: 2}
+  cityCenterBuilding: {fileID: 0}
 --- !u!114 &114000011026012388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -114,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chunkSize: 25
-  chunksAwayToLoad: 1
+  chunksAwayToLoad: 2
 --- !u!114 &114000011626432178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,14 +142,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a07dc351f6efa4abcb267cc9b799b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showCityBounds: 1
-  showDistrictPerimeter: 1
+  showCityBounds: 0
+  showDistrictPerimeter: 0
   showDistrictSeedPoint: 0
-  showBlockPerimeter: 1
+  showBlockPerimeter: 0
   showBlockControlPoint: 0
-  showBuildingPositions: 1
-  showChunkBoundaries: 1
-  showItemPositions: 1
+  showBuildingPositions: 0
+  showChunkBoundaries: 0
+  showItemPositions: 0
 --- !u!114 &114000012868407098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,7 +197,9 @@ MonoBehaviour:
     WeenieBuildingTemplate: {fileID: 1000010255927246, guid: 549121b14d0f7904d88d4311ec33716b,
       type: 2}
     Doors:
-    - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
+    - {fileID: 1000012658179278, guid: 769a1faf4799b074a9d5f941b5167f1b, type: 2}
+    - {fileID: 1000014010784418, guid: c305f986c65e0bb408e703e146d6ca46, type: 2}
+    - {fileID: 1000013599154026, guid: 6c4c2510ad3d19644b12bdb7cf8b1c87, type: 2}
     Shelters:
     - {fileID: 1000012883835142, guid: 5e5de6defc0f04008beaa8b15def9938, type: 2}
     MaxFloors: 5
@@ -331,11 +332,20 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
+    districtPosters:
+    - {fileID: 1000011684602676, guid: e9e083e33e611c646ad0e3a27010577f, type: 2}
+    - {fileID: 1000010371433140, guid: 2596129558d54034fbe309daf20da20e, type: 2}
+    - {fileID: 1000011670615782, guid: a9c53abf065ccd34f998a05524a1d085, type: 2}
+    - {fileID: 1000011416309050, guid: cb110b039787ac84a9cd95be5d8f9f45, type: 2}
+    - {fileID: 1000010915934632, guid: 1c8122ad6ac7eeb4192ccc805e5486f7, type: 2}
+    - {fileID: 1000013218950874, guid: 0ffe2fc133cb0594f94d87a30b18bab9, type: 2}
   - districtName: shopping
     WeenieBuildingTemplate: {fileID: 1000012475015072, guid: a56d8459f0ab6b6489682f438e4bb632,
       type: 2}
     Doors:
-    - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
+    - {fileID: 1000012658179278, guid: 769a1faf4799b074a9d5f941b5167f1b, type: 2}
+    - {fileID: 1000014010784418, guid: c305f986c65e0bb408e703e146d6ca46, type: 2}
+    - {fileID: 1000013599154026, guid: 6c4c2510ad3d19644b12bdb7cf8b1c87, type: 2}
     Shelters:
     - {fileID: 1000012883835142, guid: 5e5de6defc0f04008beaa8b15def9938, type: 2}
     MaxFloors: 8
@@ -468,11 +478,20 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
+    districtPosters:
+    - {fileID: 1000010915934632, guid: 1c8122ad6ac7eeb4192ccc805e5486f7, type: 2}
+    - {fileID: 1000010371433140, guid: 2596129558d54034fbe309daf20da20e, type: 2}
+    - {fileID: 1000011684602676, guid: e9e083e33e611c646ad0e3a27010577f, type: 2}
+    - {fileID: 1000011670615782, guid: a9c53abf065ccd34f998a05524a1d085, type: 2}
+    - {fileID: 1000011416309050, guid: cb110b039787ac84a9cd95be5d8f9f45, type: 2}
+    - {fileID: 1000013218950874, guid: 0ffe2fc133cb0594f94d87a30b18bab9, type: 2}
   - districtName: business
     WeenieBuildingTemplate: {fileID: 1000014284608772, guid: 7cded61ac185fec42bb5927b4b556f9e,
       type: 2}
     Doors:
-    - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
+    - {fileID: 1000012658179278, guid: 769a1faf4799b074a9d5f941b5167f1b, type: 2}
+    - {fileID: 1000014010784418, guid: c305f986c65e0bb408e703e146d6ca46, type: 2}
+    - {fileID: 1000013599154026, guid: 6c4c2510ad3d19644b12bdb7cf8b1c87, type: 2}
     Shelters:
     - {fileID: 1000012883835142, guid: 5e5de6defc0f04008beaa8b15def9938, type: 2}
     MaxFloors: 8
@@ -605,6 +624,13 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
+    districtPosters:
+    - {fileID: 1000010915934632, guid: 1c8122ad6ac7eeb4192ccc805e5486f7, type: 2}
+    - {fileID: 1000010371433140, guid: 2596129558d54034fbe309daf20da20e, type: 2}
+    - {fileID: 1000011684602676, guid: e9e083e33e611c646ad0e3a27010577f, type: 2}
+    - {fileID: 1000011670615782, guid: a9c53abf065ccd34f998a05524a1d085, type: 2}
+    - {fileID: 1000013218950874, guid: 0ffe2fc133cb0594f94d87a30b18bab9, type: 2}
+    - {fileID: 1000011416309050, guid: cb110b039787ac84a9cd95be5d8f9f45, type: 2}
 --- !u!114 &114000013616052872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -801,6 +827,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
+    districtPosters: []
   TestSize: 2
   TestStoriesTall: 5
   TestAttatchmentPercentage: 20
