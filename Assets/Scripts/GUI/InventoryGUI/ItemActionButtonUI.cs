@@ -46,13 +46,10 @@ public class ItemActionButtonUI : MonoBehaviour
 	/// <summary>
 	/// Performs the action. Refreshes the panel that displays the item's information.
 	/// </summary>
-	public void PerformAction(int numActions)
+	public void PerformAction()
 	{
 		GuiInstanceManager.ItemStackDetailPanelInstance.ClearSubActionPanel ();
-        for (int i  = 0; i < numActions; ++i)
-        {
-            action();
-        }
+        action();
 		GuiInstanceManager.ItemStackDetailPanelInstance.RefreshItemPanel ();
 	}
 
