@@ -43,7 +43,12 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	private GameObject attributesAndActionPanel;
 
 	// the current number of units selected
-	private int currentAmount;
+	public int currentAmount
+    {
+        get;
+        set;
+    }
+
 	//the maximum number of units that can be selected for the current item
 	private int maxAmount;
 
@@ -207,7 +212,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	public void FinalizeAction()
 	{
 		GuiInstanceManager.ItemStackDetailPanelInstance.UpdateSelectedAmount(currentAmount);
-		selectedActionButton.PerformAction();
+        selectedActionButton.PerformAction(currentAmount);
 		Close.gameObject.SetActive (true);
 		itemAmountAffectPanel.SetActive (false);
 	}
