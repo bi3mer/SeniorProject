@@ -148,7 +148,7 @@ public class FireInteractable : InteractableObject
 			// only one item is added at a time when cooking at a fire
 			if(Game.Instance.PlayerInstance.Inventory.AddItem(duplicate, 1) == null)
 			{
-				GuiInstanceManager.PlayerNotificationInsance.ShowNotification(PlayerNotification.NotificationType.INVENTORYFULL);
+				GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.INVENTORYFULL);
 				ItemDiscarder discarder = new ItemDiscarder ();
 
 				// no guid needed since this is just going to be discarded

@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerNotification : MonoBehaviour
 {
@@ -44,9 +45,9 @@ public class PlayerNotification : MonoBehaviour
 
     private Vector3 startingPosition;
     private Vector3 endingPosition;
-    private Player player;
 
-    public enum NotificationType { STOMACH, PNEUMONIA, CURE, INVENTORYFULL };
+    Dictionary<NotificationType, string> notificationsToTypes;
+
     /// <summary>
     /// Set starting position of the notification bar.
     /// </summary>
@@ -63,17 +64,23 @@ public class PlayerNotification : MonoBehaviour
         notificationBar.GetComponent<RectTransform>().anchorMin = endingAnchorMin;
         endingPosition = notificationBar.transform.localPosition;
 
+		notificationsToTypes = new Dictionary<NotificationType, string>();
+
+		notificationsToTypes.Add(NotificationType.STOMACH, foodPoisoningText);
+		notificationsToTypes.Add(NotificationType.PNEUMONIA, pneumoniaText);
+		notificationsToTypes.Add(NotificationType.CURE, noSicknessText);
+		notificationsToTypes.Add(NotificationType.INVENTORYFULL, inventoryFullText);
+
         // remove the notification bar before the loading screen finishes
         CloseNotification();
-
-        player = Game.Player;
 
         GuiInstanceManager.PlayerNotificationInsance = this;
 	}
 	
 	/// <summary>
-    /// Drop down notification bar if player becomes sick.
-    /// </summary>
+	/// Shows the notification.
+	/// </summary>
+	/// <param name="notification">Type of notification.</param>
 	public void ShowNotification (NotificationType notification)
     {
         // close the notification bar before changing text
@@ -82,22 +89,7 @@ public class PlayerNotification : MonoBehaviour
             CloseNotification();
         }
 
-		if (notification == NotificationType.STOMACH)
-        {
-            text.text = foodPoisoningText;
-        }
-        else if (notification == NotificationType.PNEUMONIA)
-        {
-            text.text = pneumoniaText;
-        }
-        else if(notification == NotificationType.CURE)
-        {
-            text.text = noSicknessText;
-        }
-        else if(notification == NotificationType.INVENTORYFULL)
-        {
-        	text.text = inventoryFullText;
-        }
+		text.text = notificationsToTypes[notification];
    
         notificationBar.transform.DOLocalMove(endingPosition, enterTime);
     }

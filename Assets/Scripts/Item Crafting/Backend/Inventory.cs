@@ -252,9 +252,6 @@ public class Inventory
 			UpdateTypeAmount(newItem.Types, amount);
 			return contents[loc];
 		}
-		else
-		{
-		}
 
 		return null;
 	}

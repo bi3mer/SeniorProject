@@ -173,7 +173,7 @@ public class ItemFactory
 		if(addResult == null)
 		{
 			GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(new ItemStack(craftedItem, 1, ""));
-			GuiInstanceManager.PlayerNotificationInsance.ShowNotification(PlayerNotification.NotificationType.INVENTORYFULL);
+			GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.INVENTORYFULL);
 		}
 	}
 

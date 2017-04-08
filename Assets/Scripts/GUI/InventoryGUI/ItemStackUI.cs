@@ -208,7 +208,7 @@ public class ItemStackUI : MonoBehaviour
 			else
 			{
 				GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(new ItemStack(targetStack.Item, targetStack.Amount, ""));
-				GuiInstanceManager.PlayerNotificationInsance.ShowNotification(PlayerNotification.NotificationType.INVENTORYFULL);
+				GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.INVENTORYFULL);
 				GuiInstanceManager.ItemStackDetailPanelInstance.ClosePanel();
 			}
 		}

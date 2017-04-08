@@ -194,7 +194,6 @@ public class PlantCategory : ItemCategory
                 if (RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
                 {
                     Game.Player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
-                    GuiInstanceManager.PlayerNotificationInsance.ShowNotification(PlayerNotification.NotificationType.STOMACH);
                 }
             }
 		} 
