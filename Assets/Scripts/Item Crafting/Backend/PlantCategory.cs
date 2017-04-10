@@ -140,6 +140,7 @@ public class PlantCategory : ItemCategory
 	{
 		PlantCategory category = new PlantCategory ();
 		category.WaterContent = WaterContent;
+		category.Toughness = Toughness;
 		category.Sweet = Sweet;
 		category.Bitter = Bitter;
 		category.Sour = Sour;
@@ -198,19 +199,19 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public void Cook()
 	{
-		Toughness = Toughness * cookingWaterIncreaseRate;
+		Toughness = Toughness * cookingToughnessDecreaseRate;
 		WaterContent = WaterContent * cookingWaterIncreaseRate;
 
 		GetAttribute (toughAttrName).Value = Toughness;
 		GetAttribute (waterContAttrName).Value = WaterContent;
 
-		if (WaterContent > waterContentSoupThreshold && !baseItem.ItemName.Contains (soupNameAddition)) 
+		if (WaterContent >= waterContentSoupThreshold && !baseItem.ItemName.Contains (soupNameAddition)) 
 		{
 			baseItem.ChangeName (baseItem.ItemName + " " + soupNameAddition);
 		} 
 		else if (WaterContent < waterContentSoupThreshold) 
 		{
-			baseItem.ChangeName(defaultCookedNameAddition + baseItem.ItemName);
+			baseItem.ChangeName(defaultCookedNameAddition + " " + baseItem.ItemName);
 		}
 	}
 
