@@ -100,9 +100,19 @@ public class PlayerController : MonoBehaviour
     private float buttonZoomAmount = 0.1f;
 
     private InteractableObject interactable;
+    public InteractableObject Interactable
+    {
+        get
+        {
+            return interactable;
+        }
+    }
+
 
     // the closest interactable as well as the distance
     private Collider closestInteractable;
+
+
     private float closestDistance;
 
     // the previous closest collider
