@@ -128,13 +128,15 @@ public class ProceduralBuilding : Building
 		spawner.SetUpSpawner(size, district);
 		spawner.SpawnWithoutInteraction = prespawnItems;
 
-        GameObject poster = GameObject.Instantiate(Configuration.DistrictPosters[Random.Range(0, Configuration.DistrictPosters.Length)]);
-        int posterPos = Random.Range(0, spawner.PosterPositions.Length);
-        poster.transform.position = spawner.PosterPositions[posterPos].position;
-        poster.transform.SetParent(spawner.gameObject.transform);
-        poster.transform.rotation = spawner.PosterPositions[posterPos].rotation;
-        poster.transform.eulerAngles += new Vector3(0f, 0f, Random.Range(-spawner.PosterRotationModMax, spawner.PosterRotationModMax));
-
-		return attachment;
+        if(spawner.PosterPositions.Length != 0)
+        { 
+            GameObject poster = GameObject.Instantiate(Configuration.DistrictPosters[Random.Range(0, Configuration.DistrictPosters.Length)]);
+            int posterPos = Random.Range(0, spawner.PosterPositions.Length);
+            poster.transform.position = spawner.PosterPositions[posterPos].position;
+            poster.transform.SetParent(spawner.gameObject.transform);
+            poster.transform.rotation = spawner.PosterPositions[posterPos].rotation;
+            poster.transform.eulerAngles += new Vector3(0f, 0f, Random.Range(-spawner.PosterRotationModMax, spawner.PosterRotationModMax));
+        }
+        return attachment;
     }
 }
