@@ -37,7 +37,7 @@ public class WorldItemFactory
 	private NoteFactory noteFactory;
 	private List<NoteData> noteList;
 
-	private bool noteGen = true;
+	private bool noteGen;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WorldItemFactory"/> class.
@@ -51,6 +51,7 @@ public class WorldItemFactory
 		NoteYAMLParser parser = new NoteYAMLParser("Notes.yml");
 		noteList = parser.LoadNotes();
 		noteFactory = new NoteFactory ();
+		noteGen  = true;
 	}
 
 	/// <summary>
@@ -82,7 +83,6 @@ public class WorldItemFactory
 		if (noteGen) 
 		{
 			return GetNextNote ();
-			noteGen = false;
 		} 
 
 		else 
@@ -222,11 +222,12 @@ public class WorldItemFactory
 	{
 		if (noteIndex < noteList.Count) 
 		{
+			Debug.Log ("RETURNED NOTE at " + noteFactory.CreateInteractableItem (noteList [noteIndex]).transform);
+			noteIndex += 1;
 			return noteFactory.CreateInteractableItem (noteList [noteIndex]);
-
-			Debug.Log ("NOTE GENERATED");
 		}
 
+		noteGen = false;
 		return null;
 
 	// NoteUIController.Instance.SetText (noteList[0].Text + " -- " + noteList[0].Title);
