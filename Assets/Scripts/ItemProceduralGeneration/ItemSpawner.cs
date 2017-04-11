@@ -172,7 +172,16 @@ public class ItemSpawner : InteractableObject
 
             Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
 
-            item.transform.position = door.transform.position;
+            Vector3 spawnposition;
+            if(door == null)
+            {
+                spawnposition = transform.position;
+            }
+            else
+            {
+                spawnposition = door.transform.position;
+            }
+            item.transform.position = spawnposition;
             item.transform.DOMove(itemLocations[Random.Range(0, itemLocations.Length)].position, itemMoveTime);
 			item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
 			
