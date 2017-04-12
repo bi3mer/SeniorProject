@@ -18,6 +18,13 @@ public class FishingRod : Tool
 
     private FishingLure fishingLure;
     private BezierLine line;
+    private int numOfUses;
+
+    public FishingRodCategory FishingCategory
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Set up fishing rod variables.
@@ -31,16 +38,24 @@ public class FishingRod : Tool
         ToolName = toolName;
 	}
 
-	/// <summary>
-	/// Sets up the tool so that it is linked to the proper item in the inventory.
-	/// </summary>
-	/// <param name="itemForTool">Item for tool.</param>
-	public override void SetUpTool(BaseItem itemForTool)
+    void Update()
+    {
+        if (!InUse && numOfUses == FishingCategory.DegenerationThreshold)
+        {
+            FishingCategory.Break();
+        }
+    }
+
+    /// <summary>
+    /// Sets up the tool so that it is linked to the proper item in the inventory.
+    /// </summary>
+    /// <param name="itemForTool">Item for tool.</param>
+    public override void SetUpTool(BaseItem itemForTool)
 	{
 		List<ItemAction> actions = new List<ItemAction>();
-		FishingRodCategory fishingCategory = (FishingRodCategory) itemForTool.GetItemCategoryByClass(typeof(FishingRodCategory));
+		FishingCategory = (FishingRodCategory) itemForTool.GetItemCategoryByClass(typeof(FishingRodCategory));
 
-	 	ItemAction unequipAction = new ItemAction(unequipActName, new UnityAction(fishingCategory.UnEquip));
+	 	ItemAction unequipAction = new ItemAction(unequipActName, new UnityAction(FishingCategory.UnEquip));
 		actions.Add(unequipAction);
 
 		GuiInstanceManager.EquippedItemGuiInstance.SetEquipped(itemForTool.InventorySprite, actions);
@@ -89,6 +104,12 @@ public class FishingRod : Tool
         if (WasCast)
         {
             reel();
+            ++numOfUses;
+            //if (!InUse && numOfUses == FishingCategory.DegenerationThreshold)
+            //{
+            //    FishingCategory.Break();
+            //}
+
         }
         else if (CanCast)
         {
