@@ -13,7 +13,7 @@ public class RestartBehavior : MonoBehaviour
 	/// </summary>
 	public void Restart()
 	{
+		Game.Instance.Reset();
 		SceneManager.LoadScene(mainGameScene);
-        Game.Instance.Reset();
 	}
 }
