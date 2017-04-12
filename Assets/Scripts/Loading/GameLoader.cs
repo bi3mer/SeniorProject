@@ -9,6 +9,9 @@ public class GameLoader
 {
     private List<GameLoaderTask> tasks;
 
+    public delegate void GameLoadedDelegate();
+    public event GameLoadedDelegate GameLoadedEvent;
+
     /// <summary>
     /// Instatiate a new GameLoader
     /// </summary>
@@ -48,7 +51,13 @@ public class GameLoader
                 totalComplete += tasks[i].PercentageComplete;
             }
 
-            return totalComplete / tasks.Count;
+            float complete = totalComplete / tasks.Count;
+            if (complete >= 1f && GameLoadedEvent != null)
+            {
+                GameLoadedEvent();
+            }
+
+            return complete;
         }
     }
 
