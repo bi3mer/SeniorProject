@@ -42,8 +42,6 @@ GameObject:
   - 114: {fileID: 114000011796935804}
   - 114: {fileID: 114000011684390236}
   - 114: {fileID: 114000010296232540}
-  - 114: {fileID: 114000010357929396}
-  - 114: {fileID: 114000010797825692}
   m_Layer: 0
   m_Name: WeatherEffects
   m_TagString: Untagged
@@ -298,7 +296,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013475553836}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 4.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
   m_Children: []
@@ -337,8 +335,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011961198834}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.83171, y: 2.8317099, z: 2.8317099}
+  m_LocalPosition: {x: 123, y: 0, z: -65}
+  m_LocalScale: {x: 2.456717, y: 2.4567168, z: 2.4567168}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4000014040906088}
@@ -351,7 +349,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010414017512}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -125.571, y: 0, z: -1.115}
+  m_LocalPosition: {x: -145, y: 0, z: 62.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -580,7 +578,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 7
   m_Type: 1
-  m_Color: {r: 0.6838235, g: 0.703936, b: 0.703936, a: 1}
+  m_Color: {r: 0.44117647, g: 0.44117647, b: 0.44117647, a: 1}
   m_Intensity: 0.75
   m_Range: 10
   m_SpotAngle: 30
@@ -667,23 +665,6 @@ MonoBehaviour:
   minGameTimeForLightningStrike: 10
   maxGameTimeForLightningStrike: 30
   lightingYSpawnOffset: 10
---- !u!114 &114000010357929396
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010414017512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
-  LightningEventPath: event:/Ambient/Weather/Basic_Thunder
-  weatherIntensityDivisor: 10
-  maxWeatherVolume: 3
-  weatherVolume: 2
-  lightningVolume: 1.5
 --- !u!114 &114000010667489446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -702,6 +683,7 @@ MonoBehaviour:
   debrisLevel: 0
   DebrisStartThreshold: 30
   windVectorXZ: {x: 0, y: 0}
+  lerpSpeed: 0.001
 --- !u!114 &114000010728337554
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -715,23 +697,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tick: 1
   freezeWeatherUpdates: 0
---- !u!114 &114000010797825692
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010414017512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
-  LightningEventPath: event:/Ambient/Weather/Basic_Thunder
-  weatherIntensityDivisor: 10
-  maxWeatherVolume: 3
-  weatherVolume: 2
-  lightningVolume: 1.5
 --- !u!114 &114000010825775734
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -750,6 +715,7 @@ MonoBehaviour:
   debrisLevel: 0
   DebrisStartThreshold: 80
   windVectorXZ: {x: 0, y: 0}
+  lerpSpeed: 0.001
 --- !u!114 &114000010928583048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -763,9 +729,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sun: {fileID: 108000012053014964}
   moon: {fileID: 108000011414395396}
-  moonMinBrightness: 0.33
+  moonMinBrightness: 0.5
   moonMaxBrightness: 0.75
-  sunMinBrightness: 0.33
+  sunMinBrightness: 0.5
   sunMaxBrightness: 1.5
 --- !u!114 &114000011275620152
 MonoBehaviour:
@@ -782,10 +748,10 @@ MonoBehaviour:
   MainRain: {fileID: 198000010173776360}
   RainFog: {fileID: 198000011775040566}
   windMitigation: 8
-  rainLevel: 53.684994
+  rainLevel: 78.302414
   FogStartThreshold: 50
   fogMod: 0.5
-  windVectorXZ: {x: -2.9268804, y: 6.0754066}
+  windVectorXZ: {x: 1.2636269, y: 10.425911}
   fogWindMod: 0.4
   splashManager: {fileID: 114000012391922068}
   splashSize: 0.4
@@ -807,6 +773,7 @@ MonoBehaviour:
   debrisLevel: 0
   DebrisStartThreshold: 95
   windVectorXZ: {x: 0, y: 0}
+  lerpSpeed: 0.0001
 --- !u!114 &114000011684390236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -819,11 +786,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
-  LightningEventPath: event:/Ambient/Weather/Basic_Thunder
   weatherIntensityDivisor: 10
   maxWeatherVolume: 3
   weatherVolume: 2
-  lightningVolume: 1.5
 --- !u!114 &114000011796935804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -894,6 +859,7 @@ MonoBehaviour:
   debrisLevel: 0
   DebrisStartThreshold: 60
   windVectorXZ: {x: 0, y: 0}
+  lerpSpeed: 0.01
 --- !u!114 &114000013893003440
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -912,6 +878,7 @@ MonoBehaviour:
   debrisLevel: 0
   DebrisStartThreshold: 60
   windVectorXZ: {x: 0, y: 0}
+  lerpSpeed: 0.01
 --- !u!198 &198000010173776360
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -960,7 +927,7 @@ ParticleSystem:
   looping: 1
   prewarm: 0
   playOnAwake: 1
-  moveWithTransform: 1
+  moveWithTransform: 0
   scalingMode: 1
   InitialModule:
     serializedVersion: 2
@@ -1232,7 +1199,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationX:
-      scalar: -0.10603584
+      scalar: -0.18196647
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1267,7 +1234,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationY:
-      scalar: 0.0510837
+      scalar: -0.02205445
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1366,7 +1333,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 107.36999
+      scalar: 156.60483
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1794,7 +1761,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: -2.9268804
+      scalar: 1.2636269
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1819,7 +1786,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     y:
-      scalar: -6.0754066
+      scalar: -10.425911
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -6059,7 +6026,7 @@ ParticleSystem:
   looping: 0
   prewarm: 0
   playOnAwake: 1
-  moveWithTransform: 1
+  moveWithTransform: 0
   scalingMode: 1
   InitialModule:
     serializedVersion: 2
@@ -7812,7 +7779,7 @@ ParticleSystem:
   looping: 1
   prewarm: 1
   playOnAwake: 1
-  moveWithTransform: 0
+  moveWithTransform: 1
   scalingMode: 1
   InitialModule:
     serializedVersion: 2
@@ -7843,7 +7810,7 @@ ParticleSystem:
         m_RotationOrder: 0
       minMaxState: 3
     startSpeed:
-      scalar: 0
+      scalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -7966,10 +7933,10 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.4745098, g: 0.6313726, b: 0.7411765, a: 0.039215688}
+      maxColor: {r: 0.4745098, g: 0.6313726, b: 0.7411765, a: 0.078431375}
       minMaxState: 0
     startSize:
-      scalar: 10
+      scalar: 15
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -7985,7 +7952,7 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 0.5
+          value: 0.33333334
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -8177,7 +8144,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     type: 11
-    radius: 10
+    radius: 15
     angle: 25
     length: 5
     boxX: 1
@@ -8192,7 +8159,7 @@ ParticleSystem:
     m_MeshNormalOffset: 0
     m_UseMeshMaterialIndex: 0
     m_UseMeshColors: 1
-    randomDirection: 1
+    randomDirection: 0
   EmissionModule:
     enabled: 1
     serializedVersion: 2
@@ -9545,7 +9512,7 @@ ParticleSystem:
   looping: 1
   prewarm: 0
   playOnAwake: 1
-  moveWithTransform: 1
+  moveWithTransform: 0
   scalingMode: 1
   InitialModule:
     serializedVersion: 2
@@ -9941,7 +9908,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 26.842497
+      scalar: 39.151207
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10339,7 +10306,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: -1.1707522
+      scalar: 0.5054508
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10389,7 +10356,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     z:
-      scalar: -2.4301627
+      scalar: -4.1703644
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -14674,7 +14641,7 @@ ParticleSystem:
   looping: 1
   prewarm: 0
   playOnAwake: 1
-  moveWithTransform: 1
+  moveWithTransform: 0
   scalingMode: 1
   InitialModule:
     serializedVersion: 2

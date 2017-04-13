@@ -203,9 +203,12 @@ Shader "TriplanarWater"
 			ENDCG
 		}
 	}
-	Fallback "Diffuse"
+	Fallback "TriplanarWaterFallback"
 	CustomEditor "ASEMaterialInspector"
 }
+
+
+
 /*ASEBEGIN
 Version=5105
 0;92;1228;926;-1903.503;264.9005;1;True;True

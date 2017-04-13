@@ -124,8 +124,6 @@ public class Clock : MonoBehaviour
 		// 1/24Hours = x/360
 		this.AnglePerSecond =  360f / this.TwentyFourHours;
 
-		// set time to mid day
-		this.CurrentTime = this.TwelveHours;
 	}
 
 	/// <summary>

@@ -339,4 +339,17 @@ public class DistrictConfiguration
             return windowWasherStartUpChance;
         }
     }
+
+    [SerializeField]
+    private GameObject[] districtPosters;
+    /// <summary>
+    /// Posters that appear in this district
+    /// </summary>
+    public GameObject[] DistrictPosters
+    {
+        get
+        {
+            return districtPosters;
+        }
+    }
 }

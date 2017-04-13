@@ -76,9 +76,8 @@ public class DayNight : MonoBehaviour
     /// </summary>
     private void updatePlanetaryObject(Light planetaryObject, float angle, bool isSun)
     {
-        // update position of planetary object
-        planetaryObject.transform.RotateAround(Vector3.zero, Vector3.right, angle);
-        planetaryObject.transform.LookAt(transform.position);
+        // rotate the lights. They're directional lights so the position literally doesn't matter colan.
+        planetaryObject.transform.Rotate(new Vector3(angle, 0f, 0f));
 
         // set intensity of values for son or the moon. if below the water
         // then this should not be affecting the world
@@ -105,7 +104,7 @@ public class DayNight : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-		float angle       = (Game.Instance.ClockInstance.CurrentTime % Game.Instance.ClockInstance.TwelveHours) / Game.Instance.ClockInstance.TwelveHours;
+		float angle = (Game.Instance.ClockInstance.CurrentTime % Game.Instance.ClockInstance.TwentyFourHours) / Game.Instance.ClockInstance.TwentyFourHours;
 
 		this.updatePlanetaryObject(this.sun,  angle, true);
 		this.updatePlanetaryObject(this.moon, angle, false);
