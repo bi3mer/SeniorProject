@@ -33,7 +33,7 @@ public class WorldItemFactory
 
 	private RangeAttribute itemAmountRange = new RangeAttribute(1, 10);
 
-	private int noteIndex = 0;
+	private int noteIndex;
 	private NoteFactory noteFactory;
 	private List<NoteData> noteList;
 
@@ -52,6 +52,7 @@ public class WorldItemFactory
 		noteList = parser.LoadNotes();
 		noteFactory = new NoteFactory ();
 		noteGen  = true;
+		noteIndex = 0;
 	}
 
 	/// <summary>
@@ -80,15 +81,16 @@ public class WorldItemFactory
 	/// <param name="amount">Amount.</param>
 	public GameObject CreatePickUpInteractableItem(BaseItem itemToCreate, int amount)
 	{
+		GameObject item;
+
 		if (noteGen) 
 		{
-			return GetNextNote ();
+			item = GetNextNote ();
 		} 
-
 		else 
 		{
 			// create the object with the model
-			GameObject item = CreateGenericInteractableItem (itemToCreate);
+			item = CreateGenericInteractableItem (itemToCreate);
 			PickUpItem pickup = item.AddComponent<PickUpItem> ();
 			pickup.SetUp ();
 			pickup.Item = itemToCreate;
@@ -97,9 +99,9 @@ public class WorldItemFactory
 			// TODO: Make the amount found in one stack to be a variable number
 			pickup.Amount = amount;
 			item.name = itemToCreate.ItemName;
-
-			return item;
 		}
+
+		return item;
 	}
 
 	/// <summary>
@@ -109,14 +111,6 @@ public class WorldItemFactory
 	public GameObject CreateRandomPickupInteractableItem(string district)
 	{
 
-		if (noteGen) 
-		{
-			return GetNextNote ();
-			noteGen = false;
-		} 
-
-		else 
-		{
 			// create the object with the model
 			BaseItem baseItem = Game.Instance.ItemFactoryInstance.GetWeightedRandomBaseItem (district, true);
 			GameObject item = GameObject.Instantiate (worldItemTemplates [baseItem.ItemName]);
@@ -137,7 +131,6 @@ public class WorldItemFactory
 			item.name = baseItem.ItemName;
 
 			return item;
-		}
 	}
 
 	/// <summary>
@@ -220,17 +213,22 @@ public class WorldItemFactory
 	/// <returns>The next note.</returns>
 	public GameObject GetNextNote()
 	{
+		// set note gen to false if we're at the last element
+		if (noteIndex == (noteList.Count - 1)) 
+		{
+			noteGen = false;
+		}
+
+		// return if we're within the list bounds
 		if (noteIndex < noteList.Count) 
 		{
-			Debug.Log ("RETURNED NOTE at " + noteFactory.CreateInteractableItem (noteList [noteIndex]).transform);
-			noteIndex += 1;
-			return noteFactory.CreateInteractableItem (noteList [noteIndex]);
-		}
+			GameObject note = noteFactory.CreateInteractableItem (noteList [noteIndex]);
+			noteIndex = noteIndex + 1;
+			return note;
+
+		} 
 
 		noteGen = false;
 		return null;
-
-	// NoteUIController.Instance.SetText (noteList[0].Text + " -- " + noteList[0].Title);
-
 	}
 }
