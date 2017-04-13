@@ -662,6 +662,24 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns true if player is sick.
+    /// </summary>
+    public bool IsSick
+    {
+        get
+        {
+            if (Game.Player.HealthStatus == PlayerHealthStatus.None)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+
+    /// <summary>
     /// Finds all the interactable objects within the player's field of view
     /// </summary>
     void FindVisibleInteractables()

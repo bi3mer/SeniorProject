@@ -109,6 +109,7 @@ public class LandMovement : Movement
         // Walking
         if (!sprinting && (!jumping || airControll))
         {
+
 			Speed = walkingSpeed;
             playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorWalk);
         }

@@ -3,6 +3,9 @@ using System.Collections;
 
 public abstract class Movement : MonoBehaviour 
 {
+    [SerializeField]
+    private float sicknessDecrease;
+
     protected Rigidbody RigidBody;
 
 	/// <summary>
@@ -11,8 +14,18 @@ public abstract class Movement : MonoBehaviour
 	/// <value>The speed.</value>
 	public float Speed 
 	{
-		get;
-		set;
+		get
+        {
+            return Speed;
+        }
+		set
+        {
+            if (Game.Player.Controller.IsSick)
+            {
+                value -= sicknessDecrease;
+            }
+            Speed = value;
+        }
 	}
 
     protected float AccumulatedFallDamage;
