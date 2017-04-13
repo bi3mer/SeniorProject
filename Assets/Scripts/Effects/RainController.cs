@@ -130,17 +130,17 @@ public class RainController : MonoBehaviour
     {
         //Set RainMain Emission to double rain level. At 200 emission we almost max out particles. (Depending on the height the rain spawns at this may change, but it'll be based on the camera in the future)
         ParticleSystem.EmissionModule RainEmission = MainRain.emission;
-        RainEmission.rate = RainLevel * 2f;
+        RainEmission.rateOverTime = RainLevel * 2f;
 
         //set the RainFog emission rate, if it's less than the threshold turn off emission.
         RainEmission = RainFog.emission;
         if (RainLevel < FogStartThreshold)
         {
-            RainEmission.rate = 0f;
+            RainEmission.rateOverTime = 0f;
         }
         else
         {
-            RainEmission.rate = RainLevel * fogMod;
+            RainEmission.rateOverTime = RainLevel * fogMod;
         }
 
         //If in editor, there's a chance the script is running in edit mode and we won't have the renderer set.   

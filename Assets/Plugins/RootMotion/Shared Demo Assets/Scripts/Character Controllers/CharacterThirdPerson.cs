@@ -140,11 +140,19 @@ namespace RootMotion.Demos {
 			if (userControl.state.move == Vector3.zero && groundDistance < airborneThreshold * 0.5f) HighFriction();
 			else ZeroFriction();
 
+			bool stopSlide = onGround && userControl.state.move == Vector3.zero && r.velocity.magnitude < 0.5f && groundDistance < airborneThreshold * 0.5f;
+
 			// Individual gravity
 			if (gravityTarget != null) {
 				r.useGravity = false;
-				r.AddForce(gravity);
+
+				if (!stopSlide) r.AddForce(gravity);
 			}
+
+			if (stopSlide) {
+				r.useGravity = false;
+				r.velocity = Vector3.zero;
+			} else if (gravityTarget == null) r.useGravity = true;
 
 			if (onGround) {
 				// Jumping
@@ -152,7 +160,7 @@ namespace RootMotion.Demos {
 			} else {
 				r.AddForce(gravity * gravityMultiplier);
 			}
-			
+
 			// Scale the capsule colllider while crouching
 			ScaleCapsule(userControl.state.crouch? crouchCapsuleScaleMlp: 1f);
 
