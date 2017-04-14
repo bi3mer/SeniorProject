@@ -23,7 +23,7 @@ GameObject:
   - 23: {fileID: 23000012584648184}
   - 65: {fileID: 65000011925432056}
   m_Layer: 0
-  m_Name: ENV_thin_panel_3
+  m_Name: ITM_thin_panel_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

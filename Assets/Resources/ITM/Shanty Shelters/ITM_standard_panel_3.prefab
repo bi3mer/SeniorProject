@@ -23,7 +23,7 @@ GameObject:
   - 23: {fileID: 23000012397313158}
   - 64: {fileID: 64000010398282124}
   m_Layer: 0
-  m_Name: ENV_standard_panel_3
+  m_Name: ITM_standard_panel_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
