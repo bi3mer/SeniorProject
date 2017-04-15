@@ -29,12 +29,6 @@ public class EventManager
 	public delegate void WeatherUpdatedDelegate(float precipitation);
 
 	/// <summary>
-	/// Lightning strike event
-	/// </summary>
-	public event WeatherLightningDelegate WeatherLightningSubscription;
-	public delegate void WeatherLightningDelegate(Vector3 lightningPos);
-
-	/// <summary>
 	/// Radio music channel event
 	/// </summary>
 	public event RadioMusicDelegate RadioMusicSubscription;
@@ -105,18 +99,5 @@ public class EventManager
 		{
 			RadioMusicSubscription (false);
 		}
-	}
-
-	/// <summary>
-	/// Lightning strike called by Lightning. Notifies WeatherLightningSubscription subscribers.
-	/// </summary>
-	/// <param name="lightningPos">Lightning position.</param>
-	public void LightningStrike(Vector3 lightningPos)
-	{
-		if (WeatherLightningSubscription != null)
-		{
-			WeatherLightningSubscription (lightningPos);
-		}
-
 	}
 }

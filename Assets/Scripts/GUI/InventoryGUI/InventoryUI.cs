@@ -22,8 +22,8 @@ public class InventoryUI : MonoBehaviour
 	[Tooltip("Filepath to the atlas containing sprites for items")]
 	private string atlasFilepath;
 
-	private List<Stack> inventory = new List<Stack>();
-	private List<Stack> slots = new List<Stack> ();
+	private List<ItemStack> inventory = new List<ItemStack>();
+	private List<ItemStack> slots = new List<ItemStack> ();
 	private List<ItemStackUI> itemStackUIList = new List<ItemStackUI> ();
 
 	/// <summary>
@@ -35,7 +35,7 @@ public class InventoryUI : MonoBehaviour
 	/// Gets or sets the items to discard.
 	/// </summary>
 	/// <value>The items to discard.</value>
-	public List<Stack> ItemsToDiscard
+	public List<ItemStack> ItemsToDiscard
 	{
 		get;
 		set;
@@ -65,15 +65,15 @@ public class InventoryUI : MonoBehaviour
 	/// </summary>
 	void Start () 
 	{
-		ItemsToDiscard = new List<Stack>();
+		ItemsToDiscard = new List<ItemStack>();
 		GuiInstanceManager.InventoryUiInstance.TargetInventory = Game.Instance.PlayerInstance.Inventory;
-		Stack[] contents = TargetInventory.GetInventory ();
+		ItemStack[] contents = TargetInventory.GetInventory ();
 
 		// create empty slots
 		for (int i = 0; i < TargetInventory.InventorySize; ++i) 
 		{
-			slots.Add (new Stack());
-			inventory.Add (new Stack ());
+			slots.Add (new ItemStack());
+			inventory.Add (new ItemStack ());
 			ItemStackUI newItemUI = GameObject.Instantiate (baseItemUiTemplate);
 			itemStackUIList.Add(newItemUI);
 
@@ -118,7 +118,7 @@ public class InventoryUI : MonoBehaviour
 	/// </summary>
 	public void RefreshInventoryPanel()
 	{
-		Stack[] newContents = TargetInventory.GetInventory ();
+		ItemStack[] newContents = TargetInventory.GetInventory ();
 
 		for (int i = 0; i < newContents.Length; ++i) 
 		{
@@ -163,7 +163,7 @@ public class InventoryUI : MonoBehaviour
 		// add empty slot item at that index in ui list
 		ItemStackUI newItemUI = GameObject.Instantiate (baseItemUiTemplate);
 		itemStackUIList [currentInventoryIndex] = newItemUI;
-		slots [currentInventoryIndex] = new Stack ();
+		slots [currentInventoryIndex] = new ItemStack ();
 
 		// place empty ui slot back in position in grid layout
 		newItemUI.gameObject.SetActive (true);
@@ -177,7 +177,7 @@ public class InventoryUI : MonoBehaviour
 	/// <param name="newInventory">New inventory.</param>
 	public void LoadNewInventory(Inventory newInventory)
 	{
-		Stack[] contents = newInventory.GetInventory ();
+		ItemStack[] contents = newInventory.GetInventory ();
 
 		if(itemStackUIList.Count > 0)
 		{
@@ -200,8 +200,8 @@ public class InventoryUI : MonoBehaviour
 
 		for (int i = 0; i < newInventory.InventorySize; ++i) 
 		{
-			slots.Add (new Stack());
-			inventory.Add (new Stack ());
+			slots.Add (new ItemStack());
+			inventory.Add (new ItemStack ());
 			ItemStackUI newItemUI = GameObject.Instantiate (baseItemUiTemplate);
 			itemStackUIList.Add(newItemUI);
 
@@ -224,7 +224,7 @@ public class InventoryUI : MonoBehaviour
 	/// </summary>
 	/// <param name="newStackFromInventory">New stack from inventory.</param>
 	/// <param name="currentInventoryIndex">Current inventory index.</param>
-	private void UpdatedAddedStackInUI(Stack newStackFromInventory, int currentInventoryIndex)
+	private void UpdatedAddedStackInUI(ItemStack newStackFromInventory, int currentInventoryIndex)
 	{
 		// add slot item at that index in ui list
 		itemStackUIList [currentInventoryIndex].SetUpInventoryItem (newStackFromInventory);
@@ -245,7 +245,7 @@ public class InventoryUI : MonoBehaviour
 	/// </summary>
 	/// <param name="updatedStackFromInventory">Updated stack from inventory.</param>
 	/// <param name="currentInventoryIndex">Current inventory index.</param>
-	private void UpdateStackInformationInUI(Stack updatedStackFromInventory, int currentInventoryIndex)
+	private void UpdateStackInformationInUI(ItemStack updatedStackFromInventory, int currentInventoryIndex)
 	{
 		itemStackUIList[currentInventoryIndex].RefreshInventoryItem(updatedStackFromInventory);
 		slots [currentInventoryIndex] = updatedStackFromInventory;

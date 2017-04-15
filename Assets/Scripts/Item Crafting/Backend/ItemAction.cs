@@ -21,6 +21,7 @@ public class ItemAction
 		SubActions = new List<ItemAction> ();
 		Conditions = new List<ItemCondition> ();
 		ActionComplete = false;
+		TypeUsed = new List<string>();
 	}
 
 	/// <summary>
@@ -69,6 +70,16 @@ public class ItemAction
 	/// </summary>
 	/// <value>The conditions.</value>
 	public List<ItemCondition> Conditions
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
+	/// What item types can be consumed by this action. Generally used for action that require use of another item to fulfill, like adding fuel.
+	/// </summary>
+	/// <value>The types used.</value>
+	public List<string> TypeUsed
 	{
 		get;
 		set;

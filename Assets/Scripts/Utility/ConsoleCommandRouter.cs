@@ -150,7 +150,7 @@ public class ConsoleCommandRouter : MonoBehaviour
 		}
 		else
 		{
-			if(this.instantiatedCreatureGUI.active)
+			if(this.instantiatedCreatureGUI.activeSelf)
 			{
 				this.instantiatedCreatureGUI.SetActive(false);
 				returnInfo = "Removed GUI";

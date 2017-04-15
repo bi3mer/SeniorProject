@@ -42,8 +42,6 @@ GameObject:
   - 114: {fileID: 114000011796935804}
   - 114: {fileID: 114000011684390236}
   - 114: {fileID: 114000010296232540}
-  - 114: {fileID: 114000010357929396}
-  - 114: {fileID: 114000013590725202}
   m_Layer: 0
   m_Name: WeatherEffects
   m_TagString: Untagged
@@ -123,6 +121,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1000011961198834
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000011538390944}
+  - 33: {fileID: 33000013013544034}
+  - 23: {fileID: 23000010820551564}
+  - 114: {fileID: 114000012320806462}
+  - 114: {fileID: 114000010081769660}
+  - 65: {fileID: 65000010707835908}
+  m_Layer: 4
+  m_Name: ENV_OceanPlane
+  m_TagString: Water
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1000012073869006
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,6 +186,23 @@ GameObject:
   - 198: {fileID: 198000012610295790}
   m_Layer: 0
   m_Name: Mud
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1000012563267608
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000014040906088}
+  - 33: {fileID: 33000013670137674}
+  - 23: {fileID: 23000010548222806}
+  m_Layer: 1
+  m_Name: ENV_OceanPlane (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -241,26 +276,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1000013978944166
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 4000012129241920}
-  - 33: {fileID: 33000010899081112}
-  - 64: {fileID: 64000010817976858}
-  - 23: {fileID: 23000011015822898}
-  - 114: {fileID: 114000013357707624}
-  - 114: {fileID: 114000011642838568}
-  m_Layer: 4
-  m_Name: Water
-  m_TagString: Water
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!4 &4000010132979424
 Transform:
   m_ObjectHideFlags: 1
@@ -281,7 +296,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013475553836}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 4.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
   m_Children: []
@@ -313,6 +328,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000011601800120}
   m_RootOrder: 1
+--- !u!4 &4000011538390944
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011961198834}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 123, y: 0, z: -65}
+  m_LocalScale: {x: 2.456717, y: 2.4567168, z: 2.4567168}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children:
+  - {fileID: 4000014040906088}
+  m_Father: {fileID: 4000011601800120}
+  m_RootOrder: 2
 --- !u!4 &4000011601800120
 Transform:
   m_ObjectHideFlags: 1
@@ -320,13 +349,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010414017512}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -125.571, y: 0, z: -1.115}
+  m_LocalPosition: {x: -145, y: 0, z: 62.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4000012960144162}
   - {fileID: 4000010874577160}
-  - {fileID: 4000012129241920}
+  - {fileID: 4000011538390944}
   - {fileID: 4000014173833940}
   - {fileID: 4000010540230910}
   - {fileID: 4000012207863752}
@@ -350,19 +379,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000011601800120}
   m_RootOrder: 6
---- !u!4 &4000012129241920
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013978944166}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 14515.177, y: 14515.175, z: 14515.175}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
-  m_Father: {fileID: 4000011601800120}
-  m_RootOrder: 2
 --- !u!4 &4000012207863752
 Transform:
   m_ObjectHideFlags: 1
@@ -443,6 +459,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000011601800120}
   m_RootOrder: 8
+--- !u!4 &4000014040906088
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012563267608}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.59, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4000011538390944}
+  m_RootOrder: 0
 --- !u!4 &4000014173833940
 Transform:
   m_ObjectHideFlags: 1
@@ -456,12 +485,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000011601800120}
   m_RootOrder: 3
---- !u!23 &23000011015822898
+--- !u!23 &23000010548222806
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013978944166}
+  m_GameObject: {fileID: 1000012563267608}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -469,13 +498,13 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 17c8c4432e4f11848a0461057eb8f585, type: 2}
+  - {fileID: 2100000, guid: 2b52c65d679d63e4c99d364b88251725, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
+  m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_SelectedWireframeHidden: 0
@@ -485,25 +514,61 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &33000010899081112
+--- !u!23 &23000010820551564
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011961198834}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 82442450852ddec4695177fea002d7c4, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &33000013013544034
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013978944166}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &64000010817976858
-MeshCollider:
+  m_GameObject: {fileID: 1000011961198834}
+  m_Mesh: {fileID: 4300000, guid: aa2771e7191659e4280d6bbd802b3102, type: 3}
+--- !u!33 &33000013670137674
+MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013978944166}
+  m_GameObject: {fileID: 1000012563267608}
+  m_Mesh: {fileID: 4300000, guid: aa2771e7191659e4280d6bbd802b3102, type: 3}
+--- !u!65 &65000010707835908
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011961198834}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  m_Size: {x: 1937.9698, y: 0, z: 1937.97}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!108 &108000011414395396
 Light:
   m_ObjectHideFlags: 1
@@ -513,16 +578,16 @@ Light:
   m_Enabled: 1
   serializedVersion: 7
   m_Type: 1
-  m_Color: {r: 0.6838235, g: 0.703936, b: 0.703936, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0.44117647, g: 0.44117647, b: 0.44117647, a: 1}
+  m_Intensity: 0.75
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -547,8 +612,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 7
   m_Type: 1
-  m_Color: {r: 0.9476673, g: 1, b: 0.051470578, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0.9984787, g: 1, b: 0.8897059, a: 1}
+  m_Intensity: 0
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -556,7 +621,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.077
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -572,6 +637,17 @@ Light:
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114000010081769660
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011961198834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 733035825073529488bd59a81ef6d089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114000010296232540
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -589,23 +665,6 @@ MonoBehaviour:
   minGameTimeForLightningStrike: 10
   maxGameTimeForLightningStrike: 30
   lightingYSpawnOffset: 10
---- !u!114 &114000010357929396
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010414017512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
-  LightningEventPath: event:/Ambient/Weather/Basic_Thunder
-  weatherIntensityDivisor: 10
-  maxWeatherVolume: 3
-  weatherVolume: 2
-  lightningVolume: 1.5
 --- !u!114 &114000010667489446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -622,8 +681,9 @@ MonoBehaviour:
   windMitigation: 8
   debrisMultiplier: 1
   debrisLevel: 0
-  DebrisStartThreshold: 50
+  DebrisStartThreshold: 30
   windVectorXZ: {x: 0, y: 0}
+  lerpSpeed: 0.001
 --- !u!114 &114000010728337554
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -655,6 +715,7 @@ MonoBehaviour:
   debrisLevel: 0
   DebrisStartThreshold: 80
   windVectorXZ: {x: 0, y: 0}
+  lerpSpeed: 0.001
 --- !u!114 &114000010928583048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -666,8 +727,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41cab75b4f7ab4ced963816242c032fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sun: {fileID: 4000014173833940}
-  moon: {fileID: 4000010540230910}
+  sun: {fileID: 108000012053014964}
+  moon: {fileID: 108000011414395396}
+  moonMinBrightness: 0.5
+  moonMaxBrightness: 0.75
+  sunMinBrightness: 0.5
+  sunMaxBrightness: 1.5
 --- !u!114 &114000011275620152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -683,25 +748,13 @@ MonoBehaviour:
   MainRain: {fileID: 198000010173776360}
   RainFog: {fileID: 198000011775040566}
   windMitigation: 8
-  rainLevel: 55.272472
+  rainLevel: 78.302414
   FogStartThreshold: 50
   fogMod: 0.5
-  windVectorXZ: {x: 2.6196556, y: 6.436308}
+  windVectorXZ: {x: 1.2636269, y: 10.425911}
   fogWindMod: 0.4
   splashManager: {fileID: 114000012391922068}
   splashSize: 0.4
---- !u!114 &114000011642838568
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013978944166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9006540d1bd5743a8a085df8e8aeb4c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TideSeverity: 1
 --- !u!114 &114000011644393504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -720,6 +773,7 @@ MonoBehaviour:
   debrisLevel: 0
   DebrisStartThreshold: 95
   windVectorXZ: {x: 0, y: 0}
+  lerpSpeed: 0.0001
 --- !u!114 &114000011684390236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -732,11 +786,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
-  LightningEventPath: event:/Ambient/Weather/Basic_Thunder
   weatherIntensityDivisor: 10
   maxWeatherVolume: 3
   weatherVolume: 2
-  lightningVolume: 1.5
 --- !u!114 &114000011796935804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -761,9 +813,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UsePositionX: 1
-  UsePositionY: 0
+  UsePositionY: 1
   UsePositionZ: 1
   Parent: {fileID: 0}
+--- !u!114 &114000012320806462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011961198834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9006540d1bd5743a8a085df8e8aeb4c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TideSeverity: 1
 --- !u!114 &114000012391922068
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -793,46 +857,9 @@ MonoBehaviour:
   windMitigation: 8
   debrisMultiplier: 6
   debrisLevel: 0
-  DebrisStartThreshold: 90
+  DebrisStartThreshold: 60
   windVectorXZ: {x: 0, y: 0}
---- !u!114 &114000013357707624
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013978944166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3d3ef1a5bbfb4e0a910fbbe5830b1f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waterMode: 2
-  disablePixelLights: 1
-  textureSize: 256
-  clipPlaneOffset: 0.07
-  reflectLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  refractLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!114 &114000013590725202
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010414017512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c537839265f5425f9fee57afa0fcec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DefaultWeatherEventPath: event:/Ambient/Weather/Basic_Rain
-  LightningEventPath: event:/Ambient/Weather/Basic_Thunder
-  weatherIntensityDivisor: 10
-  maxWeatherVolume: 3
-  weatherVolume: 2
-  lightningVolume: 1.5
+  lerpSpeed: 0.01
 --- !u!114 &114000013893003440
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -849,8 +876,9 @@ MonoBehaviour:
   windMitigation: 8
   debrisMultiplier: 6
   debrisLevel: 0
-  DebrisStartThreshold: 90
+  DebrisStartThreshold: 60
   windVectorXZ: {x: 0, y: 0}
+  lerpSpeed: 0.01
 --- !u!198 &198000010173776360
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -899,7 +927,7 @@ ParticleSystem:
   looping: 1
   prewarm: 0
   playOnAwake: 1
-  moveWithTransform: 1
+  moveWithTransform: 0
   scalingMode: 1
   InitialModule:
     serializedVersion: 2
@@ -1171,7 +1199,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationX:
-      scalar: -0.112334765
+      scalar: -0.18196647
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1206,7 +1234,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationY:
-      scalar: -0.045721617
+      scalar: -0.02205445
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1305,7 +1333,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 110.544945
+      scalar: 156.60483
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1733,7 +1761,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 2.6196556
+      scalar: 1.2636269
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1758,7 +1786,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     y:
-      scalar: -6.436308
+      scalar: -10.425911
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2420,7 +2448,7 @@ ParticleSystem:
     serializedVersion: 3
     type: 1
     collisionMode: 0
-    plane0: {fileID: 4000012129241920}
+    plane0: {fileID: 0}
     plane1: {fileID: 0}
     plane2: {fileID: 0}
     plane3: {fileID: 0}
@@ -2766,7 +2794,7 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 0.34117648, g: 0.36078432, b: 0.2509804, a: 1}
-      maxColor: {r: 0.4, g: 0.5058824, b: 0.39215687, a: 1}
+      maxColor: {r: 0.42352942, g: 0.77254903, b: 0.39607844, a: 1}
       minMaxState: 2
     startSize:
       scalar: 0.15
@@ -5998,7 +6026,7 @@ ParticleSystem:
   looping: 0
   prewarm: 0
   playOnAwake: 1
-  moveWithTransform: 1
+  moveWithTransform: 0
   scalingMode: 1
   InitialModule:
     serializedVersion: 2
@@ -7751,7 +7779,7 @@ ParticleSystem:
   looping: 1
   prewarm: 1
   playOnAwake: 1
-  moveWithTransform: 0
+  moveWithTransform: 1
   scalingMode: 1
   InitialModule:
     serializedVersion: 2
@@ -7782,7 +7810,7 @@ ParticleSystem:
         m_RotationOrder: 0
       minMaxState: 3
     startSpeed:
-      scalar: 0
+      scalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -7905,10 +7933,10 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.4745098, g: 0.6313726, b: 0.7411765, a: 0.039215688}
+      maxColor: {r: 0.4745098, g: 0.6313726, b: 0.7411765, a: 0.078431375}
       minMaxState: 0
     startSize:
-      scalar: 10
+      scalar: 15
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -7924,7 +7952,7 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 0.5
+          value: 0.33333334
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -8116,7 +8144,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     type: 11
-    radius: 10
+    radius: 15
     angle: 25
     length: 5
     boxX: 1
@@ -8131,7 +8159,7 @@ ParticleSystem:
     m_MeshNormalOffset: 0
     m_UseMeshMaterialIndex: 0
     m_UseMeshColors: 1
-    randomDirection: 1
+    randomDirection: 0
   EmissionModule:
     enabled: 1
     serializedVersion: 2
@@ -9484,7 +9512,7 @@ ParticleSystem:
   looping: 1
   prewarm: 0
   playOnAwake: 1
-  moveWithTransform: 1
+  moveWithTransform: 0
   scalingMode: 1
   InitialModule:
     serializedVersion: 2
@@ -9880,7 +9908,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 27.636236
+      scalar: 39.151207
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10278,7 +10306,7 @@ ParticleSystem:
   VelocityModule:
     enabled: 1
     x:
-      scalar: 1.0478623
+      scalar: 0.5054508
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10328,7 +10356,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     z:
-      scalar: -2.5745232
+      scalar: -4.1703644
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10965,7 +10993,7 @@ ParticleSystem:
     serializedVersion: 3
     type: 0
     collisionMode: 0
-    plane0: {fileID: 4000012129241920}
+    plane0: {fileID: 0}
     plane1: {fileID: 0}
     plane2: {fileID: 0}
     plane3: {fileID: 0}
@@ -14613,7 +14641,7 @@ ParticleSystem:
   looping: 1
   prewarm: 0
   playOnAwake: 1
-  moveWithTransform: 1
+  moveWithTransform: 0
   scalingMode: 1
   InitialModule:
     serializedVersion: 2

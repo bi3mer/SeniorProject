@@ -39,6 +39,17 @@ public class FishAgent : MonoBehaviour
 		this.agentLayer = LayerMask.GetMask(new string[] {FishAgent.predatorLayerString});
 	}
 
+	/// <summary>
+	/// Defines the configuration.
+	/// </summary>
+	private void defineConfiguration()
+	{
+		if(this.config == null)
+		{
+			this.config = this.GetComponent<FishAgentConfig>();
+		}
+	}
+
     /// <summary>
     /// Initialize with basic info
     /// </summary>
@@ -52,9 +63,16 @@ public class FishAgent : MonoBehaviour
 		this.config.RandomizeSelf();
 
 		// Start with random velocity
-		this.Velocity = new Vector3(Random.Range(-this.config.MaxVelocity, this.config.MaxVelocity), 
-			                        0, 
-			                        Random.Range(-this.config.MaxVelocity, this.config.MaxVelocity));
+		this.randomizeVelocity();
+	}
+
+	/// <summary>
+	/// Raises the enable event.
+	/// </summary>
+	void OnEnable()
+	{
+		this.defineConfiguration();
+		this.randomizeVelocity();
 	}
 	
     /// <summary>
@@ -69,12 +87,12 @@ public class FishAgent : MonoBehaviour
 		Vector2 velocity = Vector2.ClampMagnitude(VectorUtility.XZ(this.Velocity) + acceleration2d * Time.deltaTime, this.config.MaxVelocity);
 
         // Set new position
-        Vector2 position = VectorUtility.XZ(this.transform.position) + (velocity * Time.deltaTime);
+        this.transform.position = this.transform.position + VectorUtility.twoDimensional3d(velocity * Time.deltaTime);
+//        Debug.Log(this.transform.position.ToString() + " + " + velocity.ToString() + " * " + Time.deltaTime.ToString());
 
         // convert 2d calculations to 3d
-		this.Velocity           = VectorUtility.twoDimensional3d(velocity);
-        this.acceleration       = VectorUtility.twoDimensional3d(acceleration);
-        this.transform.position = Game.Instance.CityBounds.BoundVector3d(VectorUtility.twoDimensional3d(position));
+		this.Velocity     = VectorUtility.twoDimensional3d(velocity);
+        this.acceleration = VectorUtility.twoDimensional3d(acceleration);
         
 		// set alignment
         if(velocity.magnitude > 0)
@@ -171,7 +189,7 @@ public class FishAgent : MonoBehaviour
 		Vector2 result = new Vector2();
 
         // Get all neighbors
-		Collider2D[] neighbors = Physics2D.OverlapCircleAll(this.transform.position, this.config.SeparationRadius, this.gameObject.layer);
+		Collider2D[] neighbors = Physics2D.OverlapCircleAll(this.transform.position, this.config.AlignmentRadius, this.gameObject.layer);
 
         // check if neighbors is full or not
         if (neighbors.Length > 0)
@@ -214,7 +232,7 @@ public class FishAgent : MonoBehaviour
     {
         return this.config.CohesionWeight * this.Cohesion() 
              + this.config.SeparationWeight * this.Separation()
-			 + this.config.AllignmentWeight * this.Alignment()
+			 + this.config.AlignmentWeight * this.Alignment()
              + this.config.WanderWeight * this.Wander();
     }
 
@@ -227,4 +245,17 @@ public class FishAgent : MonoBehaviour
     {
 		return Vector3.Angle(this.Velocity, agent - this.transform.position) <= this.config.MaxFieldOfViewAngle;
     } 
+
+    /// <summary>
+    /// Randomizes the velocity.
+    /// </summary>
+    private void randomizeVelocity()
+    {
+    	// initialize min and max vectors
+		Vector2 min = new Vector2(-this.config.MaxVelocity, -this.config.MaxVelocity);
+		Vector2 max = new Vector2(this.config.MaxVelocity,   this.config.MaxVelocity);
+
+		// set the velocity to a random 3d vector with a y coordinate of 0
+		this.Velocity = VectorUtility.twoDimensional3d(RandomUtility.RandomVector2d(min, max));
+    }
 }

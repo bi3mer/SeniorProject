@@ -9,26 +9,15 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-<<<<<<< HEAD
-  m_RootGameObject: {fileID: 1000010043223774}
-  m_IsPrefabParent: 1
---- !u!1 &1000010043223774
-=======
   m_RootGameObject: {fileID: 1000011695264042}
   m_IsPrefabParent: 1
 --- !u!1 &1000010301123046
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-<<<<<<< HEAD
-  - 4: {fileID: 4000011778203296}
-  - 33: {fileID: 33000012358228422}
-  - 23: {fileID: 23000013216515244}
-=======
   - 4: {fileID: 4000013570737970}
   - 33: {fileID: 33000010394920872}
   - 23: {fileID: 23000013055659634}
@@ -48,7 +37,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013016499032}
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b
   m_Layer: 0
   m_Name: ENV_shanty_tent_shelter
   m_TagString: Untagged
@@ -56,9 +44,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< HEAD
---- !u!4 &4000011778203296
-=======
 --- !u!1 &1000011916241326
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,22 +97,10 @@ GameObject:
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4000010988197700
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 1000010043223774}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
---- !u!23 &23000013216515244
-=======
   m_GameObject: {fileID: 1000012282162378}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.08090234, y: -0.096239865, z: 0.48291796}
@@ -251,16 +224,11 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
 --- !u!23 &23000012346047754
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 1000010043223774}
-=======
   m_GameObject: {fileID: 1000012282162378}
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -268,13 +236,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-<<<<<<< HEAD
-  - {fileID: 2100000, guid: c984bf8189fba794cb1513db18bf6573, type: 2}
-  - {fileID: 2100000, guid: b65bb5c7534176e4db4841c5785eb76d, type: 2}
-  - {fileID: 2100000, guid: fb7e6efa356e93145b8cdef3edc8a0b2, type: 2}
-=======
   - {fileID: 2100000, guid: eff7d3bac24f14644ba93a6b13f4ae22, type: 2}
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -290,9 +252,6 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-<<<<<<< HEAD
---- !u!33 &33000012358228422
-=======
 --- !u!23 &23000013055659634
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -323,15 +282,10 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
 --- !u!33 &33000010394920872
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 1000010043223774}
-  m_Mesh: {fileID: 4300000, guid: d952d163013346646a1476c469c427fb, type: 3}
-=======
   m_GameObject: {fileID: 1000010301123046}
   m_Mesh: {fileID: 4300000, guid: 5bd8aa54cd7afbb409863580067c44ea, type: 3}
 --- !u!33 &33000010590865662
@@ -379,4 +333,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 60.465385, y: 34.878857, z: 60.34144}
   m_Center: {x: -0.000002861023, y: 17.439428, z: 0}
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b

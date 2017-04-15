@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using System;
 
 /// <summary>
 /// Class attached to all items. Handles getting information from the various Item Categories.
@@ -151,6 +152,7 @@ public class BaseItem : CollectableItem
 	/// </summary>
 	public BaseItem()
 	{
+		itemAttributes = new List<Attribute>();
 	}
 
 	/// <summary>
@@ -160,6 +162,7 @@ public class BaseItem : CollectableItem
 	public BaseItem(string name)
 	{
 		ItemName = name;
+		itemAttributes = new List<Attribute>();
 		InitializeBaseItem ();
 	}
 
@@ -222,8 +225,6 @@ public class BaseItem : CollectableItem
 	/// </summary>
 	public void SetUpBaseItem()
 	{
-		itemAttributes = new List<Attribute>();
-
 		// Each Item Category is linked to the one before it
 		// The Base Item will retain a link to the last category
 		for (int i = 0; i < categoryList.Count; ++i) 
@@ -243,6 +244,8 @@ public class BaseItem : CollectableItem
 		category.SetBaseItem(this);
 		category.ReadyCategory();
 		categoryList.Add (category);
+
+		itemAttributes.AddRange(category.Attributes);
 	}
 
 	/// <summary>
@@ -372,6 +375,42 @@ public class BaseItem : CollectableItem
 	public List<ItemCategory> GetItemCategories()
 	{
 		return categoryList;
+	}
+
+	/// <summary>
+	/// Gets the first item found that is a subclass of the given class
+	/// </summary>
+	/// <returns>The item category.</returns>
+	/// <param name="categoryType">Category type.</param>
+	public ItemCategory GetItemCategoryByParentClass(Type categoryType)
+	{
+		for(int i = 0; i < categoryList.Count; ++i)
+		{
+			if(categoryList[i].GetType().IsSubclassOf(categoryType))
+			{
+				return categoryList[i];
+			}
+		}
+
+		return null;
+	}
+
+	/// <summary>
+	/// Gets the item category by class.
+	/// </summary>
+	/// <returns>The item category by class.</returns>
+	/// <param name="categoryType">Category type.</param>
+	public ItemCategory GetItemCategoryByClass(Type categoryType)
+	{
+		for(int i = 0; i < categoryList.Count; ++i)
+		{
+			if(categoryList[i].GetType().IsAssignableFrom(categoryType))
+			{
+				return categoryList[i];
+			}
+		}
+
+		return null;
 	}
 
 	/// <summary>

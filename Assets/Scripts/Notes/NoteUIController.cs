@@ -41,4 +41,13 @@ public class NoteUIController : MonoBehaviour
 		NoteText.text = text;
 	}
 
+	/// <summary>
+	/// Sets the UI active to false.
+	/// </summary>
+	public void DisableUI()
+	{
+		NoteUIPanel.SetActive (false);
+        Game.Instance.PlayerInstance.Controller.IsReading = false;
+	}
+
 }

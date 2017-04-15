@@ -1,5 +1,3 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
 Shader "Morph3D/Standard-2pass-double sided"
@@ -105,7 +103,7 @@ Shader "Morph3D/Standard-2pass-double sided"
 				#if UNITY_SPECCUBE_BOX_PROJECTION
 					o.posWorld = posWorld.xyz;
 				#endif
-				o.pos = UnityObjectToClipPos(v.vertex);
+				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 				o.tex = TexCoords(v);
 				o.eyeVec = NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos);
 				float3 normalWorld = UnityObjectToWorldNormal(-v.normal);
@@ -235,7 +233,7 @@ Shader "Morph3D/Standard-2pass-double sided"
 				#if UNITY_SPECCUBE_BOX_PROJECTION
 					o.posWorld = posWorld.xyz;
 				#endif
-				o.pos = UnityObjectToClipPos(v.vertex);
+				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 				o.tex = TexCoords(v);
 				o.eyeVec = NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos);
 				float3 normalWorld = UnityObjectToWorldNormal(v.normal);
