@@ -23,7 +23,7 @@ public class Note : InteractableObject
 	/// </summary>
 	void Awake()
 	{
-		SetUp();
+		SetUpNote();
 	}
 
 	/// <summary>
@@ -51,7 +51,6 @@ public class Note : InteractableObject
 		if (NoteUIController.Instance.NoteUIPanel.activeSelf) 
 		{
 			NoteUIController.Instance.NoteUIPanel.SetActive (false);
-
             Game.Instance.PlayerInstance.Controller.IsReading = false;
 		} 
 

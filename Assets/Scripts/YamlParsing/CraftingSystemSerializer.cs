@@ -31,8 +31,11 @@ public abstract class CraftingSystemSerializer
 	private const string containerCategoryTag = "container";
 	private const string fuelCategoryTag = "fuel";
 	private const string fireBaseCategoryTag = "fireBase";
+    private const string shelterCategoryTag = "shelter";
     private const string raftCategoryTag = "raft";
-	private const string idolCategoryTag = "idol";
+	private const string warmthIdolCategoryTag = "warmthIdol";
+	private const string lightCategoryTag = "light";
+	private const string equipableTag = "equipable";
 
     /// <summary>
     /// tag:yaml.org,2002 is shorthanded as "!" in the yaml file, but when registering the tag, it
@@ -72,10 +75,19 @@ public abstract class CraftingSystemSerializer
 		categoryNames.Add(fireBaseCategoryTag);
 		categoryTypes.Add(typeof(FireBaseCategory));
 
+        categoryNames.Add(shelterCategoryTag);
+        categoryTypes.Add(typeof(ShelterCategory));
+
         categoryNames.Add(raftCategoryTag);
         categoryTypes.Add(typeof(RaftCategory));
 
-		categoryNames.Add(idolCategoryTag);
-		categoryTypes.Add(typeof(IdolCategory));
+		categoryNames.Add(warmthIdolCategoryTag);
+		categoryTypes.Add(typeof(WarmthIdolCategory));
+
+		categoryNames.Add(lightCategoryTag);
+		categoryTypes.Add(typeof(LightCategory));
+
+		categoryNames.Add (equipableTag);
+		categoryTypes.Add (typeof(EquipableCategory));
 	}
 }

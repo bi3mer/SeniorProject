@@ -61,6 +61,16 @@ public class EndingController : MonoBehaviour
 
     private const string playerTag = "Player";
 
+    private CameraController cameraController;
+
+    /// <summary>
+    /// Get the cameraController on the main camera.
+    /// </summary>
+    void Start()
+    {
+        cameraController = Camera.main.GetComponent<CameraController>();
+    }
+
     /// <summary>
     /// Called to trigger the ending
     /// </summary>
@@ -86,6 +96,7 @@ public class EndingController : MonoBehaviour
             // Rotate the camera, and move it to the ending zone
             Camera.main.transform.DOMove(cameraPosition.position, cameraTweenTime);
             Camera.main.transform.DORotate(cameraPosition.eulerAngles, cameraTweenTime);
+            cameraController.EndingTriggered = true;
         }
         else if (other.CompareTag(playerTag) && deathTrigger)
         {
@@ -96,6 +107,7 @@ public class EndingController : MonoBehaviour
     /// <summary>
     /// Called by the beacon script to signify that the ending has begun, and the player needs to wait for rescue.
     /// </summary>
+    [ContextMenu("RunEnding")]
     public void BeaconTurnedOn()
     {
         StartCoroutine(EndingCoroutine());

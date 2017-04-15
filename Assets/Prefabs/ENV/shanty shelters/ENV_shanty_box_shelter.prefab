@@ -9,26 +9,15 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-<<<<<<< HEAD
-  m_RootGameObject: {fileID: 1000011601580124}
-  m_IsPrefabParent: 1
---- !u!1 &1000011601580124
-=======
   m_RootGameObject: {fileID: 1000013981950666}
   m_IsPrefabParent: 1
 --- !u!1 &1000011427217986
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-<<<<<<< HEAD
-  - 4: {fileID: 4000012913506124}
-  - 33: {fileID: 33000013777878330}
-  - 23: {fileID: 23000011615489974}
-=======
   - 4: {fileID: 4000013308642948}
   - 33: {fileID: 33000010014366600}
   - 23: {fileID: 23000012828046698}
@@ -66,7 +55,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011061201420}
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b
   m_Layer: 0
   m_Name: ENV_shanty_box_shelter
   m_TagString: Untagged
@@ -74,9 +62,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< HEAD
---- !u!4 &4000012913506124
-=======
 --- !u!1 &1000014050137172
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,22 +81,10 @@ GameObject:
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4000011061201420
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 1000011601580124}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
---- !u!23 &23000011615489974
-=======
   m_GameObject: {fileID: 1000013981950666}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.100097656, y: 0.199, z: -0.245}
@@ -163,16 +136,11 @@ Transform:
   m_Father: {fileID: 4000011061201420}
   m_RootOrder: 2
 --- !u!23 &23000011516649092
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 1000011601580124}
-=======
   m_GameObject: {fileID: 1000014050137172}
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -180,13 +148,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-<<<<<<< HEAD
-  - {fileID: 2100000, guid: d04f20e3344412741bfe0b7be720b0e4, type: 2}
-  - {fileID: 2100000, guid: fc5459020b1dfd24b9696d6d9591554e, type: 2}
-  - {fileID: 2100000, guid: 5caa1213d6bdfe4488e94d65af49bbd9, type: 2}
-=======
   - {fileID: 2100000, guid: 6674c9d0dce167844b77e18b7113e850, type: 2}
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -202,9 +164,6 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-<<<<<<< HEAD
---- !u!33 &33000013777878330
-=======
 --- !u!23 &23000012828046698
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -278,15 +237,10 @@ MeshFilter:
   m_GameObject: {fileID: 1000013161799720}
   m_Mesh: {fileID: 4300000, guid: 807f90251842a2a48a98b116bb138845, type: 3}
 --- !u!33 &33000012503647326
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 1000011601580124}
-  m_Mesh: {fileID: 4300000, guid: 7ec856cde59cf7f4abbe02db86510660, type: 3}
-=======
   m_GameObject: {fileID: 1000014050137172}
   m_Mesh: {fileID: 4300000, guid: 9d27055bf343cd1458f481f1e11f110a, type: 3}
 --- !u!64 &64000013741619010
@@ -325,4 +279,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.067716494, y: 0.24756268, z: 0.012012216}
   m_Center: {x: 0, y: 0, z: 0}
->>>>>>> afada2a77cb98fa67f58b00929458ece7f7b3d2b

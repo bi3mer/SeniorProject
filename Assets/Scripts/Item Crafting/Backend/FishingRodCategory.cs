@@ -5,14 +5,6 @@ using UnityEngine.Events;
 public class FishingRodCategory : EquipableCategory
 {
 	/// <summary>
-	/// Initializes a new instance of the <see cref="FishingRodCategory"/> class.
-	/// </summary>
-	public FishingRodCategory()
-	{
-		toolType = ToolTypes.FishingRod;
-	}
-
-	/// <summary>
 	/// Gets a copy of the ItemCategory.
 	/// </summary>
 	/// <returns>The duplicate.</returns>

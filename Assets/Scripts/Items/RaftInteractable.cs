@@ -20,19 +20,23 @@ public class RaftInteractable : InteractableObject {
     /// </summary>
     public override void SetUp()
     {
-        base.SetUp();
+    	// do not run set up unless Raft is set
+    	if(Raft != null)
+    	{
+	        base.SetUp();
 
-        raftMovement = GetComponentInChildren<RaftMovement>();
-        raftMovement.SetMaxSpeed(Raft.Speed);
-        Text = raftMovement.BoardRaftText;
+	        raftMovement = GetComponentInChildren<RaftMovement>();
+	        raftMovement.SetMaxSpeed(Raft.Speed);
+	        Text = raftMovement.BoardRaftText;
 
-        SetAction
-        (
-            delegate
-            {
-                BoardRaft();
-            }
-        );
+	        SetAction
+	        (
+	            delegate
+	            {
+	                BoardRaft();
+	            }
+	        );
+	    }
     }
 
     /// <summary>
