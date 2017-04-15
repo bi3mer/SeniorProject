@@ -40,10 +40,6 @@ public class DebrisController : MonoBehaviour
 	[SerializeField]
 	private Vector2 windVectorXZ;
 
-    [Tooltip("Lerp these values so they aren't so jumpy.")]
-    [SerializeField]
-    private float lerpSpeed = .01f;
-
 	/// <summary>
 	/// The wind vector in XZ (considering Y is Up, but we're only concerned with 2D wind)
 	/// </summary>
@@ -101,8 +97,8 @@ public class DebrisController : MonoBehaviour
 		}
 		else
 		{
-			this.WindVectorXZ = Vector2.Lerp(WindVectorXZ, Game.Instance.WeatherInstance.WindDirection2d / this.windMitigation, lerpSpeed);
-			this.DebrisLevel = Mathf.Lerp(DebrisLevel, Game.Instance.WeatherInstance.WeatherInformation [(int)Weather.WindSpeedMagnitude], lerpSpeed);
+			this.WindVectorXZ = Game.Instance.WeatherInstance.WindDirection2d / this.windMitigation;
+			this.DebrisLevel = Game.Instance.WeatherInstance.WeatherInformation [(int)Weather.WindSpeedMagnitude];
 		}
 	}
 

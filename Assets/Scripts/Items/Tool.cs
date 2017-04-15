@@ -3,16 +3,6 @@ using UnityEngine;
 
 public abstract class Tool : MonoBehaviour
 {
-	[SerializeField]
-    [Tooltip("Location to parent the item on the player model")]
-    protected GameObject attachJoint;
-
-	[SerializeField]
-	[BaseItemPopup]
-    protected string toolName;
-
-    protected const string unequipActName = "Unequip";
-
     // TODO: When we figure out what we're doing with items, we should have Use return an item
     // for cases like fishing, were you can cath an item.
     public abstract void Use();
@@ -35,13 +25,5 @@ public abstract class Tool : MonoBehaviour
     {
         get;
         protected set;
-    }
-
-    /// <summary>
-    /// Sets up the tool so that it is linked to the proper item in the inventory.
-    /// </summary>
-    /// <param name="itemForTool">Item for tool.</param>
-    public virtual void SetUpTool(BaseItem itemForTool)
-    {
     }
 }

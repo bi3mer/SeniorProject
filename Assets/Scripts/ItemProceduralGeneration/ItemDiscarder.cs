@@ -13,7 +13,7 @@ public class ItemDiscarder
 	/// Discards the items from the inventory and places them in the world.
 	/// </summary>
 	/// <param name="itemsToDiscard">Items to discard.</param>
-	public void DiscardItems(List<ItemStack> itemsToDiscard)
+	public void DiscardItems(List<Stack> itemsToDiscard)
 	{
 		float currentDiscardSlot = 0;
 		float angleIncrementations = 40;

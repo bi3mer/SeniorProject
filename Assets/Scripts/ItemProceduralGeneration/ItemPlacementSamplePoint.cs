@@ -3,8 +3,6 @@ using System.Collections;
 
 public class ItemPlacementSamplePoint
 {
-	public enum PointType { ITEM, DOOR, SHELTER };
-
 	/// <summary>
 	/// Gets or sets the local position on the target surface.
 	/// </summary>
@@ -70,16 +68,6 @@ public class ItemPlacementSamplePoint
 	/// </summary>
 	/// <value>The district.</value>
 	public string District
-	{
-		get;
-		set;
-	}
-
-	/// <summary>
-	/// Gets or sets the type of object that will be placed at this location. Either Door, Shelter, or Item.
-	/// </summary>
-	/// <value>The type.</value>
-	public PointType Type
 	{
 		get;
 		set;

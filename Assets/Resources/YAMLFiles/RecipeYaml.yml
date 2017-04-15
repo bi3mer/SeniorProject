@@ -1,4 +1,38 @@
 ---
+- recipeName: "Raft"
+  tiered: true
+  toolRequirements:
+  resourceRequirements:
+   - itemType: "floatable object"
+     amountRequired: 1
+   - itemType: "rope"
+     amountRequired: 1
+  statsToCheck:
+   - statName: "durability"
+     statAffectingItems:
+      - "floatable object"
+      - "rope"
+     qualityThreshold:
+      - 5
+      - 15
+   - statName: "flexibility"
+     statAffectingItems:
+      - "rope"
+     qualityThreshold:
+      - 1
+      - 2
+   - statName: "stickiness"
+     statAffectingItems:
+      - "floatable object"
+     qualityThreshold:
+      - 0
+      - 0
+   - statName: "thickness"
+     statAffectingItems:
+      - "floatable object"
+     qualityThreshold:
+      - 2
+      - 4
 - recipeName: "Fishing Rod"
   tiered: true
   toolRequirements:
@@ -98,99 +132,6 @@
      qualityThreshold:
       - 2
       - 4
-- recipeName: "Raft"
-  tiered: true
-  toolRequirements:
-  resourceRequirements:
-   - itemType: "floatable object"
-     amountRequired: 5
-   - itemType: "rope"
-     amountRequired: 4
-  statsToCheck:
-   - statName: "durability"
-     statAffectingItems:
-      - "floatable object"
-      - "rope"
-     qualityThreshold:
-      - 5
-      - 15
-   - statName: "flexibility"
-     statAffectingItems:
-      - "rope"
-     qualityThreshold:
-      - 1
-      - 2
-   - statName: "stickiness"
-     statAffectingItems:
-      - "floatable object"
-     qualityThreshold:
-      - 0
-      - 0
-   - statName: "thickness"
-     statAffectingItems:
-      - "floatable object"
-     qualityThreshold:
-      - 2
-      - 4
-- recipeName: "Lantern"
-  tiered: false
-  toolRequirements:
-  resourceRequirements:
-   - itemType: "container"
-     amountRequired: 1
-   - itemType: "fuel"
-     amountRequired: 2
-   - itemType: "igniter"
-     amountRequired: 1
-   - itemType: "base solid"
-     amountRequired: 1
-  statsToCheck:
-- recipeName: "Shelter"
-  tiered: false
-  toolRequirements:
-  resourceRequirements:
-   - itemType: "base solid"
-     amountRequired: 5
-   - itemType: "rope"
-     amountRequired: 4
-  statsToCheck:
-   - statName: "durability"
-     statAffectingItems:
-      - "base solid"
-      - "rope"
-     qualityThreshold:
-      - 5
-      - 15
-   - statName: "flexibility"
-     statAffectingItems:
-      - "rope"
-     qualityThreshold:
-      - 1
-      - 2
-   - statName: "thickness"
-     statAffectingItems:
-      - "floatable object"
-     qualityThreshold:
-      - 2
-      - 4
-- recipeName: "Thermometer"
-  tiered: false
-  toolRequirements:
-  resourceRequirements:
-   - itemType: "container"
-     amountRequired: 1
-   - itemType: "base solid"
-     amountRequired: 1
-  statsToCheck:
-- recipeName: "Barometer"
-  tiered: false
-  toolRequirements:
-  resourceRequirements:
-   - itemType: "container"
-     amountRequired: 1
-   - itemType: "base solid"
-     amountRequired: 1
-  statsToCheck:
 - recipeName: "Idol of Yam"
   tiered: false
   toolRequirements:
@@ -200,3 +141,9 @@
    - itemType: "base solid"
      amountRequired: 1
   statsToCheck:
+   - statName: "durability"
+     statAffectingItems:
+      - "base solid"
+     qualityThreshold:
+      - 2
+      - 3

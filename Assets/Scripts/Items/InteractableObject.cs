@@ -12,14 +12,14 @@ public class InteractableObject : MonoBehaviour
 
     private TextMesh display;
 
-    protected bool setupComplete = false;
+    bool SetupComplete = false;
 
     /// <summary>
     /// Initializes text and hides it.
     /// </summary>
-    void Awake()
+    void Start()
     {
-    	if(!setupComplete)
+    	if(!SetupComplete)
     	{
         	SetUp();
         }
@@ -49,7 +49,7 @@ public class InteractableObject : MonoBehaviour
 			display = GetComponentInChildren<TextMesh>();
 		}
 
-		setupComplete = true;
+		SetupComplete = true;
         Show = false;
     }
 
@@ -60,19 +60,12 @@ public class InteractableObject : MonoBehaviour
     {
         get 
         { 
-            if(display != null)
-            { 
-                return display.gameObject.activeInHierarchy;
-            }
-            return false;
+            return display.gameObject.activeInHierarchy;
         }
         set 
         {
-            if (display != null)
-            { 
-                display.gameObject.SetActive(value);
-                display.text = text;
-            }
+            display.gameObject.SetActive(value);
+            display.text = text;
         }
     }
 

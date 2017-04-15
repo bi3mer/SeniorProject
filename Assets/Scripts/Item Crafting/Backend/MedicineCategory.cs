@@ -113,7 +113,7 @@ public class MedicineCategory : ItemCategory
     /// </summary>
     public void Heal()
     {
-		Game.Player.Controller.PlayerStatManager.HealthRate.UseHealthEnergy((int) HealthGain);
+        Game.Instance.PlayerInstance.Health += (int)HealthGain;
         baseItem.RemovalFlag = true;
     }
 

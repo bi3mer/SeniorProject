@@ -4,12 +4,10 @@
 {b785dbc8-1edc-450e-bc01-c195ec86261a} event:/Player/Movement/Walking/Concrete
 {27e72373-8dce-4b93-83c4-bab34195224b} event:/Player/Movement/Walking/Gravel
 {3cc801f5-f7d3-45be-8747-19004965e500} event:/Player/Movement/Walking/Raft
-{2cacc1a2-0177-41de-afdc-30dbde3a1aaa} event:/Radio/Music/Soulja_Boy
-{2025d14f-544d-42a1-b913-57ba4dc77da4} event:/Radio/Music/Apocalypse
-{59099f22-a09d-4463-ab50-117f3f5e2206} event:/Radio/Music/Better_Safe
-{278ee143-183d-46d3-bcf6-dac3afaba768} event:/Radio/Mystery/Evacuate_3_Block
-{4f68dea1-dc17-42e4-be62-d1c34168d8de} event:/Radio/Mystery/Relgious_Fanatic
-{17ce8fdc-c68a-49e9-9d32-aaa4ba3ee9d6} event:/Radio/Mystery/School_Musical
+{2cacc1a2-0177-41de-afdc-30dbde3a1aaa} event:/Radio/Music/Music1
+{f5dec39b-b6ba-4b30-b1ed-9d7791fa200e} event:/Radio/Mystery/PregeneratedSample1
+{59ddb019-8b19-4335-b523-be1beb7be748} event:/Radio/Mystery/Mystery1
+{6698f63c-c9eb-48d1-93ac-ef661884195f} event:/Radio/Mystery/Mystery2
 {e469c9e6-c70f-4822-b490-86770647083b} event:/Radio/Static/Basic_Static
 {1b73c0da-2ad5-4888-be39-0797a14794ab} event:/Radio/Static/Basic_Static_No_Loop
 {a16b3185-5d34-4f38-881d-32416b8a3d19} bus:/

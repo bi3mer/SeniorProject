@@ -13,7 +13,7 @@ public class BaseItemTests
 		BaseItem stick = new BaseItem("Sample Stick");
 		SolidCategory solid = new SolidCategory ();
 		stick.AddItemCategory (solid);
-		ItemStack stickStack = new ItemStack (stick, 4, "");
+		Stack stickStack = new Stack (stick, 4, "");
 
 		// Act
 		stickStack.Item.GetItemCategories();

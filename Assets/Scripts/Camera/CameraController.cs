@@ -32,8 +32,6 @@ public class CameraController : MonoBehaviour
 
     private int currentView;
     private Camera targetCamera;
-    [HideInInspector]
-    public bool EndingTriggered = false;
 
     /// <summary>
     /// Initialize camera based on starting view specified.
@@ -77,17 +75,9 @@ public class CameraController : MonoBehaviour
     {
         get
         {
-            if(EndingTriggered)
-            {
-                return Camera.main.transform;
-            }
-            else
-            {
-                return CameraPositions[currentView];            
-            }
+            return CameraPositions[currentView];
         }
     }
-
 
     /// <summary>
     /// Gets the current level of zoom.

@@ -62,14 +62,7 @@ public class GameViewBehavior : MonoBehaviour
 
 			if (Input.GetKeyDown(controlScheme.Inventory)) 
 			{
-				if (inventoryPanel.gameObject.activeInHierarchy) 
-				{
-					OnResumeClick ();
-				} 
-				else 
-				{
-					OnInventoryClick ();
-				}
+				OnInventoryClick ();
 			}
 
 			if (Input.GetKeyDown(controlScheme.Radio)) 
@@ -82,18 +75,11 @@ public class GameViewBehavior : MonoBehaviour
                 {
                     OnRadioClick();
                 }
-            }
+			}
 
-            if (Input.GetKeyDown(controlScheme.Crafting)) 
+			if (Input.GetKeyDown(controlScheme.Crafting)) 
 			{
-				if (craftingPanel.gameObject.activeInHierarchy) 
-				{
-					OnResumeClick ();
-				} 
-				else 
-				{
-					OnCraftingClick ();
-				}
+				OnCraftingClick ();
 			}
 		}
 	}
