@@ -42,6 +42,3 @@ logfile.txt
 
 # scene menu
 *Assets/Editor/SceneMenu.cs*
-
-# Generated announcement files
-Assets/Sounds/Announcements

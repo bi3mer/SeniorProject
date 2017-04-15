@@ -78,7 +78,6 @@ public class PlayerTools
             if (potentialTool.ToolName.Equals(item.ItemName))
             {
                 tool = potentialTool;
-				tool.SetUpTool(item);
             }
         }
 
@@ -104,7 +103,6 @@ public class PlayerTools
         if (previous != null)
         {
             previous.Unequip();
-            GuiInstanceManager.EquippedItemGuiInstance.Unequipped();
             // TODO: Wait for unequip to finish
         }
         

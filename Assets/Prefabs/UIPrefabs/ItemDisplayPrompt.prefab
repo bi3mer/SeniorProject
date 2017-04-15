@@ -191,7 +191,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114000011987128252}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114000011347958684}
+        m_MethodName: FinishSelection
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 114000012672878052}
+          m_ObjectArgumentAssemblyTypeName: WorldSelectionButtonBehavior, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114000010103491666
@@ -262,8 +273,7 @@ MonoBehaviour:
   displayPanel: {fileID: 1000014143839464}
   worldSelectionPanel: {fileID: 1000013690164136}
   worldSelectionTemplate: {fileID: 1000010141563694}
-  noValidOptionText: {fileID: 114000011751405468}
-  noValidActionText: No valid actions
+  noValidItemText: {fileID: 114000011751405468}
 --- !u!114 &114000011351126814
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -395,8 +405,7 @@ MonoBehaviour:
   UseMaxRows: 0
   MaxRows: 0
   gridLayoutGroup: {fileID: 114000012080093950}
-  dimensionDrivingPanel: {fileID: 224000010888420280}
-  scrollBar: {fileID: 0}
+  contentPanel: {fileID: 224000010888420280}
 --- !u!114 &114000012672878052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -409,7 +418,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameDisplay: {fileID: 114000011351126814}
-  associatedButton: {fileID: 114000010099162328}
 --- !u!114 &114000012707818092
 MonoBehaviour:
   m_ObjectHideFlags: 1

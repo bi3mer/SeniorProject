@@ -1,4 +1,4 @@
----
+﻿---
 - itemName: "River Reed"
   baseItem: 
    itemName: "River Reed"
@@ -13,10 +13,10 @@
     - “Weave Basket”
    actionModifiedModels:
     - "ITM/Ropes/ITM_Rope"
-    - “ITM/Small\ Containers/ITM_Basket”
+    - “ITM/Small\ Containers/ITM_Bucket”
    actionModifiedSprites:
     - "GUI_ITM_Rope"
-    - "GUI_ITM_Basket"
+    - "GUI_ITM_Bucket"
   itemCategories: 
     - !!solid
       flexibility: 3.0
@@ -44,6 +44,7 @@
    types:
      - "rod"
      - "fuel"
+     - "base solid"
    flavorText: "It's...a stick."
    modifyingActionNames:
    actionModifiedModels:
@@ -66,8 +67,6 @@
       spicy: 0.0
       stomachEffect: 0.0
       pneumoniaEffect: 0.0
-    - !!fuel
-      burnTime: 10.0
 - itemName: "Empty Can"
   baseItem: 
    itemName: "Empty Can"
@@ -212,7 +211,7 @@
   baseItem: 
    itemName: "Medicine Box"
    rarity: "uncommon"
-   inventorySprite: "GUI_ITM_MedicineBox"
+   inventorySprite: "GUI_ITM_BandageBox"
    worldModel: "ITM/Healing/ITM_BandageBox"
    types:
      - "medicinal"
@@ -258,7 +257,7 @@
   itemCategories:
     - !!flesh
       hungerGain: 20.0
-      healthEffect: -0.2
+      healthEffect: 0.25
 - itemName: "Matchbook"
   baseItem:
    itemName: "Matchbook"
@@ -276,7 +275,7 @@
   baseItem:
    itemName: "Poor Fire Pit"
    rarity: "common"
-   inventorySprite: "GUI_ITM_ItemAtlas_Campfire"
+   inventorySprite: "GUI_ITM_ScrapMetal"
    worldModel: "ITM/Campfire/ENV_Campfire"
    types:
      - "fuel"
@@ -380,6 +379,7 @@
    inventorySprite: "GUI_ITM_RadioAntenna"
    worldModel: "ITM/Communication/ITM_RadioAntenna"
    types:
+    - ""
    flavorText: "An antenna reciever."
    modifyingActionNames:
    actionModifiedModels:
@@ -399,6 +399,7 @@
    inventorySprite: "GUI_ITM_PaperScrap"
    worldModel: "ITM/Notes/ITM_PaperScrap"
    types:
+    - ""
    flavorText: "A scrap of paper."
    modifyingActionNames:
    actionModifiedModels:
@@ -439,8 +440,6 @@
    worldModel: "ITM/WoodPlanks/ITM_WoodPlank1"
    types:
     - "floatable object"
-    - "base solid"
-    - "fuel"
    flavorText: "A piece of wood."
    modifyingActionNames:
    actionModifiedModels:
@@ -453,8 +452,6 @@
       stickiness: 0
       thickness: 0.5
       sharpness: 1
-    - !!fuel
-      burnTime: 20.0
 - itemName: "Golf Club"
   baseItem: 
    itemName: "Golf Club"
@@ -469,11 +466,11 @@
    actionModifiedSprites:
   itemCategories: 
     - !!solid
-      flexibility: 0.1
-      durability: 4
-      elasticity: 0.1
-      stickiness: 0.2
-      thickness: 1
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
       sharpness: 0
 - itemName: "Pipe"
   baseItem: 
@@ -489,11 +486,11 @@
    actionModifiedSprites:
   itemCategories: 
     - !!solid
-      flexibility: 0.5
-      durability: 3
-      elasticity: 0.1
-      stickiness: 0.3
-      thickness: 1.5
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
       sharpness: 0
 - itemName: "Umbrella"
   baseItem: 
@@ -503,18 +500,18 @@
    worldModel: "ITM/Rods/Umbrella"
    types:
     - "rod"
-   flavorText: "To keep you dry. Or it would've if it wasn't torn."
+   flavorText: "To keep you dry."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
   itemCategories: 
     - !!solid
-      flexibility: 1
-      durability: 2
-      elasticity: 0.2
-      stickiness: 0.5
-      thickness: 1.5
-      sharpness: 0.3
+      flexibility: 0
+      durability: 0
+      elasticity: 0
+      stickiness: 0
+      thickness: 0
+      sharpness: 0
 - itemName: "Rope"
   baseItem: 
    itemName: "Rope"
@@ -529,12 +526,9 @@
    actionModifiedSprites:
   itemCategories: 
     - !!solid
-      flexibility: 4
-      durability: 2
-      elasticity: 0.5
-      stickiness: 0.2
-      thickness: 0.5
-      sharpness: 1
+      flexibility: 0
+      durability: 0
+      elasticity: 0
 - itemName: "Poor Raft"
   baseItem: 
    itemName: "Poor Raft"
@@ -603,70 +597,7 @@
    worldModel: "ITM/Ropes/ITM_FishRelic"
    types:
     - "equipable"
-   flavorText: "A token of prayer to the god that slew the sea serpent. Simply holding it makes you feel warmer...."
+   flavorText: "A token of prayer to the god that slew the sea serpent."
   itemCategories:
-    - !!warmthIdol
-      warmthBenefit: 3
-- itemName: "Lantern"
-  baseItem: 
-   itemName: "Lantern"
-   rarity: "rare"
-   inventorySprite: "GUI_ITM_Lantern"
-   worldModel: "ITM/Tools/ITM_Lantern"
-   types:
-    - "equipable"
-   flavorText: "A lantern to light the way. Requires fuel."
-   modifyingActionNames:
-   actionModifiedModels:
-   actionModifiedSprites:
-  itemCategories: 
-    - !!light
-      maxFuel: 20
-      brightness: 2
-      currentFuelLevel: 10
-      burnRate: 0.5
-- itemName: "Shelter"
-  baseItem:
-   itemName: "Shelter"
-   rarity: "common"
-   inventorySprite: "GUI_ITM_ItemAtlas_Shelter"
-   worldModel: "ITM/Shanty Shelters/ENV_shanty_shelter_1"
-   types:
-    - "advanced tool"
-   flavorText: "It's just a little holey."
-   modifyingActionNames:
-   actionModifiedModels: 
-   actionModifiedSprites:
-  itemCategories:
-    - !!shelter
-      warmthRate: 1
-- itemName: "Thermometer"
-  baseItem: 
-   itemName: "Thermometer"
-   rarity: "rare"
-   inventorySprite: "GUI_ITM_Thermometer"
-   worldModel: "ITM/Weather\ Instruments/ITM_Thermometer"
-   types:
-    - "equipable"
-   flavorText: "Reads the temperature."
-   modifyingActionNames:
-   actionModifiedModels:
-   actionModifiedSprites:
-  itemCategories: 
-    - !!equipable
-      equiped: 0
-- itemName: "Barometer"
-  baseItem: 
-   itemName: "Barometer"
-   rarity: "rare"
-   inventorySprite: "GUI_ITM_Barometer"
-   worldModel: "ITM/Weather\ Instruments/ITM_Barometer"
-   types:
-    - "equipable"
-   flavorText: "Reads the air pressure."
-   modifyingActionNames:
-   actionModifiedModels:
-   actionModifiedSprites:
-  itemCategories: 
-    - !!equipable
-      equiped: 0
+    - !!idol
+      benefitName: "Warmth"

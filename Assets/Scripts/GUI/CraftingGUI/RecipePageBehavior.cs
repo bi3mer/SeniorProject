@@ -245,11 +245,13 @@ public class RecipePageBehavior : MonoBehaviour
 
 		Transform child;
 
+		float totalAmountFound = 0;
+
 		// clears the item select UI panel to prepare for the next set of items to be displayed there
 		for (int j = 0; j < IngredientsScrollPanel.transform.childCount; ++j) 
 		{
 			child = IngredientsScrollPanel.transform.GetChild (j);
-			if (!child.gameObject.name.Equals(IngredientUI.name) && !child.gameObject.name.Equals(noValidItemText.name)) 
+			if (!child.gameObject.name.Equals(IngredientUI.name) && !child.gameObject.name.Equals(noValidItemText.name) ) 
 			{
 				// TODO: make object pool of each item type's ingredients for the sake of performance
 				Destroy(child.gameObject);
@@ -263,51 +265,34 @@ public class RecipePageBehavior : MonoBehaviour
 			Destroy(child.gameObject);
 		}
 
-		List<ItemStack> validItems = Game.Instance.PlayerInstance.Inventory.GetAllItemsWithTag(itemTag);
+		List<Stack> validItems = Game.Instance.PlayerInstance.Inventory.GetAllItemsWithTag(itemTag);
 
-		int itemAmount;
-		int totalValidItems = 0;
-
-		for (int i = 0; i < validItems.Count; ++i) 
+		for(int i = 0; i < validItems.Count; ++i)
 		{
-			itemAmount = getIngredientAmount(validItems[i]);
+			totalAmountFound += validItems[i].Amount;
+		}
 
-			if(itemAmount > 0)
+		// if there are no valid items for this step, show text that states this recipe can not be completed
+		if (validItems.Count == 0) 
+		{
+			noValidItemText.gameObject.SetActive (true);
+		}
+		else if(totalAmountFound < recipe.ResourceRequirements[currentStep].AmountRequired)
+		{
+			noValidItemText.gameObject.SetActive(true);
+		}
+		else 
+		{
+			for (int i = 0; i < validItems.Count; ++i) 
 			{
 				// if the item has the appropriate tag, then it is a valid item to be used in this step of the recipe
 				// and a gameobject that represents it will be created and placed in the item select ui
 				Button item = GameObject.Instantiate (IngredientUI);
 				item.transform.SetParent (IngredientsScrollPanel.transform, false);
-				item.GetComponent<IngredientButtonBehavior>().SetUpIngredient(validItems[i].Item.ItemName, itemAmount, validItems[i].Id);
+				item.GetComponent<IngredientButtonBehavior>().SetUpIngredient(validItems[i].Item.ItemName, validItems[i].Amount);
 				item.gameObject.SetActive (true);
-				++ totalValidItems;
 			}
 		}
-
-		if(totalValidItems == 0)
-		{
-			noValidItemText.gameObject.SetActive (true);
-		}
-	}
-
-	/// <summary>
-	/// Gets the ingredient amount, taking into account previously selected ingredients.
-	/// </summary>
-	/// <returns>The ingredient amount.</returns>
-	/// <param name="item">Item.</param>
-	private int getIngredientAmount(ItemStack item)
-	{
-		int amount = item.Amount;
-
-		for(int i = 0; i < itemsSelected.Count; ++i)
-		{
-			if(itemsSelected[i].AssociatedStackId.Equals(item.Id))
-			{
-				amount -= itemsSelected[i].Amount;
-			}
-		}
-
-		return amount;
 	}
 
 	/// <summary>
@@ -376,7 +361,7 @@ public class RecipePageBehavior : MonoBehaviour
 
 		for(int i = 0; i < selectedIngredients.Length; ++i)
 		{
-			itemsSelected.Add(new Ingredient(selectedIngredients[i], recipe.ResourceRequirements [currentStep].ItemType));
+			itemsSelected.Add(new Ingredient(selectedIngredients[i].ItemName, selectedIngredients[i].Amount));
 		}
 	}
 

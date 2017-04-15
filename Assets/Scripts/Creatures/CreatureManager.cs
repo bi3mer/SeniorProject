@@ -15,8 +15,6 @@ public class CreatureManager
 	/// </summary>
 	private CreatureTracker[] creatures;
 
-	private Rigidbody[] rbCreatures;
-
 	/// <summary>
 	/// The ideal amount of creatures in the scene
 	/// </summary>
@@ -55,11 +53,10 @@ public class CreatureManager
 		if(this.creaturePool.Count == 0)
 		{
 			// spawn creature
-			GameObject spawnedCreature           = GameObject.Instantiate(creature);
-			newCreature                          = spawnedCreature.AddComponent<CreatureTracker>();
-			newCreature.Index                    = this.CreatureCount;
-			this.creatures[this.CreatureCount]   = newCreature;
-			this.rbCreatures[this.CreatureCount] = spawnedCreature.GetComponent<Rigidbody>();
+			GameObject spawnedCreature         = GameObject.Instantiate(creature);
+			newCreature                        = spawnedCreature.AddComponent<CreatureTracker>();
+			newCreature.Index                  = this.CreatureCount;
+			this.creatures[this.CreatureCount] = newCreature;
 		}
 		else
 		{
@@ -72,10 +69,6 @@ public class CreatureManager
 
 		// set position of new creature
 		newCreature.transform.position = position;
-
-		// initialize velocity and rotation to 0
-		this.rbCreatures[newCreature.Index].velocity = Vector3.zero;
-		this.rbCreatures[newCreature.Index].rotation = Quaternion.identity;
 
 		// increase count of creatures
 		++this.CreatureCount;
@@ -102,8 +95,7 @@ public class CreatureManager
 	/// they aren't in the radius
 	/// </summary>
 	/// <param name="radius">Radius.</param>
-	/// <param name="waterLevelOffset">Water level offset.</param>
-	public void UpdateCreatureInfo(float radius, float waterLevelOffset)
+	public void CheckCreaturePosiitons(float radius)
 	{
 		for(int i = 0; i < this.creatures.Length; ++i)
 		{
@@ -128,10 +120,6 @@ public class CreatureManager
 				// kill the creature if outside of the given radius
 				this.PutCreatureInPool(i);
 			}
-
-			this.creatures[i].transform.position = new Vector3(this.creatures[i].transform.position.x,
-			                                                   Game.Instance.WaterLevelHeight + waterLevelOffset,
-			                                                   this.creatures[i].transform.position.z);
 		}
 	}
 
@@ -159,7 +147,6 @@ public class CreatureManager
 	{
 		this.creaturePool       = new Stack<int>();
 		this.creatures          = new CreatureTracker[maxCount];
-		this.rbCreatures        = new Rigidbody[maxCount];
 		this.IdealCreatureCount = idealCount;
 		this.CreatureCount      = 0;
 	}

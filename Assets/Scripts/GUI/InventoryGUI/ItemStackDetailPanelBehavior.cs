@@ -8,7 +8,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Item stack detail panel behavior.
 /// </summary>
-public class ItemStackDetailPanelBehavior : MonoBehaviour
+public class ItemStackDetailPanelBehavior : MonoBehaviour 
 {
 	[Tooltip("the scroll bar section that contains the attributes")]
 	[SerializeField]

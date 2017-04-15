@@ -10,14 +10,14 @@ public class FishAgentConfig : MonoBehaviour
 	[Header("Find Nearby Radius")]
     public float CohesionRadius = 20f;
 	public float SeparationRadius = 10f;
-	public float AlignmentRadius = 3f;
+	public float AllignmentRadius = 3f;
 	public float WanderRadius = 2f;
 	public float AvoidRadius = 0f;
 
 	[Header("Weights for Given Behavior")]
 	public float CohesionWeight = 80f;
 	public float SeparationWeight = 70f;
-	public float AlignmentWeight = 56f;
+	public float AllignmentWeight = 56f;
 	public float WanderWeight = 30f;
 	public float AvoidWeight = 0f;
 
@@ -45,14 +45,14 @@ public class FishAgentConfig : MonoBehaviour
 		// Radius
 		this.CohesionRadius = Random.Range(0, FishAgentConfig.MaxRadius);
 		this.SeparationRadius = Random.Range(0, FishAgentConfig.MaxRadius);
-		this.AlignmentRadius = Random.Range(0, FishAgentConfig.MaxRadius);
+		this.AllignmentRadius = Random.Range(0, FishAgentConfig.MaxRadius);
 		this.WanderRadius = Random.Range(0, FishAgentConfig.MaxRadius);
 		this.AvoidRadius = Random.Range(0, FishAgentConfig.MaxRadius);
 
 		// Weights
 		this.CohesionWeight = Random.Range(0, FishAgentConfig.MaxWeight);
 		this.SeparationWeight = Random.Range(0, FishAgentConfig.MaxWeight);
-		this.AlignmentWeight = Random.Range(0, FishAgentConfig.MaxWeight);
+		this.AllignmentWeight = Random.Range(0, FishAgentConfig.MaxWeight);
 		this.WanderWeight = Random.Range(0, FishAgentConfig.MaxWeight);
 		this.AvoidWeight = Random.Range(0, FishAgentConfig.MaxWeight);
 

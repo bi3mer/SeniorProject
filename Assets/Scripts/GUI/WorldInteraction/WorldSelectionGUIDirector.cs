@@ -2,31 +2,28 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Events;
 
 public class WorldSelectionGUIDirector : MonoBehaviour 
 {
 	[SerializeField]
-	[Tooltip("Entire panel display that is used to display items on the center of the screen")]
-	private GameObject screenDisplayPanel;
+	[Tooltip("Entire panel display")]
+	private GameObject displayPanel;
 
 	[SerializeField]
-	[Tooltip("The panel in the center of the screen in which the selection ui objects should go")]
-	private GameObject worldSelectionPanel;	
+	[Tooltip("The panel in which the selection ui objects should go")]
+	private GameObject worldSelectionPanel;
 
 	[SerializeField]
 	[Tooltip("The template for selection ui objects")]
 	private GameObject worldSelectionTemplate;
 
 	[SerializeField]
-	[Tooltip("UI Text item that appears when there is no valid option")]
-	private Text noValidOptionText;
+	[Tooltip("UI Text item that appears when there is no valid item")]
+	private Text noValidItemText;
 
-	[SerializeField]
-	[Tooltip("Text displayed when there are not valid actions to be selected")]
-	private string noValidActionText = "No valid actions";
+	private List<WorldSelectionButtonBehavior> options;
 
-	private OverworldItemOptionSelection requester;
+	private HasSelectionInterface requester;
 
 	/// <summary>
 	/// Awake this instance.
@@ -39,145 +36,54 @@ public class WorldSelectionGUIDirector : MonoBehaviour
 	/// <summary>
 	/// Displays the item options.
 	/// </summary>
-	/// <param name="itemTypes">Items of types that should be displayed.</param>
-	/// <param name="requestingItem">Requesting item that stores selected options.</param>
-	/// <param name="targetPanel">Target panel where the options will appear.</param>
-	public void DisplayItemOptions(List<string> itemTypes, OverworldItemOptionSelection requestingItem, GameObject targetPanel = null)
+	/// <param name="itemType">Item type.</param>
+	/// <param name="requestingItem">Requesting item.</param>
+	public void DisplayItemOptions(string itemType, HasSelectionInterface requestingItem)
 	{
-		if(targetPanel == null)
-		{
-			targetPanel = worldSelectionPanel;
-			screenDisplayPanel.SetActive(true);
-		}
-
-		GuiInstanceManager.WorldSelectionGuiInstance.ClearOptions(targetPanel);
-
-		List<string> itemNames = Game.Instance.PlayerInstance.Inventory.GetItemsByType(itemTypes);
+		List<string> itemNames = Game.Instance.PlayerInstance.Inventory.GetItemsByType(itemType);
+		options = new List<WorldSelectionButtonBehavior>();
 
 		for(int i = 0; i < itemNames.Count; ++i)
 		{
-			string item = itemNames[i];
-			createWorldSelectionButton(itemNames[i], new UnityAction(delegate {FinishSelection(item); }), targetPanel);
+			WorldSelectionButtonBehavior option = GameObject.Instantiate(worldSelectionTemplate).GetComponent<WorldSelectionButtonBehavior>();
+			option.ItemName = itemNames[i];
+			option.transform.SetParent(worldSelectionPanel.transform, false);
+			option.gameObject.SetActive(true);
+			options.Add(option);
 		}
 
-		if(targetPanel.transform.childCount <= 0)
+		if(options.Count <= 0)
 		{
-			noValidOptionText.text = noValidActionText;
-			noValidOptionText.gameObject.SetActive(true);
+			noValidItemText.gameObject.SetActive(true);
 		}
+
+		displayPanel.SetActive(true);
 
 		requester = requestingItem;
-	}
-
-	/// <summary>
-	/// Displays the items possible actions.
-	/// </summary>
-	/// <param name="actions">Actions that should be displayed.</param>
-	/// <param name="requestingItem">Requesting item that stores the selected options.</param>
-	/// <param name="targetPanel">Target panel where the options will appear.</param>
-	public void DisplayActions(List<ItemAction> actions, OverworldItemOptionSelection requestingItem, GameObject targetPanel = null)
-	{
-		bool conditionsFulfilled = true;
-
-		if(targetPanel == null)
-		{
-			targetPanel = worldSelectionPanel;
-			screenDisplayPanel.SetActive(true);
-		}
-
-		for(int i = 0; i < actions.Count; ++i)
-		{
-			conditionsFulfilled = true;
-
-			for(int j = 0; j < actions[i].Conditions.Count; ++j)
-			{
-				ItemCondition condition = actions [i].Conditions [j];
-
-				if(!condition.CheckCondition())
-				{
-					conditionsFulfilled = false;
-				}
-			}
-
-			if(conditionsFulfilled)
-			{
-				string name = actions[i].ActionName;
-				createWorldSelectionButton(name, new UnityAction(delegate {FinishSelection(name); }), targetPanel);
-			}
-		}
-
-		if(targetPanel.transform.childCount <= 0)
-		{
-			noValidOptionText.text = noValidActionText;
-			noValidOptionText.gameObject.SetActive(true);
-		}
-
-		requester = requestingItem;
-	}
-
-	/// <summary>
-	/// Creates a world selection button and assigns the action to it's onclick.
-	/// </summary>
-	/// <returns>The world selection button.</returns>
-	/// <param name="buttonName">Text that should appear on button.</param>
-	/// <param name="desiredAction">Desired action that occurs onclick.</param>
-	/// <param name="targetPanel">Target panel where button should appear.</param>
-	private WorldSelectionButtonBehavior createWorldSelectionButton(string buttonName, UnityAction desiredAction, GameObject targetPanel)
-	{
-		WorldSelectionButtonBehavior option = GameObject.Instantiate(worldSelectionTemplate).GetComponent<WorldSelectionButtonBehavior>();
-		option.ButtonName = buttonName;
-		option.transform.SetParent(targetPanel.transform, false);
-		option.gameObject.SetActive(true);
-		option.SetAction(desiredAction);
-
-		return option;
 	}
 
 	/// <summary>
 	/// Finishs the selection.
 	/// </summary>
-	/// <param name="selectedItem">Selected.</param>
-	public void FinishSelection(string selectedItem)
+	/// <param name="selected">Selected.</param>
+	public void FinishSelection(WorldSelectionButtonBehavior selected)
 	{
-		requester.OptionSelectedCallbackAction(selectedItem);
+		requester.ItemSelectedCallbackAction(selected.ItemName);
+		CloseSelection();
 	}
 
 	/// <summary>
-	/// Closes the selection.
+	/// Closes the selection panel. Clears options.
 	/// </summary>
-	/// <param name="targetContent">Target content panel that contains options.</param>
-	/// <param name="targetHolder">Target holder panel that contains the display panel.</param>
-	public void CloseSelection(GameObject targetContent, GameObject targetHolder)
+	public void CloseSelection()
 	{
-		noValidOptionText.gameObject.SetActive(false);
-		ClearOptions(targetContent);
-
-		if(targetHolder != null)
+		for(int i = 0; i < options.Count; ++i)
 		{
-			targetHolder.SetActive(false);
-		}
-		else
-		{
-			screenDisplayPanel.SetActive(false);
-		}
-	}
-
-	/// <summary>
-	/// Clears the options from the target panel.
-	/// </summary>
-	/// <param name="targetPanel">Target panel.</param>
-	public void ClearOptions(GameObject targetPanel)
-	{
-		GameObject target = targetPanel;
-
-		if(target == null)
-		{
-			targetPanel = worldSelectionPanel;
+			GameObject.Destroy(options[i].gameObject);
 		}
 
-		for(int i = 0; i < targetPanel.transform.childCount; ++i)
-		{
-			GameObject.Destroy(targetPanel.transform.GetChild(i).gameObject);
-		}
+		options.Clear();
+		displayPanel.SetActive(false);
+		noValidItemText.gameObject.SetActive(false);
 	}
 }

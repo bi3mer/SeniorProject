@@ -99,7 +99,7 @@ public class InventoryYamlParser : CraftingSystemSerializer
 	public void SaveInventory(Inventory inventory, string inventoryName)
 	{
 		List<InventoryItemYAMLModel> saveData = new List<InventoryItemYAMLModel>();
-		ItemStack[] contents =  inventory.GetInventory();
+		Stack[] contents =  inventory.GetInventory();
 
 		for(int i = 0; i < contents.Length; ++i)
 		{

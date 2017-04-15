@@ -62,10 +62,11 @@ public class DistrictConfiguration
     public List<GameObject> Doors;
 
     /// <summary>
-    /// The shelters in the district.
+    /// Any additional building templates to be added to a district, to be placed according to the specified frequency.
     /// </summary>
-    [Tooltip("Shelters that may be generated in the district")]
-    public List<GameObject> Shelters;
+    [Tooltip("Any additional building templates to be added to a district, to be placed according to the specified frequency.")]
+    public BuildingTemplatePlacement[] AdditionalBuildingTemplates;
+
 
     [Header("Procedural Building Construction")]
 
@@ -337,19 +338,6 @@ public class DistrictConfiguration
         get
         {
             return windowWasherStartUpChance;
-        }
-    }
-
-    [SerializeField]
-    private GameObject[] districtPosters;
-    /// <summary>
-    /// Posters that appear in this district
-    /// </summary>
-    public GameObject[] DistrictPosters
-    {
-        get
-        {
-            return districtPosters;
         }
     }
 }

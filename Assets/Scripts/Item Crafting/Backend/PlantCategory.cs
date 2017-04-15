@@ -151,11 +151,14 @@ public class PlantCategory : ItemCategory
 		category.Actions = new List<ItemAction> ();
 		category.Attributes = new List<Attribute> ();
 
+		ItemAction cook = new ItemAction (cookActName, new UnityAction(category.Cook));
 		ItemAction dry = new ItemAction (dryActName, new UnityAction(category.Dry));
 		ItemAction eat = new ItemAction (eatActName, new UnityAction(category.Eat));
 
+
 		// the actions must be added in the same order as they were in the original copy of the category
 		// unable to pass along UnityAction delegate, as that will continue to point to the original copy of the item category
+		category.Actions.Add (cook);
 		category.Actions.Add (dry);
 		category.Actions.Add (eat);
 
@@ -181,6 +184,7 @@ public class PlantCategory : ItemCategory
 
 		Actions = new List<ItemAction> ();
 
+		ItemAction cook = new ItemAction (cookActName, new UnityAction(Cook));
 		ItemAction dry = new ItemAction (dryActName, new UnityAction(Dry));
 
 		ItemAction eat = new ItemAction (eatActName, new UnityAction(Eat));
@@ -188,6 +192,7 @@ public class PlantCategory : ItemCategory
 
 		eat.Conditions.Add (eatCondition);
 
+		Actions.Add (cook);
 		Actions.Add (dry);
 		Actions.Add (eat);
 	}
@@ -212,6 +217,9 @@ public class PlantCategory : ItemCategory
 		{
 			baseItem.ChangeName(defaultCookedNameAddition + baseItem.ItemName);
 		}
+
+		baseItem.DirtyFlag = true;
+		SetActionComplete (cookActName);
 	}
 
 	/// <summary>
@@ -236,36 +244,23 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public void Eat()
 	{
-        Player player = Game.Player;
 		if (StomachEffect < 0) 
 		{
-            if (player.HealthStatus == PlayerHealthStatus.None)
-            {
-                player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
-            }
+			// TODO: stomach illness code
 		} 
 		else if (StomachEffect > 0) 
 		{
-            if (player.HealthStatus == PlayerHealthStatus.FoodPoisoning)
-            {
-                player.HealthStatus = PlayerHealthStatus.None;
-            }
+			// TODO: cure for stomach illness
 		}	
 
 		if (PneumoniaEffect < 0) 
 		{
-            if (player.HealthStatus == PlayerHealthStatus.None)
-            {
-                player.HealthStatus = PlayerHealthStatus.Pneumonia;
-            }
-        } 
+			// TODO: pneumonia code
+		} 
 		else if (PneumoniaEffect > 0) 
 		{
-            if (player.HealthStatus == PlayerHealthStatus.Pneumonia)
-            {
-                player.HealthStatus = PlayerHealthStatus.None;
-            }
-        }
+			// TODO: pneumonia cure code
+		}
 
 		baseItem.RemovalFlag = true;
 	}

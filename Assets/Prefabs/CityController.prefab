@@ -28,7 +28,6 @@ GameObject:
   - 114: {fileID: 114000013392317438}
   - 114: {fileID: 114000011626432178}
   - 114: {fileID: 114000010221364680}
-  - 114: {fileID: 114000011026012388}
   m_Layer: 0
   m_Name: CityController
   m_TagString: Untagged
@@ -98,22 +97,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   heightJitter: 0.1
-  buildingScale: {x: 1, y: 1, z: 1}
+  buildingScale: 0.9
   maxPlacementTries: 3
-  cityCenterBuilding: {fileID: 0}
---- !u!114 &114000011026012388
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013389127986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55d1d6801fb3965488a47da023b42eba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chunkSize: 25
-  chunksAwayToLoad: 2
+  CityCenterBuilding: {fileID: 100000, guid: 85c452bcdee401c48ad8a500701ee3fd, type: 3}
 --- !u!114 &114000011626432178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -142,14 +128,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a07dc351f6efa4abcb267cc9b799b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showCityBounds: 0
-  showDistrictPerimeter: 0
+  showCityBounds: 1
+  showDistrictPerimeter: 1
   showDistrictSeedPoint: 0
-  showBlockPerimeter: 0
+  showBlockPerimeter: 1
   showBlockControlPoint: 0
-  showBuildingPositions: 0
-  showChunkBoundaries: 0
-  showItemPositions: 0
+  showBuildingPositions: 1
+  showItemPositions: 1
 --- !u!114 &114000012868407098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -165,6 +150,8 @@ MonoBehaviour:
   cityBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 150, y: 150, z: 150}
+  buildingColliderRadius: 16
+  buildingVisibleRadius: 18
 --- !u!114 &114000013392317438
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -178,8 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolManager: {fileID: 114000010221364680}
   itemGenerationChance: 0.8
-  doorGenerationChance: 0.28
-  shelterGenerationChance: 0.6
+  doorGenerationChance: 0.74
 --- !u!114 &114000013433191368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -197,11 +183,8 @@ MonoBehaviour:
     WeenieBuildingTemplate: {fileID: 1000010255927246, guid: 549121b14d0f7904d88d4311ec33716b,
       type: 2}
     Doors:
-    - {fileID: 1000012658179278, guid: 769a1faf4799b074a9d5f941b5167f1b, type: 2}
-    - {fileID: 1000014010784418, guid: c305f986c65e0bb408e703e146d6ca46, type: 2}
-    - {fileID: 1000013599154026, guid: 6c4c2510ad3d19644b12bdb7cf8b1c87, type: 2}
-    Shelters:
-    - {fileID: 1000012883835142, guid: 5e5de6defc0f04008beaa8b15def9938, type: 2}
+    - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
+    AdditionalBuildingTemplates: []
     MaxFloors: 5
     MinFloors: 1
     minAttachmentChance: 0
@@ -332,22 +315,12 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
-    districtPosters:
-    - {fileID: 1000011684602676, guid: e9e083e33e611c646ad0e3a27010577f, type: 2}
-    - {fileID: 1000010371433140, guid: 2596129558d54034fbe309daf20da20e, type: 2}
-    - {fileID: 1000011670615782, guid: a9c53abf065ccd34f998a05524a1d085, type: 2}
-    - {fileID: 1000011416309050, guid: cb110b039787ac84a9cd95be5d8f9f45, type: 2}
-    - {fileID: 1000010915934632, guid: 1c8122ad6ac7eeb4192ccc805e5486f7, type: 2}
-    - {fileID: 1000013218950874, guid: 0ffe2fc133cb0594f94d87a30b18bab9, type: 2}
   - districtName: shopping
     WeenieBuildingTemplate: {fileID: 1000012475015072, guid: a56d8459f0ab6b6489682f438e4bb632,
       type: 2}
     Doors:
-    - {fileID: 1000012658179278, guid: 769a1faf4799b074a9d5f941b5167f1b, type: 2}
-    - {fileID: 1000014010784418, guid: c305f986c65e0bb408e703e146d6ca46, type: 2}
-    - {fileID: 1000013599154026, guid: 6c4c2510ad3d19644b12bdb7cf8b1c87, type: 2}
-    Shelters:
-    - {fileID: 1000012883835142, guid: 5e5de6defc0f04008beaa8b15def9938, type: 2}
+    - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
+    AdditionalBuildingTemplates: []
     MaxFloors: 8
     MinFloors: 3
     minAttachmentChance: 0
@@ -478,22 +451,12 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
-    districtPosters:
-    - {fileID: 1000010915934632, guid: 1c8122ad6ac7eeb4192ccc805e5486f7, type: 2}
-    - {fileID: 1000010371433140, guid: 2596129558d54034fbe309daf20da20e, type: 2}
-    - {fileID: 1000011684602676, guid: e9e083e33e611c646ad0e3a27010577f, type: 2}
-    - {fileID: 1000011670615782, guid: a9c53abf065ccd34f998a05524a1d085, type: 2}
-    - {fileID: 1000011416309050, guid: cb110b039787ac84a9cd95be5d8f9f45, type: 2}
-    - {fileID: 1000013218950874, guid: 0ffe2fc133cb0594f94d87a30b18bab9, type: 2}
   - districtName: business
     WeenieBuildingTemplate: {fileID: 1000014284608772, guid: 7cded61ac185fec42bb5927b4b556f9e,
       type: 2}
     Doors:
-    - {fileID: 1000012658179278, guid: 769a1faf4799b074a9d5f941b5167f1b, type: 2}
-    - {fileID: 1000014010784418, guid: c305f986c65e0bb408e703e146d6ca46, type: 2}
-    - {fileID: 1000013599154026, guid: 6c4c2510ad3d19644b12bdb7cf8b1c87, type: 2}
-    Shelters:
-    - {fileID: 1000012883835142, guid: 5e5de6defc0f04008beaa8b15def9938, type: 2}
+    - {fileID: 1000010926581188, guid: 984623f6445d945dd9ab23dbf3bd7775, type: 2}
+    AdditionalBuildingTemplates: []
     MaxFloors: 8
     MinFloors: 3
     minAttachmentChance: 0
@@ -624,13 +587,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
-    districtPosters:
-    - {fileID: 1000010915934632, guid: 1c8122ad6ac7eeb4192ccc805e5486f7, type: 2}
-    - {fileID: 1000010371433140, guid: 2596129558d54034fbe309daf20da20e, type: 2}
-    - {fileID: 1000011684602676, guid: e9e083e33e611c646ad0e3a27010577f, type: 2}
-    - {fileID: 1000011670615782, guid: a9c53abf065ccd34f998a05524a1d085, type: 2}
-    - {fileID: 1000013218950874, guid: 0ffe2fc133cb0594f94d87a30b18bab9, type: 2}
-    - {fileID: 1000011416309050, guid: cb110b039787ac84a9cd95be5d8f9f45, type: 2}
 --- !u!114 &114000013616052872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -663,7 +619,7 @@ MonoBehaviour:
     WeenieBuildingTemplate: {fileID: 100000, guid: 5e50794d6a3810a4fbdfc912c2f2e6f6,
       type: 3}
     Doors: []
-    Shelters: []
+    AdditionalBuildingTemplates: []
     MaxFloors: 1
     MinFloors: 1
     minAttachmentChance: 100
@@ -706,13 +662,6 @@ MonoBehaviour:
     - {fileID: 2100000, guid: f4c160b21e5385b4e933e0c9c9ae4cb7, type: 2}
     - {fileID: 2100000, guid: 52a93ec1c29c1254d857a20c09deb898, type: 2}
     - {fileID: 2100000, guid: 06621b41045298443a6c94a2c7b8c622, type: 2}
-    - {fileID: 2100000, guid: 05b05e8cd922b804c8f92da169e6829d, type: 2}
-    - {fileID: 2100000, guid: 21c659b9377eb304dadf72e50c5dae0d, type: 2}
-    - {fileID: 2100000, guid: af7413b900cc8dd439e2fb7127b323ca, type: 2}
-    - {fileID: 2100000, guid: 41b954197c4205440a97af5819fb2ecd, type: 2}
-    - {fileID: 2100000, guid: bf8152983f038814395354ad82e91b5c, type: 2}
-    - {fileID: 2100000, guid: 493bd609ae5a38b4182373c075b6b72d, type: 2}
-    - {fileID: 2100000, guid: 13775d9b82d164e41a11ba0b452be283, type: 2}
     districtWindowMaterials:
     - {fileID: 2100000, guid: 67d597f6c1f779a40b530b049978c114, type: 2}
     - {fileID: 2100000, guid: 450b1e3de4f440243a09a693bcf83c45, type: 2}
@@ -724,11 +673,6 @@ MonoBehaviour:
     - {fileID: 2100000, guid: aa5a858bff5b10444a5f3627fc70634c, type: 2}
     - {fileID: 2100000, guid: 6f43a5fbea6c68b4b9f19386fce97a71, type: 2}
     - {fileID: 2100000, guid: e96f0d8a3eae8d34ba0ee36e77d9c536, type: 2}
-    - {fileID: 2100000, guid: a075ff058b240c640824de4308849866, type: 2}
-    - {fileID: 2100000, guid: eb820b5416ad08d4683e5a6fd246d84d, type: 2}
-    - {fileID: 2100000, guid: a73f8549665b3b8459aa91f8694cce04, type: 2}
-    - {fileID: 2100000, guid: f18c679bb7767a04f8ae5aa42a9a0249, type: 2}
-    - {fileID: 2100000, guid: 4f6597e010c06094c9e057a5297d4746, type: 2}
     materialAlbedoColors:
       key0:
         serializedVersion: 2
@@ -827,7 +771,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     windowWasherStartUpChance: 30
-    districtPosters: []
   TestSize: 2
   TestStoriesTall: 5
   TestAttatchmentPercentage: 20

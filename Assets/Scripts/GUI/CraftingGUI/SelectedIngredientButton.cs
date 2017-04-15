@@ -33,16 +33,6 @@ public class SelectedIngredientButton : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Gets or sets the associated stack identifier.
-	/// </summary>
-	/// <value>The associated stack identifier.</value>
-	public string AssociatedStackId
-	{
-		get;
-		set;
-	}
-
-	/// <summary>
 	/// Sets up class.
 	/// </summary>
 	/// <param name="source">Source.</param>

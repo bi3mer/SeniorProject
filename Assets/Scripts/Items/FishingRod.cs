@@ -1,11 +1,13 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(BezierLine))]
 public class FishingRod : Tool
 {
+    [SerializeField]
+    [BaseItemPopup]
+    private string toolName;
+
     // TODO: Animations
 
     [Header("Casting Settings")]
@@ -31,27 +33,12 @@ public class FishingRod : Tool
         ToolName = toolName;
 	}
 
-	/// <summary>
-	/// Sets up the tool so that it is linked to the proper item in the inventory.
-	/// </summary>
-	/// <param name="itemForTool">Item for tool.</param>
-	public override void SetUpTool(BaseItem itemForTool)
-	{
-		List<ItemAction> actions = new List<ItemAction>();
-		FishingRodCategory fishingCategory = (FishingRodCategory) itemForTool.GetItemCategoryByClass(typeof(FishingRodCategory));
-
-	 	ItemAction unequipAction = new ItemAction(unequipActName, new UnityAction(fishingCategory.UnEquip));
-		actions.Add(unequipAction);
-
-		GuiInstanceManager.EquippedItemGuiInstance.SetEquipped(itemForTool.InventorySprite, actions);
-	}
-
     /// <summary>
     /// Updating fishing rod and line.
     /// </summary>
     void FixedUpdate ()
     {
-        updateFishingLine();
+        UpdateFishingLine();
     }
 
     /// <summary>
@@ -66,7 +53,7 @@ public class FishingRod : Tool
         private set
         {
             InUse = value;
-            setFishingLineActive(value);
+            SetFishingLineActive(value);
         }
     }
 
@@ -88,15 +75,15 @@ public class FishingRod : Tool
     {
         if (WasCast)
         {
-            reel();
+            Reel();
         }
         else if (CanCast)
         {
-            cast();
+            Cast();
         }
         else
         {
-            fail();
+            Fail();
         }
     }
 
@@ -119,10 +106,7 @@ public class FishingRod : Tool
         WasCast = false;
     }
 
-	/// <summary>
-	/// Reel this instance.
-	/// </summary>
-    private void reel ()
+    private void Reel ()
     {
 
         // TODO: Play reeling animation.
@@ -130,13 +114,10 @@ public class FishingRod : Tool
         fishingLure.Reel(transform.position);
         
         // Wait until reeling is done before saying the cast is done
-        StartCoroutine(waitToFinish());
+        StartCoroutine(WaitToFinish());
     }
 
-	/// <summary>
-	/// Cast this instance.
-	/// </summary>
-    private void cast ()
+    private void Cast ()
     {
         WasCast = true;
 
@@ -150,18 +131,12 @@ public class FishingRod : Tool
         fishingLure.Cast(force);
     }
 
-	/// <summary>
-	/// Fail this instance.
-	/// </summary>
-    private void fail ()
+    private void Fail ()
     {
         // TODO: Play fail animation
     }
 
-	/// <summary>
-	/// Updates the fishing line.
-	/// </summary>
-    private void updateFishingLine ()
+    private void UpdateFishingLine ()
     {
         // We don't need to update unless we using the fishing line
         if (!WasCast)
@@ -186,24 +161,16 @@ public class FishingRod : Tool
         line.ControlPoint = control;
     }
 
-	/// <summary>
-	/// Sets the fishing line active.
-	/// </summary>
-	/// <param name="value">If set to <c>true</c> value.</param>
-    private void setFishingLineActive(bool value)
+    private void SetFishingLineActive(bool value)
     {
         // hide or show the fishing line and fishing lure
         line.RendererComponent.enabled = value;
         fishingLure.gameObject.SetActive(value);
     }
 
-	/// <summary>
-	/// Waits to finish.
-	/// </summary>
-	/// <returns>The to finish.</returns>
-    private IEnumerator waitToFinish()
+    private IEnumerator WaitToFinish()
     {
-        // Check each frame to see if reeling is complete
+        // Check each fram to see if reeling is complete
         while (WasCast)
         {
             if (!fishingLure.IsReeling)

@@ -16,6 +16,6 @@ public class EndingTrigger : MonoBehaviour
     /// <param name="other"></param>
     void OnTriggerEnter (Collider other)
     {
-    	endingController.EndingTrigger(other, deathTrigger);
+        endingController.EndingTrigger(other, deathTrigger);
     }
 }

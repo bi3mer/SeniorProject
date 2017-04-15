@@ -48,25 +48,5 @@ public class RandomUtility
 		}
     }
 
-    /// <summary>
-	/// Generates a random Vector2
-    /// </summary>
-    /// <returns>The vector.</returns>
-    /// <param name="min">Minimum.</param>
-    /// <param name="max">Max.</param>
-    public static Vector2 RandomVector2d(Vector2 min, Vector2 max)
-    {
-    	return new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.x));
-    }
 
-    /// <summary>
-	/// Generates a random Vector3
-    /// </summary>
-    /// <returns>The vector3d.</returns>
-    /// <param name="min">Minimum.</param>
-    /// <param name="max">Max.</param>
-    public static Vector3 RandomVector3d(Vector3 min, Vector3 max)
-    {
-    	return new Vector3(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z));
-    }
 }

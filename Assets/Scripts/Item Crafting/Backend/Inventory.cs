@@ -20,7 +20,7 @@ public class Inventory
 	private string inventoryName;
 
 	// Contents of the inventory keyed by their name
-	protected ItemStack[] contents;
+	protected Stack[] contents;
 
 	private InventoryYamlParser parser;
 
@@ -33,7 +33,7 @@ public class Inventory
 	/// <param name="size">Size.</param>
 	public Inventory(string name, int size)
 	{
-		contents = new ItemStack[size];
+		contents = new Stack[size];
 		inventoryName = name;
 		InventorySize = size;
 		itemCountByType = new Dictionary<string, int>();
@@ -51,7 +51,7 @@ public class Inventory
 	/// <param name="inventoryFile">Inventory file.</param>
 	public Inventory(string name, string inventoryFile, int size)
 	{
-		contents = new ItemStack[inventorySize];
+		contents = new Stack[inventorySize];
 		inventoryName = name;
 
 		parser = new InventoryYamlParser(inventoryFile);
@@ -94,7 +94,7 @@ public class Inventory
 
 				item.SetUpBaseItem ();
 
-				ItemStack stack = new ItemStack(item, inventoryInfo[i].ItemAmount,  Guid.NewGuid().ToString("N"));
+				Stack stack = new Stack(item, inventoryInfo[i].ItemAmount,  Guid.NewGuid().ToString("N"));
 				contents[i] = stack;
 			}
 			else
@@ -108,7 +108,7 @@ public class Inventory
 	/// Gets the contents of the inventory.
 	/// </summary>
 	/// <returns>The inventory.</returns>
-	public ItemStack[] GetInventory()
+	public Stack[] GetInventory()
 	{
 		return contents;
 	}
@@ -157,10 +157,10 @@ public class Inventory
 	/// <returns>The stacks.</returns>
 	/// <param name="name">Name of the item.</param>
 	/// <param name="amount">Amount of the item to get.</param>
-	public List<ItemStack> GetStacks(string name, int amount)
+	public List<Stack> GetStacks(string name, int amount)
 	{
 		int currentAmount = 0;
-		List<ItemStack> stacksNeeded = new List<ItemStack> ();
+		List<Stack> stacksNeeded = new List<Stack> ();
 
 		for (int i = 0; i < contents.Length; ++i) 
 		{
@@ -211,26 +211,16 @@ public class Inventory
 	/// </summary>
 	/// <returns>The items by type.</returns>
 	/// <param name="type">Type.</param>
-    public List<string> GetItemsByType(List<string> types)
+    public List<string> GetItemsByType(string type)
     {
     	List<string> desiredItems = new List<string>();
-    	bool match = false;
 
     	for(int i = 0; i < contents.Length; ++i)
     	{
-    		match = false;
-
-    		if(contents[i] != null && !desiredItems.Contains(contents[i].Item.ItemName))
+    		if(contents[i] != null && contents[i].Item.Types.Contains(type))
     		{
-	    		for(int j = 0; j < types.Count && !match; ++j)
-	    		{
-		    		if(contents[i].Item.Types.Contains(types[j]))
-		    		{
-		    			desiredItems.Add(contents[i].Item.ItemName);
-		    			match = true;
-		    		}
-		    	}
-		    }
+    			desiredItems.Add(contents[i].Item.ItemName);
+    		}
     	}
 
     	return desiredItems;
@@ -242,10 +232,10 @@ public class Inventory
 	/// <returns>The added item.</returns>
 	/// <param name="newItem">New item.</param>
 	/// <param name="amount">Amount.</param>
-	public ItemStack AddItem(BaseItem newItem, int amount)
+	public Stack AddItem(BaseItem newItem, int amount)
 	{
 		int loc = GetNextOpenSlot ();
-		contents[loc] = new ItemStack(newItem, amount, Guid.NewGuid().ToString("N"));
+		contents[loc] = new Stack(newItem, amount, Guid.NewGuid().ToString("N"));
 		UpdateTypeAmount(newItem.Types, amount);
 
 		return contents[loc];
@@ -255,7 +245,7 @@ public class Inventory
 	/// Removes the item from the inventory.
 	/// </summary>
 	/// <param name="stack">Item to remove.</param>
-	public void RemoveStack(ItemStack stack)
+	public void RemoveStack(Stack stack)
 	{
 		for (int i = 0; i < contents.Length; ++i) 
 		{
@@ -278,9 +268,9 @@ public class Inventory
 	/// </summary>
 	/// <returns>All items with tag.</returns>
 	/// <param name="itemTag">Tag that contains desired items.</param>
-	public List<ItemStack> GetAllItemsWithTag(string itemTag)
+	public List<Stack> GetAllItemsWithTag(string itemTag)
 	{
-		List<ItemStack> result = new List<ItemStack> ();
+		List<Stack> result = new List<Stack> ();
 
 		for (int i = 0; i < contents.Length; ++i) 
 		{
@@ -302,7 +292,7 @@ public class Inventory
 	/// </summary>
 	/// <param name="current">Current.</param>
 	/// <param name="target">Target.</param>
-	public void CombineStacks(ItemStack current, ItemStack target)
+	public void CombineStacks(Stack current, Stack target)
 	{
 		if (target.Amount + current.Amount <= inventorySize) 
 		{
