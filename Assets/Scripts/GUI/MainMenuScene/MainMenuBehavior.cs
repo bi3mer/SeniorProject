@@ -57,6 +57,12 @@ public class MainMenuBehavior : MonoBehaviour
 		endCreditsPanel.SetActive (true);
 		settingsPanel.SetActive (false);
 		helpPanel.SetActive (false);
+
+		#if UNITY_EDITOR
+			UnityEditor.EditorApplication.isPlaying = false;
+		#else
+			Application.Quit();
+		#endif
 	}
 
 	/// <summary>

@@ -43,15 +43,20 @@ public class PickUpItem : InteractableObject
 	/// </summary>
 	public override void SetUp()
 	{
-		base.SetUp();
+		if(!setupComplete)
+		{
+			base.SetUp();
 
-		SetAction
-		(
-			delegate 
-			{ 
-				pickUp(); 
-			}
-		);
+			SetAction
+			(
+				delegate 
+				{ 
+					pickUp(); 
+				}
+			);
+
+			setupComplete = true;
+		}
 	}
 
 	/// <summary>
