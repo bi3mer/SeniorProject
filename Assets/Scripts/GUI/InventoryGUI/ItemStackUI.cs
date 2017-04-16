@@ -195,12 +195,13 @@ public class ItemStackUI : MonoBehaviour
 		{
 			targetStack.Item.DirtyFlag = false;
 
-			ItemStack addedItem = GuiInstanceManager.InventoryUiInstance.TargetInventory.AddItem (targetStack.Item, targetStack.Amount);
+			List<ItemStack> addedItem = GuiInstanceManager.InventoryUiInstance.TargetInventory.AddItem (targetStack.Item, targetStack.Amount);
 
-			if(addedItem != null)
+			if(addedItem.Count > 0)
 			{
 				GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
-				ItemStackUI createdStack = GuiInstanceManager.InventoryUiInstance.GetStackUI(addedItem.Id);
+				// open the first stack created
+				ItemStackUI createdStack = GuiInstanceManager.InventoryUiInstance.GetStackUI(addedItem[0].Id);
 				GuiInstanceManager.ItemAmountPanelInstance.OpenItemDetailPanel(createdStack.gameObject);
 
 				createdNewItem = true;
@@ -231,7 +232,7 @@ public class ItemStackUI : MonoBehaviour
 		else if(targetStack.Item.DiscardFlag)
 		{
 			GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(targetStack);
-			GuiInstanceManager.InventoryUiInstance.TargetInventory.UpdateTypeAmount(targetStack.Item.Types, originalStack.Amount - targetStack.Amount);
+			GuiInstanceManager.InventoryUiInstance.TargetInventory.UpdateTypeAmount(targetStack.Item.Types, -targetStack.Amount);
 			targetStack = originalStack;
 		}
 		else if(targetStack.Item.RemovalFlag)
