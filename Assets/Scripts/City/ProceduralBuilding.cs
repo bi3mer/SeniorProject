@@ -97,6 +97,8 @@ public class ProceduralBuilding : Building
         	                   AttachmentInformation[i].District, prespawn);
         }
 
+		LoadAttachments();
+
         IsLoaded = true;
     }
 
@@ -136,5 +138,19 @@ public class ProceduralBuilding : Building
         poster.transform.eulerAngles += new Vector3(0f, 0f, Random.Range(-spawner.PosterRotationModMax, spawner.PosterRotationModMax));
 
 		return attachment;
+    }
+
+    /// <summary>
+    /// Loads the attachments.
+    /// </summary>
+    public void LoadAttachments()
+    {
+		bool prespawn;
+		for(int i = 0; i < Attachments.Length; ++i)
+        {
+			prespawn = (AttachmentInformation[i].Type == ItemPlacementSamplePoint.PointType.SHELTER);
+        	generateAttachment(Attachments[i], AttachmentInformation[i].WorldSpaceLocation, AttachmentInformation[i].Size, 
+        	                   AttachmentInformation[i].District, prespawn);
+        }
     }
 }
