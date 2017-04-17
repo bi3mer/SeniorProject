@@ -13,10 +13,16 @@
 		ItemFactoryInstance = new ItemFactory();
 		GameSettingsInstance = new GameSettings ();
 		Scheme = GameSettingsInstance.Scheme;
-        Loader = new GameLoader();
         DeathManagerInstance = new DeathManager();
 		announcementFactoryInstance = new AnnouncementFactory ();
 		WeatherInstance = new WeatherSystem(this.CityBounds, PauseInstance);
+
+        Loader = new GameLoader();
+        Loader.GameLoadedEvent += () => {
+            PauseInstance.Resume();
+        };
+
+        PauseInstance.Pause();
     }
 
     /// <summary>
@@ -24,6 +30,9 @@
     /// </summary>
     public void Reset ()
     {
+		// stop all sounds so they can be started again
+		FMODUnity.RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+
         PlayerInstance.ResetStatus();
     }
  

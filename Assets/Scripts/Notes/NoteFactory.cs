@@ -8,7 +8,10 @@ public class NoteFactory
 	private Dictionary<string, GameObject> worldNoteTemplates;
 	private const string worldObjectLocation = "ITM/Notes/ITM_NoteBook";
 	private const string triggerObjectLocation = "ItemGeneration/InteractableText";
-	private const string noteFileName = "NoteListYaml.yml";
+	private const string noteFileName = "Notes.yml";
+
+	[SerializeField]
+	private Vector3 defaultpos = new Vector3(-143.9574f, 0.6875932f, 62.05219f);
 
 	private GameObject triggerObjectPrefab;
 
@@ -54,6 +57,7 @@ public class NoteFactory
 		// create the object with the model
 		GameObject item = GameObject.Instantiate (worldNoteTemplates[noteToCreate.WorldModel]);
 		item.name = noteToCreate.Title;
+		item.transform.position = defaultpos;
 
 		// creates the trigger object that will handle interaction with player
 		GameObject textObject = GameObject.Instantiate(triggerObjectPrefab);

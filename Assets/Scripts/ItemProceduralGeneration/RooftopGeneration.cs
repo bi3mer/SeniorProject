@@ -14,6 +14,11 @@ public class RooftopGeneration: ItemGenerator
 	[Range(0, 1)]
     private float doorGenerationChance;
 
+    [SerializeField]
+    [Tooltip("Likelihood of a rooftop having a shelter, from 0 to 1")]
+    [Range(0, 1)]
+    private float shelterGenerationChance;
+
 	/// <summary>
 	/// Generator that creates the points to place objects
 	/// </summary>
@@ -39,41 +44,67 @@ public class RooftopGeneration: ItemGenerator
 	}
 
 	/// <summary>
+	/// Adds the doors to district.
+	/// </summary>
+	/// <param name="doors">Doors.</param>
+	/// <param name="doorExtents">Door extents.</param>
+	/// <param name="district">District.</param>
+	public void AddDoorsToDistrict(List<GameObject> doors, List<float> doorExtents, string district)
+	{
+		districtItemInfo[district].DoorExtents = doorExtents;
+		districtItemInfo[district].DoorTemplates = doors;
+	}
+
+	/// <summary>
+	/// Adds the shelters to district.
+	/// </summary>
+	/// <param name="shelters">Shelters.</param>
+	/// <param name="shelterExtents">Shelter extents.</param>
+	/// <param name="district">District.</param>
+	public void AddSheltersToDistrict(List<GameObject> shelters, List<float> shelterExtents, string district)
+	{
+		districtItemInfo[district].ShelterExtents = shelterExtents;
+		districtItemInfo[district].ShelterTemplates = shelters;
+	}
+
+	/// <summary>
 	/// Populates the rooftop of a building.
 	/// </summary>
-	/// <param name="bound">Bound.</param>
-	/// <param name="center">Center.</param>
+	/// <param name="building">Building information.</param>
 	/// <param name="district">District.</param>
-	/// <param name="doorExtents">Door extents.</param>
-	/// <param name="doorTemplates">Door templates.</param>
-	/// <param name="currentBuilding">Current Building GameObject.</param>
-	public void PopulateRoof(Bounds bound, Vector3 center, string district, List<float> doorExtents, List<GameObject> doorTemplates, GameObject currentBuilding)
+	public void PopulateRoof(Building building, string district)
 	{
 		float itemChance;
 		float doorChance;
+		float shelterChance;
+
 		List<ItemPlacementSamplePoint> points;
 
 		// check to see if this building will have objects on its roof
 		itemChance = Random.value;
 		doorChance = Random.value;
+		shelterChance = Random.value;
+
 		bool hasDoor = false;
+		bool hasShelter = false;
 
 		if (itemChance < itemGenerationChance) 
 		{
-			if(doorChance < doorGenerationChance && doorTemplates.Count > 0)
+			if(doorChance < doorGenerationChance && districtItemInfo[district].DoorTemplates.Count > 0)
 			{
-				points = generator.GetValidPoints (bound, center, districtItemInfo[district], district, doorExtents, doorTemplates, true);
 				hasDoor = true;
 			}
-			else
+			else if(shelterChance < shelterGenerationChance && districtItemInfo[district].ShelterTemplates.Count > 0)
 			{
-				points = generator.GetValidPoints (bound, center, districtItemInfo[district], district, doorExtents, doorTemplates, false);
+				hasShelter = true;
 			}
+
+			points = generator.GetValidPoints (building.BoundingBox, building.Position, districtItemInfo[district], district, hasDoor, hasShelter);
 
 			if (points.Count > 0) 
 			{
 				// for now, all roofs with items will have doors
-				generateObjects(hasDoor, district, points, doorTemplates, currentBuilding);
+				generateObjects(district, points, building);
 			}
 		}
 	}
@@ -81,51 +112,34 @@ public class RooftopGeneration: ItemGenerator
 	/// <summary>
 	/// Generates the objects that needs to be placed on the building's surface.
 	/// </summary>
-	/// <param name="hasDoor">If set to <c>true</c>, there is a door that needs to be created.</param>
 	/// <param name="district">Name of the district for which generation is occuring.</param>
 	/// <param name="points">Points.</param>
 	/// <param name="currentBuilding">Current Building GameObject.</param>
-	private void generateObjects(bool hasDoor, string district, List<ItemPlacementSamplePoint> points, List<GameObject> doorTemplates, GameObject currentBuilding)
+	private void generateObjects(string district, List<ItemPlacementSamplePoint> points, Building currentBuilding)
 	{
-		int startingIndex = 0;
 		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
-	
-		// if there is a door, it will always be the first point returned
-		if (hasDoor) 
-		{
-			generateDoor(doorTemplates[points[0].ItemIndex], points[0].WorldSpaceLocation, district, currentBuilding);
-			++startingIndex;
-		}
+		List<GameObject> attachments = new List<GameObject>();
+		List<ItemPlacementSamplePoint> attachmentInformation = new List<ItemPlacementSamplePoint>();
 
-		for (int i = startingIndex; i < points.Count; ++i) 
+		for (int i = 0; i < points.Count; ++i) 
 		{
+			if(points[i].Type == ItemPlacementSamplePoint.PointType.DOOR)
+			{
+				attachments.Add(districtItemInfo[district].DoorTemplates[points[i].ItemIndex]);
+				attachmentInformation.Add(points[i]);
+			}
+			else if(points[i].Type == ItemPlacementSamplePoint.PointType.SHELTER)
+			{
+				attachments.Add(districtItemInfo[district].ShelterTemplates[points[i].ItemIndex]);
+				attachmentInformation.Add(points[i]);
+			}
 			if(points[i].ItemIndex < districtItemInfo[points[i].District].ItemNames.Count)
 			{
 				poolManager.AddToGrid(points[i].WorldSpaceLocation, districtItemInfo[points[i].District].ItemNames[points[i].ItemIndex], false);
 			}
 		}
-	}
 
-	/// <summary>
-	/// Generates a door gameobject and places it in the world.
-	/// </summary>
-	/// <param name="doorTemplate">Door template.</param>
-	/// <param name="location">Location.</param>
-	/// <param name="district">District.</param>
-	/// <param name="currentBuilding">Current Building GameObject.</param>
-	private void generateDoor(GameObject doorTemplate, Vector3 location, string district, GameObject currentBuilding)
-	{
-		GameObject door = GameObject.Instantiate(doorTemplate);
-
-		door.SetActive(true);
-		Transform doorTransform = door.transform;
-		doorTransform.position = location;
-		doorTransform.SetParent(currentBuilding.transform, true);
-
-		// door will only be rotated in 4 ways -- 0, 90, 180, and 270 degrees. A random number from 0 to 3 is generated and multiplied by 90  degrees
-		doorTransform.rotation = Quaternion.Euler(doorTransform.eulerAngles.x, Random.Range(0, 4) * 90, doorTransform.eulerAngles.z);
-
-		// since spawning of items may occur immediately, make sure that door is positioned properly before spawner set up is called
-		door.GetComponent<ItemSpawner>().SetUpSpawner(calculateBounds(door), district);
+		currentBuilding.Attachments = attachments.ToArray();
+		currentBuilding.AttachmentInformation = attachmentInformation.ToArray();
 	}
 }

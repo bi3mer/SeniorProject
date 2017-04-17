@@ -123,7 +123,7 @@ public abstract class CreatureSpawner : MonoBehaviour
 	{
 		if(this.creatureManager != null)
 		{
-			this.creatureManager.CheckCreaturePosiitons(this.maxSpawnRadius);
+			this.creatureManager.UpdateCreatureInfo(this.maxSpawnRadius, this.waterLevelOffset);
 			this.creatureManager.UpdateCreatureCount(this.findSpawnLocation(), this.getRandomCreature());
 		}
 	}

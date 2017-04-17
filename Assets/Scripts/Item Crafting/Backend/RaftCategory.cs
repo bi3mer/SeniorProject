@@ -64,7 +64,7 @@ public class RaftCategory : ItemCategory
     public void SetDown()
     {
         // create the object with the model
-        GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem, 1);
+        GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem);
         RaftInteractable raft = item.AddComponent<RaftInteractable>();
 
         raft.Raft = this;
@@ -76,7 +76,6 @@ public class RaftCategory : ItemCategory
         Vector3 playerPos = Game.Instance.PlayerInstance.Controller.PlayerAnimator.transform.position;
         Vector3 playerDir = Game.Instance.PlayerInstance.Controller.PlayerAnimator.transform.forward;
         item.transform.position = playerPos + playerDir * itemDist;
-        Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
 
         SetActionComplete(setDownActName);
 

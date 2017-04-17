@@ -24,6 +24,7 @@ public class IngredientButtonBehavior : MonoBehaviour
 	private Color originalColor;
 	private Image buttonImage;
 	private Button button;
+	private string associatedStackId;
 
 	/// <summary>
 	/// Delegate function that takes in a baseItem
@@ -31,9 +32,12 @@ public class IngredientButtonBehavior : MonoBehaviour
 	public delegate void UpdateIngredientEvent (); 
 
 	/// <summary>
-	/// Subscribes to name change event
+	/// Sets up ingredient.
 	/// </summary>
-	public void SetUpIngredient(string name, int amount)
+	/// <param name="name">Name of item.</param>
+	/// <param name="amount">Amount of item.</param>
+	/// <param name="stackId">Stack identifier of the stack this represents.</param>
+	public void SetUpIngredient(string name, int amount, string stackId)
 	{
 		itemNameText.text = name;
 		itemAmountText.text = amount.ToString();
@@ -44,6 +48,7 @@ public class IngredientButtonBehavior : MonoBehaviour
 		button = GetComponent<Button>();
 
 		originalColor = buttonImage.color;
+		associatedStackId = stackId;
 	}
 
 	/// <summary>
@@ -71,6 +76,7 @@ public class IngredientButtonBehavior : MonoBehaviour
 			selectedButton.gameObject.SetActive(true);
 			selectedButton.SetUpSelection(this, itemNameText.text);
 			selectedButton.transform.SetParent(selectedIngredientsPanel.transform, false);
+			selectedButton.AssociatedStackId = associatedStackId;
 		}
 	}
 
