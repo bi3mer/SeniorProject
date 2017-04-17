@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 /// <summary>
 /// Defines the inventory of items the player can access. Currently just considers all the gameobjects parented under item parent
@@ -94,6 +95,7 @@ public class Inventory
 
 				item.SetUpBaseItem ();
 
+				// ToString("N") is used to specify that a 32 bit number is being converted into a string
 				ItemStack stack = new ItemStack(item, inventoryInfo[i].ItemAmount,  Guid.NewGuid().ToString("N"));
 				contents[i] = stack;
 			}
@@ -244,8 +246,28 @@ public class Inventory
 	/// <param name="amount">Amount.</param>
 	public ItemStack AddItem(BaseItem newItem, int amount)
 	{
-		int loc = GetNextOpenSlot ();
-		contents[loc] = new ItemStack(newItem, amount, Guid.NewGuid().ToString("N"));
+		int amountRemaining = amount;
+		int loc = 0;
+
+		for (int i = 0; i < contents.Length && amountRemaining > 0; ++i) 
+		{
+			if(contents[i] != null)
+			{
+				if (contents[i].Item.ItemName.Equals(newItem.ItemName)) 
+				{
+					amountRemaining = (contents[i].Amount + amount) - contents[i].MaxStackSize; 
+					contents[i].Amount += amount;
+					loc = i;
+				}
+			}
+		}
+
+		if(amountRemaining > 0)
+		{
+			loc = GetNextOpenSlot ();
+			contents[loc] = new ItemStack(newItem, amountRemaining, Guid.NewGuid().ToString("N"));
+		}
+
 		UpdateTypeAmount(newItem.Types, amount);
 
 		return contents[loc];

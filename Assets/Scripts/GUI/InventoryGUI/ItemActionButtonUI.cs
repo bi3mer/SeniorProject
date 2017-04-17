@@ -31,7 +31,7 @@ public class ItemActionButtonUI : MonoBehaviour
 		if(subActions == null || subActions.Count < 1)
 		{
 			// this is a button which should execute an item action
-			// thus it should first allow the player to select how manny items should be affected by this action
+			// thus it should first allow the player to select how many items should be affected by this action
 			GuiInstanceManager.ItemAmountPanelInstance.ChooseNumOfItemsToAffect(this);
 		}
 		else
@@ -49,7 +49,7 @@ public class ItemActionButtonUI : MonoBehaviour
 	public void PerformAction()
 	{
 		GuiInstanceManager.ItemStackDetailPanelInstance.ClearSubActionPanel ();
-		action ();
+        action();
 		GuiInstanceManager.ItemStackDetailPanelInstance.RefreshItemPanel ();
 	}
 
