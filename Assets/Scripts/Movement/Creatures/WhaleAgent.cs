@@ -7,8 +7,20 @@ public class WhaleAgent : MonoBehaviour
 	[Tooltip("The speed that the whale moves")]
 	private float whaleSpeed = 1f;
 
+	/// <summary>
+	/// One of two targets that the whale will go back and forth between
+	/// </summary>
 	private Vector2 targetOne;
+
+	/// <summary>
+	/// Second of two targets that the whale will go back and forth between
+	/// </summary>
 	private Vector2 targetTwo;
+
+	/// <summary>
+	/// The current target, either targetOne or targetTwo, that the whale
+	/// is currently move to
+	/// </summary>
 	private Vector2 target;
 
 	/// <summary>
@@ -35,7 +47,7 @@ public class WhaleAgent : MonoBehaviour
 	/// </summary>
 	void Start()
 	{
-		// initiialize 3d targets
+		// initialize 3d targets
 		Vector3 firstTarget;
 		Vector3 secondTarget;
 
