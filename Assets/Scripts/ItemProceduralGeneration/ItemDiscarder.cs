@@ -5,9 +5,19 @@ using System.Collections.Generic;
 public class ItemDiscarder 
 {
 	// <summary>
-	/// The radius at which points will be placed around the player for discarding items
+	/// The location at which points will be placed in front of the player for discarding items
 	/// </summary>
-	private float discardRadius = 0.4f;
+	private Vector3 discardLocation;
+
+	/// <summary>
+	/// The discard distance from the player
+	/// </summary>
+	private const float discardDistance = 0.3f;
+
+	public ItemDiscarder()
+	{
+		discardLocation = Game.Player.WorldPosition + (Game.Player.Controller.PlayerAnimator.transform.forward * discardDistance);
+	}
 
 	/// <summary>
 	/// Discards the items from the inventory and places them in the world.
@@ -15,34 +25,26 @@ public class ItemDiscarder
 	/// <param name="itemsToDiscard">Items to discard.</param>
 	public void DiscardItems(List<ItemStack> itemsToDiscard)
 	{
-		float currentDiscardSlot = 0;
-		float angleIncrementations = 40;
-
-		// maxDiscardSlots is how points on the circle there are given the amount in which the angle increments
-		// a circle has 360 degrees, so the number of points is equal to 360 divided by the amount in which the angle increments
-		// however, at 360, the player has looped back to 0, so subtract the last slot, which will be considered to be 360, which equals 0
-		int maxDiscardSlots = Mathf.FloorToInt(360 / angleIncrementations) - 1;
-		Vector3 centerPos = Game.Instance.PlayerInstance.WorldTransform.position;
-		WorldItemFactory factory = Game.Instance.WorldItemFactoryInstance;
-
 		for (int i = 0; i < itemsToDiscard.Count; ++i)
 		{
-			GameObject item = factory.CreatePickUpInteractableItem(itemsToDiscard[i].Item, itemsToDiscard[i].Amount);
-			item.transform.position = new Vector3(centerPos.x + discardRadius * Mathf.Cos(Mathf.Deg2Rad *(angleIncrementations * currentDiscardSlot)),
-												  centerPos.y,
-												  centerPos.z + discardRadius * Mathf.Sin(Mathf.Deg2Rad * (angleIncrementations * currentDiscardSlot)));
-			item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
-
-			Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
-
-			++ currentDiscardSlot;
-
-			if(currentDiscardSlot > maxDiscardSlots)
-			{
-				currentDiscardSlot = 0;
-			}
+			DiscardItem(itemsToDiscard[i]);
 		}
 
 		itemsToDiscard.Clear();
+	}
+
+	/// <summary>
+	/// Discards an item.
+	/// </summary>
+	/// <param name="itemToDiscard">Item to discard.</param>
+	public void DiscardItem(ItemStack itemToDiscard)
+	{
+		Vector3 centerPos = Game.Instance.PlayerInstance.WorldTransform.position;
+
+		GameObject item = Game.Instance.WorldItemFactoryInstance.CreatePickUpInteractableItem(itemToDiscard.Item, itemToDiscard.Amount);
+		item.transform.position = discardLocation;
+		item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
+
+		Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
 	}
 }

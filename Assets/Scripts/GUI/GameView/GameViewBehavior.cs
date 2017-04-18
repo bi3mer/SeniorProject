@@ -118,6 +118,7 @@ public class GameViewBehavior : MonoBehaviour
 	{
 		OnInventoryOpen();
 		Game.Instance.PauseInstance.MenuPause ();
+
 		if (GuiInstanceManager.InventoryUiInstance != null) 
 		{
 			if (GuiInstanceManager.InventoryUiInstance.TargetInventory != null && GuiInstanceManager.InventoryUiInstance.TargetInventory != Game.Instance.PlayerInstance.Inventory) 

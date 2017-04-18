@@ -37,4 +37,9 @@ public static class GuiInstanceManager
 	/// The GUI handler that shows the equiped item.
 	/// </summary>
 	public static EquippedItemDropdown EquippedItemGuiInstance;
+
+	/// <summary>
+	/// The GUI that pops up to notify the player.
+	/// </summary>
+	public static PlayerNotification PlayerNotificationInsance;
 }

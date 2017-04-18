@@ -13,7 +13,7 @@ using UnityEngine;
 public class Inventory
 {
 	// Inventory size
-	private int inventorySize = 20;
+	private int inventorySize = 10;
 
 	// How many items there may be in a stack
 	private const int StackSize = 5;
@@ -244,10 +244,11 @@ public class Inventory
 	/// <returns>The added item.</returns>
 	/// <param name="newItem">New item.</param>
 	/// <param name="amount">Amount.</param>
-	public ItemStack AddItem(BaseItem newItem, int amount)
+	public List<ItemStack> AddItem(BaseItem newItem, int amount)
 	{
 		int amountRemaining = amount;
 		int loc = 0;
+		List<ItemStack> addedOrChangedStacks = new List<ItemStack>();
 
 		for (int i = 0; i < contents.Length && amountRemaining > 0; ++i) 
 		{
@@ -258,6 +259,7 @@ public class Inventory
 					amountRemaining = (contents[i].Amount + amount) - contents[i].MaxStackSize; 
 					contents[i].Amount += amount;
 					loc = i;
+					addedOrChangedStacks.Add(contents[i]);
 				}
 			}
 		}
@@ -265,12 +267,18 @@ public class Inventory
 		if(amountRemaining > 0)
 		{
 			loc = GetNextOpenSlot ();
-			contents[loc] = new ItemStack(newItem, amountRemaining, Guid.NewGuid().ToString("N"));
+
+			if(loc < contents.Length)
+			{
+				contents[loc] = new ItemStack(newItem, amountRemaining, Guid.NewGuid().ToString("N"));
+				UpdateTypeAmount(newItem.Types, amount);
+				addedOrChangedStacks.Add(contents[loc]);
+			}
 		}
 
 		UpdateTypeAmount(newItem.Types, amount);
 
-		return contents[loc];
+		return addedOrChangedStacks;
 	}
 
 	/// <summary>

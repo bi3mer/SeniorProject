@@ -2,8 +2,9 @@
 using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 
-public class SicknessNotification : MonoBehaviour
+public class PlayerNotification : MonoBehaviour
 {
     [Header("Game Object Settings")]
     [SerializeField]
@@ -36,14 +37,16 @@ public class SicknessNotification : MonoBehaviour
     private string pneumoniaText;
     [SerializeField]
     private string noSicknessText;
+    [SerializeField]
+    private string inventoryFullText;
 
     private Vector2 endingAnchorMax;
     private Vector2 endingAnchorMin;
 
     private Vector3 startingPosition;
     private Vector3 endingPosition;
-    private Player player;
-    private PlayerHealthStatus prevStatus;
+
+    Dictionary<NotificationType, string> notificationsToTypes;
 
     /// <summary>
     /// Set starting position of the notification bar.
@@ -61,43 +64,34 @@ public class SicknessNotification : MonoBehaviour
         notificationBar.GetComponent<RectTransform>().anchorMin = endingAnchorMin;
         endingPosition = notificationBar.transform.localPosition;
 
+		notificationsToTypes = new Dictionary<NotificationType, string>();
+
+		notificationsToTypes.Add(NotificationType.STOMACH, foodPoisoningText);
+		notificationsToTypes.Add(NotificationType.PNEUMONIA, pneumoniaText);
+		notificationsToTypes.Add(NotificationType.CURE, noSicknessText);
+		notificationsToTypes.Add(NotificationType.INVENTORYFULL, inventoryFullText);
+
         // remove the notification bar before the loading screen finishes
         CloseNotification();
 
-        player = Game.Player;
+        GuiInstanceManager.PlayerNotificationInsance = this;
 	}
 	
 	/// <summary>
-    /// Drop down notification bar if player becomes sick.
-    /// </summary>
-	void Update ()
+	/// Shows the notification.
+	/// </summary>
+	/// <param name="notification">Type of notification.</param>
+	public void ShowNotification (NotificationType notification)
     {
-        // check for if there is a status change
-        if (prevStatus != player.HealthStatus)
+        // close the notification bar before changing text
+        if (notificationBar.transform.localPosition == endingPosition)
         {
-            // close the notification bar before changing text
-            if (notificationBar.transform.localPosition == endingPosition)
-            {
-                CloseNotification();
-            }
-
-            if (player.HealthStatus == PlayerHealthStatus.FoodPoisoning)
-            {
-                text.text = foodPoisoningText;
-            }
-            else if (player.HealthStatus == PlayerHealthStatus.Pneumonia)
-            {
-                text.text = pneumoniaText;
-            }
-            else
-            {
-                text.text = noSicknessText;
-            }
-       
-            notificationBar.transform.DOLocalMove(endingPosition, enterTime);
+            CloseNotification();
         }
 
-        prevStatus = player.HealthStatus;
+		text.text = notificationsToTypes[notification];
+   
+        notificationBar.transform.DOLocalMove(endingPosition, enterTime);
     }
 
     /// <summary>
