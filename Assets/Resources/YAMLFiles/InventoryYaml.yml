@@ -76,7 +76,7 @@
        - "GUI_ITM_Basket"
      itemCategories: 
        - !!solid
-         flexibility: 1.0
+         flexibility: 4
          durability: 0.5
          elasticity: 0.6
          stickiness: 0.1
