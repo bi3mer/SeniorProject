@@ -134,5 +134,20 @@ namespace RootMotion {
 			float dist = dot / normalDot;
 			return origin + direction.normalized * dist;
 		}
+
+		/// <summary>
+		/// Projects a point to a plane.
+		/// </summary>
+		public static Vector3 PointToPlane(Vector3 point, Vector3 planePosition, Vector3 planeNormal) {
+			if (planeNormal == Vector3.up) {
+				return new Vector3(point.x, planePosition.y, point.z);
+			}
+
+			Vector3 tangent = point - planePosition;
+			Vector3 normal = planeNormal;
+			Vector3.OrthoNormalize(ref normal, ref tangent);
+
+			return planePosition + Vector3.Project(point - planePosition, tangent);
+		}
 	}
 }

@@ -450,7 +450,7 @@ namespace FMODUnity
         {
             if (studioSystem != null && Settings.Instance.IsOverlayEnabled(fmodPlatform))
             {
-//                windowRect = GUI.Window(0, windowRect, DrawDebugOverlay, "FMOD Studio Debug");
+            //    windowRect = GUI.Window(0, windowRect, DrawDebugOverlay, "FMOD Studio Debug");
             }
         }
 

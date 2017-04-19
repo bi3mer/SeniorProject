@@ -1,5 +1,7 @@
 // Upgrade NOTE: replaced 'UNITY_INSTANCE_ID' with 'UNITY_VERTEX_INPUT_INSTANCE_ID'
 
+// Upgrade NOTE: replaced 'UNITY_INSTANCE_ID' with 'UNITY_VERTEX_INPUT_INSTANCE_ID'
+
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "TriplanarWaterFallback"
@@ -135,7 +137,7 @@ Shader "TriplanarWaterFallback"
 				V2F_SHADOW_CASTER;
 				float3 worldPos : TEXCOORD6;
 				float4 texcoords01 : TEXCOORD4;
-				UNITY_INSTANCE_ID
+				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 			v2f vert( appdata_full v )
 			{

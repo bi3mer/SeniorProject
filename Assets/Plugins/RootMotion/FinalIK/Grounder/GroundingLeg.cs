@@ -21,7 +21,7 @@ namespace RootMotion.FinalIK {
 			/// <summary>
 			/// Gets the current rotation offset of the foot.
 			/// </summary>
-			public Quaternion rotationOffset { get; private set; }
+			public Quaternion rotationOffset = Quaternion.identity;
 			/// <summary>
 			/// Returns true, if the leg is valid and initiated
 			/// </summary>
@@ -43,6 +43,8 @@ namespace RootMotion.FinalIK {
 			/// </summary>
 			public float IKOffset { get; private set; }
 
+			public bool invertFootCenter;
+
 			private Grounding grounding;
 			private float lastTime, deltaTime;
 			private Vector3 lastPosition;
@@ -57,6 +59,7 @@ namespace RootMotion.FinalIK {
 				this.transform = transform;
 				up = Vector3.up;
 				IKPosition = transform.position;
+				rotationOffset = Quaternion.identity;
 				
 				initiated = true;
 				OnEnable();
@@ -114,7 +117,9 @@ namespace RootMotion.FinalIK {
 				case Grounding.Quality.Simple:
 
 					heelHit = GetRaycastHit(Vector3.zero);
-					RaycastHit toeHit = GetRaycastHit(grounding.root.forward * grounding.footRadius + prediction);
+					Vector3 f = grounding.GetFootCenterOffset();
+					if (invertFootCenter) f = -f;
+					RaycastHit toeHit = GetRaycastHit(f + prediction);
 					RaycastHit sideHit = GetRaycastHit(grounding.root.right * grounding.footRadius * 0.5f);
 					
 					Vector3 planeNormal = Vector3.Cross(toeHit.point - heelHit.point, sideHit.point - heelHit.point).normalized;
@@ -125,8 +130,7 @@ namespace RootMotion.FinalIK {
 				
 				// The slowest, raycast and a capsule cast
 				case Grounding.Quality.Best:
-
-					heelHit = GetRaycastHit(Vector3.zero);
+					heelHit = GetRaycastHit(invertFootCenter? -grounding.GetFootCenterOffset(): Vector3.zero);
 					RaycastHit capsuleHit = GetCapsuleHit(prediction);
 
 					SetFootToPlane(capsuleHit.normal, capsuleHit.point, heelHit.point);
@@ -166,7 +170,9 @@ namespace RootMotion.FinalIK {
 			// Get predicted Capsule hit from the middle of the foot
 			private RaycastHit GetCapsuleHit(Vector3 offsetFromHeel) {
 				RaycastHit hit = new RaycastHit();
-				Vector3 origin = transform.position + grounding.root.forward * grounding.footRadius;
+				Vector3 f = grounding.GetFootCenterOffset ();
+				if (invertFootCenter) f = -f;
+				Vector3 origin = transform.position + f;
 				hit.point = origin - up * grounding.maxStep * 2f;
 				hit.normal = up;
 				
@@ -175,7 +181,14 @@ namespace RootMotion.FinalIK {
 				// End point of the capsule depending on the foot's velocity.
 				Vector3 capsuleEnd = capsuleStart + offsetFromHeel;
 
-				Physics.CapsuleCast(capsuleStart, capsuleEnd, grounding.footRadius, -up, out hit, grounding.maxStep * 3, grounding.layers);
+				if (Physics.CapsuleCast(capsuleStart, capsuleEnd, grounding.footRadius, -up, out hit, grounding.maxStep * 3, grounding.layers)) {
+
+					// Safeguarding from a CapsuleCast bug in Unity that might cause it to return NaN for hit.point when cast against large colliders.
+					if (float.IsNaN(hit.point.x)) {
+						hit.point = origin - up * grounding.maxStep * 2f;
+						hit.normal = up;
+					}
+				}
 				return hit;
 			}
 			

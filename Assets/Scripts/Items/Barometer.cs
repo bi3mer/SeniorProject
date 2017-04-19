@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class Barometer : Tool
+public class Barometer : PlayerTool
 {
 	[Tooltip("Text component that displays barometer value.")]
 	[SerializeField]

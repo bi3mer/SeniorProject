@@ -14,18 +14,6 @@ namespace RootMotion.FinalIK {
 		[Tooltip("If 0.5, this Transform will be twisted half way from parent to child. If 1, the twist angle will be locked to the child and will rotate with along with it.")]
 		[Range(0f, 1f)] public float parentChildCrossfade = 0.5f;
 
-		[Tooltip("The parent Transform, does not need to be the actual transform.parent.")]
-		public Transform parent;
-
-		[Tooltip("The child Transform, does not need to be the direct child, you can skip bones in the hierarchy.")]
-		public Transform child;
-
-		[Tooltip("The local axis of this Transform that it will be twisted around (the axis pointing towards the parent).")]
-		public Vector3 twistAxis = Vector3.right;
-
-		[Tooltip("Another axis, orthogonal to twistAxis.")]
-		public Vector3 axis = Vector3.forward;
-
 		/// <summary>
 		/// Rotate this Transform to relax it's twist angle relative to the "parent" and "child" Transforms.
 		/// </summary>
@@ -56,9 +44,23 @@ namespace RootMotion.FinalIK {
 			child.rotation = childRotation;
 		}
 
+		private Vector3 twistAxis = Vector3.right;
+		private Vector3 axis = Vector3.forward;
 		private Vector3 axisRelativeToParentDefault, axisRelativeToChildDefault;
-		
+		private Transform parent;
+		private Transform child;
+
 		void Start() {
+			parent = transform.parent;
+			if (transform.childCount == 0) {
+				Debug.LogError("The Transform of a TwistRelaxer has no children. Can not use TwistRelaxer on that bone.");
+				return;
+			}
+			child = transform.GetChild(0);
+
+			twistAxis = transform.InverseTransformDirection(child.position - transform.position);
+			axis = new Vector3(twistAxis.y, twistAxis.z, twistAxis.x);
+
 			// Axis in world space
 			Vector3 axisWorld = transform.rotation * axis;
 

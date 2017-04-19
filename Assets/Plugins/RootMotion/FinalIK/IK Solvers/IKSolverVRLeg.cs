@@ -55,32 +55,32 @@ namespace RootMotion.FinalIK {
 			/// <summary>
 			/// Target position of the toe/foot. Will be overwritten if target is assigned.
 			/// </summary>
-			public Vector3 IKPosition { get; private set; }
+			[NonSerialized][HideInInspector] public Vector3 IKPosition;
 
 			/// <summary>
 			/// Target rotation of the toe/foot. Will be overwritten if target is assigned.
 			/// </summary>
-			public Quaternion IKRotation { get; private set; }
+			[NonSerialized][HideInInspector] public Quaternion IKRotation = Quaternion.identity;
 
 			/// <summary>
 			/// Position offset of the toe/foot. Will be applied on top of target position and reset to Vector3.zero after each update.
 			/// </summary>
-			[HideInInspector] public Vector3 footPositionOffset;
+			[NonSerialized][HideInInspector] public Vector3 footPositionOffset;
 
 			/// <summary>
 			/// Position offset of the heel. Will be reset to Vector3.zero after each update.
 			/// </summary>
-			[HideInInspector] public Vector3 heelPositionOffset;
+			[NonSerialized][HideInInspector] public Vector3 heelPositionOffset;
 
 			/// <summary>
 			/// Rotation offset of the toe/foot. Will be reset to Quaternion.identity after each update.
 			/// </summary>
-			[HideInInspector] public Quaternion footRotationOffset = Quaternion.identity;
+			[NonSerialized][HideInInspector] public Quaternion footRotationOffset = Quaternion.identity;
 
 			/// <summary>
 			/// The length of the leg (calculated in last read).
 			/// </summary>
-			[HideInInspector] public float currentMag;
+			[NonSerialized][HideInInspector] public float currentMag;
 
 			public Vector3 position { get; private set; }
 			public Quaternion rotation { get; private set; }
@@ -93,11 +93,11 @@ namespace RootMotion.FinalIK {
 			public Vector3 thighRelativeToPelvis { get; private set; }
 
 			private Vector3 footPosition;
-			private Quaternion footRotation;
+			private Quaternion footRotation = Quaternion.identity;
 			private Vector3 bendNormal;
-			private Quaternion calfRelToThigh;
+			private Quaternion calfRelToThigh = Quaternion.identity;
 
-			protected override void OnRead(Vector3[] positions, Quaternion[] rotations, bool hasNeck, bool hasShoulders, bool hasToes, int rootIndex, int index) {
+			protected override void OnRead(Vector3[] positions, Quaternion[] rotations, bool hasChest, bool hasNeck, bool hasShoulders, bool hasToes, int rootIndex, int index) {
 				Vector3 thighPos = positions[index];
 				Quaternion thighRot = rotations[index];
 				Vector3 calfPos = positions[index + 1];
@@ -127,6 +127,8 @@ namespace RootMotion.FinalIK {
 						IKPosition = footPos;
 						IKRotation = footRot;
 					}
+
+					rotation = IKRotation;
 				}
 
 				if (hasToes) {

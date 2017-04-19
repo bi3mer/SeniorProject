@@ -163,7 +163,7 @@ namespace RootMotion.FinalIK {
 				}
 				
 				// Fix the first bone to it's node
-				//boneMap1.FixToNode(weight);
+				boneMap1.FixToNode(solver, weight);
 			}
 
 			// Rotate the 2 first bones to the plane points

@@ -143,6 +143,9 @@ namespace RootMotion {
 			return Quaternion.Slerp(Quaternion.identity, rotation, clampMlp * targetClampMlp);
 		}
 
+		/// <summary>
+		/// Clamps an angular value.
+		/// </summary>
 		public static float ClampAngle(float angle, float clampWeight, int clampSmoothing) {
 			if (clampWeight >= 1f) return 0f;
 			if (clampWeight <= 0f) return angle;
@@ -158,6 +161,17 @@ namespace RootMotion {
 			}
 			
 			return Mathf.Lerp(0f, angle, clampMlp * targetClampMlp);
+		}
+
+		/// <summary>
+		/// Used for matching the rotations of objects that have different orientations.
+		/// </summary>
+		public static Quaternion MatchRotation(Quaternion targetRotation, Vector3 targetforwardAxis, Vector3 targetUpAxis, Vector3 forwardAxis, Vector3 upAxis) {
+			Quaternion f = Quaternion.LookRotation(forwardAxis, upAxis);
+			Quaternion fTarget = Quaternion.LookRotation(targetforwardAxis, targetUpAxis);
+
+			Quaternion d = targetRotation * fTarget;
+			return d * Quaternion.Inverse(f);
 		}
 	}
 }
