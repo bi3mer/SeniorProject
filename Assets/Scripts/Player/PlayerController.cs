@@ -338,6 +338,15 @@ public class PlayerController : MonoBehaviour
                 playerRigidbody.transform.Translate(Vector3.down * verticalSpeed);
             }
         }
+
+        if (Game.Player.Warmth < 25 && Game.Player.HealthStatus == PlayerHealthStatus.None)
+        {
+            if (RandomUtility.RandomPercent <= .1)
+            {
+                Game.Player.HealthStatus = PlayerHealthStatus.Pneumonia;
+            }
+            
+        }
     }
 
     /// <summary>
