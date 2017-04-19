@@ -387,8 +387,15 @@ public class Inventory
 	{
 		for(int i = 0; i < types.Count; ++i)
 		{
-			itemCountByType[types[i]] += changedAmount;
-		}
+            if (itemCountByType.ContainsKey(types[i]))
+            {
+                itemCountByType[types[i]] += changedAmount;
+            }
+            else
+            {
+                itemCountByType.Add(types[i], changedAmount);
+            }
+        }
 	}
 
 	/// <summary>
