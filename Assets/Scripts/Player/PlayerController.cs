@@ -668,14 +668,7 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
-            if (Game.Player.HealthStatus == PlayerHealthStatus.None)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return Game.Player.HealthStatus == PlayerHealthStatus.None;
         }
     }
 
