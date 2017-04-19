@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 340180cbb35886e47844cdb268a24a8a
-timeCreated: 1491489692
+timeCreated: 1491964617
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -72,6 +72,9 @@ TextureImporter:
     21300130: GUI_ITM_StandardRaft
     21300132: GUI_ITM_ShitRaft
     21300134: GUI_ITM_CookedEgg
+    21300136: GUI_ITM_LotusRoot
+    21300138: GUI_ITM_WaterChestnut
+    21300140: GUI_ITM_Watercress
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -763,6 +766,45 @@ TextureImporter:
         serializedVersion: 2
         x: 1280
         y: 512
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GUI_ITM_LotusRoot
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 256
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GUI_ITM_WaterChestnut
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 256
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: GUI_ITM_Watercress
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 256
         width: 256
         height: 256
       alignment: 0

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 namespace RootMotion.FinalIK {
 
@@ -84,6 +85,18 @@ namespace RootMotion.FinalIK {
 			/// </summary>
 			public AnimationCurve heelHeight;
 
+			[Tooltip("Rotates the foot while the leg is not stepping to relax the twist rotation of the leg if ideal rotation is past this angle.")]
+			/// <summary>
+			/// Rotates the foot while the leg is not stepping to relax the twist rotation of the leg if ideal rotation is past this angle.
+			/// </summary>
+			[Range(0f, 180f)] public float relaxLegTwistMinAngle = 20f;
+
+			[Tooltip("The speed of rotating the foot while the leg is not stepping to relax the twist rotation of the leg.")]
+			/// <summary>
+			/// The speed of rotating the foot while the leg is not stepping to relax the twist rotation of the leg.
+			/// </summary>
+			public float relaxLegTwistSpeed = 400f;
+
 			[Tooltip("Interpolation mode of the step.")]
 			/// <summary>
 			/// Interpolation mode of the step.
@@ -100,6 +113,18 @@ namespace RootMotion.FinalIK {
 			[HideInInspector] public LayerMask blockingLayers;
 			[HideInInspector] public float raycastRadius = 0.2f;
 			[HideInInspector] public float raycastHeight = 0.2f;
+
+			[Tooltip("Called when the left foot has finished a step.")]
+			/// <summary>
+			/// Called when the left foot has finished a step.
+			/// </summary>
+			public UnityEvent onLeftFootstep = new UnityEvent();
+			
+			[Tooltip("Called when the right foot has finished a step")]
+			/// <summary>
+			/// Called when the right foot has finished a step
+			/// </summary>
+			public UnityEvent onRightFootstep = new UnityEvent();
 
 			/// <summary>
 			/// Gets the approximated center of mass.
@@ -129,8 +154,39 @@ namespace RootMotion.FinalIK {
 				footsteps[0].Reset(rotations[0], positions[leftFootIndex], rotations[leftFootIndex]);
 				footsteps[1].Reset(rotations[0], positions[rightFootIndex], rotations[rightFootIndex]);
 			}
+
+			public void AddDeltaRotation(Quaternion delta, Vector3 pivot) {
+				Vector3 toLastComPosition = lastComPosition - pivot;
+				lastComPosition = pivot + delta * toLastComPosition;
+
+				foreach (Footstep f in footsteps) {
+					f.rotation = delta * f.rotation;
+					f.stepFromRot = delta * f.stepFromRot;
+					f.stepToRot = delta * f.stepToRot;
+					f.stepToRootRot = delta * f.stepToRootRot;
+
+					Vector3 toF = f.position - pivot;
+					f.position = pivot + delta * toF;
+
+					Vector3 toStepFrom = f.stepFrom - pivot;
+					f.stepFrom = pivot + delta * toStepFrom;
+
+					Vector3 toStepTo = f.stepTo - pivot;
+					f.stepTo = pivot + delta * toStepTo;
+				}
+			}
+			
+			public void AddDeltaPosition(Vector3 delta) {
+				lastComPosition += delta;
+
+				foreach (Footstep f in footsteps) {
+					f.position += delta;
+					f.stepFrom += delta;
+					f.stepTo += delta;
+				}
+			}
 					
-			public void Solve(VirtualBone rootBone, Spine spine, Leg leftLeg, Leg rightLeg, Arm leftArm, Arm rightArm, out Vector3 leftFootPosition, out Vector3 rightFootPosition, out Quaternion leftFootRotation, out Quaternion rightFootRotation, out float leftFootOffset, out float rightFootOffset, out float leftHeelOffset, out float rightHeelOffset) {
+			public void Solve(VirtualBone rootBone, Spine spine, Leg leftLeg, Leg rightLeg, Arm leftArm, Arm rightArm, int supportLegIndex, out Vector3 leftFootPosition, out Vector3 rightFootPosition, out Quaternion leftFootRotation, out Quaternion rightFootRotation, out float leftFootOffset, out float rightFootOffset, out float leftHeelOffset, out float rightHeelOffset) {
 				if (weight <= 0f) {
 					leftFootPosition = Vector3.zero;
 					rightFootPosition = Vector3.zero;
@@ -143,6 +199,8 @@ namespace RootMotion.FinalIK {
 					return;
 				}
 
+				Vector3 rootUp = rootBone.solverRotation * Vector3.up;
+
 				Vector3 leftThighPosition = spine.pelvis.solverPosition + spine.pelvis.solverRotation * leftLeg.thighRelativeToPelvis;
 				Vector3 rightThighPosition = spine.pelvis.solverPosition + spine.pelvis.solverRotation * rightLeg.thighRelativeToPelvis;
 
@@ -150,8 +208,9 @@ namespace RootMotion.FinalIK {
 				footsteps[1].characterSpaceOffset = footDistance * Vector3.right;
 
 				Vector3 forward = spine.faceDirection;
-				forward.y = 0f;
-				Quaternion forwardRotation = Quaternion.LookRotation(forward);
+				Vector3 forwardY = V3Tools.ExtractVertical(forward, rootUp, 1f);
+				forward -= forwardY;
+				Quaternion forwardRotation = Quaternion.LookRotation(forward, rootUp);
 
 				//centerOfMass = Vector3.Lerp(spine.pelvis.solverPosition, spine.head.solverPosition, 0.25f) + rootBone.solverRotation * offset;
 
@@ -169,25 +228,35 @@ namespace RootMotion.FinalIK {
 
 				centerOfMass += rootBone.solverRotation * offset;
 
-				comVelocity = (centerOfMass - lastComPosition) / Time.deltaTime;
+				comVelocity = Time.deltaTime > 0f? (centerOfMass - lastComPosition) / Time.deltaTime: Vector3.zero;
 				lastComPosition = centerOfMass;
 				comVelocity = Vector3.ClampMagnitude (comVelocity, maxVelocity) * velocityFactor;
 				Vector3 centerOfMassV = centerOfMass + comVelocity;
 
-				Vector3 pelvisPositionGroundLevel = new Vector3(spine.pelvis.solverPosition.x, rootBone.solverPosition.y, spine.pelvis.solverPosition.z);
-				Vector3 centerOfMassVGroundLevel = new Vector3(centerOfMassV.x, rootBone.solverPosition.y, centerOfMassV.z);
+				Vector3 pelvisPositionGroundLevel = V3Tools.PointToPlane(spine.pelvis.solverPosition, rootBone.solverPosition, rootUp);
+				Vector3 centerOfMassVGroundLevel = V3Tools.PointToPlane(centerOfMassV, rootBone.solverPosition, rootUp);
+
 				Vector3 centerOfPressure = Vector3.Lerp(footsteps[0].position, footsteps[1].position, 0.5f);
 
 				Vector3 comDir = centerOfMassV - centerOfPressure;
 				float comAngle = Vector3.Angle(comDir, rootBone.solverRotation * Vector3.up) * comAngleMlp;
 
+				// Set support leg
+				for (int i = 0; i < footsteps.Length; i++) {
+					footsteps[i].isSupportLeg = supportLegIndex == i;
+				}
+
 				// Update stepTo while stepping
 				for (int i = 0; i < footsteps.Length; i++) {
+
 					if (footsteps[i].isStepping) {
-						Vector3 stepTo = centerOfMassVGroundLevel +  rootBone.solverRotation * footsteps[i].characterSpaceOffset;
+						Vector3 stepTo = centerOfMassVGroundLevel + rootBone.solverRotation * footsteps[i].characterSpaceOffset;
+
 						if (!StepBlocked(footsteps[i].stepFrom, stepTo, rootBone.solverPosition)) {
-							footsteps[i].stepTo = Vector3.Lerp(footsteps[i].stepTo, stepTo, Time.deltaTime * 8f);
+							footsteps[i].UpdateStepping(stepTo, forwardRotation, 10f);
 						}
+					} else {
+						footsteps[i].UpdateStanding(forwardRotation, relaxLegTwistMinAngle, relaxLegTwistSpeed);
 					}
 				}
 
@@ -198,7 +267,7 @@ namespace RootMotion.FinalIK {
 
 					for (int i = 0; i < footsteps.Length; i++) {
 						if (!footsteps[i].isStepping) {
-							Vector3 stepTo = centerOfMassVGroundLevel +  rootBone.solverRotation * footsteps[i].characterSpaceOffset;
+							Vector3 stepTo = centerOfMassVGroundLevel + rootBone.solverRotation * footsteps[i].characterSpaceOffset;
 
 							float legLength = i == 0? leftLeg.mag: rightLeg.mag;
 							Vector3 thighPos = i == 0? leftThighPosition: rightThighPosition;
@@ -252,12 +321,14 @@ namespace RootMotion.FinalIK {
 					}
 				}
 
-				foreach (Footstep f in footsteps) f.Update(stepInterpolation);
+				footsteps[0].Update (stepInterpolation, onLeftFootstep);
+				footsteps[1].Update (stepInterpolation, onRightFootstep);
 
 				leftFootPosition = footsteps[0].position;
 				rightFootPosition = footsteps[1].position;
-				leftFootPosition.y = leftLeg.lastBone.readPosition.y;
-				rightFootPosition.y = rightLeg.lastBone.readPosition.y;
+
+				leftFootPosition = V3Tools.PointToPlane(leftFootPosition, leftLeg.lastBone.readPosition, rootUp);
+				rightFootPosition = V3Tools.PointToPlane(rightFootPosition, rightLeg.lastBone.readPosition, rootUp);
 
 				leftFootOffset = stepHeight.Evaluate(footsteps[0].stepProgress);
 				rightFootOffset = stepHeight.Evaluate(footsteps[1].stepProgress);
@@ -267,6 +338,30 @@ namespace RootMotion.FinalIK {
 
 				leftFootRotation = footsteps[0].rotation;
 				rightFootRotation = footsteps[1].rotation;
+			}
+
+			public Vector3 leftFootstepPosition {
+				get {
+					return footsteps[0].position;
+				}
+			}
+			
+			public Vector3 rightFootstepPosition {
+				get {
+					return footsteps[1].position;
+				}
+			}
+			
+			public Quaternion leftFootstepRotation {
+				get {
+					return footsteps[0].rotation;
+				}
+			}
+			
+			public Quaternion rightFootstepRotation {
+				get {
+					return footsteps[1].rotation;
+				}
 			}
 
 			private bool StepBlocked(Vector3 fromPosition, Vector3 toPosition, Vector3 rootPosition) {

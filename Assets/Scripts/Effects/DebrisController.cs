@@ -116,11 +116,11 @@ public class DebrisController : MonoBehaviour
 		// Set the Debris emission rate, if it's less than the threshold turn off emission. If not, multiply it by a given value.
 		if (DebrisLevel < DebrisStartThreshold)
 		{
-			DebrisEmission.rate = 0f;
+			DebrisEmission.rateOverTime = 0f;
 		}
 		else
 		{
-			DebrisEmission.rate = debrisLevel * debrisMultiplier;
+            DebrisEmission.rateOverTime = debrisLevel * debrisMultiplier;
 		}
 
 		// Set the wind speed via velocity over lifetime

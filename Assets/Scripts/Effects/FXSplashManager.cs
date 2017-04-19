@@ -126,7 +126,7 @@ public class FXSplashManager : MonoBehaviour
         // If a splash in disabled, we can use it.
         // Each splash is enabled for a fixed amount of time.
         // If we can call splashes in order, by keeping a bookmark, if the next splash in the chain is enabled, no splash in the list will be disabled.
-        if (SplashPoolSize > 0 && !splashPool[listIndex].gameObject.activeSelf)
+        if (SplashPoolSize > 0 && splashPool.Count > 0  && !splashPool[listIndex].gameObject.activeSelf)
         {
             splashPool[listIndex].transform.position = position;
             splashPool[listIndex].transform.localScale = scale;

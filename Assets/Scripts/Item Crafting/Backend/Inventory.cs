@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 /// <summary>
 /// Defines the inventory of items the player can access. Currently just considers all the gameobjects parented under item parent
@@ -12,7 +13,7 @@ using System;
 public class Inventory
 {
 	// Inventory size
-	private int inventorySize = 20;
+	private int inventorySize = 10;
 
 	// How many items there may be in a stack
 	private const int StackSize = 5;
@@ -94,6 +95,7 @@ public class Inventory
 
 				item.SetUpBaseItem ();
 
+				// ToString("N") is used to specify that a 32 bit number is being converted into a string
 				ItemStack stack = new ItemStack(item, inventoryInfo[i].ItemAmount,  Guid.NewGuid().ToString("N"));
 				contents[i] = stack;
 			}
@@ -242,13 +244,41 @@ public class Inventory
 	/// <returns>The added item.</returns>
 	/// <param name="newItem">New item.</param>
 	/// <param name="amount">Amount.</param>
-	public ItemStack AddItem(BaseItem newItem, int amount)
+	public List<ItemStack> AddItem(BaseItem newItem, int amount)
 	{
-		int loc = GetNextOpenSlot ();
-		contents[loc] = new ItemStack(newItem, amount, Guid.NewGuid().ToString("N"));
+		int amountRemaining = amount;
+		int loc = 0;
+		List<ItemStack> addedOrChangedStacks = new List<ItemStack>();
+
+		for (int i = 0; i < contents.Length && amountRemaining > 0; ++i) 
+		{
+			if(contents[i] != null)
+			{
+				if (contents[i].Item.ItemName.Equals(newItem.ItemName)) 
+				{
+					amountRemaining = (contents[i].Amount + amount) - contents[i].MaxStackSize; 
+					contents[i].Amount += amount;
+					loc = i;
+					addedOrChangedStacks.Add(contents[i]);
+				}
+			}
+		}
+
+		if(amountRemaining > 0)
+		{
+			loc = GetNextOpenSlot ();
+
+			if(loc < contents.Length)
+			{
+				contents[loc] = new ItemStack(newItem, amountRemaining, Guid.NewGuid().ToString("N"));
+				UpdateTypeAmount(newItem.Types, amount);
+				addedOrChangedStacks.Add(contents[loc]);
+			}
+		}
+
 		UpdateTypeAmount(newItem.Types, amount);
 
-		return contents[loc];
+		return addedOrChangedStacks;
 	}
 
 	/// <summary>

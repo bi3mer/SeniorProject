@@ -85,11 +85,7 @@
        - !!plant
          waterContent: 1.2
          toughness: 3.0
-         sweet: 0.0
-         bitter: 0.0
-         sour: 0.0
-         salty: 0.0
-         spicy: 0.0
+         plantVolume: 0.5
          stomachEffect: 0.0
          pneumoniaEffect: 0.0
    - stackId: 4
@@ -117,11 +113,7 @@
        - !!plant
          waterContent: 0.8
          toughness: 5.0
-         sweet: 0.0
-         bitter: 0.0
-         sour: 0.0
-         salty: 0.0
-         spicy: 0.0
+         plantVolume: 1
          stomachEffect: 0.0
          pneumoniaEffect: 0.0
        - !!fuel
