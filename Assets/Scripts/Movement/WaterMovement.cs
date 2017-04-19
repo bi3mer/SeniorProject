@@ -80,6 +80,11 @@ public class WaterMovement : Movement
         {
             playerAnimator.transform.forward = facingRotation;
         }
+
+        if (Game.Player.Controller.IsSick)
+        {
+            Speed -= Speed / sicknessDecrease;
+        }
     }
 
     /// <summary>

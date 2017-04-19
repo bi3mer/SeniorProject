@@ -4222,6 +4222,10 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  pneumoniaWarmthDecrease: 0
+  foodPoisonHungerDecrease: 0
+  pneumoniaTime: 0
+  foodPoisioningTime: 0
   verticalSpeed: 0.01
   debugFlightUp: 32
   debugFlightDown: 306
@@ -4237,6 +4241,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1553
   waterWadeHeight: 0.18
+  raftBoardTime: 0.5
   roofFootstepSoundEvent: event:/Player/Movement/Walking/Concrete
   controlScheme:
     Forward: 119
@@ -4282,6 +4287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dbc643da8c996b4e9e3b990d3bb353e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sicknessDecrease: 2
   climbHeight: 0.75
   swimmingSpeed: 0.6
   minFallDamageVelocity: 8
@@ -4324,6 +4330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7cb5682a27f5bb4f8fe3827a84eea19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sicknessDecrease: 2
   climbHeight: 1
   walkingSpeed: 0.6
   sprintingSpeed: 1

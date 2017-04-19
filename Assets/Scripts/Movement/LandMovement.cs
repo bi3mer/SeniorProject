@@ -120,6 +120,11 @@ public class LandMovement : Movement
             playerAnimator.SetFloat(playerAnimatorForward, playerAnimatorSprint);
         }
 
+        if (Game.Player.Controller.IsSick)
+        {
+            Speed -= Speed/sicknessDecrease;
+        }
+
         // Make player move at slower speed if moving in the direction of wind
         Vector2 dir = new Vector2(direction.x, direction.z);
         if (Vector3.Dot(dir.normalized, Game.Instance.WeatherInstance.NormalizedOctantWindDirection2d) == -1)
