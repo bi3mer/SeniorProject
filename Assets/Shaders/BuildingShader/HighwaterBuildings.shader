@@ -15,7 +15,6 @@ Shader "HighwaterBuildings"
 		_DetailNormalWeight("DetailNormalWeight", Float) = 0
 		_RippleTexture("RippleTexture", 2D) = "white" {}
 		_BuildingMask("BuildingMask", 2D) = "white" {}
-		_RainIntensity("RainIntensity", Range( 0 , 1)) = 0
 		_RippleNormalWeight("RippleNormalWeight", Float) = 0
 		_WaterFlow("WaterFlow", 2D) = "bump" {}
 		_WaterFlowSpeed("WaterFlowSpeed", Float) = 0
@@ -116,7 +115,7 @@ Shader "HighwaterBuildings"
 }
 /*ASEBEGIN
 Version=5105
-0;91;1258;907;-3154.097;-1137.162;2.2;True;True
+0;91;1258;907;529.203;-1454.661;1.9;True;True
 Node;AmplifyShaderEditor.CommentaryNode;499;-166.6949,1848.663;Float;False;2769.372;1022.108;ComputeRipple;32;475;464;455;453;443;448;450;460;462;463;461;459;465;470;471;472;474;473;466;467;444;458;490;491;492;494;495;489;493;497;498;488;
 Node;AmplifyShaderEditor.CommentaryNode;475;1805.739,2363.866;Float;False;219;183;FinalFactor;1;469;
 Node;AmplifyShaderEditor.CommentaryNode;464;1264.438,2277.089;Float;False;225;160;DropFactor;1;456;
@@ -224,7 +223,6 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;451;782.5048,2317.458;Float;False;0;FLO
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;461;1087.183,2330.163;Float;False;0;FLOAT;0.0;False;1;FLOAT;0.0;False
 Node;AmplifyShaderEditor.SimpleAddOpNode;459;752.3051,2086.102;Float;False;0;FLOAT;0.0;False;1;FLOAT;0.2;False
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;460;954.746,2167.455;Float;False;0;FLOAT;0.0;False;1;FLOAT;0.8;False
-Node;AmplifyShaderEditor.RangedFloatNode;458;369.2837,2023.448;Float;False;Property;_RainIntensity;RainIntensity;10;0;0;0;1
 Node;AmplifyShaderEditor.TextureCoordinatesNode;559;2612.317,3402.33;Float;False;0;444;2;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False
 Node;AmplifyShaderEditor.SamplerNode;557;2992.26,3142.632;Float;True;Property;_WaterFlow;WaterFlow;12;0;None;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;1.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False
 Node;AmplifyShaderEditor.PannerNode;558;2783.677,3269.553;Float;False;0;1;0;FLOAT2;0,0;False;1;FLOAT;0.0;False
@@ -240,6 +238,7 @@ Node;AmplifyShaderEditor.ColorNode;653;4671.015,1460.864;Float;False;Property;_A
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;656;4779.599,1781.962;Float;False;0;COLOR;0.0;False;1;FLOAT4;0,0,0,0;False
 Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;4919.113,1873.618;Fixed;False;True;2;Fixed;ASEMaterialInspector;StandardSpecular;HighwaterBuildings;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;3;False;0;0;Opaque;0.5;True;True;0;False;Opaque;Geometry;All;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;False;0;255;255;0;0;0;0;False;0;4;10;25;False;0.5;True;0;Zero;Zero;0;Zero;Zero;Add;Add;0;False;0;0,0,0,0;VertexOffset;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0.0;False;5;FLOAT;0.0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0.0;False;9;FLOAT;0.0;False;10;OBJECT;0.0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;OBJECT;0.0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False
 Node;AmplifyShaderEditor.RangedFloatNode;634;4531.213,2192.168;Float;False;Property;_Smoothness;Smoothness;18;0;0;0;1
+Node;AmplifyShaderEditor.RangedFloatNode;458;369.2837,2023.448;Float;False;Global;_RainIntensity;RainIntensity;10;0;0;0;1
 WireConnection;462;0;447;0
 WireConnection;463;0;462;0
 WireConnection;456;0;461;0
@@ -375,4 +374,4 @@ WireConnection;0;1;600;0
 WireConnection;0;3;635;0
 WireConnection;0;4;634;0
 ASEEND*/
-//CHKSM=20CE507E19E09E955C5B0E6DC6BB0EBCE9DB8C0C
+//CHKSM=E3D238AF4A5EC3FC05871998B1E57B4650FF511C
