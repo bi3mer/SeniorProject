@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.Events;
 using System.Collections.Generic;
 
-public class LightItem : Tool 
+public class LightItem : PlayerTool 
 {
     private Light lightSource;
     private LightCategory lightBase;

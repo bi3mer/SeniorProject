@@ -96,7 +96,7 @@ namespace RootMotion.FinalIK {
 		[LargeHeader("Chest Direction")]
 		public Vector3 chestDirection = Vector3.forward;
 		[Range(0f, 1f)] public float chestDirectionWeight = 1f;
-		public Transform[] chestBones;
+		public Transform[] chestBones = new Transform[0];
 
 		public IKSolver.UpdateDelegate OnPostHeadEffectorFK;
 
@@ -303,10 +303,11 @@ namespace RootMotion.FinalIK {
 			Vector3 headToLeftThighSolved = rThighs * headToLeftThigh;
 			Vector3 headToRightThighSolved = rThighs * headToRightThigh;
 
+
 			LerpSolverPosition(ik.solver.leftThighEffector, transform.position + headToLeftThighSolved, positionWeight * ik.solver.IKPositionWeight, (ik.solver.bodyEffector.positionOffset - ik.solver.pullBodyOffset) + ik.solver.leftThighEffector.positionOffset);
 			LerpSolverPosition(ik.solver.rightThighEffector, transform.position + headToRightThighSolved, positionWeight * ik.solver.IKPositionWeight, (ik.solver.bodyEffector.positionOffset - ik.solver.pullBodyOffset) + ik.solver.rightThighEffector.positionOffset);
 		}
-
+		
 		// Called by the FBBIK each time it is finished updating
 		private void OnPostUpdate() {
 			if (!enabled) return;

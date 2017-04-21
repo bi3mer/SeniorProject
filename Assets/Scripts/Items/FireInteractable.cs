@@ -145,7 +145,15 @@ public class FireInteractable : InteractableObject
 				}
 			}
 
-			Game.Instance.PlayerInstance.Inventory.AddItem(duplicate, 1);
+			// only one item is added at a time when cooking at a fire
+			if(Game.Instance.PlayerInstance.Inventory.AddItem(duplicate, 1).Count > 0)
+			{
+				GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.INVENTORYFULL);
+				ItemDiscarder discarder = new ItemDiscarder ();
+
+				// no guid needed since this is just going to be discarded
+				discarder.DiscardItem(new ItemStack(duplicate, 1, ""));
+			}
 		}
 
 		// For now, you can only add fuel one at a time

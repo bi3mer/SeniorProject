@@ -168,14 +168,27 @@ public class ItemSpawner : InteractableObject
 
 		for (int i = 0; i < numberToSpawn  ; ++i)
 		{
-			GameObject item = factory.CreateRandomPickupInteractableItem(district);
+			GameObject item = factory.CreateRandomPickupInteractableItem(district);           
+
+            Vector3 spawnposition;
+            if(door == null)
+            {
+                spawnposition = transform.position;
+            }
+            else
+            {
+                spawnposition = door.transform.position;
+            }
+            item.transform.position = spawnposition;
+            //Code to move the item to its proper location. Currently has a bug associated with moving items once they are spawned.
+            //TO BE UNCOMMENTED AFTER FIXED
+            //item.transform.DOMove(itemLocations[Random.Range(0, itemLocations.Length)].position, itemMoveTime);
+			item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
+
+            item.transform.position = itemLocations[Random.Range(0, itemLocations.Length)].position;
 
             Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
-
-            item.transform.position = door.transform.position;
-            item.transform.DOMove(itemLocations[Random.Range(0, itemLocations.Length)].position, itemMoveTime);
-			item.transform.rotation = Quaternion.Euler(item.transform.eulerAngles.x, Random.Range(0f, 360f), item.transform.eulerAngles.z);
-			
-		}
+        }
 	}
 }
+

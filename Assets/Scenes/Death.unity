@@ -157,7 +157,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Restart
+  m_Text: Back To Menu
 --- !u!222 &6615013
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -341,22 +341,22 @@ Prefab:
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: -1.1707522
+      value: 0.5054508
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.z.scalar
-      value: -2.4301627
+      value: -4.1703644
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationX.scalar
-      value: -0.10603584
+      value: -0.18196647
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationY.scalar
-      value: 0.0510837
+      value: -0.02205445
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
@@ -366,12 +366,12 @@ Prefab:
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: -2.9268804
+      value: 1.2636269
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.y.scalar
-      value: -6.0754066
+      value: -10.425911
       objectReference: {fileID: 0}
     - target: {fileID: 114000010928583048, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
@@ -791,7 +791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62dfdd36e11fe4308886864f453fcd8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainGameScene: Master
+  mainGameScene: MainMenuTest
 --- !u!1 &2102892292
 GameObject:
   m_ObjectHideFlags: 0
