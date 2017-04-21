@@ -168,7 +168,13 @@ public class ItemFactory
 
 		// Adds the item to the player's inventory
 		// for now, it will only create one at a time
-		targetInventory.AddItem (craftedItem, 1);
+		List<ItemStack> addResult = targetInventory.AddItem (craftedItem, 1);
+
+		if(addResult.Count == 0)
+		{
+			GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(new ItemStack(craftedItem, 1, ""));
+			GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.INVENTORYFULL);
+		}
 	}
 
 	/// <summary>

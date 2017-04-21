@@ -17,18 +17,6 @@ public class PlayerInventory : Inventory
     }
 
     /// <summary>
-    /// Subscription triggered when an item is added to the inventory.
-    /// </summary>
-    public event ItemAddedDelegate ItemAddedSubscription;
-    public delegate void ItemAddedDelegate(BaseItem item);
-
-    /// <summary>
-    /// Subscription triggered when an item is removed from the inventory.
-    /// </summary>
-    public event ItemRemovedDelegate ItemRemovedSubscription;
-    public delegate void ItemRemovedDelegate(BaseItem item);
-
-    /// <summary>
     /// Subscription triggered when an item is equipped.
     /// </summary>
     public event ItemEquippedDelegate ItemEquippedSubscription;
@@ -39,38 +27,6 @@ public class PlayerInventory : Inventory
     /// </summary>
     public event ItemUnequippedDelegate ItemUnequippedSubscription;
     public delegate void ItemUnequippedDelegate();
-
-	/// <summary>
-    /// Add item to inventory and notify subscribers.
-    /// </summary>
-    /// <returns>The added item.</returns>
-    /// <param name="newItem">New item.</param>
-    /// <param name="amount">Amount.</param>
-    public ItemStack AddItem(BaseItem newItem, int amount)
-    {
-        ItemStack newStack = base.AddItem(newItem, amount);
-
-        if (ItemAddedSubscription != null) 
-        {
-            ItemAddedSubscription(newItem);
-        }
-
-        return newStack;
-    }
-
-    /// <summary>
-    /// Removes the item from the inventory and notifies subscribers.
-    /// </summary>
-    /// <param name="stack">Item to remove.</param>
-    public void RemoveStack(ItemStack stack)
-    {
-        base.RemoveStack(stack);
-
-        if (ItemRemovedSubscription != null)
-        {
-            ItemRemovedSubscription(stack.Item);
-        }
-    }
 
     private BaseItem equipedItem;
 

@@ -130,17 +130,17 @@ public class RainController : MonoBehaviour
     {
         //Set RainMain Emission to double rain level. At 200 emission we almost max out particles. (Depending on the height the rain spawns at this may change, but it'll be based on the camera in the future)
         ParticleSystem.EmissionModule RainEmission = MainRain.emission;
-        RainEmission.rate = RainLevel * 2f;
+        RainEmission.rateOverTime = RainLevel * 2f;
 
         //set the RainFog emission rate, if it's less than the threshold turn off emission.
         RainEmission = RainFog.emission;
         if (RainLevel < FogStartThreshold)
         {
-            RainEmission.rate = 0f;
+            RainEmission.rateOverTime = 0f;
         }
         else
         {
-            RainEmission.rate = RainLevel * fogMod;
+            RainEmission.rateOverTime = RainLevel * fogMod;
         }
 
         //If in editor, there's a chance the script is running in edit mode and we won't have the renderer set.   
@@ -162,8 +162,20 @@ public class RainController : MonoBehaviour
         ParticleVelocity.x = WindVectorXZ.x * fogWindMod;
         ParticleVelocity.z = -WindVectorXZ.y * fogWindMod;
 
+
         // Set the rotation of the rain based on the wind.
-        MainRain.startRotation3D = new Vector3(Mathf.Deg2Rad* -WindVectorXZ.y, Mathf.Deg2Rad* -WindVectorXZ.x, 0f);
+        ParticleSystem.MainModule rainMainModule = MainRain.main;
+        float windVectorX = 0f;
+        if (windVectorXZ.x == 0f)
+        {
+            windVectorX = .01f;
+        }
+        else
+        {
+            windVectorX = WindVectorXZ.x;
+        }
+        rainMainModule.startRotationX = Mathf.Deg2Rad * (-WindVectorXZ.magnitude - 90f);
+        rainMainModule.startRotationY = (Mathf.Tan(WindVectorXZ.y/windVectorX));
     }
 
     /// <summary>
@@ -172,11 +184,14 @@ public class RainController : MonoBehaviour
     /// <param name="other"></param>
     void OnParticleCollision(GameObject other)
     {
-        rainParticleSystem.GetCollisionEvents(other, collisionEvents);
+        if(splashManager.SplashPoolSize > 0)
+        { 
+            rainParticleSystem.GetCollisionEvents(other, collisionEvents);
 
-        for (int i = 0; i < collisionEvents.Count; ++i)
-        {
-            splashManager.CreateSplash(collisionEvents[0].intersection, splashSize, 1f);
+            for (int i = 0; i < collisionEvents.Count; ++i)
+            {
+                splashManager.CreateSplash(collisionEvents[0].intersection, splashSize, 1f);
+            }
         }
     }
 }
