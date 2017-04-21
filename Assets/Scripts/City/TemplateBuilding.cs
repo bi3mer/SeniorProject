@@ -45,4 +45,9 @@ public class TemplateBuilding : Building
 
         IsLoaded = true;
     }
+
+    public override void LoadAttachments()
+    {
+    	// this doesn't actually need to load any attachments
+    }
 }

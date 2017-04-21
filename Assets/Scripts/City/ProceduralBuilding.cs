@@ -145,7 +145,7 @@ public class ProceduralBuilding : Building
     /// <summary>
     /// Loads the attachments.
     /// </summary>
-    public void LoadAttachments()
+    public  override void LoadAttachments()
     {
 		bool prespawn;
 		for(int i = 0; i < Attachments.Length; ++i)

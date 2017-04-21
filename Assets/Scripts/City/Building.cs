@@ -136,4 +136,9 @@ public abstract class Building
 
         IsLoaded = false;
     }
+
+    /// <summary>
+    /// Loads the attachments.
+    /// </summary>
+    public abstract void LoadAttachments();
 }

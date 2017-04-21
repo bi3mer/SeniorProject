@@ -114,9 +114,9 @@ public class CityController : MonoBehaviour
                     waterItemGenerator.AddBuildingToWaterGenerationMap(building.BoundingBox);
 					rooftopItemGenerator.PopulateRoof(building, district.Name);
 
-					if(building.Attachments.Length > 0)
+					if(building.Attachments != null && building.Attachments.Length > 0)
 					{
-						((ProceduralBuilding) building).LoadAttachments();
+						building.LoadAttachments();
 					}
 
                     block.Buildings.Add(building);
