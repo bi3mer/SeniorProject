@@ -156,7 +156,7 @@ public class FishAgent : MonoBehaviour
     public Vector2 Separation()
     {
         // Separation result
-        Vector2 result = new Vector3();
+        Vector2 result = new Vector2();
 
         // Get all neighbors
 		Collider2D[] neighbors = Physics2D.OverlapCircleAll(this.transform.position, this.config.SeparationRadius, this.gameObject.layer);
@@ -164,12 +164,12 @@ public class FishAgent : MonoBehaviour
         // check if neighbors is full or not
         for (int i = 0; i < neighbors.Length; ++i)
         {
-            Vector3 towardsMe = this.transform.position - neighbors[i].transform.position;
+			Vector2 towardsMe = VectorUtility.XZ(this.transform.position) - VectorUtility.XZ(neighbors[i].transform.position);
 
             // Contribution depends on distance
             if (towardsMe.magnitude > 0)
             {
-                result = towardsMe.normalized / towardsMe.magnitude;
+                result += towardsMe.normalized / towardsMe.magnitude;
             }
 
             // Normalize
