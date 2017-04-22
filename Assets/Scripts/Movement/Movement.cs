@@ -19,7 +19,6 @@ public abstract class Movement : MonoBehaviour
 	{
         get;
         set;
-
     }
 
     protected float AccumulatedFallDamage;

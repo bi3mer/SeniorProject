@@ -72,18 +72,23 @@ public class WaterMovement : Movement
     public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
         playerAnimator.SetFloat(playerAnimatorForward, swimmingSpeed);
-        controller.Move((new Vector3(direction.normalized.x, 0f, direction.normalized.z) * swimmingSpeed * Time.fixedDeltaTime)
-            + new Vector3(0f, Game.Instance.WaterLevelHeight - transform.position.y - swimmingHeight, 0f));
+
+        if (Game.Player.Controller.IsSick)
+        {
+            controller.Move((new Vector3(direction.normalized.x, 0f, direction.normalized.z) * swimmingSpeed/2 * Time.fixedDeltaTime)
+                + new Vector3(0f, Game.Instance.WaterLevelHeight - transform.position.y - swimmingHeight, 0f));
+            Speed -= Speed / sicknessDecrease;
+        }
+        else
+        {
+            controller.Move((new Vector3(direction.normalized.x, 0f, direction.normalized.z) * swimmingSpeed * Time.fixedDeltaTime)
+                + new Vector3(0f, Game.Instance.WaterLevelHeight - transform.position.y - swimmingHeight, 0f));
+        }
 
         Vector3 facingRotation = Vector3.Normalize(new Vector3(controller.velocity.x, 0f, controller.velocity.z));
         if (facingRotation != Vector3.zero)
         {
             playerAnimator.transform.forward = facingRotation;
-        }
-
-        if (Game.Player.Controller.IsSick)
-        {
-            Speed -= Speed / sicknessDecrease;
         }
     }
 
