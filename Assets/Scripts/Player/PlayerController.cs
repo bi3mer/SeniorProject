@@ -587,6 +587,10 @@ public class PlayerController : MonoBehaviour
             {
                 isGrounded = true;
             }
+            if(!belowWater)
+            {
+                playerAnimator.SetBool(playerAnimatorSwimming, false);
+            }
         }
     }
 
