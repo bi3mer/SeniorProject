@@ -57,8 +57,8 @@ MonoBehaviour:
   - {fileID: 1000011000511242, guid: 1222c2969b2ae9b4c9e46436d8392d85, type: 2}
   minCreatureCount: 1
   maxCreatureCount: 2
-  maxSpawnRadius: 25
-  minSpawnRadius: 10
+  maxSpawnRadius: 200
+  minSpawnRadius: 0
   waterLevelOffset: -2
 --- !u!114 &114000013780096858
 MonoBehaviour:
@@ -96,3 +96,4 @@ MonoBehaviour:
   maxSpawnRadius: 25
   minSpawnRadius: 10
   waterLevelOffset: -2
+  updateAfterStormEndTime: 20

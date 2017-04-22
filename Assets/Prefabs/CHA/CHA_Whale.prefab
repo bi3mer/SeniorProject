@@ -112,6 +112,7 @@ GameObject:
   - 4: {fileID: 4000010050088288}
   - 95: {fileID: 95000010171384820}
   - 54: {fileID: 54000013788563454}
+  - 114: {fileID: 114000013598758416}
   m_Layer: 0
   m_Name: CHA_Whale
   m_TagString: Untagged
@@ -875,6 +876,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114000013598758416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011000511242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6f16738ca5944310b77258cf60d9c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whaleSpeed: 1
 --- !u!137 &137000013990933188
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
