@@ -79,7 +79,7 @@ public class SolidCategory : ItemCategory
 	/// <summary>
 	/// The threshold for whether or not Weave is a possible action
 	/// </summary>
-	private float weaveThreshold = 0.8f;
+	private float weaveThreshold = 3f;
 
 	/// <summary>
 	/// Amount that sharpness will be increased by when Sharpen is executed
@@ -195,8 +195,8 @@ public class SolidCategory : ItemCategory
 		sharpen.Conditions.Add (sharpenConditionDura);
 
 		ItemAction weave = new ItemAction (weaveActionName, null);
-		ItemCondition weaveCondition = new ItemCondition (flexAttrName, weaveThreshold, new BooleanOperator.BooleanOperatorDelegate (BooleanOperator.Greater));
-		weave.Conditions.Add (weaveCondition);
+		ItemCondition weaveConditionFlex = new ItemCondition (flexAttrName, weaveThreshold, new BooleanOperator.BooleanOperatorDelegate (BooleanOperator.Greater));
+		weave.Conditions.Add (weaveConditionFlex);
 
 		ItemAction weaveRope = new ItemAction (weaveRopeActName, new UnityAction (WeaveRope));
 		ItemAction weaveBasket = new ItemAction (weaveBasketActName, new UnityAction (WeaveBasket));
