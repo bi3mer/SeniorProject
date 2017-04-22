@@ -86,7 +86,7 @@ public class MainMenuBehavior : MonoBehaviour
 		settingsPanel.SetActive(false);
 		endCreditsPanel.SetActive(false);
 
-		// TODO add checking so if their is no game save it'll
+		// TODO add checking so if there is no game save it'll
 		//      automatically start the game.
 		startOrLoadPanel.SetActive(true);
 	}
