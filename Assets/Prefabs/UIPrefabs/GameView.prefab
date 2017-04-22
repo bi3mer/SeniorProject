@@ -6570,20 +6570,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012785013276}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fb085d083fd17046bfcccac8e44f0c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 475d2d5494c5e40a7bba1f60cd9bb941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   notificationBar: {fileID: 1000013006669412}
   text: {fileID: 114000012090224290}
-  enterTime: 1
-  exitTime: 1
-  maxAnchorX: 0.6
+  enterTime: 0.5
+  exitTime: 0.25
+  maxAnchorX: 0.7
   maxAnchorY: 1
-  minAnchorX: 0.4
-  minAnchorY: 0.8
-  foodPoisoningText: Oh no! You have food poisoning!
-  pneumoniaText: Oh no! You have pnuemonia
-  noSicknessText: You're all better!
+  minAnchorX: 0.3
+  minAnchorY: 0.75
+  foodPoisoningText: You've contracted food poisoning.
+  pneumoniaText: You've contracted pneumonia.
+  noSicknessText: You've been cured of illness!
+  inventoryFullText: Your inventory is full.
 --- !u!114 &114000012090224290
 MonoBehaviour:
   m_ObjectHideFlags: 1

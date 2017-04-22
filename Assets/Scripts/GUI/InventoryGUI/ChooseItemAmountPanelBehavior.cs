@@ -42,10 +42,15 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	[SerializeField]
 	private GameObject attributesAndActionPanel;
 
-	// the current number of units selected
-	private int currentAmount;
-	//the maximum number of units that can be selected for the current item
-	private int maxAmount;
+    // the current number of units selected
+    public int CurrentAmount
+    {
+        get;
+        set;
+    }
+
+    //the maximum number of units that can be selected for the current item
+    private int maxAmount;
 
 	// the current selected item from the inventory
 	public GameObject SelectedItem
@@ -70,15 +75,15 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	/// <param name="amt">The amount to change. Typically either 1 or -1.</param>
 	public void Change(int amt)
 	{
-		currentAmount += amt;
+		CurrentAmount += amt;
 		//update text on the panel
-		NumDisplay.text = currentAmount.ToString();
+		NumDisplay.text = CurrentAmount.ToString();
 		// if there is no more to subtract, then disable the minus button
-		if (currentAmount < 1) 
+		if (CurrentAmount < 1) 
 		{
 			Minus.gameObject.SetActive (false);
 		} 
-		else if (currentAmount >= maxAmount) 
+		else if (CurrentAmount >= maxAmount) 
 		{
 			// if there is no more to add, disable the plus button
 			Plus.gameObject.SetActive (false);
@@ -94,7 +99,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 			Plus.gameObject.SetActive (true);
 		}
 
-		if (currentAmount == 0) 
+		if (CurrentAmount == 0) 
 		{
 			Ok.gameObject.SetActive (false);
 		} 
@@ -117,8 +122,8 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		// if there is more than 1 of an item, then ask user to choose how many to affect
 		if(maxAmount > 1)
 		{
-			currentAmount = 0;
-			NumDisplay.text = currentAmount.ToString();
+			CurrentAmount = 0;
+			NumDisplay.text = CurrentAmount.ToString();
 
 			Close.gameObject.SetActive (false);
 
@@ -136,7 +141,7 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 		else
 		{
 			// if there's only one, automatically fire off the action
-			currentAmount = 1;
+			CurrentAmount = 1;
 			FinalizeAction();
 		}
 	}
@@ -175,8 +180,8 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 			itemAmountAffectPanel.SetActive (false);
 
 			ItemNameDisplay.text = selectedItemUI.ItemName.text;
-			currentAmount = 0;
-			NumDisplay.text = currentAmount.ToString();
+			CurrentAmount = 0;
+			NumDisplay.text = CurrentAmount.ToString();
 
 			// checks to see if the buttons should be activated or not
 			// by default they are activated since 1 is the default number of
@@ -206,8 +211,8 @@ public class ChooseItemAmountPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void FinalizeAction()
 	{
-		GuiInstanceManager.ItemStackDetailPanelInstance.UpdateSelectedAmount(currentAmount);
-		selectedActionButton.PerformAction();
+		GuiInstanceManager.ItemStackDetailPanelInstance.UpdateSelectedAmount(CurrentAmount);
+        selectedActionButton.PerformAction();
 		Close.gameObject.SetActive (true);
 		itemAmountAffectPanel.SetActive (false);
 	}

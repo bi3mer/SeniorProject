@@ -6,14 +6,14 @@ using System.Collections.Generic;
 /// </summary>
 public class PlayerTools
 {
-    private Tool equippedTool;
-    private Tool[] possibleTools;
+    private PlayerTool equippedTool;
+    private PlayerTool[] possibleTools;
 
     /// <summary>
     /// Create a PlayerTools object.
     /// </summary>
     /// <param name="possibleToolsList">The list of Tools in the scene.</param>
-	public PlayerTools (Tool[] possibleToolsList)
+	public PlayerTools (PlayerTool[] possibleToolsList)
     {
         equippedTool = null;
         possibleTools = possibleToolsList;
@@ -45,7 +45,7 @@ public class PlayerTools
     /// <summary>
     /// The tool equipped by the player.
     /// </summary>
-    public Tool EquippedTool
+    public PlayerTool EquippedTool
     {
         get
         {
@@ -66,15 +66,15 @@ public class PlayerTools
     /// </summary>
     /// <param name="item">The BaseItem to find.</param>
     /// <returns>The implemenation, or null if the item has not been implemented.</returns>
-    public Tool GetToolByBaseItem(BaseItem item)
+    public PlayerTool GetToolByBaseItem(BaseItem item)
     {
-        Tool tool = null;
+        PlayerTool tool = null;
 
         // Get the correponding script containing the tool functionality
         // tool == null will terminate the loop early if we find the tool.
         for (int i = 0; i < possibleTools.Length && tool == null; ++i)
         {
-            Tool potentialTool = possibleTools[i];
+            PlayerTool potentialTool = possibleTools[i];
             if (potentialTool.ToolName.Equals(item.ItemName))
             {
                 tool = potentialTool;
@@ -99,7 +99,7 @@ public class PlayerTools
     /// </summary>
     /// <param name="previous">The tool being unequipped.</param>
     /// <param name="next">The tool being equipped.</param>
-    private void switchTool (Tool previous, Tool next)
+    private void switchTool (PlayerTool previous, PlayerTool next)
     {
         if (previous != null)
         {

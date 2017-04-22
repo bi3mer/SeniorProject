@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.Events;
 using System.Collections.Generic;
 
-public class Idol : Tool 
+public class Idol : PlayerTool 
 {
 	private IdolCategory idolBase;
 	private GameObject idolObject;
