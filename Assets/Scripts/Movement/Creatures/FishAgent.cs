@@ -98,7 +98,7 @@ public class FishAgent : MonoBehaviour
         // Set new position
         this.transform.position = this.transform.position + (this.Velocity * Time.deltaTime);
 
-        // set allignment of fish to face in the direction of the movement. We set it to the right
+        // set alignment of fish to face in the direction of the movement. We set it to the right
         // because of how the project from the 2d XY plane to 3d XZ plane works.
         this.transform.right  = this.Velocity;
 	}
