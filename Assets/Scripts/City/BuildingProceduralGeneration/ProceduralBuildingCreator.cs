@@ -41,37 +41,65 @@ public class ProceduralBuildingCreator : MonoBehaviour
     [SerializeField]
     private int materialInstances = 1;
     private int materialInstancesSoftCap = 15;
-
-    // Height of a single story
+ 
+    /// <summary>
+    /// Height of a single story
+    /// </summary>
     private const float storyHeightUnits = .75f;
-    // Length of 1 base building unit on the grid.
+    /// <summary>
+    /// Length of 1 base building unit on the grid.
+    /// </summary>
     private const float OneBaseLengthUnits = 3f;
-    // Half of above.
+    /// <summary>
+    /// Length of 1/2 base building unit on the grid.
+    /// </summary>
     private const float HalfBaseLengthUnits = OneBaseLengthUnits / 2f;
-    // Start rotation modifier of all attachments
+    /// <summary>
+    /// Start rotation modifier of all attachments
+    /// </summary>
     private const float attachmentRotationMod = 0f;
-    // Rotation mod of all windows.
+    /// <summary>
+    /// Rotation mod of all windows.
+    /// </summary>
     private const float attachmentWindowRotationMod = 90f;
 
-    // The string name to access the standard shader's smoothness value
+    /// <summary>
+    /// The string name to access the standard shader's smoothness value
+    /// </summary>
     private const string standardShaderSmoothness = "_GlossMapScale";
-    // The string name to access the standard shader's bump value
+    /// <summary>
+    /// The string name to access the standard shader's bump value
+    /// </summary>
     private const string standardShaderBump = "_BumpScale";
-    // The string name to access the building shader's smoothness value
+    /// <summary>
+    /// The string name to access the building shader's smoothness value
+    /// </summary>
     private const string buildingShaderSmoothness = "_Smoothness";
-    // The string name to access the  building shader's bump value
+    /// <summary>
+    /// The string name to access the  building shader's bump value
+    /// </summary>
     private const string buildingShaderBump = "_BuildingNormalWeight";
-    // The string name to access the  building shader's bump value
+    /// <summary>
+    /// The string name to access the  building shader's bump value
+    /// </summary>
     private const string buildingShaderDetail = "_DetailTexture";
-    // The string name to access the  building shader's bump value
+    /// <summary>
+    /// The string name to access the  building shader's bump value
+    /// </summary>
     private const string buildingShaderDetailNormal = "_DetailNormal";
-    // The string name to access the building shader's extra albedo coloring.
+    /// <summary>
+    /// The string name to access the building shader's extra albedo coloring.
+    /// </summary>
     private const string albedoColor = "_Albedo";
 
-    // How smooth building materials should be.
+    /// <summary>
+    /// How smooth building materials should be.
+    /// </summary>
     [Range(0f, 1f)]
     private float materialSmoothness = .72f;
-    // How normal the maps are.
+    /// <summary>
+    /// How normal the maps are.
+    /// </summary>
     [Range(0f, 1f)]
     private float normalWeight = .1f;
 
