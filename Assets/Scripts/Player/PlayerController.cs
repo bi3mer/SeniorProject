@@ -564,7 +564,6 @@ public class PlayerController : MonoBehaviour
                 {
                     Game.Player.HealthStatus = PlayerHealthStatus.Pneumonia;
                 }
-
             }
         }
     }
