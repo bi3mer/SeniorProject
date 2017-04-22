@@ -70,9 +70,6 @@ public class FishAgent : MonoBehaviour
 
 		// Start with random velocity
 		this.randomizeVelocity();
-
-		// get rigid body
-		this.rb = this.GetComponent<Rigidbody>();
 	}
 
 	/// <summary>
