@@ -147,10 +147,11 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictMaterials[i]);
                 newMaterial.SetFloat(buildingShaderSmoothness, materialSmoothness);
                 newMaterial.SetColor(albedoColor, district.MaterialAlbedoColors.Evaluate(Random.value));
+
                 newMaterial.SetFloat(buildingShaderBump , normalWeight);
-                district.districtProceduralMaterials.Add(newMaterial);
                 newMaterial.SetTexture(buildingShaderDetail, district.DistrictDetailMaterials[Random.Range(0, district.DistrictDetailMaterials.Length - 1)].detailAlbedo);
                 newMaterial.SetTexture(buildingShaderDetailNormal, district.DistrictDetailMaterials[Random.Range(0, district.DistrictDetailMaterials.Length - 1)].detailNormal);
+                district.districtProceduralMaterials.Add(newMaterial);
             }
         }
 
