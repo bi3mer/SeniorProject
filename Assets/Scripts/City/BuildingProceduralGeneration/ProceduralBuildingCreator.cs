@@ -56,20 +56,18 @@ public class ProceduralBuildingCreator : MonoBehaviour
     // The string name to access the standard shader's smoothness value
     private const string standardShaderSmoothness = "_GlossMapScale";
     // The string name to access the standard shader's bump value
-    private const string standardShaderBump = "_BumpScale"
-        ;
+    private const string standardShaderBump = "_BumpScale";
     // The string name to access the building shader's smoothness value
     private const string buildingShaderSmoothness = "_Smoothness";
     // The string name to access the  building shader's bump value
     private const string buildingShaderBump = "_BuildingNormalWeight";
-    
     // The string name to access the  building shader's bump value
     private const string buildingShaderDetail = "_DetailTexture";
     // The string name to access the  building shader's bump value
     private const string buildingShaderDetailNormal = "_DetailNormal";
-
-
+    // The string name to access the building shader's extra albedo coloring.
     private const string albedoColor = "_Albedo";
+
     // How smooth building materials should be.
     [Range(0f, 1f)]
     private float materialSmoothness = .72f;
@@ -121,8 +119,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
                 newMaterial.CopyPropertiesFromMaterial(district.DistrictMaterials[i]);
                 newMaterial.SetFloat(buildingShaderSmoothness, materialSmoothness);
                 newMaterial.SetColor(albedoColor, district.MaterialAlbedoColors.Evaluate(Random.value));
-                // Used for standard shader color.
-                //  newMaterial.color = district.MaterialAlbedoColors.Evaluate(Random.value);
                 newMaterial.SetFloat(buildingShaderBump , normalWeight);
                 district.districtProceduralMaterials.Add(newMaterial);
                 newMaterial.SetTexture(buildingShaderDetail, district.DistrictDetailMaterials[Random.Range(0, district.DistrictDetailMaterials.Length - 1)].detailAlbedo);
