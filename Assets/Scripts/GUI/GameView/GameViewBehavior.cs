@@ -208,12 +208,4 @@ public class GameViewBehavior : MonoBehaviour
 	{
 		Debug.LogError("Not yet implemented");
 	}
-
-	/// <summary>
-	/// Raises the back to menu click event.
-	/// </summary>
-	public void OnBackToMenuClick()
-	{
-		
-	}
 }
