@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Attribute
+public class ItemAttribute
 {
-	public Attribute(string name, float value)
+	public ItemAttribute(string name, float value)
 	{
 		Name = name;
 		Value = value;
@@ -25,8 +25,8 @@ public class Attribute
 	/// Gets the duplicate of the attribute
 	/// </summary>
 	/// <returns>The duplicate.</returns>
-	public Attribute GetDuplicate()
+	public ItemAttribute GetDuplicate()
 	{
-		return new Attribute(Name, Value);
+		return new ItemAttribute(Name, Value);
 	}
 }
