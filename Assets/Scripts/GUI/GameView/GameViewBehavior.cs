@@ -200,4 +200,12 @@ public class GameViewBehavior : MonoBehaviour
 		craftingPanel.gameObject.SetActive (true);
 		craftingPanel.ResetPanel();
 	}
+
+	/// <summary>
+	/// Raises the save click event.
+	/// </summary>
+	public void OnSaveClick()
+	{
+		Debug.LogError("Not yet implemented");
+	}
 }
