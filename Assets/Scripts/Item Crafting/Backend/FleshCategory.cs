@@ -52,7 +52,7 @@ public class FleshCategory : ItemCategory
         category.HungerGain = HungerGain;
 
         category.Actions = new List<ItemAction>();
-        category.Attributes = new List<Attribute>();
+        category.Attributes = new List<ItemAttribute>();
 
         ItemAction eat = new ItemAction(eatActName, new UnityAction(category.Eat));
 
@@ -68,10 +68,10 @@ public class FleshCategory : ItemCategory
     /// </summary>
     public override void ReadyCategory()
     {
-        Attributes = new List<Attribute>();
+        Attributes = new List<ItemAttribute>();
 
-        Attributes.Add(new Attribute(hungerGainAttrName, HungerGain));
-        Attributes.Add(new Attribute(healthEffectAttrName, HealthEffect));
+        Attributes.Add(new ItemAttribute(hungerGainAttrName, HungerGain));
+        Attributes.Add(new ItemAttribute(healthEffectAttrName, HealthEffect));
 
         Actions = new List<ItemAction>();
 

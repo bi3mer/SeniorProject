@@ -26,7 +26,7 @@ public class FuelCategory : ItemCategory
 
         category.BurnTime = BurnTime;
 
-        category.Attributes = new List<Attribute>();
+        category.Attributes = new List<ItemAttribute>();
         category.Actions = new List<ItemAction>();
 
         finishDuplication(category);
@@ -39,8 +39,8 @@ public class FuelCategory : ItemCategory
     /// </summary>
     public override void ReadyCategory()
     {
-        Attributes = new List<Attribute>();
-        Attributes.Add(new Attribute(burnTimeAttrName, BurnTime));
+        Attributes = new List<ItemAttribute>();
+        Attributes.Add(new ItemAttribute(burnTimeAttrName, BurnTime));
 
         Actions = new List<ItemAction>();
     }

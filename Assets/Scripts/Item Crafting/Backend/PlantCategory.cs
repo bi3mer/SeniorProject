@@ -101,7 +101,7 @@ public class PlantCategory : ItemCategory
 		category.PneumoniaEffect = PneumoniaEffect;
 
 		category.Actions = new List<ItemAction> ();
-		category.Attributes = new List<Attribute> ();
+		category.Attributes = new List<ItemAttribute> ();
 
 		ItemAction dry = new ItemAction (dryActName, new UnityAction(category.Dry));
 		ItemAction eat = new ItemAction (eatActName, new UnityAction(category.Eat));
@@ -121,11 +121,11 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public override void ReadyCategory()
 	{
-		Attributes = new List<Attribute> ();
+		Attributes = new List<ItemAttribute> ();
 
-		Attributes.Add (new Attribute (waterContAttrName, WaterContent));
-		Attributes.Add (new Attribute (toughAttrName, Toughness));
-		Attributes.Add (new Attribute (plantVolAttrName, PlantVolume));
+		Attributes.Add (new ItemAttribute (waterContAttrName, WaterContent));
+		Attributes.Add (new ItemAttribute (toughAttrName, Toughness));
+		Attributes.Add (new ItemAttribute (plantVolAttrName, PlantVolume));
 
 		Actions = new List<ItemAction> ();
 

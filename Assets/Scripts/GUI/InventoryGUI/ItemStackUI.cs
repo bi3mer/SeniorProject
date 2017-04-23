@@ -141,7 +141,7 @@ public class ItemStackUI : MonoBehaviour
 	/// Gets the item's attributes.
 	/// </summary>
 	/// <returns>The item's attributes.</returns>
-	public List<Attribute> GetItemAttributes()
+	public List<ItemAttribute> GetItemAttributes()
 	{
 		return targetStack.Item.GetItemAttributes ();
 	}

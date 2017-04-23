@@ -152,7 +152,7 @@ public class SolidCategory : ItemCategory
 		category.Sharpness = Sharpness;
 
 		category.Actions = new List<ItemAction> ();
-		category.Attributes = new List<Attribute> ();
+		category.Attributes = new List<ItemAttribute> ();
 
 		ItemAction sharpen = new ItemAction (sharpenActionName, new UnityAction (category.Sharpen));
 		ItemAction weave = new ItemAction (weaveActionName, null);
@@ -174,14 +174,14 @@ public class SolidCategory : ItemCategory
 	/// </summary>
 	public override void ReadyCategory()
 	{
-		Attributes = new List<Attribute>();
+		Attributes = new List<ItemAttribute>();
 
-		Attributes.Add (new Attribute (flexAttrName, Flexibility));
-		Attributes.Add (new Attribute (duraAttrName, Durability));
-		Attributes.Add (new Attribute (elasAttrName, Elasticity));
-		Attributes.Add (new Attribute (stickiAttrName, Stickiness));
-		Attributes.Add (new Attribute (sharpAttrName, Sharpness));
-		Attributes.Add (new Attribute (thickAttrName, Thickness));
+		Attributes.Add (new ItemAttribute (flexAttrName, Flexibility));
+		Attributes.Add (new ItemAttribute (duraAttrName, Durability));
+		Attributes.Add (new ItemAttribute (elasAttrName, Elasticity));
+		Attributes.Add (new ItemAttribute (stickiAttrName, Stickiness));
+		Attributes.Add (new ItemAttribute (sharpAttrName, Sharpness));
+		Attributes.Add (new ItemAttribute (thickAttrName, Thickness));
 
 		Actions = new List<ItemAction> ();
 

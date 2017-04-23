@@ -23,7 +23,7 @@ public class WarmthIdolCategory : IdolCategory
 	public override void ReadyCategory()
 	{
 		base.ReadyCategory();
-		Attributes.Add(new Attribute(warmthBenefitAttrName, WarmthBenefit));
+		Attributes.Add(new ItemAttribute(warmthBenefitAttrName, WarmthBenefit));
 	}
 
 
@@ -37,7 +37,7 @@ public class WarmthIdolCategory : IdolCategory
 
 		category.Equiped = Equiped;
 		category.Actions = new List<ItemAction>();
-		category.Attributes = new List<Attribute>();
+		category.Attributes = new List<ItemAttribute>();
 
 		category.WarmthBenefit = WarmthBenefit;
 
