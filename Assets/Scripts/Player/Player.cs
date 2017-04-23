@@ -123,7 +123,7 @@ public class Player
 
         	if(health <= 0)
         	{
-        //		Game.Instance.DeathManagerInstance.Death();
+        		Game.Instance.DeathManagerInstance.Death();
         	}
         }
     }

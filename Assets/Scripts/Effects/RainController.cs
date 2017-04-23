@@ -123,7 +123,7 @@ public class RainController : MonoBehaviour
         }
 
         // Rain level in the shader is evaluated between 0-1 where here it's 1-100
-        Shader.SetGlobalFloat("_RainIntensity", RainLevel / 100);
+        Shader.SetGlobalFloat("_RainIntensity", RainLevel / 100f);
     }
 
     /// <summary>
