@@ -115,40 +115,12 @@ public class ItemPoolManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Adds an item's information to grid.
-	/// </summary>
-	/// <param name="location">Location.</param>
-	/// <param name="item">Item.</param>
-	/// <param name="activated">If set to <c>true</c> activated.</param>
-	public void AddToGrid(Vector3 location, string item, bool activated)
-	{
-		Tuple<int, int> coord = PointToGrid(new Vector2(location.x, location.z));
-
-		if(coord.X >= 0 && coord.Y >= 0 && coord.X < grid.GetLength(0) && coord.Y < grid.GetLength(1))
-		{
-			if(grid[coord.X, coord.Y] == null)
-			{
-				grid[coord.X, coord.Y] = new ItemPoolInfo(location, item, activated);
-			}
-			else
-			{
-				grid[coord.X, coord.Y].ItemNames.Add(item);
-				grid[coord.X, coord.Y].Locations.Add(location);
-			}
-		}
-		else
-		{
-			Debug.LogError("Point " + location + " is out of city bounds.");
-		}
-	}
-
-	/// <summary>
 	/// Get the coord access points to grid from a worldspace point. (0, 0) is at the lower left corner of the city.
 	/// All values returned should be positive!
 	/// </summary>
 	/// <returns>The coord points used to access the ItemPoolInfo for that cell in the grid.</returns>
 	/// <param name="location">Location of the point.</param>
-	protected Tuple<int, int> PointToGrid(Vector2 location)
+	public Tuple<int, int> PointToGrid(Vector2 location)
 	{
 		return new Tuple<int, int> ((int)((location.x - cityCenter.x + cityWidth/2f) / cellSize), 
 									(int)((location.y - cityCenter.y + cityDepth/2f) / cellSize));
@@ -182,7 +154,6 @@ public class ItemPoolManager : MonoBehaviour
 				{
 					pool.Add(Game.Instance.WorldItemFactoryInstance.CreatePickUpInteractableItem(item, 1));
 				}
-
 			}
 		}
 	}
@@ -365,6 +336,34 @@ public class ItemPoolManager : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Adds an item's information to grid.
+	/// </summary>
+	/// <param name="location">Location.</param>
+	/// <param name="item">Item.</param>
+	/// <param name="activated">If set to <c>true</c> activated.</param>
+	public void AddToGrid(Vector3 location, string item, bool activated)
+	{
+		Tuple<int, int> coord = PointToGrid(new Vector2(location.x, location.z));
+
+		if(coord.X >= 0 && coord.Y >= 0 && coord.X < grid.GetLength(0) && coord.Y < grid.GetLength(1))
+		{
+			if(grid[coord.X, coord.Y] == null)
+			{
+				grid[coord.X, coord.Y] = new ItemPoolInfo(location, item, activated);
+			}
+			else
+			{
+				grid[coord.X, coord.Y].ItemNames.Add(item);
+				grid[coord.X, coord.Y].Locations.Add(location);
+			}
+		}
+		else
+		{
+			Debug.LogError("Point " + location + " is out of city bounds.");
+		}
+	}
+
+	/// <summary>
 	/// Adds an item that has just appeared in the world and was not previously accounted for.
 	/// </summary>
 	/// <param name="item">Item.</param>
@@ -372,20 +371,36 @@ public class ItemPoolManager : MonoBehaviour
 	{
 		Tuple<int, int> itemGridLocation = PointToGrid(new Vector2(item.transform.position.x, item.transform.position.z));
 
-		ItemPoolInfo gridCell = grid[itemGridLocation.X, itemGridLocation.Y];
-
-		if(gridCell == null)
+		if(itemGridLocation.X >= 0 && itemGridLocation.Y >= 0 && itemGridLocation.X < grid.GetLength(0) && itemGridLocation.Y < grid.GetLength(1))
 		{
-			grid[itemGridLocation.X, itemGridLocation.Y] = new ItemPoolInfo(item.transform.position, item.name, true);
-			grid[itemGridLocation.X, itemGridLocation.Y].Items.Add(item);
-		}
-		else
-		{
-			gridCell.AddItemInfo(item);
-		}
+			ItemPoolInfo gridCell = grid[itemGridLocation.X, itemGridLocation.Y];
 
-		item.transform.SetParent(activePool);
-		item.SetActive(true);
+			if(gridCell == null)
+			{
+				grid[itemGridLocation.X, itemGridLocation.Y] = new ItemPoolInfo(item.transform.position, item.name, true);
+				grid[itemGridLocation.X, itemGridLocation.Y].Items.Add(item);
+			}
+			else
+			{
+				gridCell.AddItemInfo(item);
+			}
+
+			item.transform.SetParent(activePool);
+			item.SetActive(true);
+		}
+	}
+
+	/// <summary>
+	/// Adds the item immediately to the world.
+	/// </summary>
+	/// <param name="location">Location.</param>
+	/// <param name="item">Item.</param>
+	public void AddItemImmediate(Vector3 location, string item)
+	{
+		GameObject itemToAdd = getItemFromPool(item);
+		itemToAdd.transform.position = location;
+
+		AddItemFromWorld(itemToAdd);
 	}
 
 	/// <summary>

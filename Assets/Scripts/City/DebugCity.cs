@@ -63,7 +63,7 @@ public class DebugCity : MonoBehaviour
             			{
             				for(k = 0; k < itemInfo[i, j].Locations.Count; ++k)
             				{
-            					Gizmos.DrawSphere(itemInfo[i, j].Locations[k], 0.25f);
+            					Gizmos.DrawSphere(itemInfo[i, j].Locations[k], 1f);
             				}
             			}
             		}

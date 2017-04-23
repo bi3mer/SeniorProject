@@ -13,6 +13,10 @@ public class WaterItemGeneration : ItemGenerator
 	private int numberOfInitialPoints;
 
 	[SerializeField]
+	[Tooltip("Number of initial points when generating within a single cell only.")]
+	private int numberOfInitialPointsInSingleCell;
+
+	[SerializeField]
 	[Tooltip("Generally, the more points per previous point and less number of initial points, the more clustered item generation will be")]
 	private int newPointsPerSamplingPoint;
 
@@ -23,6 +27,10 @@ public class WaterItemGeneration : ItemGenerator
 	[SerializeField]
 	[Tooltip("How many times it will generate an item for a point without checking for district before checking for district again")]
 	private int districtCheck;
+
+	[SerializeField]
+	[Tooltip("How many grid chunks away the storm event will generate more items for the player.")]
+	private int itemIncreaseChunks;
 
 	/// <summary>
 	/// The point generator.
@@ -87,6 +95,34 @@ public class WaterItemGeneration : ItemGenerator
 		}
 	}
 
+	public void GenerateInWaterAroundPlayer()
+	{
+		Tuple<int, int> playerLocation = Game.Instance.ItemPoolInstance.PointToGrid(new Vector2(Game.Instance.PlayerInstance.WorldTransform.position.x, 
+																 Game.Instance.PlayerInstance.WorldTransform.position.z));
+
+		int maxX = Mathf.Clamp(playerLocation.X + itemIncreaseChunks, 0, (int)Game.Instance.CityBounds.CityBounds.max.x);
+		int minX = Mathf.Clamp(playerLocation.X - itemIncreaseChunks, 0, (int)Game.Instance.CityBounds.CityBounds.max.x);
+		int maxY = Mathf.Clamp(playerLocation.Y + itemIncreaseChunks, 0, (int)Game.Instance.CityBounds.CityBounds.max.y);
+		int minY = Mathf.Clamp(playerLocation.Y - itemIncreaseChunks, 0, (int)Game.Instance.CityBounds.CityBounds.max.y);
+
+		Dictionary<string, List<float>> generatableItemExtents = new Dictionary<string, List<float>>();
+
+		if(pointGenerator != null)
+		{
+			foreach(string key in districtItemInfo.Keys)
+			{
+				generatableItemExtents.Add(key, districtItemInfo[key].ItemExtents);
+			}
+
+			List<ItemPlacementSamplePoint> points = pointGenerator.GetPointsInWater(generatableItemExtents, minX, minY, maxX, maxY);
+
+			if (points.Count > 0) 
+			{
+				addObjectsToPoolManager(points);
+			}
+		}
+	}
+
 	/// <summary>
 	/// Adds the building to water point generation's map of blocked off space.
 	/// </summary>
@@ -99,8 +135,6 @@ public class WaterItemGeneration : ItemGenerator
 	/// <summary>
 	/// Generates the objects that needs to be placed on the building's surface.
 	/// </summary>
-	/// <param name="hasDoor">If set to <c>true</c>, there is a door that needs to be created.</param>
-	/// <param name="district">Name of the district for which generation is occuring.</param>
 	/// <param name="points">Points.</param>
 	private void addObjectsToPoolManager(List<ItemPlacementSamplePoint> points)
 	{
@@ -109,6 +143,21 @@ public class WaterItemGeneration : ItemGenerator
 			if(points[i].ItemIndex < districtItemInfo[points[i].District].ItemNames.Count)
 			{
 				poolManager.AddToGrid(points[i].WorldSpaceLocation, districtItemInfo[points[i].District].ItemNames[points[i].ItemIndex], false);
+			}
+		}
+	}
+
+	/// <summary>
+	/// Adds the objects to world. Adds to pool manager.
+	/// </summary>
+	/// <param name="points">Points that need to be added.</param>
+	private void addObjectsToWorld(List<ItemPlacementSamplePoint> points)
+	{
+		for (int i = 0; i < points.Count; ++i) 
+		{
+			if(points[i].ItemIndex < districtItemInfo[points[i].District].ItemNames.Count)
+			{
+				poolManager.AddItemImmediate(points[i].WorldSpaceLocation, districtItemInfo[points[i].District].ItemNames[points[i].ItemIndex]);
 			}
 		}
 	}
