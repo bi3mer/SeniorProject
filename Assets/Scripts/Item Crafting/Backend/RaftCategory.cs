@@ -33,7 +33,7 @@ public class RaftCategory : ItemCategory
         RaftCategory category = new RaftCategory();
 
         category.Actions = new List<ItemAction>();
-        category.Attributes = new List<Attribute>();
+        category.Attributes = new List<ItemAttribute>();
 
         category.Speed = Speed;
         if (Game.Instance.PlayerInstance.Controller.IsWaterInView)
@@ -52,8 +52,8 @@ public class RaftCategory : ItemCategory
     /// </summary>
     public override void ReadyCategory()
     {
-        Attributes = new List<Attribute>();
-        Attributes.Add(new Attribute(speedAttrName, Speed));
+        Attributes = new List<ItemAttribute>();
+        Attributes.Add(new ItemAttribute(speedAttrName, Speed));
 
         Actions = new List<ItemAction>();
     }

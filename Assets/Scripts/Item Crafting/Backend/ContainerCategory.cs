@@ -24,7 +24,7 @@ public class ContainerCategory : ItemCategory
 		ContainerCategory category = new ContainerCategory();
 		category.Size = Size;
 		category.Actions = new List<ItemAction>();
-		category.Attributes = new List<Attribute>();
+		category.Attributes = new List<ItemAttribute>();
 
 		ItemAction setDown = new ItemAction (setDownActName, new UnityAction(category.SetDown));
 
@@ -40,8 +40,8 @@ public class ContainerCategory : ItemCategory
 	/// </summary>
 	public override void ReadyCategory()
 	{
-		Attributes = new List<Attribute> ();
-		Attributes.Add(new Attribute(sizeAttrName, Size));
+		Attributes = new List<ItemAttribute> ();
+		Attributes.Add(new ItemAttribute(sizeAttrName, Size));
 
 		Actions = new List<ItemAction> ();
 		ItemAction setDown = new ItemAction (setDownActName, new UnityAction(SetDown));
