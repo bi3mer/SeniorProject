@@ -75,4 +75,14 @@
 			this.ResumeUpdate();
 		}
 	}
+
+	/// <summary>
+	/// Resets the delegates for pausing and resuming
+	/// </summary>
+	public void ResetDelegates()
+	{
+		this.ResumeUpdate    = null;
+		this.PauseUpdate     = null;
+		this.MenuPauseUpdate = null;
+	}
 }

@@ -34,6 +34,9 @@
 		FMODUnity.RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
 
         PlayerInstance.ResetStatus();
+
+        this.PauseInstance.ResetDelegates();
+		
     }
  
     /// <summary>
