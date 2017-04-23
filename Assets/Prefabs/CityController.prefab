@@ -16,19 +16,19 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000012044711258}
-  - 114: {fileID: 114000012868407098}
-  - 114: {fileID: 114000013616052872}
-  - 114: {fileID: 114000012634621658}
-  - 114: {fileID: 114000013433191368}
-  - 114: {fileID: 114000014275874900}
-  - 114: {fileID: 114000010239616376}
-  - 114: {fileID: 114000013392317438}
-  - 114: {fileID: 114000011626432178}
-  - 114: {fileID: 114000010221364680}
-  - 114: {fileID: 114000011026012388}
+  - component: {fileID: 4000012044711258}
+  - component: {fileID: 114000012868407098}
+  - component: {fileID: 114000013616052872}
+  - component: {fileID: 114000012634621658}
+  - component: {fileID: 114000013433191368}
+  - component: {fileID: 114000014275874900}
+  - component: {fileID: 114000010239616376}
+  - component: {fileID: 114000013392317438}
+  - component: {fileID: 114000011626432178}
+  - component: {fileID: 114000010221364680}
+  - component: {fileID: 114000011026012388}
   m_Layer: 0
   m_Name: CityController
   m_TagString: Untagged
@@ -45,10 +45,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114000010221364680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,12 +84,14 @@ MonoBehaviour:
   distributionCurve:
     serializedVersion: 2
     m_Curve:
-    - time: 0
+    - serializedVersion: 2
+      time: 0
       value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
-    - time: 1
+    - serializedVersion: 2
+      time: 1
       value: 1
       inSlope: 2
       outSlope: 2
@@ -256,6 +258,15 @@ MonoBehaviour:
     - {fileID: 2100000, guid: f4c160b21e5385b4e933e0c9c9ae4cb7, type: 2}
     - {fileID: 2100000, guid: 52a93ec1c29c1254d857a20c09deb898, type: 2}
     - {fileID: 2100000, guid: 06621b41045298443a6c94a2c7b8c622, type: 2}
+    districtDetailMaterials:
+    - detailAlbedo: {fileID: 2800000, guid: 11f5242996c031047943ef7631f02787, type: 3}
+      detailNormal: {fileID: 2800000, guid: 3d47470d8894e434897f71439b0514b0, type: 3}
+    - detailAlbedo: {fileID: 2800000, guid: 0a6aea833ef9c6e45afd9c9bce1fe401, type: 3}
+      detailNormal: {fileID: 2800000, guid: d9056f7680cc5874b87f12781175e676, type: 3}
+    - detailAlbedo: {fileID: 2800000, guid: 0dafb018833044d488769ab5330f55d5, type: 3}
+      detailNormal: {fileID: 2800000, guid: 5b3d2c456a56afe4b9175d40919c9d7e, type: 3}
+    - detailAlbedo: {fileID: 2800000, guid: ca6402ea2b723344eb4f2fcfdc616261, type: 3}
+      detailNormal: {fileID: 2800000, guid: 1902727e017e4174c957c77f2a55d2e0, type: 3}
     districtWindowMaterials:
     - {fileID: 2100000, guid: 67d597f6c1f779a40b530b049978c114, type: 2}
     - {fileID: 2100000, guid: 450b1e3de4f440243a09a693bcf83c45, type: 2}
@@ -268,30 +279,15 @@ MonoBehaviour:
     - {fileID: 2100000, guid: 6f43a5fbea6c68b4b9f19386fce97a71, type: 2}
     - {fileID: 2100000, guid: e96f0d8a3eae8d34ba0ee36e77d9c536, type: 2}
     materialAlbedoColors:
-      key0:
-        serializedVersion: 2
-        rgba: 4287329654
-      key1:
-        serializedVersion: 2
-        rgba: 4286675053
-      key2:
-        serializedVersion: 2
-        rgba: 9139574
-      key3:
-        serializedVersion: 2
-        rgba: 8876667
-      key4:
-        serializedVersion: 2
-        rgba: 0
-      key5:
-        serializedVersion: 2
-        rgba: 0
-      key6:
-        serializedVersion: 2
-        rgba: 0
-      key7:
-        serializedVersion: 2
-        rgba: 0
+      serializedVersion: 2
+      key0: {r: 0.4627451, g: 0.45882353, b: 0.54509807, a: 1}
+      key1: {r: 0.42745098, g: 0.47058824, b: 0.5058824, a: 1}
+      key2: {r: 0.4627451, g: 0.45882353, b: 0.54509807, a: 0}
+      key3: {r: 0.48235294, g: 0.44705883, b: 0.5294118, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
       ctime1: 18504
       ctime2: 44718
@@ -308,6 +304,7 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
+      m_Mode: 0
       m_NumColorKeys: 4
       m_NumAlphaKeys: 2
     districtProceduralMaterials: []
@@ -318,12 +315,14 @@ MonoBehaviour:
     windowWasherMaxLengthCurve:
       serializedVersion: 2
       m_Curve:
-      - time: 0
+      - serializedVersion: 2
+        time: 0
         value: 5
         inSlope: 0
         outSlope: 0
         tangentMode: 0
-      - time: 1
+      - serializedVersion: 2
+        time: 1
         value: 15
         inSlope: 2
         outSlope: 2
@@ -402,6 +401,15 @@ MonoBehaviour:
     - {fileID: 2100000, guid: f4c160b21e5385b4e933e0c9c9ae4cb7, type: 2}
     - {fileID: 2100000, guid: 52a93ec1c29c1254d857a20c09deb898, type: 2}
     - {fileID: 2100000, guid: 06621b41045298443a6c94a2c7b8c622, type: 2}
+    districtDetailMaterials:
+    - detailAlbedo: {fileID: 2800000, guid: ed57e87a87ca665428d1d3d826e24040, type: 3}
+      detailNormal: {fileID: 2800000, guid: d6915253440db6a4e8bf5c4c545bc6f4, type: 3}
+    - detailAlbedo: {fileID: 2800000, guid: d0547cd63bb1a064dba7f8b0d6c35644, type: 3}
+      detailNormal: {fileID: 2800000, guid: 7d3133138bfef40449a03738b2932c56, type: 3}
+    - detailAlbedo: {fileID: 2800000, guid: ca6402ea2b723344eb4f2fcfdc616261, type: 3}
+      detailNormal: {fileID: 2800000, guid: 1902727e017e4174c957c77f2a55d2e0, type: 3}
+    - detailAlbedo: {fileID: 2800000, guid: 68de4db43b2256945a567189593aca2a, type: 3}
+      detailNormal: {fileID: 2800000, guid: 499c4228a9034d74aa38b76764613603, type: 3}
     districtWindowMaterials:
     - {fileID: 2100000, guid: 67d597f6c1f779a40b530b049978c114, type: 2}
     - {fileID: 2100000, guid: 450b1e3de4f440243a09a693bcf83c45, type: 2}
@@ -414,30 +422,15 @@ MonoBehaviour:
     - {fileID: 2100000, guid: 6f43a5fbea6c68b4b9f19386fce97a71, type: 2}
     - {fileID: 2100000, guid: e96f0d8a3eae8d34ba0ee36e77d9c536, type: 2}
     materialAlbedoColors:
-      key0:
-        serializedVersion: 2
-        rgba: 4287473569
-      key1:
-        serializedVersion: 2
-        rgba: 4286551942
-      key2:
-        serializedVersion: 2
-        rgba: 9283489
-      key3:
-        serializedVersion: 2
-        rgba: 9744304
-      key4:
-        serializedVersion: 2
-        rgba: 4106928
-      key5:
-        serializedVersion: 2
-        rgba: 0
-      key6:
-        serializedVersion: 2
-        rgba: 0
-      key7:
-        serializedVersion: 2
-        rgba: 0
+      serializedVersion: 2
+      key0: {r: 0.6313726, g: 0.654902, b: 0.5529412, a: 1}
+      key1: {r: 0.5254902, g: 0.5921569, b: 0.49803922, a: 1}
+      key2: {r: 0.6313726, g: 0.654902, b: 0.5529412, a: 0}
+      key3: {r: 0.6901961, g: 0.6862745, b: 0.5803922, a: 0}
+      key4: {r: 0.6901961, g: 0.6666667, b: 0.24313726, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
       ctime1: 18311
       ctime2: 42983
@@ -454,6 +447,7 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
+      m_Mode: 0
       m_NumColorKeys: 4
       m_NumAlphaKeys: 2
     districtProceduralMaterials: []
@@ -464,12 +458,14 @@ MonoBehaviour:
     windowWasherMaxLengthCurve:
       serializedVersion: 2
       m_Curve:
-      - time: 0
+      - serializedVersion: 2
+        time: 0
         value: 5
         inSlope: 0
         outSlope: 0
         tangentMode: 0
-      - time: 1
+      - serializedVersion: 2
+        time: 1
         value: 15
         inSlope: 2
         outSlope: 2
@@ -548,6 +544,15 @@ MonoBehaviour:
     - {fileID: 2100000, guid: f4c160b21e5385b4e933e0c9c9ae4cb7, type: 2}
     - {fileID: 2100000, guid: 52a93ec1c29c1254d857a20c09deb898, type: 2}
     - {fileID: 2100000, guid: 06621b41045298443a6c94a2c7b8c622, type: 2}
+    districtDetailMaterials:
+    - detailAlbedo: {fileID: 2800000, guid: 2c606ff8fc5441b4ab39b868fdd0c79b, type: 3}
+      detailNormal: {fileID: 2800000, guid: 7a241f52e59d4eb41931763dda295402, type: 3}
+    - detailAlbedo: {fileID: 2800000, guid: bb4cc7de9aa08a543b6f62278e620bdf, type: 3}
+      detailNormal: {fileID: 2800000, guid: f8ca992ab4ffdf64e9889246ba30fe1d, type: 3}
+    - detailAlbedo: {fileID: 2800000, guid: 0a6aea833ef9c6e45afd9c9bce1fe401, type: 3}
+      detailNormal: {fileID: 2800000, guid: d9056f7680cc5874b87f12781175e676, type: 3}
+    - detailAlbedo: {fileID: 2800000, guid: ed57e87a87ca665428d1d3d826e24040, type: 3}
+      detailNormal: {fileID: 2800000, guid: d6915253440db6a4e8bf5c4c545bc6f4, type: 3}
     districtWindowMaterials:
     - {fileID: 2100000, guid: 67d597f6c1f779a40b530b049978c114, type: 2}
     - {fileID: 2100000, guid: 450b1e3de4f440243a09a693bcf83c45, type: 2}
@@ -560,30 +565,15 @@ MonoBehaviour:
     - {fileID: 2100000, guid: 6f43a5fbea6c68b4b9f19386fce97a71, type: 2}
     - {fileID: 2100000, guid: e96f0d8a3eae8d34ba0ee36e77d9c536, type: 2}
     materialAlbedoColors:
-      key0:
-        serializedVersion: 2
-        rgba: 4288785855
-      key1:
-        serializedVersion: 2
-        rgba: 4288787647
-      key2:
-        serializedVersion: 2
-        rgba: 10595775
-      key3:
-        serializedVersion: 2
-        rgba: 10394552
-      key4:
-        serializedVersion: 2
-        rgba: 0
-      key5:
-        serializedVersion: 2
-        rgba: 0
-      key6:
-        serializedVersion: 2
-        rgba: 0
-      key7:
-        serializedVersion: 2
-        rgba: 0
+      serializedVersion: 2
+      key0: {r: 0.7490196, g: 0.6784314, b: 0.6313726, a: 1}
+      key1: {r: 0.7490196, g: 0.7058824, b: 0.6313726, a: 1}
+      key2: {r: 0.7490196, g: 0.6784314, b: 0.6313726, a: 0}
+      key3: {r: 0.72156864, g: 0.60784316, b: 0.61960787, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
       ctime1: 18504
       ctime2: 44718
@@ -600,6 +590,7 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
+      m_Mode: 0
       m_NumColorKeys: 4
       m_NumAlphaKeys: 2
     districtProceduralMaterials: []
@@ -610,12 +601,14 @@ MonoBehaviour:
     windowWasherMaxLengthCurve:
       serializedVersion: 2
       m_Curve:
-      - time: 0
+      - serializedVersion: 2
+        time: 0
         value: 5
         inSlope: 0
         outSlope: 0
         tangentMode: 0
-      - time: 1
+      - serializedVersion: 2
+        time: 1
         value: 15
         inSlope: 2
         outSlope: 2
@@ -713,6 +706,7 @@ MonoBehaviour:
     - {fileID: 2100000, guid: bf8152983f038814395354ad82e91b5c, type: 2}
     - {fileID: 2100000, guid: 493bd609ae5a38b4182373c075b6b72d, type: 2}
     - {fileID: 2100000, guid: 13775d9b82d164e41a11ba0b452be283, type: 2}
+    districtDetailMaterials: []
     districtWindowMaterials:
     - {fileID: 2100000, guid: 67d597f6c1f779a40b530b049978c114, type: 2}
     - {fileID: 2100000, guid: 450b1e3de4f440243a09a693bcf83c45, type: 2}
@@ -730,30 +724,15 @@ MonoBehaviour:
     - {fileID: 2100000, guid: f18c679bb7767a04f8ae5aa42a9a0249, type: 2}
     - {fileID: 2100000, guid: 4f6597e010c06094c9e057a5297d4746, type: 2}
     materialAlbedoColors:
-      key0:
-        serializedVersion: 2
-        rgba: 4294967295
-      key1:
-        serializedVersion: 2
-        rgba: 4294967295
-      key2:
-        serializedVersion: 2
-        rgba: 3755178
-      key3:
-        serializedVersion: 2
-        rgba: 3755178
-      key4:
-        serializedVersion: 2
-        rgba: 3755178
-      key5:
-        serializedVersion: 2
-        rgba: 0
-      key6:
-        serializedVersion: 2
-        rgba: 0
-      key7:
-        serializedVersion: 2
-        rgba: 0
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0.6666667, g: 0.29803923, b: 0.22352941, a: 0}
+      key3: {r: 0.6666667, g: 0.29803923, b: 0.22352941, a: 0}
+      key4: {r: 0.6666667, g: 0.29803923, b: 0.22352941, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
       ctime1: 65535
       ctime2: 65535
@@ -770,6 +749,7 @@ MonoBehaviour:
       atime5: 0
       atime6: 0
       atime7: 0
+      m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     districtProceduralMaterials:
@@ -813,12 +793,14 @@ MonoBehaviour:
     windowWasherMaxLengthCurve:
       serializedVersion: 2
       m_Curve:
-      - time: 0
+      - serializedVersion: 2
+        time: 0
         value: 5
         inSlope: 0
         outSlope: 0
         tangentMode: 0
-      - time: 1
+      - serializedVersion: 2
+        time: 1
         value: 15
         inSlope: 2
         outSlope: 2

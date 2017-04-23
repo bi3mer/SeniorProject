@@ -256,6 +256,27 @@ public class DistrictConfiguration
         }
     }
 
+    /// <summary>
+    /// Struct used to contain both detail textures applied to procedural buildings
+    /// </summary>
+    [Serializable]
+    public struct detailTextures
+    {
+        public Texture detailAlbedo;
+        public Texture detailNormal;
+    }
+
+    [SerializeField]
+    private detailTextures[] districtDetailMaterials;
+    public detailTextures[] DistrictDetailMaterials
+    {
+        get
+        {
+            return districtDetailMaterials;
+        }
+    }
+
+
     [SerializeField]
     private Material[] districtWindowMaterials;
     /// <summary>
