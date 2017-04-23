@@ -228,15 +228,12 @@ public class PlayerController : MonoBehaviour
 
         // start reducing hunger
 		PlayerStatManager.HungerRate.UseDefaultHungerReductionRate();
-        StartCoroutine(UpdateHunger());
 
         // start updating warmth
 		PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate();
-        StartCoroutine(UpdateWarmth());
 
 		// start updating health
 		PlayerStatManager.HealthRate.UseDefaultHealthRate ();
-		StartCoroutine (UpdateHealth ());
 
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
@@ -527,6 +524,7 @@ public class PlayerController : MonoBehaviour
 		while (updateStats)
 		{
 			yield return new WaitForSeconds(PlayerStatManager.WarmthRate.PerSeconds);
+
 			if (!PlayerStatManager.StopStats) 
 			{
 				PlayerStatManager.WarmthRate.ApplyRateToStat ();
@@ -830,8 +828,13 @@ public class PlayerController : MonoBehaviour
 		freezePlayer = false;
 		freezeCamera = false;
 
-		StartCoroutine(UpdateHunger());
-		StartCoroutine(UpdateWarmth());
+		StopCoroutine("UpdateHunger");
+		StopCoroutine("UpdateWarmth");
+		StopCoroutine("UpdateHealth");
+
+		StartCoroutine("UpdateHunger");
+		StartCoroutine("UpdateWarmth");
+		StartCoroutine("UpdateHealth");
     }
 
     /// <summary>
