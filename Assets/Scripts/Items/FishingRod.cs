@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(BezierLine))]
-public class FishingRod : Tool
+public class FishingRod : PlayerTool
 {
     // TODO: Animations
 

@@ -16,12 +16,12 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000010431805018}
-  - 114: {fileID: 114000013814744884}
-  - 114: {fileID: 114000013780096858}
-  - 114: {fileID: 114000011031549040}
+  - component: {fileID: 4000010431805018}
+  - component: {fileID: 114000013814744884}
+  - component: {fileID: 114000013780096858}
+  - component: {fileID: 114000011031549040}
   m_Layer: 0
   m_Name: creature manager
   m_TagString: Untagged
@@ -38,10 +38,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.15489483, y: 3.2957926, z: 3.5939589}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114000011031549040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -57,9 +57,9 @@ MonoBehaviour:
   - {fileID: 1000011000511242, guid: 1222c2969b2ae9b4c9e46436d8392d85, type: 2}
   minCreatureCount: 1
   maxCreatureCount: 2
-  maxSpawnRadius: 25
-  minSpawnRadius: 10
-  waterLevelOffset: -2
+  maxSpawnRadius: 200
+  minSpawnRadius: 0
+  waterLevelOffset: -5
 --- !u!114 &114000013780096858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -77,7 +77,7 @@ MonoBehaviour:
   maxCreatureCount: 80
   maxSpawnRadius: 25
   minSpawnRadius: 10
-  waterLevelOffset: -2
+  waterLevelOffset: -3.5
 --- !u!114 &114000013814744884
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -96,3 +96,4 @@ MonoBehaviour:
   maxSpawnRadius: 25
   minSpawnRadius: 10
   waterLevelOffset: -2
+  updateAfterStormEndTime: 20

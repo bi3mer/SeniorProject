@@ -24,7 +24,7 @@ namespace RootMotion.FinalIK {
 		/// <summary>
 		/// The %IK rotation target.
 		/// </summary>
-		public Quaternion IKRotation;
+		public Quaternion IKRotation = Quaternion.identity;
 		/// <summary>
 		/// The bend plane normal.
 		/// </summary>

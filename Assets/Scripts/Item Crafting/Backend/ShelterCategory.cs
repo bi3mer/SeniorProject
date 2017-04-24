@@ -27,7 +27,7 @@ public class ShelterCategory : ItemCategory
         ShelterCategory category = new ShelterCategory();
 
         category.WarmthRate = WarmthRate;
-        category.Attributes = new List<Attribute>();
+        category.Attributes = new List<ItemAttribute>();
         category.Actions = new List<ItemAction>();
 
         ItemAction setDown = new ItemAction(setDownActName, new UnityAction(category.SetDown));
@@ -44,8 +44,8 @@ public class ShelterCategory : ItemCategory
     /// </summary>
     public override void ReadyCategory()
     {
-        Attributes = new List<Attribute>();
-        Attributes.Add(new Attribute(warmthRateAttrName, WarmthRate));
+        Attributes = new List<ItemAttribute>();
+        Attributes.Add(new ItemAttribute(warmthRateAttrName, WarmthRate));
 
         Actions = new List<ItemAction>();
         Actions.Add(new ItemAction(setDownActName, new UnityAction(SetDown)));

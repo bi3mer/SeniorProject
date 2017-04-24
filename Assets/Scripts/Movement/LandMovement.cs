@@ -33,6 +33,7 @@ public class LandMovement : Movement
     private const float playerAnimatorWalk = .5f;
     private const float playerAnimatorIdle = 0f;
     private const int playerAnimatorArmsLayer = 1;
+    private float windArmLerpSpeed = .15f;
     private CharacterController controller;
     private PlayerController playerController;
 
@@ -125,12 +126,12 @@ public class LandMovement : Movement
         {
             Speed *= againstWindSpeedModifier;
             // Set the player's blend weight to be 1.
-            playerAnimator.SetLayerWeight(playerAnimatorArmsLayer, 1f);
+            playerAnimator.SetLayerWeight(playerAnimatorArmsLayer, Mathf.Lerp(playerAnimator.GetLayerWeight(playerAnimatorArmsLayer), 1f, windArmLerpSpeed));
         }
         else
         {
             // Set the player's blend weight to be 0.
-            playerAnimator.SetLayerWeight(playerAnimatorArmsLayer, 0f);
+            playerAnimator.SetLayerWeight(playerAnimatorArmsLayer, Mathf.Lerp(playerAnimator.GetLayerWeight(playerAnimatorArmsLayer), 0f, windArmLerpSpeed));
         }
         Vector3 moveVector = lastDirection * Speed;
 

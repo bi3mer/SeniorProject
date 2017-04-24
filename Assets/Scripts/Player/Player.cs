@@ -18,8 +18,9 @@ public class Player
     private const int maxHunger = 100;
     private const string playerInventoryName = "player";
     private const string inventoryFileName = "InventoryYaml.yml";
-    private const int playerInventorySize = 20;
+    private const int playerInventorySize = 10;
     private int health;
+    private PlayerHealthStatus healthStatus;
     private Vector3 worldPosition;
 
     public const float FoodPoisoningChance = 0.3f;
@@ -201,7 +202,30 @@ public class Player
     /// </summary>
     public PlayerHealthStatus HealthStatus
     {
-        get;
-        set;
+        get
+        {
+        	return healthStatus;
+        }
+        set
+        {
+        	healthStatus = value;
+
+        	// this is null when the game first starts
+        	if(GuiInstanceManager.PlayerNotificationInsance != null)
+        	{
+	        	if(healthStatus == PlayerHealthStatus.FoodPoisoning)
+	        	{
+					GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.STOMACH);
+	        	}
+	        	else if(healthStatus == PlayerHealthStatus.Pneumonia)
+	        	{
+					GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.PNEUMONIA);
+	        	}
+	        	else if(healthStatus == PlayerHealthStatus.None)
+	        	{
+					GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.CURE);
+	        	}
+	        }
+        }
     }
 }

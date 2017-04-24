@@ -119,6 +119,7 @@ public class InventoryUI : MonoBehaviour
 	public void RefreshInventoryPanel()
 	{
 		ItemStack[] newContents = TargetInventory.GetInventory ();
+		inventoryLayoutManager.CheckGridSize();
 
 		for (int i = 0; i < newContents.Length; ++i) 
 		{

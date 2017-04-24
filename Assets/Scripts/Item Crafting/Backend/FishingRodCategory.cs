@@ -13,7 +13,7 @@ public class FishingRodCategory : EquipableCategory
 		FishingRodCategory category = new FishingRodCategory();
 		category.Equiped = Equiped;
 		category.Actions = new List<ItemAction>();
-		category.Attributes = new List<Attribute>();
+		category.Attributes = new List<ItemAttribute>();
 
 		ItemAction equip = new ItemAction (equipActionName, new UnityAction(category.Equip));
 		ItemAction unequip = new ItemAction (unequipActionName, new UnityAction(category.UnEquip));
@@ -31,8 +31,8 @@ public class FishingRodCategory : EquipableCategory
 	/// </summary>
 	public override void ReadyCategory()
 	{
-		Attributes = new List<Attribute> ();
-		Attributes.Add(new Attribute(equipedAttributeName, Equiped));
+		Attributes = new List<ItemAttribute> ();
+		Attributes.Add(new ItemAttribute(equipedAttributeName, Equiped));
 
 		Actions = new List<ItemAction> ();
 		ItemAction equip = new ItemAction (equipActionName, new UnityAction(Equip));

@@ -62,7 +62,7 @@ public class LightCategory : EquipableCategory
 		LightCategory category = new LightCategory();
 		category.Equiped = Equiped;
 		category.Actions = new List<ItemAction>();
-		category.Attributes = new List<Attribute>();
+		category.Attributes = new List<ItemAttribute>();
 
 		category.MaxFuel = MaxFuel;
 		category.Brightness = Brightness;
@@ -85,12 +85,12 @@ public class LightCategory : EquipableCategory
 	/// </summary>
 	public override void ReadyCategory()
 	{
-		Attributes = new List<Attribute> ();
-		Attributes.Add(new Attribute(equipedAttributeName, Equiped));
-		Attributes.Add(new Attribute(burnRateAttrName, BurnRate));
-		Attributes.Add(new Attribute(brightnessAttrName, Brightness));
-		Attributes.Add(new Attribute(currentFuelLevelAttrName, CurrentFuelLevel));
-		Attributes.Add(new Attribute(maxFuelAttrName, MaxFuel));
+		Attributes = new List<ItemAttribute> ();
+		Attributes.Add(new ItemAttribute(equipedAttributeName, Equiped));
+		Attributes.Add(new ItemAttribute(burnRateAttrName, BurnRate));
+		Attributes.Add(new ItemAttribute(brightnessAttrName, Brightness));
+		Attributes.Add(new ItemAttribute(currentFuelLevelAttrName, CurrentFuelLevel));
+		Attributes.Add(new ItemAttribute(maxFuelAttrName, MaxFuel));
 
 		Actions = new List<ItemAction> ();
 		ItemAction equip = new ItemAction (equipActionName, new UnityAction(Equip));

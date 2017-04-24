@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 // Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
 
@@ -224,7 +226,7 @@ Shader "Trolltunga/LowPolyCollisionRadialWaves 2.0"
 					}
 
 					o.pos = IN[0].pos;
-					o.pos = mul(UNITY_MATRIX_MVP, IN[0].pos);
+					o.pos = UnityObjectToClipPos(IN[0].pos);
 					o.tex = IN[0].tex;
 					o.eyeVec = IN[0].eyeVec;
 					o.tangentToWorldAndParallax = IN[0].tangentToWorldAndParallax;
@@ -236,7 +238,7 @@ Shader "Trolltunga/LowPolyCollisionRadialWaves 2.0"
 					triStream.Append(o);
 
 					o.pos = IN[1].pos;
-					o.pos = mul(UNITY_MATRIX_MVP, IN[1].pos);
+					o.pos = UnityObjectToClipPos(IN[1].pos);
 					o.tex = IN[1].tex;
 					o.eyeVec = IN[1].eyeVec;
 					o.tangentToWorldAndParallax = IN[1].tangentToWorldAndParallax;
@@ -248,7 +250,7 @@ Shader "Trolltunga/LowPolyCollisionRadialWaves 2.0"
 					triStream.Append(o);
 
 					o.pos = IN[2].pos;
-					o.pos = mul(UNITY_MATRIX_MVP, IN[2].pos);
+					o.pos = UnityObjectToClipPos(IN[2].pos);
 					o.tex = IN[2].tex;
 					o.eyeVec = IN[2].eyeVec;
 					o.tangentToWorldAndParallax = IN[2].tangentToWorldAndParallax;
@@ -343,7 +345,7 @@ Shader "Trolltunga/LowPolyCollisionRadialWaves 2.0"
 					v.vertex.xyz = mul((float3x3)unity_WorldToObject, v0);
 
 					v2f o;
-					o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+					o.pos = UnityObjectToClipPos(v.vertex);
 					return o;
 				}
 				

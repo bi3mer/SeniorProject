@@ -12,15 +12,13 @@ namespace RootMotion.FinalIK {
 
 		// Open the User Manual URL
 		[ContextMenu("User Manual")]
-		protected override void OpenUserManual()
-        {
+		protected override void OpenUserManual() {
 			Application.OpenURL("http://www.root-motion.com/finalikdox/html/page11.html");
 		}
 		
 		// Open the Script Reference URL
 		[ContextMenu("Scrpt Reference")]
-		protected override void OpenScriptReference()
-        {
+		protected override void OpenScriptReference() {
 			Application.OpenURL("http://www.root-motion.com/finalikdox/html/class_root_motion_1_1_final_i_k_1_1_grounder_biped_i_k.html");
 		}
 
@@ -44,8 +42,7 @@ namespace RootMotion.FinalIK {
 
 		#endregion Main Interface
 
-		public override void ResetPosition()
-        {
+		public override void ResetPosition() {
 			solver.Reset();
 			spineOffset = Vector3.zero;
 		}
@@ -57,8 +54,7 @@ namespace RootMotion.FinalIK {
 		private float lastWeight;
 
 		// Can we initiate the Grounding?
-		private bool IsReadyToInitiate()
-        {
+		private bool IsReadyToInitiate() {
 			if (ik == null) return false;
 			if (!ik.solvers.leftFoot.initiated) return false;
 			if (!ik.solvers.rightFoot.initiated) return false;
@@ -66,8 +62,7 @@ namespace RootMotion.FinalIK {
 		}
 
 		// Initiate once we have a BipedIK component
-		void Update()
-        {
+		void Update() {
 			weight = Mathf.Clamp(weight, 0f, 1f);
 			if (weight <= 0f) return;
 
@@ -77,8 +72,7 @@ namespace RootMotion.FinalIK {
 			Initiate();
 		}
 		
-		private void Initiate()
-        {
+		private void Initiate() {
 			// Gathering both foot bones from the BipedIK
 			feet = new Transform[2];
 			footRotations = new Quaternion[2];
@@ -103,8 +97,7 @@ namespace RootMotion.FinalIK {
 		}
 
 		// Weigh out the limb solvers properly when the component is disabled
-		void OnDisable()
-        {
+		void OnDisable() {
 			if (!initiated) return;
 
 			ik.solvers.leftFoot.IKPositionWeight = 0f;
@@ -112,12 +105,10 @@ namespace RootMotion.FinalIK {
 		}
 
 		// Called before updating the spine IK solver
-		private void OnSolverUpdate()
-        {
+		private void OnSolverUpdate() {
 			if (!enabled) return;
 
-			if (weight <= 0f)
-            {
+			if (weight <= 0f) {
 				if (lastWeight <= 0f) return;
 
 				// Weigh out the limb solvers properly
@@ -143,8 +134,7 @@ namespace RootMotion.FinalIK {
 			SetLegIK(ik.solvers.rightFoot, 1);
 
 			// Bending the spine
-			if (spineBend != 0f && ik.references.spine.Length > 0)
-            {
+			if (spineBend != 0f && ik.references.spine.Length > 0) {
 				spineSpeed = Mathf.Clamp(spineSpeed, 0f, spineSpeed);
 
 				Vector3 spineOffseTarget = GetSpineOffsetTarget() * weight;
@@ -170,8 +160,7 @@ namespace RootMotion.FinalIK {
 		}
 
 		// Set the IK position and weight for a limb
-		private void SetLegIK(IKSolverLimb limb, int index)
-        {
+		private void SetLegIK(IKSolverLimb limb, int index) {
 			footRotations[index] = feet[index].rotation;
 
 			limb.IKPosition = solver.legs[index].IKPosition;
@@ -179,13 +168,11 @@ namespace RootMotion.FinalIK {
 		}
 
 		// Rotating the feet after IK has finished
-		private void OnPostSolverUpdate()
-        {
+		private void OnPostSolverUpdate() {
 			if (weight <= 0f) return;
 			if (!enabled) return;
 
-			for (int i = 0; i < feet.Length; i++)
-            {
+			for (int i = 0; i < feet.Length; i++) {
 				feet[i].rotation = Quaternion.Slerp(Quaternion.identity, solver.legs[i].rotationOffset, weight) * footRotations[i];
 			}
 
@@ -194,10 +181,8 @@ namespace RootMotion.FinalIK {
 		}
 
 		// Cleaning up the delegates
-		void OnDestroy()
-        {
-			if (initiated && ik != null)
-            {
+		void OnDestroy() {
+			if (initiated && ik != null) {
 				ik.solvers.spine.OnPreUpdate -= OnSolverUpdate;
 				ik.solvers.rightFoot.OnPostUpdate -= OnPostSolverUpdate;
 			}

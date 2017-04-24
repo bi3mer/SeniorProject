@@ -10,8 +10,8 @@ public abstract class IdolCategory : EquipableCategory
 	/// </summary>
 	public override void ReadyCategory()
 	{
-		Attributes = new List<Attribute> ();
-		Attributes.Add(new Attribute(equipedAttributeName, Equiped));
+		Attributes = new List<ItemAttribute> ();
+		Attributes.Add(new ItemAttribute(equipedAttributeName, Equiped));
 
 		Actions = new List<ItemAction> ();
 		ItemAction equip = new ItemAction (equipActionName, new UnityAction(Equip));

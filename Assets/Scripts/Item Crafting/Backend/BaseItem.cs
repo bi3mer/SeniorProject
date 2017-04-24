@@ -124,7 +124,7 @@ public class BaseItem : CollectableItem
 	/// <summary>
 	/// The item's attributes.
 	/// </summary>
-	private List<Attribute> itemAttributes;
+	private List<ItemAttribute> itemAttributes;
 
 	/// <summary>
 	/// If the item attribute has been changed, and a new item has resulted, DirtyFlag is true.
@@ -152,7 +152,7 @@ public class BaseItem : CollectableItem
 	/// </summary>
 	public BaseItem()
 	{
-		itemAttributes = new List<Attribute>();
+		itemAttributes = new List<ItemAttribute>();
 	}
 
 	/// <summary>
@@ -162,7 +162,7 @@ public class BaseItem : CollectableItem
 	public BaseItem(string name)
 	{
 		ItemName = name;
-		itemAttributes = new List<Attribute>();
+		itemAttributes = new List<ItemAttribute>();
 		InitializeBaseItem ();
 	}
 
@@ -196,7 +196,7 @@ public class BaseItem : CollectableItem
 		ActionModifiedModels = original.ActionModifiedModels;
 		ActionModifiedSprites = original.ActionModifiedSprites; 
 			
-		itemAttributes = new List<Attribute>();
+		itemAttributes = new List<ItemAttribute>();
 
 		// Each Item Category is linked to the one before it
 		// The Base Item will retain a link to the last category
@@ -254,7 +254,7 @@ public class BaseItem : CollectableItem
 	/// </summary>
 	/// <returns>The attributes of an item in a Dictionary keyed by the attribute name.
 	/// All attribute values are floats.</returns>
-	public List<Attribute> GetItemAttributes ()
+	public List<ItemAttribute> GetItemAttributes ()
 	{
 		// Except for the final link in the chain of categories, each item category is linked
 		// to another item category and will call GetAttributes on it's linked category and
@@ -431,7 +431,7 @@ public class BaseItem : CollectableItem
 	/// Removes values from the attributes list.
 	/// </summary>
 	/// <param name="toBeRemoved">Attributes to be removed.</param>
-	public void RemoveAttributes(List<Attribute> toBeRemoved)
+	public void RemoveAttributes(List<ItemAttribute> toBeRemoved)
 	{
 		for (int i = 0; i < toBeRemoved.Count; ++i) 
 		{
@@ -444,7 +444,7 @@ public class BaseItem : CollectableItem
 	/// </summary>
 	/// <returns>The item attribute.</returns>
 	/// <param name="name">Name.</param>
-	public Attribute GetItemAttribute(string name)
+	public ItemAttribute GetItemAttribute(string name)
 	{
 		for (int i = 0; i < itemAttributes.Count; ++i) 
 		{
@@ -454,7 +454,7 @@ public class BaseItem : CollectableItem
 			}
 		}
 
-		return new Attribute(name, 0);
+		return new ItemAttribute(name, 0);
 	}
 
 	/// <summary>

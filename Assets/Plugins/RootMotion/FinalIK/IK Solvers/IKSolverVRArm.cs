@@ -85,22 +85,22 @@ namespace RootMotion.FinalIK {
 			/// <summary>
 			/// Target position of the hand. Will be overwritten if target is assigned.
 			/// </summary>
-			[HideInInspector] public Vector3 IKPosition;
+			[NonSerialized][HideInInspector] public Vector3 IKPosition;
 
 			/// <summary>
 			/// Target rotation of the hand. Will be overwritten if target is assigned.
 			/// </summary>
-			[HideInInspector] public Quaternion IKRotation = Quaternion.identity;
+			[NonSerialized][HideInInspector] public Quaternion IKRotation = Quaternion.identity;
 
 			/// <summary>
 			/// The bending direction of the limb. Will be used if bendGoalWeight is greater than 0. Will be overwritten if bendGoal is assigned.
 			/// </summary>
-			[HideInInspector] public Vector3 bendDirection = Vector3.back;
+			[NonSerialized][HideInInspector] public Vector3 bendDirection = Vector3.back;
 
 			/// <summary>
 			/// Position offset of the hand. Will be applied on top of hand target position and reset to Vector3.zero after each update.
 			/// </summary>
-			[HideInInspector] public Vector3 handPositionOffset;
+			[NonSerialized][HideInInspector] public Vector3 handPositionOffset;
 
 			// Gets the target position of the hand.
 			public Vector3 position { get; private set; }
@@ -115,15 +115,15 @@ namespace RootMotion.FinalIK {
 			private VirtualBone hand { get { return bones[3]; }}
 			private Vector3 chestForwardAxis;
 			private Vector3 chestUpAxis;
-			private Quaternion chestRotation;
+			private Quaternion chestRotation = Quaternion.identity;
 			private Vector3 chestForward;
 			private Vector3 chestUp;
-			private Quaternion forearmRelToUpperArm;
+			private Quaternion forearmRelToUpperArm = Quaternion.identity;
 
 			private const float yawOffsetAngle = 45f;
 			private const float pitchOffsetAngle = -30f;
 
-			protected override void OnRead(Vector3[] positions, Quaternion[] rotations, bool hasNeck, bool hasShoulders, bool hasToes, int rootIndex, int index) {
+			protected override void OnRead(Vector3[] positions, Quaternion[] rotations, bool hasChest, bool hasNeck, bool hasShoulders, bool hasToes, int rootIndex, int index) {
 				Vector3 shoulderPosition = positions[index];
 				Quaternion shoulderRotation = rotations[index];
 				Vector3 upperArmPosition = positions[index + 1];
@@ -136,6 +136,7 @@ namespace RootMotion.FinalIK {
 				if (!initiated) {
 					IKPosition = handPosition;
 					IKRotation = handRotation;
+					rotation = IKRotation;
 
 					this.hasShoulder = hasShoulders;
 
@@ -190,6 +191,9 @@ namespace RootMotion.FinalIK {
 				chestForward = chestRotation * Vector3.forward;
 				chestUp = chestRotation * Vector3.up;
 
+				//Debug.DrawRay (Vector3.up * 2f, chestForward);
+				//Debug.DrawRay (Vector3.up * 2f, chestUp);
+
 				// TODO Weight for shoulder rotation
 				if (hasShoulder && shoulderRotationWeight > 0f) {
 					switch(shoulderRotationMode) {
@@ -202,7 +206,12 @@ namespace RootMotion.FinalIK {
 						Quaternion yawOffset = Quaternion.AngleAxis((isLeft? -90f: 90f) + yOA, chestUp);
 						Quaternion workingSpace = yawOffset * chestRotation;
 
+						//Debug.DrawRay(Vector3.up * 2f, workingSpace * Vector3.forward);
+						//Debug.DrawRay(Vector3.up * 2f, workingSpace * Vector3.up);
+
 						Vector3 sDirWorking = Quaternion.Inverse(workingSpace) * sDir;
+
+						//Debug.DrawRay(Vector3.up * 2f, sDirWorking);
 
 						float yaw = Mathf.Atan2(sDirWorking.x, sDirWorking.z) * Mathf.Rad2Deg;
 
@@ -213,51 +222,63 @@ namespace RootMotion.FinalIK {
 						yaw -= yOA;
 						yaw = DamperValue(yaw, -45f - yOA, 45f - yOA, 0.7f); // back, forward
 
-						Quaternion yawWorking = Quaternion.AngleAxis(yaw, Vector3.up);
-
-						Vector3 f = Quaternion.Inverse(workingSpace) * (shoulder.solverRotation * shoulder.axis);
-						Vector3 t = yawWorking * Vector3.forward;
+						Vector3 f = shoulder.solverRotation * shoulder.axis;
+						Vector3 t = workingSpace * (Quaternion.AngleAxis(yaw, Vector3.up) * Vector3.forward);
 						Quaternion yawRotation = Quaternion.FromToRotation(f, t);
+
+						//Debug.DrawRay(Vector3.up * 2f, f, Color.red);
+						//Debug.DrawRay(Vector3.up * 2f, t, Color.green);
+
+						//Debug.DrawRay(Vector3.up * 2f, yawRotation * Vector3.forward, Color.blue);
+						//Debug.DrawRay(Vector3.up * 2f, yawRotation * Vector3.up, Color.green);
+						//Debug.DrawRay(Vector3.up * 2f, yawRotation * Vector3.right, Color.red);
 
 						// Shoulder Pitch
 						Quaternion pitchOffset = Quaternion.AngleAxis(isLeft? -90f: 90f, chestUp);
 						workingSpace = pitchOffset * chestRotation;
 						workingSpace = Quaternion.AngleAxis(isLeft? pitchOffsetAngle: - pitchOffsetAngle, chestForward) * workingSpace;
 
+						//Debug.DrawRay(Vector3.up * 2f, workingSpace * Vector3.forward);
+						//Debug.DrawRay(Vector3.up * 2f, workingSpace * Vector3.up);
+
 						sDir = position - (shoulder.solverPosition + chestRotation * (isLeft? Vector3.right: Vector3.left) * mag);
 						sDirWorking = Quaternion.Inverse(workingSpace) * sDir;
+
+						//Debug.DrawRay(Vector3.up * 2f, sDirWorking);
 
 						float pitch = Mathf.Atan2(sDirWorking.y, sDirWorking.z) * Mathf.Rad2Deg;
 
 						pitch -= pitchOffsetAngle;
 						pitch = DamperValue(pitch, -45f - pitchOffsetAngle, 45f - pitchOffsetAngle);
-						//pitch = 0f;
 						Quaternion pitchRotation = Quaternion.AngleAxis(-pitch, workingSpace * Vector3.right);
+
+						//Debug.DrawRay(Vector3.up * 2f, pitchRotation * Vector3.forward, Color.green);
+						//Debug.DrawRay(Vector3.up * 2f, pitchRotation * Vector3.up, Color.green);
 
 						// Rotate bones
 						Quaternion sR = pitchRotation * yawRotation;
-						if (shoulderRotationWeight < 1f) sR = Quaternion.Lerp(Quaternion.identity, sR, shoulderRotationWeight);
+						if (shoulderRotationWeight * positionWeight < 1f) sR = Quaternion.Lerp(Quaternion.identity, sR, shoulderRotationWeight * positionWeight);
 						VirtualBone.RotateBy(bones, sR);
 
 						// Solve trigonometric
-						VirtualBone.SolveTrigonometric(bones, 1, 2, 3, position, GetBendNormal(position - upperArm.solverPosition), 1f);
+						VirtualBone.SolveTrigonometric(bones, 1, 2, 3, position, GetBendNormal(position - upperArm.solverPosition), positionWeight);
 
-						float p = Mathf.Clamp(pitch * 2f, 0f, 180f);
+						float p = Mathf.Clamp(pitch * 2f * positionWeight, 0f, 180f);
 						shoulder.solverRotation = Quaternion.AngleAxis(p, shoulder.solverRotation * (isLeft? shoulder.axis: -shoulder.axis)) * shoulder.solverRotation;
 						upperArm.solverRotation = Quaternion.AngleAxis(p, upperArm.solverRotation * (isLeft? upperArm.axis: -upperArm.axis)) * upperArm.solverRotation;
 
 						// Additional pass to reach with the shoulders
 						//IKSolverTrigonometric.SolveVirtual(bones, 0, 1, 3, position, Vector3.Cross(upperArm.solverPosition - shoulder.solverPosition, hand.solverPosition - shoulder.solverPosition), pW * 1f);
 					break;
-					case ShoulderRotationMode.FromTo:					 
+					case ShoulderRotationMode.FromTo:
 						Quaternion shoulderRotation = shoulder.solverRotation;
 
 						Quaternion r = Quaternion.FromToRotation((upperArm.solverPosition - shoulder.solverPosition).normalized + chestForward, position - shoulder.solverPosition);
-						r = Quaternion.Slerp(Quaternion.identity, r, 0.5f * shoulderRotationWeight);
+						r = Quaternion.Slerp(Quaternion.identity, r, 0.5f * shoulderRotationWeight * positionWeight);
 						VirtualBone.RotateBy(bones, r);
 
-						VirtualBone.SolveTrigonometric(bones, 0, 2, 3, position, Vector3.Cross(forearm.solverPosition - shoulder.solverPosition, hand.solverPosition - shoulder.solverPosition), 0.5f * shoulderRotationWeight);
-						VirtualBone.SolveTrigonometric(bones, 1, 2, 3, position, GetBendNormal(position - upperArm.solverPosition), 1f);
+						VirtualBone.SolveTrigonometric(bones, 0, 2, 3, position, Vector3.Cross(forearm.solverPosition - shoulder.solverPosition, hand.solverPosition - shoulder.solverPosition), 0.5f * shoulderRotationWeight * positionWeight);
+						VirtualBone.SolveTrigonometric(bones, 1, 2, 3, position, GetBendNormal(position - upperArm.solverPosition), positionWeight);
 
 						// Twist shoulder and upper arm bones when holding hands up
 						Quaternion q = Quaternion.Inverse(Quaternion.LookRotation(chestUp, chestForward));
@@ -267,7 +288,7 @@ namespace RootMotion.FinalIK {
 						float angleAfter = Mathf.Atan2(vAfter.x, vAfter.z) * Mathf.Rad2Deg;
 						float pitchAngle = Mathf.DeltaAngle(angleBefore, angleAfter);
 						if (isLeft) pitchAngle = -pitchAngle;
-						pitchAngle = Mathf.Clamp(pitchAngle * 2f, 0f, 180f);
+						pitchAngle = Mathf.Clamp(pitchAngle * 2f * positionWeight, 0f, 180f);
 
 						shoulder.solverRotation = Quaternion.AngleAxis(pitchAngle, shoulder.solverRotation * (isLeft? shoulder.axis: -shoulder.axis)) * shoulder.solverRotation;
 						upperArm.solverRotation = Quaternion.AngleAxis(pitchAngle, upperArm.solverRotation * (isLeft? upperArm.axis: -upperArm.axis)) * upperArm.solverRotation;
@@ -275,16 +296,20 @@ namespace RootMotion.FinalIK {
 					}
 				} else {
 					// Solve arm trigonometric
-					VirtualBone.SolveTrigonometric(bones, 1, 2, 3, position, GetBendNormal(position - upperArm.solverPosition), 1f);
+					VirtualBone.SolveTrigonometric(bones, 1, 2, 3, position, GetBendNormal(position - upperArm.solverPosition), positionWeight);
 				}
 
 				// Fix forearm twist relative to upper arm
 				Quaternion forearmFixed = upperArm.solverRotation * forearmRelToUpperArm;
 				Quaternion fromTo = Quaternion.FromToRotation(forearmFixed * forearm.axis, hand.solverPosition - forearm.solverPosition);
-				RotateTo(forearm, fromTo * forearmFixed, 1f);
+				RotateTo(forearm, fromTo * forearmFixed, positionWeight);
 
 				// Set hand rotation
-				hand.solverRotation = rotation;
+				if (rotationWeight >= 1f) {
+					hand.solverRotation = rotation;
+				} else if (rotationWeight > 0f) {
+					hand.solverRotation = Quaternion.Lerp (hand.solverRotation, rotation, rotationWeight);
+				}
 			}
 
 			public override void ResetOffsets() {
