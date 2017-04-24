@@ -828,13 +828,17 @@ public class PlayerController : MonoBehaviour
 		freezePlayer = false;
 		freezeCamera = false;
 
-		StopCoroutine("UpdateHunger");
-		StopCoroutine("UpdateWarmth");
-		StopCoroutine("UpdateHealth");
+		System.Func<IEnumerator> updateWarmthFunction = UpdateWarmth;
+		System.Func<IEnumerator> updateHungerFunction = UpdateHunger;
+		System.Func<IEnumerator> updateHealthFunction = UpdateHealth;
 
-		StartCoroutine("UpdateHunger");
-		StartCoroutine("UpdateWarmth");
-		StartCoroutine("UpdateHealth");
+		StopCoroutine(updateWarmthFunction.Method.Name);
+		StopCoroutine(updateHungerFunction.Method.Name);
+		StopCoroutine(updateHealthFunction.Method.Name);
+
+		StartCoroutine(updateWarmthFunction.Method.Name);
+		StartCoroutine(updateHungerFunction.Method.Name);
+		StartCoroutine(updateHealthFunction.Method.Name);
     }
 
     /// <summary>
