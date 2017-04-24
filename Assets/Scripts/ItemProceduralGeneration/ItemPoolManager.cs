@@ -304,11 +304,22 @@ public class ItemPoolManager : MonoBehaviour
 	/// <param name="gridCell">Grid cell.</param>
 	private  void activateCell(ref ItemPoolInfo gridCell)
 	{
+
 		for(int i = 0; i < gridCell.ItemNames.Count; ++i)
 		{
-			gridCell.Items.Add(getItemFromPool(gridCell.ItemNames[i]));
-			gridCell.Items[i].transform.position = gridCell.Locations[i];
-			gridCell.Items[i].transform.SetParent(activePool);
+			if (gridCell.ItemNames [i].Contains ("Note:")) 
+			{
+				Debug.Log ("NOTE");
+				gridCell.Items.Add (Game.Instance.NoteFactoryInstance.GetNote(gridCell.ItemNames [i]));
+				gridCell.Items [i].transform.position = gridCell.Locations [i];
+				gridCell.Items [i].transform.SetParent (activePool);
+
+			}
+			else {
+				gridCell.Items.Add (getItemFromPool (gridCell.ItemNames [i]));
+				gridCell.Items [i].transform.position = gridCell.Locations [i];
+				gridCell.Items [i].transform.SetParent (activePool);
+			}
 		}
 	}
 

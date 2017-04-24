@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 // loads and places notes from yaml file in world
 public class NoteFactory 
@@ -15,6 +16,17 @@ public class NoteFactory
 
 	private GameObject triggerObjectPrefab;
 
+	public List<string> NoteTitles;
+	public List<GameObject> NoteObjects;
+
+	private int noteCounter = -1;
+
+	public bool NotesAvailable 
+	{
+		get;
+		private set;
+	}
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="NoteFactory"/> class.
 	/// </summary>
@@ -26,6 +38,8 @@ public class NoteFactory
         // initialize the list of world models to be used
 		worldNoteTemplates = new Dictionary<string, GameObject>();
 		LoadTemplates();
+
+		NotesAvailable = true;
 	}
 
 	/// <summary>
@@ -35,10 +49,13 @@ public class NoteFactory
 	{
 		NoteYAMLParser noteParser = new NoteYAMLParser(noteFileName);
 		List<NoteData> noteDatabase = noteParser.LoadNotes();
+		NoteObjects = new List<GameObject> ();
+		NoteTitles = new List<string> ();
 
 		for(int i = 0; i < noteDatabase.Count; ++i)
 		{
 			worldNoteTemplates.Add (noteDatabase[i].Title, (GameObject)Resources.Load (noteDatabase [i].WorldModel));
+			CreateInteractableItem (noteDatabase [i]);
 		}
 	}
 
@@ -71,6 +88,59 @@ public class NoteFactory
 		itemNote.Text = noteToCreate.Title;
 		itemNote.Show = false;
 
+		// Save note item so we can get it later by its title, return it
+		NoteObjects.Add (item);
+		NoteTitles.Add ("Note:" + noteToCreate.Title);
+
+		Debug.Log ("adding " + noteToCreate.Title);
 		return item;
+	}
+
+	/// <summary>
+	/// Returns a note given that note's unique title (which serves as its ID)
+	/// </summary>
+	/// <param name="title">Title.</param>
+	public GameObject GetNote(string title)
+	{
+
+		GameObject note = new GameObject();
+		for (int i = 0; i < NoteTitles.Count; i++) {
+
+			if (NoteTitles [i] == title) {
+
+				note = NoteObjects [i];
+			}
+		}
+
+		return note;
+	}
+
+	/// <summary>
+	/// Gets the next note.
+	/// </summary>
+	/// <returns>The next note.</returns>
+	public string GetNextNote()
+	{
+		// iterate here and check
+		noteCounter += 1;
+		string noteTitle = "";
+
+		if (noteCounter < NoteObjects.Count) 
+		{
+			noteTitle = NoteTitles [noteCounter];
+		} 
+		else 
+		{
+			NotesAvailable = false;
+		}
+
+		if (noteCounter == (NoteObjects.Count - 1))
+		{
+			NotesAvailable = false;
+		}
+
+
+		Debug.Log ("returning " + noteTitle);
+		return noteTitle;
 	}
 }
