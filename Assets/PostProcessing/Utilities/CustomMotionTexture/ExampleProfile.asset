@@ -14,7 +14,7 @@ MonoBehaviour:
   debugViews:
     m_Enabled: 1
     m_Settings:
-      mode: 3
+      mode: 0
       depth:
         scale: 1
       motionVectors:
@@ -25,7 +25,7 @@ MonoBehaviour:
         motionVectorsResolution: 48
         motionVectorsAmplitude: 64
   fog:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       excludeSkybox: 1
   antialiasing:
