@@ -19,7 +19,7 @@ namespace RootMotion.FinalIK {
 			public Transform root;
 			public Transform pelvis;
 			public Transform spine;
-			public Transform chest;
+			public Transform chest; // Optional
 			public Transform neck; // Optional
 			public Transform head;
 			public Transform leftShoulder; // Optional
@@ -57,7 +57,6 @@ namespace RootMotion.FinalIK {
 						root == null ||
 						pelvis == null ||
 						spine == null ||
-						chest == null ||
 						head == null ||
 						leftUpperArm == null ||
 						leftForearm == null ||
@@ -163,6 +162,12 @@ namespace RootMotion.FinalIK {
 		protected override void OpenScriptReference() {
 			Debug.Log ("Sorry, VRIK Script reference is not finished yet.");
 			// TODO Application.OpenURL("http://www.root-motion.com/finalikdox/html/class_root_motion_1_1_final_i_k_1_1_full_body_biped_i_k.html");
+		}
+
+		// Open a video tutorial about setting up the component
+		[ContextMenu("TUTORIAL VIDEO (STEAMVR SETUP)")]
+		void OpenSetupTutorial() {
+			Application.OpenURL("https://www.youtube.com/watch?v=6Pfx7lYQiIA&feature=youtu.be");
 		}
 
 		/// <summary>

@@ -28,11 +28,7 @@
     - !!plant
       waterContent: 3.2
       toughness: 3.0
-      sweet: 1.0
-      bitter: 4.0
-      sour: 0.0
-      salty: 0.0
-      spicy: 0.0
+      plantVolume: 0.5
       stomachEffect: 0.0
       pneumoniaEffect: 0.0
 - itemName: "Stick"
@@ -59,11 +55,7 @@
     - !!plant
       waterContent: 1.8
       toughness: 4.5
-      sweet: 0.0
-      bitter: 4.0
-      sour: 1.0
-      salty: 0.0
-      spicy: 0.0
+      plantVolume: 1
       stomachEffect: 0.0
       pneumoniaEffect: 0.0
     - !!fuel

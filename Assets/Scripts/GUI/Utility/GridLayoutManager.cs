@@ -33,6 +33,8 @@ public class GridLayoutManager : MonoBehaviour
 	void Awake () 
 	{
 		SetGridSize();
+		gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+		gridLayoutGroup.constraintCount = ElementsPerRow;
 	}
 
 	void Update()
