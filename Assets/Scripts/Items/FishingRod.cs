@@ -43,6 +43,7 @@ public class FishingRod : PlayerTool
         if (!InUse && numOfUses == FishingCategory.DegenerationThreshold)
         {
             FishingCategory.Break();
+            numOfUses = 0;
         }
     }
 
@@ -105,11 +106,6 @@ public class FishingRod : PlayerTool
         {
             reel();
             ++numOfUses;
-            //if (!InUse && numOfUses == FishingCategory.DegenerationThreshold)
-            //{
-            //    FishingCategory.Break();
-            //}
-
         }
         else if (CanCast)
         {

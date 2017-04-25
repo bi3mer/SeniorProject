@@ -66,11 +66,15 @@ public class FishingRodCategory : EquipableCategory
     public void Break()
     {
         // TO DO: Add way to get drop down notification to tell user the rod fell apart and that you can access some items in inventory
-        UnityEngine.Debug.Log(baseItem.ItemName);
+        GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.BREAK);
+
+        UnityEngine.Debug.Log("HI");
         // Unequip rod
         Game.Instance.PlayerInstance.Inventory.EquipedItem = null;
         Equiped = 0f;
         GetAttribute(equipedAttributeName).Value = Equiped;
-        baseItem.RemovalFlag = true;
+
+        // Remove rod from existance
+        Game.Instance.PlayerInstance.Inventory.UseItem(baseItem.ItemName, 1);
     }
 }
