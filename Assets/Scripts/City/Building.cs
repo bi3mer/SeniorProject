@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public abstract class Building
 {
@@ -54,7 +55,7 @@ public abstract class Building
     /// Gets or sets the door and shelter attachment information.
     /// </summary>
     /// <value>The attachment information.</value>
-    public ItemPlacementSamplePoint[] AttachmentInformation
+    public List<ItemPlacementSamplePoint> AttachmentInformation
     {
     	get;
     	set;
@@ -64,7 +65,7 @@ public abstract class Building
     /// Gets or sets the attachments. These include doors and shelters.
     /// </summary>
     /// <value>The attachments.</value>
-    public GameObject[] Attachments
+    public List<GameObject> Attachments
     {
     	get;
     	set;
@@ -192,7 +193,9 @@ public abstract class Building
     public void LoadAttachments()
     {
 		bool prespawn;
-		for(int i = 0; i < Attachments.Length; ++i)
+
+		// prespawn means that the shelter will have items spawned around it without the player needing to interact with the shelter
+		for(int i = 0; i < Attachments.Count; ++i)
         {
 			prespawn = (AttachmentInformation[i].Type == ItemPlacementSamplePoint.PointType.SHELTER);
         	generateAttachment(Attachments[i], AttachmentInformation[i].WorldSpaceLocation, AttachmentInformation[i].Size, 

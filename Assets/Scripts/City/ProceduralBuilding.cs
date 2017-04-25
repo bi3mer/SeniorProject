@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// A building created procedurally.
@@ -32,7 +33,7 @@ public class ProceduralBuilding : Building
         Configuration = configuration;
         Seed = seed;
         IsLoaded = false;
-        Attachments = new GameObject[0];
+        Attachments = new List<GameObject>();
     }
 
     /// <summary>
@@ -80,7 +81,7 @@ public class ProceduralBuilding : Building
         Instance.transform.parent = Parent;
 
 		bool prespawn;
-		for(int i = 0; i < Attachments.Length; ++i)
+		for(int i = 0; i < Attachments.Count; ++i)
         {
 			prespawn = (AttachmentInformation[i].Type == ItemPlacementSamplePoint.PointType.SHELTER);
         	generateAttachment(Attachments[i], AttachmentInformation[i].WorldSpaceLocation, AttachmentInformation[i].Size, 
