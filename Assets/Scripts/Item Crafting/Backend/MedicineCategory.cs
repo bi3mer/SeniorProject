@@ -41,7 +41,7 @@ public class MedicineCategory : ItemCategory
         category.HealthGain = HealthGain;
 
         category.Actions = new List<ItemAction>();
-        category.Attributes = new List<Attribute>();
+        category.Attributes = new List<ItemAttribute>();
 
         if (Sickness == "food poisoning")
         {
@@ -77,9 +77,9 @@ public class MedicineCategory : ItemCategory
     /// </summary>
     public override void ReadyCategory()
     {
-        Attributes = new List<Attribute>();
+        Attributes = new List<ItemAttribute>();
 
-        Attributes.Add(new Attribute(healthGainAttrName, HealthGain));
+        Attributes.Add(new ItemAttribute(healthGainAttrName, HealthGain));
 
         Actions = new List<ItemAction>();
 

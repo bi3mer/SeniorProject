@@ -122,11 +122,11 @@ public class PlayerController : MonoBehaviour
     private LandMovement landMovement;
     private WaterMovement waterMovement;
 
-    private Tool equippedTool;
+    private PlayerTool equippedTool;
     private CameraController playerCamera;
     private Rigidbody playerRigidbody;
 
-    private Tool fishingRod;
+    private PlayerTool fishingRod;
 
     private Transform defaultParent;
 
@@ -220,7 +220,7 @@ public class PlayerController : MonoBehaviour
         movement.OnStateEnter();
 
         // set up tools
-        Tool[] tools = GetComponentsInChildren<Tool>();
+        PlayerTool[] tools = GetComponentsInChildren<PlayerTool>();
         Game.Instance.PlayerInstance.Toolbox = new PlayerTools(tools);
 
         // get main camera component
@@ -586,6 +586,10 @@ public class PlayerController : MonoBehaviour
             else
             {
                 isGrounded = true;
+            }
+            if(!belowWater)
+            {
+                playerAnimator.SetBool(playerAnimatorSwimming, false);
             }
         }
     }

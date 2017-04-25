@@ -3703,13 +3703,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000011536698418}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1d25913bbed8145b26f8aeb5d422fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b876fc97c06f3e4ea0a1713a11cf9ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
-  bipedIk: {fileID: 0}
-  focusSpeed: 1.2
-  maxViewDistance: 0.86
+  playerController: {fileID: 114000011980828570}
+  bipedIk: {fileID: 114000011958240612}
+  focusSpeed: 2
+  maxViewDistance: 0.4
 --- !u!114 &114000010297988840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4222,6 +4222,10 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  pneumoniaWarmthDecrease: 0
+  foodPoisonHungerDecrease: 0
+  pneumoniaTime: 0
+  foodPoisioningTime: 0
   verticalSpeed: 0.01
   debugFlightUp: 32
   debugFlightDown: 306
@@ -4237,6 +4241,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1553
   waterWadeHeight: 0.18
+  raftBoardTime: 0.5
   roofFootstepSoundEvent: event:/Player/Movement/Walking/Concrete
   controlScheme:
     Forward: 119

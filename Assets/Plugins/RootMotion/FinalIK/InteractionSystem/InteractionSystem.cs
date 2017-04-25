@@ -641,7 +641,8 @@ namespace RootMotion.FinalIK {
 			if (fullBody == null) return;
 
 			var trigger = c.GetComponent<InteractionTrigger>();
-			
+
+			if (trigger == null) return;
 			if (inContact.Contains(trigger)) return;
 			
 			inContact.Add(trigger);
@@ -651,6 +652,7 @@ namespace RootMotion.FinalIK {
 			if (fullBody == null) return;
 
 			var trigger = c.GetComponent<InteractionTrigger>();
+			if (trigger == null) return;
 			
 			inContact.Remove(trigger);
 		}
