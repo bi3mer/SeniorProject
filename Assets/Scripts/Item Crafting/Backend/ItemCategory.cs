@@ -17,7 +17,7 @@ public class ItemCategory : CollectableItem
 	/// Gets or sets the attributes.
 	/// </summary>
 	/// <value>The attributes.</value>
-	public List<Attribute> Attributes
+	public List<ItemAttribute> Attributes
 	{
 		get;
 		set;
@@ -122,7 +122,7 @@ public class ItemCategory : CollectableItem
 	/// </summary>
 	/// <returns>The attribute value.</returns>
 	/// <param name="name">Name.</param>
-	public Attribute GetAttribute(string name)
+	public ItemAttribute GetAttribute(string name)
 	{
 		for (int i = 0; i < Attributes.Count; ++i) 
 		{
@@ -132,7 +132,7 @@ public class ItemCategory : CollectableItem
 			}
 		}
 
-		return new Attribute(name, 0);
+		return new ItemAttribute(name, 0);
 	}
 
 	/// <summary>

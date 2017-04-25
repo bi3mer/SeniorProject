@@ -35,6 +35,8 @@
 
         PlayerInstance.ResetStatus();
         Loader.Reset();
+
+        this.PauseInstance.ResetDelegates();
     }
  
     /// <summary>
