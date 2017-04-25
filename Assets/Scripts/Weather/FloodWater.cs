@@ -24,7 +24,7 @@ public class FloodWater : MonoBehaviour
 	[SerializeField]
 	[Range(1,10000)]
 	[Tooltip("This divides the precipitation to mitigate it's affect.")]
-	private float precipitationMitigation = 100f;
+	private float precipitationMitigation = 5000f;
 
 	[SerializeField]
 	[Range(0,100)]

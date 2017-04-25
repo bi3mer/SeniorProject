@@ -15,7 +15,7 @@ public class PressureSystemVisualization : MonoBehaviour
 	void OnDrawGizmos () 
 	{
 		PressureSystems system = Game.Instance.WeatherInstance.WeatherPressureSystems;
-		Debug.Log(system.LocalPressureSystems.Count);
+
 		for(int i = 0; i < system.LocalPressureSystems.Count; ++i)
 		{
 			Vector3 center = new Vector3(system.LocalPressureSystems[i].Position.x,
