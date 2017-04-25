@@ -256,16 +256,18 @@ public class Inventory
 		List<ItemStack> addedOrChangedStacks = new List<ItemStack>();
 
 		if(isStackable(newItem.Types))
-		for (int i = 0; i < contents.Length && amountRemaining > 0; ++i) 
 		{
-			if(contents[i] != null)
+			for (int i = 0; i < contents.Length && amountRemaining > 0; ++i) 
 			{
-				if (contents[i].Item.ItemName.Equals(newItem.ItemName)) 
+				if(contents[i] != null)
 				{
-					amountRemaining = (contents[i].Amount + amount) - contents[i].MaxStackSize; 
-					contents[i].Amount += amount;
-					loc = i;
-					addedOrChangedStacks.Add(contents[i]);
+					if (contents[i].Item.ItemName.Equals(newItem.ItemName)) 
+					{
+						amountRemaining = (contents[i].Amount + amount) - contents[i].MaxStackSize; 
+						contents[i].Amount += amount;
+						loc = i;
+						addedOrChangedStacks.Add(contents[i]);
+					}
 				}
 			}
 		}
