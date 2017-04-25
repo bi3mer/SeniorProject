@@ -11,13 +11,16 @@ public class FishAgent : MonoBehaviour
 	private Vector3 WanderTarget;
     
     // Rigid body
-    private Rigidbody2D rb;
-    
-    private Vector3 acceleration;
+    private Rigidbody rb;
+
+    // layers
 	protected LayerMask predatorLayer;
 	protected LayerMask agentLayer;
+
+	// configuration
 	protected FishAgentConfig config;
 
+	// constant layer strings
 	private const string predatorLayerString   = "Predator";
 	private const string fisghAgentLayerString = "Agent";
 
@@ -30,6 +33,9 @@ public class FishAgent : MonoBehaviour
     	private set;
     }
 
+    /// <summary>
+    /// Sets the layers.
+    /// </summary>
 	protected virtual void setLayers()
 	{
 		// Get predator layer
@@ -86,26 +92,15 @@ public class FishAgent : MonoBehaviour
         // Euler Forward Integration
 		Vector2 velocity = Vector2.ClampMagnitude(VectorUtility.XZ(this.Velocity) + acceleration2d * Time.deltaTime, this.config.MaxVelocity);
 
+		// convert 2d calculations to 3d
+		this.Velocity    = VectorUtility.twoDimensional3d(velocity);
+
         // Set new position
-        this.transform.position = this.transform.position + VectorUtility.twoDimensional3d(velocity * Time.deltaTime);
-//        Debug.Log(this.transform.position.ToString() + " + " + velocity.ToString() + " * " + Time.deltaTime.ToString());
+        this.transform.position = this.transform.position + (this.Velocity * Time.deltaTime);
 
-        // convert 2d calculations to 3d
-		this.Velocity     = VectorUtility.twoDimensional3d(velocity);
-        this.acceleration = VectorUtility.twoDimensional3d(acceleration);
-        
-		// set alignment
-        if(velocity.magnitude > 0)
-        {
-            // get angle towards direction and convert to degrees and reduce
-            // by 90 degrees so it can point in the correct direction
-            float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg - 90f;
-
-            // set rotation
-            this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            this.transform.rotation = new Quaternion(this.transform.rotation.x, this.transform.rotation.z, 
-                                                     this.transform.rotation.y, this.transform.rotation.w);
-        }
+        // set alignment of fish to face in the direction of the movement. We set it to the right
+        // because of how the project from the 2d XY plane to 3d XZ plane works.
+        this.transform.right  = this.Velocity;
 	}
 
     /// <summary>
@@ -181,7 +176,7 @@ public class FishAgent : MonoBehaviour
     }
 
     /// <summary>
-    /// Rotate in direction of movement
+    /// Rotate in direction of neighboring agents movement
     /// </summary>
     /// <returns></returns>
 	public Vector2 Alignment()
