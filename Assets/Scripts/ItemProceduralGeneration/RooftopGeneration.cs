@@ -139,7 +139,7 @@ public class RooftopGeneration: ItemGenerator
 			}
 		}
 
-		currentBuilding.Attachments = attachments.ToArray();
-		currentBuilding.AttachmentInformation = attachmentInformation.ToArray();
+		currentBuilding.Attachments = attachments;
+		currentBuilding.AttachmentInformation = attachmentInformation;
 	}
 }
