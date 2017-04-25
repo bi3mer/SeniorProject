@@ -22,7 +22,7 @@ Material:
         m_Scale: {x: 400, y: 400}
         m_Offset: {x: 0, y: 0}
     - _Albedo2:
-        m_Texture: {fileID: 2800000, guid: 4c3094f930a79c84aab05bd27c535838, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9f73b76944603644e8768023463b4e18, type: 3}
         m_Scale: {x: 400, y: 400}
         m_Offset: {x: 0.77, y: 0}
     - _BumpMap:
@@ -42,7 +42,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Displacement1:
-        m_Texture: {fileID: 2800000, guid: b40aca13dfc4c3645bbfe9148f4cfb0d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8ae0eecc4cb145244b34ced6c48536a3, type: 3}
         m_Scale: {x: 140, y: 140}
         m_Offset: {x: 0, y: 0}
     - _Displacement2:
@@ -82,43 +82,43 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Albedo2Speed: 0.48
-    - _AlbedoBlend: 0.814
+    - _Albedo2Speed: 0.77
+    - _AlbedoBlend: 0.512
     - _AlbedoSpeed1: 2.7
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _Depth: 1.5
-    - _DepthFalloff: 2.49
+    - _Depth: 0.1
+    - _DepthFalloff: 7.16
     - _DetailNormalMapScale: 1
-    - _Displacement: 0
+    - _Displacement: 0.033
     - _DisplacementSpeed1: 0.05
     - _DisplacementSpeed2: 0.07
     - _DstBlend: 0
     - _Foam: 4.91
-    - _FoamFalloff: -2.45
+    - _FoamFalloff: -4.99
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Opacity: 0.448
+    - _Opacity: 0.898
     - _Parallax: 0.02
-    - _SmoothnessMax: -1.55
-    - _SmoothnessMin: 2
+    - _SmoothnessMax: 0.45
+    - _SmoothnessMin: 0.09
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SpecularMax: -0.35
-    - _SpecularMin: 2.72
+    - _SpecularMax: 0.18
+    - _SpecularMin: 0.05
     - _SrcBlend: 1
     - _TessMax: 42.64
     - _TessMin: 25.8
-    - _TessValue: 20.2
+    - _TessValue: 32
     - _UVSec: 0
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepColor: {r: 0.6911765, g: 0.6911765, b: 0.6911765, a: 0}
+    - _DeepColor: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _ShallowColor: {r: 1, g: 1, b: 1, a: 1}

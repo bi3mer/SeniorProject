@@ -215,7 +215,9 @@ ModelImporter:
     4300078: ladderpiecestep40
     4300080: ladderpiecestep41
     4300082: ladderpiecestep42
-    7400000: Take 001
+    7400000: Unfurl
+    7400002: static
+    7400004: StaticUp
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -239,11 +241,347 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Unfurl
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 130
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: ladderpiecestep2
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38/ladderpiecestep39
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38/ladderpiecestep39/ladderpiecestep40
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38/ladderpiecestep39/ladderpiecestep40/ladderpiecestep41
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38/ladderpiecestep39/ladderpiecestep40/ladderpiecestep41/ladderpiecestep42
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: static
+      takeName: Take 001
+      firstFrame: 131
+      lastFrame: 132
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: ladderpiecestep2
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38/ladderpiecestep39
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38/ladderpiecestep39/ladderpiecestep40
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38/ladderpiecestep39/ladderpiecestep40/ladderpiecestep41
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38/ladderpiecestep39/ladderpiecestep40/ladderpiecestep41/ladderpiecestep42
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: StaticUp
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 2
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: ladderpiecestep2
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38/ladderpiecestep39
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38/ladderpiecestep39/ladderpiecestep40
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38/ladderpiecestep39/ladderpiecestep40/ladderpiecestep41
+        weight: 1
+      - path: ladderpiecestep2/ladderpiecestep3/ladderpiecestep4/ladderpiecestep5/ladderpiecestep6/ladderpiecestep7/ladderpiecestep8/ladderpiecestep9/ladderpiecestep10/ladderpiecestep11/ladderpiecestep12/ladderpiecestep13/ladderpiecestep14/ladderpiecestep15/ladderpiecestep16/ladderpiecestep17/ladderpiecestep18/ladderpiecestep19/ladderpiecestep20/ladderpiecestep21/ladderpiecestep22/ladderpiecestep23/ladderpiecestep24/ladderpiecestep25/ladderpiecestep26/ladderpiecestep27/ladderpiecestep28/ladderpiecestep29/ladderpiecestep30/ladderpiecestep31/ladderpiecestep32/ladderpiecestep33/ladderpiecestep34/ladderpiecestep35/ladderpiecestep36/ladderpiecestep37/ladderpiecestep38/ladderpiecestep39/ladderpiecestep40/ladderpiecestep41/ladderpiecestep42
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.8
+    globalScale: 0.145
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
