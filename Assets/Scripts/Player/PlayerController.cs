@@ -173,6 +173,10 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Don't let the player climb distances less than this. This prevents climbing on slopes/things the player can just walk over.")]
     private float minClimbHeight;
 
+    private IEnumerator healthCoroutine;
+    private IEnumerator warmthCoroutine;
+    private IEnumerator hungerCoroutine;
+
     // How far forward a raycast should be to check ledge height.
     const float raycastClimbForward = .2f;
 
@@ -836,13 +840,28 @@ public class PlayerController : MonoBehaviour
 		System.Func<IEnumerator> updateHungerFunction = UpdateHunger;
 		System.Func<IEnumerator> updateHealthFunction = UpdateHealth;
 
-		StopCoroutine(updateWarmthFunction.Method.Name);
-		StopCoroutine(updateHungerFunction.Method.Name);
-		StopCoroutine(updateHealthFunction.Method.Name);
+		if(warmthCoroutine != null)
+		{
+			StopCoroutine(warmthCoroutine);
+		}
 
-		StartCoroutine(updateWarmthFunction.Method.Name);
-		StartCoroutine(updateHungerFunction.Method.Name);
-		StartCoroutine(updateHealthFunction.Method.Name);
+		if(hungerCoroutine != null)
+		{
+			StopCoroutine(hungerCoroutine);
+		}
+
+		if(healthCoroutine != null)
+		{
+			StopCoroutine(healthCoroutine);
+		}
+
+		warmthCoroutine = updateWarmthFunction();
+		healthCoroutine = updateHealthFunction();
+		hungerCoroutine = updateHungerFunction();
+
+		StartCoroutine(warmthCoroutine);
+		StartCoroutine(healthCoroutine);
+		StartCoroutine(hungerCoroutine);
     }
 
     /// <summary>

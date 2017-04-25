@@ -12,7 +12,11 @@ public class GameLoader
     public delegate void GameLoadedDelegate();
     public event GameLoadedDelegate GameLoadedEvent;
 
-    private bool gameLoaded; 
+    public bool GameLoaded
+    {
+    	get;
+    	private set;
+    }
 
     /// <summary>
     /// Instatiate a new GameLoader
@@ -20,7 +24,7 @@ public class GameLoader
     public GameLoader()
     {
         tasks = new List<GameLoaderTask>();
-        gameLoaded = false;
+        GameLoaded = false;
     }
 
     /// <summary>
@@ -55,10 +59,10 @@ public class GameLoader
             }
 
             float complete = totalComplete / tasks.Count;
-            if (complete >= 1f && GameLoadedEvent != null && !gameLoaded)
+            if (complete >= 1f && GameLoadedEvent != null && !GameLoaded)
             {
                 GameLoadedEvent();
-                gameLoaded = true;
+                GameLoaded = true;
             }
 
             return complete;
@@ -89,7 +93,7 @@ public class GameLoader
     /// </summary>
     public void Reset()
     {
-    	gameLoaded = false;
+    	GameLoaded = false;
     	tasks.Clear();
     }
 }
