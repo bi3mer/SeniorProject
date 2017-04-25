@@ -106,13 +106,13 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// How smooth building materials should be.
     /// </summary>
     [Range(0f, 1f)]
-    private float materialSmoothness = .72f;
+    private float materialSmoothness = 0.329f;
 
     /// <summary>
     /// How normal the maps are.
     /// </summary>
     [Range(0f, 1f)]
-    private float normalWeight = .1f;
+    private float normalWeight = .2f;
 
     // The number of tries to try any potentially failing random generation.
     private const int numberOfTries = 5;

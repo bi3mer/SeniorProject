@@ -101,7 +101,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _RainIntensity: 1
-    - _RippleNormalWeight: 5.8
+    - _RippleNormalWeight: 51
     - _Smoothness: 0.329
     - _SmoothnessTextureChannel: 0
     - _Specular: 0.322

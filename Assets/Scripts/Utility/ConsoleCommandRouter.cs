@@ -196,7 +196,6 @@ public class ConsoleCommandRouter : MonoBehaviour
         Game.Instance.PlayerInstance.Health = int.Parse(args[0]);
         Game.Instance.PlayerInstance.Warmth = int.Parse(args[0]);
         Game.Instance.PlayerInstance.Hunger = int.Parse(args[0]);
-
         return "All Health Stats set to:  " + args[0];
     }
 
