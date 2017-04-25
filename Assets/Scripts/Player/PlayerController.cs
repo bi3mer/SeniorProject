@@ -1072,10 +1072,23 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void SetIsOnLand()
     {
-        movement = landMovement;
-        PlayerAnimator.SetBool(playerAnimatorFalling, false);
-        PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
-        PlayerAnimator.SetBool(playerAnimatorSwimming, false);
-        PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
+        if(IsOnRaft)
+        {
+            movement = landMovement;
+            PlayerAnimator.SetBool(playerAnimatorFalling, false);
+            PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
+            PlayerAnimator.SetBool(playerAnimatorSwimming, false);
+            PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
+            transform.parent = defaultParent;
+            setPlayerCollision(true);
+        }
+        else
+        { 
+            movement = landMovement;
+            PlayerAnimator.SetBool(playerAnimatorFalling, false);
+            PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
+            PlayerAnimator.SetBool(playerAnimatorSwimming, false);
+            PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
+        }
     }
 }
