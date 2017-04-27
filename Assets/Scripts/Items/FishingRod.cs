@@ -26,6 +26,29 @@ public class FishingRod : PlayerTool
         set;
     }
 
+    public int NumOfUses
+    {
+        get
+        {
+            return numOfUses;
+        }
+        set
+        {
+            // Check if value has reached end of threshold
+            if (value == 0)
+            {
+                FishingCategory.Break();
+
+                // Keep it from looping the break function
+                numOfUses = 1;
+            }
+            else
+            {
+                numOfUses = value;
+            }
+        }
+    }
+
     /// <summary>
     /// Set up fishing rod variables.
     /// </summary>
@@ -38,14 +61,16 @@ public class FishingRod : PlayerTool
         ToolName = toolName;
 	}
 
-    void Update()
-    {
-        if (!InUse && numOfUses == FishingCategory.DegenerationThreshold)
-        {
-            FishingCategory.Break();
-            numOfUses = 0;
-        }
-    }
+    //void Update()
+    //{
+    //    if (!InUse && numOfUses == 0)
+    //    {
+    //        FishingCategory.Break();
+
+    //        // Keep it from looping the break function
+    //        numOfUses = 1;
+    //    }
+    //}
 
     /// <summary>
     /// Sets up the tool so that it is linked to the proper item in the inventory.
@@ -58,6 +83,8 @@ public class FishingRod : PlayerTool
 
 	 	ItemAction unequipAction = new ItemAction(unequipActName, new UnityAction(FishingCategory.UnEquip));
 		actions.Add(unequipAction);
+
+        NumOfUses = FishingCategory.DegenerationThreshold;
 
 		GuiInstanceManager.EquippedItemGuiInstance.SetEquipped(itemForTool.InventorySprite, actions);
 	}
@@ -105,7 +132,7 @@ public class FishingRod : PlayerTool
         if (WasCast)
         {
             reel();
-            ++numOfUses;
+            --NumOfUses;
         }
         else if (CanCast)
         {

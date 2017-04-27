@@ -7,7 +7,7 @@ public class FishingRodCategory : EquipableCategory
     /// <summary>
     /// Degenteration threshold that number of uses must reach before falling apart.
     /// </summary>
-    public float DegenerationThreshold
+    public int DegenerationThreshold
     {
         get;
         set;
@@ -65,10 +65,9 @@ public class FishingRodCategory : EquipableCategory
     /// </summary>
     public void Break()
     {
-        // TO DO: Add way to get drop down notification to tell user the rod fell apart and that you can access some items in inventory
+        // Show notification
         GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.BREAK);
 
-        UnityEngine.Debug.Log("HI");
         // Unequip rod
         Game.Instance.PlayerInstance.Inventory.EquipedItem = null;
         Equiped = 0f;
