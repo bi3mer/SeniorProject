@@ -47,9 +47,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     [Tooltip("The chance of the player getting pnuemonia.")]
     private float pnuemoniaChance;
+
     [SerializeField]
     [Tooltip("The value the player's warmth must reach before pneumonia can happen.")]
     private float pnuemoniaWarmthThreshold;
+
     [SerializeField]
     [Tooltip("How many seconds per pnuemonia check.")]
     private float pneumoniaCheckTime;
@@ -251,8 +253,7 @@ public class PlayerController : MonoBehaviour
 
         //start checking for pneumonia
         StartCoroutine(CheckPneumonia());
-
-
+        
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
 
