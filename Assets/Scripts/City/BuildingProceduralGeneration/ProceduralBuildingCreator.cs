@@ -559,7 +559,6 @@ public class ProceduralBuildingCreator : MonoBehaviour
         newWasher.transform.eulerAngles = washerLocation.rotation.eulerAngles + new Vector3(0f, WindowWasherRotMod, 0f);
         newWasher.transform.position = washerLocation.position;
 
-        RaycastHit placementHit;
         newWasher.transform.position = new Vector3(newWasher.transform.position.x,
             newBuilding.transform.position.y + storiesTall * storyHeightUnits,
             newWasher.transform.position.z);
