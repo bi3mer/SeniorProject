@@ -73,14 +73,7 @@ public class WaterMovement : Movement
     {
         playerAnimator.SetFloat(playerAnimatorForward, swimmingSpeed);
 
-        //if (Game.Player.Controller.IsSick)
-        //{
-        //    Speed = swimmingSpeed / sicknessDecrease;
-        //}
-        //else
-        //{
-        //    Speed = swimmingSpeed;
-        //}
+        Speed = swimmingSpeed;
 
         controller.Move((new Vector3(direction.normalized.x, 0f, direction.normalized.z) * Speed * Time.fixedDeltaTime)
             + new Vector3(0f, Game.Instance.WaterLevelHeight - transform.position.y - swimmingHeight, 0f));
