@@ -173,6 +173,10 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Don't let the player climb distances less than this. This prevents climbing on slopes/things the player can just walk over.")]
     private float minClimbHeight;
 
+    private IEnumerator healthCoroutine;
+    private IEnumerator warmthCoroutine;
+    private IEnumerator hungerCoroutine;
+
     // How far forward a raycast should be to check ledge height.
     const float raycastClimbForward = .2f;
 
@@ -228,15 +232,12 @@ public class PlayerController : MonoBehaviour
 
         // start reducing hunger
 		PlayerStatManager.HungerRate.UseDefaultHungerReductionRate();
-        StartCoroutine(UpdateHunger());
 
         // start updating warmth
 		PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate();
-        StartCoroutine(UpdateWarmth());
 
 		// start updating health
 		PlayerStatManager.HealthRate.UseDefaultHealthRate ();
-		StartCoroutine (UpdateHealth ());
 
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
@@ -527,6 +528,7 @@ public class PlayerController : MonoBehaviour
 		while (updateStats)
 		{
 			yield return new WaitForSeconds(PlayerStatManager.WarmthRate.PerSeconds);
+
 			if (!PlayerStatManager.StopStats) 
 			{
 				PlayerStatManager.WarmthRate.ApplyRateToStat ();
@@ -834,8 +836,32 @@ public class PlayerController : MonoBehaviour
 		freezePlayer = false;
 		freezeCamera = false;
 
-		StartCoroutine(UpdateHunger());
-		StartCoroutine(UpdateWarmth());
+		System.Func<IEnumerator> updateWarmthFunction = UpdateWarmth;
+		System.Func<IEnumerator> updateHungerFunction = UpdateHunger;
+		System.Func<IEnumerator> updateHealthFunction = UpdateHealth;
+
+		if(warmthCoroutine != null)
+		{
+			StopCoroutine(warmthCoroutine);
+		}
+
+		if(hungerCoroutine != null)
+		{
+			StopCoroutine(hungerCoroutine);
+		}
+
+		if(healthCoroutine != null)
+		{
+			StopCoroutine(healthCoroutine);
+		}
+
+		warmthCoroutine = updateWarmthFunction();
+		healthCoroutine = updateHealthFunction();
+		hungerCoroutine = updateHungerFunction();
+
+		StartCoroutine(warmthCoroutine);
+		StartCoroutine(healthCoroutine);
+		StartCoroutine(hungerCoroutine);
     }
 
     /// <summary>
