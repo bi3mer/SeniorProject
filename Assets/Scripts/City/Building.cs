@@ -175,7 +175,7 @@ public abstract class Building
 		spawner.SetUpSpawner(size, district);
 		spawner.SpawnWithoutInteraction = prespawnItems;
 
-        if(spawner.PosterPositions.Length != 0)
+        if(spawner.PosterPositions.Length != 0 && Configuration != null)
         { 
             GameObject poster = GameObject.Instantiate(Configuration.DistrictPosters[Random.Range(0, Configuration.DistrictPosters.Length)]);
             int posterPos = Random.Range(0, spawner.PosterPositions.Length);

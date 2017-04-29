@@ -33,17 +33,14 @@ public class EndingController : MonoBehaviour
     private float cameraTweenTime;
 
 
-    [Tooltip("The ladder gameobject")]
+    [Tooltip("The ladder Animator")]
     [SerializeField]
-    private GameObject ladder;
+    private Animator ladder;
 
-    [Tooltip("Position for the ladder to fall to")]
-    [SerializeField]
-    private Transform ladderPosition;
-
-    [Tooltip("Time for the ladder to fall")]
-    [SerializeField]
-    private float ladderDropTime;
+    /// <summary>
+    /// The string used to trigger the ladder to unfurl.
+    /// </summary>
+    private const string ladderAnimatorDropTrigger = "Unfurl";
 
     [Tooltip("Time after the ladder falls or the player jumps off to wait to fade out")]
     [SerializeField]
@@ -52,6 +49,10 @@ public class EndingController : MonoBehaviour
     [Tooltip("The fader that lets the game fade out to white")]
     [SerializeField]
     private FaderManager fader;
+
+    [Tooltip("Time to wait for the ladder to drop.")]
+    [SerializeField]
+    private float ladderDropTime;
 
     [Tooltip("Time the ending fade takes")]
     [SerializeField]
@@ -127,7 +128,7 @@ public class EndingController : MonoBehaviour
         yield return new WaitForSeconds(timeToWait);
 
         // Lower ladder
-        ladder.transform.DOMove(ladderPosition.position, ladderDropTime);
+        ladder.SetTrigger(ladderAnimatorDropTrigger);
 
         // Don't let player be kill
         Game.Instance.PlayerInstance.Health = 100;
