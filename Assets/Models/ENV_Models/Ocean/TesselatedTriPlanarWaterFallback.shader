@@ -174,12 +174,13 @@ Shader "TriplanarWaterFallback"
 			ENDCG
 		}
 	}
+	Fallback "TriplanarWaterFallback"
 	Fallback "Diffuse"
 	CustomEditor "ASEMaterialInspector"
 }
 /*ASEBEGIN
 Version=7003
-0;92;1419;621;-1903.503;264.9005;1;True;True
+0;94;1017;488;-1437.601;110.0236;1.74866;True;False
 Node;AmplifyShaderEditor.ScreenPosInputsNode;436;-1227.685,1638.173;Float;False;1;False;FLOAT4;FLOAT;FLOAT;FLOAT;FLOAT
 Node;AmplifyShaderEditor.ScreenDepthNode;437;-1020.685,1584.673;Float;False;0;0;FLOAT4;0,0,0,0;False;FLOAT
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;438;-798.2853,1680.973;Float;False;0;FLOAT;0.0;False;1;FLOAT;0.0;False;FLOAT
@@ -260,7 +261,7 @@ Node;AmplifyShaderEditor.BreakToComponentsNode;287;-380.9853,-77.33714;Float;Fal
 Node;AmplifyShaderEditor.LerpOp;187;-563.1087,-85.70473;Float;False;0;FLOAT3;0,0,0;False;1;FLOAT3;0.0,0,0;False;2;FLOAT;0.0;False;FLOAT3
 Node;AmplifyShaderEditor.LerpOp;446;1669.916,1407.373;Float;False;0;FLOAT;0.0;False;1;FLOAT;0.0;False;2;FLOAT;0.0;False;FLOAT
 Node;AmplifyShaderEditor.LerpOp;448;1861.916,1695.373;Float;False;0;FLOAT;0.0;False;1;FLOAT;0.0;False;2;FLOAT;0.0;False;FLOAT
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;2748.003,339.1999;Fixed;False;True;0;Fixed;ASEMaterialInspector;0;StandardSpecular;TriplanarWaterFallback;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;3;False;0;0;Transparent;0.5;True;True;0;False;Transparent;Transparent;ForwardOnly;True;True;True;True;True;False;True;True;True;True;True;False;True;True;True;True;True;False;0;255;255;0;0;0;0;False;0;25.2;18.21;33.22;False;0.5;True;0;Zero;Zero;0;OneMinusDstColor;One;Add;Add;0;False;0;0,0,0,0;VertexOffset;False;Cylindrical;Relative;0;;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0.0;False;5;FLOAT;0.0;False;6;FLOAT3;0.0;False;7;FLOAT3;0.0;False;8;FLOAT;0.0;False;9;FLOAT;0.0;False;10;OBJECT;0.0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0.0,0,0;False;13;OBJECT;0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;2748.003,339.1999;Fixed;False;True;0;Fixed;ASEMaterialInspector;0;StandardSpecular;TriplanarWaterFallback;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;3;False;0;0;Transparent;0.5;True;True;0;False;Transparent;Transparent;ForwardOnly;True;True;True;True;True;False;True;True;True;True;True;False;True;True;True;True;True;False;0;255;255;0;0;0;0;False;0;25.2;18.21;33.22;False;0.5;True;0;Zero;Zero;0;OneMinusDstColor;One;Add;Add;0;False;0;0,0,0,0;VertexOffset;False;Cylindrical;Relative;0;TriplanarWaterFallback;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0.0;False;5;FLOAT;0.0;False;6;FLOAT3;0.0;False;7;FLOAT3;0.0;False;8;FLOAT;0.0;False;9;FLOAT;0.0;False;10;OBJECT;0.0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0.0,0,0;False;13;OBJECT;0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False
 Node;AmplifyShaderEditor.CommentaryNode;415;-1277.685,1534.673;Float;False;828.5967;315.5001;Screen depth difference to get intersection and fading effect with terrain and obejcts;0;
 WireConnection;437;0;436;0
 WireConnection;438;0;437;0
@@ -352,4 +353,4 @@ WireConnection;0;4;448;0
 WireConnection;0;9;453;0
 WireConnection;0;11;334;0
 ASEEND*/
-//CHKSM=72F4BE4ABCB963EBB444769DF9D1A5E9C59F79CE
+//CHKSM=48D31A5C049D74F1C06D5267C6DC4BF91B918451
