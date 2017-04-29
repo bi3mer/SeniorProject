@@ -19,7 +19,7 @@
     - "GUI_ITM_Basket"
   itemCategories: 
     - !!solid
-      flexibility: 3.0
+      flexibility: 4.0
       durability: 2.5
       elasticity: 0.6
       stickiness: 0.1
@@ -102,9 +102,9 @@
       sharpness: 0.3
     - !!fishingRod
       equiped: 0
-- itemName: "Good Fishing Rod"
+- itemName: "Standard Fishing Rod"
   baseItem: 
-   itemName: "Good Fishing Rod"
+   itemName: "Standard Fishing Rod"
    rarity: "uncommon"
    inventorySprite: "GUI_ITM_MediumFishingRod"
    worldModel: "ITM/Fishing Rods/MediumFishingRod"
@@ -164,9 +164,9 @@
       impermiability: 0.2
       fabricThickness: 1
       onPlayer: 0
-- itemName: "Good Woven Blanket"
+- itemName: "Standard Woven Blanket"
   baseItem: 
-   itemName: "Good Woven Blanket"
+   itemName: "Standard Woven Blanket"
    rarity: "common"
    inventorySprite: "GUI_ITM_Bandage"
    worldModel: "ITM/Healing/ITM_Bandage"
@@ -280,9 +280,9 @@
     - !!fireBase
       burnRateMultiplier: 1.5
       startingFuel: 20.0
-- itemName: "Good Fire Pit"
+- itemName: "Standard Fire Pit"
   baseItem:
-   itemName: "Good Fire Pit"
+   itemName: "Standard Fire Pit"
    rarity: "common"
    inventorySprite: "GUI_ITM_ScrapMetal"
    worldModel: "ITM/Campfire/ENV_Campfire"
@@ -547,9 +547,9 @@
       durability: 1
       stickiness: 0
       thickness: 0.4
-- itemName: "Good Raft"
+- itemName: "Standard Raft"
   baseItem:
-   itemName: "Good Raft"
+   itemName: "Standard Raft"
    rarity: "common"
    inventorySprite: "GUI_ITM_WoodPlank"
    worldModel: "ITM/Rafts/ITM_StandardRaft"

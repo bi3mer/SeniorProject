@@ -11,7 +11,6 @@ public class DayNightSkybox : MonoBehaviour
     private Material skybox;
 
     private const string skyboxBlendName = "_Blend";
-    private const float hoursInHalfADay = 12f;
 
     /// <summary>
     ///  Update the skybox.
@@ -22,7 +21,15 @@ public class DayNightSkybox : MonoBehaviour
         // This goes up to 24. Representing one day.
         // Start at midnight so we want 1.
         // At high noon we want 0
-        float blendVal =  Mathf.Abs(Game.Instance.ClockInstance.CurrentGameTimeInHours - hoursInHalfADay) / hoursInHalfADay;
-        skybox.SetFloat(skyboxBlendName, blendVal);
+		float currentTime = Game.Instance.ClockInstance.CurrentTime % Game.Instance.ClockInstance.TwelveHours;
+
+		if(Game.Instance.ClockInstance.IsDay)
+		{
+			skybox.SetFloat(skyboxBlendName, 1f - currentTime / Game.Instance.ClockInstance.TwelveHours);
+		}
+		else
+		{
+			skybox.SetFloat(skyboxBlendName, currentTime / Game.Instance.ClockInstance.TwelveHours);
+		}
 	}
 }
