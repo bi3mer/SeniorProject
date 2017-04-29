@@ -27,6 +27,8 @@ public class Inventory
 
     private Dictionary<string, int> itemCountByType;
 
+    private string[] unstackableItemTypes;
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Inventory"/> class.
 	/// </summary>
@@ -43,6 +45,8 @@ public class Inventory
 		{
 			itemCountByType.Add(ItemTypes.Types[i], 0);
 		}
+
+		unstackableItemTypes = new string[] {ItemTypes.Equipable, ItemTypes.AdvancedTool};
 	}
 
 	/// <summary>
@@ -64,6 +68,7 @@ public class Inventory
 			itemCountByType.Add(ItemTypes.Types[i], 0);
 		}
 
+		unstackableItemTypes = new string[] {ItemTypes.Equipable, ItemTypes.AdvancedTool};
 		LoadInventory();
 	}
 
@@ -250,16 +255,19 @@ public class Inventory
 		int loc = 0;
 		List<ItemStack> addedOrChangedStacks = new List<ItemStack>();
 
-		for (int i = 0; i < contents.Length && amountRemaining > 0; ++i) 
+		if(isStackable(newItem.Types))
 		{
-			if(contents[i] != null)
+			for (int i = 0; i < contents.Length && amountRemaining > 0; ++i) 
 			{
-				if (contents[i].Item.ItemName.Equals(newItem.ItemName)) 
+				if(contents[i] != null)
 				{
-					amountRemaining = (contents[i].Amount + amount) - contents[i].MaxStackSize; 
-					contents[i].Amount += amount;
-					loc = i;
-					addedOrChangedStacks.Add(contents[i]);
+					if (contents[i].Item.ItemName.Equals(newItem.ItemName)) 
+					{
+						amountRemaining = (contents[i].Amount + amount) - contents[i].MaxStackSize; 
+						contents[i].Amount += amount;
+						loc = i;
+						addedOrChangedStacks.Add(contents[i]);
+					}
 				}
 			}
 		}
@@ -279,6 +287,24 @@ public class Inventory
 		UpdateTypeAmount(newItem.Types, amount);
 
 		return addedOrChangedStacks;
+	}
+
+	/// <summary>
+	/// Checks if the item should be stacked in the inventory.
+	/// </summary>
+	/// <returns><c>true</c>, if item is stackable, <c>false</c> otherwise.</returns>
+	/// <param name="itemTypes">Item types.</param>
+	private bool isStackable(List<string> itemTypes)
+	{
+		for(int i = 0; i < unstackableItemTypes.Length; ++i)
+		{
+			if(itemTypes.Contains(unstackableItemTypes[i]))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/// <summary>
