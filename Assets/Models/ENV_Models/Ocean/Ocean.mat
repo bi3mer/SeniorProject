@@ -9,218 +9,116 @@ Material:
   m_Name: Ocean
   m_Shader: {fileID: 4800000, guid: 65596032a578fe34992c304a0131d25d, type: 3}
   m_ShaderKeywords: _EMISSION
-  m_LightmapFlags: 1
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
+  disabledShaderPasses: []
   m_SavedProperties:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TexEnvs:
-    - first:
-        name: _Albedo1
-      second:
+    - _Albedo1:
         m_Texture: {fileID: 2800000, guid: 9f73b76944603644e8768023463b4e18, type: 3}
         m_Scale: {x: 400, y: 400}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Albedo2
-      second:
-        m_Texture: {fileID: 2800000, guid: 4c3094f930a79c84aab05bd27c535838, type: 3}
+    - _Albedo2:
+        m_Texture: {fileID: 2800000, guid: 9f73b76944603644e8768023463b4e18, type: 3}
         m_Scale: {x: 400, y: 400}
         m_Offset: {x: 0.77, y: 0}
-    - first:
-        name: _BumpMap
-      second:
+    - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _DetailAlbedoMap
-      second:
+    - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _DetailMask
-      second:
+    - _DetailMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _DetailNormalMap
-      second:
+    - _DetailNormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Displacement1
-      second:
-        m_Texture: {fileID: 2800000, guid: b40aca13dfc4c3645bbfe9148f4cfb0d, type: 3}
+    - _Displacement1:
+        m_Texture: {fileID: 2800000, guid: 8ae0eecc4cb145244b34ced6c48536a3, type: 3}
         m_Scale: {x: 140, y: 140}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Displacement2
-      second:
+    - _Displacement2:
         m_Texture: {fileID: 2800000, guid: a0c10ff906524a5499648c09d43df7f7, type: 3}
         m_Scale: {x: 2, y: 12}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _EmissionMap
-      second:
+    - _DummyTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Foamtexture
-      second:
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Foamtexture:
         m_Texture: {fileID: 2800000, guid: 26775bb189941e14ca915bcbcc93fd6d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _MainTex
-      second:
+    - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _MetallicGlossMap
-      second:
+    - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _OcclusionMap
-      second:
+    - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _ParallaxMap
-      second:
+    - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _texcoord
-      second:
+    - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - first:
-        name: _Albedo2Speed
-      second: 0.9
-    - first:
-        name: _AlbedoBlend
-      second: 0.688
-    - first:
-        name: _AlbedoSpeed1
-      second: 0.3
-    - first:
-        name: _BumpScale
-      second: 1
-    - first:
-        name: _Cutoff
-      second: 0.5
-    - first:
-        name: _Depth
-      second: 0
-    - first:
-        name: _DepthFalloff
-      second: 2.49
-    - first:
-        name: _DetailNormalMapScale
-      second: 1
-    - first:
-        name: _Displacement
-      second: 0.039
-    - first:
-        name: _DisplacementSpeed1
-      second: 0.05
-    - first:
-        name: _DisplacementSpeed2
-      second: 0.07
-    - first:
-        name: _DstBlend
-      second: 0
-    - first:
-        name: _Foam
-      second: 4.91
-    - first:
-        name: _FoamFalloff
-      second: -2.45
-    - first:
-        name: _GlossMapScale
-      second: 1
-    - first:
-        name: _Glossiness
-      second: 0.5
-    - first:
-        name: _GlossyReflections
-      second: 1
-    - first:
-        name: _Metallic
-      second: 0
-    - first:
-        name: _Mode
-      second: 0
-    - first:
-        name: _OcclusionStrength
-      second: 1
-    - first:
-        name: _Opacity
-      second: 0.493
-    - first:
-        name: _Parallax
-      second: 0.02
-    - first:
-        name: _SmoothnessMax
-      second: 1
-    - first:
-        name: _SmoothnessMin
-      second: -0.06
-    - first:
-        name: _SmoothnessTextureChannel
-      second: 0
-    - first:
-        name: _SpecularHighlights
-      second: 1
-    - first:
-        name: _SpecularMax
-      second: 2.29
-    - first:
-        name: _SpecularMin
-      second: -1.24
-    - first:
-        name: _SrcBlend
-      second: 1
-    - first:
-        name: _TessMax
-      second: 42.64
-    - first:
-        name: _TessMin
-      second: 25.8
-    - first:
-        name: _TessValue
-      second: 32
-    - first:
-        name: _UVSec
-      second: 0
-    - first:
-        name: _ZWrite
-      second: 1
-    - first:
-        name: __dirty
-      second: 1
+    - _Albedo2Speed: 0.77
+    - _AlbedoBlend: 0.512
+    - _AlbedoSpeed1: 2.7
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _Depth: 0.1
+    - _DepthFalloff: 7.16
+    - _DetailNormalMapScale: 1
+    - _Displacement: 0.033
+    - _DisplacementSpeed1: 0.05
+    - _DisplacementSpeed2: 0.07
+    - _DstBlend: 0
+    - _Foam: 4.91
+    - _FoamFalloff: -4.99
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Opacity: 0.898
+    - _Parallax: 0.02
+    - _SmoothnessMax: 0.45
+    - _SmoothnessMin: 0.09
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SpecularMax: 0.18
+    - _SpecularMin: 0.05
+    - _SrcBlend: 1
+    - _TessMax: 42.64
+    - _TessMin: 25.8
+    - _TessValue: 32
+    - _UVSec: 0
+    - _ZWrite: 1
+    - __dirty: 0
     m_Colors:
-    - first:
-        name: _Color
-      second: {r: 1, g: 1, b: 1, a: 1}
-    - first:
-        name: _DeepColor
-      second: {r: 0.4044118, g: 0.4044118, b: 0.4044118, a: 0}
-    - first:
-        name: _EmissionColor
-      second: {r: 0, g: 0, b: 0, a: 1}
-    - first:
-        name: _ShallowColor
-      second: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DeepColor: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ShallowColor: {r: 1, g: 1, b: 1, a: 1}

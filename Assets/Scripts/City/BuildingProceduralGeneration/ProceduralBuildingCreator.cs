@@ -46,18 +46,22 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// Height of a single story
     /// </summary>
     private const float storyHeightUnits = .75f;
+
     /// <summary>
     /// Length of 1 base building unit on the grid.
     /// </summary>
     private const float OneBaseLengthUnits = 3f;
+
     /// <summary>
     /// Length of 1/2 base building unit on the grid.
     /// </summary>
     private const float HalfBaseLengthUnits = OneBaseLengthUnits / 2f;
+
     /// <summary>
     /// Start rotation modifier of all attachments
     /// </summary>
     private const float attachmentRotationMod = 0f;
+
     /// <summary>
     /// Rotation mod of all windows.
     /// </summary>
@@ -67,26 +71,32 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// The string name to access the standard shader's smoothness value
     /// </summary>
     private const string standardShaderSmoothness = "_GlossMapScale";
+
     /// <summary>
     /// The string name to access the standard shader's bump value
     /// </summary>
     private const string standardShaderBump = "_BumpScale";
+
     /// <summary>
     /// The string name to access the building shader's smoothness value
     /// </summary>
     private const string buildingShaderSmoothness = "_Smoothness";
+
     /// <summary>
     /// The string name to access the  building shader's bump value
     /// </summary>
     private const string buildingShaderBump = "_BuildingNormalWeight";
+
     /// <summary>
     /// The string name to access the  building shader's bump value
     /// </summary>
     private const string buildingShaderDetail = "_DetailTexture";
+
     /// <summary>
     /// The string name to access the  building shader's bump value
     /// </summary>
     private const string buildingShaderDetailNormal = "_DetailNormal";
+
     /// <summary>
     /// The string name to access the building shader's extra albedo coloring.
     /// </summary>
@@ -96,12 +106,13 @@ public class ProceduralBuildingCreator : MonoBehaviour
     /// How smooth building materials should be.
     /// </summary>
     [Range(0f, 1f)]
-    private float materialSmoothness = .72f;
+    private float materialSmoothness = 0.329f;
+
     /// <summary>
     /// How normal the maps are.
     /// </summary>
     [Range(0f, 1f)]
-    private float normalWeight = .1f;
+    private float normalWeight = .2f;
 
     // The number of tries to try any potentially failing random generation.
     private const int numberOfTries = 5;

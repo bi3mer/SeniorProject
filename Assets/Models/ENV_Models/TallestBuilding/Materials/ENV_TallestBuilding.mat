@@ -112,7 +112,7 @@ Material:
     - _WaterFlowSpeed: 0.26
     - _WetLevel: 0.676
     - _ZWrite: 1
-    - __dirty: 1
+    - __dirty: 0
     m_Colors:
     - _Albedo: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

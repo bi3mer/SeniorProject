@@ -9,7 +9,7 @@ Material:
   m_Name: ConcreteBuildingFive
   m_Shader: {fileID: 4800000, guid: b4c40e71e4e5f4f45918e11e5e1247ab, type: 3}
   m_ShaderKeywords: _EMISSION _METALLICGLOSSMAP _NORMALMAP
-  m_LightmapFlags: 1
+  m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -101,7 +101,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _RainIntensity: 1
-    - _RippleNormalWeight: 5.8
+    - _RippleNormalWeight: 51
     - _Smoothness: 0.329
     - _SmoothnessTextureChannel: 0
     - _Specular: 0.322
@@ -112,7 +112,7 @@ Material:
     - _WaterFlowSpeed: 0.26
     - _WetLevel: 0.676
     - _ZWrite: 1
-    - __dirty: 1
+    - __dirty: 0
     m_Colors:
     - _Albedo: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

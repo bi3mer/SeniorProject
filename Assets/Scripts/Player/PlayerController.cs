@@ -195,6 +195,7 @@ public class PlayerController : MonoBehaviour
     private const string playerAnimatorSwimming = "Swimming";
     private const string playerAnimatorClimb = "Climb";
     private const string playerAnimatorFalling = "Falling";
+    private const string playerAnimatorRafting = "Rafting";
 
     private CapsuleCollider playerCollider;
     private CharacterController characterController;
@@ -545,8 +546,10 @@ public class PlayerController : MonoBehaviour
     {
         bool belowWater = (Game.Instance.WaterLevelHeight > PlayerIKSetUp.transform.position.y + waterWadeHeight);
 
+        
         if (IsOnRaft)
         {
+            playerAnimator.SetBool(playerAnimatorRafting, true);
             PlayerAnimator.SetBool(playerAnimatorFalling, false);
             PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
             PlayerAnimator.SetBool(playerAnimatorSwimming, false);
@@ -560,6 +563,7 @@ public class PlayerController : MonoBehaviour
             movement = waterMovement;
             movement.OnStateEnter();
             playerAnimator.SetBool(playerAnimatorSwimming, true);
+            playerAnimator.SetBool(playerAnimatorRafting, false);
         }
         else
         { 
@@ -593,6 +597,7 @@ public class PlayerController : MonoBehaviour
             {
                 playerAnimator.SetBool(playerAnimatorSwimming, false);
             }
+            playerAnimator.SetBool(playerAnimatorRafting, false);
         }
     }
 
@@ -1093,10 +1098,23 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void SetIsOnLand()
     {
-        movement = landMovement;
-        PlayerAnimator.SetBool(playerAnimatorFalling, false);
-        PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
-        PlayerAnimator.SetBool(playerAnimatorSwimming, false);
-        PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
+        if(IsOnRaft)
+        {
+            movement = landMovement;
+            PlayerAnimator.SetBool(playerAnimatorFalling, false);
+            PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
+            PlayerAnimator.SetBool(playerAnimatorSwimming, false);
+            PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
+            transform.parent = defaultParent;
+            setPlayerCollision(true);
+        }
+        else
+        { 
+            movement = landMovement;
+            PlayerAnimator.SetBool(playerAnimatorFalling, false);
+            PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
+            PlayerAnimator.SetBool(playerAnimatorSwimming, false);
+            PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
+        }
     }
 }
