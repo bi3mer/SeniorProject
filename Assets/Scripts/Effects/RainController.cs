@@ -121,6 +121,9 @@ public class RainController : MonoBehaviour
 			this.WindVectorXZ = Game.Instance.WeatherInstance.WindDirection2d / this.windMitigation;
         	this.RainLevel    = Game.Instance.WeatherInstance.WeatherInformation[(int) Weather.Precipitation];
         }
+
+        // Rain level in the shader is evaluated between 0-1 where here it's 1-100
+        Shader.SetGlobalFloat("_RainIntensity", RainLevel / 100);
     }
 
     /// <summary>

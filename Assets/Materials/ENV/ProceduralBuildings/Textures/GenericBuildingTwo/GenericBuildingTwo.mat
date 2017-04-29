@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: TXR_TutorialBuilding
+  m_Name: GenericBuildingTwo
   m_Shader: {fileID: 4800000, guid: b4c40e71e4e5f4f45918e11e5e1247ab, type: 3}
   m_ShaderKeywords: _EMISSION _METALLICGLOSSMAP _NORMALMAP
   m_LightmapFlags: 1
@@ -18,19 +18,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BuildingAlbedo:
-        m_Texture: {fileID: 2800000, guid: e283ebedb0eec054bb00c1b91d84e8f8, type: 3}
+        m_Texture: {fileID: 2800000, guid: 66ca626067edd4248a8429b200a5697c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BuildingMask:
-        m_Texture: {fileID: 2800000, guid: 9f772aada98165048a5a923321c11896, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5a21eb750b1284a4e993a176fe3b1995, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BuildingNormal:
-        m_Texture: {fileID: 2800000, guid: 6faff018c166c8a43822ccba8f7be67b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 536d4c752560cd8489aa9f7b137f0104, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 6faff018c166c8a43822ccba8f7be67b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 536d4c752560cd8489aa9f7b137f0104, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -50,7 +50,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailTexture:
-        m_Texture: {fileID: 2800000, guid: bb4cc7de9aa08a543b6f62278e620bdf, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2c606ff8fc5441b4ab39b868fdd0c79b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -58,11 +58,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: e283ebedb0eec054bb00c1b91d84e8f8, type: 3}
+        m_Texture: {fileID: 2800000, guid: 66ca626067edd4248a8429b200a5697c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 4235cafe852489544a099fd235baa0e3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8e75d8a46280bd7499d73e10ffed33a2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -75,7 +75,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _RippleTexture:
         m_Texture: {fileID: 2800000, guid: 85404d8e834764f0eaa4280f93d7f58d, type: 3}
-        m_Scale: {x: 8, y: 8}
+        m_Scale: {x: 7, y: 7}
         m_Offset: {x: 0, y: 0}
     - _WaterFlow:
         m_Texture: {fileID: 2800000, guid: 8a5af62ae3551411c992656382c7ee1a, type: 3}
@@ -86,14 +86,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _BuildingNormalWeight: 1.26
-    - _BumpScale: 0.3
+    - _BuildingNormalWeight: 1
+    - _BumpScale: 0.1
     - _Cutoff: 0.5
-    - _DetailCutoff: 0.288
+    - _DetailCutoff: 0.463
     - _DetailNormalMapScale: 1
-    - _DetailNormalWeight: 1.81
+    - _DetailNormalWeight: 0.2
     - _DstBlend: 0
-    - _GlossMapScale: 0.69
+    - _GlossMapScale: 0.14
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
@@ -108,13 +108,13 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WaterFlowNormalStrength: 0.01
+    - _WaterFlowNormalStrength: 1
     - _WaterFlowSpeed: 0.26
     - _WetLevel: 0.676
     - _ZWrite: 1
     - __dirty: 1
     m_Colors:
-    - _Albedo: {r: 1, g: 1, b: 1, a: 1}
+    - _Albedo: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SecondRippleTiling: {r: 7, g: 7, b: 0, a: 0}
