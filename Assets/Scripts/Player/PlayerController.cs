@@ -351,7 +351,7 @@ public class PlayerController : MonoBehaviour
         {
             // don't move if a tool is currently in use or if the player is set to be frozen.
             PlayerTools toolbox = Game.Instance.PlayerInstance.Toolbox;
-            if (toolbox.HasEquipped && toolbox.EquippedTool.InUse || freezePlayer)
+            if (toolbox != null && (toolbox.HasEquipped && toolbox.EquippedTool.InUse || freezePlayer))
             {
                 return;
             }

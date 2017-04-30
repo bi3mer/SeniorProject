@@ -117,8 +117,8 @@ public class WaterPointGenerator : SamplingPointGenerator
 		// so the dimensions of the cellSize square should be divided by Mathf.Sqrt(2)
 		// Since the diagonal of a square is Mathf.Sqrt(2) * outsideDimension
 		// ex: If the dimensions of a square is 3, then the diagonal is Mathf.Sqrt(9 + 9) = 3 * Mathf.Sqrt(2)
-		cellSize = defaultMinDistanceAway/Mathf.Sqrt(2);
-		grid = new ItemPlacementSamplePoint[Mathf.CeilToInt (width / cellSize), Mathf.CeilToInt (depth / cellSize)]; 
+		CellSize = defaultMinDistanceAway/Mathf.Sqrt(2);
+		Grid = new ItemPlacementSamplePoint[Mathf.CeilToInt (width / CellSize), Mathf.CeilToInt (depth / CellSize)]; 
 		CityWidth = width;
 		CityDepth = depth;
 		CityCenter = center;
@@ -144,14 +144,14 @@ public class WaterPointGenerator : SamplingPointGenerator
                     gridPoint = PointToGrid(point);
 
 
-                    if (grid[gridPoint.X, gridPoint.Y] == null)
+                    if (Grid[gridPoint.X, gridPoint.Y] == null)
                     {
                         buildingSamplingPoint = new ItemPlacementSamplePoint();
                         buildingSamplingPoint.LocalTargetSurfaceLocation = new Vector2(i, j);
                         buildingSamplingPoint.MinDistance = 1;
                         buildingSamplingPoint.GridPoint = gridPoint;
 
-                        grid[gridPoint.X, gridPoint.Y] = buildingSamplingPoint;
+                        Grid[gridPoint.X, gridPoint.Y] = buildingSamplingPoint;
                     }
                 }
 			}
@@ -227,8 +227,6 @@ public class WaterPointGenerator : SamplingPointGenerator
 
 			for (int i = 0; i < NewPointsPerSamplingPoint; ++i)
 			{
-
-
 				newPoint = new ItemPlacementSamplePoint ();
 
 				newPoint.LocalTargetSurfaceLocation = generateRandomPointAround(point.LocalTargetSurfaceLocation, point.MinDistance + point.Size);
@@ -261,7 +259,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 
 					if(tries < MaxAttempts)
 					{
-						grid[newPoint.GridPoint.X, newPoint.GridPoint.Y] = newPoint;
+						Grid[newPoint.GridPoint.X, newPoint.GridPoint.Y] = newPoint;
 
 						processList.Add(newPoint);
 						samplePoints.Add(newPoint);
@@ -292,6 +290,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// <param name="maxY">Max y.</param>
 	/// <param name="pointsToMake">Points to make.</param>
 	/// <param name="generatableObjectExtents">Generatable object extents.</param>
+	/// <param name="finishingAction">Callback action to the WaterItemGnerator to advance the point generation process.</param>
 	public IEnumerator GenerateRandomPointsInBounds(float minX, float maxX, float minY, float maxY, int pointsToMake, 
 													Dictionary<string, List<float>>  generatableObjectExtents, WaterItemGeneration.StepCallback finishingAction)
 	{
@@ -335,7 +334,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 
 				if(tries < MaxAttempts)
 				{	
-					grid[initPoint.GridPoint.X, initPoint.GridPoint.Y] = initPoint;
+					Grid[initPoint.GridPoint.X, initPoint.GridPoint.Y] = initPoint;
 					initialPoints.Add(initPoint);
 				}
 			}
@@ -392,29 +391,8 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// <param name="samplingPoint">Sampling point.</param>
 	protected Tuple<int, int> PointToGrid(Vector2 samplingPoint)
 	{
-		return new Tuple<int, int> ((int)((samplingPoint.x - CityCenter.x + CityWidth/2f) / cellSize), 
-									(int)((samplingPoint.y - CityCenter.y + CityDepth/2f) / cellSize));
-	}
+		return new Tuple<int, int> ((int)((samplingPoint.x - CityCenter.x + CityWidth/2f) / CellSize), 
+									(int)((samplingPoint.y - CityCenter.z + CityDepth/2f) / CellSize));
 
-	/// <summary>
-	/// Gets the grid cell's bounds.
-	/// </summary>
-	/// <returns>The grid cell bounds.</returns>
-	/// <param name="xCoord">X coordinate.</param>
-	/// <param name="yCoord">Y coordinate.</param>
-	public Bounds GetGridCellBounds(int xCoord, int yCoord)
-	{
-		Bounds cellBounds = new Bounds();
-		float cityMinX = CityCenter.x - CityWidth/2f;
-		float cityMinY = CityCenter.y - CityDepth/2f;
-
-		if(xCoord >= 0 && xCoord < grid.GetLength(0) && yCoord >= 0 && yCoord < grid.GetLength(1))
-		{
-			cellBounds.min = new Vector3(cityMinX + cellSize * xCoord, Game.Instance.CityBounds.CityBounds.min.y, cityMinY + cellSize * yCoord);
-			cellBounds.max = new Vector3(cityMinX + cellSize * (xCoord + 1), Game.Instance.CityBounds.CityBounds.max.y, cityMinY + cellSize * (yCoord + 1));
-			return cellBounds;
-		}
-
-		return cellBounds;
 	}
 }

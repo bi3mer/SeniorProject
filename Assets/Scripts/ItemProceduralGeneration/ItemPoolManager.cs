@@ -49,7 +49,7 @@ public class ItemPoolManager : MonoBehaviour
 
 	private float cellSize;
 
-	private const float distanceUnitSize = 1f;
+	private const float distanceUnitSize = 0.5f;
 
 	private Tuple<int, int> currentLocation;
 
@@ -123,7 +123,7 @@ public class ItemPoolManager : MonoBehaviour
 	public Tuple<int, int> PointToGrid(Vector2 location)
 	{
 		return new Tuple<int, int> ((int)((location.x - cityCenter.x + cityWidth/2f) / cellSize), 
-									(int)((location.y - cityCenter.y + cityDepth/2f) / cellSize));
+									(int)((location.y - cityCenter.z + cityDepth/2f) / cellSize));
 	}
 
 	/// <summary>
