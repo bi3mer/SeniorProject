@@ -62,11 +62,10 @@ public class DistrictConfiguration
     public List<GameObject> Doors;
 
     /// <summary>
-    /// Any additional building templates to be added to a district, to be placed according to the specified frequency.
+    /// The shelters in the district.
     /// </summary>
-    [Tooltip("Any additional building templates to be added to a district, to be placed according to the specified frequency.")]
-    public BuildingTemplatePlacement[] AdditionalBuildingTemplates;
-
+    [Tooltip("Shelters that may be generated in the district")]
+    public List<GameObject> Shelters;
 
     [Header("Procedural Building Construction")]
 
@@ -257,6 +256,27 @@ public class DistrictConfiguration
         }
     }
 
+    /// <summary>
+    /// Struct used to contain both detail textures applied to procedural buildings
+    /// </summary>
+    [Serializable]
+    public struct detailTextures
+    {
+        public Texture detailAlbedo;
+        public Texture detailNormal;
+    }
+
+    [SerializeField]
+    private detailTextures[] districtDetailMaterials;
+    public detailTextures[] DistrictDetailMaterials
+    {
+        get
+        {
+            return districtDetailMaterials;
+        }
+    }
+
+
     [SerializeField]
     private Material[] districtWindowMaterials;
     /// <summary>
@@ -338,6 +358,19 @@ public class DistrictConfiguration
         get
         {
             return windowWasherStartUpChance;
+        }
+    }
+
+    [SerializeField]
+    private GameObject[] districtPosters;
+    /// <summary>
+    /// Posters that appear in this district
+    /// </summary>
+    public GameObject[] DistrictPosters
+    {
+        get
+        {
+            return districtPosters;
         }
     }
 }

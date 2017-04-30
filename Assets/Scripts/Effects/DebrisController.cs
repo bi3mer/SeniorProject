@@ -40,6 +40,10 @@ public class DebrisController : MonoBehaviour
 	[SerializeField]
 	private Vector2 windVectorXZ;
 
+    [Tooltip("Lerp these values so they aren't so jumpy.")]
+    [SerializeField]
+    private float lerpSpeed = .01f;
+
 	/// <summary>
 	/// The wind vector in XZ (considering Y is Up, but we're only concerned with 2D wind)
 	/// </summary>
@@ -97,8 +101,8 @@ public class DebrisController : MonoBehaviour
 		}
 		else
 		{
-			this.WindVectorXZ = Game.Instance.WeatherInstance.WindDirection2d / this.windMitigation;
-			this.DebrisLevel = Game.Instance.WeatherInstance.WeatherInformation [(int)Weather.WindSpeedMagnitude];
+			this.WindVectorXZ = Vector2.Lerp(WindVectorXZ, Game.Instance.WeatherInstance.WindDirection2d / this.windMitigation, lerpSpeed);
+			this.DebrisLevel = Mathf.Lerp(DebrisLevel, Game.Instance.WeatherInstance.WeatherInformation [(int)Weather.WindSpeedMagnitude], lerpSpeed);
 		}
 	}
 
@@ -112,11 +116,11 @@ public class DebrisController : MonoBehaviour
 		// Set the Debris emission rate, if it's less than the threshold turn off emission. If not, multiply it by a given value.
 		if (DebrisLevel < DebrisStartThreshold)
 		{
-			DebrisEmission.rate = 0f;
+			DebrisEmission.rateOverTime = 0f;
 		}
 		else
 		{
-			DebrisEmission.rate = debrisLevel * debrisMultiplier;
+            DebrisEmission.rateOverTime = debrisLevel * debrisMultiplier;
 		}
 
 		// Set the wind speed via velocity over lifetime

@@ -112,19 +112,24 @@ public class WaterPointGenerator : SamplingPointGenerator
 		// mark the grid as occupied every 1 unit with an item of 1 size within the bounds of the building
 		for(int i = (int) bound.min.x; i < (int) bound.max.x; ++i)
 		{
-			for(int j = (int) bound.min.z; j < (int)bound.max.y; ++j)
+			for(int j = (int) bound.min.z; j < (int)bound.max.z; ++j)
 			{
-				gridPoint = PointToGrid(new Vector2(i, j));
+                Vector2 point = new Vector2(i, j);
+                if (inCityBounds(point))
+                {
+                    gridPoint = PointToGrid(point);
 
-				if(grid[gridPoint.X, gridPoint.Y] == null)
-				{
-					buildingSamplingPoint = new ItemPlacementSamplePoint();
-					buildingSamplingPoint.LocalTargetSurfaceLocation = new Vector2(i, j);
-					buildingSamplingPoint.MinDistance = 1;
-					buildingSamplingPoint.GridPoint = gridPoint;
 
-					grid[gridPoint.X, gridPoint.Y] = buildingSamplingPoint;
-				}
+                    if (grid[gridPoint.X, gridPoint.Y] == null)
+                    {
+                        buildingSamplingPoint = new ItemPlacementSamplePoint();
+                        buildingSamplingPoint.LocalTargetSurfaceLocation = new Vector2(i, j);
+                        buildingSamplingPoint.MinDistance = 1;
+                        buildingSamplingPoint.GridPoint = gridPoint;
+
+                        grid[gridPoint.X, gridPoint.Y] = buildingSamplingPoint;
+                    }
+                }
 			}
 		}
 	}

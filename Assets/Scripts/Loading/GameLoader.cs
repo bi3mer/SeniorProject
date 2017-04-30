@@ -9,12 +9,22 @@ public class GameLoader
 {
     private List<GameLoaderTask> tasks;
 
+    public delegate void GameLoadedDelegate();
+    public event GameLoadedDelegate GameLoadedEvent;
+
+    public bool GameLoaded
+    {
+    	get;
+    	private set;
+    }
+
     /// <summary>
     /// Instatiate a new GameLoader
     /// </summary>
     public GameLoader()
     {
         tasks = new List<GameLoaderTask>();
+        GameLoaded = false;
     }
 
     /// <summary>
@@ -48,7 +58,42 @@ public class GameLoader
                 totalComplete += tasks[i].PercentageComplete;
             }
 
-            return totalComplete / tasks.Count;
+            float complete = totalComplete / tasks.Count;
+            if (complete >= 1f && GameLoadedEvent != null && !GameLoaded)
+            {
+                GameLoadedEvent();
+                GameLoaded = true;
+            }
+
+            return complete;
         }
+    }
+
+    /// <summary>
+    /// Get the name of the currently processing task.
+    /// </summary>
+    public string CurrentTask
+    {
+        get
+        {
+            for (int i = 0; i < tasks.Count; ++i)
+            {
+                if (tasks[i].PercentageComplete < 1.0f)
+                {
+                    return tasks[i].Name + "...";
+                }
+            }
+
+            return "";
+        }
+    }
+
+    /// <summary>
+    /// Reset this instance.
+    /// </summary>
+    public void Reset()
+    {
+    	GameLoaded = false;
+    	tasks.Clear();
     }
 }

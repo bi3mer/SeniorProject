@@ -75,7 +75,7 @@ public class ClothCategory : ItemCategory
 		category.OnPlayer = OnPlayer;
 
 		category.Actions = new List<ItemAction>();
-		category.Attributes = new List<Attribute>();
+		category.Attributes = new List<ItemAttribute>();
 
 		ItemAction putOn = new ItemAction (putOnActName, new UnityAction(category.PutOn));
 		ItemAction takeOff = new ItemAction(takeOffActName, new UnityAction(category.TakeOff));
@@ -93,12 +93,12 @@ public class ClothCategory : ItemCategory
 	/// </summary>
 	public override void ReadyCategory()
 	{
-		Attributes = new List<Attribute> ();
+		Attributes = new List<ItemAttribute> ();
 
-		Attributes.Add (new Attribute (onPlayerAttributeName, OnPlayer));
-		Attributes.Add (new Attribute (threadDenAttrName, ThreadDensity));
-		Attributes.Add (new Attribute (impermiabilityAttrName, Impermiability));
-		Attributes.Add (new Attribute(thicknessAttrName, FabricThickness));
+		Attributes.Add (new ItemAttribute (onPlayerAttributeName, OnPlayer));
+		Attributes.Add (new ItemAttribute (threadDenAttrName, ThreadDensity));
+		Attributes.Add (new ItemAttribute (impermiabilityAttrName, Impermiability));
+		Attributes.Add (new ItemAttribute(thicknessAttrName, FabricThickness));
 
 		Actions = new List<ItemAction> ();
 
@@ -122,13 +122,7 @@ public class ClothCategory : ItemCategory
 	{
 		PlayerController player = Game.Instance.PlayerInstance.Controller;
 
-		fireWarmthDifference = Mathf.Min(FabricThickness + ThreadDensity, player.FireWarmthIncreaseRate);
-		outsideWarmthDifference = Mathf.Min(FabricThickness + ThreadDensity, player.OutsideWarmthIncreaseRate);
-		shelterWarmthDifference = Mathf.Min(FabricThickness + ThreadDensity, player.ShelterWarmthIncreaseRate);
-
-		player.FireWarmthIncreaseRate = player.FireWarmthIncreaseRate - fireWarmthDifference;
-		player.OutsideWarmthIncreaseRate = player.OutsideWarmthIncreaseRate - outsideWarmthDifference;
-		player.ShelterWarmthIncreaseRate = player.ShelterWarmthIncreaseRate - shelterWarmthDifference;
+		player.PlayerStatManager.WarmthRate.UseClothRate ((int)(FabricThickness + ThreadDensity));
 
 		OnPlayer = 1f;
 		GetAttribute(onPlayerAttributeName).Value = OnPlayer;
@@ -143,9 +137,7 @@ public class ClothCategory : ItemCategory
 	{
 		PlayerController player = Game.Instance.PlayerInstance.Controller;
 
-		player.FireWarmthIncreaseRate = player.FireWarmthIncreaseRate + fireWarmthDifference;
-		player.OutsideWarmthIncreaseRate = player.OutsideWarmthIncreaseRate + outsideWarmthDifference;
-		player.ShelterWarmthIncreaseRate = player.ShelterWarmthIncreaseRate + shelterWarmthDifference;
+		player.PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
 
 		OnPlayer = 0f;
 		GetAttribute(onPlayerAttributeName).Value = OnPlayer;

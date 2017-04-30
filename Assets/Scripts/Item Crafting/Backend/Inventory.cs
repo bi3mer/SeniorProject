@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 /// <summary>
 /// Defines the inventory of items the player can access. Currently just considers all the gameobjects parented under item parent
@@ -12,7 +13,7 @@ using System;
 public class Inventory
 {
 	// Inventory size
-	private int inventorySize = 20;
+	private int inventorySize = 10;
 
 	// How many items there may be in a stack
 	private const int StackSize = 5;
@@ -25,6 +26,8 @@ public class Inventory
 	private InventoryYamlParser parser;
 
     private Dictionary<string, int> itemCountByType;
+
+    private string[] unstackableItemTypes;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Inventory"/> class.
@@ -42,6 +45,8 @@ public class Inventory
 		{
 			itemCountByType.Add(ItemTypes.Types[i], 0);
 		}
+
+		unstackableItemTypes = new string[] {ItemTypes.Equipable, ItemTypes.AdvancedTool};
 	}
 
 	/// <summary>
@@ -63,6 +68,7 @@ public class Inventory
 			itemCountByType.Add(ItemTypes.Types[i], 0);
 		}
 
+		unstackableItemTypes = new string[] {ItemTypes.Equipable, ItemTypes.AdvancedTool};
 		LoadInventory();
 	}
 
@@ -94,6 +100,7 @@ public class Inventory
 
 				item.SetUpBaseItem ();
 
+				// ToString("N") is used to specify that a 32 bit number is being converted into a string
 				ItemStack stack = new ItemStack(item, inventoryInfo[i].ItemAmount,  Guid.NewGuid().ToString("N"));
 				contents[i] = stack;
 			}
@@ -211,16 +218,26 @@ public class Inventory
 	/// </summary>
 	/// <returns>The items by type.</returns>
 	/// <param name="type">Type.</param>
-    public List<string> GetItemsByType(string type)
+    public List<string> GetItemsByType(List<string> types)
     {
     	List<string> desiredItems = new List<string>();
+    	bool match = false;
 
     	for(int i = 0; i < contents.Length; ++i)
     	{
-    		if(contents[i] != null && contents[i].Item.Types.Contains(type))
+    		match = false;
+
+    		if(contents[i] != null && !desiredItems.Contains(contents[i].Item.ItemName))
     		{
-    			desiredItems.Add(contents[i].Item.ItemName);
-    		}
+	    		for(int j = 0; j < types.Count && !match; ++j)
+	    		{
+		    		if(contents[i].Item.Types.Contains(types[j]))
+		    		{
+		    			desiredItems.Add(contents[i].Item.ItemName);
+		    			match = true;
+		    		}
+		    	}
+		    }
     	}
 
     	return desiredItems;
@@ -232,13 +249,62 @@ public class Inventory
 	/// <returns>The added item.</returns>
 	/// <param name="newItem">New item.</param>
 	/// <param name="amount">Amount.</param>
-	public ItemStack AddItem(BaseItem newItem, int amount)
+	public List<ItemStack> AddItem(BaseItem newItem, int amount)
 	{
-		int loc = GetNextOpenSlot ();
-		contents[loc] = new ItemStack(newItem, amount, Guid.NewGuid().ToString("N"));
+		int amountRemaining = amount;
+		int loc = 0;
+		List<ItemStack> addedOrChangedStacks = new List<ItemStack>();
+
+		if(isStackable(newItem.Types))
+		{
+			for (int i = 0; i < contents.Length && amountRemaining > 0; ++i) 
+			{
+				if(contents[i] != null)
+				{
+					if (contents[i].Item.ItemName.Equals(newItem.ItemName)) 
+					{
+						amountRemaining = (contents[i].Amount + amount) - contents[i].MaxStackSize; 
+						contents[i].Amount += amount;
+						loc = i;
+						addedOrChangedStacks.Add(contents[i]);
+					}
+				}
+			}
+		}
+
+		if(amountRemaining > 0)
+		{
+			loc = GetNextOpenSlot ();
+
+			if(loc < contents.Length)
+			{
+				contents[loc] = new ItemStack(newItem, amountRemaining, Guid.NewGuid().ToString("N"));
+				UpdateTypeAmount(newItem.Types, amount);
+				addedOrChangedStacks.Add(contents[loc]);
+			}
+		}
+
 		UpdateTypeAmount(newItem.Types, amount);
 
-		return contents[loc];
+		return addedOrChangedStacks;
+	}
+
+	/// <summary>
+	/// Checks if the item should be stacked in the inventory.
+	/// </summary>
+	/// <returns><c>true</c>, if item is stackable, <c>false</c> otherwise.</returns>
+	/// <param name="itemTypes">Item types.</param>
+	private bool isStackable(List<string> itemTypes)
+	{
+		for(int i = 0; i < unstackableItemTypes.Length; ++i)
+		{
+			if(itemTypes.Contains(unstackableItemTypes[i]))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/// <summary>
@@ -347,8 +413,15 @@ public class Inventory
 	{
 		for(int i = 0; i < types.Count; ++i)
 		{
-			itemCountByType[types[i]] += changedAmount;
-		}
+            if (itemCountByType.ContainsKey(types[i]))
+            {
+                itemCountByType[types[i]] += changedAmount;
+            }
+            else
+            {
+                itemCountByType.Add(types[i], changedAmount);
+            }
+        }
 	}
 
 	/// <summary>

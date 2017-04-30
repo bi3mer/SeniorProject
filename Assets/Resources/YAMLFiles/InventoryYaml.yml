@@ -6,7 +6,7 @@
      item: 
       itemName: "Medicine Box"
       rarity: "uncommon"
-      inventorySprite: "GUI_ITM_BandageBox"
+      inventorySprite: "GUI_ITM_MedicineBox"
       worldModel: "ITM/Healing/ITM_BandageBox"
       types: 
        - "medicinal"
@@ -16,10 +16,10 @@
       actionModifiedSprites: 
      itemCategories: 
        - !!medicine
-         healthGain: 0.0
-         sickness: “all”
+         healthGain: 30.0
+         sickness: "all"
    - stackId: 1
-     itemAmount: 2
+     itemAmount: 10
      item:
       itemName: "Egg"
       rarity: "common"
@@ -37,13 +37,13 @@
      itemCategories:
        - !!flesh
          hungerGain: 20.0
-         healthEffect: 0.25
+         healthEffect: -0.2
    - stackId: 2
      itemAmount: 2
      item:
       itemName: "Bandage"
       rarity: "common"
-      inventorySprite: "GUI_ITM_Bandage"
+      inventorySprite: "GUI_ITM_BandageBox"
       worldModel: "ITM/Healing/ITM_Bandage"
       types:
        - "medicinal"
@@ -76,7 +76,7 @@
        - "GUI_ITM_Basket"
      itemCategories: 
        - !!solid
-         flexibility: 1.0
+         flexibility: 4
          durability: 0.5
          elasticity: 0.6
          stickiness: 0.1
@@ -85,11 +85,7 @@
        - !!plant
          waterContent: 1.2
          toughness: 3.0
-         sweet: 0.0
-         bitter: 0.0
-         sour: 0.0
-         salty: 0.0
-         spicy: 0.0
+         plantVolume: 0.5
          stomachEffect: 0.0
          pneumoniaEffect: 0.0
    - stackId: 4
@@ -102,7 +98,6 @@
       types:
         - "rod"
         - "fuel"
-        - "base solid"
       flavorText: "It's...a stick."
       modifyingActionNames:
       actionModifiedModels:
@@ -118,11 +113,7 @@
        - !!plant
          waterContent: 0.8
          toughness: 5.0
-         sweet: 0.0
-         bitter: 0.0
-         sour: 0.0
-         salty: 0.0
-         spicy: 0.0
+         plantVolume: 1
          stomachEffect: 0.0
          pneumoniaEffect: 0.0
        - !!fuel
@@ -192,6 +183,8 @@
       worldModel: "ITM/WoodPlanks/ITM_WoodPlank1"
       types:
        - "floatable object"
+       - "base solid"
+       - "fuel"
       flavorText: "A piece of wood."
       modifyingActionNames:
       actionModifiedModels:
@@ -204,3 +197,5 @@
         stickiness: 0
         thickness: 0.5
         sharpness: 1
+      - !!fuel
+        burnTime: 20.0

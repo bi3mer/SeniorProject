@@ -33,17 +33,14 @@ public class EndingController : MonoBehaviour
     private float cameraTweenTime;
 
 
-    [Tooltip("The ladder gameobject")]
+    [Tooltip("The ladder Animator")]
     [SerializeField]
-    private GameObject ladder;
+    private Animator ladder;
 
-    [Tooltip("Position for the ladder to fall to")]
-    [SerializeField]
-    private Transform ladderPosition;
-
-    [Tooltip("Time for the ladder to fall")]
-    [SerializeField]
-    private float ladderDropTime;
+    /// <summary>
+    /// The string used to trigger the ladder to unfurl.
+    /// </summary>
+    private const string ladderAnimatorDropTrigger = "Unfurl";
 
     [Tooltip("Time after the ladder falls or the player jumps off to wait to fade out")]
     [SerializeField]
@@ -53,6 +50,10 @@ public class EndingController : MonoBehaviour
     [SerializeField]
     private FaderManager fader;
 
+    [Tooltip("Time to wait for the ladder to drop.")]
+    [SerializeField]
+    private float ladderDropTime;
+
     [Tooltip("Time the ending fade takes")]
     [SerializeField]
     private float endingFadeTime;
@@ -60,6 +61,16 @@ public class EndingController : MonoBehaviour
     private bool endingActivated = false;
 
     private const string playerTag = "Player";
+
+    private CameraController cameraController;
+
+    /// <summary>
+    /// Get the cameraController on the main camera.
+    /// </summary>
+    void Start()
+    {
+        cameraController = Camera.main.GetComponent<CameraController>();
+    }
 
     /// <summary>
     /// Called to trigger the ending
@@ -86,6 +97,7 @@ public class EndingController : MonoBehaviour
             // Rotate the camera, and move it to the ending zone
             Camera.main.transform.DOMove(cameraPosition.position, cameraTweenTime);
             Camera.main.transform.DORotate(cameraPosition.eulerAngles, cameraTweenTime);
+            cameraController.EndingTriggered = true;
         }
         else if (other.CompareTag(playerTag) && deathTrigger)
         {
@@ -96,6 +108,7 @@ public class EndingController : MonoBehaviour
     /// <summary>
     /// Called by the beacon script to signify that the ending has begun, and the player needs to wait for rescue.
     /// </summary>
+    [ContextMenu("RunEnding")]
     public void BeaconTurnedOn()
     {
         StartCoroutine(EndingCoroutine());
@@ -115,7 +128,7 @@ public class EndingController : MonoBehaviour
         yield return new WaitForSeconds(timeToWait);
 
         // Lower ladder
-        ladder.transform.DOMove(ladderPosition.position, ladderDropTime);
+        ladder.SetTrigger(ladderAnimatorDropTrigger);
 
         // Don't let player be kill
         Game.Instance.PlayerInstance.Health = 100;

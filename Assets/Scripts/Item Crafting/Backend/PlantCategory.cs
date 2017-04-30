@@ -28,53 +28,13 @@ public class PlantCategory : ItemCategory
 	}
 
 	/// <summary>
-	/// Gets or sets the sweetness.
+	/// Sets the volume of the plant.
 	/// </summary>
-	/// <value>The sweet.</value>
-	public float Sweet 
-	{ 
-		get; 
-		set; 
-	}
-
-	/// <summary>
-	/// Gets or sets the bitterness.
-	/// </summary>
-	/// <value>The bitter.</value>
-	public float Bitter 
-	{ 
-		get; 
-		set; 
-	}
-
-	/// <summary>
-	/// Gets or sets the sournss.
-	/// </summary>
-	/// <value>The sour.</value>
-	public float Sour 
-	{ 
-		get; 
-		set; 
-	}
-
-	/// <summary>
-	/// Gets or sets the saltiness.
-	/// </summary>
-	/// <value>The salty.</value>
-	public float Salty 
-	{ 
-		get; 
-		set; 
-	}
-
-	/// <summary>
-	/// Gets or sets the spiciness.
-	/// </summary>
-	/// <value>The spicy.</value>
-	public float Spicy 
-	{ 
-		get; 
-		set; 
+	/// <value>The volume.</value>
+	public float PlantVolume
+	{
+		get;
+		set;
 	}
 
 	/// <summary>
@@ -99,11 +59,7 @@ public class PlantCategory : ItemCategory
 
 	private const string waterContAttrName = "waterContent";
 	private const string toughAttrName = "toughness";
-	private const string sweetAttrName = "sweet";
-	private const string bitterAttrName = "bitter";
-	private const string sourAttrName = "sour";
-	private const string saltyAttrName = "salty";
-	private const string spicyAttrName = "spicy";
+	private const string plantVolAttrName = "plantVolume";
 
 	private const string dryActName = "Dry";
 	private const string cookActName = "Cook";
@@ -140,24 +96,18 @@ public class PlantCategory : ItemCategory
 	{
 		PlantCategory category = new PlantCategory ();
 		category.WaterContent = WaterContent;
-		category.Sweet = Sweet;
-		category.Bitter = Bitter;
-		category.Sour = Sour;
-		category.Salty = Salty;
-		category.Spicy = Spicy;
+		category.PlantVolume = PlantVolume;
 		category.StomachEffect = StomachEffect;
 		category.PneumoniaEffect = PneumoniaEffect;
 
 		category.Actions = new List<ItemAction> ();
-		category.Attributes = new List<Attribute> ();
+		category.Attributes = new List<ItemAttribute> ();
 
-		ItemAction cook = new ItemAction (cookActName, new UnityAction(category.Cook));
 		ItemAction dry = new ItemAction (dryActName, new UnityAction(category.Dry));
 		ItemAction eat = new ItemAction (eatActName, new UnityAction(category.Eat));
 
 		// the actions must be added in the same order as they were in the original copy of the category
 		// unable to pass along UnityAction delegate, as that will continue to point to the original copy of the item category
-		category.Actions.Add (cook);
 		category.Actions.Add (dry);
 		category.Actions.Add (eat);
 
@@ -171,19 +121,14 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public override void ReadyCategory()
 	{
-		Attributes = new List<Attribute> ();
+		Attributes = new List<ItemAttribute> ();
 
-		Attributes.Add (new Attribute (waterContAttrName, WaterContent));
-		Attributes.Add (new Attribute (toughAttrName, Toughness));
-		Attributes.Add (new Attribute (sweetAttrName, Sweet));
-		Attributes.Add (new Attribute(bitterAttrName, Bitter));
-		Attributes.Add (new Attribute(sourAttrName, Sour));
-		Attributes.Add (new Attribute(saltyAttrName, Salty));
-		Attributes.Add (new Attribute(spicyAttrName, Spicy));
+		Attributes.Add (new ItemAttribute (waterContAttrName, WaterContent));
+		Attributes.Add (new ItemAttribute (toughAttrName, Toughness));
+		Attributes.Add (new ItemAttribute (plantVolAttrName, PlantVolume));
 
 		Actions = new List<ItemAction> ();
 
-		ItemAction cook = new ItemAction (cookActName, new UnityAction(Cook));
 		ItemAction dry = new ItemAction (dryActName, new UnityAction(Dry));
 
 		ItemAction eat = new ItemAction (eatActName, new UnityAction(Eat));
@@ -191,7 +136,6 @@ public class PlantCategory : ItemCategory
 
 		eat.Conditions.Add (eatCondition);
 
-		Actions.Add (cook);
 		Actions.Add (dry);
 		Actions.Add (eat);
 	}
@@ -216,9 +160,6 @@ public class PlantCategory : ItemCategory
 		{
 			baseItem.ChangeName(defaultCookedNameAddition + baseItem.ItemName);
 		}
-
-		baseItem.DirtyFlag = true;
-		SetActionComplete (cookActName);
 	}
 
 	/// <summary>
@@ -243,24 +184,21 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public void Eat()
 	{
+        Player player = Game.Player;
+
 		if (StomachEffect < 0) 
 		{
-			// TODO: stomach illness code
+            if (player.HealthStatus == PlayerHealthStatus.None)
+            {
+				// Random chance of getting food poisoning
+                if (RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
+                {
+                    Game.Player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
+                }
+            }
 		} 
-		else if (StomachEffect > 0) 
-		{
-			// TODO: cure for stomach illness
-		}	
 
-		if (PneumoniaEffect < 0) 
-		{
-			// TODO: pneumonia code
-		} 
-		else if (PneumoniaEffect > 0) 
-		{
-			// TODO: pneumonia cure code
-		}
-
+		Game.Player.Controller.PlayerStatManager.HungerRate.UseFoodEnergy((int)(PlantVolume + WaterContent));
 		baseItem.RemovalFlag = true;
 	}
 }

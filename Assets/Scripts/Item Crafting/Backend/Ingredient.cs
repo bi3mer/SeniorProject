@@ -21,13 +21,35 @@
 	}
 
 	/// <summary>
+	/// Gets or sets the type of item that this ingredient is being used for.
+	/// </summary>
+	/// <value>The type of the use.</value>
+	public string UseType
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
+	/// Gets or sets the associated stack identifier.
+	/// </summary>
+	/// <value>The associated stack identifier.</value>
+	public string AssociatedStackId
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
 	/// Initializes a new instance of the <see cref="Ingredient"/> struct.
 	/// </summary>
-	/// <param name="name">Name of ingredient.</param>
-	/// <param name="amount">Amount of ingredient needed.</param>
-	public Ingredient(string name, int amount)
+	/// <param name="selectionInformation">The button that has stored all information about the ingredient that has been selected.</param>
+	/// <param name="type">Type of item that the ingredient fulfills.</param>
+	public Ingredient(SelectedIngredientButton selectionInformation, string type)
 	{
-		IngredientName = name;
-		Amount = amount;
+		IngredientName = selectionInformation.ItemName;
+		Amount = selectionInformation.Amount;
+		UseType = type;
+		AssociatedStackId = selectionInformation.AssociatedStackId;
 	}
 }

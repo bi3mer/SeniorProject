@@ -17,7 +17,7 @@ public class CityChunk
     {
         Location = new Tuple<int, int>(x, y);
         BoundingBox = bounds;
-        IsLoaded = false;
+        IsLoaded = true;
         Buildings = new List<Building>();
     }
 
@@ -77,7 +77,7 @@ public class CityChunk
 
         for (int i = 0; i < Buildings.Count; ++i)
         {
-            // TODO: Load building
+            Buildings[i].Load();
             yield return null;
         }
 
@@ -96,7 +96,7 @@ public class CityChunk
 
         for (int i = 0; i < Buildings.Count; ++i)
         {
-            // TODO: Unload building
+            Buildings[i].Unload();
             yield return null;
         }
 

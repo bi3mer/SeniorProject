@@ -43,15 +43,20 @@ public class PickUpItem : InteractableObject
 	/// </summary>
 	public override void SetUp()
 	{
-		base.SetUp();
+		if(!setupComplete)
+		{
+			base.SetUp();
 
-		SetAction
-		(
-			delegate 
-			{ 
-				pickUp(); 
-			}
-		);
+			SetAction
+			(
+				delegate 
+				{ 
+					pickUp(); 
+				}
+			);
+
+			setupComplete = true;
+		}
 	}
 
 	/// <summary>
@@ -59,7 +64,13 @@ public class PickUpItem : InteractableObject
 	/// </summary>
 	private void pickUp()
 	{
-		Game.Instance.PlayerInstance.Inventory.AddItem(Item, Amount);
-		Game.Instance.ItemPoolInstance.RemoveItemFromWorld(this.gameObject);
+		if(Game.Instance.PlayerInstance.Inventory.AddItem(Item, Amount).Count > 0)
+		{
+			Game.Instance.ItemPoolInstance.RemoveItemFromWorld(this.gameObject);
+		}
+		else
+		{
+			GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.INVENTORYFULL);
+		}
 	}
 }
