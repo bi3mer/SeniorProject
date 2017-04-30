@@ -92,7 +92,7 @@ public class NoteFactory
 		NoteObjects.Add (item);
 		NoteTitles.Add ("Note:" + noteToCreate.Title);
 
-		Debug.Log ("adding " + noteToCreate.Title);
+		Debug.Log ("adding " + noteToCreate.Title + ", note objects size is now " + NoteObjects.Count); 
 		return item;
 	}
 
@@ -127,6 +127,7 @@ public class NoteFactory
 
 		if (noteCounter < NoteObjects.Count) 
 		{
+			Debug.Log (noteCounter);
 			noteTitle = NoteTitles [noteCounter];
 		} 
 		else 
@@ -138,7 +139,6 @@ public class NoteFactory
 		{
 			NotesAvailable = false;
 		}
-
 
 		Debug.Log ("returning " + noteTitle);
 		return noteTitle;

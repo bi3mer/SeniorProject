@@ -125,26 +125,27 @@ public class RooftopGeneration: ItemGenerator
 		List<GameObject> attachments = new List<GameObject>();
 		List<ItemPlacementSamplePoint> attachmentInformation = new List<ItemPlacementSamplePoint>();
 
-		if (Game.Instance.NoteFactoryInstance.NotesAvailable) 
+		for (int i = 0; i < points.Count; ++i) 
 		{
-			int noteChance = Random.Range (0, 100);
-
-			if (noteChance <= 50) 
+			if (Game.Instance.NoteFactoryInstance.NotesAvailable) 
 			{
-				noteGenerate = false;
+				int noteChance = Random.Range (0, 100);
+
+				if (noteChance <= 50) 
+				{
+					noteGenerate = false;
+				} 
+				else 
+				{
+					noteGenerate = true;
+				}
 			} 
 			else 
 			{
-				noteGenerate = true;
+				noteGenerate = false;
 			}
-		} 
-		else 
-		{
-			noteGenerate = false;
-		}
 
-		for (int i = 0; i < points.Count; ++i) 
-		{
+
 			if(points[i].Type == ItemPlacementSamplePoint.PointType.DOOR)
 			{
 				attachments.Add(districtItemInfo[district].DoorTemplates[points[i].ItemIndex]);
@@ -158,7 +159,7 @@ public class RooftopGeneration: ItemGenerator
 
 			if (noteGenerate) 
 			{
-				Debug.Log ("NOTE");
+				Debug.Log ("add new note");
 				poolManager.AddToGrid (points [i].WorldSpaceLocation, Game.Instance.NoteFactoryInstance.GetNextNote (), false);
 			} 
 			else if(points[i].ItemIndex < districtItemInfo[points[i].District].ItemNames.Count)

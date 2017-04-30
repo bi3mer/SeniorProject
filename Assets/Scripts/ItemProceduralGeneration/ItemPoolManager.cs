@@ -307,9 +307,10 @@ public class ItemPoolManager : MonoBehaviour
 
 		for(int i = 0; i < gridCell.ItemNames.Count; ++i)
 		{
+			Debug.Log ("activating " + gridCell.ItemNames [i]);
+
 			if (gridCell.ItemNames [i].Contains ("Note:")) 
 			{
-				Debug.Log ("NOTE");
 				gridCell.Items.Add (Game.Instance.NoteFactoryInstance.GetNote(gridCell.ItemNames [i]));
 				gridCell.Items [i].transform.position = gridCell.Locations [i];
 				gridCell.Items [i].transform.SetParent (activePool);
