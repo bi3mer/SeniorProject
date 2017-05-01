@@ -47,4 +47,15 @@ public class TemplateBuilding : Building
 
         IsLoaded = true;
     }
+
+    /// <summary>
+    /// Sets up the template building given it already exists in the scene
+    /// </summary>
+    public void SetUp()
+    {
+        Instance.transform.position = Position;
+        Instance.transform.parent = Parent;
+
+        IsLoaded = true;
+    }
 }
