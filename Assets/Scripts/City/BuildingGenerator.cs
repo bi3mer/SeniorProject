@@ -16,7 +16,7 @@ public class BuildingGenerator : MonoBehaviour
     [Tooltip("Amount of jitter in building placement.")]
     [Range(0, 1)]
     private float positionJitter;
-    
+
     [SerializeField]
     [Tooltip("Curve to determine the height distribution of the builings. \n X-axis determines distance from center from 1 to 0.")]
     private AnimationCurve distributionCurve;
@@ -59,9 +59,9 @@ public class BuildingGenerator : MonoBehaviour
     /// <param name="configuration">The building configuration for this distruct.</param>
     /// <param name="cityBounds">The bounds of the city.</param>
     /// <param name="cityCenter">The center of the city.</param>
-    /// <param name="generateWeenie">If true, this block will generate the distrcit Weenie building.</param>
+    /// <param name="weeniePosition">The location of the Weenie Building in the district.</param>
     /// <returns></returns>
-    public Building[] Generate (int seed, Block block, DistrictConfiguration configuration, Bounds cityBounds, Vector3 cityCenter, bool generateWeenie)
+    public Building[] Generate (int seed, Block block, DistrictConfiguration configuration, Bounds cityBounds, Vector3 cityCenter, Vector2 weeniePosition)
     {
         // Set any static variables for procedural buildings
         ProceduralBuilding.Generator = GetComponent<ProceduralBuildingCreator>();
@@ -83,10 +83,6 @@ public class BuildingGenerator : MonoBehaviour
         float maxRows = max.x - streetWidth;
         float maxCols = max.z - streetWidth;
 
-        // Get a location for the Weenie Building
-        // TODO: Weight these towards city center to move the player in that direction.
-        Vector2 weeniePoint = new Vector2(Random.Range(minRows, maxRows), Random.Range(minCols, maxCols));
-
         // create a grid of points inside the bounds along the y-axis
         for (float i = minRows; i < Mathf.FloorToInt(maxRows); i += distanceBetweenBuildingCenters)
         {
@@ -106,7 +102,7 @@ public class BuildingGenerator : MonoBehaviour
                     Building building;
 
                     // If this is a Weenie building, use that creator, otherwise procedurally generate a building.
-                    if (generateWeenie && Vector2.Distance(point, weeniePoint) < distanceBetweenBuildingCenters / 2f)
+                    if (block.ContainsPoint(weeniePosition) && Vector2.Distance(point, weeniePosition) < distanceBetweenBuildingCenters / Mathf.Sqrt(2))
                     {
                         building = new TemplateBuilding(this.gameObject.transform, position, configuration.WeenieBuildingTemplate);
                         building.Load();

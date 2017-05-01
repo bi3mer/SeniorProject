@@ -60,6 +60,17 @@ public class RandomUtility
     }
 
     /// <summary>
+	/// Generates a random Vector2
+    /// </summary>
+    /// <returns>The vector.</returns>
+    /// <param name="max">Max magnitude.</param>
+    public static Vector2 RandomVector2d(float max)
+    {
+        float root2 = Mathf.Sqrt(2);
+        return new Vector2(Random.Range(-max/root2, max/root2), Random.Range(-max/root2, max/root2));
+    }
+
+    /// <summary>
 	/// Generates a random Vector3
     /// </summary>
     /// <returns>The vector3d.</returns>
