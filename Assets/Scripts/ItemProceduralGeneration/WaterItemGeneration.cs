@@ -49,6 +49,10 @@ public class WaterItemGeneration : ItemGenerator
 
 	private GameLoaderTask loadingTask;
 
+	private float pointCreationLoadingPercentage = 0.8f;
+
+	private float verificationLoadingPercentage = 0.15f;
+
 	/// <summary>
 	/// Awake this instance.
 	/// </summary>
@@ -79,7 +83,7 @@ public class WaterItemGeneration : ItemGenerator
 	/// <param name="districts">Districts.</param>
 	public void SetCityInformation(float cityWidth, float cityDepth, Vector3 cityCenter, District[] districts)
 	{
-		pointGenerator = new WaterPointGenerator(cityWidth, cityDepth, cityCenter);
+		pointGenerator = new WaterPointGenerator(cityWidth, cityDepth, cityCenter, this);
 		pointGenerator.NumberOfInitialPoints = numberOfInitialPoints;
 		pointGenerator.NewPointsPerSamplingPoint = newPointsPerSamplingPoint;
 		pointGenerator.MaxAttempts = maxAttempts;
@@ -101,7 +105,9 @@ public class WaterItemGeneration : ItemGenerator
 		loadingTask = task;
 		addImmediateToWorld = false;
 		StepCallback finishingAction = SetInitialGenerationPoints;
-		StartCoroutine(pointGenerator.GenerateRandomPointsInBounds(minX, maxX, minY, maxY, pointGenerator.NumberOfInitialPoints, generatableItemExtents, finishingAction));
+		StartCoroutine(pointGenerator.GenerateRandomPointsInBounds(minX, maxX, minY, maxY, pointGenerator.NumberOfInitialPoints, 
+																   pointCreationLoadingPercentage * ((float)numberOfInitialPoints/maxNumberOfItems), 0f,
+																   generatableItemExtents, finishingAction));
 	}
 
 	/// <summary>
@@ -126,8 +132,9 @@ public class WaterItemGeneration : ItemGenerator
 
 		addImmediateToWorld = true;
 		StepCallback finishingAction = SetInitialGenerationPoints;
-		StartCoroutine(pointGenerator.GenerateRandomPointsInBounds(minBounds.x, maxBounds.x, minBounds.z, maxBounds.z, 
-																   pointGenerator.NumberOfInitialPoints, generatableItemExtents, finishingAction));
+	
+		StartCoroutine(pointGenerator.GenerateRandomPointsInBounds(minBounds.x, maxBounds.x, minBounds.z, maxBounds.z, pointGenerator.NumberOfInitialPoints, 
+																   0f, 0f, generatableItemExtents, finishingAction));
 	}
 
 	/// <summary>
@@ -153,11 +160,8 @@ public class WaterItemGeneration : ItemGenerator
 			}
 		}
 
-		if(loadingTask != null)
-		{
-			loadingTask.PercentageComplete = 1f;
-			loadingTask = null;
-		}
+		UpdateLoadingPercent(1f);
+		loadingTask = null;
 	}
 
 	/// <summary>
@@ -181,10 +185,7 @@ public class WaterItemGeneration : ItemGenerator
 	/// <param name="possiblePoints">Possible points.</param>
 	public void VerifySamplingPoints(List<ItemPlacementSamplePoint> possiblePoints)
 	{
-		if(loadingTask != null)
-		{
-			loadingTask.PercentageComplete = 0.6f;
-		}
+		UpdateLoadingPercent(pointCreationLoadingPercentage);
 
 		StepCallback nextAction = SetGenerationPoints;
 		StartCoroutine(pointGenerator.SetPointsInWater(possiblePoints, nextAction));
@@ -197,13 +198,14 @@ public class WaterItemGeneration : ItemGenerator
 	public void SetInitialGenerationPoints(List<ItemPlacementSamplePoint> initialPoints)
 	{
 		// TODO: this is temporary and will be changed to not use magic numbers in the pull request to do the loading screen
-		if(loadingTask != null)
-		{
-			loadingTask.PercentageComplete = 0.3f;
-		}
+		UpdateLoadingPercent(pointCreationLoadingPercentage * ((float)numberOfInitialPoints/maxNumberOfItems));
 
 		StepCallback nextAction = VerifySamplingPoints;
-		StartCoroutine(pointGenerator.GeneratePoints(generatableItemExtents, initialPoints, nextAction));
+
+		float maxPercent = pointCreationLoadingPercentage * ((float)(maxNumberOfItems - numberOfInitialPoints)/maxNumberOfItems);
+		float basePercent = pointCreationLoadingPercentage * ((float)numberOfInitialPoints/maxNumberOfItems);
+
+		StartCoroutine(pointGenerator.GeneratePoints(generatableItemExtents, initialPoints, nextAction, maxPercent, basePercent));
 	}
 
 	/// <summary>
@@ -212,11 +214,7 @@ public class WaterItemGeneration : ItemGenerator
 	/// <param name="samplingPoints">Sampling points.</param>
 	public void SetGenerationPoints(List<ItemPlacementSamplePoint> samplingPoints)
 	{
-		// TODO: this is temporary and will be changed to not use magic numbers in the pull request to do the loading screen
-		if(loadingTask != null)
-		{
-			loadingTask.PercentageComplete = 0.9f;
-		}
+		UpdateLoadingPercent(pointCreationLoadingPercentage + verificationLoadingPercentage);
 
 		if (samplingPoints.Count > 0) 
 		{
@@ -228,6 +226,18 @@ public class WaterItemGeneration : ItemGenerator
 			{
 				addObjectsToPoolManager(samplingPoints);
 			}
+		}
+	}
+
+	/// <summary>
+	/// Updates the percent of the loading task.
+	/// </summary>
+	/// <param name="percent">Percent.</param>
+	public void UpdateLoadingPercent(float percent)
+	{
+		if(loadingTask != null)
+		{
+			loadingTask.PercentageComplete = percent;
 		}
 	}
 }
