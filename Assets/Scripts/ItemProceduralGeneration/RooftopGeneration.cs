@@ -159,8 +159,10 @@ public class RooftopGeneration: ItemGenerator
 
 			if (noteGenerate) 
 			{
-				Debug.Log ("add new note");
-				poolManager.AddToGrid (points [i].WorldSpaceLocation, Game.Instance.NoteFactoryInstance.GetNextNote (), false);
+				Debug.Log ("add note to point " + points [i].WorldSpaceLocation);
+				string noteTitle = Game.Instance.NoteFactoryInstance.GetNextNote ();
+				poolManager.AddToGrid (points [i].WorldSpaceLocation, noteTitle, false);
+				poolManager.AddItemToPool (noteTitle, Game.Instance.NoteFactoryInstance.GetNote (noteTitle));
 			} 
 			else if(points[i].ItemIndex < districtItemInfo[points[i].District].ItemNames.Count)
 			{

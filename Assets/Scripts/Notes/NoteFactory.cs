@@ -74,7 +74,8 @@ public class NoteFactory
 		// create the object with the model
 		GameObject item = GameObject.Instantiate (worldNoteTemplates[noteToCreate.WorldModel]);
 		item.name = noteToCreate.Title;
-		item.transform.position = defaultpos;
+		item.SetActive (false);
+//		item.transform.position = defaultpos;
 
 		// creates the trigger object that will handle interaction with player
 		GameObject textObject = GameObject.Instantiate(triggerObjectPrefab);
