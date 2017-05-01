@@ -21,9 +21,10 @@ GameObject:
   - 4: {fileID: 4000011048336870}
   - 33: {fileID: 33000010874313624}
   - 23: {fileID: 23000010278523246}
+  - 65: {fileID: 65000012613687336}
   m_Layer: 0
   m_Name: ITM_Disease
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011011543216}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.117, y: 4, z: 0.135}
+  m_LocalPosition: {x: -0.3324769, y: 4, z: -0.63505495}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -77,3 +78,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011011543216}
   m_Mesh: {fileID: 4300000, guid: 48f73c48faba92847bc98ec5df9bb302, type: 3}
+--- !u!65 &65000012613687336
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011011543216}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.080000006, y: 0.004, z: 0.11214547}
+  m_Center: {x: 0.0000122748315, y: 0, z: 0.003916627}
