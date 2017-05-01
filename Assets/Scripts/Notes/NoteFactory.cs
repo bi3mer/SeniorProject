@@ -74,6 +74,8 @@ public class NoteFactory
 		// create the object with the model
 		GameObject item = GameObject.Instantiate (worldNoteTemplates[noteToCreate.WorldModel]);
 		item.name = noteToCreate.Title;
+
+		// why are you setting a default position??
 		item.transform.position = defaultpos;
 
 		// creates the trigger object that will handle interaction with player
@@ -92,6 +94,9 @@ public class NoteFactory
 		NoteObjects.Add (item);
 		NoteTitles.Add ("Note:" + noteToCreate.Title);
 
+		// If you don't want this to show up immediately and only show up as dictated by the item pool info, you're
+		// gonna want to disable the gameobject
+
 		Debug.Log ("adding " + noteToCreate.Title + ", note objects size is now " + NoteObjects.Count); 
 		return item;
 	}
@@ -104,9 +109,11 @@ public class NoteFactory
 	{
 
 		GameObject note = new GameObject();
-		for (int i = 0; i < NoteTitles.Count; i++) {
+		for (int i = 0; i < NoteTitles.Count; i++) 
+		{
 
-			if (NoteTitles [i] == title) {
+			if (NoteTitles [i] == title) 
+			{
 
 				note = NoteObjects [i];
 			}
