@@ -707,6 +707,10 @@ public class PlayerController : MonoBehaviour
                 if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag) && interactable != null && interactable.GetComponent<InteractableObject>() != null)
                 {
                     interactable.Show = false;
+                    if (interactable.GetComponent<GlowObjectCmd>() != null)
+                    {
+                        interactable.GetComponent<GlowObjectCmd>()._targetColor = Color.black;
+                    }
                     interactable = null;
                 }
 
@@ -714,6 +718,11 @@ public class PlayerController : MonoBehaviour
                 {
                     interactable = closestInteractable.GetComponent<InteractableObject>();
                     interactable.Show = true;
+                    if (interactable.GetComponent<GlowObjectCmd>() != null)
+                    {
+                        interactable.GetComponent<GlowObjectCmd>()._targetColor = Color.red;
+                        interactable.GetComponent<GlowObjectCmd>().enabled = true;
+                    }
                 }
             }
 
@@ -761,9 +770,9 @@ public class PlayerController : MonoBehaviour
     /// Returns the closest interactable item.
     /// </summary>
     /// <returns></returns>
-    public Collider ClosestItem()
+    public GameObject ClosestItem()
     {
-        return closestInteractable;
+        return closestInteractable.gameObject;
     }
 
     /// <summary>
