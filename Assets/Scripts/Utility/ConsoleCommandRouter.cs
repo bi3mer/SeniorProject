@@ -2,6 +2,7 @@
 using System.IO;
 using System.Globalization;
 using System.CodeDom.Compiler;
+using System;
 using System.Text;
 using System.Reflection;
 
@@ -209,7 +210,7 @@ public class ConsoleCommandRouter : MonoBehaviour
     /// <param name="args">Arguments.</param>
     public string Event(params string[] args)
     {
- 		System.Type type = Game.Instance.EventManager.GetType();
+ 		Type type = Game.Instance.EventManager.GetType();
 
  		if(type != null)
  		{
