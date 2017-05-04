@@ -77,4 +77,13 @@ public class PlayerInventory : Inventory
             }
         }
     }
+
+    /// <summary>
+    /// Reset the the player inventory.
+    /// </summary>
+    public void Reset()
+    {
+		contents = new ItemStack[inventorySize];
+		LoadInventory();
+    }
 }

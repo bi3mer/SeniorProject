@@ -34,6 +34,8 @@
 		FMODUnity.RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
 
         PlayerInstance.ResetStatus();
+        PlayerInstance.Inventory.Reset();
+
         Loader.Reset();
 
         this.PauseInstance.ResetDelegates();
