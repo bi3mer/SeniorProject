@@ -3,6 +3,7 @@ using System.IO;
 using System.Globalization;
 using System.CodeDom.Compiler;
 using System.Text;
+using System.Reflection;
 
 public class ConsoleCommandRouter : MonoBehaviour 
 {
@@ -212,7 +213,7 @@ public class ConsoleCommandRouter : MonoBehaviour
 
  		if(type != null)
  		{
- 			System.Reflection.MethodInfo method = type.GetMethod(args[0]);
+ 			MethodInfo method = type.GetMethod(args[0]);
 
  			if(method != null)
  			{
