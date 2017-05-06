@@ -196,8 +196,10 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// Generates the points.
 	/// </summary>
 	/// <returns>The points.</returns>
-	/// <param name="generatableObjectExtents">Generatable object extents.</param>
-	public IEnumerator GeneratePoints(Dictionary<string, List<float>> generatableObjectExtents, List<ItemPlacementSamplePoint> initialPoints, 
+	/// <param name="initialPoints">Initial points.</param>
+	/// <param name="districtItemInfo">District item info.</param>
+	/// <param name="finishingAction">Finishing action.</param>
+	public IEnumerator GeneratePoints(List<ItemPlacementSamplePoint> initialPoints, Dictionary<string, DistrictItemConfiguration> districtItemInfo,
 									  WaterItemGeneration.StepCallback finishingAction)
 	{
 		// RandomQueue works like a queue, except that it
@@ -245,7 +247,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 					newPoint.ItemIndex = itemFactory.GetRandomItemIndex(newPoint.District, true);
 					newPoint.MinDistance = defaultMinDistanceAway;
 					newPoint.GridPoint = PointToGrid(newPoint.LocalTargetSurfaceLocation);
-					newPoint.Size = generatableObjectExtents[newPoint.District][newPoint.ItemIndex];
+					newPoint.Size = districtItemInfo[newPoint.District].ItemExtents[newPoint.ItemIndex];
 
 					tries = 0;
 
@@ -289,10 +291,10 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// <param name="minY">Minimum y.</param>
 	/// <param name="maxY">Max y.</param>
 	/// <param name="pointsToMake">Points to make.</param>
-	/// <param name="generatableObjectExtents">Generatable object extents.</param>
-	/// <param name="finishingAction">Callback action to the WaterItemGnerator to advance the point generation process.</param>
-	public IEnumerator GenerateRandomPointsInBounds(float minX, float maxX, float minY, float maxY, int pointsToMake, 
-													Dictionary<string, List<float>>  generatableObjectExtents, WaterItemGeneration.StepCallback finishingAction)
+	/// <param name="districtInfo">District info.</param>
+	/// <param name="finishingAction">Callback action to generator that called this.</param>
+	public IEnumerator GenerateRandomPointsInBounds(float minX, float maxX, float minY, float maxY, int pointsToMake, Dictionary<string, DistrictItemConfiguration> districtInfo,
+													WaterItemGeneration.StepCallback finishingAction)
 	{
 		List<ItemPlacementSamplePoint> initialPoints = new List<ItemPlacementSamplePoint>();
 		WorldItemFactory itemFactory = Game.Instance.WorldItemFactoryInstance;
@@ -322,7 +324,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 			{
 				initPoint.ItemIndex = itemFactory.GetRandomItemIndex(initPoint.District, true);
 				initPoint.MinDistance = defaultMinDistanceAway;
-				initPoint.Size = generatableObjectExtents[initPoint.District][initPoint.ItemIndex];
+				initPoint.Size = districtInfo[initPoint.District].ItemExtents[initPoint.ItemIndex];
 				initPoint.GridPoint = PointToGrid(initPoint.LocalTargetSurfaceLocation);
 
 				while( tries < MaxAttempts && (HasOverlappingNeighbors(initPoint) || !inCityBounds(initPoint.LocalTargetSurfaceLocation)))

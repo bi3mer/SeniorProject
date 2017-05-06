@@ -36,8 +36,6 @@ public class WaterItemGeneration : ItemGenerator
 	[Tooltip("How many grid chunks away the storm event will generate more items for the player.")]
 	private int itemIncreaseChunks;
 
-	private Dictionary<string, List<float>> generatableItemExtents;
-
 	public delegate void StepCallback (List<ItemPlacementSamplePoint> message);
 
 	/// <summary>
@@ -56,7 +54,6 @@ public class WaterItemGeneration : ItemGenerator
 	{
 		Dictionary<string, List<GameObject>> itemTemplates = Game.Instance.WorldItemFactoryInstance.GetAllInteractableItemsByDistrict(false, true);
 		districtItemInfo = new Dictionary<string, DistrictItemConfiguration>();
-		generatableItemExtents = new Dictionary<string, List<float>>();
 
 		// get district name here
 		foreach(string key in itemTemplates.Keys)
@@ -65,10 +62,14 @@ public class WaterItemGeneration : ItemGenerator
 			districtItemInfo[key].ItemTemplates = itemTemplates[key];
 			districtItemInfo[key].ItemNames = Game.Instance.ItemFactoryInstance.WaterItemsByDistrict[key];
 			districtItemInfo[key].ItemExtents = GetItemExtents(itemTemplates[key]);
-			generatableItemExtents.Add(key, districtItemInfo[key].ItemExtents);
 		}
 
 		Game.Instance.EventManager.StormStartedSubscription += this.GenerateInWaterAroundPlayer;
+	}
+
+	void OnDestroy()
+	{
+		Game.Instance.EventManager.StormStartedSubscription -= this.GenerateInWaterAroundPlayer;
 	}
 
 	/// <summary>
@@ -101,7 +102,7 @@ public class WaterItemGeneration : ItemGenerator
 		loadingTask = task;
 		addImmediateToWorld = false;
 		StepCallback finishingAction = SetInitialGenerationPoints;
-		StartCoroutine(pointGenerator.GenerateRandomPointsInBounds(minX, maxX, minY, maxY, pointGenerator.NumberOfInitialPoints, generatableItemExtents, finishingAction));
+		StartCoroutine(pointGenerator.GenerateRandomPointsInBounds(minX, maxX, minY, maxY, pointGenerator.NumberOfInitialPoints, districtItemInfo, finishingAction));
 	}
 
 	/// <summary>
@@ -112,22 +113,26 @@ public class WaterItemGeneration : ItemGenerator
 		Vector2 playerPos = new Vector2(Game.Player.WorldPosition.x, Game.Player.WorldPosition.z);
 
 		Tuple<int, int> playerLocation = Game.Instance.ItemPoolInstance.PointToGrid(playerPos);
-		pointGenerator.MaxNumberOfItems = maxNewNumberOfItems;
-		int maxX = Mathf.Clamp(playerLocation.X + itemIncreaseChunks, 0, (int)pointGenerator.Grid.GetLength(0));
-		int minX = Mathf.Clamp(playerLocation.X - itemIncreaseChunks, 0, (int)pointGenerator.Grid.GetLength(0));
-		int maxY = Mathf.Clamp(playerLocation.Y + itemIncreaseChunks, 0, (int)pointGenerator.Grid.GetLength(1));
-		int minY = Mathf.Clamp(playerLocation.Y - itemIncreaseChunks, 0, (int)pointGenerator.Grid.GetLength(1));
 
-		float cityMinX = pointGenerator.CityCenter.x - pointGenerator.CityWidth/2f;
-		float cityMinY = pointGenerator.CityCenter.z - pointGenerator.CityDepth/2f;
+		if(playerLocation != null)
+		{
+			pointGenerator.MaxNumberOfItems = maxNewNumberOfItems;
+			int maxX = Mathf.Clamp(playerLocation.X + itemIncreaseChunks, 0, (int)pointGenerator.Grid.GetLength(0));
+			int minX = Mathf.Clamp(playerLocation.X - itemIncreaseChunks, 0, (int)pointGenerator.Grid.GetLength(0));
+			int maxY = Mathf.Clamp(playerLocation.Y + itemIncreaseChunks, 0, (int)pointGenerator.Grid.GetLength(1));
+			int minY = Mathf.Clamp(playerLocation.Y - itemIncreaseChunks, 0, (int)pointGenerator.Grid.GetLength(1));
 
-		Vector3 minBounds = new Vector3(cityMinX + pointGenerator.CellSize * minX, 0, cityMinY + pointGenerator.CellSize * minY);
-		Vector3 maxBounds = new Vector3(cityMinX + pointGenerator.CellSize * (maxX + 1), 0, cityMinY + pointGenerator.CellSize * (maxY + 1));
+			float cityMinX = pointGenerator.CityCenter.x - pointGenerator.CityWidth/2f;
+			float cityMinY = pointGenerator.CityCenter.z - pointGenerator.CityDepth/2f;
 
-		addImmediateToWorld = true;
-		StepCallback finishingAction = SetInitialGenerationPoints;
-		StartCoroutine(pointGenerator.GenerateRandomPointsInBounds(minBounds.x, maxBounds.x, minBounds.z, maxBounds.z, 
-																   pointGenerator.NumberOfInitialPoints, generatableItemExtents, finishingAction));
+			Vector3 minBounds = new Vector3(cityMinX + pointGenerator.CellSize * minX, 0, cityMinY + pointGenerator.CellSize * minY);
+			Vector3 maxBounds = new Vector3(cityMinX + pointGenerator.CellSize * (maxX + 1), 0, cityMinY + pointGenerator.CellSize * (maxY + 1));
+
+			addImmediateToWorld = true;
+			StepCallback finishingAction = SetInitialGenerationPoints;
+			StartCoroutine(pointGenerator.GenerateRandomPointsInBounds(minBounds.x, maxBounds.x, minBounds.z, maxBounds.z,
+																	   pointGenerator.NumberOfInitialPoints, districtItemInfo, finishingAction));
+		}
 	}
 
 	/// <summary>
@@ -203,7 +208,7 @@ public class WaterItemGeneration : ItemGenerator
 		}
 
 		StepCallback nextAction = VerifySamplingPoints;
-		StartCoroutine(pointGenerator.GeneratePoints(generatableItemExtents, initialPoints, nextAction));
+		StartCoroutine(pointGenerator.GeneratePoints(initialPoints, districtItemInfo, nextAction));
 	}
 
 	/// <summary>
