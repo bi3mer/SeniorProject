@@ -7,12 +7,19 @@ public class MainMenuBehavior : MonoBehaviour
 {
 	[SerializeField]
 	private GameObject settingsPanel;
+
 	[SerializeField]
 	private GameObject endCreditsPanel;
+
 	[SerializeField]
 	private GameObject helpPanel;
+
 	[SerializeField]
 	private GameObject mainPanel;
+
+	[SerializeField]
+	private GameObject startOrLoadPanel;
+
 	private string masterSceneName = "Master";
 
 	/// <summary>
@@ -24,6 +31,7 @@ public class MainMenuBehavior : MonoBehaviour
 		settingsPanel.SetActive (false);
 		endCreditsPanel.SetActive (false);
 		helpPanel.SetActive (false);
+		startOrLoadPanel.SetActive(false);
 	}
 
 	/// <summary>
@@ -35,6 +43,7 @@ public class MainMenuBehavior : MonoBehaviour
 		settingsPanel.SetActive (true);
 		endCreditsPanel.SetActive (false);
 		helpPanel.SetActive (false);
+		startOrLoadPanel.SetActive(false);
 	}
 
 	/// <summary>
@@ -46,6 +55,7 @@ public class MainMenuBehavior : MonoBehaviour
 		helpPanel.SetActive (true);
 		settingsPanel.SetActive (false);
 		endCreditsPanel.SetActive (false);
+		startOrLoadPanel.SetActive(false);
 	}
 
 	/// <summary>
@@ -57,6 +67,7 @@ public class MainMenuBehavior : MonoBehaviour
 		endCreditsPanel.SetActive (true);
 		settingsPanel.SetActive (false);
 		helpPanel.SetActive (false);
+		startOrLoadPanel.SetActive(false);
 
 		#if UNITY_EDITOR
 			UnityEditor.EditorApplication.isPlaying = false;
@@ -70,7 +81,30 @@ public class MainMenuBehavior : MonoBehaviour
 	/// </summary>
 	public void OnStartClick()
 	{
+		mainPanel.SetActive(false);
+		helpPanel.SetActive(false);
+		settingsPanel.SetActive(false);
+		endCreditsPanel.SetActive(false);
+
+		// TODO add checking so if there is no game save it'll
+		//      automatically start the game.
+		startOrLoadPanel.SetActive(true);
+	}
+
+	/// <summary>
+	/// Raises the start game click event.
+	/// </summary>
+	public void OnStartGameClick() 
+	{
 		SceneManager.LoadScene (masterSceneName);
+	}
+
+	/// <summary>
+	/// Raises the load game click event.
+	/// </summary>
+	public void OnLoadGameClick() 
+	{
+		Debug.LogError("Not Implemented");
 	}
 
 	/// <summary>
@@ -82,5 +116,6 @@ public class MainMenuBehavior : MonoBehaviour
 		endCreditsPanel.SetActive (false);
 		settingsPanel.SetActive (false);
 		helpPanel.SetActive (false);
+		startOrLoadPanel.SetActive(false);
 	}
 }

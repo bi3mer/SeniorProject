@@ -40,7 +40,7 @@ public class FishingRod : PlayerTool
                 FishingCategory.Break();
 
                 // Keep it from looping the break function
-                numOfUses = 1;
+                numOfUses = -1;
             }
             else
             {
@@ -60,18 +60,7 @@ public class FishingRod : PlayerTool
         WasCast = false;
         ToolName = toolName;
 	}
-
-    //void Update()
-    //{
-    //    if (!InUse && numOfUses == 0)
-    //    {
-    //        FishingCategory.Break();
-
-    //        // Keep it from looping the break function
-    //        numOfUses = 1;
-    //    }
-    //}
-
+		
     /// <summary>
     /// Sets up the tool so that it is linked to the proper item in the inventory.
     /// </summary>

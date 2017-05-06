@@ -65,7 +65,7 @@ public class ItemFactory
 	}
 
 	// the different result tiers of craftable items
-	private string[] itemLevels = new string[3] { "Poor", "Good", "Excellent" };
+	private string[] itemLevels = new string[3] { "Poor", "Standard", "Excellent" };
 
 	private int levels = 3;
 

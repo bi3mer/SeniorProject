@@ -184,7 +184,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 	/// </summary>
 	public void DisplayAttributesAndAction()
 	{
-		List<Attribute> attr = selected.GetItemAttributes ();
+		List<ItemAttribute> attr = selected.GetItemAttributes ();
 
 		// adds attributes
 		for(int i = 0; i < attr.Count; ++i)
@@ -247,7 +247,7 @@ public class ItemStackDetailPanelBehavior : MonoBehaviour
 		{
 			GuiInstanceManager.ItemAmountPanelInstance.ItemNameDisplay.text = selected.GetItemName ();
 
-			List<Attribute> attributes = selected.GetItemAttributes ();
+			List<ItemAttribute> attributes = selected.GetItemAttributes ();
 			ItemAttributeUI attribute;
 
 			for(int i = 0; i < attributes.Count; ++i)
