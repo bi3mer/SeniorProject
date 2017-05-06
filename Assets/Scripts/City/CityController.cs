@@ -30,6 +30,8 @@ public class CityController : MonoBehaviour
     /// </summary>
 	void Start () 
     {
+    	Game.Instance.CityBounds.CityBounds = this.cityBounds;
+
         districtGenerator = GetComponent<DistrictGenerator>();
         blockGenerator = GetComponent<BlockGenerator>();
         buildingGenerator = GetComponent<BuildingGenerator>();
