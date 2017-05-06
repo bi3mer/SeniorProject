@@ -67,6 +67,9 @@ public class WaterItemGeneration : ItemGenerator
 		Game.Instance.EventManager.StormStartedSubscription += this.GenerateInWaterAroundPlayer;
 	}
 
+	/// <summary>
+	/// Unsubscribes on destroy
+	/// </summary>
 	void OnDestroy()
 	{
 		Game.Instance.EventManager.StormStartedSubscription -= this.GenerateInWaterAroundPlayer;
