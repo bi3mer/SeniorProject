@@ -53,7 +53,14 @@ public class TemplateBuilding : Building
     /// </summary>
     public void SetUp()
     {
-        Instance.transform.position = Position;
+		if (Template == null) 
+		{
+			Debug.LogError ("Building template gameobject not configured.");
+			return;
+		}
+
+		Instance = Template;
+		Instance.transform.position = Position;
         Instance.transform.parent = Parent;
 
         IsLoaded = true;

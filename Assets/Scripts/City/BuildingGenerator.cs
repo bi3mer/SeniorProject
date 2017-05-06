@@ -122,7 +122,7 @@ public class BuildingGenerator : MonoBehaviour
 					if (block.ContainsPoint(weeniePosition) && Vector2.Distance(point, weeniePosition) < distanceBetweenBuildingCenters * root2)
                     {
                         building = new TemplateBuilding(this.gameObject.transform, position, configuration.WeenieBuildingTemplate);
-                        ((TemplateBuilding) building).SetUp();
+						building.Load ();
                     }
                     else
                     {
