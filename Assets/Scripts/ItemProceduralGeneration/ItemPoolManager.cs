@@ -309,21 +309,9 @@ public class ItemPoolManager : MonoBehaviour
 		{
 			Debug.Log ("activating " + gridCell.ItemNames [i]);
 
-			// you really should save whether or not it's a note inside ItemPoolInfo
-			// strings can be finicky to work with
-			if (gridCell.ItemNames [i].Contains ("Note:")) 
-			{
-				gridCell.Items.Add (Game.Instance.NoteFactoryInstance.GetNote(gridCell.ItemNames [i]));
-				gridCell.Items [i].transform.position = gridCell.Locations [i];
-				gridCell.Items [i].transform.SetParent (activePool);
-				// make the gameobject active here, assuming you disabled it before
-
-			}
-			else {
-				gridCell.Items.Add (getItemFromPool (gridCell.ItemNames [i]));
-				gridCell.Items [i].transform.position = gridCell.Locations [i];
-				gridCell.Items [i].transform.SetParent (activePool);
-			}
+			gridCell.Items.Add (getItemFromPool (gridCell.ItemNames [i]));
+			gridCell.Items [i].transform.position = gridCell.Locations [i];
+			gridCell.Items [i].transform.SetParent (activePool);
 		}
 	}
 

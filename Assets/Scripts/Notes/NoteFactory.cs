@@ -16,10 +16,9 @@ public class NoteFactory
 
 	private GameObject triggerObjectPrefab;
 
-	public List<string> NoteTitles;
-	public List<GameObject> NoteObjects;
+	private List<NoteData> noteDatabase;
 
-	private int noteCounter = -1;
+	private int noteCounter = 0;
 
 	public bool NotesAvailable 
 	{
@@ -48,14 +47,14 @@ public class NoteFactory
 	public void LoadTemplates()  
 	{
 		NoteYAMLParser noteParser = new NoteYAMLParser(noteFileName);
-		List<NoteData> noteDatabase = noteParser.LoadNotes();
-		NoteObjects = new List<GameObject> ();
-		NoteTitles = new List<string> ();
+		noteDatabase = noteParser.LoadNotes();
 
 		for(int i = 0; i < noteDatabase.Count; ++i)
 		{
-			worldNoteTemplates.Add (noteDatabase[i].Title, (GameObject)Resources.Load (noteDatabase [i].WorldModel));
-			CreateInteractableItem (noteDatabase [i]);
+			if(!worldNoteTemplates.ContainsKey(noteDatabase[i].WorldModel))
+			{
+				worldNoteTemplates.Add (noteDatabase[i].WorldModel, (GameObject)Resources.Load (noteDatabase [i].WorldModel));
+			}
 		}
 	}
 
@@ -64,7 +63,7 @@ public class NoteFactory
 	/// </summary>
 	/// <returns>The interactable item.</returns>
 	/// <param name="noteToCreate">Note to create.</param>
-	public GameObject CreateInteractableItem(NoteData noteToCreate)
+	public GameObject CreateNote(NoteData noteToCreate)
 	{
 		if(!worldNoteTemplates.ContainsKey(noteToCreate.WorldModel))
 		{
@@ -92,64 +91,34 @@ public class NoteFactory
 		itemNote.Text = noteToCreate.Title;
 		itemNote.Show = false;
 
-		// Save note item so we can get it later by its title, return it
-		NoteObjects.Add (item);
-		NoteTitles.Add ("Note:" + noteToCreate.Title);
-
-		// If you don't want this to show up immediately and only show up as dictated by the item pool info, you're
-		// gonna want to disable the gameobject
-
-		Debug.Log ("adding " + noteToCreate.Title + ", note objects size is now " + NoteObjects.Count); 
+		item.SetActive (false);
 		return item;
-	}
-
-	/// <summary>
-	/// Returns a note given that note's unique title (which serves as its ID)
-	/// </summary>
-	/// <param name="title">Title.</param>
-	public GameObject GetNote(string title)
-	{
-
-		GameObject note = new GameObject();
-		for (int i = 0; i < NoteTitles.Count; i++) 
-		{
-
-			if (NoteTitles [i] == title) 
-			{
-
-				note = NoteObjects [i];
-			}
-		}
-
-		return note;
 	}
 
 	/// <summary>
 	/// Gets the next note.
 	/// </summary>
 	/// <returns>The next note.</returns>
-	public string GetNextNote()
+	public GameObject GetNextNote()
 	{
-		// iterate here and check
-		noteCounter += 1;
-		string noteTitle = "";
+		GameObject nextNote = null;
 
-		if (noteCounter < NoteObjects.Count) 
+		if (noteCounter < noteDatabase.Count) 
 		{
 			Debug.Log (noteCounter);
-			noteTitle = NoteTitles [noteCounter];
+			nextNote = CreateNote(noteDatabase[noteCounter]);
 		} 
-		else 
+
+		// iterate here and check
+		noteCounter += 1;
+
+		// check again so that NotesAvailable is immediately false
+		// but previous is still needed to prevent game breaking when noteDatabase is 0 to start with
+		if(noteCounter >= noteDatabase.Count) 
 		{
 			NotesAvailable = false;
 		}
 
-		if (noteCounter == (NoteObjects.Count - 1))
-		{
-			NotesAvailable = false;
-		}
-
-		Debug.Log ("returning " + noteTitle);
-		return noteTitle;
+		return nextNote;
 	}
 }
