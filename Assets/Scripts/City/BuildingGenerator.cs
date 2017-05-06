@@ -83,6 +83,8 @@ public class BuildingGenerator : MonoBehaviour
         float maxRows = max.x - streetWidth;
         float maxCols = max.z - streetWidth;
 
+		float root2 = Mathf.Sqrt (2);
+
         // create a grid of points inside the bounds along the y-axis
         for (float i = minRows; i < Mathf.FloorToInt(maxRows); i += distanceBetweenBuildingCenters)
         {
@@ -102,7 +104,7 @@ public class BuildingGenerator : MonoBehaviour
                     Building building;
 
                     // If this is a Weenie building, use that creator, otherwise procedurally generate a building.
-                    if (block.ContainsPoint(weeniePosition) && Vector2.Distance(point, weeniePosition) < distanceBetweenBuildingCenters / Mathf.Sqrt(2))
+					if (block.ContainsPoint(weeniePosition) && Vector2.Distance(point, weeniePosition) < distanceBetweenBuildingCenters * root2)
                     {
                         building = new TemplateBuilding(this.gameObject.transform, position, configuration.WeenieBuildingTemplate);
                         building.Load();

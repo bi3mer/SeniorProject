@@ -59,15 +59,21 @@ public class RandomUtility
     	return new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.x));
     }
 
+	/// <summary>
+	/// Square root of 2
+	/// </summary>
+	private static readonly float root2 = Mathf.Sqrt(2);
+
     /// <summary>
-	/// Generates a random Vector2
+	/// Generates a random Vector2 with a magnitude less than the value provided.
+	/// 
+	/// See http://www.coolmath.com/reference/squares#The_diagonal_of_a_square
     /// </summary>
     /// <returns>The vector.</returns>
     /// <param name="max">Max magnitude.</param>
     public static Vector2 RandomVector2d(float max)
     {
-        float root2 = Mathf.Sqrt(2);
-        return new Vector2(Random.Range(-max/root2, max/root2), Random.Range(-max/root2, max/root2));
+        return new Vector2(Random.Range(-max * root2, max * root2), Random.Range(-max * root2, max * root2));
     }
 
     /// <summary>
