@@ -77,6 +77,8 @@ public class NoteFactory
 
 		// why are you setting a default position??
 		item.transform.position = defaultpos;
+		item.SetActive (false);
+		// item.transform.position = defaultpos;
 
 		// creates the trigger object that will handle interaction with player
 		GameObject textObject = GameObject.Instantiate(triggerObjectPrefab);
