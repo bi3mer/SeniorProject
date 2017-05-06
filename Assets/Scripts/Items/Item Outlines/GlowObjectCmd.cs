@@ -14,11 +14,11 @@ public class GlowObjectCmd : MonoBehaviour
 
 	public Color CurrentColor
 	{
-		get { return _currentColor; }
+		get { return currentColor; }
 	}
 
-	private Color _currentColor;
-	public Color _targetColor;
+	private Color currentColor;
+	private Color targetColor;
 
 	void Start()
 	{
@@ -26,15 +26,22 @@ public class GlowObjectCmd : MonoBehaviour
 		GlowController.RegisterObject(this);
 	}
 
-	private void OnMouseEnter()
+
+	/// <summary>
+	/// Changes the glow color so that it is visible to the player.
+	/// </summary>
+	public void InViewColor()
 	{
-        _targetColor = Color.red;
+        targetColor = Color.red;
 		enabled = true;
 	}
 
-	private void OnMouseExit()
+	/// <summary>
+	/// Changes the glow color so that it is invisible to the player.
+	/// </summary>
+	public void OutOfViewColor()
 	{
-		_targetColor = Color.black;
+		targetColor = Color.black;
 		enabled = true;
 	}
 
@@ -43,9 +50,9 @@ public class GlowObjectCmd : MonoBehaviour
 	/// </summary>
 	private void Update()
 	{
-        _currentColor = Color.Lerp(_currentColor, _targetColor, Time.deltaTime * LerpFactor);
+        currentColor = Color.Lerp(currentColor, targetColor, Time.deltaTime * LerpFactor);
 
-        if (_currentColor.Equals(_targetColor))
+        if (currentColor.Equals(targetColor))
         {
             enabled = false;
         }

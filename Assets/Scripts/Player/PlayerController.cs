@@ -709,7 +709,7 @@ public class PlayerController : MonoBehaviour
                     interactable.Show = false;
                     if (interactable.GetComponent<GlowObjectCmd>() != null)
                     {
-                        interactable.GetComponent<GlowObjectCmd>()._targetColor = Color.black;
+						interactable.GetComponent<GlowObjectCmd> ().OutOfViewColor ();
                     }
                     interactable = null;
                 }
@@ -720,8 +720,7 @@ public class PlayerController : MonoBehaviour
                     interactable.Show = true;
                     if (interactable.GetComponent<GlowObjectCmd>() != null)
                     {
-                        interactable.GetComponent<GlowObjectCmd>()._targetColor = Color.red;
-                        interactable.GetComponent<GlowObjectCmd>().enabled = true;
+						interactable.GetComponent<GlowObjectCmd> ().InViewColor ();
                     }
                 }
             }

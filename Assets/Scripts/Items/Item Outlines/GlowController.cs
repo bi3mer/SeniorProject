@@ -44,7 +44,7 @@ public class GlowController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// TODO: Add a degister method.
+	/// Registers a glowable object.
 	/// </summary>
 	public static void RegisterObject(GlowObjectCmd glowObj)
 	{
@@ -53,7 +53,7 @@ public class GlowController : MonoBehaviour
 			_instance._glowableObjects.Add(glowObj);
 		}
 	}
-
+	
 	/// <summary>
 	/// Adds all the commands, in order, we want our command buffer to execute.
 	/// Similar to calling sequential rendering methods insde of OnRenderImage().
@@ -66,14 +66,12 @@ public class GlowController : MonoBehaviour
 		_commandBuffer.SetRenderTarget(_prePassRenderTexID);
 		_commandBuffer.ClearRenderTarget(true, true, Color.clear);
 
-		//print(string.Format("glowable obj count: {0}", _glowableObjects.Count));
-		for (int i = 0; i < _glowableObjects.Count; i++)
+		for (int i = 0; i < _glowableObjects.Count; ++i)
 		{
 			_commandBuffer.SetGlobalColor(_glowColorID, _glowableObjects[i].CurrentColor);
 
-			for (int j = 0; j < _glowableObjects[i].Renderers.Length; j++)
-			{
-				//print(string.Format("{0} length: {1}", _glowableObjects[i].name, _glowableObjects[i].Renderers.Length));
+			for (int j = 0; j < _glowableObjects[i].Renderers.Length; ++j)
+			{				
 				_commandBuffer.DrawRenderer(_glowableObjects[i].Renderers[j], _glowMat);
 			}
 		}
@@ -85,7 +83,7 @@ public class GlowController : MonoBehaviour
 		_blurTexelSize = new Vector2(1.5f / (Screen.width >> 1), 1.5f / (Screen.height >> 1));
 		_commandBuffer.SetGlobalVector(_blurSizeID, _blurTexelSize);
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; ++i)
 		{
 			_commandBuffer.Blit(_blurPassRenderTexID, _tempRenderTexID, _blurMaterial, 0);
 			_commandBuffer.Blit(_tempRenderTexID, _blurPassRenderTexID, _blurMaterial, 1);
