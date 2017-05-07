@@ -12,7 +12,7 @@ namespace UnityEngine.PostProcessing{
 		public bool DepthOfField;
 		public bool ChromaticAberration;
 		public bool MotionBlur;
-		public bool Bloom;
+		public bool BloomEffect;
 
 		private DepthOfFieldModel depthOfField;
 		private ChromaticAberrationModel chromaticAberration;
@@ -46,9 +46,9 @@ namespace UnityEngine.PostProcessing{
 				motionBlur.enabled = false;
 			}
 
-			if (Bloom == true) {
+			if (BloomEffect == true) {
 				bloom.enabled = true;
-			} else if (Bloom == false) {
+			} else if (BloomEffect == false) {
 				bloom.enabled = false;
 			}
 		}
