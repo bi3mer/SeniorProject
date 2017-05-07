@@ -6,22 +6,26 @@ namespace UnityEngine.PostProcessing{
 	[ExecuteInEditMode]
 	public class PostProcessingSettings : MonoBehaviour {
 
+		/// <summary>
+		///  
+		/// </summary>
 		public bool DepthOfField;
 		public bool ChromaticAberration;
 		public bool MotionBlur;
+		public bool Bloom;
 
 		private DepthOfFieldModel depthOfField;
 		private ChromaticAberrationModel chromaticAberration;
 		private MotionBlurModel motionBlur;
+		private BloomModel bloom;
 
-		// Use this for initialization
 		void Start () {
 			depthOfField = GetComponent<PostProcessingBehaviour> ().profile.depthOfField;
 			chromaticAberration = GetComponent<PostProcessingBehaviour> ().profile.chromaticAberration;
 			motionBlur = GetComponent<PostProcessingBehaviour> ().profile.motionBlur;
+			bloom = GetComponent<PostProcessingBehaviour> ().profile.bloom;
 		}
-		
-		// Update is called once per frame
+			
 		void Update () {
 			
 			if (DepthOfField == true) {
@@ -40,6 +44,12 @@ namespace UnityEngine.PostProcessing{
 				motionBlur.enabled = true;
 			} else if (MotionBlur == false) {
 				motionBlur.enabled = false;
+			}
+
+			if (Bloom == true) {
+				bloom.enabled = true;
+			} else if (Bloom == false) {
+				bloom.enabled = false;
 			}
 		}
 
