@@ -40,14 +40,14 @@ GameObject:
   - component: {fileID: 23571261907653836}
   - component: {fileID: 65299202811927466}
   - component: {fileID: 54349018344592054}
-  - component: {fileID: 114965496574689664}
+  - component: {fileID: 114330588144807194}
   m_Layer: 9
   m_Name: Radio Antenna
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4725941483296806
 Transform:
   m_ObjectHideFlags: 1
@@ -194,7 +194,7 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &114965496574689664
+--- !u!114 &114330588144807194
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -202,12 +202,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1487146486212632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f6708f0da9e2450bb44255e42ad5791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Radio Antenna
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+  ItemName: Radio Antenna

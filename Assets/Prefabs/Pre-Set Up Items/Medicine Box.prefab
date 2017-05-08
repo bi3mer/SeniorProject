@@ -40,14 +40,14 @@ GameObject:
   - component: {fileID: 23996386514470650}
   - component: {fileID: 65168912178303780}
   - component: {fileID: 54143141335884998}
-  - component: {fileID: 114024312487328538}
+  - component: {fileID: 114499396952167772}
   m_Layer: 9
   m_Name: Medicine Box
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4429943096550094
 Transform:
   m_ObjectHideFlags: 1
@@ -194,7 +194,7 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &114024312487328538
+--- !u!114 &114499396952167772
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -202,12 +202,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1677991610123960}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f6708f0da9e2450bb44255e42ad5791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Medicine Box
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+  ItemName: Medicine Box

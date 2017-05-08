@@ -72,14 +72,14 @@ GameObject:
   - component: {fileID: 4399788222899622}
   - component: {fileID: 54302145390157454}
   - component: {fileID: 65067326519726732}
-  - component: {fileID: 114613381114309908}
+  - component: {fileID: 114610610173891938}
   m_Layer: 9
   m_Name: Matchbook
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1888223157879892
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,7 +433,7 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &114613381114309908
+--- !u!114 &114610610173891938
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -441,12 +441,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1521885928182874}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f6708f0da9e2450bb44255e42ad5791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Matchbook
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+  ItemName: Matchbook

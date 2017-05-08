@@ -40,14 +40,14 @@ GameObject:
   - component: {fileID: 23774120137862416}
   - component: {fileID: 65429473409128706}
   - component: {fileID: 54788257569494610}
-  - component: {fileID: 114351237925591198}
+  - component: {fileID: 114480787453405976}
   m_Layer: 9
   m_Name: Scrap Metal
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4542452058854542
 Transform:
   m_ObjectHideFlags: 1
@@ -194,7 +194,7 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &114351237925591198
+--- !u!114 &114480787453405976
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -202,12 +202,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1601620268158562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f6708f0da9e2450bb44255e42ad5791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Scrap Metal
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+  ItemName: Scap Metal

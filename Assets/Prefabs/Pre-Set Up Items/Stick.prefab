@@ -23,14 +23,14 @@ GameObject:
   - component: {fileID: 23726915694953796}
   - component: {fileID: 65343304893341590}
   - component: {fileID: 54781832846859754}
-  - component: {fileID: 114115144088632466}
+  - component: {fileID: 114291615275376156}
   m_Layer: 9
   m_Name: Stick
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1775734901870652
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +194,7 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &114115144088632466
+--- !u!114 &114291615275376156
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -202,12 +202,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1328703393331516}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112aae0a942a545648097a6c607fe81a, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f6708f0da9e2450bb44255e42ad5791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Stick
-  action:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+  ItemName: Stick
