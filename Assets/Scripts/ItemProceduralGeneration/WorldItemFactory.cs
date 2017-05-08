@@ -33,6 +33,12 @@ public class WorldItemFactory
 
 	private RangeAttribute itemAmountRange = new RangeAttribute(1, 10);
 
+	private int noteIndex;
+	private NoteFactory noteFactory;
+	private List<NoteData> noteList;
+
+	private bool noteGen;
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WorldItemFactory"/> class.
 	/// </summary>
@@ -41,6 +47,12 @@ public class WorldItemFactory
 		worldItemTemplates = new Dictionary<string, GameObject>();
 		triggerObjectPrefab = (GameObject) Resources.Load(triggerObjectLocation);
 		LoadTemplates();
+
+		NoteYAMLParser parser = new NoteYAMLParser("Notes.yml");
+		noteList = parser.LoadNotes();
+		noteFactory = new NoteFactory ();
+		noteGen  = true;
+		noteIndex = 0;
 	}
 
 	/// <summary>
@@ -69,16 +81,25 @@ public class WorldItemFactory
 	/// <param name="amount">Amount.</param>
 	public GameObject CreatePickUpInteractableItem(BaseItem itemToCreate, int amount)
 	{
-		// create the object with the model
-		GameObject item = CreateGenericInteractableItem(itemToCreate);
-		PickUpItem pickup = item.AddComponent<PickUpItem>();
-		pickup.SetUp();
-		pickup.Item = itemToCreate;
-		pickup.Show = false;
+		GameObject item;
 
-		// TODO: Make the amount found in one stack to be a variable number
-		pickup.Amount = amount;
-		item.name = itemToCreate.ItemName;
+		if (noteGen) 
+		{
+			item = GetNextNote ();
+		} 
+		else 
+		{
+			// create the object with the model
+			item = CreateGenericInteractableItem (itemToCreate);
+			PickUpItem pickup = item.AddComponent<PickUpItem> ();
+			pickup.SetUp ();
+			pickup.Item = itemToCreate;
+			pickup.Show = false;
+
+			// TODO: Make the amount found in one stack to be a variable number
+			pickup.Amount = amount;
+			item.name = itemToCreate.ItemName;
+		}
 
 		return item;
 	}
@@ -89,26 +110,27 @@ public class WorldItemFactory
 	/// <returns>A random interactable item.</returns>
 	public GameObject CreateRandomPickupInteractableItem(string district)
 	{
-		// create the object with the model
-		BaseItem baseItem = Game.Instance.ItemFactoryInstance.GetWeightedRandomBaseItem(district, true);
-		GameObject item = GameObject.Instantiate (worldItemTemplates[baseItem.ItemName]);
 
-		// creates the trigger object that will handle interaction with player
-		GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
-		triggerObject.transform.SetParent(item.transform);
-		triggerObject.transform.localPosition = Vector3.zero;
+			// create the object with the model
+			BaseItem baseItem = Game.Instance.ItemFactoryInstance.GetWeightedRandomBaseItem (district, true);
+			GameObject item = GameObject.Instantiate (worldItemTemplates [baseItem.ItemName]);
 
-		PickUpItem pickup = item.AddComponent<PickUpItem>();
-		pickup.SetUp();
-		pickup.Item = baseItem;
-		pickup.Show = false;
+			// creates the trigger object that will handle interaction with player
+			GameObject triggerObject = GameObject.Instantiate (triggerObjectPrefab);
+			triggerObject.transform.SetParent (item.transform);
+			triggerObject.transform.localPosition = Vector3.zero;
 
-		// TODO: Make the amount found in one stack to be a variable number
-		pickup.Amount = (int) Random.Range(itemAmountRange.min, itemAmountRange.max);
+			PickUpItem pickup = item.AddComponent<PickUpItem> ();
+			pickup.SetUp ();
+			pickup.Item = baseItem;
+			pickup.Show = false;
 
-		item.name = baseItem.ItemName;
+			// TODO: Make the amount found in one stack to be a variable number
+			pickup.Amount = (int)Random.Range (itemAmountRange.min, itemAmountRange.max);
 
-		return item;
+			item.name = baseItem.ItemName;
+
+			return item;
 	}
 
 	/// <summary>
@@ -182,5 +204,31 @@ public class WorldItemFactory
 	public int GetRandomItemIndex(string district, bool onWater)
 	{
 		return Game.Instance.ItemFactoryInstance.GetWeightedRandomItemIndex(district, onWater);
+	}
+
+	/// <summary>
+	/// Returns the game object for the next note in the list of notes.
+	/// We keep track of the index we're on so duplicate notes aren't being created.
+	/// </summary>
+	/// <returns>The next note.</returns>
+	public GameObject GetNextNote()
+	{
+		// set note gen to false if we're at the last element
+		if (noteIndex == (noteList.Count - 1)) 
+		{
+			noteGen = false;
+		}
+
+		// return if we're within the list bounds
+		if (noteIndex < noteList.Count) 
+		{
+			GameObject note = noteFactory.CreateInteractableItem (noteList [noteIndex]);
+			noteIndex = noteIndex + 1;
+			return note;
+
+		} 
+
+		noteGen = false;
+		return null;
 	}
 }
