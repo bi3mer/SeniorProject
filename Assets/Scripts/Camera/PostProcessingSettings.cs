@@ -6,12 +6,11 @@ namespace UnityEngine.PostProcessing{
 	[ExecuteInEditMode]
 	public class PostProcessingSettings : MonoBehaviour {
 
-		/// <summary>
-		///  
-		/// </summary>
 		public bool DepthOfField;
 		public bool ChromaticAberration;
 		public bool MotionBlur;
+
+		/// Naming this effect "Bloom" breaks the actual effect in the post-processing profile, so it is named as such
 		public bool BloomEffect;
 
 		private DepthOfFieldModel depthOfField;
@@ -19,6 +18,9 @@ namespace UnityEngine.PostProcessing{
 		private MotionBlurModel motionBlur;
 		private BloomModel bloom;
 
+		/// <summary>
+		/// Get each of the post-processing effects we're using. These aren't traditional Unity components, but they're just as easy to get to.
+		/// </summary>
 		void Start () {
 			depthOfField = GetComponent<PostProcessingBehaviour> ().profile.depthOfField;
 			chromaticAberration = GetComponent<PostProcessingBehaviour> ().profile.chromaticAberration;
@@ -26,6 +28,9 @@ namespace UnityEngine.PostProcessing{
 			bloom = GetComponent<PostProcessingBehaviour> ().profile.bloom;
 		}
 			
+		/// <summary>
+		/// Have each individual setting check if it's on or not. Doing this in Update lets us change settings mid-game if we wanted to.
+		/// </summary>
 		void Update () {
 			
 			if (DepthOfField == true) {

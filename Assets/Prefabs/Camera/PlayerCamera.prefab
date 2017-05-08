@@ -188,6 +188,7 @@ MonoBehaviour:
   DepthOfField: 1
   ChromaticAberration: 1
   MotionBlur: 1
+  BloomEffect: 1
 --- !u!114 &114832928020012770
 MonoBehaviour:
   m_ObjectHideFlags: 1
