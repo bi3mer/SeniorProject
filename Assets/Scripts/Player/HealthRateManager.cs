@@ -33,6 +33,8 @@ public class HealthRateManager : StatRate
 		warmthZeroHealthReductionRate = new StatRate(warmthZeroUnit, warmthZeroSeconds);
 	}
 
+
+
 	/// <summary>
 	/// Uses the default health rate.
 	/// </summary>

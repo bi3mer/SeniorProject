@@ -11,19 +11,20 @@ public class StatResourceSettings
 	public int FoodPoisonDecrease;
 
 	[Header ("Warmth Rate Settings")]
-	public int Tier6Delay;
-	public int Tier5Delay;
-	public int Tier4Delay;
-	public int Tier3Delay;
-	public int Tier2Delay;
-	public int Tier1Delay;
-	public int Tier0Delay;
-	public int TierNegativeDelay;
-	public float WaterRateMultiplier;
-	public float ShelterRateMultiplier;
-	public float HeatSourceRateMultiplier;
-	public int PneumoniaDelay;
-	public int PneumoniaDecrease;
+	public float DefaultWarmthDelay; // 1
+	public int DefaultWarmthDecrease; // 1
+	public float Tier6Delay;
+	public float Tier5Delay;
+	public float Tier4Delay;
+	public float Tier3Delay;
+	public float Tier2Delay;
+	public float Tier1Delay;
+	public float Tier0Delay;
+	public float TierNegativeDelay;
+	public int HeatSourceRateMultiplier;
+	public int ShelterRateMultiplier;
+	public int WaterRateMultiplier;
+	public int PneumoniaRateMultiplier;
 
 	[Header ("Health Rate Settings")]
 	public int DefaultHealthDelay;

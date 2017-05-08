@@ -34,7 +34,7 @@ public class PlayerStatManager
 	public void StartStatUpdates()
 	{
 		this.StopStats = false;
-		this.WarmthRate.UseDefaultWarmthReductionRate ();
+//		this.WarmthRate.UseDefaultWarmthReductionRate ();
 //		this.HungerRate.UseDefaultHungerReductionRate ();
 		this.HealthRate.UseDefaultHealthRate ();
 	}
@@ -45,10 +45,10 @@ public class PlayerStatManager
 	public void StopStatUpdates()
 	{
 		this.StopStats = true;
-		this.WarmthRate.ChangeRateValues (0, 1);
+//		this.WarmthRate.ChangeRateValues (0, 1);
 //		this.HungerRate.ChangeRateValues (0, 1);
 		this.HealthRate.ChangeRateValues (0, 1);
-		this.WarmthRate.ApplyRateToStat ();
+//		this.WarmthRate.ApplyRateToStat ();
 //		this.HungerRate.ApplyRateToStat ();
 		this.HealthRate.ApplyRateToStat ();
 	}

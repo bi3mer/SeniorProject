@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private string waterTag;
 
-	[Header("Stat Settings")]
+	[Header("Resource Settings")]
 	[SerializeField]
 	public StatResourceSettings StatSettings;
 
@@ -32,20 +32,6 @@ public class PlayerController : MonoBehaviour
     private UnityEvent healthUpdatedEvent;
     [SerializeField]
     private UnityEvent warmthUpdatedEvent;
-
-    [Header("Resource Settings")]
-    [SerializeField]
-    [Tooltip("How much warmth decreases when player has pneumonia.")]
-    private int pneumoniaWarmthDecrease;
-    [SerializeField]
-    [Tooltip("How much hunger decreases when player has food poisioning.")]
-    private int foodPoisonHungerDecrease;
-    [SerializeField]
-    [Tooltip("How many seconds per decrease of warmth.")]
-    private int pneumoniaTime;
-    [SerializeField]
-    [Tooltip("How many seconds per decrease of hunger.")]
-    private int foodPoisioningTime;
 
     [Header("DebugMode Settings")]
     [SerializeField]
@@ -234,12 +220,6 @@ public class PlayerController : MonoBehaviour
 
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();
-
-        // start reducing hunger
-//		PlayerStatManager.HungerRate.UseDefaultHungerReductionRate();
-
-        // start updating warmth
-		PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate();
 
 		// start updating health
 		PlayerStatManager.HealthRate.UseDefaultHealthRate ();
@@ -453,26 +433,6 @@ public class PlayerController : MonoBehaviour
             healthUpdatedEvent.Invoke();
         }
 
-        // check if sick with pneumonia
-        if (Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.Pneumonia)
-        {
-            // pnuemonia doubles the warmth change rate
-            Game.Instance.PlayerInstance.Controller.PlayerStatManager.WarmthRate.ChangeRateValues(pneumoniaWarmthDecrease, pneumoniaTime);
-        }
-        // check if we're in water
-        else if (IsInWater)
-        {
-            PlayerStatManager.WarmthRate.UseWaterWarmthReductionRate();
-        }
-        else if (IsByFire || IsInShelter)
-        {
-            PlayerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate();
-        }
-        else
-        {
-            PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate();
-        }
-
 		PlayerStatManager.ApplyCorrectHealthReductionRate ();
     }
 
@@ -516,19 +476,20 @@ public class PlayerController : MonoBehaviour
 
     /// <summary>
     /// Updates warmth.
-    /// TOOD: Refactor to use more intuitive decrease/increase rate system.
     /// </summary>
     /// <returns>The warmth.</returns>
 	private IEnumerator UpdateWarmth()
     {
 		while (updateStats)
 		{
-			yield return new WaitForSeconds(PlayerStatManager.WarmthRate.PerSeconds);
+			yield return new WaitForSeconds(PlayerStatManager.WarmthRate.WarmthDelay);
 
 			if (!PlayerStatManager.StopStats) 
 			{
-				PlayerStatManager.WarmthRate.ApplyRateToStat ();
-				Game.Instance.PlayerInstance.Warmth = PlayerStatManager.WarmthRate.CurrentStat;
+				Game.Instance.PlayerInstance.Warmth = Mathf.Clamp (
+					Game.Instance.PlayerInstance.Warmth + PlayerStatManager.WarmthRate.WarmthAmount,
+					0,
+					Game.Instance.PlayerInstance.MaxWarmth);
 				warmthUpdatedEvent.Invoke ();
 			}
 		}
