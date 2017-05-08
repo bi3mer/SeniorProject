@@ -17,6 +17,11 @@ public static class GuiInstanceManager
 	public static InventoryUI InventoryUiInstance;
 
 	/// <summary>
+	/// The interface used to transfer items between containers and player inventory.
+	/// </summary>
+	public static InventoryTransferUI InventoryTransferInstance;
+
+	/// <summary>
 	/// The item amount panel instance. 
 	/// The instance is set in ChooseItemAmountPanelBehavior.cs's Awake function.
 	/// </summary>

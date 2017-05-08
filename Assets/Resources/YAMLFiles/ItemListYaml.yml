@@ -542,6 +542,7 @@
   itemCategories: 
     - !!raft
       speed: 1.0
+      inventorySize: 5.0
     - !!solid
       flexibility: 0.5
       durability: 1
@@ -562,6 +563,7 @@
   itemCategories:
     - !!raft
       speed: 1.2
+      inventorySize: 10.0
     - !!solid
       flexibility: 0.5
       durability: 1
@@ -582,6 +584,7 @@
   itemCategories:
     - !!raft
       speed: 1.3
+      inventorySize: 30.0
     - !!solid
       flexibility: 0.5
       durability: 1

@@ -76,9 +76,10 @@ public class ItemPoolInfo
 	/// Adds the item info from the pool information.
 	/// </summary>
 	/// <param name="item">Item.</param>
-	public void AddItemInfo(GameObject item)
+	/// <param name="name">Name of item.</param>
+	public void AddItemInfo(GameObject item, string name)
 	{
-		ItemNames.Add(item.name);
+		ItemNames.Add(name);
 		Items.Add(item);
 		Locations.Add(item.transform.position);
 	}
