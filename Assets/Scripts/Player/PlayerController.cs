@@ -7,7 +7,7 @@ using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movement Settings")]
+	[Header("Movement Settings")]
     [SerializeField]
     private float groundedThreshold;
     [SerializeField]
@@ -20,6 +20,10 @@ public class PlayerController : MonoBehaviour
     private string landTag;
     [SerializeField]
     private string waterTag;
+
+	[Header("Stat Settings")]
+	[SerializeField]
+	private StatResourceSettings StatSettings;
 
     [Header("HUD Settings")]
     [SerializeField]
