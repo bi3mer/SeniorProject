@@ -6,9 +6,11 @@ public class StatResourceSettings
 {
 	[Header ("Hunger Rate Settings")]
 	public int DefaultHungerDelay;
+	public int DefaultHungerDecrease;
+	public int FoodPoisonDelay;
+	public int FoodPoisonDecrease;
 
 	[Header ("Warmth Rate Settings")]
-	public int DefaultWarmthDelay;
 	public int Tier6Delay;
 	public int Tier5Delay;
 	public int Tier4Delay;
@@ -20,6 +22,8 @@ public class StatResourceSettings
 	public float WaterRateMultiplier;
 	public float ShelterRateMultiplier;
 	public float HeatSourceRateMultiplier;
+	public int PneumoniaDelay;
+	public int PneumoniaDecrease;
 
 	[Header ("Health Rate Settings")]
 	public int DefaultHealthDelay;

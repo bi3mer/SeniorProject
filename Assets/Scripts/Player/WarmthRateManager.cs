@@ -53,6 +53,14 @@ public class WarmthRateManager : StatRate
 		nearHeatSourceWarmthIncreaseRate = new StatRate(heatSourceUnit, heatSourceSeconds);
 	}
 
+	public int WarmthDelay
+	{
+		get 
+		{
+
+		}
+	}
+
 	/// <summary>
 	/// Uses the default warmth reduction rate.
 	/// </summary>

@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
 	[Header("Stat Settings")]
 	[SerializeField]
-	private StatResourceSettings StatSettings;
+	public StatResourceSettings StatSettings;
 
     [Header("HUD Settings")]
     [SerializeField]
@@ -236,7 +236,7 @@ public class PlayerController : MonoBehaviour
         playerCamera = Camera.main.GetComponent<CameraController>();
 
         // start reducing hunger
-		PlayerStatManager.HungerRate.UseDefaultHungerReductionRate();
+//		PlayerStatManager.HungerRate.UseDefaultHungerReductionRate();
 
         // start updating warmth
 		PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate();
@@ -453,17 +453,6 @@ public class PlayerController : MonoBehaviour
             healthUpdatedEvent.Invoke();
         }
 
-        // check if sick with food poisoning
-        if (Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.FoodPoisoning)
-        {
-            // food poisoning doubles the hunger change rate
-            Game.Instance.PlayerInstance.Controller.PlayerStatManager.HungerRate.ChangeRateValues(foodPoisonHungerDecrease, foodPoisioningTime);
-        }
-        else
-        {
-            Game.Instance.PlayerInstance.Controller.PlayerStatManager.HungerRate.UseDefaultHungerReductionRate();
-        }
-
         // check if sick with pneumonia
         if (Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.Pneumonia)
         {
@@ -513,11 +502,13 @@ public class PlayerController : MonoBehaviour
     {
 		while (updateStats)
 		{
-			yield return new WaitForSeconds (PlayerStatManager.HungerRate.PerSeconds);
+			yield return new WaitForSeconds (PlayerStatManager.HungerRate.HungerDelay);
 			if (!PlayerStatManager.StopStats) 
 			{
-				PlayerStatManager.HungerRate.ApplyRateToStat ();
-				Game.Instance.PlayerInstance.Hunger = PlayerStatManager.HungerRate.CurrentStat;
+				Game.Instance.PlayerInstance.Hunger = Mathf.Clamp (
+					Game.Instance.PlayerInstance.Hunger + PlayerStatManager.HungerRate.HungerAmount, 
+					0, 
+					Game.Instance.PlayerInstance.MaxHunger);
 				hungerUpdatedEvent.Invoke ();
 			}
 		}
