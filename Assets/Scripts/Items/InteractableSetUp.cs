@@ -42,7 +42,6 @@ public class InteractableSetUp : MonoBehaviour
 		triggerObject.transform.localPosition = Vector3.zero;
 
 		PickUpItem pickup = gameObject.AddComponent<PickUpItem>();
-        GlowObjectCmd glow = gameObject.AddComponent<GlowObjectCmd>();
         pickup.SetUp();
 		pickup.Item = baseItem;
 		pickup.Show = false;

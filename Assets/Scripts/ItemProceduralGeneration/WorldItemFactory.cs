@@ -72,7 +72,6 @@ public class WorldItemFactory
 		// create the object with the model
 		GameObject item = CreateGenericInteractableItem(itemToCreate);
 		PickUpItem pickup = item.AddComponent<PickUpItem>();
-        GlowObjectCmd glow = item.AddComponent<GlowObjectCmd>();
         pickup.SetUp();
 		pickup.Item = itemToCreate;
 		pickup.Show = false;
@@ -93,7 +92,6 @@ public class WorldItemFactory
 		// create the object with the model
 		BaseItem baseItem = Game.Instance.ItemFactoryInstance.GetWeightedRandomBaseItem(district, true);
 		GameObject item = GameObject.Instantiate (worldItemTemplates[baseItem.ItemName]);
-        GlowObjectCmd glow = item.AddComponent<GlowObjectCmd>();
 
         // creates the trigger object that will handle interaction with player
         GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
