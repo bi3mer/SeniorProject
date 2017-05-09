@@ -222,7 +222,7 @@ public class PlayerController : MonoBehaviour
         playerCamera = Camera.main.GetComponent<CameraController>();
 
 		// start updating health
-		PlayerStatManager.HealthRate.UseDefaultHealthRate ();
+//		PlayerStatManager.HealthRate.UseDefaultHealthRate ();
 
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
@@ -429,11 +429,9 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
 			PlayerStatManager.HealthRate.TakeFallDamage ((int)movement.CurrentFallDammage);
-			Game.Instance.PlayerInstance.Health = PlayerStatManager.HealthRate.CurrentStat;
+//			Game.Instance.PlayerInstance.Health = PlayerStatManager.HealthRate.CurrentStat;
             healthUpdatedEvent.Invoke();
         }
-
-		PlayerStatManager.ApplyCorrectHealthReductionRate ();
     }
 
 	/// <summary>
@@ -444,11 +442,12 @@ public class PlayerController : MonoBehaviour
 	{
 		while (updateStats) 
 		{
-			yield return new WaitForSeconds(PlayerStatManager.HealthRate.PerSeconds);	
+			yield return new WaitForSeconds(PlayerStatManager.HealthRate.HealthDelay);	
 			if (!PlayerStatManager.StopStats) 
 			{
-				PlayerStatManager.HealthRate.ApplyRateToStat ();
-				Game.Instance.PlayerInstance.Health = PlayerStatManager.HealthRate.CurrentStat;
+				Game.Instance.PlayerInstance.Health += PlayerStatManager.HealthRate.HealthAmount;
+//				PlayerStatManager.HealthRate.ApplyRateToStat ();
+//				Game.Instance.PlayerInstance.Health = PlayerStatManager.HealthRate.CurrentStat;
 				healthUpdatedEvent.Invoke ();
 			}
 		}

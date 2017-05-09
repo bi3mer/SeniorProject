@@ -27,7 +27,8 @@ public class StatResourceSettings
 	public int PneumoniaRateMultiplier;
 
 	[Header ("Health Rate Settings")]
+	public int DefaultHealthDecrease;
 	public int DefaultHealthDelay;
-	public int ZeroWarmthRateMultiplier;
-	public int ZeroHungerRateMultiplier;
+	public int ZeroWarmthDelay;
+	public int ZeroHungerDelay;
 }

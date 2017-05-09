@@ -16,17 +16,17 @@ public class PlayerStatManager
 	/// <summary>
 	/// Applies the correct health reduction rate based on hunger and warmth stats.
 	/// </summary>
-	public void ApplyCorrectHealthReductionRate()
-	{
-		if (Game.Instance.PlayerInstance.Warmth == 0) 
-		{
-			this.HealthRate.UseWarmthZeroHealthReductionRate ();
-		} 
-		else if (Game.Instance.PlayerInstance.Hunger == 0) 
-		{
-			this.HealthRate.UseHungerZeroHealthReductionRate ();
-		}
-	}
+//	public void ApplyCorrectHealthReductionRate()
+//	{
+//		if (Game.Instance.PlayerInstance.Warmth == 0) 
+//		{
+//			this.HealthRate.UseWarmthZeroHealthReductionRate ();
+//		} 
+//		else if (Game.Instance.PlayerInstance.Hunger == 0) 
+//		{
+//			this.HealthRate.UseHungerZeroHealthReductionRate ();
+//		}
+//	}
 
 	/// <summary>
 	/// Starts the player's stat updates.
@@ -36,7 +36,7 @@ public class PlayerStatManager
 		this.StopStats = false;
 //		this.WarmthRate.UseDefaultWarmthReductionRate ();
 //		this.HungerRate.UseDefaultHungerReductionRate ();
-		this.HealthRate.UseDefaultHealthRate ();
+//		this.HealthRate.UseDefaultHealthRate ();
 	}
 
 	/// <summary>
@@ -47,10 +47,10 @@ public class PlayerStatManager
 		this.StopStats = true;
 //		this.WarmthRate.ChangeRateValues (0, 1);
 //		this.HungerRate.ChangeRateValues (0, 1);
-		this.HealthRate.ChangeRateValues (0, 1);
+//		this.HealthRate.ChangeRateValues (0, 1);
 //		this.WarmthRate.ApplyRateToStat ();
 //		this.HungerRate.ApplyRateToStat ();
-		this.HealthRate.ApplyRateToStat ();
+//		this.HealthRate.ApplyRateToStat ();
 	}
 
 	/// <summary>
@@ -90,7 +90,7 @@ public class PlayerStatManager
 	public bool StopStats 
 	{
 		get;
-		set;
+		private set;
 	}
 }
 
