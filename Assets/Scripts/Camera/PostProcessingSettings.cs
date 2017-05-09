@@ -7,18 +7,11 @@ namespace UnityEngine.PostProcessing
 	[ExecuteInEditMode]
 	public class PostProcessingSettings : MonoBehaviour 
 	{
-
-		public bool DepthOfField;
-		public bool ChromaticAberration;
-		public bool MotionBlur;
-
-		// Naming this effect "Bloom" breaks the actual effect in the post-processing profile, so it is named as such
-		public bool BloomEffect;
-
 		private DepthOfFieldModel depthOfField;
 		private ChromaticAberrationModel chromaticAberration;
 		private MotionBlurModel motionBlur;
 		private BloomModel bloom;
+		private PostProcessingSettings instance;
 
 		/// <summary>
 		/// Get each of the post-processing effects we're using. These aren't traditional Unity components, but they're just as easy to get to.
@@ -29,49 +22,78 @@ namespace UnityEngine.PostProcessing
 			chromaticAberration = GetComponent<PostProcessingBehaviour> ().profile.chromaticAberration;
 			motionBlur = GetComponent<PostProcessingBehaviour> ().profile.motionBlur;
 			bloom = GetComponent<PostProcessingBehaviour> ().profile.bloom;
+
+			// TODO: Grab setting values and apply
+
+			instance = this;
 		}
-			
-		/// <summary>
-		/// Have each individual setting check if it's on or not. Doing this in Update lets us change settings mid-game if we wanted to.
-		/// </summary>
-		void Update () 
+
+		public PostProcessingSettings Instance
 		{
-			
-			if (DepthOfField == true) 
+			get 
 			{
-				depthOfField.enabled = true;
-			} 
-			else if (DepthOfField == false)
-			{
-				depthOfField.enabled = false;
-			}
-
-			if (ChromaticAberration == true) 
-			{
-				chromaticAberration.enabled = true;
-			} 
-			else if (ChromaticAberration == false) {
-				chromaticAberration.enabled = false;
-			}
-
-			if (MotionBlur == true) 
-			{
-				motionBlur.enabled = true;
-			} 
-			else if (MotionBlur == false) 
-			{
-				motionBlur.enabled = false;
-			}
-
-			if (BloomEffect == true) 
-			{
-				bloom.enabled = true;
-			} 
-			else if (BloomEffect == false) 
-			{
-				bloom.enabled = false;
+				return instance;
 			}
 		}
 
+		/// <summary>
+		/// Enables camera depth of field effect.
+		/// </summary>
+		public bool DepthOfFieldEnabled
+		{
+			get 
+			{
+				return depthOfField.enabled;
+			}
+			set 
+			{
+				depthOfField.enabled = value;
+			}
+		}
+
+		/// <summary>
+		/// Enables camera chromatic aberration effect.
+		/// </summary>
+		public bool ChromaticAberrationEnabled
+		{
+			get 
+			{
+				return chromaticAberration.enabled;
+			}
+			set
+			{
+				chromaticAberration.enabled = value;
+			}
+		}
+
+		/// <summary>
+		/// Enables camera motion blur effect.
+		/// </summary>
+		public bool MotionBlurEnabled
+		{
+			get
+			{
+				return motionBlur.enabled;
+			}
+			set
+			{
+				motionBlur.enabled = value;
+			}
+		}
+
+		/// <summary>
+		/// Enables camera bloom effect.
+		/// </summary>
+		public bool BloomEnabled
+		{
+			get
+			{
+				return bloom.enabled;
+			}
+			set
+			{
+				bloom.enabled = value;
+			}
+		}
 	}
 }
