@@ -197,10 +197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac840cb08c8e634e8c182931eabf714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DepthOfField: 1
-  ChromaticAberration: 1
-  MotionBlur: 1
-  BloomEffect: 1
 --- !u!124 &124000011445005254
 Behaviour:
   m_ObjectHideFlags: 1
