@@ -302,45 +302,40 @@ public class Radio : MonoBehaviour
 	IEnumerator updateWeather()
 	{
 		while (true)
-		{
+		{            
 			if (isOn)
-			{             
-				// Check if the weather is not playing and if the radio is on the weather channel
-				if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
-				{
-					// Play the weather 3 times before restarting to 0 
-					if (weatherCounter == 3)
-					{
-						weatherCounter = 0;
-					}
+			{
+                // Check if the weather is not playing and if the radio is on the weather channel
+                if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
+                {
+                    // Play the weather 3 times before restarting to 0 
+                    if (weatherCounter == 3)
+                    {
+                        weatherCounter = 0;
+                    }
 
-					// Update the weather when it has played 3 times or has just turned on
-					if (weatherCounter == 0)
-					{
-						// Update weather
-						currentWeather = Game.Instance.WeatherInstance;
+                    // Update the weather when it has played 3 times or has just turned on
+                    if (weatherCounter == 0)
+                    {
+                        // Update weather
+                        currentWeather = Game.Instance.WeatherInstance;
 
-						// Get new announcment
-						announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
-						Debug.Log(announcement);
+                        // Get new announcment
+                        announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
+                        Debug.Log(announcement);
 
-						// Send the announcement to the wav file
-						Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather", .7f);
+                        // Send the announcement to the wav file
+                        Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather", .7f);
 
-						// Wait for the wave file to update
-						yield return new WaitForSeconds(2);
-					}
+                        // Wait for the wave file to update
+                        yield return new WaitForSeconds(weather.clip.length + 1);
+                    }
 
-					++weatherCounter;
-					weather.Play();
-				}
-
-				// Don't do anything if the weather is still playing
-				else
-				{
-					yield return null;
-				}
-			}
+                    ++weatherCounter;
+                    Debug.Log(weatherCounter);
+                    weather.Play();
+                }
+            }
 
 			// Don't do anything if radio is not on
 			else
