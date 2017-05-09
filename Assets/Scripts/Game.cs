@@ -39,6 +39,7 @@
         Loader.Reset();
 
         this.PauseInstance.ResetDelegates();
+		EventManager = new EventManager ();
     }
  
     /// <summary>
