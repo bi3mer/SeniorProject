@@ -57,7 +57,7 @@ public class WarmthRateManager
 			}
 			if (Game.Instance.PlayerInstance.Controller.IsInWater) 
 			{
-				warmthAmount = Game.Instance.PlayerInstance.Controller.StatSettings.WaterRateMultiplier;
+				warmthAmount *= Game.Instance.PlayerInstance.Controller.StatSettings.WaterRateMultiplier;
 			}
 			if (Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.Pneumonia)
 	        {

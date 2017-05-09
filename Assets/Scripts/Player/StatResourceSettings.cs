@@ -11,8 +11,8 @@ public class StatResourceSettings
 	public int FoodPoisonDecrease;
 
 	[Header ("Warmth Rate Settings")]
-	public float DefaultWarmthDelay; // 1
-	public int DefaultWarmthDecrease; // 1
+	public float DefaultWarmthDelay;
+	public int DefaultWarmthDecrease; 
 	public float Tier6Delay;
 	public float Tier5Delay;
 	public float Tier4Delay;

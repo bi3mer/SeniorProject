@@ -102,7 +102,6 @@ public class PlayerController : MonoBehaviour
     // the closest interactable as well as the distance
     private Collider closestInteractable;
 
-
     private float closestDistance;
 
     // the previous closest collider
@@ -220,10 +219,7 @@ public class PlayerController : MonoBehaviour
 
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();
-
-		// start updating health
-//		PlayerStatManager.HealthRate.UseDefaultHealthRate ();
-
+	
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
 
@@ -429,7 +425,6 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
 			PlayerStatManager.HealthRate.TakeFallDamage ((int)movement.CurrentFallDammage);
-//			Game.Instance.PlayerInstance.Health = PlayerStatManager.HealthRate.CurrentStat;
             healthUpdatedEvent.Invoke();
         }
     }
@@ -445,9 +440,10 @@ public class PlayerController : MonoBehaviour
 			yield return new WaitForSeconds(PlayerStatManager.HealthRate.HealthDelay);	
 			if (!PlayerStatManager.StopStats) 
 			{
-				Game.Instance.PlayerInstance.Health += PlayerStatManager.HealthRate.HealthAmount;
-//				PlayerStatManager.HealthRate.ApplyRateToStat ();
-//				Game.Instance.PlayerInstance.Health = PlayerStatManager.HealthRate.CurrentStat;
+				Game.Instance.PlayerInstance.Health = Mathf.Clamp (
+					Game.Instance.PlayerInstance.Health + PlayerStatManager.HealthRate.HealthAmount, 
+					0, 
+					Game.Instance.PlayerInstance.MaxHealth);
 				healthUpdatedEvent.Invoke ();
 			}
 		}
