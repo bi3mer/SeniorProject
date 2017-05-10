@@ -70,7 +70,7 @@ public class PickUpItem : InteractableObject
 		}
 		else
 		{
-			GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.INVENTORYFULL);
+			GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.INVENTORYFULL);
 		}
 	}
 }

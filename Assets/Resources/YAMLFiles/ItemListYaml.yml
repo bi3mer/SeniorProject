@@ -102,6 +102,7 @@
       sharpness: 0.3
     - !!fishingRod
       equiped: 0
+      degenerationThreshold: 10
 - itemName: "Standard Fishing Rod"
   baseItem: 
    itemName: "Standard Fishing Rod"
@@ -124,6 +125,7 @@
       sharpness: 1
     - !!fishingRod
       equiped: 0
+      degenerationThreshold: 20
 - itemName: "Excellent Fishing Rod"
   baseItem: 
    itemName: "Excellent Fishing Rod"
@@ -146,6 +148,7 @@
       sharpness: 2
     - !!fishingRod
       equiped: 0
+      degenerationThreshold: 30
 - itemName: "Poor Woven Blanket"
   baseItem: 
    itemName: "Poor Woven Blanket"
