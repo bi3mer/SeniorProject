@@ -3,6 +3,13 @@ using System.Collections;
 
 public abstract class Movement : MonoBehaviour 
 {
+    /// <summary>
+    /// If player is sick the movement speed is divided by this variable.
+    /// </summary>
+    [SerializeField]
+    public float sicknessDecrease;
+
+    private float speed;
     protected Rigidbody RigidBody;
 
 	/// <summary>
@@ -11,9 +18,22 @@ public abstract class Movement : MonoBehaviour
 	/// <value>The speed.</value>
 	public float Speed 
 	{
-		get;
-		set;
-	}
+        get
+        {
+            return speed;
+        }
+        set
+        {
+            if (Game.Player.Controller.IsSick)
+            {
+                speed = value / sicknessDecrease;
+            }
+            else
+            {
+                speed = value;
+            }
+        }
+    }
 
     protected float AccumulatedFallDamage;
     [SerializeField]
