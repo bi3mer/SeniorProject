@@ -546,7 +546,7 @@ public class PlayerController : MonoBehaviour
     {
         bool belowWater = (Game.Instance.WaterLevelHeight > PlayerIKSetUp.transform.position.y + waterWadeHeight);
 
-        
+
         if (IsOnRaft)
         {
             playerAnimator.SetBool(playerAnimatorRafting, true);
@@ -556,17 +556,27 @@ public class PlayerController : MonoBehaviour
             PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
         }
         // If the player is low enough to be in the water
-        else if (movement != waterMovement && belowWater)
+        else if (belowWater)
         {
+            if (movement != waterMovement)
+            {
+                movement.OnStateExit();
+                movement = waterMovement;
+                movement.OnStateEnter();
+            }
             movement.Idle(playerAnimator);
-            movement.OnStateExit();
-            movement = waterMovement;
-            movement.OnStateEnter();
             playerAnimator.SetBool(playerAnimatorSwimming, true);
             playerAnimator.SetBool(playerAnimatorRafting, false);
         }
         else
         { 
+            if(movement != landMovement)
+            {
+                movement.OnStateExit();
+                movement = landMovement;
+                movement.OnStateEnter();
+            }
+
             // Check if the player is close enough to the ground
             RaycastHit hit;
             // We have to raycast SLIGHTLY above the player's bottom. Because if we start at the bottom there's a good chance it'll end up going through the ground.
@@ -579,9 +589,6 @@ public class PlayerController : MonoBehaviour
                 {
                     playerAnimator.SetBool(playerAnimatorSwimming, false);
                     movement.Idle(playerAnimator);
-                    movement.OnStateExit();
-                    movement = landMovement;
-                    movement.OnStateEnter();
                 }
             }
             else if(!belowWater)
@@ -704,7 +711,7 @@ public class PlayerController : MonoBehaviour
             if (closestInteractable != prevInteractable)
             {
                 // only stop showing if there was a previous collider
-                if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag) && interactable != null && interactable.GetComponent<InteractableObject>() != null)
+                if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag) && interactable != null && interactable.GetComponentInChildren<InteractableObject>() != null)
                 {
                     interactable.Show = false;
                     interactable = null;
@@ -946,8 +953,7 @@ public class PlayerController : MonoBehaviour
 
         // Raycast to see if there is a ledge in front of the player.
         RaycastHit hit1 = new RaycastHit(), hit2 = new RaycastHit(), hit3 = new RaycastHit(), heightPoint = new RaycastHit();
-
-     
+  
         if (ClimbingRaycasts(lH, rH, ref hit1, ref hit2, ref hit3, ref heightPoint))
         {
             // From here on out things get complicated. The following math is used to get the angle needed to rotate the player to face the wall.
@@ -1081,7 +1087,6 @@ public class PlayerController : MonoBehaviour
             movement.GetClimbHeight() > heightPoint.point.y - PlayerIKSetUp.transform.position.y &&
             heightPoint.point.y - PlayerIKSetUp.transform.position.y > minClimbHeight &&
             heightPoint.point.y > PlayerIKSetUp.transform.position.y
-
         )
         {
             return true;
