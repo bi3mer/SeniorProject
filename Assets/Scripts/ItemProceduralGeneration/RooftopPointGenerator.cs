@@ -49,10 +49,10 @@ public class RooftopPointGenerator: SamplingPointGenerator
 		// the defaultMinDistanceAway is used as the diagonal of the square cell
 		// thus, the size of the cell--that is its sides
 		// is defined by the diagonal/sqrt(2)
-		cellSize = defaultMinDistanceAway/Mathf.Sqrt(2);
+		CellSize = defaultMinDistanceAway/Mathf.Sqrt(2);
 
 		//Create the grid
-		grid = new ItemPlacementSamplePoint[Mathf.CeilToInt (width / cellSize), Mathf.CeilToInt (depth / cellSize)];   
+		Grid = new ItemPlacementSamplePoint[Mathf.CeilToInt (width / CellSize), Mathf.CeilToInt (depth / CellSize)];   
 
 		// ray needs to start a little above the object, so this is the offset distance that will be added
 		// to the height of the object to make the ray start above the top of the object
@@ -189,7 +189,7 @@ public class RooftopPointGenerator: SamplingPointGenerator
 
 		List<ItemPlacementSamplePoint> samplePoints = new List<ItemPlacementSamplePoint>();
 
-		grid[firstPoint.GridPoint.X, firstPoint.GridPoint.Y] = firstPoint;
+		Grid[firstPoint.GridPoint.X, firstPoint.GridPoint.Y] = firstPoint;
 
 		// the door acts as an origin point, however no other sampling points should be placed around it
 		// thus the door's point itself should not be returned as part of the sampling points
@@ -235,7 +235,7 @@ public class RooftopPointGenerator: SamplingPointGenerator
 					newPoint.GridPoint = PointToGrid(newPoint.LocalTargetSurfaceLocation);
 					newPoint.District = district;
 					newPoint.Type = ItemPlacementSamplePoint.PointType.ITEM;
-					grid[newPoint.GridPoint.X, newPoint.GridPoint.Y] = newPoint;
+					Grid[newPoint.GridPoint.X, newPoint.GridPoint.Y] = newPoint;
 
 					processList.Add(newPoint);
 					samplePoints.Add(newPoint);
@@ -370,6 +370,6 @@ public class RooftopPointGenerator: SamplingPointGenerator
 	/// <param name="samplingPoint">Sampling point.</param>
 	protected Tuple<int, int> PointToGrid(Vector2 samplingPoint)
 	{
-		return new Tuple<int, int> ((int)(samplingPoint.x / cellSize), (int)(samplingPoint.y / cellSize));
+		return new Tuple<int, int> ((int)(samplingPoint.x / CellSize), (int)(samplingPoint.y / CellSize));
 	}
 }

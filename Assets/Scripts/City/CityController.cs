@@ -140,24 +140,16 @@ public class CityController : MonoBehaviour
         task.PercentageComplete = 1.0f;
         yield return null;
 
-        waterItemGenerator.GenerateInWater();
-
-        task2.PercentageComplete = 0.3f;
+        waterItemGenerator.GenerateInWater(ref task2);
         yield return null;
 
 		rooftopItemGenerator.AddTemplatesToItemPool();
-
-        task2.PercentageComplete = 0.6f;
         yield return null;
 
         waterItemGenerator.AddTemplatesToItemPool();
-
-        task2.PercentageComplete = 0.9f;
         yield return null;
 
         StartCoroutine(itemPoolManager.StartManagingPool());
-
-        task2.PercentageComplete = 1.0f;
         yield return null;
 
         cityChunkManager.Init(city);

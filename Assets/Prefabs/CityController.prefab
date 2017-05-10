@@ -128,11 +128,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolManager: {fileID: 114000010221364680}
-  maxNumberOfItems: 40
-  numberOfInitialPoints: 5
-  newPointsPerSamplingPoint: 5
+  maxNumberOfItems: 350
+  maxNewNumberOfItems: 25
+  numberOfInitialPoints: 40
+  numberOfInitialPointsInSingleCell: 5
+  newPointsPerSamplingPoint: 2
   maxAttempts: 3
-  districtCheck: 5
+  districtCheck: 10
+  itemIncreaseChunks: 30
 --- !u!114 &114000012634621658
 MonoBehaviour:
   m_ObjectHideFlags: 1
