@@ -123,12 +123,40 @@ public class WeatherSystem
 		}
 	}
 
+	/// <summary>
+	/// Returns the current temperature.
+	/// </summary>
+	public float CurrentTemperature
+	{
+		get 
+		{
+			return this.WeatherInformation[(int) Weather.Temperature];
+		}
+	}
+
+	/// <summary>
+	/// Returns the current dew point.
+	/// </summary>
+	public float CurrentDewPoint
+	{
+		get 
+		{
+			return this.WeatherInformation[(int) Weather.Dew];
+		}
+	}
+
+	/// <summary>
+	/// Returns the pressure systems.
+	/// </summary>
 	public PressureSystems WeatherPressureSystems
 	{
 		get;
 		private set;
 	}
 
+	/// <summary>
+	/// Returns the array of current weather information data.
+	/// </summary>
 	public float[] WeatherInformation
 	{
 		get;
