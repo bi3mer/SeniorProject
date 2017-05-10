@@ -43,7 +43,12 @@ public class PickUpItem : InteractableObject
 	/// </summary>
 	public override void SetUp()
 	{
-        gameObject.AddComponent<GlowObjectCmd>();
+        // Make sure the component isn't added more than once.
+        if (gameObject.GetComponent<GlowObjectCmd>() == null)
+        {
+            gameObject.AddComponent<GlowObjectCmd>();
+        }
+
         if (!setupComplete)
 		{
 			base.SetUp();
