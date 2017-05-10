@@ -28,6 +28,9 @@ namespace UnityEngine.PostProcessing
 			instance = this;
 		}
 
+		/// <summary>
+		/// Gets the instance that controls the post processing settings in the scene.
+		/// </summary>
 		public PostProcessingSettings Instance
 		{
 			get 
