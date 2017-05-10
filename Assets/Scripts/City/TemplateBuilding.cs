@@ -60,8 +60,8 @@ public class TemplateBuilding : Building
 		}
 
 		Instance = Template;
+        Instance.transform.SetParent(Parent);
 		Instance.transform.position = Position;
-        Instance.transform.parent = Parent;
 
         IsLoaded = true;
     }
