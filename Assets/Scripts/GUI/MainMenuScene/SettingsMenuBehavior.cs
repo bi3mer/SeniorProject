@@ -14,6 +14,17 @@ public class SettingsMenuBehavior : MonoBehaviour
 	[SerializeField]
 	private InputField procCityGenerationSeedInputField;
 	[SerializeField]
+
+	[Header("Camera Effects Settings")]
+	[SerializeField]
+	private Toggle depthOfFieldToggle;
+	[SerializeField]
+	private Toggle chromaticAberrationToggle;
+	[SerializeField]
+	private Toggle motionBlurToggle;
+	[SerializeField]
+	private Toggle bloomToggle;
+
 	private GameObject inputConfigPanel;
 	private GameSettings settings;
 	private string previousSeed;
@@ -26,6 +37,20 @@ public class SettingsMenuBehavior : MonoBehaviour
 		settings = Game.Instance.GameSettingsInstance;
 		procCityGenerationSeedInputField.onValueChanged.AddListener (OnSeedValueChanged);
 		volumeSlider.onValueChanged.AddListener (changeVolume);
+
+		// Add functionality to camera setting toggles
+		depthOfFieldToggle.onValueChanged.AddListener(() => {
+				settings.Camera.DepthOfFieldEnabled = depthOfFieldToggle.isOn;
+			});
+		chromaticAberrationToggle.onValueChanged.AddListener(() => {
+				settings.Camera.ChromaticAberrationEnabled = chromaticAberrationToggle.isOn;
+			});
+		motionBlurToggle.onValueChanged.AddListener(() => {
+				settings.Camera.MotionBlurEnabled = motionBlurToggle.isOn;
+			});
+		bloomToggle.onValueChanged.AddListener(() => {
+				settings.Camera.BloomEnabled = bloomToggle.isOn;
+			});
 	}
 
 	/// <summary>
@@ -34,14 +59,7 @@ public class SettingsMenuBehavior : MonoBehaviour
 	/// <param name="isChecked">If set to <c>true</c> is sound on.</param>
 	public void turnSoundOnOff()
 	{
-		if (soundToggle.isOn) 
-		{
-			settings.SoundOn = true;
-		} 
-		if (!soundToggle.isOn)
-		{
-			settings.SoundOn = false;
-		}
+		settings.SoundOn = soundToggle.isOn;
 	}
 
 	/// <summary>
