@@ -2,7 +2,9 @@
 using System.IO;
 using System.Globalization;
 using System.CodeDom.Compiler;
+using System;
 using System.Text;
+using System.Reflection;
 
 public class ConsoleCommandRouter : MonoBehaviour 
 {
@@ -49,6 +51,9 @@ public class ConsoleCommandRouter : MonoBehaviour
 
     [SerializeField]
     private string health = "health";
+
+    [SerializeField]
+    private string activateEvent  = "event";
 
     /// <summary>
     /// Testing console with very important command
@@ -199,21 +204,44 @@ public class ConsoleCommandRouter : MonoBehaviour
         return "All Health Stats set to:  " + args[0];
     }
 
+    /// <summary>
+    /// Activate the specific event
+    /// </summary>
+    /// <param name="args">Arguments.</param>
+    public string Event(params string[] args)
+    {
+ 		Type type = Game.Instance.EventManager.GetType();
 
+ 		if(type != null)
+ 		{
+ 			MethodInfo method = type.GetMethod(args[0]);
+
+ 			if(method != null)
+ 			{
+ 				method.Invoke(Game.Instance.EventManager, null);
+				return "Activated event: " + args[0];
+ 			}
+
+			return "Invalid subscription name: " + args[0];
+		}
+
+		return "type not found. Contact admin.";
+    }
 
     /// <summary>
     /// initialize console commands
     /// </summary>
     void Start () 
 	{
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.testCommand,    this.Test);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugMode,      this.DebugMode);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugWeather,   this.DebugWeatherGUI);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.timeScale,      this.SetTimeScale);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.pressureSystem, this.ActivatePressureSystem);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.printWeather,   this.PrintWeather);
-		ConsoleCommandsRepository.Instance.RegisterCommand(this.creatureCount,  this.DebugCreatureCountGUI);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.testCommand,               this.Test);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugMode,                 this.DebugMode);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.debugWeather,              this.DebugWeatherGUI);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.timeScale,                 this.SetTimeScale);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.pressureSystem,            this.ActivatePressureSystem);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.printWeather,              this.PrintWeather);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.creatureCount,             this.DebugCreatureCountGUI);
         ConsoleCommandsRepository.Instance.RegisterCommand(this.teleportToTallestBuilding, this.TeleportToEnding);
-        ConsoleCommandsRepository.Instance.RegisterCommand(this.health, this.SetHealth);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.health,                    this.SetHealth);
+		ConsoleCommandsRepository.Instance.RegisterCommand(this.activateEvent,             this.Event);
     }
 }
