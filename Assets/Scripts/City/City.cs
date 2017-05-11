@@ -13,12 +13,14 @@ public class City
     /// <param name="boundingBox">The bounding box that defines the size of the city.</param>
     /// <param name="cityCenter">The location of the city center.</param>
     /// <param name="tallestBuiling">The instance of the tallest building.</param>
-    public City (District[] districts, Bounds boundingBox, Vector3 cityCenter, Building tallestBuiling)
+    /// <param name="tutorialBuilding">The instance of the tutorial building.</param>
+    public City (District[] districts, Bounds boundingBox, Vector3 cityCenter, Building tallestBuiling, Building tutorialBuilding)
     {
         Districts = districts;
         BoundingBox = boundingBox;
         Center = cityCenter;
         TallestBuilding = tallestBuiling;
+        TutorialBuilding = tutorialBuilding;
     }
 
     /// <summary>
@@ -52,6 +54,15 @@ public class City
     /// The tallest building located at the city center.
     /// </summary>
     public Building TallestBuilding
+    {
+        get;
+        private set;
+    }
+
+    /// <summary>
+    /// The tutorial building which the player starts the game on.
+    /// </summary>
+    public Building TutorialBuilding
     {
         get;
         private set;
@@ -135,6 +146,9 @@ public class City
                     }
                 }
             }
+
+            buildings.Add(city.TallestBuilding);
+            buildings.Add(city.TutorialBuilding);
         }
     }
 

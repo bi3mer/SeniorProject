@@ -35,19 +35,34 @@ public class BuildingGenerator : MonoBehaviour
     private int maxPlacementTries;
 
     [SerializeField]
-    [Tooltip("The template for the building to place at the center of the city.")]
+    [Tooltip("The cityCenterBuilding configured in the scene.")]
     private GameObject cityCenterBuilding;
+
+    [SerializeField]
+    [Tooltip("The tutorial building configured in the scene.")]
+    private GameObject tutorialBuilding;
 
     private ProceduralBuildingCreator buildingCreator;
 
     /// <summary>
-    /// Template for the building to place at the center of the city.
+    /// The tallest building at the center of the city.
     /// </summary>
     public GameObject CityCenterBuilding
     {
         get
         {
             return cityCenterBuilding;
+        }
+    }
+
+    /// <summary>
+    /// The tutorial building which the player begins the game on.s
+    /// </summary>
+    public GameObject TutorialBuilding
+    {
+        get
+        {
+            return tutorialBuilding;
         }
     }
 
@@ -107,7 +122,7 @@ public class BuildingGenerator : MonoBehaviour
 					if (block.ContainsPoint(weeniePosition) && Vector2.Distance(point, weeniePosition) < distanceBetweenBuildingCenters * root2)
                     {
                         building = new TemplateBuilding(this.gameObject.transform, position, configuration.WeenieBuildingTemplate);
-                        building.Load();
+						building.Load ();
                     }
                     else
                     {

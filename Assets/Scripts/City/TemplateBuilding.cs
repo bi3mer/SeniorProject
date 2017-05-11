@@ -47,4 +47,22 @@ public class TemplateBuilding : Building
 
         IsLoaded = true;
     }
+
+    /// <summary>
+    /// Sets up the template building given it already exists in the scene
+    /// </summary>
+    public void SetUp()
+    {
+		if (Template == null) 
+		{
+			Debug.LogError ("Building template gameobject not configured.");
+			return;
+		}
+
+		Instance = Template;
+        Instance.transform.SetParent(Parent);
+		Instance.transform.position = Position;
+
+        IsLoaded = true;
+    }
 }
