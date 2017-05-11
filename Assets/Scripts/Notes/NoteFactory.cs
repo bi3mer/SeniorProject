@@ -60,10 +60,10 @@ public class NoteFactory
 	}
 
 	/// <summary>
-	/// Creates an interactable note item that is ready to be placed in the world.
+	/// Creates a note.
 	/// </summary>
-	/// <returns>The interactable item.</returns>
-	/// <param name="noteToCreate">Note to create.</param>
+	/// <returns>The note gameobject.</returns>
+	/// <param name="noteToCreate">Data regarding the note to create.</param>
 	public GameObject CreateNote(NoteData noteToCreate)
 	{
 		if(!worldNoteTemplates.ContainsKey(noteToCreate.WorldModel))

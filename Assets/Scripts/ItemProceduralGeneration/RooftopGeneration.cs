@@ -154,7 +154,6 @@ public class RooftopGeneration: ItemGenerator
 
 			if (noteGenerate) 
 			{
-				Debug.Log ("add note to point " + points [i].WorldSpaceLocation);
 				GameObject note = Game.Instance.NoteFactoryInstance.GetNextNote ();
 				poolManager.AddToGrid (points [i].WorldSpaceLocation, note.name, false);
 				poolManager.AddItemToPool (note.name, note);
