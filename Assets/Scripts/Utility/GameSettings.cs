@@ -1,4 +1,6 @@
-﻿public class GameSettings
+﻿using UnityEngine.PostProcessing;
+
+public class GameSettings
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="GameSettings"/> class.

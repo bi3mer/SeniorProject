@@ -13,7 +13,6 @@ public class SettingsMenuBehavior : MonoBehaviour
 	private Button configureKeysButton;
 	[SerializeField]
 	private InputField procCityGenerationSeedInputField;
-	[SerializeField]
 
 	[Header("Camera Effects Settings")]
 	[SerializeField]
@@ -37,19 +36,33 @@ public class SettingsMenuBehavior : MonoBehaviour
 		settings = Game.Instance.GameSettingsInstance;
 		procCityGenerationSeedInputField.onValueChanged.AddListener (OnSeedValueChanged);
 		volumeSlider.onValueChanged.AddListener (changeVolume);
+		
+		setupCameraToggles();
+	}
 
-		// Add functionality to camera setting toggles
-		depthOfFieldToggle.onValueChanged.AddListener(() => {
-				settings.Camera.DepthOfFieldEnabled = depthOfFieldToggle.isOn;
+	///	<summary>
+	/// Add functionality to camera setting toggles.
+	/// </summary>
+	private void setupCameraToggles ()
+	{
+		depthOfFieldToggle.isOn = settings.Camera.DepthOfFieldEnabled;
+		depthOfFieldToggle.onValueChanged.AddListener((bool value) => {
+				settings.Camera.DepthOfFieldEnabled = value;
 			});
-		chromaticAberrationToggle.onValueChanged.AddListener(() => {
-				settings.Camera.ChromaticAberrationEnabled = chromaticAberrationToggle.isOn;
+
+		chromaticAberrationToggle.isOn = settings.Camera.ChromaticAberrationEnabled;
+		chromaticAberrationToggle.onValueChanged.AddListener((bool value) => {
+				settings.Camera.ChromaticAberrationEnabled = value;
 			});
-		motionBlurToggle.onValueChanged.AddListener(() => {
-				settings.Camera.MotionBlurEnabled = motionBlurToggle.isOn;
+
+		motionBlurToggle.isOn = settings.Camera.MotionBlurEnabled;
+		motionBlurToggle.onValueChanged.AddListener((bool value) => {
+				settings.Camera.MotionBlurEnabled = value;
 			});
-		bloomToggle.onValueChanged.AddListener(() => {
-				settings.Camera.BloomEnabled = bloomToggle.isOn;
+
+		bloomToggle.isOn = settings.Camera.BloomEnabled;
+		bloomToggle.onValueChanged.AddListener((bool value) => {
+				settings.Camera.BloomEnabled = value;
 			});
 	}
 
