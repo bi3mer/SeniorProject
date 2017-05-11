@@ -2823,40 +2823,40 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1746414960636730
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4287204769575458}
-  - component: {fileID: 23880711245536386}
-  - component: {fileID: 102464448266879602}
-  m_Layer: 10
-  m_Name: InteractableText
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1765168925218998
+--- !u!1 &1370722244258712
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4734283168441320}
-  - component: {fileID: 33753734532151014}
-  - component: {fileID: 23027945331842808}
-  - component: {fileID: 65835359054566262}
-  - component: {fileID: 54347702957720012}
-  - component: {fileID: 114292847419106414}
-  - component: {fileID: 114911689827418548}
+  - component: {fileID: 4181996338412436}
+  - component: {fileID: 33777583007371440}
+  - component: {fileID: 23243920493045864}
+  - component: {fileID: 65926092135011092}
+  - component: {fileID: 54987998061758620}
+  - component: {fileID: 114593484872793216}
+  - component: {fileID: 114753380747843292}
   m_Layer: 10
   m_Name: Start Here
   m_TagString: Interactable
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1548808354435172
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4167002577598618}
+  - component: {fileID: 23130462732514742}
+  - component: {fileID: 102324387695159602}
+  m_Layer: 10
+  m_Name: InteractableText
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4443,7 +4443,7 @@ Transform:
   - {fileID: 4000011883818376}
   - {fileID: 4000013770873182}
   - {fileID: 4000012149637044}
-  - {fileID: 4734283168441320}
+  - {fileID: 4181996338412436}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 179.619, z: 0}
@@ -5101,30 +5101,30 @@ Transform:
   m_Father: {fileID: 4000013390302626}
   m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 97.879005, z: 90.00001}
---- !u!4 &4287204769575458
+--- !u!4 &4167002577598618
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1746414960636730}
+  m_GameObject: {fileID: 1548808354435172}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children: []
-  m_Father: {fileID: 4734283168441320}
+  m_Father: {fileID: 4181996338412436}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4734283168441320
+--- !u!4 &4181996338412436
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1765168925218998}
+  m_GameObject: {fileID: 1370722244258712}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.09, y: 1.9886, z: -0.4738}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4287204769575458}
+  - {fileID: 4167002577598618}
   m_Father: {fileID: 4000012844292100}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9354,12 +9354,12 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!23 &23027945331842808
+--- !u!23 &23130462732514742
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1765168925218998}
+  m_GameObject: {fileID: 1548808354435172}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -9367,7 +9367,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 25a346d7e4dc0fc40b9516ddd0540518, type: 2}
+  - {fileID: 2100000, guid: ccf390f5c3d274c3c8eec17bd2d337d5, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9386,12 +9386,12 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!23 &23880711245536386
+--- !u!23 &23243920493045864
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1746414960636730}
+  m_GameObject: {fileID: 1370722244258712}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -9399,7 +9399,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: ccf390f5c3d274c3c8eec17bd2d337d5, type: 3}
+  - {fileID: 2100000, guid: 25a346d7e4dc0fc40b9516ddd0540518, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10265,12 +10265,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010738066188}
   m_Mesh: {fileID: 4300000, guid: 82f50c85983c52f459d8a23bb33e7283, type: 3}
---- !u!33 &33753734532151014
+--- !u!33 &33777583007371440
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1765168925218998}
+  m_GameObject: {fileID: 1370722244258712}
   m_Mesh: {fileID: 4300000, guid: 5503d8d815eaea04f9e1b6d2a11c15ae, type: 3}
 --- !u!54 &54000010251358646
 Rigidbody:
@@ -10407,12 +10407,12 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!54 &54347702957720012
+--- !u!54 &54987998061758620
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1765168925218998}
+  m_GameObject: {fileID: 1370722244258712}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -11786,12 +11786,12 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.067716494, y: 0.24756268, z: 0.012012216}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65835359054566262
+--- !u!65 &65926092135011092
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1765168925218998}
+  m_GameObject: {fileID: 1370722244258712}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -12084,13 +12084,13 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!102 &102464448266879602
+--- !u!102 &102324387695159602
 TextMesh:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1746414960636730}
+  m_GameObject: {fileID: 1548808354435172}
   m_Text: We think we got everyone but honestly, we're not sure. The general told
     me not to, but I wanted to leave this in case we're missing anybody.... I'm trying
     to convince them to come back in case there's more survivors. If you're reading
@@ -12457,12 +12457,12 @@ MonoBehaviour:
   betweenKeys: /
   keys:
   - Inventory
---- !u!114 &114292847419106414
+--- !u!114 &114593484872793216
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1765168925218998}
+  m_GameObject: {fileID: 1370722244258712}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1570405d7e6104ae1988dbf286905fc3, type: 3}
@@ -12474,12 +12474,12 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
---- !u!114 &114911689827418548
+--- !u!114 &114753380747843292
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1765168925218998}
+  m_GameObject: {fileID: 1370722244258712}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe647fb9e5af74fc69026722026b145a, type: 3}
@@ -12490,7 +12490,7 @@ MonoBehaviour:
     to convince them to come back in case there's more survivors. If you're reading
     this, please hang on as long as you can. The radio tower in center city is your
     best bet if the waters keep rising. Take care...
-  AssociatedNote: {fileID: 114292847419106414}
+  AssociatedNote: {fileID: 114593484872793216}
 --- !u!120 &120000012819436402
 LineRenderer:
   m_ObjectHideFlags: 1

@@ -317,6 +317,6 @@
 	public NoteFactory NoteFactoryInstance 
 	{
 		get;
-		set;
+		private set;
 	}
 }

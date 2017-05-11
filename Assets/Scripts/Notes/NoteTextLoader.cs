@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class NoteTextLoader : MonoBehaviour 
 {
+	/// <summary>
+	/// The text that the note should display.
+	/// </summary>
 	[Tooltip("What the note should say")]
 	public string NoteText;
 
+	/// <summary>
+	/// The associated note.
+	/// </summary>
 	public Note AssociatedNote;
 
 	/// <summary>

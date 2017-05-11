@@ -11,15 +11,16 @@ public class NoteFactory
 	private const string triggerObjectLocation = "ItemGeneration/InteractableText";
 	private const string noteFileName = "Notes.yml";
 
-	[SerializeField]
-	private Vector3 defaultpos = new Vector3(-143.9574f, 0.6875932f, 62.05219f);
-
 	private GameObject triggerObjectPrefab;
 
 	private List<NoteData> noteDatabase;
 
 	private int noteCounter = 0;
 
+	/// <summary>
+	/// Gets a value indicating whether this <see cref="NoteFactory"/> has notes available.
+	/// </summary>
+	/// <value><c>true</c> if notes available; otherwise, <c>false</c>.</value>
 	public bool NotesAvailable 
 	{
 		get;
@@ -74,10 +75,7 @@ public class NoteFactory
 		GameObject item = GameObject.Instantiate (worldNoteTemplates[noteToCreate.WorldModel]);
 		item.name = noteToCreate.Title;
 
-		// why are you setting a default position??
-		item.transform.position = defaultpos;
 		item.SetActive (false);
-		// item.transform.position = defaultpos;
 
 		// creates the trigger object that will handle interaction with player
 		GameObject textObject = GameObject.Instantiate(triggerObjectPrefab);
@@ -105,7 +103,6 @@ public class NoteFactory
 
 		if (noteCounter < noteDatabase.Count) 
 		{
-			Debug.Log (noteCounter);
 			nextNote = CreateNote(noteDatabase[noteCounter]);
 		} 
 

@@ -134,23 +134,10 @@ public class RooftopGeneration: ItemGenerator
 
 		for (int i = 0; i < points.Count; ++i) 
 		{
-			if (Game.Instance.NoteFactoryInstance.NotesAvailable) 
-			{
-				float noteChance = Random.Range(0, 1);
-
-				if (noteChance <= noteGenerationChance) 
-				{
-					noteGenerate = true;
-				} 
-				else 
-				{
-					noteGenerate = false;
-				}
-			}
-			else
-			{
-				noteGenerate = false;
-			}
+			// a note is generated if there are notes still available to generate and the
+			// random number falls under the noteGenerationChance
+			noteGenerate = (Game.Instance.NoteFactoryInstance.NotesAvailable && 
+							RandomUtility.RandomPercent <= noteGenerationChance);
 
 			if(points[i].Type == ItemPlacementSamplePoint.PointType.DOOR)
 			{
