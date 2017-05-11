@@ -29,6 +29,10 @@ public class RaftInteractable : InteractableObject {
 
 	private const string useRaftText = "Use Raft (F)";
 
+	private const string disembarkRaftText = "Disembark Raft";
+	private const string boardRaftText = "Board Raft";
+	private const string checkInventoryText = "Check Inventory";
+
 	private OverworldItemOptionSelection itemSelectionHandler;
 
     /// <summary>
@@ -72,14 +76,14 @@ public class RaftInteractable : InteractableObject {
 
     		if(raftBoarded)
     		{
-				itemSelectionHandler.AddPossibleAction(new ItemAction("Disembark Raft", DisembarkRaft));
+				itemSelectionHandler.AddPossibleAction(new ItemAction(disembarkRaftText, DisembarkRaft));
     		}
     		else
     		{
-				itemSelectionHandler.AddPossibleAction(new ItemAction("Board Raft", BoardRaft));
+				itemSelectionHandler.AddPossibleAction(new ItemAction(boardRaftText, BoardRaft));
     		}
 
-			itemSelectionHandler.AddPossibleAction(new ItemAction("Check Inventory", openInventoryTransferPanel));
+			itemSelectionHandler.AddPossibleAction(new ItemAction(checkInventoryText, openInventoryTransferPanel));
 			itemSelectionHandler.ShowPossibleActions();
     	}
     }
@@ -88,11 +92,11 @@ public class RaftInteractable : InteractableObject {
     {
 		if(raftBoarded)
 		{
-			BoardRaft();
+			DisembarkRaft();
 		}
 		else
 		{
-			DisembarkRaft();
+			BoardRaft();
 		}
     }
 

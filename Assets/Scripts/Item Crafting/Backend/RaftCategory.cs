@@ -15,6 +15,10 @@ public class RaftCategory : ItemCategory
         set;
     }
 
+    /// <summary>
+    /// Gets or sets the size of the inventory.
+    /// </summary>
+    /// <value>The size of the inventory.</value>
     public float InventorySize
     {
     	get;
@@ -82,6 +86,7 @@ public class RaftCategory : ItemCategory
 
         if(InventorySize > 0)
         {
+        	// N ensures that it becomes a string properly
 			string inventoryID = baseItem.ItemName + " " + Guid.NewGuid().ToString("N");
 			raft.AttachedInventory = new Inventory(inventoryID, (int) InventorySize);
 		}

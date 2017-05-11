@@ -51,15 +51,12 @@ public class InventoryTransferUI : MonoBehaviour
 
 	public void RefreshInventories()
 	{
-		if(playerInventoryUI.AssociatedInventory != null)
-		{
-			playerInventoryUI.RefreshInventoryPanel();
-		}
-		else
+		if(playerInventoryUI.AssociatedInventory == null)
 		{
 			playerInventoryUI.LoadNewInventory(Game.Player.Inventory);
-			playerInventoryUI.RefreshInventoryPanel();
 		}
+
+		playerInventoryUI.RefreshInventoryPanel();
 
 		if(containerInventoryUI.AssociatedInventory != null)
 		{
