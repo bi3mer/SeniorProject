@@ -21,9 +21,10 @@ GameObject:
   - 4: {fileID: 4000010637419052}
   - 33: {fileID: 33000013228226990}
   - 23: {fileID: 23000010715687878}
+  - 65: {fileID: 65000013822085596}
   m_Layer: 0
   m_Name: ITM_DecreaseStorm
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012462526982}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.743, z: 0.184}
+  m_LocalPosition: {x: -0.13804567, y: 4, z: -0.588515}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -77,3 +78,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012462526982}
   m_Mesh: {fileID: 4300000, guid: 8de268670b1f769449ee0404990fa520, type: 3}
+--- !u!65 &65000013822085596
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012462526982}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.08162911, y: 0.004, z: 0.122926116}
+  m_Center: {x: -0.00023164041, y: 0, z: -0.0014712643}
