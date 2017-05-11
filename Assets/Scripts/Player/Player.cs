@@ -211,19 +211,19 @@ public class Player
         	healthStatus = value;
 
         	// this is null when the game first starts
-        	if(GuiInstanceManager.PlayerNotificationInsance != null)
+        	if(GuiInstanceManager.PlayerNotificationInstance != null)
         	{
 	        	if(healthStatus == PlayerHealthStatus.FoodPoisoning)
 	        	{
-					GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.STOMACH);
+					GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.STOMACH);
 	        	}
 	        	else if(healthStatus == PlayerHealthStatus.Pneumonia)
 	        	{
-					GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.PNEUMONIA);
+					GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.PNEUMONIA);
 	        	}
 	        	else if(healthStatus == PlayerHealthStatus.None)
 	        	{
-					GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.CURE);
+					GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.CURE);
 	        	}
 	        }
         }

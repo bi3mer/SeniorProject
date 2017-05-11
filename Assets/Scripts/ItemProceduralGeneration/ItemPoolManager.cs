@@ -52,7 +52,7 @@ public class ItemPoolManager : MonoBehaviour
 
 	private float cellSize;
 
-	private const float distanceUnitSize = 1f;
+	private const float distanceUnitSize = 0.5f;
 
 	private Tuple<int, int> currentLocation;
 
@@ -119,43 +119,22 @@ public class ItemPoolManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Adds an item's information to grid.
-	/// </summary>
-	/// <param name="location">Location.</param>
-	/// <param name="item">Item.</param>
-	/// <param name="activated">If set to <c>true</c> activated.</param>
-	public void AddToGrid(Vector3 location, string item, bool activated)
-	{
-		Tuple<int, int> coord = PointToGrid(new Vector2(location.x, location.z));
-
-		if(coord.X >= 0 && coord.Y >= 0 && coord.X < grid.GetLength(0) && coord.Y < grid.GetLength(1))
-		{
-			if(grid[coord.X, coord.Y] == null)
-			{
-				grid[coord.X, coord.Y] = new ItemPoolInfo(location, item, activated);
-			}
-			else
-			{
-				grid[coord.X, coord.Y].ItemNames.Add(item);
-				grid[coord.X, coord.Y].Locations.Add(location);
-			}
-		}
-		else
-		{
-			Debug.LogError("Point " + location + " is out of city bounds.");
-		}
-	}
-
-	/// <summary>
 	/// Get the coord access points to grid from a worldspace point. (0, 0) is at the lower left corner of the city.
 	/// All values returned should be positive!
 	/// </summary>
 	/// <returns>The coord points used to access the ItemPoolInfo for that cell in the grid.</returns>
 	/// <param name="location">Location of the point.</param>
-	protected Tuple<int, int> PointToGrid(Vector2 location)
+	public Tuple<int, int> PointToGrid(Vector2 location)
 	{
-		return new Tuple<int, int> ((int)((location.x - cityCenter.x + cityWidth/2f) / cellSize), 
-									(int)((location.y - cityCenter.y + cityDepth/2f) / cellSize));
+		int xLoc = (int)((location.x - cityCenter.x + cityWidth/2f) / cellSize);
+		int yLoc = (int)((location.y - cityCenter.z + cityDepth/2f) / cellSize);
+
+		if(xLoc >= 0 && yLoc >= 0 && xLoc < grid.GetLength(0) && yLoc < grid.GetLength(1))
+		{
+			return new Tuple<int, int> (xLoc, yLoc);
+		}
+
+		return null;
 	}
 
 	/// <summary>
@@ -186,7 +165,6 @@ public class ItemPoolManager : MonoBehaviour
 				{
 					pool.Add(Game.Instance.WorldItemFactoryInstance.CreatePickUpInteractableItem(item, 1));
 				}
-
 			}
 		}
 	}
@@ -200,7 +178,7 @@ public class ItemPoolManager : MonoBehaviour
 		Tuple<int, int> playerLocation = PointToGrid(new Vector2(Game.Instance.PlayerInstance.WorldTransform.position.x, 
 																 Game.Instance.PlayerInstance.WorldTransform.position.z));
 
-		if(currentLocation != null)
+		if(currentLocation != null && playerLocation != null)
 		{
 			if(playerLocation.X != currentLocation.X || playerLocation.Y != currentLocation.Y)
 			{
@@ -354,26 +332,60 @@ public class ItemPoolManager : MonoBehaviour
 	{
 		Tuple<int, int> itemGridLocation = PointToGrid(new Vector2(item.transform.position.x, item.transform.position.z));
 
-		ItemPoolInfo gridCell = grid[itemGridLocation.X, itemGridLocation.Y];
-		int index = gridCell.Items.IndexOf(item);
-
-		item.SetActive(false);
-
-		if(itemPool.ContainsKey(gridCell.ItemNames[index]))
+		if(itemGridLocation != null)
 		{
-			itemPool[gridCell.ItemNames[index]].Add(item);
+			ItemPoolInfo gridCell = grid[itemGridLocation.X, itemGridLocation.Y];
+			int index = gridCell.Items.IndexOf(item);
+
+			item.SetActive(false);
+
+			if(itemPool.ContainsKey(gridCell.ItemNames[index]))
+			{
+				itemPool[gridCell.ItemNames[index]].Add(item);
+			}
+			else if(containerItems.ContainsKey(gridCell.ItemNames[index]))
+			{
+				GameObject.Destroy(containerItems[gridCell.ItemNames[index]]);
+				containerItems.Remove(gridCell.ItemNames[index]);
+			}
+			else
+			{
+				itemPool.Add(gridCell.ItemNames[index], new List<GameObject> {item});
+			}
+
+			gridCell.RemoveItemInfo(index);
 		}
-		else if(containerItems.ContainsKey(gridCell.ItemNames[index]))
+	}
+
+	/// <summary>
+	/// Adds an item's information to grid.
+	/// </summary>
+	/// <param name="location">Location.</param>
+	/// <param name="item">Item.</param>
+	/// <param name="activated">If set to <c>true</c> activated.</param>
+	public Tuple<int, int> AddToGrid(Vector3 location, string item, bool activated)
+	{
+		Tuple<int, int> coord = PointToGrid(new Vector2(location.x, location.z));
+
+		if(coord != null)
 		{
-			GameObject.Destroy(containerItems[gridCell.ItemNames[index]]);
-			containerItems.Remove(gridCell.ItemNames[index]);
+			if(grid[coord.X, coord.Y] == null)
+			{
+				grid[coord.X, coord.Y] = new ItemPoolInfo(location, item, activated);
+			}
+			else
+			{
+				grid[coord.X, coord.Y].ItemNames.Add(item);
+				grid[coord.X, coord.Y].Locations.Add(location);
+			}
+
 		}
 		else
 		{
-			itemPool.Add(gridCell.ItemNames[index], new List<GameObject> {item});
+			Debug.LogError("Point " + location + " is out of city bounds.");
 		}
 
-		gridCell.RemoveItemInfo(index);
+		return coord;
 	}
 
 	/// <summary>
@@ -393,18 +405,31 @@ public class ItemPoolManager : MonoBehaviour
 			itemName = item.GetComponent<InventoryInteractable>().AttachedInventory.InventoryName;
 		}
 
-		if(gridCell == null)
+		if(itemGridLocation != null)
 		{
 			grid[itemGridLocation.X, itemGridLocation.Y] = new ItemPoolInfo(item.transform.position, itemName, true);
 			grid[itemGridLocation.X, itemGridLocation.Y].Items.Add(item);
+
+			item.transform.SetParent(activePool);
+			item.SetActive(true);
 		}
 		else
 		{
 			gridCell.AddItemInfo(item, itemName);
 		}
+	}
 
-		item.transform.SetParent(activePool);
-		item.SetActive(true);
+	/// <summary>
+	/// Adds the item immediately to the world.
+	/// </summary>
+	/// <param name="location">Location.</param>
+	/// <param name="item">Item.</param>
+	public void AddItemImmediate(Vector3 location, string item)
+	{
+		GameObject itemToAdd = getItemFromPool(item);
+		itemToAdd.transform.position = location;
+
+		AddItemFromWorld(itemToAdd);
 	}
 
 	/// <summary>

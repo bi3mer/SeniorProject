@@ -46,5 +46,5 @@ public static class GuiInstanceManager
 	/// <summary>
 	/// The GUI that pops up to notify the player.
 	/// </summary>
-	public static PlayerNotification PlayerNotificationInsance;
+	public static PlayerNotification PlayerNotificationInstance;
 }
