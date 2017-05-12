@@ -157,12 +157,13 @@ public class CreatureManager
 		}	
 	}
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="CreatureManager"/> class.
-	/// </summary>
-	/// <param name="maxCount">Max count.</param>
-	/// <param name="idealCount">Ideal count.</param>
-	public CreatureManager(int maxCount, int idealCount, Transform parent)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CreatureManager"/> class.
+    /// </summary>
+    /// <param name="maxCount"></param>
+    /// <param name="idealCount"></param>
+    /// <param name="parent"></param>
+    public CreatureManager(int maxCount, int idealCount, Transform parent)
 	{
 		this.creaturePool       = new Stack<int>();
         this.creatures          = new CreatureTracker[maxCount];

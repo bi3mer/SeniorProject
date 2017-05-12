@@ -26,19 +26,14 @@ public class MangroveSpawner : CreatureSpawner
     protected override Vector3 findSpawnLocation()
     {
         Vector3 location;
-        bool validPositionFound = false;
+        Vector3 above;
 
         do
         {
             location = this.randomLocation();
-            Vector3 above = new Vector3(location.x, location.y + aboveModifier, location.y);
-
-            if (Physics.Raycast(above, Vector3.down, aboveModifier, this.collisionMask) == false)
-            {
-                validPositionFound = true;
-            }
+            above    = new Vector3(location.x, location.y + aboveModifier, location.y);
         }
-        while (validPositionFound == false);
+        while (! Physics.Raycast(above, Vector3.down, aboveModifier, this.collisionMask));
 
         return location;
     }
