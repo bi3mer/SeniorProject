@@ -3,12 +3,34 @@ using System.Collections;
 
 public class FloodWater : MonoBehaviour 
 {
+	[Header("Tide")]
 	// view link to see how tide severity works with a graph:
 	// https://github.com/bi3mer/WeatherForecasting/blob/master/Tide.ipynb
 	[SerializeField]
 	private float TideSeverity = 1.0f;
 	private Vector3 nightPosition;
 	private Vector3 dayPosition;
+
+	[Header("Precipitation")]
+
+	/// <summary>
+	/// This is how much the water level is increasing during the game due to
+	/// precipitation. 
+	/// </summary>
+	[SerializeField]
+	[Tooltip("Water level affected by the precipitation. Mostly meant for visualization.")]
+	private float precipitationWaterLevel = 0f;
+
+	[SerializeField]
+	[Range(1,10000)]
+	[Tooltip("This divides the precipitation to mitigate it's effect.")]
+	private float precipitationMitigation = 5000f;
+
+	[SerializeField]
+	[Range(0,100)]
+	[Tooltip("This is the level where there is less precipitation and we should decrease the height instead of increase")]
+	private float precipitationNegation = 20f;
+
 
 	/// <summary>
 	/// Gets the height of the water level.
@@ -46,9 +68,27 @@ public class FloodWater : MonoBehaviour
 	/// </summary>
 	void FixedUpdate()
 	{
-		// TODO: this should be updated in the future to handle precipitation
-		//       from the weather
-		this.transform.position = this.getTideLevel();
+		// only update when game is active
+		if(Game.Instance.PauseInstance.IsPaused == false)
+		{
+			// get precipitation from weather
+			float precipitation = Game.Instance.WeatherInstance.WeatherInformation[(int) Weather.Precipitation];
+
+			// make sure that the precipiation received is a valid numer
+			if(float.IsNaN(precipitation) == false)
+			{
+				// if the precipitation is below the negation level
+				if(precipitation < this.precipitationNegation)
+				{
+					// multiply it by negative 1 to subtract in the calculation below
+					precipitation *= -1;
+				}
+
+				// update precipiation level on a per frame basis.
+				this.precipitationWaterLevel += (precipitation / this.precipitationMitigation) * Time.fixedDeltaTime;
+				this.transform.position       = this.getTideLevel() + VectorUtility.Y3d(this.precipitationWaterLevel);
+			}
+		}
 	}
 
 	/// <summary>

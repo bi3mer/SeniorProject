@@ -26,16 +26,6 @@ public class PressureSystems
 	private const float lowPressureCenterAttractorForce  = 4f;
 
 	/// <summary>
-	/// Get and set the city bounds that the pressure system can move in
-	/// </summary>
-	/// <value>The city bounds.</value>
-	public Bounds CityBounds
-	{
-		get;
-		private set;
-	}
-
-	/// <summary>
 	/// Gets the local pressure systems.
 	/// </summary>
 	/// <value>The local pressure systems.</value>

@@ -39,6 +39,8 @@ public class PlayerNotification : MonoBehaviour
     private string noSicknessText;
     [SerializeField]
     private string inventoryFullText;
+    [SerializeField]
+    private string rodBreakText;
 
     private Vector2 endingAnchorMax;
     private Vector2 endingAnchorMin;
@@ -70,11 +72,12 @@ public class PlayerNotification : MonoBehaviour
 		notificationsToTypes.Add(NotificationType.PNEUMONIA, pneumoniaText);
 		notificationsToTypes.Add(NotificationType.CURE, noSicknessText);
 		notificationsToTypes.Add(NotificationType.INVENTORYFULL, inventoryFullText);
+        notificationsToTypes.Add(NotificationType.BREAK, rodBreakText);
 
         // remove the notification bar before the loading screen finishes
         CloseNotification();
 
-        GuiInstanceManager.PlayerNotificationInsance = this;
+        GuiInstanceManager.PlayerNotificationInstance = this;
 	}
 	
 	/// <summary>

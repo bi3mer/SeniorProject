@@ -84,13 +84,14 @@ public class PickUpItem : InteractableObject
     private IEnumerator removeItem()
     {
         yield return new WaitForSeconds(glowWait);
-        if (Game.Instance.PlayerInstance.Inventory.AddItem(Item, Amount).Count > 0)
-        {
-            Game.Instance.ItemPoolInstance.RemoveItemFromWorld(this.gameObject);
-        }
-        else
-        {
-            GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.INVENTORYFULL);
-        }
-    }
+
+		if(Game.Instance.PlayerInstance.Inventory.AddItem(Item, Amount).Count > 0)
+		{
+			Game.Instance.ItemPoolInstance.RemoveItemFromWorld(this.gameObject);
+		}
+		else
+		{
+			GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.INVENTORYFULL);
+		}
+	}
 }
