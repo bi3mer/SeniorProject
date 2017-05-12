@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 public class CreatureManager 
 {
+    /// <summary>
+    /// This is the parent for where all the creatures will be placed.
+    /// </summary>
+    private Transform parent;
+
 	/// <summary>
 	/// The pool of creatures that have been killed and will need
 	/// to be reinstantiated later on.
@@ -53,7 +58,12 @@ public class CreatureManager
 		if(this.creaturePool.Count == 0)
 		{
 			// spawn creature
-			GameObject spawnedCreature         = GameObject.Instantiate(creature);
+			GameObject spawnedCreature = GameObject.Instantiate(creature);
+
+            // set parent
+            spawnedCreature.transform.SetParent(this.parent.transform);
+
+            // add creature tracker and cache it
 			newCreature                        = spawnedCreature.AddComponent<CreatureTracker>();
 			newCreature.Index                  = this.CreatureCount;
 			this.creatures[this.CreatureCount] = newCreature;
@@ -152,11 +162,12 @@ public class CreatureManager
 	/// </summary>
 	/// <param name="maxCount">Max count.</param>
 	/// <param name="idealCount">Ideal count.</param>
-	public CreatureManager(int maxCount, int idealCount)
+	public CreatureManager(int maxCount, int idealCount, Transform parent)
 	{
 		this.creaturePool       = new Stack<int>();
         this.creatures          = new CreatureTracker[maxCount];
 		this.IdealCreatureCount = idealCount;
 		this.CreatureCount      = 0;
+        this.parent             = parent;
 	}
 }

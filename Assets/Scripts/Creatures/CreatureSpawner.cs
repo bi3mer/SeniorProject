@@ -153,7 +153,7 @@ public abstract class CreatureSpawner : MonoBehaviour
 			this.meanCreatureCount = (this.maxCreatureCount + this.minCreatureCount) / 2;
 
 			// instantiate creature manager
-			this.creatureManager = new CreatureManager(this.maxCreatureCount, this.meanCreatureCount);
+			this.creatureManager = new CreatureManager(this.maxCreatureCount, this.meanCreatureCount, this.gameObject.transform);
 
 			// instiate semi-random number of creatures
 			for(int i = 0; i < Random.Range(this.minCreatureCount, this.maxCreatureCount); ++i)
