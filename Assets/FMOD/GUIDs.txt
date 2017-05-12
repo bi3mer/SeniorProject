@@ -1,3 +1,4 @@
+{c18a9788-d17d-4ac0-b693-e67aaa9efc07} event:/Ambient/Music/Ambient_Track
 {4a1d7bf3-1e76-41ae-a6c3-f1c39f8c95dc} event:/Ambient/Music/Basic_Music
 {6b807e1e-11b4-47ed-9805-24174ef59376} event:/Ambient/Weather/Basic_Rain
 {4279adec-9aaa-409f-813a-6e8dca474210} event:/Ambient/Weather/Basic_Thunder
@@ -18,6 +19,7 @@
 {17ce8fdc-c68a-49e9-9d32-aaa4ba3ee9d6} event:/Radio/Mystery/School_Musical
 {e469c9e6-c70f-4822-b490-86770647083b} event:/Radio/Static/Basic_Static
 {1b73c0da-2ad5-4888-be39-0797a14794ab} event:/Radio/Static/Basic_Static_No_Loop
+{8081e1ac-ce87-437c-8786-5ab5a2394477} event:/Event Tracks/Event_1
 {a16b3185-5d34-4f38-881d-32416b8a3d19} bus:/
 {98e94324-eef5-491d-b458-99a2365b8898} bus:/Reverb
 {73bb5e47-5509-4ebc-b7f5-5f2039adb2e4} bank:/Radio Bank
