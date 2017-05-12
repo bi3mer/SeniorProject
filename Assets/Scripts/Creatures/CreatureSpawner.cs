@@ -16,13 +16,13 @@ public abstract class CreatureSpawner : MonoBehaviour
 	protected int maxCreatureCount;
 
 	[SerializeField]
-	private float maxSpawnRadius = 25f;
+	protected float maxSpawnRadius = 25f;
 
 	[SerializeField]
-	private float minSpawnRadius = 10f;
+    protected float minSpawnRadius = 10f;
 
 	[SerializeField]
-	private float waterLevelOffset = -2f;
+    protected float waterLevelOffset = -2f;
 
 	protected CreatureManager creatureManager;
 
@@ -49,7 +49,7 @@ public abstract class CreatureSpawner : MonoBehaviour
 	/// of the minimum spawning radius
 	/// </summary>
 	/// <value>The float in radius.</value>
-	private float floatInRadius
+	protected float floatInRadius
 	{
 		get
 		{

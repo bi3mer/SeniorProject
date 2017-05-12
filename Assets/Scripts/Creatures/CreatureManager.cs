@@ -15,8 +15,6 @@ public class CreatureManager
 	/// </summary>
 	private CreatureTracker[] creatures;
 
-	private Rigidbody[] rbCreatures;
-
 	/// <summary>
 	/// The ideal amount of creatures in the scene
 	/// </summary>
@@ -55,11 +53,10 @@ public class CreatureManager
 		if(this.creaturePool.Count == 0)
 		{
 			// spawn creature
-			GameObject spawnedCreature           = GameObject.Instantiate(creature);
-			newCreature                          = spawnedCreature.AddComponent<CreatureTracker>();
-			newCreature.Index                    = this.CreatureCount;
-			this.creatures[this.CreatureCount]   = newCreature;
-			this.rbCreatures[this.CreatureCount] = spawnedCreature.GetComponent<Rigidbody>();
+			GameObject spawnedCreature         = GameObject.Instantiate(creature);
+			newCreature                        = spawnedCreature.AddComponent<CreatureTracker>();
+			newCreature.Index                  = this.CreatureCount;
+			this.creatures[this.CreatureCount] = newCreature;
 		}
 		else
 		{
@@ -72,10 +69,6 @@ public class CreatureManager
 
 		// set position of new creature
 		newCreature.transform.position = position;
-
-		// initialize velocity and rotation to 0
-		this.rbCreatures[newCreature.Index].velocity = Vector3.zero;
-		this.rbCreatures[newCreature.Index].rotation = Quaternion.identity;
 
 		// increase count of creatures
 		++this.CreatureCount;
@@ -119,8 +112,11 @@ public class CreatureManager
 				this.PutCreatureInPool(i);
 			}
 
-			// check if creature is outside of the radius. 
-			Vector2 creaturePosition = VectorUtility.XZ(this.creatures[i].transform.position);
+            // get reference to creature transform
+            Transform transform = this.creatures[i].gameObject.transform;
+
+            // check if creature is outside of the radius. 
+            Vector2 creaturePosition = VectorUtility.XZ(transform.position);
 			Vector2 playerPosition   = VectorUtility.XZ(Game.Instance.PlayerInstance.WorldPosition);
 
 			if(Vector2.Distance(creaturePosition, playerPosition) > radius)
@@ -129,9 +125,10 @@ public class CreatureManager
 				this.PutCreatureInPool(i);
 			}
 
-			this.creatures[i].transform.position = new Vector3(this.creatures[i].transform.position.x,
-			                                                   Game.Instance.WaterLevelHeight + waterLevelOffset,
-			                                                   this.creatures[i].transform.position.z);
+            // set creature height to be at the water level with the offset
+			transform.position = new Vector3(transform.position.x,
+			                                 Game.Instance.WaterLevelHeight + waterLevelOffset,
+			                                 transform.position.z);
 		}
 	}
 
@@ -158,8 +155,7 @@ public class CreatureManager
 	public CreatureManager(int maxCount, int idealCount)
 	{
 		this.creaturePool       = new Stack<int>();
-		this.creatures          = new CreatureTracker[maxCount];
-		this.rbCreatures        = new Rigidbody[maxCount];
+        this.creatures          = new CreatureTracker[maxCount];
 		this.IdealCreatureCount = idealCount;
 		this.CreatureCount      = 0;
 	}
