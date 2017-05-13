@@ -23,6 +23,10 @@ public class RaftMovement : Movement
     [SerializeField]
     private float playerStandHeight = 0.33f;
 
+    /// <summary>
+    /// How high the player should be on the raft
+    /// </summary>
+    /// <value>The height of the player on the raft.</value>
     public float PlayerStandHeight
     {
         get
@@ -41,7 +45,8 @@ public class RaftMovement : Movement
     private const string playerAnimatorForward = "Forward";
     private const string playerAnimatorFall = "Falling";
     private const string playerAnimatorSwimming = "Swimming";
-	private float againstWindSpeedModifier = 0.6f;
+	private float againstWindSpeedModifier = 0.3f;
+	private float windResistanceAngleThreshold = 0.25f;
 
     private Rigidbody raftBody;
 
@@ -121,8 +126,9 @@ public class RaftMovement : Movement
     /// <param name="direction"></param>
     public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
-		Vector2 dir = new Vector2(direction.x, direction.z);
-		if (Vector3.Dot(dir.normalized, Game.Instance.WeatherInstance.NormalizedOctantWindDirection2d) == -1)
+    	// the maximum resistance is -1, so the direction angle returns by CompareDirectionToOctantWind must be a negative
+    	// number such that the difference between it and -1 is less than the windResistanceAngleThreshold
+		if (Game.Instance.WeatherInstance.CompareDirectionToOctantWind(direction) + 1 < windResistanceAngleThreshold)
         {
             Speed *= againstWindSpeedModifier;
         }

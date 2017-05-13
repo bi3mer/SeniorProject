@@ -51,7 +51,7 @@ public class FloatBehavior : MonoBehaviour
 		// if below or floating
 		if (forceFactor > 0f) 
 		{
-			// randomize
+			// randomize the uplift force because otherwise the bounce will eventually zero out and the bobbing motion will stop
 			Vector3 uplift = -Physics.gravity * (forceFactor - rigidBody.velocity.y * bounceDamp) * Random.Range(0, buoyancyRandom);
 			rigidBody.AddForceAtPosition(uplift, transform.position);
 		}
