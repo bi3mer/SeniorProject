@@ -495,6 +495,9 @@ public class Radio : MonoBehaviour
 		// TODO: Add raft clip to carousel
 	}
 
+	/// <summary>
+	/// Increases the volume.
+	/// </summary>
 	public void increaseVolume()
 	{
 		if (!MaxVolume)
@@ -506,6 +509,9 @@ public class Radio : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Decreases the volume.
+	/// </summary>
 	public void decreaseVolume()
 	{
 		if (!MinVolume)
@@ -517,6 +523,10 @@ public class Radio : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="Radio"/> max volume.
+	/// </summary>
+	/// <value><c>true</c> if max volume; otherwise, <c>false</c>.</value>
 	public bool MaxVolume 
 	{
 		get
@@ -536,6 +546,10 @@ public class Radio : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="Radio"/> minimum volume.
+	/// </summary>
+	/// <value><c>true</c> if minimum volume; otherwise, <c>false</c>.</value>
 	public bool MinVolume 
 	{
 		get
