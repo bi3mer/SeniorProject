@@ -4282,10 +4282,29 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  pneumoniaWarmthDecrease: 0
-  foodPoisonHungerDecrease: 0
-  pneumoniaTime: 0
-  foodPoisioningTime: 0
+  StatSettings:
+    DefaultHungerDelay: 7
+    DefaultHungerDecrease: 1
+    FoodPoisonDelay: 7
+    FoodPoisonDecrease: 2
+    DefaultWarmthDelay: 1
+    DefaultWarmthDecrease: 1
+    Tier6Delay: 10
+    Tier5Delay: 9
+    Tier4Delay: 8
+    Tier3Delay: 7
+    Tier2Delay: 6
+    Tier1Delay: 5
+    Tier0Delay: 4
+    TierNegativeDelay: 3
+    HeatSourceRateMultiplier: 4
+    ShelterRateMultiplier: 0
+    WaterRateMultiplier: 2
+    PneumoniaRateMultiplier: 0
+    DefaultHealthDecrease: 1
+    DefaultHealthDelay: 1
+    ZeroWarmthDelay: 20
+    ZeroHungerDelay: 1
   pnuemoniaChance: 0.2
   pnuemoniaWarmthThreshold: 20
   pneumoniaCheckTime: 10

@@ -22,6 +22,11 @@ public class RaftMovement : Movement
     private float heightAboveWater;
     [SerializeField]
     private float playerStandHeight = 0.33f;
+
+    /// <summary>
+    /// How high the player should be on the raft
+    /// </summary>
+    /// <value>The height of the player on the raft.</value>
     public float PlayerStandHeight
     {
         get
@@ -37,6 +42,8 @@ public class RaftMovement : Movement
     private const string playerAnimatorForward = "Forward";
     private const string playerAnimatorFall = "Falling";
     private const string playerAnimatorSwimming = "Swimming";
+	private float againstWindSpeedModifier = 0.3f;
+	private float windResistanceAngleThreshold = 0.25f;
 
     private Rigidbody raftBody;
 
@@ -62,11 +69,6 @@ public class RaftMovement : Movement
     /// </summary>
     void FixedUpdate ()
     {
-        // Set the raft to kinimatic so the player can't push it around and it stays in place.
-        if (!Game.Instance.PlayerInstance.Controller.IsOnRaft)
-        {
-            raftBody.isKinematic = true;
-        }
         float speed = RigidBody.velocity.magnitude;
 
         // cap the speed of the raft
@@ -82,11 +84,6 @@ public class RaftMovement : Movement
         	this.isStopped = true;
             RigidBody.velocity = Vector3.zero;
         }
-
-        // Make sure we are floating on top of the water as it rises
-        // Leave a little space so there is no friction
-        float diff = Game.Instance.WaterLevelHeight - transform.position.y - heightAboveWater;
-        RigidBody.position = RigidBody.position + new Vector3(0, diff, 0);
     }
 
     /// <summary>
@@ -126,7 +123,13 @@ public class RaftMovement : Movement
     /// <param name="direction"></param>
     public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
-        raftBody.isKinematic = false;
+    	// the maximum resistance is -1, so the direction angle returns by CompareDirectionToOctantWind must be a negative
+    	// number such that the difference between it and -1 is less than the windResistanceAngleThreshold
+		if (Game.Instance.WeatherInstance.CompareDirectionToOctantWind(direction) + 1 < windResistanceAngleThreshold)
+        {
+            Speed *= againstWindSpeedModifier;
+        }
+
         RigidBody.AddForce(direction.normalized * acceleration);
         StartCoroutine(this.updateIsStopped());
     }

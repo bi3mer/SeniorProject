@@ -9,6 +9,8 @@ public class PickUpItem : InteractableObject
 	// How far down the item can fall in the world before it is removed
 	private const float sinkThreshold = -10f;
 
+    private const float glowWait = 0.1f;
+
 	void Awake()
 	{
 		SetUp();
@@ -44,11 +46,19 @@ public class PickUpItem : InteractableObject
 	/// <summary>
 	/// Checks for y location of item
 	/// </summary>
-	private void FixedUpdate()
+	private IEnumerator CheckForSinkThreshold()
 	{
-		if(transform.position.y < sinkThreshold)
+		bool enabled = true;
+
+		while(enabled)
 		{
-			Game.Instance.ItemPoolInstance.RemoveItemFromWorld(this.gameObject);
+			if(transform.position.y < sinkThreshold)
+			{
+				Game.Instance.ItemPoolInstance.RemoveItemFromWorld(this.gameObject);
+				enabled = false;
+			}
+
+			yield return null;
 		}
 	}
 
@@ -57,7 +67,13 @@ public class PickUpItem : InteractableObject
 	/// </summary>
 	public override void SetUp()
 	{
-		if(!setupComplete)
+        // Make sure the component isn't added more than once.
+        if (gameObject.GetComponent<GlowObjectCmd>() == null)
+        {
+            gameObject.AddComponent<GlowObjectCmd>();
+        }
+
+        if (!setupComplete)
 		{
 			base.SetUp();
 
@@ -70,6 +86,9 @@ public class PickUpItem : InteractableObject
 			);
 
 			setupComplete = true;
+			Game.Instance.Loader.GameLoadedEvent += () => {
+				StartCoroutine(CheckForSinkThreshold());
+			};
 		}
 	}
 
@@ -78,6 +97,19 @@ public class PickUpItem : InteractableObject
 	/// </summary>
 	private void pickUp()
 	{
+        gameObject.GetComponent<GlowObjectCmd>().OutOfViewColor();
+        StartCoroutine(removeItem());
+    }
+
+
+    /// <summary>
+    /// Removes item from world after the gameObject is done stopping the outline glow.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator removeItem()
+    {
+        yield return new WaitForSeconds(glowWait);
+
 		if(Game.Instance.PlayerInstance.Inventory.AddItem(Item, Amount) == 0)
 		{
 			Game.Instance.ItemPoolInstance.RemoveItemFromWorld(this.gameObject);

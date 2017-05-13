@@ -72,7 +72,7 @@ public class WorldItemFactory
 		// create the object with the model
 		GameObject item = CreateGenericInteractableItem(itemToCreate);
 		PickUpItem pickup = item.AddComponent<PickUpItem>();
-		pickup.SetUp();
+        pickup.SetUp();
 		pickup.Item = itemToCreate;
 		pickup.Show = false;
 
