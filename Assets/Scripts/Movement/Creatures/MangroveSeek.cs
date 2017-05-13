@@ -16,7 +16,7 @@ public class MangroveSeek : MonoBehaviour
     /// </summary>
 	void Update ()
     {
-        if (!this.collided && Game.Instance.WeatherInstance.OnGoingStorm == false)
+        if (!this.collided && Game.Instance.WeatherInstance.OnGoingStorm)
         {
         	// update position with seek behavior
 			this.transform.position += (Game.Player.WorldPosition - this.transform.position).normalized * Time.deltaTime * this.speed;
