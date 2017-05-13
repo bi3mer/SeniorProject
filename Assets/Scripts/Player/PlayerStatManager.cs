@@ -14,46 +14,6 @@ public class PlayerStatManager
 	}
 
 	/// <summary>
-	/// Applies the correct health reduction rate based on hunger and warmth stats.
-	/// </summary>
-	public void ApplyCorrectHealthReductionRate()
-	{
-		if (this.WarmthRate.CurrentStat == 0) 
-		{
-			this.HealthRate.UseWarmthZeroHealthReductionRate ();
-		} 
-		else if (this.HungerRate.CurrentStat == 0) 
-		{
-			this.HealthRate.UseHungerZeroHealthReductionRate ();
-		}
-	}
-
-	/// <summary>
-	/// Starts the player's stat updates.
-	/// </summary>
-	public void StartStatUpdates()
-	{
-		this.StopStats = false;
-		this.WarmthRate.UseDefaultWarmthReductionRate ();
-		this.HungerRate.UseDefaultHungerReductionRate ();
-		this.HealthRate.UseDefaultHealthRate ();
-	}
-
-	/// <summary>
-	/// Stops the player's stat updates.
-	/// </summary>
-	public void StopStatUpdates()
-	{
-		this.StopStats = true;
-		this.WarmthRate.ChangeRateValues (0, 1);
-		this.HungerRate.ChangeRateValues (0, 1);
-		this.HealthRate.ChangeRateValues (0, 1);
-		this.WarmthRate.ApplyRateToStat ();
-		this.HungerRate.ApplyRateToStat ();
-		this.HealthRate.ApplyRateToStat ();
-	}
-
-	/// <summary>
 	/// Gets the warmth rate.
 	/// </summary>
 	/// <value>The warmth rate.</value>
