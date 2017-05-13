@@ -72,4 +72,22 @@ public class VectorUtility
 	{
 		return new Vector3(vector.x, yValue, vector.y); 
 	}
+
+	/// <summary>
+	/// Initialize a zero 3d vector with the y value defined
+	/// </summary>
+	/// <param name="y">The y coordinate.</param>
+	public static Vector3 HeightVector3d(float y)
+	{
+		return new Vector3(0,y,0);
+	}
+
+	/// <summary>
+	/// Initialize a zero 2d vector with the y value defined
+	/// </summary>
+	/// <param name="y">The y coordinate.</param>
+	public static Vector2 HeightVector2d(float y)
+	{
+		return new Vector2(0, y);
+	}
 }
