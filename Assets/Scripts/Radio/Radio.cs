@@ -36,12 +36,18 @@ public class Radio : MonoBehaviour
 	[SerializeField]
 	public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
 	[SerializeField]
-	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static"; 
+	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static";
 
+	// Static overlay for storms
+	[SerializeField]
+	private FMOD.Studio.EventInstance staticOverlay;
+	private bool staticOverlayOn;
+	 
 	[SerializeField]
 	private Dial dial;
 
 	private bool isOn;
+
 	private RadioChannel CurrentChannel { get; set; }
 	private string announcement;
 
@@ -86,6 +92,7 @@ public class Radio : MonoBehaviour
 		StartCoroutine(updateWeather());
 
 		isOn = false;
+		staticOverlayOn = false;
 
 		CurrentChannel = RadioChannel.Null;
 
@@ -100,6 +107,7 @@ public class Radio : MonoBehaviour
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
 		staticChannel = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
+		staticOverlay = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
 
 		// save clip lengths for looping later
 		musicCarouselClipLengths = new Dictionary<string, int>();
@@ -232,7 +240,28 @@ public class Radio : MonoBehaviour
 				weather.Play ();
 			}
 
+
+			// if static overlay is active, play it if it's not already on, otherwise stop it
+			staticOverlay.getPlaybackState (out state);
+
+			if (staticOverlayOn){
+
+				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING){
+
+					staticOverlay.start();
+				}
+			} 
+
+			else 
+			{
+				if (state != FMOD.Studio.PLAYBACK_STATE.STOPPED){
+
+					staticOverlay.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+				}
+			}
+
 			ChangeChannel(dial.knobDegree);
+
 		} 
 	}
 
@@ -250,6 +279,7 @@ public class Radio : MonoBehaviour
 			musicChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			staticOverlay.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			weather.Stop ();
 		}
 
@@ -477,11 +507,15 @@ public class Radio : MonoBehaviour
 	private void startStatic()
 	{
 		// TODO: Start some static here because a storm's abrewin'
+		Debug.Log("start static");
+		staticOverlayOn = true;
 	}
 
 	private void stopStatic()
 	{
 		// TODO: Remove that static because we have clear skies
+		Debug.Log("Stop static");
+		staticOverlayOn = false;
 	}
 
 	private void addRaftClip()
