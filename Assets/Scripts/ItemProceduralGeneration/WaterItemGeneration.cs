@@ -47,9 +47,9 @@ public class WaterItemGeneration : ItemGenerator
 
 	private GameLoaderTask loadingTask;
 
-	private float pointCreationLoadingPercentage = 0.8f;
+	private const float pointCreationLoadingPercentage = 0.8f;
 
-	private float verificationLoadingPercentage = 0.15f;
+	private const float verificationLoadingPercentage = 0.15f;
 
 	/// <summary>
 	/// Awake this instance.
@@ -109,9 +109,15 @@ public class WaterItemGeneration : ItemGenerator
 		loadingTask = task;
 		addImmediateToWorld = false;
 		StepCallback finishingAction = SetInitialGenerationPoints;
-		StartCoroutine(pointGenerator.GenerateRandomPointsInBounds(minX, maxX, minY, maxY, pointGenerator.NumberOfInitialPoints, 
-																   pointCreationLoadingPercentage * ((float)numberOfInitialPoints/maxNumberOfItems), 0f,
-																   districtItemInfo, finishingAction));
+		StartCoroutine(pointGenerator.GenerateRandomPointsInBounds(minX, 
+																   maxX, 
+																   minY, 
+																   maxY, 
+																   pointGenerator.NumberOfInitialPoints, 
+																   pointCreationLoadingPercentage * ((float)numberOfInitialPoints/maxNumberOfItems), 
+																   0f,
+																   districtItemInfo, 
+																   finishingAction));
 	}
 
 	/// <summary>
@@ -128,7 +134,10 @@ public class WaterItemGeneration : ItemGenerator
 		int maxY = Mathf.Clamp(playerLocation.Y + itemIncreaseChunks, 0, (int)pointGenerator.Grid.GetLength(1));
 		int minY = Mathf.Clamp(playerLocation.Y - itemIncreaseChunks, 0, (int)pointGenerator.Grid.GetLength(1));
 
+		// extents should be half of city width 
 		float cityMinX = pointGenerator.CityCenter.x - pointGenerator.CityWidth/2f;
+
+		// extents should be half of city depth
 		float cityMinY = pointGenerator.CityCenter.z - pointGenerator.CityDepth/2f;
 
 		Vector3 minBounds = new Vector3(cityMinX + pointGenerator.CellSize * minX, 0, cityMinY + pointGenerator.CellSize * minY);
@@ -137,8 +146,15 @@ public class WaterItemGeneration : ItemGenerator
 		addImmediateToWorld = true;
 		StepCallback finishingAction = SetInitialGenerationPoints;
 	
-		StartCoroutine(pointGenerator.GenerateRandomPointsInBounds(minBounds.x, maxBounds.x, minBounds.z, maxBounds.z, pointGenerator.NumberOfInitialPoints, 
-																   0f, 0f, districtItemInfo, finishingAction));
+		StartCoroutine(pointGenerator.GenerateRandomPointsInBounds(minBounds.x, 
+																   maxBounds.x, 
+																   minBounds.z, 
+																   maxBounds.z, 
+																   pointGenerator.NumberOfInitialPoints, 
+																   0f, 
+																   0f, 
+																   districtItemInfo, 
+																   finishingAction));
 	}
 
 	/// <summary>
@@ -164,6 +180,7 @@ public class WaterItemGeneration : ItemGenerator
 			}
 		}
 
+		// make the loading percent to 100% which is 1f
 		UpdateLoadingPercent(1f);
 		loadingTask = null;
 	}
@@ -205,8 +222,8 @@ public class WaterItemGeneration : ItemGenerator
 
 		StepCallback nextAction = VerifySamplingPoints;
 
-		float maxPercent = pointCreationLoadingPercentage * ((float)(maxNumberOfItems - numberOfInitialPoints)/maxNumberOfItems);
-		float basePercent = pointCreationLoadingPercentage * ((float)numberOfInitialPoints/maxNumberOfItems);
+		float maxPercent = pointCreationLoadingPercentage * ((maxNumberOfItems - numberOfInitialPoints)/(float)maxNumberOfItems);
+		float basePercent = pointCreationLoadingPercentage * (numberOfInitialPoints/(float) maxNumberOfItems);
 
 		StartCoroutine(pointGenerator.GeneratePoints(initialPoints, districtItemInfo, nextAction, maxPercent, basePercent));
 	}

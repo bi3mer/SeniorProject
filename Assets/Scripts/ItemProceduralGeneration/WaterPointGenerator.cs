@@ -112,9 +112,10 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WaterPointGenerator"/> class.
 	/// </summary>
-	/// <param name="width">City width.</param>
-	/// <param name="depth">City depth.</param>
-	/// <param name="center">City center.</param>
+	/// <param name="width">Width.</param>
+	/// <param name="depth">Depth.</param>
+	/// <param name="center">Center.</param>
+	/// <param name="generator">Generator.</param>
 	public WaterPointGenerator(float width, float depth, Vector3 center, WaterItemGeneration generator)
 	{
 		// the diagonal of the cell is the defaultMinDistanceAway
@@ -206,8 +207,11 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// <param name="finishingAction">Finishing action.</param>
 	/// <param name="maxPercent">Max percent.</param>
 	/// <param name="basePercent">Base percent.</param>
-	public IEnumerator GeneratePoints(List<ItemPlacementSamplePoint> initialPoints, Dictionary<string, DistrictItemConfiguration> districtItemInfo,
-									  WaterItemGeneration.StepCallback finishingAction, float maxPercent, float basePercent)
+	public IEnumerator GeneratePoints(List<ItemPlacementSamplePoint> initialPoints, 
+									  Dictionary<string, DistrictItemConfiguration> districtItemInfo,
+									  WaterItemGeneration.StepCallback finishingAction, 
+									  float maxPercent, 
+									  float basePercent)
 	{
 		// RandomQueue works like a queue, except that it
 		//pops a random element from the queue instead of
@@ -315,8 +319,15 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// <param name="basePercent">Base percent.</param>
 	/// <param name="districtInfo">District info.</param>
 	/// <param name="finishingAction">Finishing action.</param>
-	public IEnumerator GenerateRandomPointsInBounds(float minX, float maxX, float minY, float maxY, int pointsToMake, float maxPercent, float basePercent, 
-													Dictionary<string, DistrictItemConfiguration> districtInfo, WaterItemGeneration.StepCallback finishingAction)
+	public IEnumerator GenerateRandomPointsInBounds(float minX, 
+													float maxX, 
+													float minY, 
+													float maxY, 
+													int pointsToMake, 
+													float maxPercent, 
+													float basePercent, 
+													Dictionary<string, DistrictItemConfiguration> districtInfo, 
+													WaterItemGeneration.StepCallback finishingAction)
 	{
 		List<ItemPlacementSamplePoint> initialPoints = new List<ItemPlacementSamplePoint>();
 		WorldItemFactory itemFactory = Game.Instance.WorldItemFactoryInstance;
