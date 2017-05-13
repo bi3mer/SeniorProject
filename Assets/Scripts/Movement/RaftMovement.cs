@@ -30,9 +30,6 @@ public class RaftMovement : Movement
         }
     }
 
-    public string BoardRaftText;
-    public string DisembarkRaftText;
-
     // The player's Animator.
     public Animator PlayerAnimator;
 

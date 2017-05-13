@@ -120,9 +120,7 @@ public class ClothCategory : ItemCategory
 	/// </summary>
 	public void PutOn()
 	{
-		PlayerController player = Game.Instance.PlayerInstance.Controller;
-
-		player.PlayerStatManager.WarmthRate.UseClothRate ((int)(FabricThickness + ThreadDensity));
+		Game.Player.Controller.PlayerStatManager.WarmthRate.UseClothRate ((int)(FabricThickness + ThreadDensity));
 
 		OnPlayer = 1f;
 		GetAttribute(onPlayerAttributeName).Value = OnPlayer;
@@ -135,9 +133,7 @@ public class ClothCategory : ItemCategory
 	/// </summary>
 	public void TakeOff()
 	{
-		PlayerController player = Game.Instance.PlayerInstance.Controller;
-
-		player.PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate ();
+		Game.Player.Controller.PlayerStatManager.WarmthRate.StopUsingClothRate();
 
 		OnPlayer = 0f;
 		GetAttribute(onPlayerAttributeName).Value = OnPlayer;

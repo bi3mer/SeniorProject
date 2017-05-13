@@ -85,7 +85,7 @@ public class PickUpItem : InteractableObject
     {
         yield return new WaitForSeconds(glowWait);
 
-		if(Game.Instance.PlayerInstance.Inventory.AddItem(Item, Amount).Count > 0)
+		if(Game.Instance.PlayerInstance.Inventory.AddItem(Item, Amount) == 0)
 		{
 			Game.Instance.ItemPoolInstance.RemoveItemFromWorld(this.gameObject);
 		}

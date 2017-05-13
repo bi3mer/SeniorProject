@@ -18,7 +18,11 @@ public class Inventory
 	// How many items there may be in a stack
 	protected const int StackSize = 5;
 
-	protected string inventoryName;
+	public string InventoryName
+	{
+		get;
+		protected set;
+	}
 
 	// Contents of the inventory keyed by their name
 	protected ItemStack[] contents;
@@ -37,7 +41,7 @@ public class Inventory
 	public Inventory(string name, int size)
 	{
 		contents = new ItemStack[size];
-		inventoryName = name;
+		InventoryName = name;
 		InventorySize = size;
 		itemCountByType = new Dictionary<string, int>();
 
@@ -57,7 +61,7 @@ public class Inventory
 	public Inventory(string name, string inventoryFile, int size)
 	{
 		contents = new ItemStack[inventorySize];
-		inventoryName = name;
+		InventoryName = name;
 
 		parser = new InventoryYamlParser(inventoryFile);
 		InventorySize = size;
@@ -77,7 +81,7 @@ public class Inventory
 	/// </summary>
 	public void LoadInventory()
 	{
-		List<InventoryItemYAMLModel> inventoryInfo = parser.GetInventoryContents (inventoryName);
+		List<InventoryItemYAMLModel> inventoryInfo = parser.GetInventoryContents (InventoryName);
 	
 		for (int i = 0; i < inventoryInfo.Count; ++i) 
 		{
@@ -246,14 +250,13 @@ public class Inventory
 	/// <summary>
 	/// Add item to inventory.
 	/// </summary>
-	/// <returns>The added item.</returns>
+	/// <returns>Amount left to be added.</returns>
 	/// <param name="newItem">New item.</param>
 	/// <param name="amount">Amount.</param>
-	public List<ItemStack> AddItem(BaseItem newItem, int amount)
+	public int AddItem(BaseItem newItem, int amount)
 	{
 		int amountRemaining = amount;
 		int loc = 0;
-		List<ItemStack> addedOrChangedStacks = new List<ItemStack>();
 
 		if(isStackable(newItem.Types))
 		{
@@ -266,7 +269,6 @@ public class Inventory
 						amountRemaining = (contents[i].Amount + amount) - contents[i].MaxStackSize; 
 						contents[i].Amount += amount;
 						loc = i;
-						addedOrChangedStacks.Add(contents[i]);
 					}
 				}
 			}
@@ -279,15 +281,16 @@ public class Inventory
 			if(loc < contents.Length)
 			{
 				contents[loc] = new ItemStack(newItem, amountRemaining, Guid.NewGuid().ToString("N"));
+				amountRemaining = 0;
 				UpdateTypeAmount(newItem.Types, amount);
-				addedOrChangedStacks.Add(contents[loc]);
 			}
 		}
 
 		UpdateTypeAmount(newItem.Types, amount);
 
-		return addedOrChangedStacks;
+		return Mathf.Clamp(amountRemaining, 0, amount);
 	}
+
 
 	/// <summary>
 	/// Checks if the item should be stacked in the inventory.
