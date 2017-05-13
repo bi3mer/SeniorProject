@@ -10,11 +10,22 @@ public class FogController : MonoBehaviour
     [Tooltip("The color of the camera fog based on the time of day, with 0 and 1 being midnight.")]
     private Gradient cameraFogColors;
 
+	[SerializeField]
+	private FogMode cameraFogMode;
+
+	[SerializeField]
+	[Range(0, 25)]
+	private int cameraFogStart;
+
+	[SerializeField]
+	[Range(0, 25)]
+	private int cameraFogEnd;
+
     [SerializeField]
     [Tooltip("The color of the particle fog based on the time of day, with 0 and 1 being midnight.")]
     private Gradient particleFogColors;
 
-    [SerliazeField]
+	[SerializeField]
     [Tooltip("Color modifier based on storm intensity.")]
     private Gradient stormColorModifier;
 
@@ -26,16 +37,26 @@ public class FogController : MonoBehaviour
     [Tooltip("The particle system generating fog.")]
     private ParticleSystem fogSystem;
 
+	private const float hoursInADay = 24f;
+
+	void Start ()
+	{
+		RenderSettings.fog = true;
+		RenderSettings.fogMode = cameraFogMode;
+		RenderSettings.fogStartDistance = cameraFogStart;
+		RenderSettings.fogEndDistance = cameraFogEnd;
+	}
+
     /// <summary>
     /// Calculates time of day and updates values.
     /// </summary>
 	void Update ()
     {
-        float time = Game.Instance.ClockInstance.CurrentGameTimeInHours / Clock.TwentyFourHours;
-        float intensity = // Get intensity 
+		float time = Game.Instance.ClockInstance.CurrentGameTimeInHours / hoursInADay;
+		float intensity = 0;// Get intensity 
         updateCameraFog(time, intensity);
         updateParticleFogColor(time, intensity);
-        updateParticleFogAmount();
+        //updateParticleFogAmount();
 	}
 
     /// <summary>
@@ -45,7 +66,7 @@ public class FogController : MonoBehaviour
     /// <param name="intensity">Intensity of storm.</param>
     private void updateCameraFog (float time, float intensity)
     {
-        RenderSettings.fogColor = cameraFogColors.Evaluate(time) * stormColorModifier(intensity);
+		RenderSettings.fogColor = cameraFogColors.Evaluate(time) * stormColorModifier.Evaluate(intensity);
     }
 
     /// <summary>  
@@ -55,10 +76,24 @@ public class FogController : MonoBehaviour
     /// <param name="intensity">Intensity of storm.</param>
     private void updateParticleFogColor (float time, float intensity)
     {
-        Color color = particleFogColors.Evaluate(time) * stormColorModifier(intensity);
-        GradientColorKeys[] keys = fogSystem.colorOverLifetime.colorKeys;
-        keys[0].color = color;
-        keys[1].color = color * Color.gray; // Darkens color by 50%;
+		Color color = particleFogColors.Evaluate(time) * stormColorModifier.Evaluate(intensity);
+		ParticleSystem.ColorOverLifetimeModule colorModule = fogSystem.colorOverLifetime;
+
+		Gradient gradient = new Gradient();
+		gradient.SetKeys(
+			new GradientColorKey[] { 
+				new GradientColorKey(color, 0.0f), 
+				new GradientColorKey(color * Color.gray, 1.0f) 
+			},
+			new GradientAlphaKey[] { 
+				new GradientAlphaKey(0.0f, 0.0f), 
+				new GradientAlphaKey(1.0f, 0.1f), 
+				new GradientAlphaKey(1.0f, 0.9f),
+				new GradientAlphaKey(0.0f, 1.0f) 
+			}
+		);
+
+		colorModule.color = gradient;
     }
 
     /// <summary>
@@ -67,7 +102,7 @@ public class FogController : MonoBehaviour
     /// </summary>
     private void updateParticleFogAmount ()
     {
-        float diff = Math.Abs(Game.Instance.WeatherSystem.CurrentTemperature - Game.Instance.WeatherSystem.CurrentDewPoint);
+		float diff = Mathf.Abs(Game.Instance.WeatherInstance.CurrentTemperature - Game.Instance.WeatherInstance.CurrentDewPoint);
         if (diff <= fogThreshold)
         {
             float fogStrenth = 1.0f - diff / fogThreshold;

@@ -141,7 +141,7 @@ public class WeatherSystem
 	{
 		get 
 		{
-			return this.WeatherInformation[(int) Weather.Dew];
+			return this.WeatherInformation[(int) Weather.RelativeDewPoint];
 		}
 	}
 
