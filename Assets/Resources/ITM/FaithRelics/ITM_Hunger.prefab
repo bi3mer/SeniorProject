@@ -21,9 +21,10 @@ GameObject:
   - 4: {fileID: 4000012728350204}
   - 33: {fileID: 33000010459609974}
   - 23: {fileID: 23000011249593884}
+  - 65: {fileID: 65000010544754502}
   m_Layer: 0
   m_Name: ITM_Hunger
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012693999404}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.31, y: 0, z: 0}
+  m_LocalPosition: {x: -0.31596088, y: 4, z: -0.748675}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -77,3 +78,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012693999404}
   m_Mesh: {fileID: 4300000, guid: a2151465af188e241bc24e893a5e13b5, type: 3}
+--- !u!65 &65000010544754502
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012693999404}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.08027701, y: 0.004, z: 0.10030117}
+  m_Center: {x: -0.00013850443, y: 0, z: 0.0033963285}

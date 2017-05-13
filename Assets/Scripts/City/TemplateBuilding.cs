@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// A building based on a prefab.
@@ -18,6 +19,7 @@ public class TemplateBuilding : Building
         Position = position;
         Template = template;
         IsLoaded = false;
+        Attachments = new List<GameObject>();
     }
     
     /// <summary>

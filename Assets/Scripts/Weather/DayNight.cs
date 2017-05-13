@@ -19,7 +19,6 @@ public class DayNight : MonoBehaviour
     [SerializeField]
     private float sunMaxBrightness;
 
-    
     // Max heights are based on the starting transform of the sun and moon. (the starting Y value)
     private float moonMaxHeight;
     private float sunMaxHeight;

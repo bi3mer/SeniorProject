@@ -141,7 +141,7 @@ public class ItemStackUI : MonoBehaviour
 	/// Gets the item's attributes.
 	/// </summary>
 	/// <returns>The item's attributes.</returns>
-	public List<Attribute> GetItemAttributes()
+	public List<ItemAttribute> GetItemAttributes()
 	{
 		return targetStack.Item.GetItemAttributes ();
 	}
@@ -209,7 +209,7 @@ public class ItemStackUI : MonoBehaviour
 			else
 			{
 				GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(new ItemStack(targetStack.Item, targetStack.Amount, ""));
-				GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.INVENTORYFULL);
+				GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.INVENTORYFULL);
 				GuiInstanceManager.ItemStackDetailPanelInstance.ClosePanel();
 			}
 		}

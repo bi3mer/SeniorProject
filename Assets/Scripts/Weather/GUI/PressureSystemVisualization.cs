@@ -7,7 +7,7 @@ public class PressureSystemVisualization : MonoBehaviour
 	private float defaultHeight = 10f;
 
 	[SerializeField]
-	private float defaultRadius = 1f;
+	private float defaultRadius = 5f;
 
 	/// <summary>
 	/// Update gizmos to reflect location of pressure systems
@@ -15,6 +15,7 @@ public class PressureSystemVisualization : MonoBehaviour
 	void OnDrawGizmos () 
 	{
 		PressureSystems system = Game.Instance.WeatherInstance.WeatherPressureSystems;
+
 		for(int i = 0; i < system.LocalPressureSystems.Count; ++i)
 		{
 			Vector3 center = new Vector3(system.LocalPressureSystems[i].Position.x,

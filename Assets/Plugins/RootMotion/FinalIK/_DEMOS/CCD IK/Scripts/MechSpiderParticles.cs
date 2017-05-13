@@ -22,14 +22,17 @@ namespace RootMotion.Demos {
 			
 			float emissionRate = Mathf.Clamp(inputMag * 50, 30, 50);
 			
-			#if (UNITY_5_0 || UNITY_5_1 || UNITY_5_2)
-			particles.emissionRate = emissionRate;
-			#else
+			#if (UNITY_5_3 || UNITY_5_4)
 			var emission = particles.emission;
 			emission.rate = new ParticleSystem.MinMaxCurve(emissionRate);
-			#endif
-			
 			particles.startColor = new Color (particles.startColor.r, particles.startColor.g, particles.startColor.b, Mathf.Clamp(inputMag, 0.4f, 1f));
+			#else
+			var emission = particles.emission;
+			emission.rateOverTime = new ParticleSystem.MinMaxCurve(emissionRate);
+
+			var main = particles.main;
+			main.startColor = new Color (particles.main.startColor.color.r, particles.main.startColor.color.g, particles.main.startColor.color.b, Mathf.Clamp(inputMag, 0.4f, 1f));
+			#endif
 		}
 	}
 }

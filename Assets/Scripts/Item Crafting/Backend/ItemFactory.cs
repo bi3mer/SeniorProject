@@ -65,7 +65,7 @@ public class ItemFactory
 	}
 
 	// the different result tiers of craftable items
-	private string[] itemLevels = new string[3] { "Poor", "Good", "Excellent" };
+	private string[] itemLevels = new string[3] { "Poor", "Standard", "Excellent" };
 
 	private int levels = 3;
 
@@ -173,7 +173,7 @@ public class ItemFactory
 		if(addResult.Count == 0)
 		{
 			GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(new ItemStack(craftedItem, 1, ""));
-			GuiInstanceManager.PlayerNotificationInsance.ShowNotification(NotificationType.INVENTORYFULL);
+			GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.INVENTORYFULL);
 		}
 	}
 

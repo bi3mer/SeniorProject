@@ -9,7 +9,11 @@ public class WhaleSpawner : CreatureSpawner
 	/// <returns>The location.</returns>
 	protected override Vector3 findSpawnLocation()
 	{
-		// TODO: update with 4 corners
-		return Vector3.zero;
+		if(RandomUtility.RandomBool == true)
+		{
+			return Game.Instance.CityBounds.CityBounds.max;
+		}
+
+		return Game.Instance.CityBounds.CityBounds.min;
 	}
 }

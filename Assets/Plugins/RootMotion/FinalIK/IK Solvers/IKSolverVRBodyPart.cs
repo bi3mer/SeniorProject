@@ -16,7 +16,7 @@ namespace RootMotion.FinalIK {
 		[System.Serializable]
 		public abstract class BodyPart {
 
-			protected abstract void OnRead(Vector3[] positions, Quaternion[] rotations, bool hasNeck, bool hasShoulders, bool hasToes, int rootIndex, int index);
+			protected abstract void OnRead(Vector3[] positions, Quaternion[] rotations, bool hasChest, bool hasNeck, bool hasShoulders, bool hasToes, int rootIndex, int index);
 			public abstract void PreSolve();
 			public abstract void Write(ref Vector3[] solvedPositions, ref Quaternion[] solvedRotations);
 			public abstract void ApplyOffsets();
@@ -31,13 +31,13 @@ namespace RootMotion.FinalIK {
 			protected Quaternion rootRotation = Quaternion.identity;
 			protected int index = -1;
 
-			public void Read(Vector3[] positions, Quaternion[] rotations, bool hasNeck, bool hasShoulders, bool hasToes, int rootIndex, int index) {
+			public void Read(Vector3[] positions, Quaternion[] rotations, bool hasChest, bool hasNeck, bool hasShoulders, bool hasToes, int rootIndex, int index) {
 				this.index = index;
 
 				rootPosition = positions[rootIndex];
 				rootRotation = rotations[rootIndex];
 
-				OnRead(positions, rotations, hasNeck, hasShoulders, hasToes, rootIndex, index);
+				OnRead(positions, rotations, hasChest, hasNeck, hasShoulders, hasToes, rootIndex, index);
 
 				mag = VirtualBone.PreSolve(ref bones);
 				sqrMag = mag * mag;
