@@ -15,6 +15,10 @@ public class HealthRateManager
 			{
 				delay += Game.Instance.PlayerInstance.Controller.StatSettings.ZeroHungerDelay;
 			}
+			else
+			{
+				delay = Game.Instance.PlayerInstance.Controller.StatSettings.DefaultHealthDelay;
+			}
 			if (Game.Instance.PlayerInstance.Warmth == 0) 
 			{
 				delay += Game.Instance.PlayerInstance.Controller.StatSettings.ZeroWarmthDelay;
