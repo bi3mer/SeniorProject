@@ -16,6 +16,10 @@ public class Radio : MonoBehaviour
 	private Dictionary<string, int> musicCarouselClipLengths;
 	private int musicClipsTotalLength = 0;
 
+	// Music channel volume during storm and normally
+	float musicLowVol = 0.25f;
+	float musicRegVol = 1f;
+
 	[SerializeField]
 	private FMOD.Studio.EventInstance mysteryChannel;
 	private List<string> mysteryCarousel;
@@ -108,6 +112,7 @@ public class Radio : MonoBehaviour
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
 		staticChannel = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
 		staticOverlay = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
+		staticOverlay.setVolume(10);
 
 		// save clip lengths for looping later
 		musicCarouselClipLengths = new Dictionary<string, int>();
@@ -221,6 +226,7 @@ public class Radio : MonoBehaviour
 					// set the clip and the time left that we found earlier
 					musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel [musicCounter]);
 					musicChannel.setTimelinePosition (timeLeft);
+
 					musicChannel.start ();
 				}
 			}
@@ -246,6 +252,7 @@ public class Radio : MonoBehaviour
 
 			if (staticOverlayOn){
 
+				Debug.Log("TURN IT ON");
 				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING){
 
 					staticOverlay.start();
@@ -254,6 +261,7 @@ public class Radio : MonoBehaviour
 
 			else 
 			{
+				Debug.Log("TURN IT OFF");
 				if (state != FMOD.Studio.PLAYBACK_STATE.STOPPED){
 
 					staticOverlay.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
@@ -506,16 +514,14 @@ public class Radio : MonoBehaviour
 
 	private void startStatic()
 	{
-		// TODO: Start some static here because a storm's abrewin'
-		Debug.Log("start static");
 		staticOverlayOn = true;
+		musicChannel.setVolume(lowMusic);
 	}
 
 	private void stopStatic()
 	{
-		// TODO: Remove that static because we have clear skies
-		Debug.Log("Stop static");
 		staticOverlayOn = false;
+		musicChannel.setVolume(musicRegVol);
 	}
 
 	private void addRaftClip()
