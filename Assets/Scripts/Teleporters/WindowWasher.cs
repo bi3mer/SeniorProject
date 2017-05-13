@@ -102,7 +102,7 @@ public class WindowWasher : MonoBehaviour
     public void Update()
     {   
         // Disable if water is above the building.
-        if (water.transform.position.y < transform.position.y)
+        if (water.transform.position.y < transform.position.y && canMove)
         { 
             UpdateRopePosition();
    
