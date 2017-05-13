@@ -29,7 +29,7 @@ public class HealthRateManager
 	}
 
 	/// <summary>
-	/// Gets the health amount.
+	/// The amount to change the Health by on each update.
 	/// </summary>
 	/// <value>The health amount.</value>
 	public int HealthAmount 
@@ -66,7 +66,7 @@ public class HealthRateManager
 	/// Uses the health energy.
 	/// </summary>
 	/// <param name="amountOfHealthUnitsAffected">Amount of health units affected.</param>
-	public void UseHealthEnergy(int amountOfHealthUnitsAffected)
+	public void AffectHealthByGivenAmount(int amountOfHealthUnitsAffected)
 	{
 		Game.Instance.PlayerInstance.Health = Game.Instance.PlayerInstance.Health = Mathf.Clamp (
 			Game.Instance.PlayerInstance.Health + amountOfHealthUnitsAffected, 

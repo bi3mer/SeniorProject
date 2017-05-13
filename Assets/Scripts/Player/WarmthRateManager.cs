@@ -39,7 +39,7 @@ public class WarmthRateManager
 	}
 
 	/// <summary>
-	/// Gets the warmth amount.
+	/// The amount to change the Warmth by on each update.
 	/// </summary>
 	/// <value>The warmth amount.</value>
 	public int WarmthAmount 
@@ -49,11 +49,11 @@ public class WarmthRateManager
 			int warmthAmount = -Game.Instance.PlayerInstance.Controller.StatSettings.DefaultWarmthDecrease;
 			if (Game.Instance.PlayerInstance.Controller.IsByFire) 
 			{
-				warmthAmount *= -Game.Instance.PlayerInstance.Controller.StatSettings.HeatSourceRateMultiplier;
+				warmthAmount = Game.Instance.PlayerInstance.Controller.StatSettings.HeatSourceRateMultiplier;
 			}
 			if (Game.Instance.PlayerInstance.Controller.IsInShelter) 
 			{
-				warmthAmount *= Game.Instance.PlayerInstance.Controller.StatSettings.ShelterRateMultiplier;
+				warmthAmount = Game.Instance.PlayerInstance.Controller.StatSettings.ShelterRateMultiplier;
 			}
 			if (Game.Instance.PlayerInstance.Controller.IsInWater) 
 			{

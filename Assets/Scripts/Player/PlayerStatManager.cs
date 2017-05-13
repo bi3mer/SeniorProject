@@ -14,22 +14,6 @@ public class PlayerStatManager
 	}
 
 	/// <summary>
-	/// Starts the player's stat updates.
-	/// </summary>
-	public void StartStatUpdates()
-	{
-		this.StopStats = false;
-	}
-
-	/// <summary>
-	/// Stops the player's stat updates.
-	/// </summary>
-	public void StopStatUpdates()
-	{
-		this.StopStats = true;
-	}
-
-	/// <summary>
 	/// Gets the warmth rate.
 	/// </summary>
 	/// <value>The warmth rate.</value>
@@ -66,7 +50,7 @@ public class PlayerStatManager
 	public bool StopStats 
 	{
 		get;
-		private set;
+		set;
 	}
 }
 

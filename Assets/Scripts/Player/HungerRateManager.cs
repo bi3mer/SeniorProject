@@ -3,7 +3,7 @@
 public class HungerRateManager
 {
 	/// <summary>
-	/// Gets the hunger amount.
+	/// The amount to change the Hunger by on each update.
 	/// </summary>
 	/// <value>The hunger amount.</value>
 	public int HungerAmount
