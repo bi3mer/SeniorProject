@@ -13,7 +13,17 @@ public class SettingsMenuBehavior : MonoBehaviour
 	private Button configureKeysButton;
 	[SerializeField]
 	private InputField procCityGenerationSeedInputField;
+
+	[Header("Camera Effects Settings")]
 	[SerializeField]
+	private Toggle depthOfFieldToggle;
+	[SerializeField]
+	private Toggle chromaticAberrationToggle;
+	[SerializeField]
+	private Toggle motionBlurToggle;
+	[SerializeField]
+	private Toggle bloomToggle;
+
 	private GameObject inputConfigPanel;
 	private GameSettings settings;
 	private string previousSeed;
@@ -26,6 +36,34 @@ public class SettingsMenuBehavior : MonoBehaviour
 		settings = Game.Instance.GameSettingsInstance;
 		procCityGenerationSeedInputField.onValueChanged.AddListener (OnSeedValueChanged);
 		volumeSlider.onValueChanged.AddListener (changeVolume);
+		
+		setupCameraToggles();
+	}
+
+	///	<summary>
+	/// Add functionality to camera setting toggles.
+	/// </summary>
+	private void setupCameraToggles ()
+	{
+		depthOfFieldToggle.isOn = settings.Camera.DepthOfFieldEnabled;
+		depthOfFieldToggle.onValueChanged.AddListener((bool value) => {
+				settings.Camera.DepthOfFieldEnabled = value;
+			});
+
+		chromaticAberrationToggle.isOn = settings.Camera.ChromaticAberrationEnabled;
+		chromaticAberrationToggle.onValueChanged.AddListener((bool value) => {
+				settings.Camera.ChromaticAberrationEnabled = value;
+			});
+
+		motionBlurToggle.isOn = settings.Camera.MotionBlurEnabled;
+		motionBlurToggle.onValueChanged.AddListener((bool value) => {
+				settings.Camera.MotionBlurEnabled = value;
+			});
+
+		bloomToggle.isOn = settings.Camera.BloomEnabled;
+		bloomToggle.onValueChanged.AddListener((bool value) => {
+				settings.Camera.BloomEnabled = value;
+			});
 	}
 
 	/// <summary>
@@ -34,14 +72,7 @@ public class SettingsMenuBehavior : MonoBehaviour
 	/// <param name="isChecked">If set to <c>true</c> is sound on.</param>
 	public void turnSoundOnOff()
 	{
-		if (soundToggle.isOn) 
-		{
-			settings.SoundOn = true;
-		} 
-		if (!soundToggle.isOn)
-		{
-			settings.SoundOn = false;
-		}
+		settings.SoundOn = soundToggle.isOn;
 	}
 
 	/// <summary>
