@@ -23,9 +23,7 @@ public class WarmthRateManager
 		{
 			float delay;
 			if (Game.Instance.PlayerInstance.Controller.IsByFire
-			    || Game.Instance.PlayerInstance.Controller.IsInShelter
-			    || Game.Instance.PlayerInstance.Controller.IsInWater
-				|| Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.Pneumonia) 
+			    || Game.Instance.PlayerInstance.Controller.IsInShelter) 
 			{
 				delay = Game.Instance.PlayerInstance.Controller.StatSettings.DefaultWarmthDelay;
 			} 
