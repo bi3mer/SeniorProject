@@ -6,6 +6,9 @@ public class PickUpItem : InteractableObject
 {
 	private BaseItem item;
 
+	// How far down the item can fall in the world before it is removed
+	private const float sinkThreshold = -10f;
+
 	void Awake()
 	{
 		SetUp();
@@ -36,6 +39,17 @@ public class PickUpItem : InteractableObject
 	{
 		get;
 		set;
+	}
+
+	/// <summary>
+	/// Checks for y location of item
+	/// </summary>
+	private void FixedUpdate()
+	{
+		if(transform.position.y < sinkThreshold)
+		{
+			Game.Instance.ItemPoolInstance.RemoveItemFromWorld(this.gameObject);
+		}
 	}
 
 	/// <summary>
