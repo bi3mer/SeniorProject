@@ -1,4 +1,6 @@
-﻿public class GameSettings
+﻿using UnityEngine.PostProcessing;
+
+public class GameSettings
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="GameSettings"/> class.
@@ -9,6 +11,7 @@
 		this.VolumeValue = 3.0f;
 		this.ProceduralCityGenerationSeed = 1;
 		this.Scheme = new ControlScheme ();
+		this.Camera = new CameraSettings ();
 
 		setInitialControlScheme ();
 	}
@@ -54,6 +57,15 @@
 	}
 
 	/// <summary>
+	/// Access camera settings.	
+	/// </summary>
+	public CameraSettings Camera
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
 	/// Sets the initial control scheme.
 	/// </summary>
 	private void setInitialControlScheme()
@@ -79,6 +91,106 @@
 		Scheme.Inventory = UnityEngine.KeyCode.Tab;
 		Scheme.Radio = UnityEngine.KeyCode.R;
 		Scheme.Crafting = UnityEngine.KeyCode.C;
+	}
+
+	public class CameraSettings 
+	{
+		private bool depthOfFieldEnabled;
+		private bool chromaticAberrationEnabled;
+		private bool motionBlurEnabled;
+		private bool bloomEnabled;
+
+		/// <summary>
+		/// Creates a new instance of CameraSettings class.
+		/// All settings are initially set to true.
+		/// </summary>
+		public CameraSettings ()
+		{
+			depthOfFieldEnabled = true;
+			chromaticAberrationEnabled = true;
+			motionBlurEnabled = true;
+			bloomEnabled = true;
+		}
+
+		/// <summary>
+		/// Enables camera depth of field effect.
+		/// </summary>
+		public bool DepthOfFieldEnabled
+		{
+			get 
+			{
+				return depthOfFieldEnabled;
+			}
+			set 
+			{
+				depthOfFieldEnabled = value;
+
+				if (PostProcessingSettings.Instance != null)
+				{
+					PostProcessingSettings.Instance.DepthOfFieldEnabled = value;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Enables camera chromatic aberration effect.
+		/// </summary>
+		public bool ChromaticAberrationEnabled
+		{
+			get 
+			{
+				return chromaticAberrationEnabled;
+			}
+			set
+			{
+				chromaticAberrationEnabled = value;
+
+				if (PostProcessingSettings.Instance != null)
+				{
+					PostProcessingSettings.Instance.ChromaticAberrationEnabled = value;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Enables camera motion blur effect.
+		/// </summary>
+		public bool MotionBlurEnabled
+		{
+			get
+			{
+				return motionBlurEnabled;
+			}
+			set
+			{
+				motionBlurEnabled = value;
+
+				if (PostProcessingSettings.Instance != null)
+				{
+					PostProcessingSettings.Instance.MotionBlurEnabled = value;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Enables camera bloom effect.
+		/// </summary>
+		public bool BloomEnabled
+		{
+			get
+			{
+				return bloomEnabled;
+			}
+			set
+			{
+				bloomEnabled = value;
+
+				if (PostProcessingSettings.Instance != null)
+				{
+					PostProcessingSettings.Instance.BloomEnabled = value;
+				}
+			}
+		}
 	}
 }
 
