@@ -22,6 +22,8 @@ public class InventoryUI : MonoBehaviour
 	[Tooltip("Filepath to the atlas containing sprites for items")]
 	private string atlasFilepath;
 
+	public bool isPlayerInventoryUIInstance;
+
 	private List<ItemStack> inventory = new List<ItemStack>();
 	private List<ItemStack> slots = new List<ItemStack> ();
 	private List<ItemStackUI> itemStackUIList = new List<ItemStackUI> ();
@@ -29,7 +31,7 @@ public class InventoryUI : MonoBehaviour
 	/// <summary>
 	/// The target inventory that will be shown by the UI.
 	/// </summary>
-	public Inventory TargetInventory;
+	public Inventory AssociatedInventory;
 
 	/// <summary>
 	/// Gets or sets the items to discard.
@@ -56,7 +58,11 @@ public class InventoryUI : MonoBehaviour
 	/// </summary>
 	void Awake()
 	{
-		GuiInstanceManager.InventoryUiInstance = this;
+		if(isPlayerInventoryUIInstance)
+		{
+			GuiInstanceManager.InventoryUiInstance = this;
+		}
+
 		ItemSpriteManager = new SpriteManager(atlasFilepath);
 	}
 
@@ -66,33 +72,19 @@ public class InventoryUI : MonoBehaviour
 	void Start () 
 	{
 		ItemsToDiscard = new List<ItemStack>();
-		GuiInstanceManager.InventoryUiInstance.TargetInventory = Game.Instance.PlayerInstance.Inventory;
-		ItemStack[] contents = TargetInventory.GetInventory ();
 
-		// create empty slots
-		for (int i = 0; i < TargetInventory.InventorySize; ++i) 
+		if(isPlayerInventoryUIInstance)
 		{
-			slots.Add (new ItemStack());
-			inventory.Add (new ItemStack ());
-			ItemStackUI newItemUI = GameObject.Instantiate (baseItemUiTemplate);
-			itemStackUIList.Add(newItemUI);
-
-			// place empty ui slots in grid layout
-			newItemUI.gameObject.SetActive (true);
-			newItemUI.transform.SetParent (inventoryParentUI.transform, false);
+			GuiInstanceManager.InventoryUiInstance.AssociatedInventory = Game.Instance.PlayerInstance.Inventory;
 		}
 
-		// set stack items 
-		for (int i = 0; i < TargetInventory.InventorySize; ++i) 
+		if(itemStackUIList.Count == 0)
 		{
-			if (contents [i] != null)
-			{
-				inventory[i] = contents[i];
-			}
+
+			LoadNewInventory(AssociatedInventory);
 		}
 
 		DisplayInventory();
-		gameObject.SetActive(false);
 	}
 
 	/// <summary>
@@ -100,7 +92,7 @@ public class InventoryUI : MonoBehaviour
 	/// </summary>
 	public void DisplayInventory()
 	{
-		for (int i = 0; i < TargetInventory.InventorySize; ++i) 
+		for (int i = 0; i < AssociatedInventory.InventorySize; ++i) 
 		{
 			slots [i] = inventory [i];
 			if (slots [i].Item != null) 
@@ -118,7 +110,7 @@ public class InventoryUI : MonoBehaviour
 	/// </summary>
 	public void RefreshInventoryPanel()
 	{
-		ItemStack[] newContents = TargetInventory.GetInventory ();
+		ItemStack[] newContents = AssociatedInventory.GetInventory ();
 		inventoryLayoutManager.CheckGridSize();
 
 		for (int i = 0; i < newContents.Length; ++i) 
@@ -216,7 +208,7 @@ public class InventoryUI : MonoBehaviour
 			}
 		}
 
-		TargetInventory = newInventory;
+		AssociatedInventory = newInventory;
 		DisplayInventory();
 	}
 
