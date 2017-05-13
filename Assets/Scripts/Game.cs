@@ -11,6 +11,7 @@
 		PauseInstance = new PauseSystem();
 		WorldItemFactoryInstance = new WorldItemFactory();
 		ItemFactoryInstance = new ItemFactory();
+		NoteFactoryInstance = new NoteFactory();
 		GameSettingsInstance = new GameSettings ();
 		Scheme = GameSettingsInstance.Scheme;
         DeathManagerInstance = new DeathManager();
@@ -34,9 +35,12 @@
 		FMODUnity.RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
 
         PlayerInstance.ResetStatus();
+        PlayerInstance.Inventory.Reset();
+
         Loader.Reset();
 
         this.PauseInstance.ResetDelegates();
+		EventManager = new EventManager ();
     }
  
     /// <summary>
@@ -307,5 +311,15 @@
 	{
 		get;
 		set;
+	}
+
+	/// <summary>
+	/// Gets or sets the note factory instance.
+	/// </summary>
+	/// <value>The note factory instance.</value>
+	public NoteFactory NoteFactoryInstance 
+	{
+		get;
+		private set;
 	}
 }

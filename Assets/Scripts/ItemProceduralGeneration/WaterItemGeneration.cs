@@ -36,8 +36,6 @@ public class WaterItemGeneration : ItemGenerator
 	[Tooltip("How many grid chunks away the storm event will generate more items for the player.")]
 	private int itemIncreaseChunks;
 
-	private Dictionary<string, List<float>> generatableItemExtents;
-
 	public delegate void StepCallback (List<ItemPlacementSamplePoint> message);
 
 	/// <summary>
@@ -60,7 +58,6 @@ public class WaterItemGeneration : ItemGenerator
 	{
 		Dictionary<string, List<GameObject>> itemTemplates = Game.Instance.WorldItemFactoryInstance.GetAllInteractableItemsByDistrict(false, true);
 		districtItemInfo = new Dictionary<string, DistrictItemConfiguration>();
-		generatableItemExtents = new Dictionary<string, List<float>>();
 
 		// get district name here
 		foreach(string key in itemTemplates.Keys)
@@ -69,10 +66,17 @@ public class WaterItemGeneration : ItemGenerator
 			districtItemInfo[key].ItemTemplates = itemTemplates[key];
 			districtItemInfo[key].ItemNames = Game.Instance.ItemFactoryInstance.WaterItemsByDistrict[key];
 			districtItemInfo[key].ItemExtents = GetItemExtents(itemTemplates[key]);
-			generatableItemExtents.Add(key, districtItemInfo[key].ItemExtents);
 		}
 
 		Game.Instance.EventManager.StormStartedSubscription += this.GenerateInWaterAroundPlayer;
+	}
+
+	/// <summary>
+	/// Unsubscribes on destroy
+	/// </summary>
+	void OnDestroy()
+	{
+		Game.Instance.EventManager.StormStartedSubscription -= this.GenerateInWaterAroundPlayer;
 	}
 
 	/// <summary>
@@ -107,7 +111,7 @@ public class WaterItemGeneration : ItemGenerator
 		StepCallback finishingAction = SetInitialGenerationPoints;
 		StartCoroutine(pointGenerator.GenerateRandomPointsInBounds(minX, maxX, minY, maxY, pointGenerator.NumberOfInitialPoints, 
 																   pointCreationLoadingPercentage * ((float)numberOfInitialPoints/maxNumberOfItems), 0f,
-																   generatableItemExtents, finishingAction));
+																   districtItemInfo, finishingAction));
 	}
 
 	/// <summary>
@@ -134,7 +138,7 @@ public class WaterItemGeneration : ItemGenerator
 		StepCallback finishingAction = SetInitialGenerationPoints;
 	
 		StartCoroutine(pointGenerator.GenerateRandomPointsInBounds(minBounds.x, maxBounds.x, minBounds.z, maxBounds.z, pointGenerator.NumberOfInitialPoints, 
-																   0f, 0f, generatableItemExtents, finishingAction));
+																   0f, 0f, districtItemInfo, finishingAction));
 	}
 
 	/// <summary>
@@ -197,7 +201,6 @@ public class WaterItemGeneration : ItemGenerator
 	/// <param name="initialPoints">Initial points.</param>
 	public void SetInitialGenerationPoints(List<ItemPlacementSamplePoint> initialPoints)
 	{
-		// TODO: this is temporary and will be changed to not use magic numbers in the pull request to do the loading screen
 		UpdateLoadingPercent(pointCreationLoadingPercentage * ((float)numberOfInitialPoints/maxNumberOfItems));
 
 		StepCallback nextAction = VerifySamplingPoints;
@@ -205,7 +208,7 @@ public class WaterItemGeneration : ItemGenerator
 		float maxPercent = pointCreationLoadingPercentage * ((float)(maxNumberOfItems - numberOfInitialPoints)/maxNumberOfItems);
 		float basePercent = pointCreationLoadingPercentage * ((float)numberOfInitialPoints/maxNumberOfItems);
 
-		StartCoroutine(pointGenerator.GeneratePoints(generatableItemExtents, initialPoints, nextAction, maxPercent, basePercent));
+		StartCoroutine(pointGenerator.GeneratePoints(initialPoints, districtItemInfo, nextAction, maxPercent, basePercent));
 	}
 
 	/// <summary>

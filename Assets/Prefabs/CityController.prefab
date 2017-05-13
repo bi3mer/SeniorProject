@@ -184,6 +184,7 @@ MonoBehaviour:
   poolManager: {fileID: 114000010221364680}
   itemGenerationChance: 0.8
   doorGenerationChance: 0.28
+  noteGenerationChance: 0.3
   shelterGenerationChance: 0.6
 --- !u!114 &114000013433191368
 MonoBehaviour:
