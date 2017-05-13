@@ -98,8 +98,33 @@ public class CityController : MonoBehaviour
 			rooftopItemGenerator.AddDoorsToDistrict(district.Configuration.Doors, doorExtents, district.Name);
 			rooftopItemGenerator.AddSheltersToDistrict(district.Configuration.Shelters, shelterExtents, district.Name);
 
-            // Pick a block to generate the weenie building in
-            int weenieBlock = Random.Range(0, blocks.Length);
+            // Get a location for the Weenie Building
+            bool weenieLocated = false;
+            Vector2 weeniePoint;
+            do
+            {
+                weeniePoint = VectorUtility.XZ(district.BoundingBox.center) + RandomUtility.RandomVector2d (
+                        Mathf.Min(district.BoundingBox.extents.x, district.BoundingBox.extents.z)
+                    );
+
+                // make sure this is an area where buildings will be generated
+                weenieLocated = district.ContainsPoint(weeniePoint);
+
+                if (weenieLocated)
+                {
+                    bool inBlock = false;
+                    for (int j = 0; j < blocks.Length; ++j)
+                    {
+                        if (blocks[j].ContainsPoint(weeniePoint))
+                        {
+                            inBlock = true;
+                        }
+                    }
+                    weenieLocated = inBlock;
+                }
+
+            } while (!weenieLocated);
+
 
             float blockPercentage = districtPercentage / (float)blocks.Length;
 
@@ -107,7 +132,7 @@ public class CityController : MonoBehaviour
             for (int j = 0; j < blocks.Length; ++j)
             {
                 Block block = blocks[j];
-                Building[] buildings = buildingGenerator.Generate(seed, block, district.Configuration, cityBounds, cityCenter, (weenieBlock == j));
+                Building[] buildings = buildingGenerator.Generate(seed, block, district.Configuration, cityBounds, cityCenter, weeniePoint);
 
                 for (int k = 0; k < buildings.Length; ++k)
                 {
@@ -116,7 +141,7 @@ public class CityController : MonoBehaviour
                     waterItemGenerator.AddBuildingToWaterGenerationMap(building.BoundingBox);
 					rooftopItemGenerator.PopulateRoof(building, district.Name);
 
-					if(building.Attachments.Count > 0)
+					if (building.Attachments.Count > 0)
 					{
 						building.LoadAttachments();
 					}
@@ -140,24 +165,16 @@ public class CityController : MonoBehaviour
         task.PercentageComplete = 1.0f;
         yield return null;
 
-        waterItemGenerator.GenerateInWater();
-
-        task2.PercentageComplete = 0.3f;
+        waterItemGenerator.GenerateInWater(ref task2);
         yield return null;
 
 		rooftopItemGenerator.AddTemplatesToItemPool();
-
-        task2.PercentageComplete = 0.6f;
         yield return null;
 
         waterItemGenerator.AddTemplatesToItemPool();
-
-        task2.PercentageComplete = 0.9f;
         yield return null;
 
         StartCoroutine(itemPoolManager.StartManagingPool());
-
-        task2.PercentageComplete = 1.0f;
         yield return null;
 
         cityChunkManager.Init(city);

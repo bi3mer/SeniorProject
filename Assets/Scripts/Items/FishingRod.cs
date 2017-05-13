@@ -18,6 +18,36 @@ public class FishingRod : PlayerTool
 
     private FishingLure fishingLure;
     private BezierLine line;
+    private int numOfUses;
+
+    public FishingRodCategory FishingCategory
+    {
+        get;
+        set;
+    }
+
+    public int NumOfUses
+    {
+        get
+        {
+            return numOfUses;
+        }
+        set
+        {
+            // Check if value has reached end of threshold
+            if (value == 0)
+            {
+                FishingCategory.Break();
+
+                // Keep it from looping the break function
+                numOfUses = -1;
+            }
+            else
+            {
+                numOfUses = value;
+            }
+        }
+    }
 
     /// <summary>
     /// Set up fishing rod variables.
@@ -30,18 +60,20 @@ public class FishingRod : PlayerTool
         WasCast = false;
         ToolName = toolName;
 	}
-
-	/// <summary>
-	/// Sets up the tool so that it is linked to the proper item in the inventory.
-	/// </summary>
-	/// <param name="itemForTool">Item for tool.</param>
-	public override void SetUpTool(BaseItem itemForTool)
+		
+    /// <summary>
+    /// Sets up the tool so that it is linked to the proper item in the inventory.
+    /// </summary>
+    /// <param name="itemForTool">Item for tool.</param>
+    public override void SetUpTool(BaseItem itemForTool)
 	{
 		List<ItemAction> actions = new List<ItemAction>();
-		FishingRodCategory fishingCategory = (FishingRodCategory) itemForTool.GetItemCategoryByClass(typeof(FishingRodCategory));
+		FishingCategory = (FishingRodCategory) itemForTool.GetItemCategoryByClass(typeof(FishingRodCategory));
 
-	 	ItemAction unequipAction = new ItemAction(unequipActName, new UnityAction(fishingCategory.UnEquip));
+	 	ItemAction unequipAction = new ItemAction(unequipActName, new UnityAction(FishingCategory.UnEquip));
 		actions.Add(unequipAction);
+
+        NumOfUses = FishingCategory.DegenerationThreshold;
 
 		GuiInstanceManager.EquippedItemGuiInstance.SetEquipped(itemForTool.InventorySprite, actions);
 	}
@@ -89,6 +121,7 @@ public class FishingRod : PlayerTool
         if (WasCast)
         {
             reel();
+            --NumOfUses;
         }
         else if (CanCast)
         {

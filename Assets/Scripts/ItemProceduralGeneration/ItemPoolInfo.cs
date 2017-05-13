@@ -71,15 +71,4 @@ public class ItemPoolInfo
 		Items.RemoveAt(index);
 		Locations.RemoveAt(index);
 	}
-
-	/// <summary>
-	/// Adds the item info from the pool information.
-	/// </summary>
-	/// <param name="item">Item.</param>
-	public void AddItemInfo(GameObject item)
-	{
-		ItemNames.Add(item.name);
-		Items.Add(item);
-		Locations.Add(item.transform.position);
-	}
 }

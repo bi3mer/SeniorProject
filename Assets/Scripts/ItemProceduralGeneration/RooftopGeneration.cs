@@ -15,6 +15,11 @@ public class RooftopGeneration: ItemGenerator
     private float doorGenerationChance;
 
     [SerializeField]
+    [Tooltip("Likelihood of an item being a note, from 0 to 1")]
+    [Range(0, 1)]
+    private float noteGenerationChance;
+
+    [SerializeField]
     [Tooltip("Likelihood of a rooftop having a shelter, from 0 to 1")]
     [Range(0, 1)]
     private float shelterGenerationChance;
@@ -23,6 +28,8 @@ public class RooftopGeneration: ItemGenerator
 	/// Generator that creates the points to place objects
 	/// </summary>
 	private RooftopPointGenerator generator;
+
+	private bool noteGenerate;
 
 	/// <summary>
 	/// Awakens this instance.
@@ -41,6 +48,8 @@ public class RooftopGeneration: ItemGenerator
 			districtItemInfo[key].ItemExtents = GetItemExtents(itemTemplates[key]);
 			districtItemInfo[key].ItemNames = Game.Instance.ItemFactoryInstance.LandItemsByDistrict[key];
 		}
+
+		noteGenerate = false;
 	}
 
 	/// <summary>
@@ -121,19 +130,35 @@ public class RooftopGeneration: ItemGenerator
 		List<GameObject> attachments = new List<GameObject>();
 		List<ItemPlacementSamplePoint> attachmentInformation = new List<ItemPlacementSamplePoint>();
 
+		noteGenerate = false;
+
 		for (int i = 0; i < points.Count; ++i) 
 		{
+			// a note is generated if there are notes still available to generate and the
+			// random number falls under the noteGenerationChance
+			noteGenerate = (Game.Instance.NoteFactoryInstance.NotesAvailable && 
+							RandomUtility.RandomPercent <= noteGenerationChance);
+
 			if(points[i].Type == ItemPlacementSamplePoint.PointType.DOOR)
 			{
 				attachments.Add(districtItemInfo[district].DoorTemplates[points[i].ItemIndex]);
 				attachmentInformation.Add(points[i]);
+				noteGenerate = false;
 			}
 			else if(points[i].Type == ItemPlacementSamplePoint.PointType.SHELTER)
 			{
 				attachments.Add(districtItemInfo[district].ShelterTemplates[points[i].ItemIndex]);
 				attachmentInformation.Add(points[i]);
+				noteGenerate = false;
 			}
-			if(points[i].ItemIndex < districtItemInfo[points[i].District].ItemNames.Count)
+
+			if (noteGenerate) 
+			{
+				GameObject note = Game.Instance.NoteFactoryInstance.GetNextNote ();
+				poolManager.AddToGrid (points [i].WorldSpaceLocation, note.name, false);
+				poolManager.AddItemToPool (note.name, note);
+			} 
+			else if(points[i].ItemIndex < districtItemInfo[points[i].District].ItemNames.Count)
 			{
 				poolManager.AddToGrid(points[i].WorldSpaceLocation, districtItemInfo[points[i].District].ItemNames[points[i].ItemIndex], false);
 			}

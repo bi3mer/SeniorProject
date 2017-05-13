@@ -6,12 +6,20 @@ public abstract class SamplingPointGenerator
 	/// <summary>
 	/// The size of the grid cells.
 	/// </summary>
-	protected float cellSize;
+	public float CellSize
+	{
+		get;
+		protected set;
+	}
 
 	/// <summary>
 	/// The grid that contains information about what space is occupied in the city.
 	/// </summary>
-	protected ItemPlacementSamplePoint[,] grid;
+	public ItemPlacementSamplePoint[,] Grid
+	{
+		get;
+		protected set;
+	}
 
 	/// <summary>
 	/// The water tag.
@@ -62,7 +70,7 @@ public abstract class SamplingPointGenerator
 		float minDistance = samplePoint.MinDistance;
 
 		// how many neighboring cells should be checked against in the grid
-		int neighborCellCheck = Mathf.CeilToInt((minDistance + samplePoint.Size)/cellSize);
+		int neighborCellCheck = Mathf.CeilToInt((minDistance + samplePoint.Size)/CellSize);
 
 		// gets the start and  end grid location to be checked, and clamps them to be within the size of the grid
 		int minX = (int) gridPoint.X - neighborCellCheck;
@@ -76,9 +84,9 @@ public abstract class SamplingPointGenerator
 			minX = 0;
 		}
 
-		if(maxX >= grid.GetLength(0))
+		if(maxX >= Grid.GetLength(0))
 		{
-			maxX = grid.GetLength(0) - 1;
+			maxX = Grid.GetLength(0) - 1;
 		}
 
 		if(minY < 0)
@@ -86,9 +94,9 @@ public abstract class SamplingPointGenerator
 			minY = 0;
 		}
 
-		if(maxY >= grid.GetLength(1))
+		if(maxY >= Grid.GetLength(1))
 		{
-			maxY = grid.GetLength(1) - 1;
+			maxY = Grid.GetLength(1) - 1;
 		}
 
 		// goes through grid points
@@ -101,7 +109,7 @@ public abstract class SamplingPointGenerator
 			{
 				if (j != gridPoint.Y || i != gridPoint.X) 
 				{
-					ItemPlacementSamplePoint gridSample = grid [i, j];
+					ItemPlacementSamplePoint gridSample = Grid [i, j];
 
 					if (gridSample != null && 
 						Vector2.Distance(gridSample.LocalTargetSurfaceLocation, point) < (Mathf.Max(minDistance, gridSample.MinDistance) 
@@ -112,7 +120,7 @@ public abstract class SamplingPointGenerator
 				}
 				else
 				{
-					ItemPlacementSamplePoint gridSample = grid [i, j];
+					ItemPlacementSamplePoint gridSample = Grid [i, j];
 					if(gridSample != null)
 					{
 						return true;
