@@ -147,6 +147,8 @@ public class BaseItem : CollectableItem
 	/// </summary>
 	public bool DiscardFlag = false;
 
+	private const string discardActionName = "Discard";
+
 	/// <summary>
 	/// Initializaer only used during Yaml Deserialization
 	/// </summary>
@@ -273,7 +275,6 @@ public class BaseItem : CollectableItem
 
 		if(GetItemCategoryByClass(typeof(RaftCategory)) == null)
 		{
-			string discardActionName = "Discard";
 			possibleActions.Add(new ItemAction(discardActionName, new UnityAction(Discard)));
 		}
 
