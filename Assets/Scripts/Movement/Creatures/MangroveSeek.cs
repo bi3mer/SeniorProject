@@ -7,7 +7,7 @@ public class MangroveSeek : MonoBehaviour
     [SerializeField]
     private float speed = 1f;
 
-    private const string oceanTag = "Ocean";
+    private const string oceanTag = "Water";
 
     bool collided = false;
 
@@ -29,7 +29,7 @@ public class MangroveSeek : MonoBehaviour
 	/// <param name="collision">Collision.</param>
 	void OnTriggerEnter(Collider other)
 	{
-		this.collided = !other.CompareTag(oceanTag);
+		this.collided = !other.CompareTag(MangroveSeek.oceanTag);
 	}
 
 	/// <summary>

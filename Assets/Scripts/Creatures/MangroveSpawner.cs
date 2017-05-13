@@ -14,9 +14,10 @@ public class MangroveSpawner : CreatureSpawner
     /// <returns></returns>
     private Vector3 randomLocation()
     {
-        return new Vector3(Game.Instance.PlayerInstance.WorldPosition.x - this.floatInRadius,
+    	Vector3 position = Game.Player.WorldPosition;
+        return new Vector3(Random.Range(position.x - this.floatInRadius, position.x + this.floatInRadius),
                            Game.Instance.WaterLevelHeight + this.waterLevelOffset,
-                           Game.Instance.PlayerInstance.WorldPosition.z - this.floatInRadius);
+			               Random.Range(position.z - this.floatInRadius, position.z + this.floatInRadius));
     }
 
     /// <summary>
@@ -28,12 +29,12 @@ public class MangroveSpawner : CreatureSpawner
         Vector3 location = this.randomLocation();
         Vector3 above;
 
-//        do
-//        {
-//            location = this.randomLocation();
-//            above    = new Vector3(location.x, location.y + aboveModifier, location.y);
-//        }
-//        while (! Physics.Raycast(above, Vector3.down, aboveModifier, this.collisionMask));
+        do
+        {
+            location = this.randomLocation();
+            above    = new Vector3(location.x, location.y + aboveModifier, location.y);
+        }
+		while (!Physics.Raycast(above, Vector3.down, aboveModifier, this.collisionMask));
 
         return location;
     }
