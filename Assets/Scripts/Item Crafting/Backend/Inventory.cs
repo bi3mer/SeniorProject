@@ -13,12 +13,12 @@ using UnityEngine;
 public class Inventory
 {
 	// Inventory size
-	private int inventorySize = 10;
+	protected int inventorySize = 10;
 
 	// How many items there may be in a stack
-	private const int StackSize = 5;
+	protected const int StackSize = 5;
 
-	private string inventoryName;
+	protected string inventoryName;
 
 	// Contents of the inventory keyed by their name
 	protected ItemStack[] contents;

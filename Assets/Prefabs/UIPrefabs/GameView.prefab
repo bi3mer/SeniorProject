@@ -6778,6 +6778,7 @@ MonoBehaviour:
   pneumoniaText: You've contracted pneumonia.
   noSicknessText: You've been cured of illness!
   inventoryFullText: Your inventory is full.
+  rodBreakText: Your rod has broken!
 --- !u!114 &114000012090224290
 MonoBehaviour:
   m_ObjectHideFlags: 1
