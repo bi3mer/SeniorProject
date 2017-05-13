@@ -3759,13 +3759,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000011536698418}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b876fc97c06f3e4ea0a1713a11cf9ca, type: 3}
+  m_Script: {fileID: 11500000, guid: 04688c69e334942368928ac00fa8ea35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 114000011980828570}
   bipedIk: {fileID: 114000011958240612}
-  focusSpeed: 2
-  maxViewDistance: 0.4
+  focusSpeed: 1.2
+  maxViewDistance: 4.2
 --- !u!114 &114000010297988840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3903,13 +3903,13 @@ MonoBehaviour:
     eyes: []
   solvers:
     leftFoot:
-      IKPosition: {x: -125.588005, y: 0.89385563, z: -1.120482}
+      IKPosition: {x: -145.017, y: 0.89385563, z: 62.094517}
       IKPositionWeight: 0
       root: {fileID: 4000013370856100}
       target: {fileID: 0}
       IKRotationWeight: 0
       IKRotation: {x: 0.03232066, y: 0.5065422, z: 0.86126, w: -0.024532765}
-      bendNormal: {x: 0.00081775675, y: -0.0000027443812, z: 0.00009009863}
+      bendNormal: {x: 0.00081767765, y: -0.000002784538, z: 0.000091443384}
       bone1:
         transform: {fileID: 4000014214653318}
         weight: 1
@@ -3947,13 +3947,13 @@ MonoBehaviour:
       bendModifierWeight: 1
       bendGoal: {fileID: 0}
     rightFoot:
-      IKPosition: {x: -125.55399, y: 0.89385587, z: -1.1204813}
+      IKPosition: {x: -144.983, y: 0.89385587, z: 62.094517}
       IKPositionWeight: 0
       root: {fileID: 4000013370856100}
       target: {fileID: 0}
       IKRotationWeight: 0
       IKRotation: {x: -0.03259691, y: 0.5050806, z: 0.8621036, w: 0.02466534}
-      bendNormal: {x: 0.0008205492, y: 0.0000028376135, z: -0.00009009747}
+      bendNormal: {x: 0.0008203676, y: 0.000002879533, z: -0.00009144221}
       bone1:
         transform: {fileID: 4000011751153956}
         weight: 1
@@ -3991,7 +3991,7 @@ MonoBehaviour:
       bendModifierWeight: 1
       bendGoal: {fileID: 0}
     leftHand:
-      IKPosition: {x: -125.71204, y: 1.183136, z: -1.0692377}
+      IKPosition: {x: -145.14105, y: 1.183136, z: 62.14576}
       IKPositionWeight: 0
       root: {fileID: 4000013370856100}
       target: {fileID: 4000011254794764}
@@ -4035,7 +4035,7 @@ MonoBehaviour:
       bendModifierWeight: 1
       bendGoal: {fileID: 0}
     rightHand:
-      IKPosition: {x: -125.41396, y: 1.1831369, z: -1.1273154}
+      IKPosition: {x: -144.84296, y: 1.1831369, z: 62.087685}
       IKPositionWeight: 0
       root: {fileID: 4000013370856100}
       target: {fileID: 4000013463216726}
@@ -4080,7 +4080,7 @@ MonoBehaviour:
       bendModifierWeight: 1
       bendGoal: {fileID: 0}
     spine:
-      IKPosition: {x: -125.571, y: 1.134089, z: -1.119776}
+      IKPosition: {x: -145, y: 1.134089, z: 62.095222}
       IKPositionWeight: 0
       root: {fileID: 4000013370856100}
       target: {fileID: 0}
@@ -4091,26 +4091,26 @@ MonoBehaviour:
       bones:
       - transform: {fileID: 4000011818603918}
         weight: 1
-        solverPosition: {x: -125.571, y: 1.1066749, z: -1.1166042}
+        solverPosition: {x: -145, y: 1.1066749, z: 62.098392}
         solverRotation: {x: -0.057562865, y: -1.8019364e-11, z: -5.8783087e-12, w: 0.9983419}
         defaultLocalPosition: {x: 1.1926224e-20, y: 0.1174889, z: -0.013593648}
         defaultLocalRotation: {x: -0.057563026, y: -0.0000026286436, z: 0.00002975412,
           w: 0.9983419}
-        length: 0.027596962
+        length: 0.027596757
         sqrMag: 0
-        axis: {x: -3.8115686e-13, y: 0.027596962, z: 0.000000051136496}
+        axis: {x: -3.8109132e-13, y: 0.027596757, z: 0.0000018274259}
       - transform: {fileID: 4000012105946520}
         weight: 1
-        solverPosition: {x: -125.571, y: 1.134089, z: -1.119776}
+        solverPosition: {x: -145, y: 1.134089, z: 62.095222}
         solverRotation: {x: -0.057562865, y: -1.8019364e-11, z: -5.8783087e-12, w: 0.9983419}
         defaultLocalPosition: {x: -8.9446675e-21, y: 0.13798474, z: -0.0000000013173526}
         defaultLocalRotation: {x: 6.938894e-18, y: -1.2074991e-13, z: 6.7270066e-13,
           w: 1}
         length: 0
         sqrMag: 0
-        axis: {x: -3.8115686e-13, y: 0.027596962, z: 0.000000051136496}
+        axis: {x: -3.8109132e-13, y: 0.027596757, z: 0.0000018274259}
     lookAt:
-      IKPosition: {x: -125.571, y: 1.134089, z: 1.880224}
+      IKPosition: {x: -145, y: 1.134089, z: 65.09522}
       IKPositionWeight: 0
       root: {fileID: 4000013370856100}
       target: {fileID: 4000010110805804}
@@ -4213,7 +4213,7 @@ MonoBehaviour:
       transform: {fileID: 4000011034163460}
       target: {fileID: 0}
       positionOffset: {x: 0, y: 0, z: 0}
-      position: {x: -125.571, y: 1.0831771, z: -1.1138855}
+      position: {x: -145, y: 1.0831771, z: 62.101112}
       positionWeight: 0
       rotationOffset: {x: 0, y: 0, z: 0}
       rotation: {x: 0.000018370798, y: 0.00010445361, z: -0.003421257}
@@ -4286,6 +4286,9 @@ MonoBehaviour:
   foodPoisonHungerDecrease: 0
   pneumoniaTime: 0
   foodPoisioningTime: 0
+  pnuemoniaChance: 0.2
+  pnuemoniaWarmthThreshold: 20
+  pneumoniaCheckTime: 10
   verticalSpeed: 0.01
   debugFlightUp: 32
   debugFlightDown: 306
@@ -4347,7 +4350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dbc643da8c996b4e9e3b990d3bb353e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sicknessDecrease: 2
+  sicknessDecrease: 0
   climbHeight: 0.75
   swimmingSpeed: 0.6
   minFallDamageVelocity: 8
@@ -4390,7 +4393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7cb5682a27f5bb4f8fe3827a84eea19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sicknessDecrease: 2
+  sicknessDecrease: 0
   climbHeight: 1
   walkingSpeed: 0.6
   sprintingSpeed: 1
