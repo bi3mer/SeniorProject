@@ -6,6 +6,8 @@ public class PickUpItem : InteractableObject
 {
 	private BaseItem item;
 
+    private const float glowWait = 0.1f;
+
 	void Awake()
 	{
 		SetUp();
@@ -43,7 +45,13 @@ public class PickUpItem : InteractableObject
 	/// </summary>
 	public override void SetUp()
 	{
-		if(!setupComplete)
+        // Make sure the component isn't added more than once.
+        if (gameObject.GetComponent<GlowObjectCmd>() == null)
+        {
+            gameObject.AddComponent<GlowObjectCmd>();
+        }
+
+        if (!setupComplete)
 		{
 			base.SetUp();
 
@@ -64,6 +72,19 @@ public class PickUpItem : InteractableObject
 	/// </summary>
 	private void pickUp()
 	{
+        gameObject.GetComponent<GlowObjectCmd>().OutOfViewColor();
+        StartCoroutine(removeItem());
+    }
+
+
+    /// <summary>
+    /// Removes item from world after the gameObject is done stopping the outline glow.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator removeItem()
+    {
+        yield return new WaitForSeconds(glowWait);
+
 		if(Game.Instance.PlayerInstance.Inventory.AddItem(Item, Amount) == 0)
 		{
 			Game.Instance.ItemPoolInstance.RemoveItemFromWorld(this.gameObject);
