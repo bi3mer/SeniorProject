@@ -105,7 +105,7 @@ public class Radio : MonoBehaviour
 		mysteryCarousel = new List<string> ();
 
 		musicCarousel.Add ("event:/Radio/Music/Soulja_Boy");
-		mysteryCarousel.Add ("event:/Radio/Mystery/Evacuate_3_Block");
+		mysteryCarousel.Add ("event:/Radio/Mystery/Phase2/Evacuate_3_Block");
 		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery2");
 
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
@@ -132,8 +132,8 @@ public class Radio : MonoBehaviour
 		AddToCarousel (RadioChannel.Music, "event:/Radio/Music/Apocalypse");
 		AddToCarousel (RadioChannel.Music, "event:/Radio/Music/Better_Safe");
 
-		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/School_Musical");
-		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/Relgious_Fanatic");
+		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/Phase1/School_Musical");
+		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/Phase3/Relgious_Fanatic");
 
 		Game.Instance.EventManager.StormStartedSubscription += startStatic;
 		Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
