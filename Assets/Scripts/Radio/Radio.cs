@@ -71,6 +71,9 @@ public class Radio : MonoBehaviour
 	[Tooltip("The highest degree of the range of the knob's rotation in which the weather will play")]
 	public float highWeather;
 
+	private float maxVolume;
+	private float minVolume;
+
 	/// <summary>
 	/// Sets up radio for usage -- turned off, with no active channel
 	/// </summary>
@@ -135,6 +138,7 @@ public class Radio : MonoBehaviour
 	{
 		if (isOn) 
 		{
+			Debug.Log (MaxVolume);
 			// Find the current channel and turn it on if it's not already playing 
 			FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
 
@@ -487,5 +491,59 @@ public class Radio : MonoBehaviour
 	private void addRaftClip()
 	{
 		// TODO: Add raft clip to carousel
+	}
+
+	private void increaseVolume()
+	{
+		if (!MaxVolume)
+		{
+			weather.volume += 0.1f;
+		}
+	}
+
+	private void decreaseVolume()
+	{
+		if (!MinVolume)
+		{
+			weather.volume -= 0.1f;
+		}
+	}
+
+	public bool MaxVolume 
+	{
+		get
+		{
+			if (weather.volume == 1.0) 
+			{
+				return true;
+			} 
+			else 
+			{
+				return false;
+			}
+		}
+		set
+		{
+			MaxVolume = value;
+		}
+	}
+
+	public bool MinVolume 
+	{
+		get
+		{
+			if (weather.volume == 0) 
+			{
+				return true;
+			} 
+			else 
+			{
+				return false;
+			}
+		}
+		set
+		{
+			MinVolume = value;
+		}
 	}
 }
