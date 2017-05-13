@@ -15,6 +15,26 @@ public class RaftInteractable : InteractableObject {
         set;
     }
 
+	/// <summary>
+	/// Gets or sets the attached inventory.
+	/// </summary>
+	/// <value>The attached inventory.</value>
+	public Inventory AttachedInventory
+	{
+		get;
+		set;
+	}
+
+	private bool raftBoarded = false;
+
+	private const string useRaftText = "Use Raft (F)";
+
+	private const string disembarkRaftText = "Disembark Raft";
+	private const string boardRaftText = "Board Raft";
+	private const string checkInventoryText = "Check Inventory";
+
+	private OverworldItemOptionSelection itemSelectionHandler;
+
     /// <summary>
     /// Sets action for raft as board raft
     /// </summary>
@@ -27,16 +47,57 @@ public class RaftInteractable : InteractableObject {
 
 	        raftMovement = GetComponentInChildren<RaftMovement>();
 	        raftMovement.SetMaxSpeed(Raft.Speed);
-	        Text = raftMovement.BoardRaftText;
+	        Text = useRaftText;
+
+			if(AttachedInventory != null)
+			{
+				itemSelectionHandler = new OverworldItemOptionSelection(true);
+			}
 
 	        SetAction
 	        (
 	            delegate
 	            {
-	                BoardRaft();
+	               HandleAction();
 	            }
 	        );
 	    }
+    }
+
+    public void HandleAction()
+    {
+    	if(AttachedInventory == null)
+    	{
+    		HandleBoarding();
+    	}
+    	else
+    	{
+			itemSelectionHandler.Reset();
+
+    		if(raftBoarded)
+    		{
+				itemSelectionHandler.AddPossibleAction(new ItemAction(disembarkRaftText, DisembarkRaft));
+    		}
+    		else
+    		{
+				itemSelectionHandler.AddPossibleAction(new ItemAction(boardRaftText, BoardRaft));
+    		}
+
+			itemSelectionHandler.AddPossibleAction(new ItemAction(checkInventoryText, openInventoryTransferPanel));
+			itemSelectionHandler.ShowPossibleActions();
+    	}
+    }
+
+    public void HandleBoarding()
+    {
+		if(raftBoarded)
+		{
+			DisembarkRaft();
+		}
+		else
+		{
+			BoardRaft();
+		}
     }
 
     /// <summary>
@@ -46,12 +107,9 @@ public class RaftInteractable : InteractableObject {
     {
         Game.Instance.PlayerInstance.Controller.BoardRaft(raftMovement);
 
-        // update raft's interactivity
-        this.Text = raftMovement.DisembarkRaftText;
-        this.SetAction(delegate { DisembarkRaft(); });
-
         // Give the raft the player's animator to control.
         raftMovement.PlayerAnimator = Game.Instance.PlayerInstance.Controller.PlayerAnimator;
+		raftBoarded = true;
 
         // Notify subscribers
         Game.Instance.EventManager.RaftBoarded();
@@ -64,9 +122,15 @@ public class RaftInteractable : InteractableObject {
     public void DisembarkRaft()
     {
         Game.Instance.PlayerInstance.Controller.DisembarkRaft(raftMovement);
-
-        // update raft's interactivity
-        this.Text = raftMovement.BoardRaftText;
-        this.SetAction(delegate { BoardRaft(); });
+        raftBoarded = false;
     }
+
+	/// <summary>
+	/// Picks up the item and adds it to the inventory. The Item is then removed from the world.
+	/// </summary>
+	private void openInventoryTransferPanel()
+	{
+		Game.Instance.GameViewInstance.OnInventoryTransferOpen();
+		GuiInstanceManager.InventoryTransferInstance.LoadContainerInventory(AttachedInventory);
+	}
 }

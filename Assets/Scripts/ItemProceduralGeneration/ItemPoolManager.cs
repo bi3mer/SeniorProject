@@ -39,6 +39,9 @@ public class ItemPoolManager : MonoBehaviour
 
 	private Dictionary<string, List<GameObject>> itemPool;
 
+	// containers have to be saved individually due to their inventories
+	private Dictionary<string, GameObject> containerItems;
+
 	private Dictionary<string, int>  poolAmountByRarity;
 
 	private float cityWidth;
@@ -67,6 +70,7 @@ public class ItemPoolManager : MonoBehaviour
 	{
 		poolAmountByRarity = new Dictionary<string, int>();
 		itemPool = new Dictionary<string, List<GameObject>>();
+		containerItems = new Dictionary<string, GameObject>();
 
 		poolAmountByRarity.Add(ItemRarity.Common, commonPoolAmount);
 		poolAmountByRarity.Add(ItemRarity.Uncommon, uncommonPoolAmount);
@@ -304,12 +308,15 @@ public class ItemPoolManager : MonoBehaviour
 				gridCell.Items[j].SetActive(false);
 				gridCell.Items[j].transform.SetParent(inactivePool);
 
-				if(!itemPool.ContainsKey(gridCell.ItemNames[j]))
+				if(!containerItems.ContainsKey(gridCell.ItemNames[j]))
 				{
-					itemPool.Add(gridCell.ItemNames[j], new List<GameObject>());
-				}
+					if(!itemPool.ContainsKey(gridCell.ItemNames[j]))
+					{
+						itemPool.Add(gridCell.ItemNames[j], new List<GameObject>());
+					}
 
-				itemPool[gridCell.ItemNames[j]].Add(gridCell.Items[j]);
+					itemPool[gridCell.ItemNames[j]].Add(gridCell.Items[j]);
+				}
 
 				gridCell.Items.RemoveAt(j);
 			}
@@ -336,6 +343,11 @@ public class ItemPoolManager : MonoBehaviour
 			if(itemPool.ContainsKey(gridCell.ItemNames[index]))
 			{
 				itemPool[gridCell.ItemNames[index]].Add(item);
+			}
+			else if(containerItems.ContainsKey(gridCell.ItemNames[index]))
+			{
+				GameObject.Destroy(containerItems[gridCell.ItemNames[index]]);
+				containerItems.Remove(gridCell.ItemNames[index]);
 			}
 			else
 			{
@@ -381,16 +393,30 @@ public class ItemPoolManager : MonoBehaviour
 	/// Adds an item that has just appeared in the world and was not previously accounted for.
 	/// </summary>
 	/// <param name="item">Item.</param>
-	public void AddItemFromWorld(GameObject item)
+	/// <param name="isContainer">Is a container.</param>
+	public void AddItemFromWorld(GameObject item, bool isContainer = false)
 	{
-		Tuple<int, int> itemGridLocation = AddToGrid(item.transform.position, item.name, true);
+		Tuple<int, int> itemGridLocation = PointToGrid(new Vector2(item.transform.position.x, item.transform.position.z));
+
+		ItemPoolInfo gridCell = grid[itemGridLocation.X, itemGridLocation.Y];
+		string itemName = item.name;
+
+		if(isContainer)
+		{
+			itemName = item.GetComponent<InventoryInteractable>().AttachedInventory.InventoryName;
+		}
 
 		if(itemGridLocation != null)
 		{
+			grid[itemGridLocation.X, itemGridLocation.Y] = new ItemPoolInfo(item.transform.position, itemName, true);
 			grid[itemGridLocation.X, itemGridLocation.Y].Items.Add(item);
 
 			item.transform.SetParent(activePool);
 			item.SetActive(true);
+		}
+		else
+		{
+			gridCell.AddItemInfo(item, itemName);
 		}
 	}
 
@@ -425,11 +451,15 @@ public class ItemPoolManager : MonoBehaviour
 				poolItem = itemPool[itemName][index];
 				itemPool[itemName].RemoveAt(index);
 			}
-			else
+			else 
 			{
 				/// TODO: vary amount generated
 				poolItem = Game.Instance.WorldItemFactoryInstance.CreatePickUpInteractableItem(Game.Instance.ItemFactoryInstance.GetBaseItem(itemName), 1);
 			}
+		}
+		else if(containerItems.ContainsKey(itemName))
+		{
+			poolItem = containerItems[itemName];
 		}
 
 		poolItem.SetActive(true);

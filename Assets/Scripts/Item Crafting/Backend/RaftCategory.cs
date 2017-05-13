@@ -15,8 +15,20 @@ public class RaftCategory : ItemCategory
         set;
     }
 
+    /// <summary>
+    /// Gets or sets the size of the inventory.
+    /// </summary>
+    /// <value>The size of the inventory.</value>
+    public float InventorySize
+    {
+    	get;
+    	set;
+    }
+
  
     private const string speedAttrName = "speed";
+    private const string inventorySizeAttrName = "inventorySize";
+
     private string setDownActName = "Set Down";
 
     private const float byWaterThreshold = 1f;
@@ -36,6 +48,8 @@ public class RaftCategory : ItemCategory
         category.Attributes = new List<ItemAttribute>();
 
         category.Speed = Speed;
+        category.InventorySize = InventorySize;
+
         if (Game.Instance.PlayerInstance.Controller.IsWaterInView)
         {
             ItemAction setDown = new ItemAction(setDownActName, new UnityAction(category.SetDown));
@@ -54,6 +68,7 @@ public class RaftCategory : ItemCategory
     {
         Attributes = new List<ItemAttribute>();
         Attributes.Add(new ItemAttribute(speedAttrName, Speed));
+        Attributes.Add(new ItemAttribute(inventorySizeAttrName, InventorySize));
 
         Actions = new List<ItemAction>();
     }
@@ -68,6 +83,14 @@ public class RaftCategory : ItemCategory
         RaftInteractable raft = item.AddComponent<RaftInteractable>();
 
         raft.Raft = this;
+
+        if(InventorySize > 0)
+        {
+        	// N ensures that it becomes a string properly
+			string inventoryID = baseItem.ItemName + " " + Guid.NewGuid().ToString("N");
+			raft.AttachedInventory = new Inventory(inventoryID, (int) InventorySize);
+		}
+
         raft.SetUp();
 
         item.name = baseItem.ItemName;
@@ -76,8 +99,6 @@ public class RaftCategory : ItemCategory
         Vector3 playerPos = Game.Instance.PlayerInstance.Controller.PlayerAnimator.transform.position;
         Vector3 playerDir = Game.Instance.PlayerInstance.Controller.PlayerAnimator.transform.forward;
         item.transform.position = playerPos + playerDir * itemDist;
-
-        SetActionComplete(setDownActName);
 
         baseItem.RemovalFlag = true;
     }
