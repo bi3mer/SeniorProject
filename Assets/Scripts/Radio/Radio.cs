@@ -71,6 +71,23 @@ public class Radio : MonoBehaviour
 	[Tooltip("The highest degree of the range of the knob's rotation in which the weather will play")]
 	public float highWeather;
 
+	[SerializeField]
+	[Tooltip("The rate the voice speaks for weather")]
+	private float voiceRate;
+	[SerializeField]
+	[Tooltip("The volume the voice speaks for weather")]
+	private float voiceVolume;
+	[SerializeField]
+	[Tooltip("The pitch the voice speaks for weather")]
+	private float voicePitch;
+
+	[SerializeField]
+	[Tooltip("How many time the weather will repeat before updating")]
+	private float weatherUpdateThreshold;
+	[SerializeField]
+	[Tooltip("How long the weather needs to update the file")]
+	private float weatherUpdateTime;
+
 	/// <summary>
 	/// Sets up radio for usage -- turned off, with no active channel
 	/// </summary>
@@ -304,7 +321,7 @@ public class Radio : MonoBehaviour
                 if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
                 {
                     // Play the weather 3 times before restarting to 0 
-                    if (weatherCounter == 3)
+                    if (weatherCounter == weatherUpdateThreshold)
                     {
                         weatherCounter = 0;
                     }
@@ -319,10 +336,10 @@ public class Radio : MonoBehaviour
                         announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
 
                         // Send the announcement to the wav file
-                        Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather", .7f);
+                        Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, voiceRate, voiceVolume, Application.dataPath + "/Sounds/Weather", voicePitch);
 
                         // Wait for the wave file to update
-                        yield return new WaitForSeconds(2);
+                        yield return new WaitForSeconds(weatherUpdateTime);
                     }
 
                     ++weatherCounter;
