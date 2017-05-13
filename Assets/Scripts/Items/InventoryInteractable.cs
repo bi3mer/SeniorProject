@@ -32,7 +32,7 @@ public class InventoryInteractable : InteractableObject
 		(
 			delegate 
 			{ 
-				openInventory(); 
+				openInventoryTransferPanel(); 
 			}
 		);
 	}
@@ -40,9 +40,9 @@ public class InventoryInteractable : InteractableObject
 	/// <summary>
 	/// Picks up the item and adds it to the inventory. The Item is then removed from the world.
 	/// </summary>
-	private void openInventory()
+	private void openInventoryTransferPanel()
 	{
-		GuiInstanceManager.InventoryUiInstance.LoadNewInventory(AttachedInventory);
-		Game.Instance.GameViewInstance.OnInventoryOpen();
+		Game.Instance.GameViewInstance.OnInventoryTransferOpen();
+		GuiInstanceManager.InventoryTransferInstance.LoadContainerInventory(AttachedInventory);
 	}
 }

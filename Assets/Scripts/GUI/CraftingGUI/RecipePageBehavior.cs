@@ -395,7 +395,7 @@ public class RecipePageBehavior : MonoBehaviour
 		EndCraftingAttempt ();
 		ResetCraftingPanel ();
 
-		if(GuiInstanceManager.InventoryUiInstance != null && GuiInstanceManager.InventoryUiInstance.TargetInventory != null)
+		if(GuiInstanceManager.InventoryUiInstance != null && GuiInstanceManager.InventoryUiInstance.AssociatedInventory != null)
 		{
 			GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
 		}
