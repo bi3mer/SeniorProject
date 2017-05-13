@@ -21,10 +21,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private string waterTag;
 
-	[Header("Resource Settings")]
-	[SerializeField]
-	public StatResourceSettings StatSettings;
-
     [Header("HUD Settings")]
     [SerializeField]
     private UnityEvent hungerUpdatedEvent;
@@ -32,6 +28,24 @@ public class PlayerController : MonoBehaviour
     private UnityEvent healthUpdatedEvent;
     [SerializeField]
     private UnityEvent warmthUpdatedEvent;
+
+    [Header("Resource Settings")]
+    [SerializeField]
+	public StatResourceSettings StatSettings;
+
+	[Header("Sickness Settings")]
+	[SerializeField]
+	[Tooltip("The chance of the player getting pnuemonia.")]
+	private float pnuemoniaChance;
+
+	[SerializeField]
+	[Tooltip("The value the player's warmth must reach before pneumonia can happen.")]
+	private float pnuemoniaWarmthThreshold;
+
+	[SerializeField]
+	[Tooltip("How many seconds per pnuemonia check.")]
+	private float pneumoniaCheckTime;
+
 
     [Header("DebugMode Settings")]
     [SerializeField]
@@ -219,7 +233,10 @@ public class PlayerController : MonoBehaviour
 
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();
-	
+
+        //start checking for pneumonia
+        StartCoroutine(CheckPneumonia());
+        
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
 
@@ -442,7 +459,7 @@ public class PlayerController : MonoBehaviour
 			{
 				Game.Instance.PlayerInstance.Health = Mathf.Clamp (
 					Game.Instance.PlayerInstance.Health + PlayerStatManager.HealthRate.HealthAmount, 
-					0, 
+					0,
 					Game.Instance.PlayerInstance.MaxHealth);
 				healthUpdatedEvent.Invoke ();
 			}
@@ -461,8 +478,8 @@ public class PlayerController : MonoBehaviour
 			if (!PlayerStatManager.StopStats) 
 			{
 				Game.Instance.PlayerInstance.Hunger = Mathf.Clamp (
-					Game.Instance.PlayerInstance.Hunger + PlayerStatManager.HungerRate.HungerAmount, 
-					0, 
+					Game.Instance.PlayerInstance.Hunger + PlayerStatManager.HungerRate.HungerAmount,
+					0,
 					Game.Instance.PlayerInstance.MaxHunger);
 				hungerUpdatedEvent.Invoke ();
 			}
@@ -471,6 +488,7 @@ public class PlayerController : MonoBehaviour
 
     /// <summary>
     /// Updates warmth.
+    /// TOOD: Refactor to use more intuitive decrease/increase rate system.
     /// </summary>
     /// <returns>The warmth.</returns>
 	private IEnumerator UpdateWarmth()
@@ -488,6 +506,23 @@ public class PlayerController : MonoBehaviour
 				warmthUpdatedEvent.Invoke ();
 			}
 		}
+    }
+
+    private IEnumerator CheckPneumonia()
+    {
+        while (updateStats)
+        {
+            yield return new WaitForSeconds(pneumoniaCheckTime);
+
+            // if player's health reaches a certain point they have a chance of sickness
+            if (Game.Player.Controller.IsSick && Game.Player.Warmth < pnuemoniaWarmthThreshold)
+            {
+                if (RandomUtility.RandomPercent <= pnuemoniaChance)
+                {
+                    Game.Player.HealthStatus = PlayerHealthStatus.Pneumonia;
+                }
+            }
+        }
     }
 
     /// <summary>

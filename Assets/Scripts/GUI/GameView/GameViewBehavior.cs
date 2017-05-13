@@ -22,6 +22,9 @@ public class GameViewBehavior : MonoBehaviour
 	[SerializeField]
 	private GameObject optionButtonPanel;
 
+	[SerializeField]
+	private GameObject settingsPanel;
+
 	private ControlScheme controlScheme;
 
 	/// <summary>
@@ -172,6 +175,7 @@ public class GameViewBehavior : MonoBehaviour
 		pausePanel.SetActive (false);
 		inventoryPanel.SetActive (false);
         craftingPanel.gameObject.SetActive(false);
+        settingsPanel.SetActive(false);
 		optionButtonPanel.SetActive(true);
 
 
@@ -207,5 +211,13 @@ public class GameViewBehavior : MonoBehaviour
 	public void OnSaveClick()
 	{
 		Debug.LogError("Not yet implemented");
+	}
+
+	/// <summary>
+	/// Loads the settings panel.
+	/// </summary>
+	public void OnSettingsClick ()
+	{
+		settingsPanel.SetActive (true);
 	}
 }
