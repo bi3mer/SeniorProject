@@ -227,11 +227,6 @@ public class Radio : MonoBehaviour
 				}
 			}
 
-			else if (CurrentChannel == RadioChannel.Weather && !weather.isPlaying) 
-			{
-				weather.Play ();
-			}
-
 			ChangeChannel(dial.knobDegree);
 		} 
 	}
@@ -301,10 +296,10 @@ public class Radio : MonoBehaviour
 	/// </summary>
 	IEnumerator updateWeather()
 	{
-		while (true)
-		{            
-			if (isOn)
-			{
+        while (true)
+        {
+            if (isOn)
+            {
                 // Check if the weather is not playing and if the radio is on the weather channel
                 if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
                 {
@@ -322,28 +317,32 @@ public class Radio : MonoBehaviour
 
                         // Get new announcment
                         announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
-                        Debug.Log(announcement);
 
                         // Send the announcement to the wav file
                         Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather", .7f);
 
                         // Wait for the wave file to update
-                        yield return new WaitForSeconds(weather.clip.length + 1);
+                        yield return new WaitForSeconds(2);
                     }
 
                     ++weatherCounter;
-                    Debug.Log(weatherCounter);
                     weather.Play();
+                }
+
+                // Don't do anything if the weather is still playing
+                else
+                {
+                    yield return null;
                 }
             }
 
-			// Don't do anything if radio is not on
-			else
-			{
-				yield return null;
-			}
-		}
-	}
+            // Don't do anything if radio is not on
+            else
+            {
+                yield return null;
+            }
+        }
+    }
 
 	/// <summary>
 	/// Set new selected channel.
