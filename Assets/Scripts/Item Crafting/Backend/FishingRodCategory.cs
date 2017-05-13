@@ -4,6 +4,17 @@ using UnityEngine.Events;
 
 public class FishingRodCategory : EquipableCategory
 {
+    /// <summary>
+    /// Degenteration threshold that number of uses must reach before falling apart.
+    /// </summary>
+    public int DegenerationThreshold
+    {
+        get;
+        set;
+    }
+
+    private const string degenerationAttributeName = "degenerationThreshold";
+       
 	/// <summary>
 	/// Gets a copy of the ItemCategory.
 	/// </summary>
@@ -12,6 +23,7 @@ public class FishingRodCategory : EquipableCategory
 	{
 		FishingRodCategory category = new FishingRodCategory();
 		category.Equiped = Equiped;
+        category.DegenerationThreshold = DegenerationThreshold;
 		category.Actions = new List<ItemAction>();
 		category.Attributes = new List<ItemAttribute>();
 
@@ -33,8 +45,9 @@ public class FishingRodCategory : EquipableCategory
 	{
 		Attributes = new List<ItemAttribute> ();
 		Attributes.Add(new ItemAttribute(equipedAttributeName, Equiped));
+		Attributes.Add(new ItemAttribute(degenerationAttributeName, DegenerationThreshold));;
 
-		Actions = new List<ItemAction> ();
+        Actions = new List<ItemAction> ();
 		ItemAction equip = new ItemAction (equipActionName, new UnityAction(Equip));
 
 		// the equiped attribute acts as a boolean, so the threshold is 1
@@ -46,4 +59,21 @@ public class FishingRodCategory : EquipableCategory
 		Actions.Add(equip);
 		Actions.Add(unequip);
 	}
+
+    /// <summary>
+    /// Breaks the fishing rod and gives back certain percentage of items back.
+    /// </summary>
+    public void Break()
+    {
+        // Show notification
+        GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.BREAK);
+
+        // Unequip rod
+        Game.Instance.PlayerInstance.Inventory.EquipedItem = null;
+        Equiped = 0f;
+        GetAttribute(equipedAttributeName).Value = Equiped;
+
+        // Remove rod from existance
+        Game.Instance.PlayerInstance.Inventory.UseItem(baseItem.ItemName, 1);
+    }
 }

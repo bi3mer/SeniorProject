@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 // loads and places notes from yaml file in world
 public class NoteFactory 
@@ -10,10 +11,21 @@ public class NoteFactory
 	private const string triggerObjectLocation = "ItemGeneration/InteractableText";
 	private const string noteFileName = "Notes.yml";
 
-	[SerializeField]
-	private Vector3 defaultpos = new Vector3(-143.9574f, 0.6875932f, 62.05219f);
-
 	private GameObject triggerObjectPrefab;
+
+	private List<NoteData> noteDatabase;
+
+	private int noteCounter = 0;
+
+	/// <summary>
+	/// Gets a value indicating whether this <see cref="NoteFactory"/> has notes available.
+	/// </summary>
+	/// <value><c>true</c> if notes available; otherwise, <c>false</c>.</value>
+	public bool NotesAvailable 
+	{
+		get;
+		private set;
+	}
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="NoteFactory"/> class.
@@ -26,6 +38,8 @@ public class NoteFactory
         // initialize the list of world models to be used
 		worldNoteTemplates = new Dictionary<string, GameObject>();
 		LoadTemplates();
+
+		NotesAvailable = true;
 	}
 
 	/// <summary>
@@ -34,20 +48,23 @@ public class NoteFactory
 	public void LoadTemplates()  
 	{
 		NoteYAMLParser noteParser = new NoteYAMLParser(noteFileName);
-		List<NoteData> noteDatabase = noteParser.LoadNotes();
+		noteDatabase = noteParser.LoadNotes();
 
 		for(int i = 0; i < noteDatabase.Count; ++i)
 		{
-			worldNoteTemplates.Add (noteDatabase[i].Title, (GameObject)Resources.Load (noteDatabase [i].WorldModel));
+			if(!worldNoteTemplates.ContainsKey(noteDatabase[i].WorldModel))
+			{
+				worldNoteTemplates.Add (noteDatabase[i].WorldModel, (GameObject)Resources.Load (noteDatabase [i].WorldModel));
+			}
 		}
 	}
 
 	/// <summary>
-	/// Creates an interactable note item that is ready to be placed in the world.
+	/// Creates a note.
 	/// </summary>
-	/// <returns>The interactable item.</returns>
-	/// <param name="noteToCreate">Note to create.</param>
-	public GameObject CreateInteractableItem(NoteData noteToCreate)
+	/// <returns>The note gameobject.</returns>
+	/// <param name="noteToCreate">Data regarding the note to create.</param>
+	public GameObject CreateNote(NoteData noteToCreate)
 	{
 		if(!worldNoteTemplates.ContainsKey(noteToCreate.WorldModel))
 		{
@@ -57,7 +74,8 @@ public class NoteFactory
 		// create the object with the model
 		GameObject item = GameObject.Instantiate (worldNoteTemplates[noteToCreate.WorldModel]);
 		item.name = noteToCreate.Title;
-		item.transform.position = defaultpos;
+
+		item.SetActive (false);
 
 		// creates the trigger object that will handle interaction with player
 		GameObject textObject = GameObject.Instantiate(triggerObjectPrefab);
@@ -71,6 +89,33 @@ public class NoteFactory
 		itemNote.Text = noteToCreate.Title;
 		itemNote.Show = false;
 
+		item.SetActive (false);
 		return item;
+	}
+
+	/// <summary>
+	/// Gets the next note.
+	/// </summary>
+	/// <returns>The next note.</returns>
+	public GameObject GetNextNote()
+	{
+		GameObject nextNote = null;
+
+		if (noteCounter < noteDatabase.Count) 
+		{
+			nextNote = CreateNote(noteDatabase[noteCounter]);
+		} 
+
+		// iterate here and check
+		noteCounter += 1;
+
+		// check again so that NotesAvailable is immediately false
+		// but previous is still needed to prevent game breaking when noteDatabase is 0 to start with
+		if(noteCounter >= noteDatabase.Count) 
+		{
+			NotesAvailable = false;
+		}
+
+		return nextNote;
 	}
 }
