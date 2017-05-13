@@ -215,6 +215,8 @@
 		}
 	}
 
+
+
 	/// <summary>
 	/// Gets or private sets the pause instance.
 	/// </summary>

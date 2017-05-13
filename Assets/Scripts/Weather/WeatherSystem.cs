@@ -431,6 +431,17 @@ public class WeatherSystem
 	}
 
 	/// <summary>
+	/// Compares a movement direction to octant wind.
+	/// </summary>
+	/// <returns>The direction to octant wind.</returns>
+	/// <param name="direction">Direction.</param>
+	public float CompareDirectionToOctantWind(Vector3 direction)
+	{
+		Vector2 dir = new Vector2(direction.x, direction.z);
+		return Vector3.Dot(dir.normalized, NormalizedOctantWindDirection2d);
+	}
+
+	/// <summary>
 	/// Returns a <see cref="System.String"/> that represents the current <see cref="WeatherSystem"/>.
 	/// </summary>
 	/// <returns>A <see cref="System.String"/> that represents the current <see cref="WeatherSystem"/>.</returns>
