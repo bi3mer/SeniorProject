@@ -86,9 +86,9 @@ public class PickUpItem : InteractableObject
 			);
 
 			setupComplete = true;
-			Game.Instance.Loader.GameLoadedEvent += () => {
+			/*Game.Instance.Loader.GameLoadedEvent += () => {
 				StartCoroutine(CheckForSinkThreshold());
-			};
+			};*/
 		}
 	}
 
