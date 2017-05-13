@@ -87,16 +87,8 @@ public class WindowWasher : MonoBehaviour
             water = GameObject.FindGameObjectWithTag("Water");
         }
 
-        if(StartUp == true)
-        {
-            isUp = true;
-            angledGround.SetActive(false);
-        }
-        else
-        {
-            isUp = false;
-            angledGround.SetActive(true);
-        }
+        isUp = StartUp;
+        angleGround.SetActive(!isUp)
     }
 
     public void Update()
