@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 /// <summary>
 /// Goes on the window washer prefab, handles the ropes on the washer, moving it up with the water, and teleporting the player.
-/// 
-/// TODO: Change window washer to not teleport and jump up and down, but to travel up and down over time carrying the player with it.
 /// </summary>
 public class WindowWasher : MonoBehaviour
 {
@@ -16,6 +15,9 @@ public class WindowWasher : MonoBehaviour
     [SerializeField]
     private GameObject movingPlatform;
 
+    [SerializeField]
+    private GameObject angledGround;
+
     // When teleporting, move the player up this much so they don't fall through the floor.
     private const float upStep = .15f;
     // When the window washer needs to move up, this is the Y position it moves to.
@@ -25,6 +27,9 @@ public class WindowWasher : MonoBehaviour
     private bool canMove = false;
     private const string playerTag = "Player";
     private const string waterTag = "Water";
+
+    [SerializeField]
+    private float windowWasherSpeed = 1.2f;
 
     [Header ("Rope Variables")]
     [SerializeField]
@@ -85,10 +90,12 @@ public class WindowWasher : MonoBehaviour
         if(StartUp == true)
         {
             isUp = true;
+            angledGround.SetActive(false);
         }
         else
         {
             isUp = false;
+            angledGround.SetActive(true);
         }
     }
 
@@ -104,7 +111,7 @@ public class WindowWasher : MonoBehaviour
             {
                 movingPlatform.transform.position = new Vector3(movingPlatform.transform.position.x,
                                                     water.transform.position.y,
-                                                    movingPlatform.transform.position.z);
+                                                    movingPlatform.transform.position.z);          
             }
             else if(!isUp)
             {
@@ -142,34 +149,52 @@ public class WindowWasher : MonoBehaviour
     /// </summary>
     public void TeleportPlayer()
     {
+        StartCoroutine(washerMove());
+    }
+
+    IEnumerator washerMove()
+    {
         if (canMove == true && playerBody != null)
         {
-            Vector3 offset = Vector3.zero;
+            float offset = 0f;
+            bool newUp = isUp;
             // Move down
             if (isUp)
             {
-                isUp = false;
+                newUp = false;
                 // Water is too far down to reach
                 if (movingPlatform.transform.position.y - water.transform.position.y > MaxLowerDistance)
                 {
-                    offset = new Vector3(0f, -MaxLowerDistance, 0f);
+                    offset = -MaxLowerDistance;
                 }
                 // Water is within reach
                 else
                 {
-                    offset = - new Vector3(0f, movingPlatform.transform.position.y - water.transform.position.y, 0f);
+                    offset = -(movingPlatform.transform.position.y - water.transform.position.y);
                 }
             }
             // Move up
             else
             {
-                isUp = true;
-                offset = new Vector3(0f, transform.position.y - movingPlatform.transform.position.y + upYPosition, 0f);
+                newUp = true;
+                offset = transform.position.y - movingPlatform.transform.position.y + upYPosition;
             }
-  
-            movingPlatform.transform.position += offset;
-            playerBody.transform.position += offset + new Vector3(0f, upStep, 0f);
-            playerBody.velocity = Vector3.zero;
+
+            playerBody.isKinematic = true;
+            playerBody.transform.SetParent(movingPlatform.transform);
+
+            canMove = false;
+
+            Tween platformTween =  movingPlatform.transform.DOMoveY(movingPlatform.transform.position.y + offset, Mathf.Abs(offset / windowWasherSpeed));
+
+            yield return platformTween.WaitForCompletion();
+
+            angledGround.SetActive(isUp);
+
+            playerBody.isKinematic = false;
+            playerBody.transform.parent = null;
+            canMove = true;  
+            isUp = newUp;
         }
     }
 
