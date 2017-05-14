@@ -70,14 +70,22 @@ public class WeatherSystem
 	private readonly Vector2[] defaultDirectionVector = new Vector2[] {new Vector2(0,0), new Vector2(1,1), new Vector2(0,1), new Vector2(-1,1),
 	                                                                   new Vector2(-1,0), new Vector2(-1,-1), new Vector2(0,-1), new Vector2(1,-1)};
 
-	private bool ongoingStorm = false;
 	private bool updateWeather = true;
 
-	/// <summary>
-	/// Gets the wind direction in 2d.
-	/// </summary>
-	/// <value>The wind direction.</value>
-	public Vector2 WindDirection2d
+    /// <summary>
+    /// Storm is currently occuring
+    /// </summary>
+    public bool OnGoingStorm
+    {
+        get;
+        private set;
+    }
+
+    /// <summary>
+    /// Gets the wind direction in 2d.
+    /// </summary>
+    /// <value>The wind direction.</value>
+    public Vector2 WindDirection2d
 	{
 		get
 		{
@@ -371,11 +379,11 @@ public class WeatherSystem
 	/// </summary>
 	private void updateStormDelegates()
 	{
-		if(this.ongoingStorm)
+		if(this.OnGoingStorm)
 		{
 			if(this.WeatherInformation[(int) Weather.Precipitation] < WeatherSystem.minPrecipitationForStorm)
 			{
-				this.ongoingStorm = false;
+				this.OnGoingStorm = false;
 
 				// update subscribed
 				Game.Instance.EventManager.StormStop ();
@@ -383,7 +391,7 @@ public class WeatherSystem
 		}
 		else if(this.WeatherInformation[(int) Weather.Precipitation] >= WeatherSystem.minPrecipitationForStorm)
 		{
-			this.ongoingStorm = true;
+			this.OnGoingStorm = true;
 
 			// update subscribed
 			Game.Instance.EventManager.StormStart ();
@@ -449,14 +457,14 @@ public class WeatherSystem
 	{
 		const string newLine = "\n";
 
-		string weather = "Pressure: " + this.WeatherInformation[(int) Weather.Pressure] + newLine;
-		weather += "Temperature: " + this.WeatherInformation[(int) Weather.Temperature] + newLine;
-		weather += "Wind Magnitude: " + this.WeatherInformation[(int) Weather.WindSpeedMagnitude] + newLine;
-		weather += "Wind X: " + this.WeatherInformation[(int) Weather.WindSpeedX] + newLine;
-		weather += "Wind X: " + this.WeatherInformation[(int) Weather.WindSpeedX] + newLine;
-		weather += "Relative Humidity: " + this.WeatherInformation[(int) Weather.RelativeHumidity] + newLine;
-		weather += "Relative Dew Point: " + this.WeatherInformation[(int) Weather.RelativeDewPoint] + newLine;
-		weather += "Precipitation: " + this.WeatherInformation[(int) Weather.Precipitation] + newLine;
+		string weather = "Pressure: "     + this.WeatherInformation[(int) Weather.Pressure]           + newLine;
+		weather += "Temperature: "        + this.WeatherInformation[(int) Weather.Temperature]        + newLine;
+		weather += "Wind Magnitude: "     + this.WeatherInformation[(int) Weather.WindSpeedMagnitude] + newLine;
+		weather += "Wind X: "             + this.WeatherInformation[(int) Weather.WindSpeedX]         + newLine;
+		weather += "Wind X: "             + this.WeatherInformation[(int) Weather.WindSpeedX]         + newLine;
+		weather += "Relative Humidity: "  + this.WeatherInformation[(int) Weather.RelativeHumidity]   + newLine;
+		weather += "Relative Dew Point: " + this.WeatherInformation[(int) Weather.RelativeDewPoint]   + newLine;
+		weather += "Precipitation: "      + this.WeatherInformation[(int) Weather.Precipitation]      + newLine;
 
 		return weather;
 	}
@@ -491,5 +499,6 @@ public class WeatherSystem
 		this.WeatherPressureSystems = new PressureSystems(bounds);
 		pauseController.PauseUpdate += DisableWeather;
 		pauseController.ResumeUpdate += EnableWeather;
+        this.OnGoingStorm = false;
 	}
 }
