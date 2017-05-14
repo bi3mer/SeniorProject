@@ -15,6 +15,9 @@ public class PickUpItem : InteractableObject
 
     private Rigidbody rigidBody;
 
+    /// <summary>
+    /// Initializes text and hides it.
+    /// </summary>
 	void Awake()
 	{
 		SetUp();
