@@ -11,9 +11,13 @@ public class PickUpItem : InteractableObject
 
     private const float glowWait = 0.1f;
 
+    private Rigidbody rigidBody;
+
 	void Awake()
 	{
 		SetUp();
+		rigidBody = GetComponent<Rigidbody>();
+		rigidBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
 	}
 
 	/// <summary>
