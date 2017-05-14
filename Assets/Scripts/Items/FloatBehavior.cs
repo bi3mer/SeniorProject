@@ -6,12 +6,12 @@ public class FloatBehavior : MonoBehaviour
 	/// <summary>
 	/// How high the object will float
 	/// </summary>
-	private float floatHeight = 1.5f;
+	private float floatHeight = 0.8f;
 
 	/// <summary>
 	/// The damp on the bounce.
 	/// </summary>
-	private float bounceDamp = 0.4f;
+	private float bounceDamp = 0.3f;
 
 	/// <summary>
 	/// The rigid body of the object.
@@ -21,7 +21,9 @@ public class FloatBehavior : MonoBehaviour
 	/// <summary>
 	/// The upper bounds of the randomness of the buoyant upward force 
 	/// </summary>
-	private float buoyancyRandom = 2.25f;
+	private float buoyancyRandomMax = 1.3f;
+
+	private float buoyancyRandomMin = 0.65f;
 
 	/// <summary>
 	/// Awake this instance.
@@ -29,15 +31,6 @@ public class FloatBehavior : MonoBehaviour
 	void Awake()
 	{
 		rigidBody = GetComponent<Rigidbody>();
-	}
-
-	/// <summary>
-	/// Sets the maximum height the object can go until it is completely out of the water
-	/// </summary>
-	/// <param name="height">Height.</param>
-	public void SetFloatHeight(float height)
-	{
-		floatHeight = height;
 	}
 
 	/// <summary>
@@ -52,7 +45,7 @@ public class FloatBehavior : MonoBehaviour
 		if (forceFactor > 0f) 
 		{
 			// randomize the uplift force because otherwise the bounce will eventually zero out and the bobbing motion will stop
-			Vector3 uplift = -Physics.gravity * (forceFactor - rigidBody.velocity.y * bounceDamp) * Random.Range(0, buoyancyRandom);
+			Vector3 uplift = -Physics.gravity * (forceFactor - rigidBody.velocity.y * bounceDamp) * Random.Range(buoyancyRandomMin, buoyancyRandomMax);
 			rigidBody.AddForceAtPosition(uplift, transform.position);
 		}
 	}

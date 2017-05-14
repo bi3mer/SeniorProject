@@ -166,7 +166,7 @@ public class ItemSpawner : InteractableObject
 
 		int numberToSpawn = (int) Random.Range(MinSpawnNumber, MaxSpawnNumber);
 
-		for (int i = 0; i < numberToSpawn  ; ++i)
+		for (int i = 0; i < numberToSpawn; ++i)
 		{
 			GameObject item = factory.CreateRandomPickupInteractableItem(district);           
 
