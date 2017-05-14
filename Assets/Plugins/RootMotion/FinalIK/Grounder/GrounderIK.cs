@@ -152,6 +152,7 @@ namespace RootMotion.FinalIK {
 			// Gathering the last bones of the IK solvers as feet
 			for (int i = 0; i < legs.Length; i++) {
 				IKSolver.Point[] points = legs[i].GetIKSolver().GetPoints();
+
 				feet[i] = points[points.Length - 1].transform;
 
 				// Add to the update delegates of each ik solver
@@ -164,6 +165,12 @@ namespace RootMotion.FinalIK {
 
 			// Initiate the Grounding
 			solver.Initiate(transform, feet);
+
+			for (int i = 0; i < legs.Length; i++) {
+				if (legs [i] is LegIK) {
+					solver.legs[i].invertFootCenter = true;
+				}
+			}
 			
 			initiated = true;
 		}
@@ -208,6 +215,11 @@ namespace RootMotion.FinalIK {
 		// Set the IK position and weight for a limb
 		private void SetLegIK(int index) {
 			footRotations[index] = feet[index].rotation;
+
+			if (legs [index] is LegIK) {
+				(legs[index].GetIKSolver() as IKSolverLeg).IKRotation = Quaternion.Slerp(Quaternion.identity, solver.legs[index].rotationOffset, weight) * footRotations[index];
+				(legs[index].GetIKSolver() as IKSolverLeg).IKRotationWeight = 1f;
+			}
 
 			legs[index].GetIKSolver().IKPosition = solver.legs[index].IKPosition;
 			legs[index].GetIKSolver().IKPositionWeight = weight;

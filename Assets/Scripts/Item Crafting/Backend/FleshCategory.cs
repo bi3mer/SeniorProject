@@ -52,7 +52,7 @@ public class FleshCategory : ItemCategory
         category.HungerGain = HungerGain;
 
         category.Actions = new List<ItemAction>();
-        category.Attributes = new List<Attribute>();
+        category.Attributes = new List<ItemAttribute>();
 
         ItemAction eat = new ItemAction(eatActName, new UnityAction(category.Eat));
 
@@ -68,10 +68,10 @@ public class FleshCategory : ItemCategory
     /// </summary>
     public override void ReadyCategory()
     {
-        Attributes = new List<Attribute>();
+        Attributes = new List<ItemAttribute>();
 
-        Attributes.Add(new Attribute(hungerGainAttrName, HungerGain));
-        Attributes.Add(new Attribute(healthEffectAttrName, HealthEffect));
+        Attributes.Add(new ItemAttribute(hungerGainAttrName, HungerGain));
+        Attributes.Add(new ItemAttribute(healthEffectAttrName, HealthEffect));
 
         Actions = new List<ItemAction>();
 
@@ -119,21 +119,25 @@ public class FleshCategory : ItemCategory
     /// </summary>
     public void Eat()
     {
-        // If this is a bad food
-        if (HealthEffect < 0)
+
+        for (int i = 0; i < GuiInstanceManager.ItemAmountPanelInstance.CurrentAmount; ++i)
         {
-            // Health effects don't stack
-            if (Game.Player.HealthStatus == PlayerHealthStatus.None)
+            // If this is a bad food
+            if (HealthEffect < 0)
             {
-                // Random chance of getting food poisoning
-                if (RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
+                // Health effects don't stack
+                if (Game.Player.HealthStatus == PlayerHealthStatus.None)
                 {
-                    Game.Player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
+                    // Random chance of getting food poisoning
+                    if (RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
+                    {
+                        Game.Player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
+                    }
                 }
             }
+            
+            Game.Player.Controller.PlayerStatManager.HungerRate.UseFoodEnergy((int)HungerGain);
         }
-
-		Game.Player.Controller.PlayerStatManager.HungerRate.UseFoodEnergy((int)HungerGain);
 
         if (baseItem.ModifyingActionNames.IndexOf(eatActName) > -1)
         {

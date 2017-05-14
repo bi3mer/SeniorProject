@@ -20,6 +20,7 @@ namespace RootMotion.FinalIK {
 		/// </summary>
 		public void SetDefaultLocalRotation() {
 			defaultLocalRotation = transform.localRotation;
+			defaultLocalRotationSet = true;
 		}
 
 		/// <summary>
@@ -86,13 +87,14 @@ namespace RootMotion.FinalIK {
 		
 		private bool initiated;
 		private bool applicationQuit;
-		
+		private bool defaultLocalRotationSet;
+
 		/*
 		 * Initiating the Rotation Limit
 		 * */
 		void Awake() {
 			// Store the local rotation to map the zero rotation point to the current rotation
-			SetDefaultLocalRotation();
+			if (!defaultLocalRotationSet) SetDefaultLocalRotation();
 				
 			if (axis == Vector3.zero) Debug.LogError("Axis is Vector3.zero.");
 			initiated = true;

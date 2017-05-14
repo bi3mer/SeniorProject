@@ -50,7 +50,7 @@ public class FireBaseCategory : ItemCategory
         FireBaseCategory category = new FireBaseCategory();
 
         category.BurnRateMultiplier = BurnRateMultiplier;
-		category.Attributes = new List<Attribute>();
+		category.Attributes = new List<ItemAttribute>();
         category.Actions = new List<ItemAction>();
 
         ItemAction setDown = new ItemAction(setDownActName, new UnityAction(category.SetDown));
@@ -70,10 +70,10 @@ public class FireBaseCategory : ItemCategory
     /// </summary>
     public override void ReadyCategory()
     {
-        Attributes = new List<Attribute>();
-        Attributes.Add(new Attribute(burnRateMultiplierAttrName, BurnRateMultiplier));
-        Attributes.Add(new Attribute(startingFuelAttrName, StartingFuel));
-        Attributes.Add(new Attribute(fuelRemainingAttrName, FuelRemaining));
+        Attributes = new List<ItemAttribute>();
+        Attributes.Add(new ItemAttribute(burnRateMultiplierAttrName, BurnRateMultiplier));
+        Attributes.Add(new ItemAttribute(startingFuelAttrName, StartingFuel));
+        Attributes.Add(new ItemAttribute(fuelRemainingAttrName, FuelRemaining));
 
         Actions = new List<ItemAction>();
         Actions.Add(new ItemAction(setDownActName, new UnityAction(SetDown)));

@@ -7,7 +7,7 @@ using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movement Settings")]
+	[Header("Movement Settings")]
     [SerializeField]
     private float groundedThreshold;
     [SerializeField]
@@ -31,17 +31,21 @@ public class PlayerController : MonoBehaviour
 
     [Header("Resource Settings")]
     [SerializeField]
-    [Tooltip("How much warmth decreases when player has pneumonia.")]
-    private int pneumoniaWarmthDecrease;
-    [SerializeField]
-    [Tooltip("How much hunger decreases when player has food poisioning.")]
-    private int foodPoisonHungerDecrease;
-    [SerializeField]
-    [Tooltip("How many seconds per decrease of warmth.")]
-    private int pneumoniaTime;
-    [SerializeField]
-    [Tooltip("How many seconds per decrease of hunger.")]
-    private int foodPoisioningTime;
+	public StatResourceSettings StatSettings;
+
+	[Header("Sickness Settings")]
+	[SerializeField]
+	[Tooltip("The chance of the player getting pnuemonia.")]
+	private float pnuemoniaChance;
+
+	[SerializeField]
+	[Tooltip("The value the player's warmth must reach before pneumonia can happen.")]
+	private float pnuemoniaWarmthThreshold;
+
+	[SerializeField]
+	[Tooltip("How many seconds per pnuemonia check.")]
+	private float pneumoniaCheckTime;
+
 
     [Header("DebugMode Settings")]
     [SerializeField]
@@ -112,7 +116,6 @@ public class PlayerController : MonoBehaviour
     // the closest interactable as well as the distance
     private Collider closestInteractable;
 
-
     private float closestDistance;
 
     // the previous closest collider
@@ -122,11 +125,11 @@ public class PlayerController : MonoBehaviour
     private LandMovement landMovement;
     private WaterMovement waterMovement;
 
-    private Tool equippedTool;
+    private PlayerTool equippedTool;
     private CameraController playerCamera;
     private Rigidbody playerRigidbody;
 
-    private Tool fishingRod;
+    private PlayerTool fishingRod;
 
     private Transform defaultParent;
 
@@ -173,6 +176,10 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Don't let the player climb distances less than this. This prevents climbing on slopes/things the player can just walk over.")]
     private float minClimbHeight;
 
+    private IEnumerator healthCoroutine;
+    private IEnumerator warmthCoroutine;
+    private IEnumerator hungerCoroutine;
+
     // How far forward a raycast should be to check ledge height.
     const float raycastClimbForward = .2f;
 
@@ -191,6 +198,7 @@ public class PlayerController : MonoBehaviour
     private const string playerAnimatorSwimming = "Swimming";
     private const string playerAnimatorClimb = "Climb";
     private const string playerAnimatorFalling = "Falling";
+    private const string playerAnimatorRafting = "Rafting";
 
     private CapsuleCollider playerCollider;
     private CharacterController characterController;
@@ -220,24 +228,15 @@ public class PlayerController : MonoBehaviour
         movement.OnStateEnter();
 
         // set up tools
-        Tool[] tools = GetComponentsInChildren<Tool>();
+        PlayerTool[] tools = GetComponentsInChildren<PlayerTool>();
         Game.Instance.PlayerInstance.Toolbox = new PlayerTools(tools);
 
         // get main camera component
         playerCamera = Camera.main.GetComponent<CameraController>();
 
-        // start reducing hunger
-		PlayerStatManager.HungerRate.UseDefaultHungerReductionRate();
-        StartCoroutine(UpdateHunger());
-
-        // start updating warmth
-		PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate();
-        StartCoroutine(UpdateWarmth());
-
-		// start updating health
-		PlayerStatManager.HealthRate.UseDefaultHealthRate ();
-		StartCoroutine (UpdateHealth ());
-
+        //start checking for pneumonia
+        StartCoroutine(CheckPneumonia());
+        
         // set up rigidbody
         playerRigidbody = GetComponent<Rigidbody>();
 
@@ -349,7 +348,7 @@ public class PlayerController : MonoBehaviour
         {
             // don't move if a tool is currently in use or if the player is set to be frozen.
             PlayerTools toolbox = Game.Instance.PlayerInstance.Toolbox;
-            if (toolbox.HasEquipped && toolbox.EquippedTool.InUse || freezePlayer)
+            if (toolbox != null && (toolbox.HasEquipped && toolbox.EquippedTool.InUse || freezePlayer))
             {
                 return;
             }
@@ -443,42 +442,8 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
 			PlayerStatManager.HealthRate.TakeFallDamage ((int)movement.CurrentFallDammage);
-			Game.Instance.PlayerInstance.Health = PlayerStatManager.HealthRate.CurrentStat;
             healthUpdatedEvent.Invoke();
         }
-
-        // check if sick with food poisoning
-        if (Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.FoodPoisoning)
-        {
-            // food poisoning doubles the hunger change rate
-            Game.Instance.PlayerInstance.Controller.PlayerStatManager.HungerRate.ChangeRateValues(foodPoisonHungerDecrease, foodPoisioningTime);
-        }
-        else
-        {
-            Game.Instance.PlayerInstance.Controller.PlayerStatManager.HungerRate.UseDefaultHungerReductionRate();
-        }
-
-        // check if sick with pneumonia
-        if (Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.Pneumonia)
-        {
-            // pnuemonia doubles the warmth change rate
-            Game.Instance.PlayerInstance.Controller.PlayerStatManager.WarmthRate.ChangeRateValues(pneumoniaWarmthDecrease, pneumoniaTime);
-        }
-        // check if we're in water
-        else if (IsInWater)
-        {
-            PlayerStatManager.WarmthRate.UseWaterWarmthReductionRate();
-        }
-        else if (IsByFire || IsInShelter)
-        {
-            PlayerStatManager.WarmthRate.UseHeatSourceWarmthIncreaseRate();
-        }
-        else
-        {
-            PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate();
-        }
-
-		PlayerStatManager.ApplyCorrectHealthReductionRate ();
     }
 
 	/// <summary>
@@ -489,11 +454,13 @@ public class PlayerController : MonoBehaviour
 	{
 		while (updateStats) 
 		{
-			yield return new WaitForSeconds(PlayerStatManager.HealthRate.PerSeconds);	
+			yield return new WaitForSeconds(PlayerStatManager.HealthRate.HealthDelay);	
 			if (!PlayerStatManager.StopStats) 
 			{
-				PlayerStatManager.HealthRate.ApplyRateToStat ();
-				Game.Instance.PlayerInstance.Health = PlayerStatManager.HealthRate.CurrentStat;
+				Game.Instance.PlayerInstance.Health = Mathf.Clamp (
+					Game.Instance.PlayerInstance.Health + PlayerStatManager.HealthRate.HealthAmount, 
+					0,
+					Game.Instance.PlayerInstance.MaxHealth);
 				healthUpdatedEvent.Invoke ();
 			}
 		}
@@ -507,11 +474,13 @@ public class PlayerController : MonoBehaviour
     {
 		while (updateStats)
 		{
-			yield return new WaitForSeconds (PlayerStatManager.HungerRate.PerSeconds);
+			yield return new WaitForSeconds (PlayerStatManager.HungerRate.HungerDelay);
 			if (!PlayerStatManager.StopStats) 
 			{
-				PlayerStatManager.HungerRate.ApplyRateToStat ();
-				Game.Instance.PlayerInstance.Hunger = PlayerStatManager.HungerRate.CurrentStat;
+				Game.Instance.PlayerInstance.Hunger = Mathf.Clamp (
+					Game.Instance.PlayerInstance.Hunger + PlayerStatManager.HungerRate.HungerAmount,
+					0,
+					Game.Instance.PlayerInstance.MaxHunger);
 				hungerUpdatedEvent.Invoke ();
 			}
 		}
@@ -526,14 +495,34 @@ public class PlayerController : MonoBehaviour
     {
 		while (updateStats)
 		{
-			yield return new WaitForSeconds(PlayerStatManager.WarmthRate.PerSeconds);
+			yield return new WaitForSeconds(PlayerStatManager.WarmthRate.WarmthDelay);
+
 			if (!PlayerStatManager.StopStats) 
 			{
-				PlayerStatManager.WarmthRate.ApplyRateToStat ();
-				Game.Instance.PlayerInstance.Warmth = PlayerStatManager.WarmthRate.CurrentStat;
+				Game.Instance.PlayerInstance.Warmth = Mathf.Clamp (
+					Game.Instance.PlayerInstance.Warmth + PlayerStatManager.WarmthRate.WarmthAmount,
+					0,
+					Game.Instance.PlayerInstance.MaxWarmth);
 				warmthUpdatedEvent.Invoke ();
 			}
 		}
+    }
+
+    private IEnumerator CheckPneumonia()
+    {
+        while (updateStats)
+        {
+            yield return new WaitForSeconds(pneumoniaCheckTime);
+
+            // if player's health reaches a certain point they have a chance of sickness
+            if (Game.Player.Controller.IsSick && Game.Player.Warmth < pnuemoniaWarmthThreshold)
+            {
+                if (RandomUtility.RandomPercent <= pnuemoniaChance)
+                {
+                    Game.Player.HealthStatus = PlayerHealthStatus.Pneumonia;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -543,24 +532,37 @@ public class PlayerController : MonoBehaviour
     {
         bool belowWater = (Game.Instance.WaterLevelHeight > PlayerIKSetUp.transform.position.y + waterWadeHeight);
 
+
         if (IsOnRaft)
         {
+            playerAnimator.SetBool(playerAnimatorRafting, true);
             PlayerAnimator.SetBool(playerAnimatorFalling, false);
             PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
             PlayerAnimator.SetBool(playerAnimatorSwimming, false);
             PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
         }
         // If the player is low enough to be in the water
-        else if (movement != waterMovement && belowWater)
+        else if (belowWater)
         {
+            if (movement != waterMovement)
+            {
+                movement.OnStateExit();
+                movement = waterMovement;
+                movement.OnStateEnter();
+            }
             movement.Idle(playerAnimator);
-            movement.OnStateExit();
-            movement = waterMovement;
-            movement.OnStateEnter();
             playerAnimator.SetBool(playerAnimatorSwimming, true);
+            playerAnimator.SetBool(playerAnimatorRafting, false);
         }
         else
         { 
+            if(movement != landMovement)
+            {
+                movement.OnStateExit();
+                movement = landMovement;
+                movement.OnStateEnter();
+            }
+
             // Check if the player is close enough to the ground
             RaycastHit hit;
             // We have to raycast SLIGHTLY above the player's bottom. Because if we start at the bottom there's a good chance it'll end up going through the ground.
@@ -573,9 +575,6 @@ public class PlayerController : MonoBehaviour
                 {
                     playerAnimator.SetBool(playerAnimatorSwimming, false);
                     movement.Idle(playerAnimator);
-                    movement.OnStateExit();
-                    movement = landMovement;
-                    movement.OnStateEnter();
                 }
             }
             else if(!belowWater)
@@ -587,6 +586,11 @@ public class PlayerController : MonoBehaviour
             {
                 isGrounded = true;
             }
+            if(!belowWater)
+            {
+                playerAnimator.SetBool(playerAnimatorSwimming, false);
+            }
+            playerAnimator.SetBool(playerAnimatorRafting, false);
         }
     }
 
@@ -662,6 +666,17 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns true if player is sick.
+    /// </summary>
+    public bool IsSick
+    {
+        get
+        {
+            return Game.Player.HealthStatus != PlayerHealthStatus.None;
+        }
+    }
+
+    /// <summary>
     /// Finds all the interactable objects within the player's field of view
     /// </summary>
     void FindVisibleInteractables()
@@ -693,9 +708,13 @@ public class PlayerController : MonoBehaviour
             if (closestInteractable != prevInteractable)
             {
                 // only stop showing if there was a previous collider
-                if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag) && interactable != null && interactable.GetComponent<InteractableObject>() != null)
+                if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag) && interactable != null && interactable.GetComponentInChildren<InteractableObject>() != null)
                 {
                     interactable.Show = false;
+                    if (interactable.GetComponent<GlowObjectCmd>() != null)
+                    {
+						interactable.GetComponent<GlowObjectCmd> ().OutOfViewColor ();
+                    }
                     interactable = null;
                 }
 
@@ -703,6 +722,10 @@ public class PlayerController : MonoBehaviour
                 {
                     interactable = closestInteractable.GetComponent<InteractableObject>();
                     interactable.Show = true;
+                    if (interactable.GetComponent<GlowObjectCmd>() != null)
+                    {
+						interactable.GetComponent<GlowObjectCmd> ().InViewColor ();
+                    }
                 }
             }
 
@@ -750,9 +773,9 @@ public class PlayerController : MonoBehaviour
     /// Returns the closest interactable item.
     /// </summary>
     /// <returns></returns>
-    public Collider ClosestItem()
+    public GameObject ClosestItem()
     {
-        return closestInteractable;
+        return closestInteractable.gameObject;
     }
 
     /// <summary>
@@ -830,8 +853,32 @@ public class PlayerController : MonoBehaviour
 		freezePlayer = false;
 		freezeCamera = false;
 
-		StartCoroutine(UpdateHunger());
-		StartCoroutine(UpdateWarmth());
+		System.Func<IEnumerator> updateWarmthFunction = UpdateWarmth;
+		System.Func<IEnumerator> updateHungerFunction = UpdateHunger;
+		System.Func<IEnumerator> updateHealthFunction = UpdateHealth;
+
+		if(warmthCoroutine != null)
+		{
+			StopCoroutine(warmthCoroutine);
+		}
+
+		if(hungerCoroutine != null)
+		{
+			StopCoroutine(hungerCoroutine);
+		}
+
+		if(healthCoroutine != null)
+		{
+			StopCoroutine(healthCoroutine);
+		}
+
+		warmthCoroutine = updateWarmthFunction();
+		healthCoroutine = updateHealthFunction();
+		hungerCoroutine = updateHungerFunction();
+
+		StartCoroutine(warmthCoroutine);
+		StartCoroutine(healthCoroutine);
+		StartCoroutine(hungerCoroutine);
     }
 
     /// <summary>
@@ -911,8 +958,7 @@ public class PlayerController : MonoBehaviour
 
         // Raycast to see if there is a ledge in front of the player.
         RaycastHit hit1 = new RaycastHit(), hit2 = new RaycastHit(), hit3 = new RaycastHit(), heightPoint = new RaycastHit();
-
-     
+  
         if (ClimbingRaycasts(lH, rH, ref hit1, ref hit2, ref hit3, ref heightPoint))
         {
             // From here on out things get complicated. The following math is used to get the angle needed to rotate the player to face the wall.
@@ -1046,7 +1092,6 @@ public class PlayerController : MonoBehaviour
             movement.GetClimbHeight() > heightPoint.point.y - PlayerIKSetUp.transform.position.y &&
             heightPoint.point.y - PlayerIKSetUp.transform.position.y > minClimbHeight &&
             heightPoint.point.y > PlayerIKSetUp.transform.position.y
-
         )
         {
             return true;
@@ -1063,10 +1108,23 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void SetIsOnLand()
     {
-        movement = landMovement;
-        PlayerAnimator.SetBool(playerAnimatorFalling, false);
-        PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
-        PlayerAnimator.SetBool(playerAnimatorSwimming, false);
-        PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
+        if(IsOnRaft)
+        {
+            movement = landMovement;
+            PlayerAnimator.SetBool(playerAnimatorFalling, false);
+            PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
+            PlayerAnimator.SetBool(playerAnimatorSwimming, false);
+            PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
+            transform.parent = defaultParent;
+            setPlayerCollision(true);
+        }
+        else
+        { 
+            movement = landMovement;
+            PlayerAnimator.SetBool(playerAnimatorFalling, false);
+            PlayerAnimator.SetFloat(playerAnimatorForward, 0f);
+            PlayerAnimator.SetBool(playerAnimatorSwimming, false);
+            PlayerAnimator.SetFloat(playerAnimatorTurn, 0f);
+        }
     }
 }
