@@ -63,6 +63,7 @@ public class GameLoader
             {
                 GameLoadedEvent();
                 GameLoaded = true;
+                Game.Instance.AnnouncementFactoryInstance.LoadAnnouncements();
             }
 
             return complete;
