@@ -30,6 +30,20 @@ public class FogController : MonoBehaviour
     private Gradient stormColorModifier;
 
     [SerializeField]
+    [Tooltip("Maximum temperature to dew point difference threshold for fog.")]
+    private float fogThreshold;
+
+    [SerializeField]
+    [Tooltip("Min radius fig particles generate for heavy fog.")]
+    [Range(0, 25)]
+    private float minFogRadius;
+
+    [SerializeField]
+    [Tooltip("Max radius fog particles generates for light fog.")]
+    [Range(0, 25)]
+    private float maxFogRadius;
+
+    [SerializeField]
     [Tooltip("The particle system generating fog.")]
     private ParticleSystem fogSystem;
 
@@ -52,6 +66,7 @@ public class FogController : MonoBehaviour
 		float intensity = Game.Instance.WeatherInstance.StormStrength;
         updateCameraFog(time, intensity);
         updateParticleFogColor(time, intensity);
+        updateParticleFogAmount();
 	}
 
     /// <summary>
@@ -90,5 +105,25 @@ public class FogController : MonoBehaviour
 		);
 
 		colorModule.color = gradient;
+    }
+
+    /// <summary>
+    /// Updates the severity of the fog.
+    /// Fog forms when the difference between the air temperature and dewpoint is fogThreshold, or less. 
+    /// </summary>
+    private void updateParticleFogAmount ()
+    {
+		ParticleSystem.ShapeModule shapeModule = fogSystem.shape;
+        float diff = Mathf.Abs(Game.Instance.WeatherInstance.CurrentTemperature - Game.Instance.WeatherInstance.CurrentDewPoint);
+        
+        if (diff <= fogThreshold)
+        {
+            float fogStrenth = 1.0f - diff / fogThreshold;
+            shapeModule.radius = fogStrenth * (maxFogRadius - minFogRadius) + minFogRadius;
+        }
+        else
+        {
+            shapeModule.radius = maxFogRadius;
+        }
     }
 }
