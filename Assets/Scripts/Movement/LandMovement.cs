@@ -121,8 +121,7 @@ public class LandMovement : Movement
         }
 
         // Make player move at slower speed if moving in the direction of wind
-        Vector2 dir = new Vector2(direction.x, direction.z);
-        if (Vector3.Dot(dir.normalized, Game.Instance.WeatherInstance.NormalizedOctantWindDirection2d) == -1)
+        if (Game.Instance.WeatherInstance.CompareDirectionToOctantWind(direction) == -1)
         {
             Speed *= againstWindSpeedModifier;
             // Set the player's blend weight to be 1.

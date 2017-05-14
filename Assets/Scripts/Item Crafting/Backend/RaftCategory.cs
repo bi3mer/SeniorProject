@@ -36,6 +36,8 @@ public class RaftCategory : ItemCategory
     // the distance the raft will be placed from the player
     private const float itemDist = 1.5f;
 
+    private const float windMitigation = 50f;
+
     /// <summary>
     /// Creates a copy of this raft category.
     /// </summary>
@@ -81,6 +83,8 @@ public class RaftCategory : ItemCategory
         // create the object with the model
         GameObject item = Game.Instance.WorldItemFactoryInstance.CreateGenericInteractableItem(baseItem);
         RaftInteractable raft = item.AddComponent<RaftInteractable>();
+        item.AddComponent<FloatBehavior>();
+        item.AddComponent<WindMovement>();
 
         raft.Raft = this;
 

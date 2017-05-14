@@ -72,7 +72,7 @@ public class WorldItemFactory
 		// create the object with the model
 		GameObject item = CreateGenericInteractableItem(itemToCreate);
 		PickUpItem pickup = item.AddComponent<PickUpItem>();
-		pickup.SetUp();
+        pickup.SetUp();
 		pickup.Item = itemToCreate;
 		pickup.Show = false;
 
@@ -93,12 +93,12 @@ public class WorldItemFactory
 		BaseItem baseItem = Game.Instance.ItemFactoryInstance.GetWeightedRandomBaseItem(district, true);
 		GameObject item = GameObject.Instantiate (worldItemTemplates[baseItem.ItemName]);
 
-		// creates the trigger object that will handle interaction with player
-		GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
+        // creates the trigger object that will handle interaction with player
+        GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
 		triggerObject.transform.SetParent(item.transform);
 		triggerObject.transform.localPosition = Vector3.zero;
 
-		PickUpItem pickup = item.AddComponent<PickUpItem>();
+        PickUpItem pickup = item.AddComponent<PickUpItem>();
 		pickup.SetUp();
 		pickup.Item = baseItem;
 		pickup.Show = false;
