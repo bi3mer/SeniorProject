@@ -349,7 +349,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010414017512}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -145, y: 0, z: 62.1}
+  m_LocalPosition: {x: -47.465633, y: 0.4163854, z: -14.551419}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000012960144162}
@@ -466,7 +466,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012563267608}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.59, z: 0}
+  m_LocalPosition: {x: 0, y: -4.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000011538390944}
@@ -838,6 +838,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TideSeverity: 1
+  precipitationWaterLevel: 0
+  precipitationMitigation: 5000
+  precipitationNegation: 20
 --- !u!114 &114000012391922068
 MonoBehaviour:
   m_ObjectHideFlags: 1
