@@ -2,7 +2,7 @@
 {4a1d7bf3-1e76-41ae-a6c3-f1c39f8c95dc} event:/Ambient/Music/Basic_Music
 {6b807e1e-11b4-47ed-9805-24174ef59376} event:/Ambient/Weather/Basic_Rain
 {4279adec-9aaa-409f-813a-6e8dca474210} event:/Ambient/Weather/Basic_Thunder
-{8081e1ac-ce87-437c-8786-5ab5a2394477} event:/Event Tracks/Event_1
+{8081e1ac-ce87-437c-8786-5ab5a2394477} event:/Events/Event_1
 {b785dbc8-1edc-450e-bc01-c195ec86261a} event:/Player/Movement/Walking/Concrete
 {27e72373-8dce-4b93-83c4-bab34195224b} event:/Player/Movement/Walking/Gravel
 {3cc801f5-f7d3-45be-8747-19004965e500} event:/Player/Movement/Walking/Raft
