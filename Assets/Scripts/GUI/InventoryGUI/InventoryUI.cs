@@ -76,14 +76,14 @@ public class InventoryUI : MonoBehaviour
 		if(isPlayerInventoryUIInstance)
 		{
 			GuiInstanceManager.InventoryUiInstance.AssociatedInventory = Game.Instance.PlayerInstance.Inventory;
-		}
 
-		if(itemStackUIList.Count == 0)
-		{
-			LoadNewInventory(AssociatedInventory);
-		}
+			if(itemStackUIList.Count == 0)
+			{
+				LoadNewInventory(AssociatedInventory);
+			}
 
-		DisplayInventory();
+			DisplayInventory();
+		}
 	}
 
 	/// <summary>

@@ -152,7 +152,7 @@ public class WorldItemFactory
 			for(i = 0; i < interactableItemNamesByDistrict[key].Count; ++i)
 			{
 				// since these will only be used for templates, there is not need for an amount
-				interactableItemsByDistrict[key].Add(CreatePickUpInteractableItem(itemFactory.GetBaseItem(interactableItemNamesByDistrict[key][i]), 0));
+				interactableItemsByDistrict[key].Add(CreateGenericInteractableItem(itemFactory.GetBaseItem(interactableItemNamesByDistrict[key][i])));
 				interactableItemsByDistrict[key][i].SetActive(setActive);
 			}
 		}
