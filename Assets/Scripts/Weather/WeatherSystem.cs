@@ -63,8 +63,9 @@ public class WeatherSystem
 	private const float percentageDivisor         = 100f;
 	private const float temperatureCoefficient    = 17.625f;
 
-	// Precipitation flag for storm and delegates for beginning of storm and end
-	private const float minPrecipitationForStorm = 20f;
+    // minimum and maximum pressure for a storm
+    private const float maxPressureForStorm = 970f;
+    private const float minPressureForStorm = 850f;
 
 	// possible vectors for 8 directions
 	private readonly Vector2[] defaultDirectionVector = new Vector2[] {new Vector2(0,0), new Vector2(1,1), new Vector2(0,1), new Vector2(-1,1),
@@ -79,6 +80,22 @@ public class WeatherSystem
     {
         get;
         private set;
+    }
+
+    /// <summary>
+    /// Get the relative storm strength
+    /// </summary>
+    public float StormStrength
+    {
+        get
+        {
+            if(OnGoingStorm)
+            {
+                return (WeatherSystem.maxPressureForStorm - this.WeatherInformation[(int)Weather.Pressure]) / (WeatherSystem.maxPressureForStorm - WeatherSystem.minPressureForStorm);
+            }
+
+            return 0f;
+        }
     }
 
     /// <summary>
@@ -381,7 +398,7 @@ public class WeatherSystem
 	{
 		if(this.OnGoingStorm)
 		{
-			if(this.WeatherInformation[(int) Weather.Precipitation] < WeatherSystem.minPrecipitationForStorm)
+			if(this.WeatherInformation[(int) Weather.Pressure] > WeatherSystem.maxPressureForStorm)
 			{
 				this.OnGoingStorm = false;
 
@@ -389,7 +406,7 @@ public class WeatherSystem
 				Game.Instance.EventManager.StormStop ();
 			}
 		}
-		else if(this.WeatherInformation[(int) Weather.Precipitation] >= WeatherSystem.minPrecipitationForStorm)
+		else if(this.WeatherInformation[(int) Weather.Pressure] <= WeatherSystem.maxPressureForStorm)
 		{
 			this.OnGoingStorm = true;
 
