@@ -88,7 +88,7 @@ public class WindowWasher : MonoBehaviour
         }
 
         isUp = StartUp;
-        angleGround.SetActive(!isUp)
+        angledGround.SetActive(!isUp);
     }
 
     public void Update()
