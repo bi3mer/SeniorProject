@@ -30,10 +30,6 @@ public class FogController : MonoBehaviour
     private Gradient stormColorModifier;
 
     [SerializeField]
-    [Tooltip("Threshold at which fog becomes very dense.")]
-    private float fogThreshold;
-
-    [SerializeField]
     [Tooltip("The particle system generating fog.")]
     private ParticleSystem fogSystem;
 
@@ -53,14 +49,13 @@ public class FogController : MonoBehaviour
 	void Update ()
     {
 		float time = Game.Instance.ClockInstance.CurrentGameTimeInHours / hoursInADay;
-		float intensity = 0;// Get intensity 
+		float intensity = Game.Instance.WeatherInstance.StormStrength;
         updateCameraFog(time, intensity);
         updateParticleFogColor(time, intensity);
-        //updateParticleFogAmount();
 	}
 
     /// <summary>
-    /// Sets camera render fog based on time of day.
+    /// Sets camera render fog based on time of day and storm itensity.
     /// </summary>
     /// <param name="time">Time of day.</param>
     /// <param name="intensity">Intensity of storm.</param>
@@ -70,7 +65,7 @@ public class FogController : MonoBehaviour
     }
 
     /// <summary>  
-    /// Sets particle-based fog based on time of day.
+    /// Sets particle-based fog based on time of day and storm intensity.
     /// </summary>
     /// <param name="time">Time of day.</param>
     /// <param name="intensity">Intensity of storm.</param>
@@ -79,6 +74,7 @@ public class FogController : MonoBehaviour
 		Color color = particleFogColors.Evaluate(time) * stormColorModifier.Evaluate(intensity);
 		ParticleSystem.ColorOverLifetimeModule colorModule = fogSystem.colorOverLifetime;
 
+        // Create gradient with our new colors
 		Gradient gradient = new Gradient();
 		gradient.SetKeys(
 			new GradientColorKey[] { 
@@ -94,19 +90,5 @@ public class FogController : MonoBehaviour
 		);
 
 		colorModule.color = gradient;
-    }
-
-    /// <summary>
-    /// Updates the severity of the fog.
-    /// Fog forms when the difference between the air temperature and dewpoint is fogThreshold, or less. 
-    /// </summary>
-    private void updateParticleFogAmount ()
-    {
-		float diff = Mathf.Abs(Game.Instance.WeatherInstance.CurrentTemperature - Game.Instance.WeatherInstance.CurrentDewPoint);
-        if (diff <= fogThreshold)
-        {
-            float fogStrenth = 1.0f - diff / fogThreshold;
-            // TODO: Increase fog amount proportional to fogStrength
-        }
     }
 }
