@@ -162,19 +162,16 @@ public class CityController : MonoBehaviour
         City city = new City(districts, cityBounds, cityCenter, tallestBuilding);
         Game.Instance.CityInstance = city;
 
-        task.PercentageComplete = 1.0f;
-        yield return null;
-
         waterItemGenerator.GenerateInWater(ref task2);
         yield return null;
 
-		rooftopItemGenerator.AddTemplatesToItemPool();
-        yield return null;
-
-        waterItemGenerator.AddTemplatesToItemPool();
-        yield return null;
-
         StartCoroutine(itemPoolManager.StartManagingPool());
+        yield return null;
+
+        waterItemGenerator.RemoveTemplates();
+        rooftopItemGenerator.RemoveTemplates();
+
+        task.PercentageComplete = 1.0f;
         yield return null;
 
         cityChunkManager.Init(city);

@@ -143,14 +143,30 @@ public class ItemPoolManager : MonoBehaviour
 	private void populatePool()
 	{
 		Dictionary<string, List<string>> itemsByDistrict = Game.Instance.ItemFactoryInstance.LandItemsByDistrict;
+		Dictionary<string, List<string>> waterItemsByDistrict = Game.Instance.ItemFactoryInstance.WaterItemsByDistrict;
+
+		// add the water items to the itemsByDistrict
+		foreach(string key in waterItemsByDistrict.Keys)
+		{
+			for(int i = 0; i < waterItemsByDistrict[key].Count; ++i)
+			{
+				if(!itemsByDistrict[key].Contains(waterItemsByDistrict[key][i]))
+				{
+					itemsByDistrict[key].Add(waterItemsByDistrict[key][i]);
+				}
+			}
+		}
+
 		int amountToCreate = 0;
 		BaseItem item;
+		List<GameObject> pool;
+		GameObject pickupItem;
 
 		foreach(string key in itemsByDistrict.Keys)
 		{
-			for(int i = 0; i < itemsByDistrict.Count; ++i)
+			for(int i = 0; i < itemsByDistrict[key].Count; ++i)
 			{
-				List<GameObject> pool = new List<GameObject>();
+				pool = new List<GameObject>();
 				item = Game.Instance.ItemFactoryInstance.GetBaseItem(itemsByDistrict[key][i]);
 				amountToCreate = poolAmountByRarity[item.Rarity];
 
@@ -163,7 +179,10 @@ public class ItemPoolManager : MonoBehaviour
 
 				for(int j = pool.Count; j < amountToCreate; ++j)
 				{
-					pool.Add(Game.Instance.WorldItemFactoryInstance.CreatePickUpInteractableItem(item, 1));
+					pickupItem = Game.Instance.WorldItemFactoryInstance.CreatePickUpInteractableItem(item, 1);
+					pickupItem.SetActive(false);
+					pickupItem.transform.SetParent(inactivePool);
+					pool.Add(pickupItem);
 				}
 			}
 		}
@@ -336,25 +355,29 @@ public class ItemPoolManager : MonoBehaviour
 		if(itemGridLocation != null)
 		{
 			ItemPoolInfo gridCell = grid[itemGridLocation.X, itemGridLocation.Y];
-			int index = gridCell.Items.IndexOf(item);
 
-			item.SetActive(false);
+			if(gridCell != null)
+			{
+				int index = gridCell.Items.IndexOf(item);
 
-			if(itemPool.ContainsKey(gridCell.ItemNames[index]))
-			{
-				itemPool[gridCell.ItemNames[index]].Add(item);
-			}
-			else if(containerItems.ContainsKey(gridCell.ItemNames[index]))
-			{
-				GameObject.Destroy(containerItems[gridCell.ItemNames[index]]);
-				containerItems.Remove(gridCell.ItemNames[index]);
-			}
-			else
-			{
-				itemPool.Add(gridCell.ItemNames[index], new List<GameObject> {item});
-			}
+				item.SetActive(false);
 
-			gridCell.RemoveItemInfo(index);
+				if(itemPool.ContainsKey(gridCell.ItemNames[index]))
+				{
+					itemPool[gridCell.ItemNames[index]].Add(item);
+				}
+				else if(containerItems.ContainsKey(gridCell.ItemNames[index]))
+				{
+					GameObject.Destroy(containerItems[gridCell.ItemNames[index]]);
+					containerItems.Remove(gridCell.ItemNames[index]);
+				}
+				else
+				{
+					itemPool.Add(gridCell.ItemNames[index], new List<GameObject> {item});
+				}
+
+				gridCell.RemoveItemInfo(index);
+			}
 		}
 	}
 

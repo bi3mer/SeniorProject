@@ -430,4 +430,22 @@ public class ItemFactory
 
 		return desiredItemNames;
 	}
+
+	/// <summary>
+	/// Returns whether or not an item generates in the water.
+	/// </summary>
+	/// <returns><c>true</c>, if in water was generatesed, <c>false</c> otherwise.</returns>
+	/// <param name="itemName">Item name.</param>
+	public bool GeneratesInWater(string itemName)
+	{
+		foreach(string district in WaterItemsByDistrict.Keys)
+		{
+			if(WaterItemsByDistrict[district].Contains(itemName))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

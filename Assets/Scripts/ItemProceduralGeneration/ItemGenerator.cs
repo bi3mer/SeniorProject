@@ -98,13 +98,16 @@ public abstract class ItemGenerator : MonoBehaviour
 		Random.InitState(newSeed);
 	}
 
-	public void AddTemplatesToItemPool()
+	/// <summary>
+	/// Removes the templates from the world.
+	/// </summary>
+	public void RemoveTemplates()
 	{
-		foreach(string key in districtItemInfo.Keys)
+		foreach(string district in districtItemInfo.Keys)
 		{
-			for(int i = 0; i < districtItemInfo[key].ItemTemplates.Count; ++i)
+			for(int i = 0; i < districtItemInfo[district].ItemTemplates.Count; ++i)
 			{
-				poolManager.AddItemToPool(districtItemInfo[key].ItemNames[i], districtItemInfo[key].ItemTemplates[i]);
+				GameObject.Destroy(districtItemInfo[district].ItemTemplates[i]);
 			}
 		}
 	}
