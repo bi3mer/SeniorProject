@@ -112,7 +112,7 @@ public class Radio : MonoBehaviour
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
 		staticChannel = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
 		staticOverlay = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
-		staticOverlay.setVolume(10);
+		staticOverlay.setVolume(5);
 
 		// save clip lengths for looping later
 		musicCarouselClipLengths = new Dictionary<string, int>();
@@ -246,13 +246,11 @@ public class Radio : MonoBehaviour
 				weather.Play ();
 			}
 
-
 			// if static overlay is active, play it if it's not already on, otherwise stop it
 			staticOverlay.getPlaybackState (out state);
 
-			if (staticOverlayOn){
-
-				Debug.Log("TURN IT ON");
+			if (staticOverlayOn)
+			{
 				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING){
 
 					staticOverlay.start();
@@ -261,7 +259,6 @@ public class Radio : MonoBehaviour
 
 			else 
 			{
-				Debug.Log("TURN IT OFF");
 				if (state != FMOD.Studio.PLAYBACK_STATE.STOPPED){
 
 					staticOverlay.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
