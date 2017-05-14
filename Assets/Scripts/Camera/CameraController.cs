@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraController : MonoBehaviour 
+public class CameraController : MonoBehaviour
 {
     public Transform[] CameraPositions;
 
@@ -30,15 +30,18 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private AnimationCurve zoomXRotationCurve;
 
+    private bool cameraCanMove = true;
+
     private int currentView;
     private Camera targetCamera;
+
     [HideInInspector]
     public bool EndingTriggered = false;
 
     /// <summary>
     /// Initialize camera based on starting view specified.
     /// </summary>
-	void Start ()
+	void Start()
     {
         // in case a starting position is entered that is out of the range
         currentView = startingView % CameraPositions.Length;
@@ -46,28 +49,32 @@ public class CameraController : MonoBehaviour
         targetCamera = GetComponent<Camera>();
 
         ZoomLevel = initialZoomLevel;
-	}
-	
+    }
+
     /// <summary>
     /// Translates the camera smoothly betwteen camera positions.
     /// </summary>
-	void Update ()
+    void Update()
     {
-        float curveVal = scaleRangeForAnimationCurve(ZoomLevel, minZoomLevel, maxZoomLevel);
-        Vector3 targetPosition = updateTargetPosition(curveVal);
-        transform.position = Vector3.Lerp(transform.position, targetPosition, cameraTransitionSpeed);
-        transform.rotation = Quaternion.Slerp(transform.rotation,
-            Quaternion.Euler(zoomXRotationCurve.Evaluate(curveVal),
-            CameraPositions[currentView].eulerAngles.y, CameraPositions[currentView].eulerAngles.z), cameraTransitionSpeed);
-	}
+        if (this.cameraCanMove)
+        {
+            float curveVal = scaleRangeForAnimationCurve(ZoomLevel, minZoomLevel, maxZoomLevel);
+            Vector3 targetPosition = updateTargetPosition(curveVal);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, cameraTransitionSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                                                  Quaternion.Euler(zoomXRotationCurve.Evaluate(curveVal),
+                                                  CameraPositions[currentView].eulerAngles.y, CameraPositions[currentView].eulerAngles.z),
+                                                  cameraTransitionSpeed);
+        }
+    }
 
     /// <summary>
     /// Returns the target position for the camera to move to.
     /// </summary>
     private Vector3 updateTargetPosition(float curveVal)
     {
-       return Vector3.LerpUnclamped(target.position + CameraPositions[currentView].localPosition + CameraPositions[currentView].transform.forward * zoomZPositionCurve.Evaluate(curveVal) +
-            new Vector3(0f, zoomYPositionCurve.Evaluate(curveVal), 0f), target.position, ZoomLevel);
+        return Vector3.LerpUnclamped(target.position + CameraPositions[currentView].localPosition + CameraPositions[currentView].transform.forward * zoomZPositionCurve.Evaluate(curveVal) +
+             new Vector3(0f, zoomYPositionCurve.Evaluate(curveVal), 0f), target.position, ZoomLevel);
     }
 
     /// <summary>
@@ -77,13 +84,13 @@ public class CameraController : MonoBehaviour
     {
         get
         {
-            if(EndingTriggered)
+            if (EndingTriggered)
             {
                 return Camera.main.transform;
             }
             else
             {
-                return CameraPositions[currentView];            
+                return CameraPositions[currentView];
             }
         }
     }
@@ -123,7 +130,7 @@ public class CameraController : MonoBehaviour
     /// Zoom in the camera by the amount.
     /// </summary>
     /// <param name="amount">Amount to zoom.</param>
-    public void Zoom (float amount)
+    public void Zoom(float amount)
     {
         ZoomLevel += amount * zoomingSpeed;
 
@@ -143,5 +150,21 @@ public class CameraController : MonoBehaviour
     private float scaleRangeForAnimationCurve(float rawValue, float min, float max)
     {
         return (rawValue - min) / (max - min);
+    }
+
+    /// <summary>
+    /// Stop the camera moving
+    /// </summary>
+    /// <param name="other"></param>
+    void OnTriggerEnter(Collider other)
+    {
+        this.cameraCanMove = false;
+        StartCoroutine(this.resetCameraMovement());
+    }
+
+    private IEnumerator resetCameraMovement()
+    {
+        yield return new WaitForSeconds(1f);
+        this.cameraCanMove = true;
     }
 }
