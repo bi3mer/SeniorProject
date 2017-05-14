@@ -45,7 +45,12 @@ public class Radio : MonoBehaviour
 	// Static overlay for storms
 	[SerializeField]
 	private FMOD.Studio.EventInstance staticOverlay;
+
+	[SerializeField]
 	private bool staticOverlayOn;
+
+	[SerializeField]
+	private float staticOverlayVolume = 5f;
 	 
 	[SerializeField]
 	private Dial dial;
@@ -112,7 +117,7 @@ public class Radio : MonoBehaviour
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
 		staticChannel = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
 		staticOverlay = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
-		staticOverlay.setVolume(5);
+		staticOverlay.setVolume(staticOverlayVolume);
 
 		// save clip lengths for looping later
 		musicCarouselClipLengths = new Dictionary<string, int>();
@@ -249,20 +254,14 @@ public class Radio : MonoBehaviour
 			// if static overlay is active, play it if it's not already on, otherwise stop it
 			staticOverlay.getPlaybackState (out state);
 
-			if (staticOverlayOn)
+			if (staticOverlayOn && state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
 			{
-				if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING){
-
-					staticOverlay.start();
-				}
+				staticOverlay.start();
 			} 
 
-			else 
+			else if (state != FMOD.Studio.PLAYBACK_STATE.STOPPED)
 			{
-				if (state != FMOD.Studio.PLAYBACK_STATE.STOPPED){
-
-					staticOverlay.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-				}
+				staticOverlay.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 			}
 
 			ChangeChannel(dial.knobDegree);
