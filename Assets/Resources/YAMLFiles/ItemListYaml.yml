@@ -518,6 +518,25 @@
     - !!flesh
       hungerGain: 20.0
       healthEffect: -0.2
+- itemName: "Fish"
+  baseItem:
+   itemName: "Fish"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_BlueSpottedGrouper"
+   worldModel: "ITM/Food/ITM_CookedFish"
+   types:
+     - "edible"
+   flavorText: "Straight from the water."
+   modifyingActionNames:
+     - "Cook"
+   actionModifiedModels: 
+    - "ITM/Food/ITM_CookedFish"
+   actionModifiedSprites:
+    - "GUI_ITM_CookedFish"
+  itemCategories:
+    - !!flesh
+      hungerGain: 40.0
+      healthEffect: -0.1
 - itemName: "Matchbook"
   baseItem:
    itemName: "Matchbook"
