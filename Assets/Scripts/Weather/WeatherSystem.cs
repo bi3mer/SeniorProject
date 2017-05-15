@@ -151,7 +151,7 @@ public class WeatherSystem
 	/// <summary>
 	/// Returns the current temperature.
 	/// </summary>
-	public float CurrentTemperature
+	public float Temperature
 	{
 		get 
 		{
@@ -162,7 +162,7 @@ public class WeatherSystem
 	/// <summary>
 	/// Returns the current dew point.
 	/// </summary>
-	public float CurrentDewPoint
+	public float DewPoint
 	{
 		get 
 		{

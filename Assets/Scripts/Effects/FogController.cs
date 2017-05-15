@@ -49,6 +49,9 @@ public class FogController : MonoBehaviour
 
 	private const float hoursInADay = 24f;
 
+    /// <summary>
+    /// Set up intial fog settings.
+    /// </summary>
 	void Start ()
 	{
 		RenderSettings.fog = true;
@@ -114,7 +117,7 @@ public class FogController : MonoBehaviour
     private void updateParticleFogAmount ()
     {
 		ParticleSystem.ShapeModule shapeModule = fogSystem.shape;
-        float diff = Mathf.Abs(Game.Instance.WeatherInstance.CurrentTemperature - Game.Instance.WeatherInstance.CurrentDewPoint);
+        float diff = Mathf.Abs(Game.Instance.WeatherInstance.Temperature - Game.Instance.WeatherInstance.DewPoint);
         
         if (diff <= fogThreshold)
         {
