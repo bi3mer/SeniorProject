@@ -77,7 +77,6 @@ GameObject:
   - component: {fileID: 114000010114018458}
   - component: {fileID: 114000010263142006}
   - component: {fileID: 114000010619037444}
-  - component: {fileID: 114000012159027406}
   m_Layer: 5
   m_Name: RadioCanvas
   m_TagString: Untagged
@@ -170,6 +169,7 @@ GameObject:
   - component: {fileID: 124000014141296132}
   - component: {fileID: 92000010512488654}
   - component: {fileID: 81000013007817526}
+  - component: {fileID: 114243346717795988}
   m_Layer: 0
   m_Name: RadioCamera
   m_TagString: Untagged
@@ -644,7 +644,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 1449b0a474fc946e68fb0e387207929e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 731c4a6037e354c43a6c3be32104656a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -844,7 +844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonType: 1
-  radio: {fileID: 114000012159027406}
+  radio: {fileID: 114243346717795988}
   radioModelAnimation: {fileID: 114000010254980152}
 --- !u!114 &114000010346753314
 MonoBehaviour:
@@ -911,28 +911,6 @@ MonoBehaviour:
   radioModelAnimation: {fileID: 114000010254980152}
   knob: {fileID: 1000010343366246}
   knobDegree: 0
---- !u!114 &114000012159027406
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011297642030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fbe1810c41afe94d8cf60f7faa23e31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weather: {fileID: 82000011756333628}
-  MusicDefaultPath: event:/Radio/Music/Music1
-  MysteryDefaultPath: event:/Radio/Mystery/Mystery1
-  StaticDefaultPath: event:/Radio/Static/Basic_Static
-  dial: {fileID: 114000011648818258}
-  lowMusic: 80
-  highMusic: 95
-  lowMystery: 170
-  highMystery: 185
-  lowWeather: 260
-  highWeather: 275
 --- !u!114 &114000012725800534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -945,7 +923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonType: 0
-  radio: {fileID: 114000012159027406}
+  radio: {fileID: 114243346717795988}
   radioModelAnimation: {fileID: 114000010254980152}
 --- !u!114 &114000013429731860
 MonoBehaviour:
@@ -1011,8 +989,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonType: 2
-  radio: {fileID: 114000012159027406}
+  radio: {fileID: 114243346717795988}
   radioModelAnimation: {fileID: 114000010254980152}
+--- !u!114 &114243346717795988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013916237874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fbe1810c41afe94d8cf60f7faa23e31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weather: {fileID: 82000011756333628}
+  MusicDefaultPath: event:/Radio/Music/Music1
+  MysteryDefaultPath: event:/Radio/Mystery/Mystery1
+  StaticDefaultPath: event:/Radio/Static/Basic_Static
+  dial: {fileID: 114000011648818258}
+  lowMusic: 80
+  highMusic: 95
+  lowMystery: 170
+  highMystery: 185
+  lowWeather: 260
+  highWeather: 275
+  voiceRate: 0.9
+  voiceVolume: 1
+  voicePitch: 0.7
+  weatherUpdateThreshold: 5
+  weatherUpdateTime: 2
 --- !u!124 &124000014141296132
 Behaviour:
   m_ObjectHideFlags: 1
@@ -1098,7 +1103,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.8, y: 0.05}
   m_AnchorMax: {x: 0.95, y: 0.15}
-  m_AnchoredPosition: {x: 0, y: 0.0000019073486}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: -0.0000076293945}
   m_Pivot: {x: 0.5, y: 0.8}
 --- !u!224 &224000014244120410
