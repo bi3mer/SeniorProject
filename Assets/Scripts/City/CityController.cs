@@ -160,7 +160,7 @@ public class CityController : MonoBehaviour
             {
                 // Get a random pair of vertecies, hence the -2
                 int vert = Random.Range(0, district.EdgeVerticies.Length - 2);
-                float dist = RandomUtility.RandomPercent();
+                float dist = RandomUtility.RandomPercent;
                 Vector3 tutorialPosition = Vector3.Lerp(district.EdgeVerticies[vert], district.EdgeVerticies[vert + 1], dist);
             
                 buildingGenerator.PlaceTutorialBuilding(tutorialPosition);
