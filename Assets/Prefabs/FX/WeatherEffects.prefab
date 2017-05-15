@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114000011796935804}
   - component: {fileID: 114000011684390236}
   - component: {fileID: 114000010296232540}
+  - component: {fileID: 114586084443918768}
   m_Layer: 0
   m_Name: WeatherEffects
   m_TagString: Untagged
@@ -349,7 +350,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010414017512}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -47.465633, y: 0.4163854, z: -14.551419}
+  m_LocalPosition: {x: -145, y: 0, z: 62.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000012960144162}
@@ -892,6 +893,17 @@ MonoBehaviour:
   DebrisStartThreshold: 60
   windVectorXZ: {x: 0, y: 0}
   lerpSpeed: 0.01
+--- !u!114 &114586084443918768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010414017512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f5a4f46c74577543bfb8b67d8b0d98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198000010173776360
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1211,7 +1223,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationX:
       minMaxState: 0
-      scalar: -1.6864578
+      scalar: -1.6513578
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1238,7 +1250,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationY:
       minMaxState: 0
-      scalar: 702.365
+      scalar: -11.638995
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1457,7 +1469,7 @@ ParticleSystem:
     serializedVersion: 4
     rateOverTime:
       minMaxState: 0
-      scalar: 0
+      scalar: 82.4857
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1921,7 +1933,7 @@ ParticleSystem:
     enabled: 1
     x:
       minMaxState: 0
-      scalar: -3.5565503
+      scalar: -2.3855124
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1948,7 +1960,7 @@ ParticleSystem:
         m_RotationOrder: 4
     y:
       minMaxState: 0
-      scalar: -5.5916796
+      scalar: 3.9516106
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -16634,7 +16646,7 @@ ParticleSystem:
     enabled: 1
     x:
       minMaxState: 0
-      scalar: -1.4226202
+      scalar: -0.954205
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -16688,7 +16700,7 @@ ParticleSystem:
         m_RotationOrder: 4
     z:
       minMaxState: 0
-      scalar: -2.236672
+      scalar: 1.5806442
       maxCurve:
         serializedVersion: 2
         m_Curve:

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 /// Pressure constants that access readonly array pressureConstants
 /// in PressureSystem.
 /// </summary>
-public enum PressureConstants 
+public enum PressureConstantIndexes
 {
 	PressureSiberia,
 	PressureHighMax,
@@ -20,10 +20,13 @@ public class PressureSystems
 {
 	// Values found at: http://www.theweatherprediction.com/habyhints2/410/ and can 
 	// be accessed by enumeration PressureConstants
-	private readonly float[] pressureConstants           = {1086f, 1020f, 1000f, 1000f, 980f, 870f};
+	public readonly float[] PressureConstants           = {1086f, 1020f, 1000f, 1000f, 980f, 870f};
 	private const int startNumberOfPressureSystems       = 10;
 	private const float highPressureCenterAttractorForce = 2f;
 	private const float lowPressureCenterAttractorForce  = 4f;
+
+    // flag for if the class has been initialized before
+    private bool initialized = false;
 
 	/// <summary>
 	/// Gets the local pressure systems.
@@ -39,16 +42,32 @@ public class PressureSystems
 	/// Initializes a new instance of the <see cref="PressureSystems"/> class.
 	/// </summary>
 	/// <param name="bounds">Bounds.</param>
-	public PressureSystems(CityBoundaries bounds)
+	public void Initialize(CityBoundaries bounds)
 	{
+        // This class can only be initialized once
+        if (this.initialized)
+        {
+            // print error but don't break
+            Debug.LogError("This class should only be initialized once after loading.");
+            return;
+        }
+
 		this.LocalPressureSystems = new List<PressureSystem>();
 
 		for(int i = 0; i < PressureSystems.startNumberOfPressureSystems; ++i)
 		{
 			PressureSystem ps = new PressureSystem();
 
-			// calculate random position for vector
-			ps.Position = bounds.RandomVector2d;
+            if (i < bounds.Edges.Length)
+            {
+                // put the pressure city in a corner of the map 
+                ps.Position = bounds.Edges[i];
+            }
+            else
+            {
+                // else put it an a random place in the city
+                ps.Position = bounds.RandomVector2d;
+            }
 
 			// add vector to pressure system
 			this.LocalPressureSystems.Add(ps);
@@ -64,6 +83,12 @@ public class PressureSystems
 	/// </summary>
 	public void UpdatePressureSystem()
 	{
+        // only run if this class has been initialized
+        if (initialized)
+        {
+            return;
+        }
+
 		// initialize new pressure system to replace current one
 		List<PressureSystem> newPressureSystem = new List<PressureSystem>();
 
@@ -192,15 +217,16 @@ public class PressureSystems
 		{
 			// high pressure
 			this.LocalPressureSystems[index].IsHighPressure = true;
-			this.LocalPressureSystems[index].Pressure = Random.Range(this.pressureConstants[(int) PressureConstants.PressureHighMin],
-			                                                         this.pressureConstants[(int) PressureConstants.PressureHighMax]);
-		}
+			this.LocalPressureSystems[index].Pressure = Random.Range(this.PressureConstants[(int) PressureConstantIndexes.PressureHighMin],
+			                                                         this.PressureConstants[(int) PressureConstantIndexes.PressureHighMax]);
+
+        }
 		else
 		{
 			// low pressure
 			this.LocalPressureSystems[index].IsHighPressure = false;
-			this.LocalPressureSystems[index].Pressure = Random.Range(this.pressureConstants[(int) PressureConstants.PressureLowMin],
-			                                                         this.pressureConstants[(int) PressureConstants.PressureLowMax]);
-		}
+			this.LocalPressureSystems[index].Pressure = Random.Range(this.PressureConstants[(int) PressureConstantIndexes.PressureLowMin],
+			                                                         this.PressureConstants[(int) PressureConstantIndexes.PressureLowMax]);
+        }
 	}
 }
