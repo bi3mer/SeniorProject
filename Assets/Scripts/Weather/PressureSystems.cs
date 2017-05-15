@@ -89,14 +89,16 @@ public class PressureSystems
             return;
         }
 
+        this.GetClosestPressureSystem(VectorUtility.XZ(Game.Player.WorldPosition)).UpdatePressure();
+
 		// initialize new pressure system to replace current one
 		List<PressureSystem> newPressureSystem = new List<PressureSystem>();
 
-		// update positions of pressure system
+		// update each pressure system
 		for(int i = 0; i < this.LocalPressureSystems.Count; ++i)
-		{	
-			// get unit vector of vector at index i
-			Vector2 normalizedIVector = this.LocalPressureSystems[i].Position.normalized;
+		{
+            // get unit vector of vector at index i
+            Vector2 normalizedIVector = this.LocalPressureSystems[i].Position.normalized;
 
 			// initialize forces that will be put on the pressure system
 			Vector2 forces = Vector2.zero;
