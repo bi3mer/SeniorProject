@@ -16,6 +16,10 @@ public class Radio : MonoBehaviour
 	private Dictionary<string, int> musicCarouselClipLengths;
 	private int musicClipsTotalLength = 0;
 
+	// Music channel volume during storm and normally
+	float musicLowVol = 0.25f;
+	float musicRegVol = 1f;
+
 	[SerializeField]
 	private FMOD.Studio.EventInstance mysteryChannel;
 	private List<string> mysteryCarousel;
@@ -36,12 +40,23 @@ public class Radio : MonoBehaviour
 	[SerializeField]
 	public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
 	[SerializeField]
-	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static"; 
+	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static";
 
+	// Static overlay for storms
+	[SerializeField]
+	private FMOD.Studio.EventInstance staticOverlay;
+
+	[SerializeField]
+	private bool staticOverlayOn;
+
+	[SerializeField]
+	private float staticOverlayVolume = 5f;
+	 
 	[SerializeField]
 	private Dial dial;
 
 	private bool isOn;
+
 	private RadioChannel CurrentChannel { get; set; }
 	private string announcement;
 
@@ -103,6 +118,7 @@ public class Radio : MonoBehaviour
 		StartCoroutine(updateWeather());
 
 		isOn = false;
+		staticOverlayOn = false;
 
 		CurrentChannel = RadioChannel.Null;
 
@@ -111,12 +127,14 @@ public class Radio : MonoBehaviour
 		mysteryCarousel = new List<string> ();
 
 		musicCarousel.Add ("event:/Radio/Music/Soulja_Boy");
-		mysteryCarousel.Add ("event:/Radio/Mystery/Evacuate_3_Block");
+		mysteryCarousel.Add ("event:/Radio/Mystery/Phase2/Evacuate_3_Block");
 		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery2");
 
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
 		staticChannel = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
+		staticOverlay = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
+		staticOverlay.setVolume(staticOverlayVolume);
 
 		// save clip lengths for looping later
 		musicCarouselClipLengths = new Dictionary<string, int>();
@@ -136,8 +154,8 @@ public class Radio : MonoBehaviour
 		AddToCarousel (RadioChannel.Music, "event:/Radio/Music/Apocalypse");
 		AddToCarousel (RadioChannel.Music, "event:/Radio/Music/Better_Safe");
 
-		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/School_Musical");
-		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/Relgious_Fanatic");
+		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/Phase1/School_Musical");
+		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/Phase3/Relgious_Fanatic");
 
 		Game.Instance.EventManager.StormStartedSubscription += startStatic;
 		Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
@@ -230,6 +248,7 @@ public class Radio : MonoBehaviour
 					// set the clip and the time left that we found earlier
 					musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel [musicCounter]);
 					musicChannel.setTimelinePosition (timeLeft);
+
 					musicChannel.start ();
 				}
 			}
@@ -244,7 +263,26 @@ public class Radio : MonoBehaviour
 				}
 			}
 
+			else if (CurrentChannel == RadioChannel.Weather && !weather.isPlaying) 
+			{
+				weather.Play ();
+			}
+
+			// if static overlay is active, play it if it's not already on, otherwise stop it
+			staticOverlay.getPlaybackState (out state);
+
+			if (staticOverlayOn && state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+			{
+				staticOverlay.start();
+			} 
+
+			else if (state != FMOD.Studio.PLAYBACK_STATE.STOPPED)
+			{
+				staticOverlay.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+			}
+
 			ChangeChannel(dial.knobDegree);
+
 		} 
 	}
 
@@ -262,6 +300,7 @@ public class Radio : MonoBehaviour
 			musicChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			staticOverlay.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			weather.Stop ();
 		}
 
@@ -487,12 +526,14 @@ public class Radio : MonoBehaviour
 
 	private void startStatic()
 	{
-		// TODO: Start some static here because a storm's abrewin'
+		staticOverlayOn = true;
+		musicChannel.setVolume(lowMusic);
 	}
 
 	private void stopStatic()
 	{
-		// TODO: Remove that static because we have clear skies
+		staticOverlayOn = false;
+		musicChannel.setVolume(musicRegVol);
 	}
 
 	private void addRaftClip()

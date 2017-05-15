@@ -9,7 +9,7 @@ public class AmbientSoundManager : MonoBehaviour
 	/// The ambient music track base path.
 	/// </summary>
 	[SerializeField]
-	private string AmbientMusicPath = "event:/Ambient/Music/Basic_Music";
+	private string AmbientMusicPath = "event:/Ambient/Music/Ambient_Track";
 
 	private FMOD.Studio.EventInstance ambientMusic;
 
