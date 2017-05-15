@@ -39,7 +39,7 @@ public class PressureSystemVisualization : MonoBehaviour
 
             // draw line directly down towards water
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(center, new Vector3(center.x, 0, center.y));
+            Gizmos.DrawLine(center, new Vector3(system.LocalPressureSystems[i].Position.x, -10, system.LocalPressureSystems[i].Position.y));
 		}
 	}
 }
