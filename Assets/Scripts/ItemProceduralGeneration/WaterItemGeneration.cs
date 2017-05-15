@@ -51,6 +51,8 @@ public class WaterItemGeneration : ItemGenerator
 
 	private const float verificationLoadingPercentage = 0.15f;
 
+	private const float stormStrengthThreshold = 0.45f;
+
 	/// <summary>
 	/// Awake this instance.
 	/// </summary>
@@ -68,7 +70,7 @@ public class WaterItemGeneration : ItemGenerator
 			districtItemInfo[key].ItemExtents = GetItemExtents(itemTemplates[key]);
 		}
 
-		Game.Instance.EventManager.StormStartedSubscription += this.GenerateInWaterAroundPlayer;
+		Game.Instance.EventManager.StormStartedSubscription += this.startStormCheck;
 	}
 
 	/// <summary>
@@ -76,7 +78,8 @@ public class WaterItemGeneration : ItemGenerator
 	/// </summary>
 	void OnDestroy()
 	{
-		Game.Instance.EventManager.StormStartedSubscription -= this.GenerateInWaterAroundPlayer;
+		Game.Instance.EventManager.StormStartedSubscription -= this.startStormCheck;
+		StopAllCoroutines();
 	}
 
 	/// <summary>
@@ -258,6 +261,34 @@ public class WaterItemGeneration : ItemGenerator
 		if(loadingTask != null)
 		{
 			loadingTask.PercentageComplete = percent;
+		}
+	}
+
+	/// <summary>
+	/// Starts checking for storm intensity.
+	/// </summary>
+	private void startStormCheck()
+	{
+		StartCoroutine(checkStormIntensity());
+	}
+
+	/// <summary>
+	/// Checks for storm intensity. Once a threshold is reached, items spawn in the water around the player.
+	/// </summary>
+	/// <returns>The storm intensity.</returns>
+	private IEnumerator checkStormIntensity()
+	{
+		bool generating = false;
+
+		while(Game.Instance.WeatherInstance.OnGoingStorm && !generating)
+		{
+			if(Game.Instance.WeatherInstance.StormStrength > stormStrengthThreshold)
+			{
+				generating = true;
+				GenerateInWaterAroundPlayer();
+			}
+
+			yield return null;
 		}
 	}
 }
