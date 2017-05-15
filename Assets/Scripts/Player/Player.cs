@@ -91,18 +91,23 @@ public class Player
     {
     	get
     	{
-    		if(this.IsInWorld)
+    		if (IsInWorld)
     		{
-    			return this.WorldTransform.position;
+    			return WorldTransform.position;
     		}
     		else
     		{
-    			return this.worldPosition;
+    			return worldPosition;
     		}
     	}
-    	private set
+    	set
     	{
-    		this.worldPosition = value;
+    		worldPosition = value;
+
+            if (IsInWorld)
+            {
+                WorldTransform.position = value;
+            }
     	}
     }
 

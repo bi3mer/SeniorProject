@@ -103,6 +103,7 @@ MonoBehaviour:
   buildingScale: {x: 1, y: 1, z: 1}
   maxPlacementTries: 3
   cityCenterBuilding: {fileID: 0}
+  tutorialBuilding: {fileID: 0}
 --- !u!114 &114000011026012388
 MonoBehaviour:
   m_ObjectHideFlags: 1
