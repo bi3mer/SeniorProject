@@ -525,12 +525,11 @@ public class WeatherSystem
 		}
 	}
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="WeatherSystem"/> class.
-	/// </summary>
-	/// <param name="bounds">Bounds of the city.</param>
-	/// <param name="pauseController">Pause system instance.</param>
-	public WeatherSystem(CityBoundaries bounds, PauseSystem pauseController)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WeatherSystem"/> class.
+    /// </summary>
+    /// <param name="pauseController"></param>
+    public WeatherSystem(PauseSystem pauseController)
 	{
 #if UNITY_EDITOR
 		if(!Application.isPlaying)
