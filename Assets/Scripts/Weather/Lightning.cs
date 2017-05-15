@@ -20,7 +20,8 @@ public class Lightning : MonoBehaviour
 	private float lightingYSpawnOffset = 10.0f;
 
 	private GameObject lightningInstance;
-
+    private bool subscribed = true;
+    
 	/// <summary>
 	/// Waits for a set time and spawns the next lightning strike
 	/// </summary>
@@ -60,6 +61,12 @@ public class Lightning : MonoBehaviour
 	/// </summary>
 	private void spawnLightning()
 	{
+        // unsubscribe if subscribed
+        if (this.subscribed)
+        {
+            Game.Instance.PauseInstance.ResumeUpdate -= this.spawnLightning;
+        }
+
 		if(this.lightningInstance == null)
 		{
 			this.lightningInstance = Instantiate(this.lightningPrefab);
@@ -75,15 +82,13 @@ public class Lightning : MonoBehaviour
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
-	IEnumerator Start () 
+	void Start () 
 	{
 		// scale time to fit with game time
 		this.minGameTimeForLightningStrike *= Game.Instance.ClockInstance.Tick;
 		this.maxGameTimeForLightningStrike *= Game.Instance.ClockInstance.Tick;
 
-		// Wait before first lightning strike
-		yield return new WaitForSeconds(this.gameMinutesTillFirstLightningStrike * Game.Instance.ClockInstance.Tick);
-
-		this.spawnLightning();
+        // wait for game to be loaded
+        Game.Instance.PauseInstance.ResumeUpdate += this.spawnLightning;
 	}
 }
