@@ -25,5 +25,8 @@ public class PostLoadingRequirements : MonoBehaviour
 
         // subscribe pressure system to clock updates
         Game.Instance.ClockInstance.SecondUpdate += Game.Instance.WeatherInstance.WeatherPressureSystems.UpdatePressureSystem;
+
+        // start spawning lightning
+        FindObjectOfType<Lightning>().SpawnLightning();
     }
 }
