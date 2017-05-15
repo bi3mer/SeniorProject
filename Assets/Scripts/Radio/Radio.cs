@@ -26,6 +26,10 @@ public class Radio : MonoBehaviour
 	private Dictionary<string, int> mysteryCarouselClipLengths;
 	private int mysteryClipsTotalLength = 0;
 
+	// Mystery clips sorted by intensity phase and the current index of where we are at
+	private List<List<string>> mysteryPhaseClips;
+	private int mysteryPhaseIndex = 0;
+
 	// Static channel right now just plays when current active channel is null
 	[SerializeField]
 	private FMOD.Studio.EventInstance staticChannel;
@@ -72,9 +76,6 @@ public class Radio : MonoBehaviour
 
 	// Millisecond conversion
 	private const int millisecond = 1000;
-
-	private List<List<string>> mysteryPhaseClips;
-	private int mysteryPhaseIndex = 0;
 
 	[Tooltip("The lowest degree of the range of the knob's rotation in which music will play")]
 	public float lowMusic;
