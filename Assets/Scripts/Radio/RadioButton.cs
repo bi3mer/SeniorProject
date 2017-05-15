@@ -22,10 +22,12 @@ public class RadioButton : MonoBehaviour
         if (buttonType == ButtonType.VolumeUp)
         {
             radioModelAnimation.PushVolumeUpButton();
+			radio.IncreaseVolume();
         }
         else if (buttonType == ButtonType.VolumeDown)
         {
             radioModelAnimation.PushVolumeDownButton();
+			radio.DecreaseVolume();
         }
         else if (buttonType == ButtonType.Power)
         {

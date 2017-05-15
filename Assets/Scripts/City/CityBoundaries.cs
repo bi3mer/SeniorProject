@@ -7,17 +7,30 @@ public class CityBoundaries
 	/// </summary>
 	public Bounds CityBounds;
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="CityBoundaries"/> class.
-	/// </summary>
-	public CityBoundaries()
-	{
-#if UNITY_EDITOR
-		// in a scene that doens't have city generation give this a default value
-		// so other portions of the game will run
-		this.CityBounds = new Bounds(new Vector3(0,0,0), new Vector3(100,100,100));
-#endif
-	}
+    private Vector2[] edges;
+
+    /// <summary>
+    /// Get list of edges on the xz plane.
+    /// </summary>
+    public Vector2[] Edges
+    {
+        get
+        {
+            if (this.edges == null)
+            {
+                // calculate the edges if we haven't already with a size of 4 (four corners)
+                this.edges = new Vector2[4];
+
+                // set each corner
+                this.edges[0] = new Vector3(this.CityBounds.min.x, this.CityBounds.min.z);
+                this.edges[1] = new Vector3(this.CityBounds.min.x, this.CityBounds.max.z);
+                this.edges[2] = new Vector3(this.CityBounds.max.x, this.CityBounds.min.z);
+                this.edges[3] = new Vector3(this.CityBounds.max.x, this.CityBounds.max.z);
+            }
+
+            return this.edges;
+        }
+    }
 
 	/// <summary>
 	/// Gets a random Vector2 within the city's boundaries.

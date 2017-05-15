@@ -491,9 +491,8 @@ public class WeatherSystem
 	/// </summary>
 	public void UpdateSystem()
 	{
-		if(updateWeather)
+        if (updateWeather)
 		{
-			this.WeatherPressureSystems.UpdatePressureSystem();
 			this.UpdateWeather(Game.Instance.PlayerInstance.WorldPosition);
 		}
 	}
@@ -513,9 +512,9 @@ public class WeatherSystem
 #endif
 
 		this.WeatherInformation = new float[Weather.GetNames(typeof(Weather)).Length];
-		this.WeatherPressureSystems = new PressureSystems(bounds);
-		pauseController.PauseUpdate += DisableWeather;
+		this.WeatherPressureSystems = new PressureSystems();
+		pauseController.PauseUpdate  += DisableWeather;
 		pauseController.ResumeUpdate += EnableWeather;
         this.OnGoingStorm = false;
-	}
+    }
 }
