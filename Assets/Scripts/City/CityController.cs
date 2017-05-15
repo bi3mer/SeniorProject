@@ -85,7 +85,7 @@ public class CityController : MonoBehaviour
         yield return null;
 
         float districtPercentage = 1.0f / (float)districts.Length;
-        int choseDistrict = Random.Range(0, districts.Length - 1);
+        int chosenDistrict = Random.Range(0, districts.Length - 1);
 
         // Generate blocks in each district
         for (int i = 0; i < districts.Length; ++i)
@@ -156,7 +156,7 @@ public class CityController : MonoBehaviour
                 yield return null;
             }
 
-            if (choseDistrict == i)
+            if (chosenDistrict == i)
             {
                 int vert = Random.Range(0, district.EdgeVerticies.Length - 2);
                 float dist = Random.Range(0f, 1f);
