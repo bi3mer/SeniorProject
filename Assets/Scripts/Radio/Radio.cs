@@ -76,6 +76,11 @@ public class Radio : MonoBehaviour
 	[SerializeField]
 	private float volumeIncrease;
 
+    // the lowest is always 0
+    private const float lowestVolume = 0;
+    // the highest possible volume is 1
+    private const float highestVolume = 1f;
+
 	/// <summary>
 	/// Sets up radio for usage -- turned off, with no active channel
 	/// </summary>
@@ -530,7 +535,7 @@ public class Radio : MonoBehaviour
 	{
 		get
 		{
-			return weather.volume == 1.0;
+			return weather.volume == highestVolume;
 		}
 	}
 
@@ -542,7 +547,7 @@ public class Radio : MonoBehaviour
 	{
 		get
 		{
-            return weather.volume == 0;
+            return weather.volume == lowestVolume;
 		}
 	}
 }
