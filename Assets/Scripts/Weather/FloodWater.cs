@@ -85,7 +85,7 @@ public class FloodWater : MonoBehaviour
                 }
 
                 // update precipiation level on a per frame basis.
-                this.precipitationWaterLevel += (precipitation / this.precipitationMitigation) * Time.fixedDeltaTime;
+                this.precipitationWaterLevel += (precipitation / this.precipitationMitigation);
                 this.transform.position = this.getTideLevel() + VectorUtility.HeightVector3d(this.precipitationWaterLevel);
             }
         }
