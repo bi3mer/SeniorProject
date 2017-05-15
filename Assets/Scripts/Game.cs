@@ -16,7 +16,7 @@
 		Scheme = GameSettingsInstance.Scheme;
         DeathManagerInstance = new DeathManager();
 		AnnouncementFactoryInstance = new AnnouncementFactory ();
-		WeatherInstance = new WeatherSystem(this.CityBounds, PauseInstance);
+		WeatherInstance = new WeatherSystem(PauseInstance);
 
         Loader = new GameLoader();
         Loader.GameLoadedEvent += () => {
@@ -41,6 +41,12 @@
 
         this.PauseInstance.ResetDelegates();
 		EventManager = new EventManager ();
+
+        // reset weather
+        UnityEngine.Debug.Log("HI!");
+        WeatherInstance         = new WeatherSystem(PauseInstance);
+        this.clockInstance      = null;
+        this.floodWaterInstance = null;
     }
  
     /// <summary>
