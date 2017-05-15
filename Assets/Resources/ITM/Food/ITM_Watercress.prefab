@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4000010531304344}
   - component: {fileID: 33000011281699402}
   - component: {fileID: 23000012732530356}
+  - component: {fileID: 65526645777740686}
+  - component: {fileID: 54808977940603166}
   m_Layer: 0
   m_Name: ITM_Watercress
   m_TagString: Untagged
@@ -80,3 +82,30 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010565972042}
   m_Mesh: {fileID: 4300000, guid: 044a2806cc6109245ba680ea3e30a354, type: 3}
+--- !u!54 &54808977940603166
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010565972042}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65526645777740686
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010565972042}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.022676736, y: 0.042370714, z: 0.025033463}
+  m_Center: {x: -0.00033330265, y: 0.0011853585, z: -0.00007551396}

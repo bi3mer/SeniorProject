@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114000011796935804}
   - component: {fileID: 114000011684390236}
   - component: {fileID: 114000010296232540}
+  - component: {fileID: 114586084443918768}
   m_Layer: 0
   m_Name: WeatherEffects
   m_TagString: Untagged
@@ -252,7 +253,7 @@ GameObject:
   - component: {fileID: 4000010360593276}
   - component: {fileID: 198000011509824234}
   - component: {fileID: 199000011464684128}
-  - component: {fileID: 114736142544284102}
+  - component: {fileID: 114672646153915666}
   m_Layer: 0
   m_Name: Fog
   m_TagString: Untagged
@@ -467,7 +468,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012563267608}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.59, z: 0}
+  m_LocalPosition: {x: 0, y: -4.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000011538390944}
@@ -526,12 +527,12 @@ MeshRenderer:
   m_GameObject: {fileID: 1000011961198834}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 82442450852ddec4695177fea002d7c4, type: 2}
+  - {fileID: 2100000, guid: 288137d67ce790e41903020c572ab4d7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -759,10 +760,10 @@ MonoBehaviour:
   MainRain: {fileID: 198000010173776360}
   RainFog: {fileID: 198000011775040566}
   windMitigation: 8
-  rainLevel: 61.017666
+  rainLevel: 0
   FogStartThreshold: 50
   fogMod: 0.5
-  windVectorXZ: {x: 7.7979207, y: -0.7730281}
+  windVectorXZ: {x: 0, y: 0}
   fogWindMod: 0.4
   splashManager: {fileID: 114000012391922068}
   splashSize: 0.4
@@ -893,7 +894,18 @@ MonoBehaviour:
   DebrisStartThreshold: 60
   windVectorXZ: {x: 0, y: 0}
   lerpSpeed: 0.01
---- !u!114 &114736142544284102
+--- !u!114 &114586084443918768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010414017512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f5a4f46c74577543bfb8b67d8b0d98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114672646153915666
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -968,8 +980,8 @@ MonoBehaviour:
   stormColorModifier:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 0.2647059, g: 0.2647059, b: 0.2647059, a: 1}
-    key2: {r: 0.00836713, g: 0.24264705, b: 0, a: 0}
+    key1: {r: 0.28676468, g: 0.28676468, b: 0.28676468, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
@@ -977,7 +989,7 @@ MonoBehaviour:
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
     ctime1: 65535
-    ctime2: 65535
+    ctime2: 0
     ctime3: 0
     ctime4: 0
     ctime5: 0
@@ -1317,7 +1329,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationX:
       minMaxState: 0
-      scalar: -1.7075628
+      scalar: -1.5707964
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1344,7 +1356,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationY:
       minMaxState: 0
-      scalar: -0.099458605
+      scalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1563,7 +1575,7 @@ ParticleSystem:
     serializedVersion: 4
     rateOverTime:
       minMaxState: 0
-      scalar: 122.03533
+      scalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2027,7 +2039,7 @@ ParticleSystem:
     enabled: 1
     x:
       minMaxState: 0
-      scalar: 7.7979207
+      scalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2054,7 +2066,7 @@ ParticleSystem:
         m_RotationOrder: 4
     y:
       minMaxState: 0
-      scalar: 0.7730281
+      scalar: -0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -16312,7 +16324,7 @@ ParticleSystem:
     serializedVersion: 4
     rateOverTime:
       minMaxState: 0
-      scalar: 30.508833
+      scalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -16740,7 +16752,7 @@ ParticleSystem:
     enabled: 1
     x:
       minMaxState: 0
-      scalar: 3.1191683
+      scalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -16794,7 +16806,7 @@ ParticleSystem:
         m_RotationOrder: 4
     z:
       minMaxState: 0
-      scalar: 0.30921122
+      scalar: -0
       maxCurve:
         serializedVersion: 2
         m_Curve:
