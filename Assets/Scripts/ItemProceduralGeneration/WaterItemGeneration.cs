@@ -51,7 +51,7 @@ public class WaterItemGeneration : ItemGenerator
 
 	private const float verificationLoadingPercentage = 0.15f;
 
-	private const float stormStrengthThreshold = 0.45f;
+	private const float stormStrengthThreshold = 0.75f;
 
 	/// <summary>
 	/// Awake this instance.
