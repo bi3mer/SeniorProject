@@ -89,15 +89,15 @@ public class WindowWasher : MonoBehaviour
 
         isUp = StartUp;
         angledGround.SetActive(!isUp);
+        canMove = true;
     }
 
     public void Update()
-    {   
+    {
+        UpdateRopePosition();
         // Disable if water is above the building.
         if (water.transform.position.y < transform.position.y && canMove)
-        { 
-            UpdateRopePosition();
-   
+        {    
             // rise with the water
             if(!isUp && water.transform.position.y + MaxLowerDistance >= transform.position.y)
             {

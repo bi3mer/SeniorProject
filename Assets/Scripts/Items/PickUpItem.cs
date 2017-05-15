@@ -6,11 +6,24 @@ public class PickUpItem : InteractableObject
 {
 	private BaseItem item;
 
+	// How far down the item can fall in the world before it is removed
+	private const float sinkThreshold = -10f;
+
     private const float glowWait = 0.1f;
 
+    private const float sinkDistanceCheckDelay = 1f;
+
+    private Rigidbody rigidBody;
+
+    /// <summary>
+    /// Initializes text and hides it.
+    /// </summary>
 	void Awake()
 	{
 		SetUp();
+		rigidBody = GetComponent<Rigidbody>();
+		rigidBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+		rigidBody.interpolation = RigidbodyInterpolation.None;
 	}
 
 	/// <summary>
@@ -38,6 +51,20 @@ public class PickUpItem : InteractableObject
 	{
 		get;
 		set;
+	}
+
+	/// <summary>
+	/// Checks for y location of item
+	/// </summary>
+	private void FixedUpdate()
+	{
+		if(Game.Instance.Loader.GameLoaded)
+		{
+			if(transform.position.y < sinkThreshold)
+			{
+				Game.Instance.ItemPoolInstance.RemoveItemFromWorld(this.gameObject);
+			}
+		}
 	}
 
 	/// <summary>
@@ -73,7 +100,7 @@ public class PickUpItem : InteractableObject
 	private void pickUp()
 	{
         gameObject.GetComponent<GlowObjectCmd>().OutOfViewColor();
-        StartCoroutine(removeItem());
+        StartCoroutine(addToInventory());
     }
 
 
@@ -81,7 +108,7 @@ public class PickUpItem : InteractableObject
     /// Removes item from world after the gameObject is done stopping the outline glow.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator removeItem()
+    private IEnumerator addToInventory()
     {
         yield return new WaitForSeconds(glowWait);
 

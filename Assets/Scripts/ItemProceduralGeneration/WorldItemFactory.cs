@@ -76,7 +76,11 @@ public class WorldItemFactory
 		pickup.Item = itemToCreate;
 		pickup.Show = false;
 
-		// TODO: Make the amount found in one stack to be a variable number
+		if(Game.Instance.ItemFactoryInstance.GeneratesInWater(itemToCreate.ItemName))
+		{
+			item.AddComponent<FloatBehavior>();
+		}
+
 		pickup.Amount = amount;
 		item.name = itemToCreate.ItemName;
 
@@ -91,24 +95,7 @@ public class WorldItemFactory
 	{
 		// create the object with the model
 		BaseItem baseItem = Game.Instance.ItemFactoryInstance.GetWeightedRandomBaseItem(district, true);
-		GameObject item = GameObject.Instantiate (worldItemTemplates[baseItem.ItemName]);
-
-        // creates the trigger object that will handle interaction with player
-        GameObject triggerObject = GameObject.Instantiate(triggerObjectPrefab);
-		triggerObject.transform.SetParent(item.transform);
-		triggerObject.transform.localPosition = Vector3.zero;
-
-        PickUpItem pickup = item.AddComponent<PickUpItem>();
-		pickup.SetUp();
-		pickup.Item = baseItem;
-		pickup.Show = false;
-
-		// TODO: Make the amount found in one stack to be a variable number
-		pickup.Amount = (int) Random.Range(itemAmountRange.min, itemAmountRange.max);
-
-		item.name = baseItem.ItemName;
-
-		return item;
+		return CreatePickUpInteractableItem(baseItem, (int) Random.Range(itemAmountRange.min, itemAmountRange.max));
 	}
 
 	/// <summary>
@@ -165,7 +152,7 @@ public class WorldItemFactory
 			for(i = 0; i < interactableItemNamesByDistrict[key].Count; ++i)
 			{
 				// since these will only be used for templates, there is not need for an amount
-				interactableItemsByDistrict[key].Add(CreatePickUpInteractableItem(itemFactory.GetBaseItem(interactableItemNamesByDistrict[key][i]), 0));
+				interactableItemsByDistrict[key].Add(CreateGenericInteractableItem(itemFactory.GetBaseItem(interactableItemNamesByDistrict[key][i])));
 				interactableItemsByDistrict[key][i].SetActive(setActive);
 			}
 		}
