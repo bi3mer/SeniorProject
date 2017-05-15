@@ -100,7 +100,7 @@ public class Player
     			return worldPosition;
     		}
     	}
-    	private set
+    	set
     	{
     		worldPosition = value;
 

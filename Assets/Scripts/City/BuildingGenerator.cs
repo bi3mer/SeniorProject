@@ -134,19 +134,21 @@ public class BuildingGenerator : MonoBehaviour
         return buildings.ToArray();
     }
 
-    public Building PlaceTutorialBuilding()
+    /// <summary>
+    /// Move the tutorial building and places the player character.
+    ///</summary>
+    /// <param name="location">Location to place the building.</param>
+    public Building PlaceTutorialBuilding (Vector3 location)
     {
         // Grab the location of the player relative to the tutorial building
         Vector3 relativePlayerLocation = Game.Player.WorldPosition - tutorialBuilding.transform.position;
 
         // Move the tutorial building
+        tutorialBuilding.transform.position = location;
 
         // Place the player back on the turoial building
         Game.Player.WorldPosition = tutorialBuilding.transform.position + relativePlayerLocation;
 
-        return new TemplateBuilding(
-            this.gameobject.transform, 
-            tutorialBuilding.transform.position, 
-            tutorialBuilding);
+        return new TemplateBuilding(this.gameObject.transform, location, tutorialBuilding);
     }
 }
