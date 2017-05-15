@@ -14,11 +14,11 @@ public class FogController : MonoBehaviour
 	private FogMode cameraFogMode;
 
 	[SerializeField]
-	[Range(0, 25)]
+	[Range(0, 200)]
 	private int cameraFogStart;
 
 	[SerializeField]
-	[Range(0, 25)]
+	[Range(0, 200)]
 	private int cameraFogEnd;
 
     [SerializeField]
