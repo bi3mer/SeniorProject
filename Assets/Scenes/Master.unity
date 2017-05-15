@@ -1216,37 +1216,37 @@ Prefab:
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: -0.954205
+      value: 0.12978865
       objectReference: {fileID: 0}
     - target: {fileID: 198000011775040566, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.z.scalar
-      value: 1.5806442
+      value: -0.43556127
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationX.scalar
-      value: -1.6513578
+      value: -1.5906271
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: InitialModule.startRotationY.scalar
-      value: -11.638995
+      value: 0.21767816
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 82.4857
+      value: 30.216688
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.x.scalar
-      value: -2.3855124
+      value: 0.32447162
       objectReference: {fileID: 0}
     - target: {fileID: 198000010173776360, guid: ecc262ca63bb3d54ba8476a9fa126d5c,
         type: 2}
       propertyPath: VelocityModule.y.scalar
-      value: 3.9516106
+      value: -1.0889032
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ecc262ca63bb3d54ba8476a9fa126d5c, type: 2}
@@ -1460,16 +1460,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 114000010221364680, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+    - target: {fileID: 114000010239616376, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
         type: 2}
-      propertyPath: activePool
+      propertyPath: cityCenterBuilding
       value: 
-      objectReference: {fileID: 1483490350}
-    - target: {fileID: 114000010221364680, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+      objectReference: {fileID: 1079117460}
+    - target: {fileID: 114000010239616376, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
         type: 2}
-      propertyPath: inactivePool
+      propertyPath: tutorialBuilding
       value: 
-      objectReference: {fileID: 878818695}
+      objectReference: {fileID: 1589922162}
     - target: {fileID: 114000014275874900, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
         type: 2}
       propertyPath: TestDistrict.districtProceduralMaterials.Array.data[0]
@@ -1635,11 +1635,16 @@ Prefab:
       propertyPath: TestDistrict.districtProceduralWindowMaterials.Array.data[2]
       value: 
       objectReference: {fileID: 1055003845}
-    - target: {fileID: 114000010239616376, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+    - target: {fileID: 114000010221364680, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
         type: 2}
-      propertyPath: cityCenterBuilding
+      propertyPath: activePool
       value: 
-      objectReference: {fileID: 1079117460}
+      objectReference: {fileID: 1483490350}
+    - target: {fileID: 114000010221364680, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d,
+        type: 2}
+      propertyPath: inactivePool
+      value: 
+      objectReference: {fileID: 878818695}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3ddd0af2dae0f4d4bb5f7f73c58ff87d, type: 2}
   m_IsPrefabParent: 0
@@ -6292,7 +6297,7 @@ Prefab:
     - target: {fileID: 224817383641033626, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -270.91998
       objectReference: {fileID: 0}
     - target: {fileID: 224281578058297868, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
@@ -6302,7 +6307,7 @@ Prefab:
     - target: {fileID: 224281578058297868, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -270.91998
       objectReference: {fileID: 0}
     - target: {fileID: 224221441589853532, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
@@ -7728,6 +7733,11 @@ Material:
     m_Colors:
     - _Color: {r: 0.6666667, g: 0.31764707, b: 0.22352941, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+--- !u!1 &1589922162 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000012782841644, guid: d7c68f115fbdec94caae02e8130c968a,
+    type: 2}
+  m_PrefabInternal: {fileID: 1748236923}
 --- !u!1 &1610237842
 GameObject:
   m_ObjectHideFlags: 0
