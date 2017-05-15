@@ -140,7 +140,6 @@ public class Radio : MonoBehaviour
 	{
 		if (isOn) 
 		{
-			Debug.Log (MaxVolume);
 			// Find the current channel and turn it on if it's not already playing 
 			FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
 
@@ -498,7 +497,7 @@ public class Radio : MonoBehaviour
 	/// <summary>
 	/// Increases the volume.
 	/// </summary>
-	public void increaseVolume()
+	public void IncreaseVolume()
 	{
 		if (!MaxVolume)
 		{
@@ -512,7 +511,7 @@ public class Radio : MonoBehaviour
 	/// <summary>
 	/// Decreases the volume.
 	/// </summary>
-	public void decreaseVolume()
+	public void DecreaseVolume()
 	{
 		if (!MinVolume)
 		{
@@ -531,18 +530,7 @@ public class Radio : MonoBehaviour
 	{
 		get
 		{
-			if (weather.volume == 1.0) 
-			{
-				return true;
-			} 
-			else 
-			{
-				return false;
-			}
-		}
-		set
-		{
-			MaxVolume = value;
+			return weather.volume == 1.0;
 		}
 	}
 
@@ -554,18 +542,7 @@ public class Radio : MonoBehaviour
 	{
 		get
 		{
-			if (weather.volume == 0) 
-			{
-				return true;
-			} 
-			else 
-			{
-				return false;
-			}
-		}
-		set
-		{
-			MinVolume = value;
+            return weather.volume == 0;
 		}
 	}
 }
