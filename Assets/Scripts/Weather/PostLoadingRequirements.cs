@@ -29,4 +29,9 @@ public class PostLoadingRequirements : MonoBehaviour
         // start spawning lightning
         FindObjectOfType<Lightning>().SpawnLightning();
     }
+
+    private void OnDestroy()
+    {
+        Game.Instance.ClockInstance.SecondUpdate -= Game.Instance.WeatherInstance.WeatherPressureSystems.UpdatePressureSystem;
+    }
 }
