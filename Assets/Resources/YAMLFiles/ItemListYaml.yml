@@ -31,6 +31,182 @@
       plantVolume: 0.5
       stomachEffect: 0.0
       pneumoniaEffect: 0.0
+- itemName: "Seaweed"
+  baseItem: 
+   itemName: "Seaweed"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_RiverWeed"
+   worldModel: "ITM/Plants/ITM_wavyseaweed"
+   types:
+    - "edible"
+   flavorText: "A common plant that grows in water. Kind of slimy but great for soups."
+   modifyingActionNames:
+    - "Weave Rope"
+    - “Weave Basket”
+   actionModifiedModels:
+    - "ITM/Ropes/ITM_Rope"
+    - “ITM/Small\ Containers/ITM_Basket”
+   actionModifiedSprites:
+    - "GUI_ITM_Rope"
+    - "GUI_ITM_Basket"
+  itemCategories: 
+    - !!solid
+      flexibility: 2.0
+      durability: 1.5
+      elasticity: 2.6
+      stickiness: 1.0
+      thickness: 0.1
+      sharpness: 0.05
+    - !!plant
+      waterContent: 5.0
+      toughness: 1.5
+      plantVolume: 0.8
+      stomachEffect: 0.0
+      pneumoniaEffect: 0.0
+- itemName: "Lotus Root"
+  baseItem: 
+   itemName: "Lotus Root"
+   rarity: "uncommon"
+   inventorySprite: "GUI_ITM_LotusRoot"
+   worldModel: "ITM/Food/ITM_LotusRoot"
+   types:
+    - "edible"
+   flavorText: "The root of a lotus flower. Pourous and just a little sweet."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0.2
+      durability: 2.0
+      elasticity: 0.0
+      stickiness: 0.1
+      thickness: 1.5
+      sharpness: 0.1
+    - !!plant
+      waterContent: 3.0
+      toughness: 4.3
+      plantVolume: 5.5
+      stomachEffect: 0.0
+      pneumoniaEffect: 0.0
+- itemName: "Water Cress"
+  baseItem: 
+   itemName: "Water Cress"
+   rarity: "uncommon"
+   inventorySprite: "GUI_ITM_Watercress"
+   worldModel: "ITM/Food/ITM_Watercress"
+   types:
+    - "edible"
+   flavorText: "A leafy plant. Nutritious and tasty, even raw."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0.2
+      durability: 0.5
+      elasticity: 0.3
+      stickiness: 0.1
+      thickness: 1.0
+      sharpness: 0.1
+    - !!plant
+      waterContent: 4.0
+      toughness: 0.5
+      plantVolume: 2.0
+      stomachEffect: 0.0
+      pneumoniaEffect: 0.0
+- itemName: "Water Chestnut"
+  baseItem: 
+   itemName: "Water Chestnut"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_WaterChestnut"
+   worldModel: "ITM/Food/ITM_WaterChestnut"
+   types:
+    - "edible"
+   flavorText: "A crunchy and sweet nut."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0.0
+      durability: 2.6
+      elasticity: 0.0
+      stickiness: 0.1
+      thickness: 0.4
+      sharpness: 0.3
+    - !!plant
+      waterContent: 3.5
+      toughness: 2.0
+      plantVolume: 0.25
+      stomachEffect: 0.0
+      pneumoniaEffect: 0.0
+- itemName: "Holy Basil"
+  baseItem: 
+   itemName: "Holy Basil"
+   rarity: "rare"
+   inventorySprite: "GUI_ITM_RiverWeed"
+   worldModel: "ITM/Plants/ITM_bush"
+   types:
+    - "edible"
+    - "medicinal"
+   flavorText: "Said to have been quite an expensive ingredient back when these were used in restaurants. Eases food poisoning."
+   modifyingActionNames:
+    - "Weave Rope"
+    - “Weave Basket”
+   actionModifiedModels:
+    - "ITM/Ropes/ITM_Rope"
+    - “ITM/Small\ Containers/ITM_Basket”
+   actionModifiedSprites:
+    - "GUI_ITM_Rope"
+    - "GUI_ITM_Basket"
+  itemCategories: 
+    - !!solid
+      flexibility: 4.5
+      durability: 0.2
+      elasticity: 0.3
+      stickiness: 0.1
+      thickness: 0.3
+      sharpness: 0.1
+    - !!plant
+      waterContent: 4.0
+      toughness: 1.0
+      plantVolume: 2.0
+      stomachEffect: 0.0
+      pneumoniaEffect: 0.0
+    - !!medicine
+      healthGain: 0.0
+      sickness: "food poisoning"
+- itemName: "Coneflower"
+  baseItem: 
+   itemName: "Coneflower"
+   rarity: "rare"
+   inventorySprite: "GUI_ITM_RiverWeed"
+   worldModel: "ITM/Plants/ITM_purpleflower"
+   types:
+    - "edible"
+    - "medicinal"
+   flavorText: "Someone must have taken plenty of care to tend this flower. Supposedly helps ease pneumonia."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 4.5
+      durability: 0.2
+      elasticity: 0.3
+      stickiness: 0.1
+      thickness: 0.3
+      sharpness: 0.1
+    - !!plant
+      waterContent: 3.0
+      toughness: 0.5
+      plantVolume: 1.0
+      stomachEffect: 0.0
+      pneumoniaEffect: 0.0
+    - !!medicine
+      healthGain: 0.0
+      sickness: "pneumonia"
 - itemName: "Stick"
   baseItem: 
    itemName: "Stick"
@@ -60,6 +236,54 @@
       pneumoniaEffect: 0.0
     - !!fuel
       burnTime: 10.0
+- itemName: "Log"
+  baseItem: 
+   itemName: "Log"
+   rarity: "rare"
+   inventorySprite: "GUI_ITM_Stick"
+   worldModel: "ITM/Logs/ITM_Log2"
+   types:
+     - "fuel"
+     - "floatable object"
+     - "base solid"
+   flavorText: "A thick wooden log. Quite durable."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories:
+    - !!solid
+      flexibility: 0.1
+      durability: 4.0
+      elasticity: 0.1
+      stickiness: 0.1
+      thickness: 3.5
+      sharpness: 0.3
+    - !!fuel
+      burnTime: 30.0
+- itemName: "Hardwood Log"
+  baseItem: 
+   itemName: "Hardwood Log"
+   rarity: "legendary"
+   inventorySprite: "GUI_ITM_Stick"
+   worldModel: "ITM/Logs/ITM_Log1"
+   types:
+     - "fuel"
+     - "floatable object"
+     - "base solid"
+   flavorText: "A thick hardwood log. It's incredible to find something like this...it's extremely durable!"
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories:
+    - !!solid
+      flexibility: 0.1
+      durability: 5.0
+      elasticity: 0.1
+      stickiness: 0.1
+      thickness: 5.0
+      sharpness: 0.2
+    - !!fuel
+      burnTime: 50.0
 - itemName: "Empty Can"
   baseItem: 
    itemName: "Empty Can"
@@ -80,6 +304,46 @@
       stickiness: 0.1
       thickness: 0.4
       sharpness: 0.3
+- itemName: "Plastic Bottle"
+  baseItem: 
+   itemName: "Plastic Bottle"
+   rarity: "uncommon"
+   inventorySprite: "GUI_ITM_WaterBottle"
+   worldModel: "ITM/Fishing Rods/ITM_FishingRodBobber"
+   types:
+    - "hook"
+   flavorText: "An empty plastic bottle. Could be used as a bobber for a fishing rod."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 3.5
+      durability: 2.5
+      elasticity: 0.1
+      stickiness: 0.1
+      thickness: 0.5
+      sharpness: 0.5
+- itemName: "Metal Hook"
+  baseItem: 
+   itemName: "Metal Hook"
+   rarity: "rare"
+   inventorySprite: "GUI_ITM_FishingHook"
+   worldModel: "ITM/Fishing Rods/ITM_FishingHook"
+   types:
+    - "hook"
+   flavorText: "A sharp metal hook."
+   modifyingActionNames:
+   actionModifiedModels:
+   actionModifiedSprites:
+  itemCategories: 
+    - !!solid
+      flexibility: 0.2
+      durability: 5.0
+      elasticity: 0.1
+      stickiness: 0.1
+      thickness: 0.5
+      sharpness: 3.5
 - itemName: "Poor Fishing Rod"
   baseItem:
    inventorySprite: "GUI_ITM_PoorFishingRod"
@@ -153,7 +417,7 @@
   baseItem: 
    itemName: "Poor Woven Blanket"
    rarity: "common"
-   inventorySprite: "GUI_ITM_Bandage"
+   inventorySprite: "GUI_ITM_Blanket"
    worldModel: "ITM/Healing/ITM_Bandage"
    types:
     - "cloth"
@@ -171,7 +435,7 @@
   baseItem: 
    itemName: "Standard Woven Blanket"
    rarity: "common"
-   inventorySprite: "GUI_ITM_Bandage"
+   inventorySprite: "GUI_ITM_Blanket"
    worldModel: "ITM/Healing/ITM_Bandage"
    types:
     - "cloth"
@@ -189,7 +453,7 @@
   baseItem: 
    itemName: "Excellent Woven Blanket"
    rarity: "common"
-   inventorySprite: "GUI_ITM_Bandage"
+   inventorySprite: "GUI_ITM_Blanket"
    worldModel: "ITM/Healing/ITM_Bandage"
    types:
     - "cloth"
@@ -206,7 +470,7 @@
 - itemName: "Medicine Box"
   baseItem: 
    itemName: "Medicine Box"
-   rarity: "uncommon"
+   rarity: "legendary"
    inventorySprite: "GUI_ITM_MedicineBox"
    worldModel: "ITM/Healing/ITM_BandageBox"
    types:
@@ -247,13 +511,32 @@
    modifyingActionNames:
      - "Cook"
    actionModifiedModels: 
+    - "ITM/Food/ITM_CookedEgg"
+   actionModifiedSprites:
+    - "GUI_ITM_CookedEgg"
+  itemCategories:
+    - !!flesh
+      hungerGain: 20.0
+      healthEffect: -0.2
+- itemName: "Fish"
+  baseItem:
+   itemName: "Fish"
+   rarity: "common"
+   inventorySprite: "GUI_ITM_BlueSpottedGrouper"
+   worldModel: "ITM/Food/ITM_CookedFish"
+   types:
+     - "edible"
+   flavorText: "Straight from the water."
+   modifyingActionNames:
+     - "Cook"
+   actionModifiedModels: 
     - "ITM/Food/ITM_CookedFish"
    actionModifiedSprites:
     - "GUI_ITM_CookedFish"
   itemCategories:
     - !!flesh
-      hungerGain: 20.0
-      healthEffect: -0.2
+      hungerGain: 40.0
+      healthEffect: -0.1
 - itemName: "Matchbook"
   baseItem:
    itemName: "Matchbook"
@@ -371,21 +654,22 @@
 - itemName: "Radio Antenna"
   baseItem: 
    itemName: "Radio Antenna"
-   rarity: "common"
+   rarity: "rare"
    inventorySprite: "GUI_ITM_RadioAntenna"
    worldModel: "ITM/Communication/ITM_RadioAntenna"
    types:
+    - "rod"
    flavorText: "An antenna reciever."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
   itemCategories: 
     - !!solid
-      flexibility: 0
-      durability: 0
-      elasticity: 0
+      flexibility: 3.0
+      durability: 4.5
+      elasticity: 1.0
       stickiness: 0
-      thickness: 0
+      thickness: 0.5
       sharpness: 0
 - itemName: "Paper Scrap"
   baseItem: 
@@ -409,7 +693,7 @@
 - itemName: "Scrap Metal"
   baseItem: 
    itemName: "Scrap Metal"
-   rarity: "common"
+   rarity: "rare"
    inventorySprite: "GUI_ITM_ScrapMetal"
    worldModel: "ITM/Raw Materials/ITM_ScrapMetal"
    types:
@@ -429,7 +713,7 @@
 - itemName: "Wood Plank"
   baseItem: 
    itemName: "Wood Plank"
-   rarity: "common"
+   rarity: "uncommon"
    inventorySprite: "GUI_ITM_WoodPlank"
    worldModel: "ITM/WoodPlanks/ITM_WoodPlank1"
    types:
@@ -453,7 +737,7 @@
 - itemName: "Golf Club"
   baseItem: 
    itemName: "Golf Club"
-   rarity: "common"
+   rarity: "legendary"
    inventorySprite: "GUI_ITM_GolfClub"
    worldModel: "ITM/Rods/GolfClub"
    types:
@@ -473,7 +757,7 @@
 - itemName: "Pipe"
   baseItem: 
    itemName: "Pipe"
-   rarity: "common"
+   rarity: "uncommon"
    inventorySprite: "GUI_ITM_Pipe"
    worldModel: "ITM/Rods/ITM_Pipe"
    types:
@@ -493,12 +777,12 @@
 - itemName: "Umbrella"
   baseItem: 
    itemName: "Umbrella"
-   rarity: "common"
+   rarity: "rare"
    inventorySprite: "GUI_ITM_Umbrella"
    worldModel: "ITM/Rods/Umbrella"
    types:
     - "rod"
-   flavorText: "To keep you dry. Or it would've if it wasn't torn."
+   flavorText: "To keep you dry. Or it would've if it wasn't torn. Had a point once upon a time."
    modifyingActionNames:
    actionModifiedModels:
    actionModifiedSprites:
@@ -534,7 +818,7 @@
   baseItem: 
    itemName: "Poor Raft"
    rarity: "common"
-   inventorySprite: "GUI_ITM_WoodPlank"
+   inventorySprite: "GUI_ITM_ShitRaft"
    worldModel: "ITM/Rafts/ITM_lowTierRaft"
    types:
     - "advanced tool"
@@ -555,7 +839,7 @@
   baseItem:
    itemName: "Standard Raft"
    rarity: "common"
-   inventorySprite: "GUI_ITM_WoodPlank"
+   inventorySprite: "GUI_ITM_StandardRaft"
    worldModel: "ITM/Rafts/ITM_StandardRaft"
    types:
      - "advanced tool"
@@ -576,7 +860,7 @@
   baseItem:
    itemName: "Excellent Raft"
    rarity: "common"
-   inventorySprite: "GUI_ITM_WoodPlank"
+   inventorySprite: "GUI_ITM_BestRaft"
    worldModel: "ITM/Rafts/ITM_TopTier_Raft"
    types:
      - "advanced tool"
