@@ -8,8 +8,8 @@
 {3cc801f5-f7d3-45be-8747-19004965e500} event:/Player/Movement/Walking/Raft
 {2025d14f-544d-42a1-b913-57ba4dc77da4} event:/Radio/Music/Apocalypse
 {59099f22-a09d-4463-ab50-117f3f5e2206} event:/Radio/Music/Better_Safe
-{2cacc1a2-0177-41de-afdc-30dbde3a1aaa} event:/Radio/Music/Soulja_Boy
-{c5e7490d-268e-4731-a592-c7cd45828e58} event:/Radio/Mystery/Phase1/Jeff_1
+{2cacc1a2-0177-41de-afdc-30dbde3a1aaa} event:/Radio/Music/Zero_Rain
+{c5e7490d-268e-4731-a592-c7cd45828e58} event:/Radio/Mystery/Phase1/Jeff
 {17ce8fdc-c68a-49e9-9d32-aaa4ba3ee9d6} event:/Radio/Mystery/Phase1/School_Musical
 {c8723de3-adbb-4ad1-bad7-0a922b6c0496} event:/Radio/Mystery/Phase2/4_Officials_Missing
 {278ee143-183d-46d3-bcf6-dac3afaba768} event:/Radio/Mystery/Phase2/Evacuate_3_Block
