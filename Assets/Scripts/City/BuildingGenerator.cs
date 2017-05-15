@@ -38,6 +38,11 @@ public class BuildingGenerator : MonoBehaviour
     [Tooltip("The template for the building to place at the center of the city.")]
     private GameObject cityCenterBuilding;
 
+
+    [SerializeField]
+    [Tooltip("The instance of the tutorial building.")]
+    private GameObject tutorialBuilding;
+
     private ProceduralBuildingCreator buildingCreator;
 
     /// <summary>
