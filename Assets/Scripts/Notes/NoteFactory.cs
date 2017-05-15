@@ -52,10 +52,13 @@ public class NoteFactory
 
 		for(int i = 0; i < noteDatabase.Count; ++i)
 		{
-			if(!worldNoteTemplates.ContainsKey(noteDatabase[i].WorldModel))
-			{
-				worldNoteTemplates.Add (noteDatabase[i].WorldModel, (GameObject)Resources.Load (noteDatabase [i].WorldModel));
-			}
+            if (noteDatabase[i] != null)
+            {
+                if (!worldNoteTemplates.ContainsKey(noteDatabase[i].WorldModel))
+                {
+                    worldNoteTemplates.Add(noteDatabase[i].WorldModel, (GameObject)Resources.Load(noteDatabase[i].WorldModel));
+                }
+            }
 		}
 	}
 
@@ -66,31 +69,35 @@ public class NoteFactory
 	/// <param name="noteToCreate">Data regarding the note to create.</param>
 	public GameObject CreateNote(NoteData noteToCreate)
 	{
-		if(!worldNoteTemplates.ContainsKey(noteToCreate.WorldModel))
-		{
-			worldNoteTemplates.Add(noteToCreate.WorldModel, (GameObject) Resources.Load(noteToCreate.WorldModel));
-		}
+        if (noteToCreate != null)
+        {
+            if (!worldNoteTemplates.ContainsKey(noteToCreate.WorldModel))
+            {
+                worldNoteTemplates.Add(noteToCreate.WorldModel, (GameObject)Resources.Load(noteToCreate.WorldModel));
+            }
 
-		// create the object with the model
-		GameObject item = GameObject.Instantiate (worldNoteTemplates[noteToCreate.WorldModel]);
-		item.name = noteToCreate.Title;
+            // create the object with the model
+            GameObject item = GameObject.Instantiate(worldNoteTemplates[noteToCreate.WorldModel]);
+            item.name = noteToCreate.Title;
 
-		item.SetActive (false);
+            item.SetActive(false);
 
-		// creates the trigger object that will handle interaction with player
-		GameObject textObject = GameObject.Instantiate(triggerObjectPrefab);
-		textObject.transform.SetParent(item.transform);
-		textObject.transform.localPosition = Vector3.zero;
+            // creates the trigger object that will handle interaction with player
+            GameObject textObject = GameObject.Instantiate(triggerObjectPrefab);
+            textObject.transform.SetParent(item.transform);
+            textObject.transform.localPosition = Vector3.zero;
 
-		// Set up the interactable note
-		Note itemNote = item.AddComponent<Note>();
-		itemNote.DisplayText = noteToCreate.Text;
-		itemNote.SetUp ();
-		itemNote.Text = noteToCreate.Title;
-		itemNote.Show = false;
+            // Set up the interactable note
+            Note itemNote = item.AddComponent<Note>();
+            itemNote.DisplayText = noteToCreate.Text;
+            itemNote.SetUp();
+            itemNote.Text = noteToCreate.Title;
+            itemNote.Show = false;
 
-		item.SetActive (false);
-		return item;
+            item.SetActive(false);
+            return item;
+        }
+        return null;
 	}
 
 	/// <summary>
