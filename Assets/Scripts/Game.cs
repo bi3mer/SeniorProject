@@ -43,7 +43,6 @@
 		EventManager = new EventManager ();
 
         // reset weather
-        UnityEngine.Debug.Log("HI!");
         WeatherInstance         = new WeatherSystem(PauseInstance);
         this.clockInstance      = null;
         this.floodWaterInstance = null;
