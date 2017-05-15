@@ -56,7 +56,7 @@
         healthGain: 20.0
         sickness: "none"
    - stackId: 3
-     itemAmount: 4
+     itemAmount: 5
      item: 
       itemName: "River Reed"
       rarity: "common"

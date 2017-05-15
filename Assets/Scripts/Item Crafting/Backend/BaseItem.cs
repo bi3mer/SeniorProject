@@ -147,6 +147,8 @@ public class BaseItem : CollectableItem
 	/// </summary>
 	public bool DiscardFlag = false;
 
+	private const string discardActionName = "Discard";
+
 	/// <summary>
 	/// Initializaer only used during Yaml Deserialization
 	/// </summary>
@@ -270,8 +272,11 @@ public class BaseItem : CollectableItem
 	public override List<ItemAction> GetPossibleActions()
 	{
 		List<ItemAction> possibleActions = new List<ItemAction>();
-		string discardActionName = "Discard";
-		possibleActions.Add(new ItemAction(discardActionName, new UnityAction(Discard)));
+
+		if(GetItemCategoryByClass(typeof(RaftCategory)) == null)
+		{
+			possibleActions.Add(new ItemAction(discardActionName, new UnityAction(Discard)));
+		}
 
 		for(int i = 0; i < categoryList.Count; ++i)
 		{
