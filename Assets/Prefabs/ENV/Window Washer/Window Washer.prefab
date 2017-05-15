@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 4000011979510674}
   - component: {fileID: 65000013180113982}
   m_Layer: 0
-  m_Name: WindowWasherGround (1)
+  m_Name: WindowWasherAngledGround
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -237,7 +237,7 @@ Transform:
   m_GameObject: {fileID: 1000014183905886}
   m_LocalRotation: {x: 0.4999171, y: 0.4999171, z: -0.5000829, w: 0.5000829}
   m_LocalPosition: {x: -0.20899382, y: 0.049, z: 0.4579991}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.16554993, y: 0.16554993, z: 0.16554993}
   m_Children: []
   m_Father: {fileID: 4000010028245174}
   m_RootOrder: 3
@@ -248,8 +248,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014197162040}
-  m_LocalRotation: {x: -0, y: -0.99999416, z: 0, w: 0.003423037}
-  m_LocalPosition: {x: -118.85595, y: 0.00000011920929, z: 93.05122}
+  m_LocalRotation: {x: -0, y: -0.99999416, z: -0, w: 0.003423037}
+  m_LocalPosition: {x: 2.780113, y: -0.17190099, z: -1.8191342}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013553497934}
@@ -363,7 +363,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10100, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3e62df796cb7c4c948c56a9d9b28f748, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -609,10 +609,10 @@ TextMesh:
   m_Anchor: 0
   m_Alignment: 0
   m_TabSize: 4
-  m_FontSize: 0
+  m_FontSize: 136
   m_FontStyle: 0
   m_RichText: 1
-  m_Font: {fileID: 12800000, guid: 769ea79805ab54e1cbf163da8a7ac666, type: 3}
+  m_Font: {fileID: 12800000, guid: 3e62df796cb7c4c948c56a9d9b28f748, type: 3}
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
@@ -627,10 +627,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40abecea5cca7ef4b8d3512b3fac871f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxLowerDistance: 2
+  MaxLowerDistance: 1387.6
   isUp: 1
   water: {fileID: 0}
   movingPlatform: {fileID: 1000010088449882}
+  angledGround: {fileID: 1000013520596788}
+  windowWasherSpeed: 1.2
   ropeRenderer: {fileID: 120000010831116910}
   ropeRendererTwo: {fileID: 120000011565366448}
   ropeRepeatScale: 46
