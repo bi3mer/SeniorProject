@@ -1013,11 +1013,8 @@ MonoBehaviour:
   highMystery: 185
   lowWeather: 260
   highWeather: 275
-  voiceRate: 0.9
-  voiceVolume: 1
-  voicePitch: 0.7
-  weatherUpdateThreshold: 5
-  weatherUpdateTime: 2
+  volumeDecrease: 0.1
+  volumeIncrease: 0.1
 --- !u!124 &124000014141296132
 Behaviour:
   m_ObjectHideFlags: 1

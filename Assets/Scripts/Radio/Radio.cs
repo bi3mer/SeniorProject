@@ -87,7 +87,17 @@ public class Radio : MonoBehaviour
 	public float highWeather;
 
 	[SerializeField]
-	[Tooltip("The rate the voice speaks for weather")]
+	private float volumeDecrease;
+	[SerializeField]
+	private float volumeIncrease;
+
+    // the lowest is always 0
+    private const float lowestVolume = 0;
+    // the highest possible volume is 1
+    private const float highestVolume = 1f;
+
+    [SerializeField]
+    [Tooltip("The rate the voice speaks for weather")]
 	private float voiceRate;
 	[SerializeField]
 	[Tooltip("The volume the voice speaks for weather")]
@@ -539,5 +549,57 @@ public class Radio : MonoBehaviour
 	private void addRaftClip()
 	{
 		// TODO: Add raft clip to carousel
+	}
+
+	/// <summary>
+	/// Increases the volume.
+	/// </summary>
+	public void IncreaseVolume()
+	{
+		if (!MaxVolume)
+		{
+			weather.volume += volumeIncrease;
+			musicChannel.setVolume(weather.volume);
+			mysteryChannel.setVolume(weather.volume);
+			staticChannel.setVolume(weather.volume);
+		}
+	}
+
+	/// <summary>
+	/// Decreases the volume.
+	/// </summary>
+	public void DecreaseVolume()
+	{
+		if (!MinVolume)
+		{
+			weather.volume -= volumeDecrease;
+			musicChannel.setVolume(weather.volume);
+			mysteryChannel.setVolume(weather.volume);
+			staticChannel.setVolume(weather.volume);
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="Radio"/> max volume.
+	/// </summary>
+	/// <value><c>true</c> if max volume; otherwise, <c>false</c>.</value>
+	public bool MaxVolume 
+	{
+		get
+		{
+			return weather.volume == highestVolume;
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="Radio"/> minimum volume.
+	/// </summary>
+	/// <value><c>true</c> if minimum volume; otherwise, <c>false</c>.</value>
+	public bool MinVolume 
+	{
+		get
+		{
+            return weather.volume == lowestVolume;
+		}
 	}
 }
