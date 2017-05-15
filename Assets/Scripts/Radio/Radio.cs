@@ -36,7 +36,7 @@ public class Radio : MonoBehaviour
 
 	// Default channel sound event paths
 	[SerializeField]
-	public string MusicDefaultPath = "event:/Radio/Music/Soulja_Boy";
+	public string MusicDefaultPath = "event:/Radio/Music/Zero_Rain";
 	[SerializeField]
 	public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
 	[SerializeField]
@@ -136,7 +136,7 @@ public class Radio : MonoBehaviour
 		musicCarousel = new List<string> ();
 		mysteryCarousel = new List<string> ();
 
-		musicCarousel.Add ("event:/Radio/Music/Soulja_Boy");
+		musicCarousel.Add ("event:/Radio/Music/Zero_Rain");
 		mysteryCarousel.Add ("event:/Radio/Mystery/Phase2/Evacuate_3_Block");
 		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery2");
 
