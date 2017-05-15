@@ -71,6 +71,23 @@ public class Radio : MonoBehaviour
 	[Tooltip("The highest degree of the range of the knob's rotation in which the weather will play")]
 	public float highWeather;
 
+	[SerializeField]
+	[Tooltip("The rate the voice speaks for weather")]
+	private float voiceRate;
+	[SerializeField]
+	[Tooltip("The volume the voice speaks for weather")]
+	private float voiceVolume;
+	[SerializeField]
+	[Tooltip("The pitch the voice speaks for weather")]
+	private float voicePitch;
+
+	[SerializeField]
+	[Tooltip("How many time the weather will repeat before updating")]
+	private float weatherUpdateThreshold;
+	[SerializeField]
+	[Tooltip("How long the weather needs to update the file")]
+	private float weatherUpdateTime;
+
 	/// <summary>
 	/// Sets up radio for usage -- turned off, with no active channel
 	/// </summary>
@@ -227,11 +244,6 @@ public class Radio : MonoBehaviour
 				}
 			}
 
-			else if (CurrentChannel == RadioChannel.Weather && !weather.isPlaying) 
-			{
-				weather.Play ();
-			}
-
 			ChangeChannel(dial.knobDegree);
 		} 
 	}
@@ -301,54 +313,53 @@ public class Radio : MonoBehaviour
 	/// </summary>
 	IEnumerator updateWeather()
 	{
-		while (true)
-		{
-			if (isOn)
-			{             
-				// Check if the weather is not playing and if the radio is on the weather channel
-				if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
-				{
-					// Play the weather 3 times before restarting to 0 
-					if (weatherCounter == 3)
-					{
-						weatherCounter = 0;
-					}
+        while (true)
+        {
+            if (isOn)
+            {
+                // Check if the weather is not playing and if the radio is on the weather channel
+                if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
+                {
+                    // Play the weather 3 times before restarting to 0 
+                    if (weatherCounter == weatherUpdateThreshold)
+                    {
+                        weatherCounter = 0;
+                    }
 
-					// Update the weather when it has played 3 times or has just turned on
-					if (weatherCounter == 0)
-					{
-						// Update weather
-						currentWeather = Game.Instance.WeatherInstance;
+                    // Update the weather when it has played 3 times or has just turned on
+                    if (weatherCounter == 0)
+                    {
+                        // Update weather
+                        currentWeather = Game.Instance.WeatherInstance;
 
-						// Get new announcment
-						announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
-						Debug.Log(announcement);
+                        // Get new announcment
+                        announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
 
-						// Send the announcement to the wav file
-						Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather", .7f);
+                        // Send the announcement to the wav file
+                        Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, voiceRate, voiceVolume, Application.dataPath + "/Sounds/Weather", voicePitch);
 
-						// Wait for the wave file to update
-						yield return new WaitForSeconds(2);
-					}
+                        // Wait for the wave file to update
+                        yield return new WaitForSeconds(weatherUpdateTime);
+                    }
 
-					++weatherCounter;
-					weather.Play();
-				}
+                    ++weatherCounter;
+                    weather.Play();
+                }
 
-				// Don't do anything if the weather is still playing
-				else
-				{
-					yield return null;
-				}
-			}
+                // Don't do anything if the weather is still playing
+                else
+                {
+                    yield return null;
+                }
+            }
 
-			// Don't do anything if radio is not on
-			else
-			{
-				yield return null;
-			}
-		}
-	}
+            // Don't do anything if radio is not on
+            else
+            {
+                yield return null;
+            }
+        }
+    }
 
 	/// <summary>
 	/// Set new selected channel.
