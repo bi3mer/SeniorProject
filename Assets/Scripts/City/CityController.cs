@@ -85,6 +85,7 @@ public class CityController : MonoBehaviour
         yield return null;
 
         float districtPercentage = 1.0f / (float)districts.Length;
+        int chosenDistrict = Random.Range(0, districts.Length - 1);
 
         // Generate blocks in each district
         for (int i = 0; i < districts.Length; ++i)
@@ -155,6 +156,16 @@ public class CityController : MonoBehaviour
                 yield return null;
             }
 
+            if (chosenDistrict == i)
+            {
+                // Get a random pair of vertecies, hence the -2
+                int vert = Random.Range(0, district.EdgeVerticies.Length - 2);
+                float dist = RandomUtility.RandomPercent;
+                Vector3 tutorialPosition = Vector3.Lerp(district.EdgeVerticies[vert], district.EdgeVerticies[vert + 1], dist);
+            
+                buildingGenerator.PlaceTutorialBuilding(tutorialPosition);
+            }
+
             task.PercentageComplete += districtPercentage;
             yield return null;
         }
@@ -162,19 +173,16 @@ public class CityController : MonoBehaviour
         City city = new City(districts, cityBounds, cityCenter, tallestBuilding);
         Game.Instance.CityInstance = city;
 
-        task.PercentageComplete = 1.0f;
-        yield return null;
-
         waterItemGenerator.GenerateInWater(ref task2);
         yield return null;
 
-		rooftopItemGenerator.AddTemplatesToItemPool();
-        yield return null;
-
-        waterItemGenerator.AddTemplatesToItemPool();
-        yield return null;
-
         StartCoroutine(itemPoolManager.StartManagingPool());
+        yield return null;
+
+        waterItemGenerator.RemoveTemplates();
+        rooftopItemGenerator.RemoveTemplates();
+
+        task.PercentageComplete = 1.0f;
         yield return null;
 
         cityChunkManager.Init(city);

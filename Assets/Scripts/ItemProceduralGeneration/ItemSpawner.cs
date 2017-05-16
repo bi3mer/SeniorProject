@@ -115,7 +115,7 @@ public class ItemSpawner : InteractableObject
 		// otherwise set the action upon interaction be spawning
 		if(SpawnWithoutInteraction)
 		{
-			spawnItems();
+			prespawn();
 		}
 		else
 		{
@@ -166,20 +166,10 @@ public class ItemSpawner : InteractableObject
 
 		int numberToSpawn = (int) Random.Range(MinSpawnNumber, MaxSpawnNumber);
 
-		for (int i = 0; i < numberToSpawn  ; ++i)
+		for (int i = 0; i < numberToSpawn; ++i)
 		{
 			GameObject item = factory.CreateRandomPickupInteractableItem(district);           
 
-            Vector3 spawnposition;
-            if(door == null)
-            {
-                spawnposition = transform.position;
-            }
-            else
-            {
-                spawnposition = door.transform.position;
-            }
-            item.transform.position = spawnposition;
             //Code to move the item to its proper location. Currently has a bug associated with moving items once they are spawned.
             //TO BE UNCOMMENTED AFTER FIXED
             //item.transform.DOMove(itemLocations[Random.Range(0, itemLocations.Length)].position, itemMoveTime);
@@ -188,6 +178,25 @@ public class ItemSpawner : InteractableObject
             item.transform.position = itemLocations[Random.Range(0, itemLocations.Length)].position;
 
             Game.Instance.ItemPoolInstance.AddItemFromWorld(item);
+        }
+	}
+
+	/// <summary>
+	/// Prespawn items for a shelter.
+	/// </summary>
+	private void prespawn()
+	{
+		ItemFactory factory = Game.Instance.ItemFactoryInstance;
+
+		int numberToSpawn = (int) Random.Range(MinSpawnNumber, MaxSpawnNumber);
+
+		for (int i = 0; i < numberToSpawn  ; ++i)
+		{
+			BaseItem item = factory.GetWeightedRandomBaseItem(district, true);      
+
+			Vector3 spawnposition = itemLocations[Random.Range(0, itemLocations.Length)].position;
+
+            Game.Instance.ItemPoolInstance.AddToGrid(spawnposition, item.ItemName, false);
         }
 	}
 }

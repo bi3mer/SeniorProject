@@ -38,6 +38,11 @@ public class BuildingGenerator : MonoBehaviour
     [Tooltip("The template for the building to place at the center of the city.")]
     private GameObject cityCenterBuilding;
 
+
+    [SerializeField]
+    [Tooltip("The instance of the tutorial building.")]
+    private GameObject tutorialBuilding;
+
     private ProceduralBuildingCreator buildingCreator;
 
     /// <summary>
@@ -127,5 +132,23 @@ public class BuildingGenerator : MonoBehaviour
         }
 
         return buildings.ToArray();
+    }
+
+    /// <summary>
+    /// Move the tutorial building and places the player character.
+    ///</summary>
+    /// <param name="location">Location to place the building.</param>
+    public Building PlaceTutorialBuilding (Vector3 location)
+    {
+        // Grab the location of the player relative to the tutorial building
+        Vector3 relativePlayerLocation = Game.Player.WorldPosition - tutorialBuilding.transform.position;
+
+        // Move the tutorial building
+        tutorialBuilding.transform.position = location;
+
+        // Place the player back on the turoial building
+        Game.Player.WorldPosition = tutorialBuilding.transform.position + relativePlayerLocation;
+
+        return new TemplateBuilding(this.gameObject.transform, location, tutorialBuilding);
     }
 }

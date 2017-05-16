@@ -16,13 +16,13 @@ public abstract class CreatureSpawner : MonoBehaviour
 	protected int maxCreatureCount;
 
 	[SerializeField]
-	private float maxSpawnRadius = 25f;
+	protected float maxSpawnRadius = 25f;
 
 	[SerializeField]
-	private float minSpawnRadius = 10f;
+    protected float minSpawnRadius = 10f;
 
 	[SerializeField]
-	private float waterLevelOffset = -2f;
+    protected float waterLevelOffset = -2f;
 
 	protected CreatureManager creatureManager;
 
@@ -49,7 +49,7 @@ public abstract class CreatureSpawner : MonoBehaviour
 	/// of the minimum spawning radius
 	/// </summary>
 	/// <value>The float in radius.</value>
-	private float floatInRadius
+	protected float floatInRadius
 	{
 		get
 		{
@@ -73,7 +73,7 @@ public abstract class CreatureSpawner : MonoBehaviour
 	protected virtual Vector3 findSpawnLocation()
 	{
 		return new Vector3(Game.Instance.PlayerInstance.WorldPosition.x - this.floatInRadius, 
-		                   Game.Instance.WaterLevelHeight + this.waterLevelOffset,
+		                   Game.Instance.WaterLevelHeight               + this.waterLevelOffset,
 			               Game.Instance.PlayerInstance.WorldPosition.z - this.floatInRadius);
 	}
 
@@ -153,7 +153,7 @@ public abstract class CreatureSpawner : MonoBehaviour
 			this.meanCreatureCount = (this.maxCreatureCount + this.minCreatureCount) / 2;
 
 			// instantiate creature manager
-			this.creatureManager = new CreatureManager(this.maxCreatureCount, this.meanCreatureCount);
+			this.creatureManager = new CreatureManager(this.maxCreatureCount, this.meanCreatureCount, this.gameObject.transform);
 
 			// instiate semi-random number of creatures
 			for(int i = 0; i < Random.Range(this.minCreatureCount, this.maxCreatureCount); ++i)

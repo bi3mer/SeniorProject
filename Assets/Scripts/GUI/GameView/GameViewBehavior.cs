@@ -8,6 +8,9 @@ public class GameViewBehavior : MonoBehaviour
 	private GameObject inventoryPanel;
 
 	[SerializeField]
+	private GameObject inventoryTransferPanel;
+
+	[SerializeField]
 	private GameObject pausePanel;
 
 	[SerializeField]
@@ -34,6 +37,8 @@ public class GameViewBehavior : MonoBehaviour
 	{
 		controlScheme = Game.Instance.Scheme;
 		inventoryPanel.SetActive (false);
+		inventoryTransferPanel.SetActive(false);
+
 		pausePanel.SetActive (false);
 
 		radioModelAnimation.SetUpRadioCanvas();
@@ -109,6 +114,7 @@ public class GameViewBehavior : MonoBehaviour
 		Game.Instance.PauseInstance.Pause ();
 		pausePanel.SetActive (true);
 		inventoryPanel.SetActive (false);
+		inventoryTransferPanel.SetActive(false);
 		radioCanvas.SetActive (false);
 		craftingPanel.gameObject.SetActive (false);
 		optionButtonPanel.SetActive(false);
@@ -120,21 +126,21 @@ public class GameViewBehavior : MonoBehaviour
 	public void OnInventoryClick()
 	{
 		OnInventoryOpen();
+
 		Game.Instance.PauseInstance.MenuPause ();
 
 		if (GuiInstanceManager.InventoryUiInstance != null) 
 		{
-			if (GuiInstanceManager.InventoryUiInstance.TargetInventory != null && GuiInstanceManager.InventoryUiInstance.TargetInventory != Game.Instance.PlayerInstance.Inventory) 
-			{
-				GuiInstanceManager.InventoryUiInstance.LoadNewInventory (Game.Instance.PlayerInstance.Inventory);
-			}
-			else if(GuiInstanceManager.InventoryUiInstance.TargetInventory != null)
+			if(GuiInstanceManager.InventoryUiInstance.AssociatedInventory != null)
 			{
 				GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel();
 			}
 		}
 	}
 
+	/// <summary>
+	/// Raises the inventory open event.
+	/// </summary>
 	public void OnInventoryOpen()
 	{
 		inventoryPanel.SetActive (true);
@@ -145,8 +151,37 @@ public class GameViewBehavior : MonoBehaviour
         {
             radioModelAnimation.DeactivateRadio();
         }
+
+		inventoryTransferPanel.SetActive(false);
 		craftingPanel.gameObject.SetActive (false);
 		optionButtonPanel.SetActive(false);
+	}
+
+	/// <summary>
+	/// Raises the inventory transfer open event.
+	/// </summary>
+	public void OnInventoryTransferOpen()
+	{
+		inventoryTransferPanel.SetActive(true);
+
+		inventoryPanel.SetActive (false);
+		pausePanel.SetActive (false);
+
+        // do the deactivate radio menu before deactivating radio Model.
+        if (radioCanvas.activeInHierarchy)
+        {
+            radioModelAnimation.DeactivateRadio();
+        }
+       
+		craftingPanel.gameObject.SetActive (false);
+		optionButtonPanel.SetActive(false);
+
+		Game.Instance.PauseInstance.MenuPause ();
+
+		if (GuiInstanceManager.InventoryTransferInstance != null) 
+		{
+			GuiInstanceManager.InventoryTransferInstance.DisplayInventories();
+		}
 	}
 
 	/// <summary>
@@ -174,6 +209,7 @@ public class GameViewBehavior : MonoBehaviour
 
 		pausePanel.SetActive (false);
 		inventoryPanel.SetActive (false);
+		inventoryTransferPanel.SetActive(false);
         craftingPanel.gameObject.SetActive(false);
         settingsPanel.SetActive(false);
 		optionButtonPanel.SetActive(true);
@@ -199,7 +235,9 @@ public class GameViewBehavior : MonoBehaviour
         {
             radioModelAnimation.DeactivateRadio();
         }
+
 		inventoryPanel.SetActive (false);
+		inventoryTransferPanel.SetActive(false);
 		pausePanel.SetActive (false);
 		craftingPanel.gameObject.SetActive (true);
 		craftingPanel.ResetPanel();

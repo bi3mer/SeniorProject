@@ -65,6 +65,6 @@ public class WarmthIdolCategory : IdolCategory
 	/// </summary>
 	public override void RemoveBenefit()
 	{
-		Game.Player.Controller.PlayerStatManager.WarmthRate.UseDefaultWarmthReductionRate();
+		Game.Player.Controller.PlayerStatManager.WarmthRate.StopUsingClothRate();
 	}
 }

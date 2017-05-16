@@ -1,33 +1,43 @@
 ﻿using UnityEngine;
 
-public class HungerRateManager : StatRate
+public class HungerRateManager
 {
-	// set default values for hunger rate
-	private StatRate defaultHungerRate;
-	private const int defaultUnitHunger = -1;
-	private const int defaultSecondsHunger = 7;
-
 	/// <summary>
-	/// Initializes a new instance of the <see cref="HungerRateManager"/> class.
+	/// The amount to change the Hunger by on each update.
 	/// </summary>
-	public HungerRateManager ()
+	/// <value>The hunger amount.</value>
+	public int HungerAmount
 	{
-		// set this instance's initial (default) rate
-		defaultHungerRate = new StatRate (defaultUnitHunger, defaultSecondsHunger);
-		UseDefaultHungerReductionRate ();
-
-		// set initial stat value
-		this.CurrentStat = Game.Instance.PlayerInstance.Hunger;
-		this.MaxStat = Game.Instance.PlayerInstance.MaxHunger;
+		get 
+		{
+			if (Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.FoodPoisoning) 
+			{
+				return -Game.Instance.PlayerInstance.Controller.StatSettings.FoodPoisonDecrease;
+			} 
+			else 
+			{
+				return -Game.Instance.PlayerInstance.Controller.StatSettings.DefaultHungerDecrease;
+			}
+		}
 	}
 
 	/// <summary>
-	/// Uses the default hunger reduction rate.
+	/// Gets the hunger delay.
 	/// </summary>
-	public void UseDefaultHungerReductionRate()
+	/// <value>The hunger delay.</value>
+	public int HungerDelay
 	{
-		this.Units = defaultHungerRate.Units;
-		this.PerSeconds = defaultHungerRate.PerSeconds;
+		get 
+		{
+			if (Game.Instance.PlayerInstance.HealthStatus == PlayerHealthStatus.FoodPoisoning) 
+			{
+				return Game.Instance.PlayerInstance.Controller.StatSettings.FoodPoisonDelay;
+			} 
+			else 
+			{
+				return Game.Instance.PlayerInstance.Controller.StatSettings.DefaultHungerDelay;
+			}
+		}
 	}
 
 	/// <summary>
@@ -36,10 +46,7 @@ public class HungerRateManager : StatRate
 	/// <param name="amountOfHungerUnitsAffected">Amount of hunger units affected.</param>
 	public void UseFoodEnergy(int amountOfHungerUnitsAffected)
 	{
-		this.Units = amountOfHungerUnitsAffected;
-		this.PerSeconds = 1;
-		this.ApplyRateToStat ();
-		UseDefaultHungerReductionRate (); // change back to default reduction rate after consuming food and accounting for it's energy
+		Game.Instance.PlayerInstance.Hunger += amountOfHungerUnitsAffected;
 	}
 }
 

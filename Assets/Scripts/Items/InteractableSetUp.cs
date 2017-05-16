@@ -42,7 +42,7 @@ public class InteractableSetUp : MonoBehaviour
 		triggerObject.transform.localPosition = Vector3.zero;
 
 		PickUpItem pickup = gameObject.AddComponent<PickUpItem>();
-		pickup.SetUp();
+        pickup.SetUp();
 		pickup.Item = baseItem;
 		pickup.Show = false;
 

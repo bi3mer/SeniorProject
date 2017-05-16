@@ -75,6 +75,8 @@ public class AnnouncementFactory
 	[SerializeField]
 	private float pitch = 0.7f;
 
+	private const string announcementObjectName = "Announcenment Object";
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AnnouncementFactory"/> class.
 	/// </summary>
@@ -87,20 +89,19 @@ public class AnnouncementFactory
 		WeatherDatabase = new List<MysteryAnnouncement> ();
 		TimeDatabase = new List<MysteryAnnouncement> ();
 		PlayerDatabse = new List<MysteryAnnouncement> ();
-
-		GameObject obj = new GameObject ();
-		loadingAudioSource = obj.AddComponent<AudioSource> ();
-
-		loadAnnouncements ();
 	}
 
 	/// <summary>
 	/// Loads the announcements.
 	/// </summary>
-	private void loadAnnouncements()
+	public void LoadAnnouncements()
 	{
 		// Load the announcement data
 		AnnouncementDatabase = announcementParser.LoadAnnouncements ();
+
+		GameObject obj = new GameObject ();
+		obj.name = announcementObjectName;
+		loadingAudioSource = obj.AddComponent<AudioSource> ();
 
 		// Turn them into clips
 		for (int i = 0; i < AnnouncementDatabase.Count; ++i) 
