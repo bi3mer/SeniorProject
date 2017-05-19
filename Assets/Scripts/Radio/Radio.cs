@@ -26,6 +26,10 @@ public class Radio : MonoBehaviour
 	private Dictionary<string, int> mysteryCarouselClipLengths;
 	private int mysteryClipsTotalLength = 0;
 
+	// Mystery clips sorted by intensity phase and the current index of where we are at
+	private List<List<string>> mysteryPhaseClips;
+	private int mysteryPhaseIndex = 0;
+
 	// Static channel right now just plays when current active channel is null
 	[SerializeField]
 	private FMOD.Studio.EventInstance staticChannel;
@@ -164,13 +168,72 @@ public class Radio : MonoBehaviour
 		AddToCarousel (RadioChannel.Music, "event:/Radio/Music/Apocalypse");
 		AddToCarousel (RadioChannel.Music, "event:/Radio/Music/Better_Safe");
 
-		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/Phase1/School_Musical");
-		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/Phase3/Relgious_Fanatic");
-
 		Game.Instance.EventManager.StormStartedSubscription += startStatic;
 		Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
 		Game.Instance.EventManager.PlayerBoardRaftSubscription += addRaftClip;
+		Game.Instance.ClockInstance.HourUpdate += addNextMysteryClip;
 
+		// initialize with first mystery clip
+		setUpMysteryClips();
+		addNextMysteryClip();
+
+	}
+
+	/// <summary>
+	/// Sets up current mystery channel index and lists of mystery channel clips based on phases of story intensity.
+	/// </summary>
+	private void setUpMysteryClips()
+	{
+
+		mysteryPhaseIndex = 0;
+		mysteryPhaseClips = new List<List<string>>();
+		List<string> phase = new List<string>();
+
+		phase.Add("event:/Radio/Mystery/Phase1/School_Musical");
+		phase.Add("event:/Radio/Mystery/Phase1/Jeff");
+
+		mysteryPhaseClips.Add(phase);
+		phase = new List<string>();
+
+		phase.Add("event:/Radio/Mystery/Phase2/Evacuate_3_Block");
+		phase.Add("event:/Radio/Mystery/Phase2/4_Officials_Missing");
+		phase.Add("event:/Radio/Mystery/Phase2/Flooding_Centuries");
+		phase.Add("event:/Radio/Mystery/Phase2/Hospital_Generators");
+
+		mysteryPhaseClips.Add(phase);
+		phase = new List<string>();
+
+		phase.Add("event:/Radio/Mystery/Phase3/Bodies_Found");
+		phase.Add("event:/Radio/Mystery/Phase3/District_5_6_Rations");
+		phase.Add("event:/Radio/Mystery/Phase3/Relgious_Fanatic");
+
+		mysteryPhaseClips.Add(phase);
+	}
+
+	/// <summary>
+	/// Finds the next mystery clip and puts it in the mystery channel carousel
+	/// Also checks to update phase to next phase and to unsubscribe from clock updates if we're out of new clips
+	/// </summary>
+	private void addNextMysteryClip()
+	{
+		int randIndex = Random.Range(0, mysteryPhaseClips[mysteryPhaseIndex].Count-1);
+		string nextClip = mysteryPhaseClips[mysteryPhaseIndex][randIndex];
+		mysteryPhaseClips[mysteryPhaseIndex].RemoveAt(randIndex);
+
+		// check to update phase
+		if (mysteryPhaseClips[mysteryPhaseIndex].Count == 0)
+		{
+			mysteryPhaseIndex += 1;
+
+			if (mysteryPhaseIndex >= mysteryPhaseClips.Count){
+
+				// unsubscribe if we're out of clips
+				Game.Instance.ClockInstance.HourUpdate -= addNextMysteryClip;
+			}
+		}
+
+		Debug.Log("Adding " + nextClip);
+		AddToCarousel (RadioChannel.Mystery, nextClip);
 	}
 
 	/// <summary>
