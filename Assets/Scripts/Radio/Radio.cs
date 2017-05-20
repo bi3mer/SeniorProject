@@ -227,7 +227,7 @@ public class Radio : MonoBehaviour
 			if (mysteryPhaseIndex >= mysteryPhaseClips.Count){
 
 				// unsubscribe if we're out of clips
-				Game.Instance.ClockInstance.HourUpdate -= addNextMysteryClip;
+				Game.Instance.ClockInstance.SecondUpdate -= addNextMysteryClip;
 			}
 		}
 
