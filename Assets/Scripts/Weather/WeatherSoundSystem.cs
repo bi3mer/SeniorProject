@@ -4,30 +4,30 @@ using System.Collections;
 public class WeatherSoundSystem : MonoBehaviour
 {
 	/// <summary>
-	/// The default weather event path.
+	/// The sound event paths
 	/// </summary>
 	public string DefaultWeatherEventPath = "event:/Ambient/Weather/Basic_Rain";
-	 
-	/// <summary>
-	/// The wind sound event path.
-	/// </summary>
 	public string WindPath = "event:/Ambient/Weather/Basic_Wind";
+	public string HeavyRainPath = "event:/Ambient/Weather/More_Rain";
 
 	/// <summary>
-	/// The weather sounds event.
+	/// The weather sounds events.
 	/// </summary>
 	private FMOD.Studio.EventInstance weatherSounds;
-
-	/// <summary>
-	/// The wind sounds event.
-	/// </summary>
 	private FMOD.Studio.EventInstance windSounds;
+	private FMOD.Studio.EventInstance heavyRainSounds;
 
 	/// <summary>
 	/// This divides the windSpeedMagnitude to give us the new volume of the base weather sound
 	/// </summary>
 	[SerializeField]
 	private float weatherIntensityDivisor = 10.0f;
+
+	/// <summary>
+	/// This is what the heavy rain sound volume is divided by to make it less jarring.
+	/// </summary>
+	[SerializeField]
+	private float stormIntensityDivisor = 2.0f;
 
 	/// <summary>
 	/// The max volume that the weather event will play at.
@@ -57,6 +57,7 @@ public class WeatherSoundSystem : MonoBehaviour
 		weatherSounds.start ();
 
 		windSounds = FMODUnity.RuntimeManager.CreateInstance (WindPath);
+		heavyRainSounds = FMODUnity.RuntimeManager.CreateInstance (HeavyRainPath);
 
 		// subscribe to event manager for weather updates
 		Game.Instance.EventManager.WeatherUpdatedSubscription += updateWeatherIntensity;
@@ -80,6 +81,7 @@ public class WeatherSoundSystem : MonoBehaviour
 			if (stormFlag) 
 			{
 				windSounds.setVolume (weatherVolume);
+				heavyRainSounds.setVolume (weatherVolume / stormIntensityDivisor);
 			}
 		}
 	}
@@ -98,6 +100,14 @@ public class WeatherSoundSystem : MonoBehaviour
 			windSounds.start ();
 		}
 
+		heavyRainSounds.getPlaybackState (out state);
+
+		if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING) 
+		{
+			heavyRainSounds.setVolume (weatherVolume / stormIntensityDivisor);
+			heavyRainSounds.start ();
+		}
+			
 		stormFlag = true;
 	}
 
@@ -112,6 +122,13 @@ public class WeatherSoundSystem : MonoBehaviour
 		if (state != FMOD.Studio.PLAYBACK_STATE.STOPPED) 
 		{
 			windSounds.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+		}
+
+		heavyRainSounds.getPlaybackState (out state);
+
+		if (state != FMOD.Studio.PLAYBACK_STATE.STOPPED) 
+		{
+			heavyRainSounds.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 		}
 
 		stormFlag = false;
