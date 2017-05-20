@@ -141,8 +141,6 @@ public class Radio : MonoBehaviour
 		mysteryCarousel = new List<string> ();
 
 		musicCarousel.Add ("event:/Radio/Music/Zero_Rain");
-		mysteryCarousel.Add ("event:/Radio/Mystery/Phase2/Evacuate_3_Block");
-		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery2");
 
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
@@ -171,10 +169,11 @@ public class Radio : MonoBehaviour
 		Game.Instance.EventManager.StormStartedSubscription += startStatic;
 		Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
 		Game.Instance.EventManager.PlayerBoardRaftSubscription += addRaftClip;
-		Game.Instance.ClockInstance.HourUpdate += addNextMysteryClip;
+		Game.Instance.ClockInstance.SecondUpdate += addNextMysteryClip;
 
-		// initialize with first mystery clip
+		// initialize with first two mystery clips
 		setUpMysteryClips();
+		addNextMysteryClip();
 		addNextMysteryClip();
 
 	}
@@ -184,18 +183,17 @@ public class Radio : MonoBehaviour
 	/// </summary>
 	private void setUpMysteryClips()
 	{
-
 		mysteryPhaseIndex = 0;
 		mysteryPhaseClips = new List<List<string>>();
 		List<string> phase = new List<string>();
 
 		phase.Add("event:/Radio/Mystery/Phase1/School_Musical");
 		phase.Add("event:/Radio/Mystery/Phase1/Jeff");
+		phase.Add("event:/Radio/Mystery/Phase1/Evacuate_3_Block");
 
 		mysteryPhaseClips.Add(phase);
 		phase = new List<string>();
 
-		phase.Add("event:/Radio/Mystery/Phase2/Evacuate_3_Block");
 		phase.Add("event:/Radio/Mystery/Phase2/4_Officials_Missing");
 		phase.Add("event:/Radio/Mystery/Phase2/Flooding_Centuries");
 		phase.Add("event:/Radio/Mystery/Phase2/Hospital_Generators");
