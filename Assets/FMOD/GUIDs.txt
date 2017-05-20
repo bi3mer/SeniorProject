@@ -1,5 +1,6 @@
 {c18a9788-d17d-4ac0-b693-e67aaa9efc07} event:/Ambient/Music/Ambient_Track
 {4a1d7bf3-1e76-41ae-a6c3-f1c39f8c95dc} event:/Ambient/Music/Basic_Music
+{e8f62b74-c9bb-43f6-af2d-dc75f7c243f0} event:/Ambient/Weather/More_Rain
 {6b807e1e-11b4-47ed-9805-24174ef59376} event:/Ambient/Weather/Basic_Rain
 {4279adec-9aaa-409f-813a-6e8dca474210} event:/Ambient/Weather/Basic_Thunder
 {73142aa0-5eaf-42cf-9aab-ac3958b21b6f} event:/Ambient/Weather/Basic_Wind
