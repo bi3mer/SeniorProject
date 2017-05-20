@@ -141,6 +141,7 @@ public class Radio : MonoBehaviour
 		mysteryCarousel = new List<string> ();
 
 		musicCarousel.Add ("event:/Radio/Music/Zero_Rain");
+		mysteryCarousel.Add(StaticDefaultPath);
 
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
