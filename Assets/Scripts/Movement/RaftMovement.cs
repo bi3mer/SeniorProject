@@ -52,6 +52,10 @@ public class RaftMovement : Movement
     private float updateIsStoppedTimer = 2.0f;
 	private bool isStopped = false;
 
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="RaftMovement"/> raft is moored.
+	/// </summary>
+	/// <value><c>true</c> if raft moored; otherwise, <c>false</c>.</value>
 	public bool RaftMoored
 	{
 		get;
@@ -199,6 +203,10 @@ public class RaftMovement : Movement
         return 0f;
     }
 
+    /// <summary>
+    /// Sets the max speed.
+    /// </summary>
+    /// <param name="speed">Speed.</param>
     public void SetMaxSpeed(float speed)
     {
         maxSpeed = speed;

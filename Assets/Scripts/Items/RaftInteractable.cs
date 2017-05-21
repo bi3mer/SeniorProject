@@ -175,7 +175,6 @@ public class RaftInteractable : InteractableObject {
     {
     	wind.enabled = true;
     	raftMovement.RaftMoored = false;
-
     	raftMoored = false;
     }
 
