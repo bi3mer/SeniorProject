@@ -170,7 +170,7 @@ public class Radio : MonoBehaviour
 		Game.Instance.EventManager.StormStartedSubscription += startStatic;
 		Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
 		Game.Instance.EventManager.PlayerBoardRaftSubscription += addRaftClip;
-		Game.Instance.ClockInstance.SecondUpdate += addNextMysteryClip;
+		Game.Instance.ClockInstance.HourUpdate += addNextMysteryClip;
 
 		// initialize with first two mystery clips
 		setUpMysteryClips();
@@ -227,11 +227,10 @@ public class Radio : MonoBehaviour
 			if (mysteryPhaseIndex >= mysteryPhaseClips.Count){
 
 				// unsubscribe if we're out of clips
-				Game.Instance.ClockInstance.SecondUpdate -= addNextMysteryClip;
+				Game.Instance.ClockInstance.HourUpdate -= addNextMysteryClip;
 			}
 		}
 
-		Debug.Log("Adding " + nextClip);
 		AddToCarousel (RadioChannel.Mystery, nextClip);
 	}
 
