@@ -7,7 +7,7 @@ public class PressureSystemVisualization : MonoBehaviour
 	private float defaultHeight = 10f;
 
 	[SerializeField]
-	private float defaultRadius = 1f;
+	private float defaultRadius = 5f;
 
 	/// <summary>
 	/// Update gizmos to reflect location of pressure systems
@@ -15,23 +15,31 @@ public class PressureSystemVisualization : MonoBehaviour
 	void OnDrawGizmos () 
 	{
 		PressureSystems system = Game.Instance.WeatherInstance.WeatherPressureSystems;
-		for(int i = 0; i < system.LocalPressureSystems.Count; ++i)
+
+        float min = system.PressureConstants[(int) PressureConstantIndexes.PressureHurricane];
+        float max = system.PressureConstants[(int) PressureConstantIndexes.PressureSiberia];
+
+        for (int i = 0; i < system.LocalPressureSystems.Count; ++i)
 		{
 			Vector3 center = new Vector3(system.LocalPressureSystems[i].Position.x,
 			                             this.defaultHeight,
 			                             system.LocalPressureSystems[i].Position.y);
 
-			// set color of pressure system
-			if(system.LocalPressureSystems[i].IsHighPressure)
-			{
-				Gizmos.color = Color.red;
-			} 
-			else
-			{
-				Gizmos.color = Color.blue;
-			}
+            // get pressure
+            float pressure = system.LocalPressureSystems[i].Pressure;
 
+            // get how low/high it is compared to lowest and highest values
+            float strength = (max - pressure) / (max - min);
+
+            // set color of pressure system
+            Gizmos.color = Color.Lerp(Color.red, Color.blue, strength);
+
+            // draw pressure system
 			Gizmos.DrawSphere(center, this.defaultRadius);
+
+            // draw line directly down towards water
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(center, new Vector3(system.LocalPressureSystems[i].Position.x, -10, system.LocalPressureSystems[i].Position.y));
 		}
 	}
 }

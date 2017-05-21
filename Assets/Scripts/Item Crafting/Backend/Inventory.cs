@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 /// <summary>
 /// Defines the inventory of items the player can access. Currently just considers all the gameobjects parented under item parent
@@ -12,12 +13,16 @@ using System;
 public class Inventory
 {
 	// Inventory size
-	private int inventorySize = 20;
+	protected int inventorySize = 10;
 
 	// How many items there may be in a stack
-	private const int StackSize = 5;
+	protected const int StackSize = 5;
 
-	private string inventoryName;
+	public string InventoryName
+	{
+		get;
+		protected set;
+	}
 
 	// Contents of the inventory keyed by their name
 	protected ItemStack[] contents;
@@ -25,6 +30,8 @@ public class Inventory
 	private InventoryYamlParser parser;
 
     private Dictionary<string, int> itemCountByType;
+
+    private string[] unstackableItemTypes;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Inventory"/> class.
@@ -34,7 +41,7 @@ public class Inventory
 	public Inventory(string name, int size)
 	{
 		contents = new ItemStack[size];
-		inventoryName = name;
+		InventoryName = name;
 		InventorySize = size;
 		itemCountByType = new Dictionary<string, int>();
 
@@ -42,6 +49,8 @@ public class Inventory
 		{
 			itemCountByType.Add(ItemTypes.Types[i], 0);
 		}
+
+		unstackableItemTypes = new string[] {ItemTypes.Equipable, ItemTypes.AdvancedTool};
 	}
 
 	/// <summary>
@@ -52,7 +61,7 @@ public class Inventory
 	public Inventory(string name, string inventoryFile, int size)
 	{
 		contents = new ItemStack[inventorySize];
-		inventoryName = name;
+		InventoryName = name;
 
 		parser = new InventoryYamlParser(inventoryFile);
 		InventorySize = size;
@@ -63,6 +72,7 @@ public class Inventory
 			itemCountByType.Add(ItemTypes.Types[i], 0);
 		}
 
+		unstackableItemTypes = new string[] {ItemTypes.Equipable, ItemTypes.AdvancedTool};
 		LoadInventory();
 	}
 
@@ -71,7 +81,7 @@ public class Inventory
 	/// </summary>
 	public void LoadInventory()
 	{
-		List<InventoryItemYAMLModel> inventoryInfo = parser.GetInventoryContents (inventoryName);
+		List<InventoryItemYAMLModel> inventoryInfo = parser.GetInventoryContents (InventoryName);
 	
 		for (int i = 0; i < inventoryInfo.Count; ++i) 
 		{
@@ -94,6 +104,7 @@ public class Inventory
 
 				item.SetUpBaseItem ();
 
+				// ToString("N") is used to specify that a 32 bit number is being converted into a string
 				ItemStack stack = new ItemStack(item, inventoryInfo[i].ItemAmount,  Guid.NewGuid().ToString("N"));
 				contents[i] = stack;
 			}
@@ -239,16 +250,64 @@ public class Inventory
 	/// <summary>
 	/// Add item to inventory.
 	/// </summary>
-	/// <returns>The added item.</returns>
+	/// <returns>Amount left to be added.</returns>
 	/// <param name="newItem">New item.</param>
 	/// <param name="amount">Amount.</param>
-	public ItemStack AddItem(BaseItem newItem, int amount)
+	public int AddItem(BaseItem newItem, int amount)
 	{
-		int loc = GetNextOpenSlot ();
-		contents[loc] = new ItemStack(newItem, amount, Guid.NewGuid().ToString("N"));
+		int amountRemaining = amount;
+		int loc = 0;
+
+		if(isStackable(newItem.Types))
+		{
+			for (int i = 0; i < contents.Length && amountRemaining > 0; ++i) 
+			{
+				if(contents[i] != null)
+				{
+					if (contents[i].Item.ItemName.Equals(newItem.ItemName)) 
+					{
+						amountRemaining = (contents[i].Amount + amount) - contents[i].MaxStackSize; 
+						contents[i].Amount += amount;
+						loc = i;
+					}
+				}
+			}
+		}
+
+		if(amountRemaining > 0)
+		{
+			loc = GetNextOpenSlot ();
+
+			if(loc < contents.Length)
+			{
+				contents[loc] = new ItemStack(newItem, amountRemaining, Guid.NewGuid().ToString("N"));
+				amountRemaining = 0;
+				UpdateTypeAmount(newItem.Types, amount);
+			}
+		}
+
 		UpdateTypeAmount(newItem.Types, amount);
 
-		return contents[loc];
+		return Mathf.Clamp(amountRemaining, 0, amount);
+	}
+
+
+	/// <summary>
+	/// Checks if the item should be stacked in the inventory.
+	/// </summary>
+	/// <returns><c>true</c>, if item is stackable, <c>false</c> otherwise.</returns>
+	/// <param name="itemTypes">Item types.</param>
+	private bool isStackable(List<string> itemTypes)
+	{
+		for(int i = 0; i < unstackableItemTypes.Length; ++i)
+		{
+			if(itemTypes.Contains(unstackableItemTypes[i]))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/// <summary>
@@ -357,8 +416,15 @@ public class Inventory
 	{
 		for(int i = 0; i < types.Count; ++i)
 		{
-			itemCountByType[types[i]] += changedAmount;
-		}
+            if (itemCountByType.ContainsKey(types[i]))
+            {
+                itemCountByType[types[i]] += changedAmount;
+            }
+            else
+            {
+                itemCountByType.Add(types[i], changedAmount);
+            }
+        }
 	}
 
 	/// <summary>

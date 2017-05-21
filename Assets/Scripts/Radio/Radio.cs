@@ -16,6 +16,10 @@ public class Radio : MonoBehaviour
 	private Dictionary<string, int> musicCarouselClipLengths;
 	private int musicClipsTotalLength = 0;
 
+	// Music channel volume during storm and normally
+	float musicLowVol = 0.25f;
+	float musicRegVol = 1f;
+
 	[SerializeField]
 	private FMOD.Studio.EventInstance mysteryChannel;
 	private List<string> mysteryCarousel;
@@ -32,16 +36,27 @@ public class Radio : MonoBehaviour
 
 	// Default channel sound event paths
 	[SerializeField]
-	public string MusicDefaultPath = "event:/Radio/Music/Soulja_Boy";
+	public string MusicDefaultPath = "event:/Radio/Music/Zero_Rain";
 	[SerializeField]
 	public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
 	[SerializeField]
-	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static"; 
+	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static";
 
+	// Static overlay for storms
+	[SerializeField]
+	private FMOD.Studio.EventInstance staticOverlay;
+
+	[SerializeField]
+	private bool staticOverlayOn;
+
+	[SerializeField]
+	private float staticOverlayVolume = 5f;
+	 
 	[SerializeField]
 	private Dial dial;
 
 	private bool isOn;
+
 	private RadioChannel CurrentChannel { get; set; }
 	private string announcement;
 
@@ -71,6 +86,33 @@ public class Radio : MonoBehaviour
 	[Tooltip("The highest degree of the range of the knob's rotation in which the weather will play")]
 	public float highWeather;
 
+	[SerializeField]
+	private float volumeDecrease;
+	[SerializeField]
+	private float volumeIncrease;
+
+    // the lowest is always 0
+    private const float lowestVolume = 0;
+    // the highest possible volume is 1
+    private const float highestVolume = 1f;
+
+    [SerializeField]
+    [Tooltip("The rate the voice speaks for weather")]
+	private float voiceRate;
+	[SerializeField]
+	[Tooltip("The volume the voice speaks for weather")]
+	private float voiceVolume;
+	[SerializeField]
+	[Tooltip("The pitch the voice speaks for weather")]
+	private float voicePitch;
+
+	[SerializeField]
+	[Tooltip("How many time the weather will repeat before updating")]
+	private float weatherUpdateThreshold;
+	[SerializeField]
+	[Tooltip("How long the weather needs to update the file")]
+	private float weatherUpdateTime;
+
 	/// <summary>
 	/// Sets up radio for usage -- turned off, with no active channel
 	/// </summary>
@@ -86,6 +128,7 @@ public class Radio : MonoBehaviour
 		StartCoroutine(updateWeather());
 
 		isOn = false;
+		staticOverlayOn = false;
 
 		CurrentChannel = RadioChannel.Null;
 
@@ -93,13 +136,15 @@ public class Radio : MonoBehaviour
 		musicCarousel = new List<string> ();
 		mysteryCarousel = new List<string> ();
 
-		musicCarousel.Add ("event:/Radio/Music/Soulja_Boy");
-		mysteryCarousel.Add ("event:/Radio/Mystery/Evacuate_3_Block");
+		musicCarousel.Add ("event:/Radio/Music/Zero_Rain");
+		mysteryCarousel.Add ("event:/Radio/Mystery/Phase2/Evacuate_3_Block");
 		mysteryCarousel.Add ("event:/Radio/Mystery/Mystery2");
 
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
 		staticChannel = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
+		staticOverlay = FMODUnity.RuntimeManager.CreateInstance (StaticDefaultPath);
+		staticOverlay.setVolume(staticOverlayVolume);
 
 		// save clip lengths for looping later
 		musicCarouselClipLengths = new Dictionary<string, int>();
@@ -119,8 +164,8 @@ public class Radio : MonoBehaviour
 		AddToCarousel (RadioChannel.Music, "event:/Radio/Music/Apocalypse");
 		AddToCarousel (RadioChannel.Music, "event:/Radio/Music/Better_Safe");
 
-		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/School_Musical");
-		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/Relgious_Fanatic");
+		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/Phase1/School_Musical");
+		AddToCarousel (RadioChannel.Mystery, "event:/Radio/Mystery/Phase3/Relgious_Fanatic");
 
 		Game.Instance.EventManager.StormStartedSubscription += startStatic;
 		Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
@@ -213,6 +258,7 @@ public class Radio : MonoBehaviour
 					// set the clip and the time left that we found earlier
 					musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel [musicCounter]);
 					musicChannel.setTimelinePosition (timeLeft);
+
 					musicChannel.start ();
 				}
 			}
@@ -232,7 +278,21 @@ public class Radio : MonoBehaviour
 				weather.Play ();
 			}
 
+			// if static overlay is active, play it if it's not already on, otherwise stop it
+			staticOverlay.getPlaybackState (out state);
+
+			if (staticOverlayOn && state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+			{
+				staticOverlay.start();
+			} 
+
+			else if (state != FMOD.Studio.PLAYBACK_STATE.STOPPED)
+			{
+				staticOverlay.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+			}
+
 			ChangeChannel(dial.knobDegree);
+
 		} 
 	}
 
@@ -250,6 +310,7 @@ public class Radio : MonoBehaviour
 			musicChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			mysteryChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			staticChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
+			staticOverlay.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
 			weather.Stop ();
 		}
 
@@ -301,54 +362,53 @@ public class Radio : MonoBehaviour
 	/// </summary>
 	IEnumerator updateWeather()
 	{
-		while (true)
-		{
-			if (isOn)
-			{             
-				// Check if the weather is not playing and if the radio is on the weather channel
-				if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
-				{
-					// Play the weather 3 times before restarting to 0 
-					if (weatherCounter == 3)
-					{
-						weatherCounter = 0;
-					}
+        while (true)
+        {
+            if (isOn)
+            {
+                // Check if the weather is not playing and if the radio is on the weather channel
+                if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
+                {
+                    // Play the weather 3 times before restarting to 0 
+                    if (weatherCounter == weatherUpdateThreshold)
+                    {
+                        weatherCounter = 0;
+                    }
 
-					// Update the weather when it has played 3 times or has just turned on
-					if (weatherCounter == 0)
-					{
-						// Update weather
-						currentWeather = Game.Instance.WeatherInstance;
+                    // Update the weather when it has played 3 times or has just turned on
+                    if (weatherCounter == 0)
+                    {
+                        // Update weather
+                        currentWeather = Game.Instance.WeatherInstance;
 
-						// Get new announcment
-						announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
-						Debug.Log(announcement);
+                        // Get new announcment
+                        announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
 
-						// Send the announcement to the wav file
-						Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, .9f, 1, Application.dataPath + "/Sounds/Weather", .7f);
+                        // Send the announcement to the wav file
+                        Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, voiceRate, voiceVolume, Application.dataPath + "/Sounds/Weather", voicePitch);
 
-						// Wait for the wave file to update
-						yield return new WaitForSeconds(2);
-					}
+                        // Wait for the wave file to update
+                        yield return new WaitForSeconds(weatherUpdateTime);
+                    }
 
-					++weatherCounter;
-					weather.Play();
-				}
+                    ++weatherCounter;
+                    weather.Play();
+                }
 
-				// Don't do anything if the weather is still playing
-				else
-				{
-					yield return null;
-				}
-			}
+                // Don't do anything if the weather is still playing
+                else
+                {
+                    yield return null;
+                }
+            }
 
-			// Don't do anything if radio is not on
-			else
-			{
-				yield return null;
-			}
-		}
-	}
+            // Don't do anything if radio is not on
+            else
+            {
+                yield return null;
+            }
+        }
+    }
 
 	/// <summary>
 	/// Set new selected channel.
@@ -476,16 +536,70 @@ public class Radio : MonoBehaviour
 
 	private void startStatic()
 	{
-		// TODO: Start some static here because a storm's abrewin'
+		staticOverlayOn = true;
+		musicChannel.setVolume(lowMusic);
 	}
 
 	private void stopStatic()
 	{
-		// TODO: Remove that static because we have clear skies
+		staticOverlayOn = false;
+		musicChannel.setVolume(musicRegVol);
 	}
 
 	private void addRaftClip()
 	{
 		// TODO: Add raft clip to carousel
+	}
+
+	/// <summary>
+	/// Increases the volume.
+	/// </summary>
+	public void IncreaseVolume()
+	{
+		if (!MaxVolume)
+		{
+			weather.volume += volumeIncrease;
+			musicChannel.setVolume(weather.volume);
+			mysteryChannel.setVolume(weather.volume);
+			staticChannel.setVolume(weather.volume);
+		}
+	}
+
+	/// <summary>
+	/// Decreases the volume.
+	/// </summary>
+	public void DecreaseVolume()
+	{
+		if (!MinVolume)
+		{
+			weather.volume -= volumeDecrease;
+			musicChannel.setVolume(weather.volume);
+			mysteryChannel.setVolume(weather.volume);
+			staticChannel.setVolume(weather.volume);
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="Radio"/> max volume.
+	/// </summary>
+	/// <value><c>true</c> if max volume; otherwise, <c>false</c>.</value>
+	public bool MaxVolume 
+	{
+		get
+		{
+			return weather.volume == highestVolume;
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="Radio"/> minimum volume.
+	/// </summary>
+	/// <value><c>true</c> if minimum volume; otherwise, <c>false</c>.</value>
+	public bool MinVolume 
+	{
+		get
+		{
+            return weather.volume == lowestVolume;
+		}
 	}
 }

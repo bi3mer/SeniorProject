@@ -1,45 +1,57 @@
 ﻿using UnityEngine;
 
-public class HealthRateManager : StatRate
+public class HealthRateManager
 {
-	// Add additional rate presets here
-	private StatRate hungerZeroHealthReductionRate;
-	private const int hungerZeroUnit = -1;
-	private const int hungerZeroSeconds = 20;
-	private StatRate warmthZeroHealthReductionRate;
-	private const int warmthZeroUnit = -1;
-	private const int warmthZeroSeconds = 1;
-
-	// set default values for health rate
-	private StatRate defaultHealthRate;
-	private const int defaultUnitHealth = 0;
-	private const int defaultSecondsHealth = 1;
-
 	/// <summary>
-	/// Initializes a new instance of the <see cref="HealthRateManager"/> class.
+	/// Gets the health delay.
 	/// </summary>
-	public HealthRateManager ()
+	/// <value>The health delay.</value>
+	public int HealthDelay
 	{
-		// set this instance's initial (default) rate
-		defaultHealthRate = new StatRate(defaultUnitHealth, defaultSecondsHealth);
-		UseDefaultHealthRate ();
+		get 
+		{
+			int delay = 0;
+			if (Game.Instance.PlayerInstance.Hunger == 0) 
+			{
+				delay += Game.Instance.PlayerInstance.Controller.StatSettings.ZeroHungerDelay;
+			}
+			else
+			{
+				delay = Game.Instance.PlayerInstance.Controller.StatSettings.DefaultHealthDelay;
+			}
+			if (Game.Instance.PlayerInstance.Warmth == 0) 
+			{
+				delay += Game.Instance.PlayerInstance.Controller.StatSettings.ZeroWarmthDelay;
+			}
+			else
+			{
+				delay = Game.Instance.PlayerInstance.Controller.StatSettings.DefaultHealthDelay;
+			}
 
-		// set initial stat value
-		this.CurrentStat = Game.Instance.PlayerInstance.Health;
-		this.MaxStat = Game.Instance.PlayerInstance.MaxHealth;
-
-		// set other rate presets as per gdd guidelines
-		hungerZeroHealthReductionRate = new StatRate(hungerZeroUnit, hungerZeroSeconds); 
-		warmthZeroHealthReductionRate = new StatRate(warmthZeroUnit, warmthZeroSeconds);
+			return delay;
+		}
 	}
 
 	/// <summary>
-	/// Uses the default health rate.
+	/// The amount to change the Health by on each update.
 	/// </summary>
-	public void UseDefaultHealthRate()
+	/// <value>The health amount.</value>
+	public int HealthAmount 
 	{
-		this.Units = defaultHealthRate.Units;
-		this.PerSeconds = defaultHealthRate.PerSeconds;
+		get 
+		{
+			int healthAmount = 0;
+			if (Game.Instance.PlayerInstance.Hunger == 0)  
+			{
+				healthAmount -= Game.Instance.PlayerInstance.Controller.StatSettings.DefaultHealthDecrease;
+			}
+			if (Game.Instance.PlayerInstance.Warmth == 0) 
+			{
+				healthAmount -= Game.Instance.PlayerInstance.Controller.StatSettings.DefaultHealthDecrease;
+			}
+
+			return healthAmount;
+		}
 	}
 
 	/// <summary>
@@ -48,40 +60,22 @@ public class HealthRateManager : StatRate
 	/// <param name="fallDamageAmount">Fall damage amount.</param>
 	public void TakeFallDamage(int fallDamageAmount)
 	{
-		this.Units = -fallDamageAmount;
-		this.PerSeconds = 1;
-		this.ApplyRateToStat ();
-		UseDefaultHealthRate ();
-	}
-
-	/// <summary>
-	/// Uses the hunger zero health reduction rate.
-	/// </summary>
-	public void UseHungerZeroHealthReductionRate()
-	{
-		this.Units = hungerZeroHealthReductionRate.Units;
-		this.PerSeconds = hungerZeroHealthReductionRate.PerSeconds;
-	}
-
-	/// <summary>
-	/// Uses the warmth zero health reduction rate.
-	/// </summary>
-	public void UseWarmthZeroHealthReductionRate()
-	{
-		this.Units = warmthZeroHealthReductionRate.Units;
-		this.PerSeconds = warmthZeroHealthReductionRate.PerSeconds;
+		Game.Instance.PlayerInstance.Health = Mathf.Clamp (
+			Game.Instance.PlayerInstance.Health - fallDamageAmount, 
+			0, 
+			Game.Instance.PlayerInstance.MaxHealth);
 	}
 
 	/// <summary>
 	/// Uses the health energy.
 	/// </summary>
 	/// <param name="amountOfHealthUnitsAffected">Amount of health units affected.</param>
-	public void UseHealthEnergy(int amountOfHealthUnitsAffected)
+	public void AffectHealthByGivenAmount(int amountOfHealthUnitsAffected)
 	{
-		this.Units = amountOfHealthUnitsAffected;
-		this.PerSeconds = 1;
-		this.ApplyRateToStat ();
-		UseDefaultHealthRate (); // change back to default reduction rate after consuming food and accounting for it's energy
+		Game.Instance.PlayerInstance.Health = Game.Instance.PlayerInstance.Health = Mathf.Clamp (
+			Game.Instance.PlayerInstance.Health + amountOfHealthUnitsAffected, 
+			0, 
+			Game.Instance.PlayerInstance.MaxHealth);
 	}
 }
 

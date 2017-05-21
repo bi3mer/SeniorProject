@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class Thermometer : Tool
+public class Thermometer : PlayerTool
 {
 	[Tooltip("Text component that displays thermometer value.")]
 	[SerializeField]

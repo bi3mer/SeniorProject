@@ -16,7 +16,7 @@ public class BuildingGenerator : MonoBehaviour
     [Tooltip("Amount of jitter in building placement.")]
     [Range(0, 1)]
     private float positionJitter;
-    
+
     [SerializeField]
     [Tooltip("Curve to determine the height distribution of the builings. \n X-axis determines distance from center from 1 to 0.")]
     private AnimationCurve distributionCurve;
@@ -37,6 +37,11 @@ public class BuildingGenerator : MonoBehaviour
     [SerializeField]
     [Tooltip("The template for the building to place at the center of the city.")]
     private GameObject cityCenterBuilding;
+
+
+    [SerializeField]
+    [Tooltip("The instance of the tutorial building.")]
+    private GameObject tutorialBuilding;
 
     private ProceduralBuildingCreator buildingCreator;
 
@@ -59,9 +64,9 @@ public class BuildingGenerator : MonoBehaviour
     /// <param name="configuration">The building configuration for this distruct.</param>
     /// <param name="cityBounds">The bounds of the city.</param>
     /// <param name="cityCenter">The center of the city.</param>
-    /// <param name="generateWeenie">If true, this block will generate the distrcit Weenie building.</param>
+    /// <param name="weeniePosition">The location of the Weenie Building in the district.</param>
     /// <returns></returns>
-    public Building[] Generate (int seed, Block block, DistrictConfiguration configuration, Bounds cityBounds, Vector3 cityCenter, bool generateWeenie)
+    public Building[] Generate (int seed, Block block, DistrictConfiguration configuration, Bounds cityBounds, Vector3 cityCenter, Vector2 weeniePosition)
     {
         // Set any static variables for procedural buildings
         ProceduralBuilding.Generator = GetComponent<ProceduralBuildingCreator>();
@@ -83,9 +88,7 @@ public class BuildingGenerator : MonoBehaviour
         float maxRows = max.x - streetWidth;
         float maxCols = max.z - streetWidth;
 
-        // Get a location for the Weenie Building
-        // TODO: Weight these towards city center to move the player in that direction.
-        Vector2 weeniePoint = new Vector2(Random.Range(minRows, maxRows), Random.Range(minCols, maxCols));
+		float root2 = Mathf.Sqrt (2);
 
         // create a grid of points inside the bounds along the y-axis
         for (float i = minRows; i < Mathf.FloorToInt(maxRows); i += distanceBetweenBuildingCenters)
@@ -106,7 +109,7 @@ public class BuildingGenerator : MonoBehaviour
                     Building building;
 
                     // If this is a Weenie building, use that creator, otherwise procedurally generate a building.
-                    if (generateWeenie && Vector2.Distance(point, weeniePoint) < distanceBetweenBuildingCenters / 2f)
+					if (block.ContainsPoint(weeniePosition) && Vector2.Distance(point, weeniePosition) < distanceBetweenBuildingCenters * root2)
                     {
                         building = new TemplateBuilding(this.gameObject.transform, position, configuration.WeenieBuildingTemplate);
                         building.Load();
@@ -129,5 +132,23 @@ public class BuildingGenerator : MonoBehaviour
         }
 
         return buildings.ToArray();
+    }
+
+    /// <summary>
+    /// Move the tutorial building and places the player character.
+    ///</summary>
+    /// <param name="location">Location to place the building.</param>
+    public Building PlaceTutorialBuilding (Vector3 location)
+    {
+        // Grab the location of the player relative to the tutorial building
+        Vector3 relativePlayerLocation = Game.Player.WorldPosition - tutorialBuilding.transform.position;
+
+        // Move the tutorial building
+        tutorialBuilding.transform.position = location;
+
+        // Place the player back on the turoial building
+        Game.Player.WorldPosition = tutorialBuilding.transform.position + relativePlayerLocation;
+
+        return new TemplateBuilding(this.gameObject.transform, location, tutorialBuilding);
     }
 }

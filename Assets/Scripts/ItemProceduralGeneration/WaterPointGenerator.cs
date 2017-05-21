@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class WaterPointGenerator : SamplingPointGenerator 
 {
@@ -19,6 +20,17 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// </summary>
 	/// <value>The number of initial points.</value>
 	public int NumberOfInitialPoints
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
+	/// Gets or sets the number of initial points when generating in a specific section of the grid. Used during storm events. The higher the number the more
+	/// items generate after a storm.
+	/// </summary>
+	/// <value>The number of initial points in cell.</value>
+	public int NumberOfInitialPointsPerSection
 	{
 		get;
 		set;
@@ -65,39 +77,57 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// <summary>
 	/// The width of the city.
 	/// </summary>
-	private float cityWidth;
+	public float CityWidth
+	{
+		get;
+		private set;
+	}
 
 	/// <summary>
 	/// The city depth.
 	/// </summary>
-	private float cityDepth;
+	public float CityDepth
+	{
+		get;
+		private set;
+	}
 
 	/// <summary>
 	/// The city center.
 	/// </summary>
-	private Vector3 cityCenter;
+	public Vector3 CityCenter
+	{
+		get;
+		private set;
+	}
 
 	// ray needs to start a little above the object, so this is the offset distance that will be added
 	// to the height of the object to make the ray start above the top of the object
 	private const float rayOffset = 1f;
 
+	private const int loadingCheck = 10;
+
+	private WaterItemGeneration generationManager;
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WaterPointGenerator"/> class.
 	/// </summary>
-	/// <param name="width">City width.</param>
-	/// <param name="depth">City depth.</param>
-	/// <param name="center">City center.</param>
-	public WaterPointGenerator(float width, float depth, Vector3 center)
+	/// <param name="width">Width.</param>
+	/// <param name="depth">Depth.</param>
+	/// <param name="center">Center.</param>
+	/// <param name="generator">Generator.</param>
+	public WaterPointGenerator(float width, float depth, Vector3 center, WaterItemGeneration generator)
 	{
 		// the diagonal of the cell is the defaultMinDistanceAway
 		// so the dimensions of the cellSize square should be divided by Mathf.Sqrt(2)
 		// Since the diagonal of a square is Mathf.Sqrt(2) * outsideDimension
 		// ex: If the dimensions of a square is 3, then the diagonal is Mathf.Sqrt(9 + 9) = 3 * Mathf.Sqrt(2)
-		cellSize = defaultMinDistanceAway/Mathf.Sqrt(2);
-		grid = new ItemPlacementSamplePoint[Mathf.CeilToInt (width / cellSize), Mathf.CeilToInt (depth / cellSize)]; 
-		cityWidth = width;
-		cityDepth = depth;
-		cityCenter = center;
+		CellSize = defaultMinDistanceAway/Mathf.Sqrt(2);
+		Grid = new ItemPlacementSamplePoint[Mathf.CeilToInt (width / CellSize), Mathf.CeilToInt (depth / CellSize)]; 
+		CityWidth = width;
+		CityDepth = depth;
+		CityCenter = center;
+		generationManager = generator;
 	}
 
 	/// <summary>
@@ -120,14 +150,14 @@ public class WaterPointGenerator : SamplingPointGenerator
                     gridPoint = PointToGrid(point);
 
 
-                    if (grid[gridPoint.X, gridPoint.Y] == null)
+                    if (Grid[gridPoint.X, gridPoint.Y] == null)
                     {
                         buildingSamplingPoint = new ItemPlacementSamplePoint();
                         buildingSamplingPoint.LocalTargetSurfaceLocation = new Vector2(i, j);
                         buildingSamplingPoint.MinDistance = 1;
                         buildingSamplingPoint.GridPoint = gridPoint;
 
-                        grid[gridPoint.X, gridPoint.Y] = buildingSamplingPoint;
+                        Grid[gridPoint.X, gridPoint.Y] = buildingSamplingPoint;
                     }
                 }
 			}
@@ -139,10 +169,8 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// </summary>
 	/// <returns>The points in water.</returns>
 	/// <param name="generatableItemExtents">Generatable item extents.</param>
-	public List<ItemPlacementSamplePoint> GetPointsInWater(Dictionary<string, List<float>> generatableItemExtents)
+	public IEnumerator SetPointsInWater(List<ItemPlacementSamplePoint> samplingPoints, WaterItemGeneration.StepCallback finishingAction)
 	{
-		List<ItemPlacementSamplePoint> samplingPoints = generatePoints(generatableItemExtents);
-
 		float initialRayStartHeight = Game.Instance.WaterLevelHeight + rayOffset;
 
 		RaycastHit hit;
@@ -163,23 +191,34 @@ public class WaterPointGenerator : SamplingPointGenerator
 					validPoints.Add(samplingPoints[i]);
 				}
 			}
+
+			yield return null;
 		}
 
-		return validPoints;
+		finishingAction(validPoints);
 	}
 
 	/// <summary>
 	/// Generates the points.
 	/// </summary>
 	/// <returns>The points.</returns>
-	/// <param name="generatableObjectExtents">Generatable object extents.</param>
-	private List<ItemPlacementSamplePoint> generatePoints(Dictionary<string, List<float>> generatableObjectExtents)
+	/// <param name="initialPoints">Initial points.</param>
+	/// <param name="districtItemInfo">District item info.</param>
+	/// <param name="finishingAction">Finishing action.</param>
+	/// <param name="maxPercent">Max percent.</param>
+	/// <param name="basePercent">Base percent.</param>
+	public IEnumerator GeneratePoints(List<ItemPlacementSamplePoint> initialPoints, 
+									  Dictionary<string, DistrictItemConfiguration> districtItemInfo,
+									  WaterItemGeneration.StepCallback finishingAction, 
+									  float maxPercent, 
+									  float basePercent)
 	{
 		// RandomQueue works like a queue, except that it
 		//pops a random element from the queue instead of
 		//the element at the head of the queue
-		List<ItemPlacementSamplePoint> processList = generateInitialPoints(generatableObjectExtents);
+		List<ItemPlacementSamplePoint> processList = initialPoints;
 		List<ItemPlacementSamplePoint> samplePoints = new List<ItemPlacementSamplePoint>();
+		int currentLoadCount = 0;
 
 		for(int i = 0; i < processList.Count; ++i)
 		{
@@ -220,7 +259,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 					newPoint.ItemIndex = itemFactory.GetRandomItemIndex(newPoint.District, true);
 					newPoint.MinDistance = defaultMinDistanceAway;
 					newPoint.GridPoint = PointToGrid(newPoint.LocalTargetSurfaceLocation);
-					newPoint.Size = generatableObjectExtents[newPoint.District][newPoint.ItemIndex];
+					newPoint.Size = districtItemInfo[newPoint.District].ItemExtents[newPoint.ItemIndex];
 
 					tries = 0;
 
@@ -234,7 +273,7 @@ public class WaterPointGenerator : SamplingPointGenerator
 
 					if(tries < MaxAttempts)
 					{
-						grid[newPoint.GridPoint.X, newPoint.GridPoint.Y] = newPoint;
+						Grid[newPoint.GridPoint.X, newPoint.GridPoint.Y] = newPoint;
 
 						processList.Add(newPoint);
 						samplePoints.Add(newPoint);
@@ -245,42 +284,71 @@ public class WaterPointGenerator : SamplingPointGenerator
 							processList.Clear ();
 							break;
 						}
+
+						if(maxPercent > 0)
+						{
+							++currentLoadCount; 
+
+							if(currentLoadCount >= loadingCheck)
+							{
+								generationManager.UpdateLoadingPercent(basePercent + maxPercent * ((samplePoints.Count - initialPoints.Count) / (float) MaxNumberOfItems));
+								currentLoadCount = 0;
+							}
+						}
 					}
 				}
 			}
+
+			yield return null;
 		}
 
-		return samplePoints;
+		finishingAction(samplePoints);
 	}
 
+
 	/// <summary>
-	/// Generates the initial sampling points.
+	/// Generates the random points in bounds.
 	/// </summary>
-	/// <returns>The initial points.</returns>
-	/// <param name="generatableObjectExtents">Generatable object extents.</param>
-	public List<ItemPlacementSamplePoint> generateInitialPoints(Dictionary<string, List<float>>  generatableObjectExtents)
+	/// <returns>The random points in bounds.</returns>
+	/// <param name="minX">Minimum x.</param>
+	/// <param name="maxX">Max x.</param>
+	/// <param name="minY">Minimum y.</param>
+	/// <param name="maxY">Max y.</param>
+	/// <param name="pointsToMake">Points to make.</param>
+	/// <param name="maxPercent">Max percent.</param>
+	/// <param name="basePercent">Base percent.</param>
+	/// <param name="districtInfo">District info.</param>
+	/// <param name="finishingAction">Finishing action.</param>
+	public IEnumerator GenerateRandomPointsInBounds(float minX, 
+													float maxX, 
+													float minY, 
+													float maxY, 
+													int pointsToMake, 
+													float maxPercent, 
+													float basePercent, 
+													Dictionary<string, DistrictItemConfiguration> districtInfo, 
+													WaterItemGeneration.StepCallback finishingAction)
 	{
 		List<ItemPlacementSamplePoint> initialPoints = new List<ItemPlacementSamplePoint>();
 		WorldItemFactory itemFactory = Game.Instance.WorldItemFactoryInstance;
 
 		int tries = 0;
+		int loadingCounter = 0;
 
-		for(int i = 0; i < NumberOfInitialPoints; ++i)
+		for(int i = 0; i < pointsToMake; ++i)
 		{
 			ItemPlacementSamplePoint initPoint = new ItemPlacementSamplePoint();
 
 			// points should be generated around city center
 			// so minimum is half the width/depth from the city center
 			// and maximum is half the width/depth from the city center
-			initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(cityCenter.x - cityWidth/2f, cityCenter.x + cityWidth/2f), 
-																Random.Range (cityCenter.z - cityDepth/2f, cityCenter.z + cityDepth/2f));
+			initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(minX, maxX), Random.Range (minY, maxY));
 			tries = 1;
 			initPoint.District = getDistrict(initPoint.LocalTargetSurfaceLocation);
 
 			while(tries < MaxAttempts && (initPoint.District == null || !inCityBounds(initPoint.LocalTargetSurfaceLocation)))
 			{
-				initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(cityCenter.x - cityWidth/2f, cityCenter.x + cityWidth/2f), 
-																Random.Range (cityCenter.z - cityDepth/2f, cityCenter.z + cityDepth/2f));
+				initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(minX, maxX), Random.Range (minY, maxY));
 				initPoint.District = getDistrict(initPoint.LocalTargetSurfaceLocation);
 
 				++tries;
@@ -290,26 +358,38 @@ public class WaterPointGenerator : SamplingPointGenerator
 			{
 				initPoint.ItemIndex = itemFactory.GetRandomItemIndex(initPoint.District, true);
 				initPoint.MinDistance = defaultMinDistanceAway;
-				initPoint.Size = generatableObjectExtents[initPoint.District][initPoint.ItemIndex];
+				initPoint.Size = districtInfo[initPoint.District].ItemExtents[initPoint.ItemIndex];
 				initPoint.GridPoint = PointToGrid(initPoint.LocalTargetSurfaceLocation);
 
 				while( tries < MaxAttempts && (HasOverlappingNeighbors(initPoint) || !inCityBounds(initPoint.LocalTargetSurfaceLocation)))
 				{
-					initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(cityCenter.x - cityWidth/2f, cityCenter.x + cityWidth/2f), 
-																	Random.Range (cityCenter.z - cityDepth/2f, cityCenter.z + cityDepth/2f));
+					initPoint.LocalTargetSurfaceLocation = new Vector2(Random.Range(minX, maxX), Random.Range (minY, maxY));
 					initPoint.GridPoint = PointToGrid(initPoint.LocalTargetSurfaceLocation);
 					++tries;
 				}
 
 				if(tries < MaxAttempts)
 				{	
-					grid[initPoint.GridPoint.X, initPoint.GridPoint.Y] = initPoint;
+					Grid[initPoint.GridPoint.X, initPoint.GridPoint.Y] = initPoint;
 					initialPoints.Add(initPoint);
+
+					if(maxPercent > 0)
+					{
+						++loadingCounter;
+
+						if(loadingCounter >= loadingCheck)
+						{
+							generationManager.UpdateLoadingPercent(basePercent + maxPercent * (initialPoints.Count / (float)pointsToMake));
+							loadingCounter = 0;
+						}
+					}
 				}
 			}
+
+			yield return null;
 		}
 
-		return initialPoints;
+		finishingAction(initialPoints);
 	}
 
 	/// <summary>
@@ -337,9 +417,9 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// <param name="location">Location.</param>
 	private bool inCityBounds(Vector2 location)
 	{
-		if(location.x > (cityCenter.x - cityWidth/2f) && location.x < (cityCenter.x + cityWidth/2f))
+		if(location.x > (CityCenter.x - CityWidth/2f) && location.x < (CityCenter.x + CityWidth/2f))
 		{
-			if(location.y > (cityCenter.y - cityDepth/2f) && location.y < (cityCenter.y + cityDepth/2f))
+			if(location.y > (CityCenter.y - CityDepth/2f) && location.y < (CityCenter.y + CityDepth/2f))
 			{
 				return true;
 			}
@@ -358,7 +438,8 @@ public class WaterPointGenerator : SamplingPointGenerator
 	/// <param name="samplingPoint">Sampling point.</param>
 	protected Tuple<int, int> PointToGrid(Vector2 samplingPoint)
 	{
-		return new Tuple<int, int> ((int)((samplingPoint.x - cityCenter.x + cityWidth/2f) / cellSize), 
-									(int)((samplingPoint.y - cityCenter.y + cityDepth/2f) / cellSize));
+		return new Tuple<int, int> ((int)((samplingPoint.x - CityCenter.x + CityWidth/2f) / CellSize), 
+									(int)((samplingPoint.y - CityCenter.z + CityDepth/2f) / CellSize));
+
 	}
 }

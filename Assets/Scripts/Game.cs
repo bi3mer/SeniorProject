@@ -11,12 +11,19 @@
 		PauseInstance = new PauseSystem();
 		WorldItemFactoryInstance = new WorldItemFactory();
 		ItemFactoryInstance = new ItemFactory();
+		NoteFactoryInstance = new NoteFactory();
 		GameSettingsInstance = new GameSettings ();
 		Scheme = GameSettingsInstance.Scheme;
-        Loader = new GameLoader();
         DeathManagerInstance = new DeathManager();
-		announcementFactoryInstance = new AnnouncementFactory ();
-		WeatherInstance = new WeatherSystem(this.CityBounds, PauseInstance);
+		AnnouncementFactoryInstance = new AnnouncementFactory ();
+		WeatherInstance = new WeatherSystem(PauseInstance);
+
+        Loader = new GameLoader();
+        Loader.GameLoadedEvent += () => {
+            PauseInstance.Resume();
+        };
+
+        PauseInstance.Pause();
     }
 
     /// <summary>
@@ -28,6 +35,17 @@
 		FMODUnity.RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
 
         PlayerInstance.ResetStatus();
+        PlayerInstance.Inventory.Reset();
+
+        Loader.Reset();
+
+        this.PauseInstance.ResetDelegates();
+		EventManager = new EventManager ();
+
+        // reset weather
+        WeatherInstance         = new WeatherSystem(PauseInstance);
+        this.clockInstance      = null;
+        this.floodWaterInstance = null;
     }
  
     /// <summary>
@@ -202,6 +220,8 @@
 		}
 	}
 
+
+
 	/// <summary>
 	/// Gets or private sets the pause instance.
 	/// </summary>
@@ -294,9 +314,19 @@
 	/// Gets or sets the announcement factory instance.
 	/// </summary>
 	/// <value>The announcement factory instance.</value>
-	private AnnouncementFactory announcementFactoryInstance 
+	public AnnouncementFactory AnnouncementFactoryInstance 
 	{
 		get;
 		set;
+	}
+
+	/// <summary>
+	/// Gets or sets the note factory instance.
+	/// </summary>
+	/// <value>The note factory instance.</value>
+	public NoteFactory NoteFactoryInstance 
+	{
+		get;
+		private set;
 	}
 }

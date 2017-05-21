@@ -29,7 +29,6 @@ public class ShelterInteractable : InteractableObject
     {
         if (other.tag == playerTag)
         {
-            Game.Instance.PlayerInstance.Controller.PlayerStatManager.WarmthRate.SetUnitsInShelter(Shelter.WarmthRate);
             Game.Instance.PlayerInstance.Controller.IsInShelter = true;
         }
     }

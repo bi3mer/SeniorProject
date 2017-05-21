@@ -65,7 +65,7 @@ public class ItemFactory
 	}
 
 	// the different result tiers of craftable items
-	private string[] itemLevels = new string[3] { "Poor", "Good", "Excellent" };
+	private string[] itemLevels = new string[3] { "Poor", "Standard", "Excellent" };
 
 	private int levels = 3;
 
@@ -168,7 +168,13 @@ public class ItemFactory
 
 		// Adds the item to the player's inventory
 		// for now, it will only create one at a time
-		targetInventory.AddItem (craftedItem, 1);
+		int addResult = targetInventory.AddItem (craftedItem, 1);
+
+		if(addResult > 0)
+		{
+			GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(new ItemStack(craftedItem, 1, ""));
+			GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.INVENTORYFULL);
+		}
 	}
 
 	/// <summary>
@@ -423,5 +429,23 @@ public class ItemFactory
 		}
 
 		return desiredItemNames;
+	}
+
+	/// <summary>
+	/// Returns whether or not an item generates in the water.
+	/// </summary>
+	/// <returns><c>true</c>, if in water was generatesed, <c>false</c> otherwise.</returns>
+	/// <param name="itemName">Item name.</param>
+	public bool GeneratesInWater(string itemName)
+	{
+		foreach(string district in WaterItemsByDistrict.Keys)
+		{
+			if(WaterItemsByDistrict[district].Contains(itemName))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

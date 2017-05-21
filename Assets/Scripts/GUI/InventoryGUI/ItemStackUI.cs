@@ -141,7 +141,7 @@ public class ItemStackUI : MonoBehaviour
 	/// Gets the item's attributes.
 	/// </summary>
 	/// <returns>The item's attributes.</returns>
-	public List<Attribute> GetItemAttributes()
+	public List<ItemAttribute> GetItemAttributes()
 	{
 		return targetStack.Item.GetItemAttributes ();
 	}
@@ -195,12 +195,26 @@ public class ItemStackUI : MonoBehaviour
 		{
 			targetStack.Item.DirtyFlag = false;
 
-			ItemStack addedItem = GuiInstanceManager.InventoryUiInstance.TargetInventory.AddItem (targetStack.Item, targetStack.Amount);
-			GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
-			ItemStackUI createdStack = GuiInstanceManager.InventoryUiInstance.GetStackUI(addedItem.Id);
-			GuiInstanceManager.ItemAmountPanelInstance.OpenItemDetailPanel(createdStack.gameObject);
+			string itemName = targetStack.Item.ItemName;
+			int amountRemaining = GuiInstanceManager.InventoryUiInstance.AssociatedInventory.AddItem (targetStack.Item, targetStack.Amount);
 
-			createdNewItem = true;
+			if(amountRemaining == 0)
+			{
+				GuiInstanceManager.InventoryUiInstance.RefreshInventoryPanel ();
+				// open the first stack created
+				string stackID = GuiInstanceManager.InventoryUiInstance.AssociatedInventory.GetStacks(itemName, 1)[0].Id;
+
+				ItemStackUI createdStack = GuiInstanceManager.InventoryUiInstance.GetStackUI(stackID);
+				GuiInstanceManager.ItemAmountPanelInstance.OpenItemDetailPanel(createdStack.gameObject);
+
+				createdNewItem = true;
+			}
+			else
+			{
+				GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(new ItemStack(targetStack.Item, targetStack.Amount, ""));
+				GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.INVENTORYFULL);
+				GuiInstanceManager.ItemStackDetailPanelInstance.ClosePanel();
+			}
 		}
 		else if(targetStack.Item.UpdateExistingFlag)
 		{
@@ -221,7 +235,7 @@ public class ItemStackUI : MonoBehaviour
 		else if(targetStack.Item.DiscardFlag)
 		{
 			GuiInstanceManager.InventoryUiInstance.ItemsToDiscard.Add(targetStack);
-			GuiInstanceManager.InventoryUiInstance.TargetInventory.UpdateTypeAmount(targetStack.Item.Types, originalStack.Amount - targetStack.Amount);
+			GuiInstanceManager.InventoryUiInstance.AssociatedInventory.UpdateTypeAmount(targetStack.Item.Types, -targetStack.Amount);
 			targetStack = originalStack;
 		}
 		else if(targetStack.Item.RemovalFlag)
@@ -231,7 +245,7 @@ public class ItemStackUI : MonoBehaviour
 
 		if(originalStack.Amount <= 0)
 		{
-			GuiInstanceManager.InventoryUiInstance.TargetInventory.RemoveStack(originalStack);
+			GuiInstanceManager.InventoryUiInstance.AssociatedInventory.RemoveStack(originalStack);
 
 			if(!createdNewItem)
 			{

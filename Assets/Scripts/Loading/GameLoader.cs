@@ -9,12 +9,22 @@ public class GameLoader
 {
     private List<GameLoaderTask> tasks;
 
+    public delegate void GameLoadedDelegate();
+    public event GameLoadedDelegate GameLoadedEvent;
+
+    public bool GameLoaded
+    {
+    	get;
+    	private set;
+    }
+
     /// <summary>
     /// Instatiate a new GameLoader
     /// </summary>
     public GameLoader()
     {
         tasks = new List<GameLoaderTask>();
+        GameLoaded = false;
     }
 
     /// <summary>
@@ -48,7 +58,15 @@ public class GameLoader
                 totalComplete += tasks[i].PercentageComplete;
             }
 
-            return totalComplete / tasks.Count;
+            float complete = totalComplete / tasks.Count;
+            if (complete >= 1f && GameLoadedEvent != null && !GameLoaded)
+            {
+                GameLoadedEvent();
+                GameLoaded = true;
+                Game.Instance.AnnouncementFactoryInstance.LoadAnnouncements();
+            }
+
+            return complete;
         }
     }
 
@@ -69,5 +87,14 @@ public class GameLoader
 
             return "";
         }
+    }
+
+    /// <summary>
+    /// Reset this instance.
+    /// </summary>
+    public void Reset()
+    {
+    	GameLoaded = false;
+    	tasks.Clear();
     }
 }

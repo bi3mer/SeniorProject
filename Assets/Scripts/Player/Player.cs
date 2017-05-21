@@ -20,6 +20,7 @@ public class Player
     private const string inventoryFileName = "InventoryYaml.yml";
     private const int playerInventorySize = 20;
     private int health;
+    private PlayerHealthStatus healthStatus;
     private Vector3 worldPosition;
 
     public const float FoodPoisoningChance = 0.3f;
@@ -90,18 +91,23 @@ public class Player
     {
     	get
     	{
-    		if(this.IsInWorld)
+    		if (IsInWorld)
     		{
-    			return this.WorldTransform.position;
+    			return WorldTransform.position;
     		}
     		else
     		{
-    			return this.worldPosition;
+    			return worldPosition;
     		}
     	}
-    	private set
+    	set
     	{
-    		this.worldPosition = value;
+    		worldPosition = value;
+
+            if (IsInWorld)
+            {
+                WorldTransform.position = value;
+            }
     	}
     }
 
@@ -201,7 +207,30 @@ public class Player
     /// </summary>
     public PlayerHealthStatus HealthStatus
     {
-        get;
-        set;
+        get
+        {
+        	return healthStatus;
+        }
+        set
+        {
+        	healthStatus = value;
+
+        	// this is null when the game first starts
+        	if(GuiInstanceManager.PlayerNotificationInstance != null)
+        	{
+	        	if(healthStatus == PlayerHealthStatus.FoodPoisoning)
+	        	{
+					GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.STOMACH);
+	        	}
+	        	else if(healthStatus == PlayerHealthStatus.Pneumonia)
+	        	{
+					GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.PNEUMONIA);
+	        	}
+	        	else if(healthStatus == PlayerHealthStatus.None)
+	        	{
+					GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.CURE);
+	        	}
+	        }
+        }
     }
 }
