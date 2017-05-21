@@ -45,12 +45,18 @@ public class RaftMovement : Movement
 	private float againstWindSpeedModifier = 0.3f;
 	private float windResistanceAngleThreshold = 0.25f;
 
-    private Rigidbody raftBody;
+	private Rigidbody raftBody;
 
     [SerializeField]
 	[Tooltip("Time till coroutine ends and FixedUpdate checks if the raft is stopped again.")]
     private float updateIsStoppedTimer = 2.0f;
 	private bool isStopped = false;
+
+	public bool RaftMoored
+	{
+		get;
+		set;
+	}
 
     [SerializeField]
     private float updatePlayerPositionTimer = 2.0f;
@@ -123,15 +129,18 @@ public class RaftMovement : Movement
     /// <param name="direction"></param>
     public override void Move(Vector3 direction, bool sprinting, Animator playerAnimator)
     {
-    	// the maximum resistance is -1, so the direction angle returns by CompareDirectionToOctantWind must be a negative
-    	// number such that the difference between it and -1 is less than the windResistanceAngleThreshold
-		if (Game.Instance.WeatherInstance.CompareDirectionToOctantWind(direction) + 1 < windResistanceAngleThreshold)
-        {
-            Speed *= againstWindSpeedModifier;
-        }
+    	if(!RaftMoored)
+    	{
+	    	// the maximum resistance is -1, so the direction angle returns by CompareDirectionToOctantWind must be a negative
+	    	// number such that the difference between it and -1 is less than the windResistanceAngleThreshold
+			if (Game.Instance.WeatherInstance.CompareDirectionToOctantWind(direction) + 1 < windResistanceAngleThreshold)
+	        {
+	            Speed *= againstWindSpeedModifier;
+	        }
 
-        RigidBody.AddForce(direction.normalized * acceleration);
-        StartCoroutine(this.updateIsStopped());
+	        RigidBody.AddForce(direction.normalized * acceleration);
+	        StartCoroutine(this.updateIsStopped());
+	    }
     }
 
     /// <summary>
@@ -178,7 +187,7 @@ public class RaftMovement : Movement
     /// </summary>
     public override void OnStateExit()
     {
-        raftBody.isKinematic = true;
+        //raftBody.isKinematic = true;
     }
 
     /// <summary>
