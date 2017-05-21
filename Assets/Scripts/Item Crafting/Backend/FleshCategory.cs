@@ -28,7 +28,6 @@ public class FleshCategory : ItemCategory
     /// string added to item name when cooked
     /// </summary>
     private const string defaultCookedNameAddition = "Cooked ";
-    private const string defaultEmptyNameAddition = "Empty ";
     private const string burntNameAddition = "Burnt ";
 
     private const string healthEffectAttrName = "healthEffect";
@@ -119,33 +118,41 @@ public class FleshCategory : ItemCategory
     /// </summary>
     public void Eat()
     {
+    	Player player = baseItem.GetMockPlayer();
+    	int currentAmount = 1;
 
-        for (int i = 0; i < GuiInstanceManager.ItemAmountPanelInstance.CurrentAmount; ++i)
+    	if(player == null)
+    	{
+    		player = Game.Player;
+			currentAmount = GuiInstanceManager.ItemAmountPanelInstance.CurrentAmount;
+    	}
+
+        for (int i = 0; i < currentAmount; ++i)
         {
             // If this is a bad food
             if (HealthEffect < 0)
             {
                 // Health effects don't stack
-                if (Game.Player.HealthStatus == PlayerHealthStatus.None)
+                if (player.HealthStatus == PlayerHealthStatus.None)
                 {
                     // Random chance of getting food poisoning
-                    if (RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
+                    if (baseItem.GetMockPlayer() != null || RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
                     {
-                        Game.Player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
+                        player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
                     }
                 }
             }
-            
-            Game.Player.Controller.PlayerStatManager.HungerRate.UseFoodEnergy((int)HungerGain);
+
+            if(baseItem.GetMockPlayer() == null)
+            {
+            	Game.Player.Controller.PlayerStatManager.HungerRate.UseFoodEnergy((int)HungerGain);
+            }
+            else
+            {
+            	player.Hunger += ((int)(HungerGain));
+            }
         }
 
-        if (baseItem.ModifyingActionNames.IndexOf(eatActName) > -1)
-        {
-            baseItem.ChangeName(defaultEmptyNameAddition + baseItem.ItemName);
-        }
-        else
-        {
-            baseItem.RemovalFlag = true;
-        }
+       	baseItem.RemovalFlag = true;
     }
 }

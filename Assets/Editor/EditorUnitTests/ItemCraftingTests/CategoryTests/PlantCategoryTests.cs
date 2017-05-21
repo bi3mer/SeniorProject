@@ -8,7 +8,10 @@ public class PlantCategoryTests
 {
 	private BaseItem createTestItem()
 	{
-		BaseItem plantItem = new BaseItem("Sample Plant");
+		PlayerInventory mockPlayerInventory = new PlayerInventory("player", 20);
+		Player mockPlayer = new Player(mockPlayerInventory);
+
+		BaseItem plantItem = new BaseItem("Sample Plant", mockPlayer);
 		plantItem.FlavorText = "This is a test plant";
 		plantItem.InventorySprite = "plant.png";
 		plantItem.WorldModel = "plantModel.png";
@@ -74,50 +77,34 @@ public class PlantCategoryTests
 		Assert.AreEqual("Dried Sample Plant", plant.ItemName);
 	}
 
-	//[Test]
+	[Test]
 	public void EatTest()
 	{
 		BaseItem neutralPlant = createTestItem();
-		BaseItem pneumoniaGivingPlant = createTestItem();
-		BaseItem pneumoniaCuringPlant = createTestItem();
 		BaseItem foodPoisoningGivingPlant = createTestItem();
-		BaseItem foodPoisoningCuringPlant = createTestItem();
+		BaseItem foodPoisoningCuringPlant = new BaseItem(foodPoisoningGivingPlant);
 
 		PlantCategory neutralPlantCategory = (PlantCategory) neutralPlant.GetItemCategoryByClass(typeof(PlantCategory));
-		PlantCategory pneumoniaGivingPlantCategory = (PlantCategory) pneumoniaGivingPlant.GetItemCategoryByClass(typeof(PlantCategory));
-		PlantCategory pneumoniaCuringPlantCategory = (PlantCategory) pneumoniaCuringPlant.GetItemCategoryByClass(typeof(PlantCategory));
 		PlantCategory foodPoisoningGivingPlantCategory = (PlantCategory) foodPoisoningGivingPlant.GetItemCategoryByClass(typeof(PlantCategory));
 		PlantCategory foodPoisoningCuringPlantCategory = (PlantCategory) foodPoisoningCuringPlant.GetItemCategoryByClass(typeof(PlantCategory));
 
 		neutralPlantCategory.StomachEffect = 0f;
 		neutralPlantCategory.PneumoniaEffect = 0f;
 
-		pneumoniaCuringPlantCategory.PneumoniaEffect = 0.1f;
-		pneumoniaCuringPlantCategory.StomachEffect = 0f;
-
-		pneumoniaGivingPlantCategory.PneumoniaEffect = -0.1f;
-		pneumoniaGivingPlantCategory.StomachEffect = 0f;
-
 		foodPoisoningCuringPlantCategory.PneumoniaEffect = 0f;
 		foodPoisoningCuringPlantCategory.StomachEffect = 0.1f;
 
 		foodPoisoningGivingPlantCategory.PneumoniaEffect = 0f;
-		foodPoisoningGivingPlantCategory.StomachEffect = 0.1f;
+		foodPoisoningGivingPlantCategory.StomachEffect = -0.1f;
 
 		//Act
 		neutralPlantCategory.Eat();
-		Assert.AreEqual(PlayerHealthStatus.None, Game.Player.HealthStatus);
-
-		pneumoniaGivingPlantCategory.Eat();
-		Assert.AreEqual(PlayerHealthStatus.Pneumonia, Game.Player.HealthStatus);
-
-		pneumoniaCuringPlantCategory.Eat();
-		Assert.AreEqual(PlayerHealthStatus.None, Game.Player.HealthStatus);
+		Assert.AreEqual(PlayerHealthStatus.None, neutralPlant.GetMockPlayer().HealthStatus);
 
 		foodPoisoningGivingPlantCategory.Eat();
-		Assert.AreEqual(PlayerHealthStatus.FoodPoisoning, Game.Player.HealthStatus);
+		Assert.AreEqual(PlayerHealthStatus.FoodPoisoning, foodPoisoningGivingPlant.GetMockPlayer().HealthStatus);
 
 		foodPoisoningCuringPlantCategory.Eat();
-		Assert.AreEqual(PlayerHealthStatus.None, Game.Player.HealthStatus);
+		Assert.AreEqual(PlayerHealthStatus.None, foodPoisoningGivingPlant.GetMockPlayer().HealthStatus);
 	}
 }

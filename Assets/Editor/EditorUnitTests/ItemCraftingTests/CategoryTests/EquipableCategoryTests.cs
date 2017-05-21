@@ -8,7 +8,9 @@ public class EquipableCategoryTests
 {
 	private BaseItem createTestItem()
 	{
-		BaseItem equipableItem = new BaseItem("Sample Equipable");
+		PlayerInventory mockPlayerInventory = new PlayerInventory("player", 20);
+		Player mockPlayer = new Player(mockPlayerInventory);
+		BaseItem equipableItem = new BaseItem("Sample Equipable", mockPlayer);
 		equipableItem.FlavorText = "This is a test equipable";
 		equipableItem.InventorySprite = "equipable.png";
 		equipableItem.WorldModel = "equipableModel.png";
@@ -33,10 +35,12 @@ public class EquipableCategoryTests
 
 		equipableCategory.Equip();
 
-		// Add assertions here
+		Assert.AreEqual(equipableItem.GetMockPlayer().Inventory.EquipedItem, equipableItem);
+		Assert.AreEqual(equipableItem.GetItemAttribute("equiped").Value, 1f);
 
 		equipableCategory.UnEquip();
 
-		// Add assertions for cloth taken off here
+		Assert.AreEqual(equipableItem.GetMockPlayer().Inventory.EquipedItem, null);
+		Assert.AreEqual(equipableItem.GetItemAttribute("equiped").Value, 0);
 	}
 }

@@ -99,6 +99,7 @@ public class PlantCategory : ItemCategory
 		category.PlantVolume = PlantVolume;
 		category.StomachEffect = StomachEffect;
 		category.PneumoniaEffect = PneumoniaEffect;
+		category.Toughness = Toughness;
 
 		category.Actions = new List<ItemAction> ();
 		category.Attributes = new List<ItemAttribute> ();
@@ -146,19 +147,19 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public void Cook()
 	{
-		Toughness = Toughness * cookingWaterIncreaseRate;
+		Toughness = Toughness * cookingToughnessDecreaseRate;
 		WaterContent = WaterContent * cookingWaterIncreaseRate;
 
 		GetAttribute (toughAttrName).Value = Toughness;
 		GetAttribute (waterContAttrName).Value = WaterContent;
 
-		if (WaterContent > waterContentSoupThreshold && !baseItem.ItemName.Contains (soupNameAddition)) 
+		if (WaterContent >= waterContentSoupThreshold && !baseItem.ItemName.Contains (soupNameAddition)) 
 		{
 			baseItem.ChangeName (baseItem.ItemName + " " + soupNameAddition);
 		} 
 		else if (WaterContent < waterContentSoupThreshold) 
 		{
-			baseItem.ChangeName(defaultCookedNameAddition + baseItem.ItemName);
+			baseItem.ChangeName(defaultCookedNameAddition + " " + baseItem.ItemName);
 		}
 	}
 
@@ -184,21 +185,45 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public void Eat()
 	{
-        Player player = Game.Player;
+        Player player = baseItem.GetMockPlayer();
+
+        if(player == null)
+        {
+        	player = Game.Player;
+        }
 
 		if (StomachEffect < 0) 
 		{
-            if (player.HealthStatus == PlayerHealthStatus.None)
+			if (player.HealthStatus == PlayerHealthStatus.None)
             {
 				// Random chance of getting food poisoning
-                if (RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
+                if (baseItem.GetMockPlayer() != null || RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
                 {
-                    Game.Player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
+                    player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
                 }
             }
-		} 
+		}
+		else
+		{
+			if (player.HealthStatus != PlayerHealthStatus.None)
+            {
+				// Random chance of getting food poisoning
+                if (baseItem.GetMockPlayer() != null || RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
+                {
+                    player.HealthStatus = PlayerHealthStatus.None;
+                }
+            }
+		}
 
-		Game.Player.Controller.PlayerStatManager.HungerRate.UseFoodEnergy((int)(PlantVolume + WaterContent));
+		if(baseItem.GetMockPlayer() == null)
+		{
+			Game.Player.Controller.PlayerStatManager.HungerRate.UseFoodEnergy((int)(PlantVolume + WaterContent));
+		}
+		else
+		{
+			player.Hunger += ((int) (PlantVolume + WaterContent));
+		}
+
 		baseItem.RemovalFlag = true;
 	}
 }

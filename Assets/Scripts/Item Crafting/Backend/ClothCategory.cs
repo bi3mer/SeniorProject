@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class ClothCategory : ItemCategory
 {
@@ -120,7 +121,10 @@ public class ClothCategory : ItemCategory
 	/// </summary>
 	public void PutOn()
 	{
-		Game.Player.Controller.PlayerStatManager.WarmthRate.UseClothRate ((int)(FabricThickness + ThreadDensity));
+		if(baseItem.GetMockPlayer() == null)
+		{
+			Game.Player.Controller.PlayerStatManager.WarmthRate.UseClothRate ((int)(FabricThickness + ThreadDensity));
+		}
 
 		OnPlayer = 1f;
 		GetAttribute(onPlayerAttributeName).Value = OnPlayer;
@@ -133,7 +137,10 @@ public class ClothCategory : ItemCategory
 	/// </summary>
 	public void TakeOff()
 	{
-		Game.Player.Controller.PlayerStatManager.WarmthRate.StopUsingClothRate();
+		if(baseItem.GetMockPlayer() == null)
+		{
+			Game.Player.Controller.PlayerStatManager.WarmthRate.StopUsingClothRate();
+		}
 
 		OnPlayer = 0f;
 		GetAttribute(onPlayerAttributeName).Value = OnPlayer;

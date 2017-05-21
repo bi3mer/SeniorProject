@@ -20,10 +20,14 @@ public class Player
     private const string inventoryFileName = "InventoryYaml.yml";
     private const int playerInventorySize = 20;
     private int health;
+    private int warmth;
+    private int hunger;
+
     private PlayerHealthStatus healthStatus;
     private Vector3 worldPosition;
 
     public const float FoodPoisoningChance = 0.3f;
+    private bool usingMock;
 
     /// <summary>
     /// Player constructor.
@@ -32,6 +36,17 @@ public class Player
     public Player ()
     {
         ResetStatus();
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Player"/> class used only for mocking during unit tests.
+    /// </summary>
+    /// <param name="mockInventory">Mock inventory.</param>
+    public Player(PlayerInventory mockInventory)
+    {
+    	usingMock = true;
+    	Inventory = mockInventory;
+    	ResetStatus();
     }
 
     /// <summary>
@@ -45,7 +60,14 @@ public class Player
 
         HealthStatus = PlayerHealthStatus.None;
 
-        Inventory = new PlayerInventory(playerInventoryName, inventoryFileName, playerInventorySize);
+        if(!usingMock)
+        {
+        	Inventory = new PlayerInventory(playerInventoryName, inventoryFileName, playerInventorySize);
+        }
+        else
+        {
+        	Inventory = new PlayerInventory(playerInventoryName, playerInventorySize);
+        }
 
         // set the transform if in unity editor so scenes without a player will
         // still work
@@ -124,7 +146,7 @@ public class Player
 
         set
         {
-        	health = value;
+        	health = (int) Mathf.Clamp(value, 0, MaxHealth);
 
         	if(health <= 0)
         	{
@@ -149,8 +171,15 @@ public class Player
     /// </summary>
     public int Warmth
     {
-        get;
-        set;
+        get
+        {
+        	return warmth;
+        }
+
+        set
+        {
+        	warmth = (int)Mathf.Clamp(value, 0, MaxWarmth);
+        }
     }
 
     /// <summary>
@@ -169,8 +198,14 @@ public class Player
     /// </summary>
     public int Hunger
     {
-        get;
-        set;
+        get
+        {
+        	return hunger;
+        }
+        set
+        {
+        	hunger = (int) Mathf.Clamp(value, 0, maxHunger);
+        }
     }
 
     /// <summary>
@@ -233,4 +268,14 @@ public class Player
 	        }
         }
     }
+
+	/// <summary>
+	/// Uses the mock player inventory instead of the real one. Only used for unit tests.
+	/// </summary>
+	/// <param name="mock">Mock inventory.</param>
+	public void UseMockPlayerInventory(PlayerInventory mock)
+	{
+		Inventory = mock;
+		usingMock = true;
+	}
 }

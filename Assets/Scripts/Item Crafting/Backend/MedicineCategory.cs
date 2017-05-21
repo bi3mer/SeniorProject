@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using System;
 
 public class MedicineCategory : ItemCategory
 {
@@ -113,7 +114,18 @@ public class MedicineCategory : ItemCategory
     /// </summary>
     public void Heal()
     {
-		Game.Player.Controller.PlayerStatManager.HealthRate.AffectHealthByGivenAmount((int) HealthGain);
+		Player targetPlayer = baseItem.GetMockPlayer();
+
+    	if(targetPlayer == null)
+    	{
+    		targetPlayer = Game.Player;
+			targetPlayer.Controller.PlayerStatManager.HealthRate.AffectHealthByGivenAmount((int) HealthGain);
+    	}
+    	else
+    	{
+			targetPlayer.Health += ((int) HealthGain);
+    	}
+		
         baseItem.RemovalFlag = true;
     }
 
@@ -122,9 +134,16 @@ public class MedicineCategory : ItemCategory
     /// </summary>
     public void CurePneumonia()
     {
-        if (Game.Player.HealthStatus == PlayerHealthStatus.Pneumonia)
+    	Player targetPlayer = baseItem.GetMockPlayer();
+
+    	if(targetPlayer == null)
+    	{
+    		targetPlayer = Game.Player;
+    	}
+
+        if (targetPlayer.HealthStatus == PlayerHealthStatus.Pneumonia)
         {
-            Game.Player.HealthStatus = PlayerHealthStatus.None;
+			targetPlayer.HealthStatus = PlayerHealthStatus.None;
         }
 
         baseItem.RemovalFlag = true;
@@ -135,9 +154,16 @@ public class MedicineCategory : ItemCategory
     /// </summary>
     public void CureFoodPoisoning()
     {
-        if (Game.Player.HealthStatus == PlayerHealthStatus.FoodPoisoning)
+		Player targetPlayer = baseItem.GetMockPlayer();
+
+    	if(targetPlayer == null)
+    	{
+    		targetPlayer = Game.Player;
+    	}
+
+        if (targetPlayer.HealthStatus == PlayerHealthStatus.FoodPoisoning)
         {
-            Game.Player.HealthStatus = PlayerHealthStatus.None;
+            targetPlayer.HealthStatus = PlayerHealthStatus.None;
         }
 
         baseItem.RemovalFlag = true;
@@ -148,9 +174,18 @@ public class MedicineCategory : ItemCategory
     /// </summary>
     public void CureAll()
     {
-        Game.Player.HealthStatus = PlayerHealthStatus.None;
+		Player targetPlayer = baseItem.GetMockPlayer();
+		int maxHealth = 100;
 
-        Game.Player.Health = Game.Player.MaxHealth;
+    	if(targetPlayer == null)
+    	{
+    		targetPlayer = Game.Player;
+    		maxHealth = Game.Player.MaxHealth;
+    	}
+
+        targetPlayer.HealthStatus = PlayerHealthStatus.None;
+
+        targetPlayer.Health = maxHealth;
         baseItem.RemovalFlag = true;
     }
 }

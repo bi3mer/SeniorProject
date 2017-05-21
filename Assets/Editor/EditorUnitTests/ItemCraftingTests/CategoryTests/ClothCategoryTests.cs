@@ -8,7 +8,9 @@ public class ClothCategoryTests
 {
 	private BaseItem createTestItem()
 	{
-		BaseItem clothItem = new BaseItem("Sample Cloth");
+		PlayerInventory mockPlayerInventory = new PlayerInventory("player", 20);
+		Player mockPlayer = new Player(mockPlayerInventory);
+		BaseItem clothItem = new BaseItem("Sample Cloth", mockPlayer);
 		clothItem.FlavorText = "This is a test cloth";
 		clothItem.InventorySprite = "cloth.png";
 		clothItem.WorldModel = "clothModel.png";

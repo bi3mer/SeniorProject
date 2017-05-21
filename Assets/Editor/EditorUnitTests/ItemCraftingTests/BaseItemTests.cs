@@ -2,13 +2,16 @@
 using UnityEngine;
 using UnityEditor;
 using NUnit.Framework;
+using System;
 
 [TestFixture]
 public class BaseItemTests
 {
 	private BaseItem createTestItem()
 	{
-		BaseItem item = new BaseItem("Sample Item");
+		PlayerInventory mockPlayerInventory = new PlayerInventory("player", 20);
+		Player mockPlayer = new Player(mockPlayerInventory);
+		BaseItem item = new BaseItem("Sample Item", mockPlayer);
 		item.FlavorText = "This is a test item";
 		item.InventorySprite = "item.png";
 		item.WorldModel = "itemWorld.png";
@@ -60,6 +63,7 @@ public class BaseItemTests
 
 		RaftCategory raft = new RaftCategory();
 		raft.Speed = 1f;
+		raft.InventorySize = 5;
 
 		WarmthIdolCategory warmthIdol = new WarmthIdolCategory ();
 		warmthIdol.Equiped = 0f;
@@ -84,7 +88,6 @@ public class BaseItemTests
 		item.AddItemCategory(fire);
 		item.AddItemCategory(shelter);
 		item.AddItemCategory(raft);
-		item.AddItemCategory(raft);
 		item.AddItemCategory(warmthIdol);
 		item.AddItemCategory(light);
 		item.AddItemCategory(equipable);
@@ -99,7 +102,7 @@ public class BaseItemTests
 		BaseItem item = createTestItem();
 		ItemStack itemStack = new ItemStack (item, 4, "");
 
-		Assert.AreEqual (14, itemStack.Item.GetItemCategories().Count);
+		Assert.AreEqual (13, itemStack.Item.GetItemCategories().Count);
 
 		PlantCategory plant = new PlantCategory();
 		item.AddItemCategory(plant);
@@ -108,7 +111,7 @@ public class BaseItemTests
 		itemStack.Item.GetItemCategories();
 
 		// Assert
-		Assert.AreEqual (15, itemStack.Item.GetItemCategories().Count);
+		Assert.AreEqual (14, itemStack.Item.GetItemCategories().Count);
 	}
 
 	[Test]
@@ -142,8 +145,8 @@ public class BaseItemTests
 
 		if(stick.GetItemAttributes().Count == duplicateStick.GetItemAttributes().Count)
 		{
-			List<Attribute> attributes = stick.GetItemAttributes();
-			List<Attribute> duplicateAttributes = duplicateStick.GetItemAttributes();
+			List<ItemAttribute> attributes = stick.GetItemAttributes();
+			List<ItemAttribute> duplicateAttributes = duplicateStick.GetItemAttributes();
 
 			for(int i = 0; i < attributes.Count; ++i)
 			{
@@ -189,13 +192,6 @@ public class BaseItemTests
 	{
 		//Arrange
 		BaseItem notExcludingTestStick = createTestItem();
-
-		PlantCategory plant = new PlantCategory();
-		notExcludingTestStick.AddItemCategory(plant);
-
-		FuelCategory fuel = new FuelCategory();
-		notExcludingTestStick.AddItemCategory(fuel);
-
 		BaseItem excludingTestStick = new BaseItem(notExcludingTestStick);
 
 		//Act
@@ -203,7 +199,7 @@ public class BaseItemTests
 		excludingTestStick.RemoveCategoriesExcluding(new List<string> {"SolidCategory"});
 
 		//Assert
-		Assert.AreEqual(13, notExcludingTestStick.GetItemCategories().Count);
+		Assert.AreEqual(12, notExcludingTestStick.GetItemCategories().Count);
 		Assert.AreEqual(1, excludingTestStick.GetItemCategories().Count);
 
 		Assert.AreNotEqual("SolidCategory", notExcludingTestStick.GetItemCategories()[0].GetType().Name);

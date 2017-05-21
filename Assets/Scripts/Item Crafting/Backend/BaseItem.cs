@@ -149,6 +149,8 @@ public class BaseItem : CollectableItem
 
 	private const string discardActionName = "Discard";
 
+	private Player mock;
+
 	/// <summary>
 	/// Initializaer only used during Yaml Deserialization
 	/// </summary>
@@ -161,18 +163,19 @@ public class BaseItem : CollectableItem
 	/// Initializes a new instance of the <see cref="BaseItem"/> class.
 	/// </summary>
 	/// <param name="name">Name.</param>
-	public BaseItem(string name)
+	public BaseItem(string name, Player mockPlayer = null)
 	{
 		ItemName = name;
 		itemAttributes = new List<ItemAttribute>();
 		InitializeBaseItem ();
+		mock = mockPlayer;
 	}
 
 	/// <summary>
 	/// Creates a deep copy of the BaseItem and all category items.
 	/// </summary>
 	/// <param name="original">Original BaseItem to be copied.</param>
-	public BaseItem(BaseItem original)
+	public BaseItem(BaseItem original, Player mockPlayer = null)
 	{
 		ItemName = original.ItemName;
 		categoryList = new List<ItemCategory> ();
@@ -180,6 +183,7 @@ public class BaseItem : CollectableItem
 		FlavorText = original.FlavorText;
 		InventorySprite = original.InventorySprite;
 		WorldModel = original.WorldModel;
+		mock = original.GetMockPlayer();
 
 		for (int i = 0; i < original.categoryList.Count; ++i) 
 		{
@@ -489,5 +493,14 @@ public class BaseItem : CollectableItem
 				FireItemSpriteChangedEvent();
 			}
 		}
+	}
+
+	/// <summary>
+	/// Gets the mock player.
+	/// </summary>
+	/// <returns>The mock player.</returns>
+	public Player GetMockPlayer()
+	{
+		return mock;
 	}
 }

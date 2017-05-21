@@ -67,7 +67,15 @@ public class EquipableCategory : ItemCategory
 	/// </summary>
 	public void Equip()
 	{
-        Game.Instance.PlayerInstance.Inventory.EquipedItem = baseItem;
+		if(baseItem.GetMockPlayer() == null)
+		{
+        	Game.Instance.PlayerInstance.Inventory.EquipedItem = baseItem;
+        }
+        else
+        {
+        	baseItem.GetMockPlayer().Inventory.EquipedItem = baseItem;
+        }
+
         Equiped = 1f;
 		GetAttribute(equipedAttributeName).Value = Equiped;
 		baseItem.UpdateExistingFlag = true;
@@ -78,12 +86,25 @@ public class EquipableCategory : ItemCategory
 	/// </summary>
 	public void UnEquip()
 	{
-        if (Game.Instance.PlayerInstance.Inventory.EquipedItem.ItemName.Equals(baseItem.ItemName))
-        {
-            Game.Instance.PlayerInstance.Inventory.EquipedItem = null;
-            Equiped = 0f;
-			GetAttribute(equipedAttributeName).Value = Equiped;
-			baseItem.UpdateExistingFlag = true;
-        }
+		if(baseItem.GetMockPlayer() == null)
+		{
+	        if (Game.Instance.PlayerInstance.Inventory.EquipedItem.ItemName.Equals(baseItem.ItemName))
+	        {
+	            Game.Instance.PlayerInstance.Inventory.EquipedItem = null;
+	            Equiped = 0f;
+				GetAttribute(equipedAttributeName).Value = Equiped;
+				baseItem.UpdateExistingFlag = true;
+	        }
+	   	}
+	   	else
+	   	{
+			if (baseItem.GetMockPlayer().Inventory.EquipedItem.ItemName.Equals(baseItem.ItemName))
+	        {
+				baseItem.GetMockPlayer().Inventory.EquipedItem = null;
+	            Equiped = 0f;
+				GetAttribute(equipedAttributeName).Value = Equiped;
+				baseItem.UpdateExistingFlag = true;
+	        }
+	   	}
 	}
 }

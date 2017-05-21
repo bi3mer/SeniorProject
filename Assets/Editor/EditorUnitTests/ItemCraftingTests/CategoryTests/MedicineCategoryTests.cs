@@ -8,7 +8,9 @@ public class MedicineCategoryTests
 {
 	private BaseItem createTestItem(string illness)
 	{
-		BaseItem medicineItem = new BaseItem("Sample Medicine");
+		PlayerInventory mockPlayerInventory = new PlayerInventory("player", 20);
+		Player mockPlayer = new Player(mockPlayerInventory);
+		BaseItem medicineItem = new BaseItem("Sample Medicine", mockPlayer);
 		medicineItem.FlavorText = "This is a test medicine";
 		medicineItem.InventorySprite = "medicine.png";
 		medicineItem.WorldModel = "medicineModel.png";
@@ -29,9 +31,17 @@ public class MedicineCategoryTests
 	{
 		// Arrange
 		BaseItem medicineItem = createTestItem("");
+		medicineItem.GetMockPlayer().Health = 50;
 
 		MedicineCategory medicineCategory = (MedicineCategory) medicineItem.GetItemCategoryByClass(typeof(MedicineCategory));
 		medicineCategory.Heal();
+
+		Assert.AreEqual(medicineItem.GetMockPlayer().Health, 55);
+
+		medicineItem.GetMockPlayer().Health = 96;
+
+		medicineCategory.Heal();
+		Assert.AreEqual(medicineItem.GetMockPlayer().Health, 100);
 	}
 
 	[Test]

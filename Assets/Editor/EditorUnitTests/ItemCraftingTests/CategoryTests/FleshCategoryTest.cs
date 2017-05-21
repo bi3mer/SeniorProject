@@ -8,7 +8,10 @@ public class FleshCategoryTest
 {
 	private BaseItem createTestItem()
 	{
-		BaseItem fleshItem = new BaseItem("Sample Flesh");
+		PlayerInventory mockPlayerInventory = new PlayerInventory("player", 20);
+		Player mockPlayer = new Player(mockPlayerInventory);
+
+		BaseItem fleshItem = new BaseItem("Sample Flesh", mockPlayer);
 		fleshItem.FlavorText = "This is a test flesh";
 		fleshItem.InventorySprite = "flesh.png";
 		fleshItem.WorldModel = "fleshModel.png";
@@ -57,7 +60,7 @@ public class FleshCategoryTest
 		Assert.AreEqual(1, fleshItem.Types.Count);
 	}
 
-	//[Test]
+	[Test]
 	public void EatTest()
 	{
 		BaseItem neutralFlesh = createTestItem();

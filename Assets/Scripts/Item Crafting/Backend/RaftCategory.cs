@@ -52,11 +52,19 @@ public class RaftCategory : ItemCategory
         category.Speed = Speed;
         category.InventorySize = InventorySize;
 
-        if (Game.Instance.PlayerInstance.Controller.IsWaterInView)
+        if(baseItem.GetMockPlayer() == null)
         {
-            ItemAction setDown = new ItemAction(setDownActName, new UnityAction(category.SetDown));
-            category.Actions.Add(setDown);
-        }
+	        if (Game.Instance.PlayerInstance.Controller.IsWaterInView)
+	        {
+	            ItemAction setDown = new ItemAction(setDownActName, new UnityAction(category.SetDown));
+	            category.Actions.Add(setDown);
+	        }
+	    }
+	    else
+	    {
+			ItemAction setDown = new ItemAction(setDownActName, new UnityAction(category.SetDown));
+			category.Actions.Add(setDown);
+	    }
 
         finishDuplication(category);
 
@@ -73,6 +81,12 @@ public class RaftCategory : ItemCategory
         Attributes.Add(new ItemAttribute(inventorySizeAttrName, InventorySize));
 
         Actions = new List<ItemAction>();
+
+		if(baseItem.GetMockPlayer() != null)
+	    {
+			ItemAction setDown = new ItemAction(setDownActName, new UnityAction(SetDown));
+			Actions.Add(setDown);
+	    }
     }
 
     /// <summary>
