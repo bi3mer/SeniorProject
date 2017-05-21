@@ -277,7 +277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4000010132979424
 Transform:
   m_ObjectHideFlags: 1
@@ -760,10 +760,10 @@ MonoBehaviour:
   MainRain: {fileID: 198000010173776360}
   RainFog: {fileID: 198000011775040566}
   windMitigation: 8
-  rainLevel: 0
+  rainLevel: 16.130657
   FogStartThreshold: 50
   fogMod: 0.5
-  windVectorXZ: {x: 0, y: 0}
+  windVectorXZ: {x: 0.6146394, y: -1.1281159}
   fogWindMod: 0.4
   splashManager: {fileID: 114000012391922068}
   splashSize: 0.4
@@ -946,8 +946,8 @@ MonoBehaviour:
     m_NumColorKeys: 6
     m_NumAlphaKeys: 2
   cameraFogMode: 1
-  cameraFogStart: 5
-  cameraFogEnd: 18
+  cameraFogStart: 10
+  cameraFogEnd: 200
   particleFogColors:
     serializedVersion: 2
     key0: {r: 0, g: 0.08042595, b: 0.19117647, a: 1}
@@ -1329,7 +1329,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationX:
       minMaxState: 0
-      scalar: -1.5707964
+      scalar: -1.5932183
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1356,7 +1356,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationY:
       minMaxState: 0
-      scalar: 0
+      scalar: 3.6904612
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1575,7 +1575,7 @@ ParticleSystem:
     serializedVersion: 4
     rateOverTime:
       minMaxState: 0
-      scalar: 0
+      scalar: 32.261314
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2039,7 +2039,7 @@ ParticleSystem:
     enabled: 1
     x:
       minMaxState: 0
-      scalar: 0
+      scalar: 0.6146394
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2066,7 +2066,7 @@ ParticleSystem:
         m_RotationOrder: 4
     y:
       minMaxState: 0
-      scalar: -0
+      scalar: 1.1281159
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -16752,7 +16752,7 @@ ParticleSystem:
     enabled: 1
     x:
       minMaxState: 0
-      scalar: 0
+      scalar: 0.24585576
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -16806,7 +16806,7 @@ ParticleSystem:
         m_RotationOrder: 4
     z:
       minMaxState: 0
-      scalar: -0
+      scalar: 0.45124635
       maxCurve:
         serializedVersion: 2
         m_Curve:
