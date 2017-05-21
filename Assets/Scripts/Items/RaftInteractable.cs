@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class RaftInteractable : InteractableObject {
     [SerializeField]
@@ -32,8 +34,14 @@ public class RaftInteractable : InteractableObject {
 	private const string disembarkRaftText = "Disembark Raft";
 	private const string boardRaftText = "Board Raft";
 	private const string checkInventoryText = "Check Inventory";
+	private const string moorRaftText = "Moor Raft";
+	private const string unmoorRaftText = "Unmoor Raft";
 
 	private OverworldItemOptionSelection itemSelectionHandler;
+
+	private List<string> moorRaftItemTypes;
+
+	private WindMovement wind;
 
     /// <summary>
     /// Sets action for raft as board raft
@@ -48,6 +56,9 @@ public class RaftInteractable : InteractableObject {
 	        raftMovement = GetComponentInChildren<RaftMovement>();
 	        raftMovement.SetMaxSpeed(Raft.Speed);
 	        Text = useRaftText;
+
+			moorRaftItemTypes = new List<string> {ItemTypes.Rope};
+			wind = GetComponent<WindMovement>();
 
 			if(AttachedInventory != null)
 			{
@@ -84,10 +95,27 @@ public class RaftInteractable : InteractableObject {
     		}
 
 			itemSelectionHandler.AddPossibleAction(new ItemAction(checkInventoryText, openInventoryTransferPanel));
+
+			if(raftMovement.RaftMoored)
+			{
+				itemSelectionHandler.AddPossibleAction(new ItemAction(unmoorRaftText, UnmoorRaft));
+			}
+			else
+			{
+
+				ItemAction action = new ItemAction(moorRaftText, MoorRaft);
+				action.TypeUsed = moorRaftItemTypes;
+
+				itemSelectionHandler.AddPossibleAction(action);
+			}
+
 			itemSelectionHandler.ShowPossibleActions();
     	}
     }
 
+    /// <summary>
+    /// Handles whether the player is boarding or disembarking the raft..
+    /// </summary>
     public void HandleBoarding()
     {
 		if(raftBoarded)
@@ -123,6 +151,27 @@ public class RaftInteractable : InteractableObject {
     {
         Game.Instance.PlayerInstance.Controller.DisembarkRaft(raftMovement);
         raftBoarded = false;
+    }
+
+    /// <summary>
+    /// Moors the raft. Wind and player inputs no longer move the raft.
+    /// </summary>
+    public void MoorRaft()
+    {
+		BaseItem item = Game.Instance.PlayerInstance.Inventory.GetInventoryBaseItem(itemSelectionHandler.SelectedItem);
+		wind.enabled = false;
+		raftMovement.RaftMoored = true;
+
+		Game.Instance.PlayerInstance.Inventory.UseItem(item.ItemName, 1);
+    }
+
+    /// <summary>
+    /// Unmoors the raft, allowing wind and player inputs to control the raft.
+    /// </summary>
+    public void UnmoorRaft()
+    {
+    	wind.enabled = true;
+    	raftMovement.RaftMoored = false;
     }
 
 	/// <summary>
