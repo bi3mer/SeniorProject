@@ -28,7 +28,6 @@ public class RaftInteractable : InteractableObject {
 	}
 
 	private bool raftBoarded = false;
-	private bool raftMoored = false;
 
 	private const string useRaftText = "Use Raft (F)";
 
@@ -97,7 +96,7 @@ public class RaftInteractable : InteractableObject {
 
 			itemSelectionHandler.AddPossibleAction(new ItemAction(checkInventoryText, openInventoryTransferPanel));
 
-			if(raftMoored)
+			if(raftMovement.RaftMoored)
 			{
 				itemSelectionHandler.AddPossibleAction(new ItemAction(unmoorRaftText, UnmoorRaft));
 			}
@@ -159,12 +158,10 @@ public class RaftInteractable : InteractableObject {
     /// </summary>
     public void MoorRaft()
     {
-		raftMoored = true;
 		BaseItem item = Game.Instance.PlayerInstance.Inventory.GetInventoryBaseItem(itemSelectionHandler.SelectedItem);
 		wind.enabled = false;
 		raftMovement.RaftMoored = true;
 
-		// For now, you can only add fuel one at a time
 		Game.Instance.PlayerInstance.Inventory.UseItem(item.ItemName, 1);
     }
 
@@ -175,7 +172,6 @@ public class RaftInteractable : InteractableObject {
     {
     	wind.enabled = true;
     	raftMovement.RaftMoored = false;
-    	raftMoored = false;
     }
 
 	/// <summary>
