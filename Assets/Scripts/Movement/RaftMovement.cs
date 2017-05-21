@@ -187,7 +187,7 @@ public class RaftMovement : Movement
     /// </summary>
     public override void OnStateExit()
     {
-        //raftBody.isKinematic = true;
+       isStopped = true;
     }
 
     /// <summary>
