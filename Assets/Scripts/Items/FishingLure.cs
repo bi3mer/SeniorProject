@@ -31,6 +31,8 @@ public class FishingLure: MonoBehaviour
     private GameObject captureObject;
     private List<GameObject> objectsInArea;
 
+    private const string fishItemName = "Fish";
+
     /// <summary>
     /// Set up variables.
     /// </summary>
@@ -96,6 +98,11 @@ public class FishingLure: MonoBehaviour
     	{
     		// TODO: Add to inevntory, show off fish?
     		// captureObject contains captured gameObject
+    		Game.Player.Inventory.AddItem(Game.Instance.ItemFactoryInstance.GetBaseItem(fishItemName), 1);
+    		GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.CAUGHTFISH);
+			
+			captureObject.GetComponent<FishAgent>().enabled = true;
+			captureObject.GetComponent<CreatureTracker>().IsDead = true;
     	}
     }
 
@@ -114,10 +121,9 @@ public class FishingLure: MonoBehaviour
     	if (fish != null)
     	{
     		captureObject = targetObject;
-    		targetObject.GetComponent<CreatureTracker>().IsDead = true;
     		fish.enabled = false;
     		objectsInArea.Remove(targetObject);
-    		targetObject.transform.position = this.transform.position;
+    		targetObject.transform.SetParent(this.transform);
     	}
     }
 
