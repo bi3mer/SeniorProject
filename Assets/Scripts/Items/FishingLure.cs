@@ -117,6 +117,7 @@ public class FishingLure: MonoBehaviour
     		targetObject.GetComponent<CreatureTracker>().IsDead = true;
     		fish.enabled = false;
     		objectsInArea.Remove(targetObject);
+    		targetObject.transform.position = this.transform.position;
     	}
     }
 

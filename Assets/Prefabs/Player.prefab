@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 65000010653793400}
   - component: {fileID: 114000011660033528}
   - component: {fileID: 54000013984838374}
-  - component: {fileID: 135655925527845798}
+  - component: {fileID: 135826909216008528}
   m_Layer: 8
   m_Name: FishingLure
   m_TagString: Untagged
@@ -3854,10 +3854,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 712a74f364a38ed48b76c23798d7009c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBobHeight: 0.01
-  minBobHeight: -0.01
-  driftSpeed: 0.001
-  captureRadius: 0.3
+  maxBobHeight: 0.02
+  minBobHeight: -0.05
+  driftSpeed: 0.01
+  captureRadius: 5
 --- !u!114 &114000011661535132
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4437,9 +4437,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 839b02b00ca15b7439c89cbb833f1958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachJoint: {fileID: 1000012365431440}
+  attachJoint: {fileID: 0}
   toolName: Poor Fishing Rod
-  castingForce: {x: 10, y: 15}
+  castingForce: {x: 5, y: 5}
   reelingSpeed: 0.4
   fishingLineWeight: 1.2
   fishingLure: {fileID: 114000011660033528}
@@ -4549,18 +4549,18 @@ LineRenderer:
     textureMode: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!135 &135655925527845798
+--- !u!135 &135826909216008528
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010606562272}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 25
+  m_Center: {x: 0, y: -20, z: 0}
 --- !u!136 &136000013939538332
 CapsuleCollider:
   m_ObjectHideFlags: 1
