@@ -29,7 +29,7 @@ public class FishingLure: MonoBehaviour
     private float bobHeight;
 
     private GameObject captureObject;
-    private List<GameObject> objectsInArea;
+	private List<FishAgent> objectsInArea;
 
     private const string fishItemName = "Fish";
 
@@ -38,12 +38,12 @@ public class FishingLure: MonoBehaviour
     /// </summary>
 	void Start ()
     {
-    	objectsInArea = new List<GameObject>();
+    	objectsInArea = new List<FishAgent>();
         IsReeling = false;
         rbody = GetComponent<Rigidbody>();
         trigger = GetComponent<SphereCollider>();
         bobHeight = minBobHeight;
-        trigger.gameObject.SetActive(false);
+		trigger.enabled = false;
     }
 
     /// <summary>
@@ -96,13 +96,12 @@ public class FishingLure: MonoBehaviour
     {
     	if (captureObject != null)
     	{
-    		// TODO: Add to inevntory, show off fish?
-    		// captureObject contains captured gameObject
     		Game.Player.Inventory.AddItem(Game.Instance.ItemFactoryInstance.GetBaseItem(fishItemName), 1);
     		GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.CAUGHTFISH);
 			
-			captureObject.GetComponent<FishAgent>().enabled = true;
+			captureObject.GetComponent<FishAgent>().enabled = false;
 			captureObject.GetComponent<CreatureTracker>().IsDead = true;
+			captureObject = null;
     	}
     }
 
@@ -110,20 +109,20 @@ public class FishingLure: MonoBehaviour
     /// Check if object is caught, then deactivate and capture.
     /// </summary>
     /// <param name="target">Target GameObject.</param>
-    private void checkCapture (GameObject targetObject)
+	private void checkCapture (FishAgent fish)
     {
-    	if (Vector3.Distance(targetObject.transform.position, this.transform.position) > captureRadius)
+    	if (Vector3.Distance(fish.transform.position, this.transform.position) > captureRadius)
     	{
     		return;
     	}
-
-		FishAgent fish = targetObject.GetComponent<FishAgent>();
+			
     	if (fish != null)
     	{
-    		captureObject = targetObject;
+			captureObject = fish.gameObject;
     		fish.enabled = false;
-    		objectsInArea.Remove(targetObject);
-    		targetObject.transform.SetParent(this.transform);
+    		objectsInArea.Remove(fish);
+			fish.transform.position = this.transform.position;
+    		fish.transform.SetParent(this.transform);
     	}
     }
 
@@ -138,7 +137,7 @@ public class FishingLure: MonoBehaviour
     	if (fish != null)
     	{
     		fish.Attractor = this.transform;
-    		objectsInArea.Add(fish.gameObject);
+    		objectsInArea.Add(fish);
     	}
     }
 
@@ -153,7 +152,7 @@ public class FishingLure: MonoBehaviour
     	if (fish != null)
     	{
     		fish.Attractor = null;
-    		objectsInArea.Remove(fish.gameObject);
+    		objectsInArea.Remove(fish);
     	}
     }
 
@@ -197,7 +196,7 @@ public class FishingLure: MonoBehaviour
     public void Cast (Vector3 force)
     {
         rbody.AddForce(force);
-        trigger.gameObject.SetActive(true);
+		trigger.enabled = true;
     }
 
     /// <summary>
@@ -207,7 +206,7 @@ public class FishingLure: MonoBehaviour
     public void Reel (Vector3 targetLocation)
     {
         target = targetLocation;
-        trigger.gameObject.SetActive(false);
+		trigger.enabled = false;
         IsReeling = true;
     }
 }

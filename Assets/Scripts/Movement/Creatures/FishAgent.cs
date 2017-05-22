@@ -221,22 +221,16 @@ public class FishAgent : MonoBehaviour
 	{
 		if (Attractor != null)
 		{
-			this.WanderTarget = this.Attractor.position;
-
-			// forget the attractor if we've moved too far away
-			if (Vector3.Distance(Attractor.position, this.transform.position) >= this.config.WanderRadius)
-			{
-				Attractor = null;
-			}
+			this.WanderTarget = this.Attractor.position - this.transform.position;
 		}
 		else
 		{
 			float jitter = this.config.Jitter * Time.deltaTime;
 			this.WanderTarget += new Vector3(RandomUtility.RandomBinomial * jitter, RandomUtility.RandomBinomial * jitter, 0);
-			
-			this.WanderTarget.Normalize();
-			this.WanderTarget *= this.config.WanderRadius;
 		}
+
+		this.WanderTarget.Normalize();
+		this.WanderTarget *= this.config.WanderRadius;
 
 		Vector3 targetInLocalSpace = this.WanderTarget + new Vector3(0, 0, this.config.WanderDistanceRadius);
 		Vector3 targetInWorldSpace = this.transform.TransformPoint(targetInLocalSpace);
