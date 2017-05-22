@@ -36,13 +36,10 @@ public class ClothCategoryTests
 
 		ClothCategory clothCategory = (ClothCategory) clothItem.GetItemCategoryByClass(typeof(ClothCategory));
 
-		float expectedClothWarmthRate = clothCategory.FabricThickness + clothCategory.ThreadDensity;
 		clothCategory.PutOn();
-
-		// Add assertions here
+		Assert.AreEqual(clothCategory.OnPlayer, 1f);
 
 		clothCategory.TakeOff();
-
-		// Add assertions for cloth taken off here
+		Assert.AreEqual(clothCategory.OnPlayer, 0);
 	}
 }

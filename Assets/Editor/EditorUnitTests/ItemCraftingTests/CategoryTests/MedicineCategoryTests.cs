@@ -48,29 +48,40 @@ public class MedicineCategoryTests
 	public void CureAllTest()
 	{
 		BaseItem medicineItem = createTestItem("all");
+		medicineItem.GetMockPlayer().HealthStatus = PlayerHealthStatus.FoodPoisoning;
+		medicineItem.GetMockPlayer().Health = 50;
+
 		MedicineCategory medicineCategory = (MedicineCategory) medicineItem.GetItemCategoryByClass(typeof(MedicineCategory));
 
 		//Act
 		medicineCategory.CureAll();
+
+		Assert.AreEqual(medicineItem.GetMockPlayer().Health, 100);
+		Assert.AreEqual(medicineItem.GetMockPlayer().HealthStatus, PlayerHealthStatus.None);
 	}
 
 	[Test]
 	public void CurePneumoniaTest()
 	{
 		BaseItem medicineItem = createTestItem("pneumonia");
+		medicineItem.GetMockPlayer().HealthStatus = PlayerHealthStatus.Pneumonia;
 		MedicineCategory medicineCategory = (MedicineCategory) medicineItem.GetItemCategoryByClass(typeof(MedicineCategory));
 
 		//Act
 		medicineCategory.CurePneumonia();
+
+		Assert.AreEqual(medicineItem.GetMockPlayer().HealthStatus, PlayerHealthStatus.None);
 	}
 
 	[Test]
 	public void CureFoodPoisoningTest()
 	{
 		BaseItem medicineItem = createTestItem("food poisoning");
+		medicineItem.GetMockPlayer().HealthStatus = PlayerHealthStatus.FoodPoisoning;
 		MedicineCategory medicineCategory = (MedicineCategory) medicineItem.GetItemCategoryByClass(typeof(MedicineCategory));
 
 		//Act
-		medicineCategory.CureAll();
+		medicineCategory.CureFoodPoisoning();
+		Assert.AreEqual(medicineItem.GetMockPlayer().HealthStatus, PlayerHealthStatus.None);
 	}
 }

@@ -176,10 +176,9 @@ public class BaseItemTests
 	{
 		//Arrange
 		BaseItem stick = createTestItem();
-		string originalName = stick.ItemName;
 
 		// Assert initial name
-		Assert.AreEqual(originalName, "Sample Item");
+		Assert.AreEqual(stick.ItemName, "Sample Item");
 
 		// Act
 		stick.ChangeName("Changed Item");
@@ -196,15 +195,16 @@ public class BaseItemTests
 
 		//Act
 		notExcludingTestStick.RemoveCategoriesSpecified(new List<string> { "SolidCategory" });
+		Assert.AreEqual(12, notExcludingTestStick.GetItemCategories().Count);
+
+		for(int i = 0; i < notExcludingTestStick.GetItemCategories().Count; ++i)
+		{
+			Assert.AreNotEqual("SolidCategory", notExcludingTestStick.GetItemCategories()[i].GetType().Name);
+		}
+
 		excludingTestStick.RemoveCategoriesExcluding(new List<string> {"SolidCategory"});
 
-		//Assert
-		Assert.AreEqual(12, notExcludingTestStick.GetItemCategories().Count);
 		Assert.AreEqual(1, excludingTestStick.GetItemCategories().Count);
-
-		Assert.AreNotEqual("SolidCategory", notExcludingTestStick.GetItemCategories()[0].GetType().Name);
-		Assert.AreNotEqual("SolidCategory", notExcludingTestStick.GetItemCategories()[1].GetType().Name);
-
 		Assert.AreEqual("SolidCategory", excludingTestStick.GetItemCategories()[0].GetType().Name);
 	}
 }
