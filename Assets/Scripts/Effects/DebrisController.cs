@@ -102,7 +102,7 @@ public class DebrisController : MonoBehaviour
 		else
 		{
 			this.WindVectorXZ = Vector2.Lerp(WindVectorXZ, Game.Instance.WeatherInstance.WindDirection2d / this.windMitigation, lerpSpeed);
-			this.DebrisLevel = Mathf.Lerp(DebrisLevel, Game.Instance.WeatherInstance.WeatherInformation [(int)Weather.WindSpeedMagnitude], lerpSpeed);
+			this.DebrisLevel = Game.Instance.WeatherInstance.StormStrength;
 		}
 	}
 
