@@ -20,6 +20,8 @@ public class Player
     private const string inventoryFileName = "InventoryYaml.yml";
     private const int playerInventorySize = 20;
     private int health;
+    private int warmth;
+    private int hunger;
     private PlayerHealthStatus healthStatus;
     private Vector3 worldPosition;
 
@@ -124,7 +126,7 @@ public class Player
 
         set
         {
-        	health = value;
+        	health = Mathf.Clamp(value, 0, MaxHealth);
 
         	if(health <= 0)
         	{
@@ -149,8 +151,14 @@ public class Player
     /// </summary>
     public int Warmth
     {
-        get;
-        set;
+        get
+        {
+        	return warmth;
+        }
+        set
+        {
+        	warmth = Mathf.Clamp(value, 0, MaxWarmth);
+        }
     }
 
     /// <summary>
@@ -169,8 +177,14 @@ public class Player
     /// </summary>
     public int Hunger
     {
-        get;
-        set;
+        get
+        {
+        	return hunger;
+        }
+        set
+        {
+        	hunger = Mathf.Clamp(value, 0, MaxHunger);
+        }
     }
 
     /// <summary>

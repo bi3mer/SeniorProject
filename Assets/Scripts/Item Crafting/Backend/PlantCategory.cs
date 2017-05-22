@@ -146,7 +146,7 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public void Cook()
 	{
-		Toughness = Toughness * cookingWaterIncreaseRate;
+		Toughness = Toughness * cookingToughnessDecreaseRate;
 		WaterContent = WaterContent * cookingWaterIncreaseRate;
 
 		GetAttribute (toughAttrName).Value = Toughness;
@@ -158,7 +158,7 @@ public class PlantCategory : ItemCategory
 		} 
 		else if (WaterContent < waterContentSoupThreshold) 
 		{
-			baseItem.ChangeName(defaultCookedNameAddition + baseItem.ItemName);
+			baseItem.ChangeName(defaultCookedNameAddition + " " + baseItem.ItemName);
 		}
 	}
 
