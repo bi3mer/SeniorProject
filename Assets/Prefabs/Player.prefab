@@ -4302,14 +4302,14 @@ MonoBehaviour:
     HeatSourceRateMultiplier: 4
     ShelterRateMultiplier: 0
     WaterRateMultiplier: 2
-    PneumoniaRateMultiplier: 0
+    PneumoniaRateMultiplier: 2
     DefaultHealthDecrease: 1
     DefaultHealthDelay: 1
     ZeroWarmthDelay: 20
     ZeroHungerDelay: 1
-  pnuemoniaChance: 0
-  pnuemoniaWarmthThreshold: 0
-  pneumoniaCheckTime: 0
+  pnuemoniaChance: 0.1
+  pnuemoniaWarmthThreshold: 25
+  pneumoniaCheckTime: 5
   verticalSpeed: 0.01
   debugFlightUp: 32
   debugFlightDown: 306
@@ -4371,7 +4371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dbc643da8c996b4e9e3b990d3bb353e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sicknessDecrease: 0
+  sicknessDecrease: 2
   climbHeight: 0.75
   swimmingSpeed: 0.6
   minFallDamageVelocity: 8
@@ -4414,7 +4414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7cb5682a27f5bb4f8fe3827a84eea19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sicknessDecrease: 0
+  sicknessDecrease: 2
   climbHeight: 1
   walkingSpeed: 0.6
   sprintingSpeed: 1

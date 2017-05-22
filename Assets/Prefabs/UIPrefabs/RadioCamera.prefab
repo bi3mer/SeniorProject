@@ -1017,11 +1017,11 @@ MonoBehaviour:
   highWeather: 275
   volumeDecrease: 0.1
   volumeIncrease: 0.1
-  voiceRate: 0.5
-  voiceVolume: 0
-  voicePitch: 0
-  weatherUpdateThreshold: 0
-  weatherUpdateTime: 0
+  voiceRate: 1
+  voiceVolume: 1
+  voicePitch: 1
+  weatherUpdateThreshold: 3
+  weatherUpdateTime: 3
 --- !u!124 &124000014141296132
 Behaviour:
   m_ObjectHideFlags: 1
