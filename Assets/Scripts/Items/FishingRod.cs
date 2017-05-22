@@ -15,8 +15,9 @@ public class FishingRod : PlayerTool
     private float reelingSpeed;
     [SerializeField]
     private float fishingLineWeight;
-
+    [SerializeField]
     private FishingLure fishingLure;
+
     private BezierLine line;
     private int numOfUses;
 
@@ -54,7 +55,6 @@ public class FishingRod : PlayerTool
     /// </summary>
     void Start ()
 	{
-        fishingLure = GetComponentInChildren<FishingLure>();
         fishingLure.ReelingSpeed = reelingSpeed;
         line = GetComponent<BezierLine>();
         WasCast = false;

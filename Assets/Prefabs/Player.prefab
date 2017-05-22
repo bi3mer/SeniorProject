@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: 65000010653793400}
   - component: {fileID: 114000011660033528}
   - component: {fileID: 54000013984838374}
+  - component: {fileID: 135132708124011442}
   m_Layer: 8
   m_Name: FishingLure
   m_TagString: Untagged
@@ -3630,7 +3631,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010606562272}
   serializedVersion: 2
-  m_Mass: 0.1
+  m_Mass: 0.4
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -3853,9 +3854,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 712a74f364a38ed48b76c23798d7009c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBobHeight: 0
-  minBobHeight: 0
-  driftSpeed: 0
+  maxBobHeight: 0.01
+  minBobHeight: -0.01
+  driftSpeed: 0.001
+  captureRadius: 8
 --- !u!114 &114000011661535132
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4282,13 +4284,32 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  pneumoniaWarmthDecrease: 0
-  foodPoisonHungerDecrease: 0
-  pneumoniaTime: 0
-  foodPoisioningTime: 0
-  pnuemoniaChance: 0.2
-  pnuemoniaWarmthThreshold: 20
-  pneumoniaCheckTime: 10
+  StatSettings:
+    DefaultHungerDelay: 7
+    DefaultHungerDecrease: 1
+    FoodPoisonDelay: 7
+    FoodPoisonDecrease: 2
+    DefaultWarmthDelay: 1
+    DefaultWarmthDecrease: 1
+    Tier6Delay: 10
+    Tier5Delay: 9
+    Tier4Delay: 8
+    Tier3Delay: 7
+    Tier2Delay: 6
+    Tier1Delay: 5
+    Tier0Delay: 4
+    TierNegativeDelay: 3
+    HeatSourceRateMultiplier: 4
+    ShelterRateMultiplier: 0
+    WaterRateMultiplier: 2
+    PneumoniaRateMultiplier: 0
+    DefaultHealthDecrease: 1
+    DefaultHealthDelay: 1
+    ZeroWarmthDelay: 20
+    ZeroHungerDelay: 1
+  pnuemoniaChance: 0
+  pnuemoniaWarmthThreshold: 0
+  pneumoniaCheckTime: 0
   verticalSpeed: 0.01
   debugFlightUp: 32
   debugFlightDown: 306
@@ -4416,11 +4437,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 839b02b00ca15b7439c89cbb833f1958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachJoint: {fileID: 0}
+  attachJoint: {fileID: 1000012365431440}
   toolName: Poor Fishing Rod
-  castingForce: {x: 10, y: 15}
+  castingForce: {x: 10, y: 6}
   reelingSpeed: 0.4
   fishingLineWeight: 1.2
+  fishingLure: {fileID: 114000011660033528}
 --- !u!114 &114000013267112544
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4527,6 +4549,18 @@ LineRenderer:
     textureMode: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!135 &135132708124011442
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010606562272}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 18
+  m_Center: {x: 0, y: -20, z: 0}
 --- !u!136 &136000013939538332
 CapsuleCollider:
   m_ObjectHideFlags: 1
