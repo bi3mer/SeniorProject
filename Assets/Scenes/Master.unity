@@ -1054,6 +1054,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011228244070, guid: 4d0db4ff21e6e0448843b49e49cdab4b,
+        type: 2}
+      propertyPath: thermometerValueText
+      value: 
+      objectReference: {fileID: 748193010}
+    - target: {fileID: 114000012333483624, guid: 4d0db4ff21e6e0448843b49e49cdab4b,
+        type: 2}
+      propertyPath: SplashManager
+      value: 
+      objectReference: {fileID: 1060953005}
+    - target: {fileID: 114000011156591460, guid: 4d0db4ff21e6e0448843b49e49cdab4b,
+        type: 2}
+      propertyPath: barometerValueText
+      value: 
+      objectReference: {fileID: 748193010}
     - target: {fileID: 114000011980828570, guid: 4d0db4ff21e6e0448843b49e49cdab4b,
         type: 2}
       propertyPath: hungerUpdatedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1069,21 +1084,6 @@ Prefab:
       propertyPath: warmthUpdatedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 352173496}
-    - target: {fileID: 114000011156591460, guid: 4d0db4ff21e6e0448843b49e49cdab4b,
-        type: 2}
-      propertyPath: barometerValueText
-      value: 
-      objectReference: {fileID: 748193010}
-    - target: {fileID: 114000012333483624, guid: 4d0db4ff21e6e0448843b49e49cdab4b,
-        type: 2}
-      propertyPath: SplashManager
-      value: 
-      objectReference: {fileID: 1060953005}
-    - target: {fileID: 114000011228244070, guid: 4d0db4ff21e6e0448843b49e49cdab4b,
-        type: 2}
-      propertyPath: thermometerValueText
-      value: 
-      objectReference: {fileID: 748193010}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4d0db4ff21e6e0448843b49e49cdab4b, type: 2}
   m_IsPrefabParent: 0
@@ -3163,22 +3163,22 @@ Prefab:
     - target: {fileID: 224817383641033626, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: -281.35025
+      value: -193.17725
       objectReference: {fileID: 0}
     - target: {fileID: 224817383641033626, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: -404.12
+      value: -270.91998
       objectReference: {fileID: 0}
     - target: {fileID: 224281578058297868, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: -273.03375
+      value: -186.67877
       objectReference: {fileID: 0}
     - target: {fileID: 224281578058297868, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: -404.12
+      value: -270.91998
       objectReference: {fileID: 0}
     - target: {fileID: 224221441589853532, guid: 12cac1228c3fb431483d6d77ddf40555,
         type: 2}
@@ -3209,6 +3209,16 @@ Prefab:
         type: 2}
       propertyPath: m_SizeDelta.x
       value: -12
+      objectReference: {fileID: 0}
+    - target: {fileID: 224817383641033626, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224281578058297868, guid: 12cac1228c3fb431483d6d77ddf40555,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 12cac1228c3fb431483d6d77ddf40555, type: 2}
