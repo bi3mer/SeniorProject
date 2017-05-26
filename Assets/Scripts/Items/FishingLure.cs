@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class FishingLure: MonoBehaviour
 {
@@ -15,21 +16,34 @@ public class FishingLure: MonoBehaviour
     [Tooltip("Speed to drift with windspeed.")]
     private float driftSpeed;
 
+    [SerializeField]
+    [Tooltip("Distance from the lure to capture an object.")]
+    private float captureRadius;
+
     private const float threshold = 0.1f;
     
     private Rigidbody rbody;
+	private SphereCollider trigger;
     private Vector3 target;
 
     private float bobHeight;
+
+    private GameObject captureObject;
+	private List<FishAgent> objectsInArea;
+
+    private const string fishItemName = "Fish";
 
     /// <summary>
     /// Set up variables.
     /// </summary>
 	void Start ()
     {
+    	objectsInArea = new List<FishAgent>();
         IsReeling = false;
         rbody = GetComponent<Rigidbody>();
+        trigger = GetComponent<SphereCollider>();
         bobHeight = minBobHeight;
+		trigger.enabled = false;
     }
 
     /// <summary>
@@ -46,6 +60,7 @@ public class FishingLure: MonoBehaviour
             if (Vector3.Distance(Position, target) <= threshold)
             {
                 IsReeling = false;
+                completeReeling ();
             }
         }
         else
@@ -65,7 +80,80 @@ public class FishingLure: MonoBehaviour
                 // Drift with wind
                 rbody.velocity = Game.Instance.WeatherInstance.WindDirection3d * driftSpeed * Time.deltaTime;
             }
+
+            // check if any of the fish is close enough
+            for (int i = 0; i < objectsInArea.Count; ++i)
+            {
+            	checkCapture(objectsInArea[i]);
+            }
         }
+    }
+
+    /// <summary>
+    /// Triggered when reeling has been completed.
+    /// </summary>
+    private void completeReeling ()
+    {
+    	if (captureObject != null)
+    	{
+    		Game.Player.Inventory.AddItem(Game.Instance.ItemFactoryInstance.GetBaseItem(fishItemName), 1);
+    		GuiInstanceManager.PlayerNotificationInstance.ShowNotification(NotificationType.CAUGHTFISH);
+			
+			captureObject.GetComponent<FishAgent>().enabled = false;
+			captureObject.GetComponent<CreatureTracker>().IsDead = true;
+			captureObject = null;
+    	}
+    }
+
+    /// <summary>
+    /// Check if object is caught, then deactivate and capture.
+    /// </summary>
+    /// <param name="target">Target GameObject.</param>
+	private void checkCapture (FishAgent fish)
+    {
+    	if (Vector3.Distance(fish.transform.position, this.transform.position) > captureRadius)
+    	{
+    		return;
+    	}
+			
+    	if (fish != null)
+    	{
+			captureObject = fish.gameObject;
+    		fish.enabled = false;
+    		objectsInArea.Remove(fish);
+			fish.transform.position = this.transform.position;
+    		fish.transform.SetParent(this.transform);
+    	}
+    }
+
+    /// <summary>
+    /// An object has entered the trigger radius for the lure.
+    /// If it's a fish, it will be atrracted.
+    /// </summary>
+    /// <param name="other">Other collider.</param>
+    void OnTriggerEnter (Collider other)
+    {
+		FishAgent fish = other.gameObject.GetComponent<FishAgent>();
+    	if (fish != null)
+    	{
+    		fish.Attractor = this.transform;
+    		objectsInArea.Add(fish);
+    	}
+    }
+
+	/// <summary>
+    /// An object has exited the trigger radius for the lure.
+    /// If it's a fish, it will stop being atrracted.
+    /// </summary>
+    /// <param name="other">Other collider.</param>
+    void OnTriggerExit (Collider other)
+    {
+		FishAgent fish = other.gameObject.GetComponent<FishAgent>();
+    	if (fish != null)
+    	{
+    		fish.Attractor = null;
+    		objectsInArea.Remove(fish);
+    	}
     }
 
     /// <summary>
@@ -108,6 +196,7 @@ public class FishingLure: MonoBehaviour
     public void Cast (Vector3 force)
     {
         rbody.AddForce(force);
+		trigger.enabled = true;
     }
 
     /// <summary>
@@ -117,6 +206,7 @@ public class FishingLure: MonoBehaviour
     public void Reel (Vector3 targetLocation)
     {
         target = targetLocation;
+		trigger.enabled = false;
         IsReeling = true;
     }
 }
