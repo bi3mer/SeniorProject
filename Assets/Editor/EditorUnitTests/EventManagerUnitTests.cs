@@ -10,7 +10,6 @@ public class EventManagerUnitTests
 	bool stormStop;
 	bool radioOn;
 	bool radioOff;
-	bool raftBoarded;
 	float fakePrecip;
 
 	[Test]
@@ -38,7 +37,7 @@ public class EventManagerUnitTests
 	{
 		radioOn = false;
 		EventManager e = new EventManager ();
-		e.RadioMusicSubscription += RadioTrigger;
+		e.RadioMusicSubscription += TurnRadioOn;
 		e.RadioMusicTurnedOn ();
 		Assert.IsTrue (radioOn);
 	}
@@ -46,21 +45,11 @@ public class EventManagerUnitTests
 	[Test]
 	public void RadioOffTest()
 	{
-		radioOff = true;
+		radioOff = false;
 		EventManager e = new EventManager ();
-		e.RadioMusicSubscription += RadioTrigger;
+		e.RadioMusicSubscription += TurnRadioOff;
 		e.RadioMusicTurnedOff ();
 		Assert.IsTrue (radioOff);
-	}
-
-	[Test]
-	public void RaftBoardTest()
-	{
-		raftBoarded = false;
-		EventManager e = new EventManager ();
-		e.PlayerBoardRaftSubscription += RaftBoard();
-		e.RaftBoarded ();
-		Assert.IsTrue (raftBoarded);
 	}
 		
 	[Test]
@@ -83,17 +72,18 @@ public class EventManagerUnitTests
 		stormStop = true;
 	}
 
-	public void RadioTrigger(bool flag)
+	public void TurnRadioOn()
 	{
-		radioOn = flag;
+		radioOn = true;
+	}
+
+	public void TurnRadioOff()
+	{
+		radioOff = true;
 	}
 
 	public void SetPrecip(float precip)
 	{
 		fakePrecip = precip;
-	}
-
-	public void RaftBoard(){
-		raftBoarded = true;
 	}
 }
