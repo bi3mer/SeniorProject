@@ -22,12 +22,10 @@ public class Player
     private int health;
     private int warmth;
     private int hunger;
-
     private PlayerHealthStatus healthStatus;
     private Vector3 worldPosition;
 
     public const float FoodPoisoningChance = 0.3f;
-    private bool usingMock;
 
     /// <summary>
     /// Player constructor.
@@ -36,17 +34,6 @@ public class Player
     public Player ()
     {
         ResetStatus();
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Player"/> class used only for mocking during unit tests.
-    /// </summary>
-    /// <param name="mockInventory">Mock inventory.</param>
-    public Player(PlayerInventory mockInventory)
-    {
-    	usingMock = true;
-    	Inventory = mockInventory;
-    	ResetStatus();
     }
 
     /// <summary>
@@ -60,14 +47,7 @@ public class Player
 
         HealthStatus = PlayerHealthStatus.None;
 
-        if(!usingMock)
-        {
-        	Inventory = new PlayerInventory(playerInventoryName, inventoryFileName, playerInventorySize);
-        }
-        else
-        {
-        	Inventory = new PlayerInventory(playerInventoryName, playerInventorySize);
-        }
+        Inventory = new PlayerInventory(playerInventoryName, inventoryFileName, playerInventorySize);
 
         // set the transform if in unity editor so scenes without a player will
         // still work
@@ -146,7 +126,7 @@ public class Player
 
         set
         {
-        	health = (int) Mathf.Clamp(value, 0, MaxHealth);
+        	health = Mathf.Clamp(value, 0, MaxHealth);
 
         	if(health <= 0)
         	{
@@ -175,10 +155,9 @@ public class Player
         {
         	return warmth;
         }
-
         set
         {
-        	warmth = (int)Mathf.Clamp(value, 0, MaxWarmth);
+        	warmth = Mathf.Clamp(value, 0, MaxWarmth);
         }
     }
 
@@ -204,7 +183,7 @@ public class Player
         }
         set
         {
-        	hunger = (int) Mathf.Clamp(value, 0, maxHunger);
+        	hunger = Mathf.Clamp(value, 0, MaxHunger);
         }
     }
 
@@ -268,14 +247,4 @@ public class Player
 	        }
         }
     }
-
-	/// <summary>
-	/// Uses the mock player inventory instead of the real one. Only used for unit tests.
-	/// </summary>
-	/// <param name="mock">Mock inventory.</param>
-	public void UseMockPlayerInventory(PlayerInventory mock)
-	{
-		Inventory = mock;
-		usingMock = true;
-	}
 }

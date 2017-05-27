@@ -6178,7 +6178,7 @@ MonoBehaviour:
   inventoryParentUI: {fileID: 1000010597685178}
   inventoryLayoutManager: {fileID: 114000012336595934}
   atlasFilepath: UIAssets/Inventory/GUI_ITM_ItemAtlas
-  isPlayerInventoryUIInstance: 0
+  isPlayerInventoryUIInstance: 1
 --- !u!114 &114000011067080586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8103,7 +8103,8 @@ MonoBehaviour:
   pneumoniaText: You've contracted pneumonia.
   noSicknessText: You've been cured of illness!
   inventoryFullText: Your inventory is full.
-  rodBreakText: 
+  rodBreakText: Your fishing rod broke!
+  caughtFishText: You caught a fish!
 --- !u!114 &114000012090224290
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -21147,7 +21148,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.06765747, y: 0.000015258789}
+  m_AnchoredPosition: {x: 0.06765747, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224836954168501916

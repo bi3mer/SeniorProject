@@ -41,6 +41,8 @@ public class PlayerNotification : MonoBehaviour
     private string inventoryFullText;
     [SerializeField]
     private string rodBreakText;
+    [SerializeField]
+    private string caughtFishText;
 
     private Vector2 endingAnchorMax;
     private Vector2 endingAnchorMin;
@@ -73,6 +75,7 @@ public class PlayerNotification : MonoBehaviour
 		notificationsToTypes.Add(NotificationType.CURE, noSicknessText);
 		notificationsToTypes.Add(NotificationType.INVENTORYFULL, inventoryFullText);
         notificationsToTypes.Add(NotificationType.BREAK, rodBreakText);
+        notificationsToTypes.Add(NotificationType.CAUGHTFISH, caughtFishText);
 
         // remove the notification bar before the loading screen finishes
         CloseNotification();

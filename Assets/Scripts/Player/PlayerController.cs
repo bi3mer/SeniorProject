@@ -396,9 +396,8 @@ public class PlayerController : MonoBehaviour
                 StopWalkingSound();
             }
 
-
             // can't jump while in debug mode
-            if (isGrounded && !Game.Instance.DebugMode && Input.GetKeyDown(controlScheme.Jump))
+            if ( (isGrounded || IsInWater) && !Game.Instance.DebugMode && Input.GetKeyDown(controlScheme.Jump))
             {
                 freezePlayer = true;
                 StartCoroutine(ClimbCoroutine());
