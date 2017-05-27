@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RaftInteractable : InteractableObject {
+public class RaftInteractable : InteractableObject 
+{
     [SerializeField]
     private RaftMovement raftMovement;
 
