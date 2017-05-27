@@ -16,11 +16,6 @@ public class PlayerInventory : Inventory
         equipedItem = null;
     }
 
-    public PlayerInventory(string name, int size): base(name, size)
-    {
-    	equipedItem = null;
-    }
-
     /// <summary>
     /// Subscription triggered when an item is equipped.
     /// </summary>

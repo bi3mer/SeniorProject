@@ -99,7 +99,6 @@ public class PlantCategory : ItemCategory
 		category.PlantVolume = PlantVolume;
 		category.StomachEffect = StomachEffect;
 		category.PneumoniaEffect = PneumoniaEffect;
-		category.Toughness = Toughness;
 
 		category.Actions = new List<ItemAction> ();
 		category.Attributes = new List<ItemAttribute> ();
@@ -153,7 +152,7 @@ public class PlantCategory : ItemCategory
 		GetAttribute (toughAttrName).Value = Toughness;
 		GetAttribute (waterContAttrName).Value = WaterContent;
 
-		if (WaterContent >= waterContentSoupThreshold && !baseItem.ItemName.Contains (soupNameAddition)) 
+		if (WaterContent > waterContentSoupThreshold && !baseItem.ItemName.Contains (soupNameAddition)) 
 		{
 			baseItem.ChangeName (baseItem.ItemName + " " + soupNameAddition);
 		} 
@@ -185,45 +184,21 @@ public class PlantCategory : ItemCategory
 	/// </summary>
 	public void Eat()
 	{
-        Player player = baseItem.GetMockPlayer();
-
-        if(player == null)
-        {
-        	player = Game.Player;
-        }
+        Player player = Game.Player;
 
 		if (StomachEffect < 0) 
 		{
-			if (player.HealthStatus == PlayerHealthStatus.None)
+            if (player.HealthStatus == PlayerHealthStatus.None)
             {
 				// Random chance of getting food poisoning
-                if (baseItem.GetMockPlayer() != null || RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
+                if (RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
                 {
-                    player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
+                    Game.Player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
                 }
             }
-		}
-		else
-		{
-			if (player.HealthStatus != PlayerHealthStatus.None)
-            {
-				// Random chance of getting food poisoning
-                if (baseItem.GetMockPlayer() != null || RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
-                {
-                    player.HealthStatus = PlayerHealthStatus.None;
-                }
-            }
-		}
+		} 
 
-		if(baseItem.GetMockPlayer() == null)
-		{
-			Game.Player.Controller.PlayerStatManager.HungerRate.UseFoodEnergy((int)(PlantVolume + WaterContent));
-		}
-		else
-		{
-			player.Hunger += ((int) (PlantVolume + WaterContent));
-		}
-
+		Game.Player.Controller.PlayerStatManager.HungerRate.UseFoodEnergy((int)(PlantVolume + WaterContent));
 		baseItem.RemovalFlag = true;
 	}
 }
