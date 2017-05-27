@@ -4,8 +4,5 @@ using NUnit.Framework;
 
 public class CityTest
 {
-	[Test]
-	public CityTest ()
-	{
-	}
+
 }

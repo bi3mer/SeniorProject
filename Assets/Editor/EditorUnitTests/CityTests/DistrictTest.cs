@@ -58,7 +58,5 @@ public class DistrictTest
 
 		Assert.IsFalse(district.ContainsPoint(2*Vector3.left));
 		Assert.IsTrue(district.ContainsPoint(Vector3.zero));
-
-		GameObject go = new GameObject();
 	}
 }
