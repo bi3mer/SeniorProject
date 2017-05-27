@@ -172,7 +172,6 @@ public class WindowWasher : MonoBehaviour
                 offset = transform.position.y - movingPlatform.transform.position.y + upYPosition;
             }
 
-            playerBody.isKinematic = true;
             playerBody.transform.SetParent(movingPlatform.transform);
 
             canMove = false;
@@ -183,7 +182,6 @@ public class WindowWasher : MonoBehaviour
 
             angledGround.SetActive(isUp);
 
-            playerBody.isKinematic = false;
             playerBody.transform.parent = null;
             canMove = true;  
             isUp = newUp;
