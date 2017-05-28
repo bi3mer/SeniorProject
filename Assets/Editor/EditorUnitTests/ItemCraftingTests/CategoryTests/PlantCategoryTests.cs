@@ -9,9 +9,17 @@ public class PlantCategoryTests
 	private BaseItem createTestItem()
 	{
 		PlayerInventory mockPlayerInventory = new PlayerInventory("player", 20);
-		Player mockPlayer = new Player(mockPlayerInventory);
+		PlayerController controller = new GameObject().AddComponent<PlayerController>();
+		controller.PlayerStatManager = new PlayerStatManager();
+	
+		Game.Instance.PlayerInstance = new Player(mockPlayerInventory);
+		Game.Instance.PlayerInstance.Controller = controller;
+		Game.Player.FoodPoisoningChance = 1f;
 
-		BaseItem plantItem = new BaseItem("Sample Plant", mockPlayer);
+		GuiInstanceManager.ItemAmountPanelInstance = new GameObject().AddComponent<ChooseItemAmountPanelBehavior>();
+		GuiInstanceManager.ItemAmountPanelInstance.CurrentAmount = 1;
+
+		BaseItem plantItem = new BaseItem("Sample Plant");
 		plantItem.FlavorText = "This is a test plant";
 		plantItem.InventorySprite = "plant.png";
 		plantItem.WorldModel = "plantModel.png";
@@ -99,12 +107,12 @@ public class PlantCategoryTests
 
 		//Act
 		neutralPlantCategory.Eat();
-		Assert.AreEqual(PlayerHealthStatus.None, neutralPlant.GetMockPlayer().HealthStatus);
+		Assert.AreEqual(PlayerHealthStatus.None, Game.Instance.PlayerInstance.HealthStatus);
 
 		foodPoisoningGivingPlantCategory.Eat();
-		Assert.AreEqual(PlayerHealthStatus.FoodPoisoning, foodPoisoningGivingPlant.GetMockPlayer().HealthStatus);
+		Assert.AreEqual(PlayerHealthStatus.FoodPoisoning, Game.Instance.PlayerInstance.HealthStatus);
 
 		foodPoisoningCuringPlantCategory.Eat();
-		Assert.AreEqual(PlayerHealthStatus.None, foodPoisoningGivingPlant.GetMockPlayer().HealthStatus);
+		Assert.AreEqual(PlayerHealthStatus.None, Game.Instance.PlayerInstance.HealthStatus);
 	}
 }

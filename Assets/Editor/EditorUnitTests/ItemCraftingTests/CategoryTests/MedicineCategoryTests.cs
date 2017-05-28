@@ -9,8 +9,13 @@ public class MedicineCategoryTests
 	private BaseItem createTestItem(string illness)
 	{
 		PlayerInventory mockPlayerInventory = new PlayerInventory("player", 20);
-		Player mockPlayer = new Player(mockPlayerInventory);
-		BaseItem medicineItem = new BaseItem("Sample Medicine", mockPlayer);
+		PlayerController controller = new GameObject().AddComponent<PlayerController>();
+		controller.PlayerStatManager = new PlayerStatManager();
+
+		Game.Instance.PlayerInstance = new Player(mockPlayerInventory);
+		Game.Instance.PlayerInstance.Controller = controller;
+
+		BaseItem medicineItem = new BaseItem("Sample Medicine");
 		medicineItem.FlavorText = "This is a test medicine";
 		medicineItem.InventorySprite = "medicine.png";
 		medicineItem.WorldModel = "medicineModel.png";
@@ -31,57 +36,57 @@ public class MedicineCategoryTests
 	{
 		// Arrange
 		BaseItem medicineItem = createTestItem("");
-		medicineItem.GetMockPlayer().Health = 50;
+		Game.Instance.PlayerInstance.Health = 50;
 
 		MedicineCategory medicineCategory = (MedicineCategory) medicineItem.GetItemCategoryByClass(typeof(MedicineCategory));
 		medicineCategory.Heal();
 
-		Assert.AreEqual(medicineItem.GetMockPlayer().Health, 55);
+		Assert.AreEqual(Game.Instance.PlayerInstance.Health, 55);
 
-		medicineItem.GetMockPlayer().Health = 96;
+		Game.Instance.PlayerInstance.Health = 96;
 
 		medicineCategory.Heal();
-		Assert.AreEqual(medicineItem.GetMockPlayer().Health, 100);
+		Assert.AreEqual(Game.Instance.PlayerInstance.Health, 100);
 	}
 
 	[Test]
 	public void CureAllTest()
 	{
 		BaseItem medicineItem = createTestItem("all");
-		medicineItem.GetMockPlayer().HealthStatus = PlayerHealthStatus.FoodPoisoning;
-		medicineItem.GetMockPlayer().Health = 50;
+		Game.Instance.PlayerInstance.HealthStatus = PlayerHealthStatus.FoodPoisoning;
+		Game.Instance.PlayerInstance.Health = 50;
 
 		MedicineCategory medicineCategory = (MedicineCategory) medicineItem.GetItemCategoryByClass(typeof(MedicineCategory));
 
 		//Act
 		medicineCategory.CureAll();
 
-		Assert.AreEqual(medicineItem.GetMockPlayer().Health, 100);
-		Assert.AreEqual(medicineItem.GetMockPlayer().HealthStatus, PlayerHealthStatus.None);
+		Assert.AreEqual(Game.Instance.PlayerInstance.Health, 100);
+		Assert.AreEqual(Game.Instance.PlayerInstance.HealthStatus, PlayerHealthStatus.None);
 	}
 
 	[Test]
 	public void CurePneumoniaTest()
 	{
 		BaseItem medicineItem = createTestItem("pneumonia");
-		medicineItem.GetMockPlayer().HealthStatus = PlayerHealthStatus.Pneumonia;
+		Game.Instance.PlayerInstance.HealthStatus = PlayerHealthStatus.Pneumonia;
 		MedicineCategory medicineCategory = (MedicineCategory) medicineItem.GetItemCategoryByClass(typeof(MedicineCategory));
 
 		//Act
 		medicineCategory.CurePneumonia();
 
-		Assert.AreEqual(medicineItem.GetMockPlayer().HealthStatus, PlayerHealthStatus.None);
+		Assert.AreEqual(Game.Instance.PlayerInstance.HealthStatus, PlayerHealthStatus.None);
 	}
 
 	[Test]
 	public void CureFoodPoisoningTest()
 	{
 		BaseItem medicineItem = createTestItem("food poisoning");
-		medicineItem.GetMockPlayer().HealthStatus = PlayerHealthStatus.FoodPoisoning;
+		Game.Instance.PlayerInstance.HealthStatus = PlayerHealthStatus.FoodPoisoning;
 		MedicineCategory medicineCategory = (MedicineCategory) medicineItem.GetItemCategoryByClass(typeof(MedicineCategory));
 
 		//Act
 		medicineCategory.CureFoodPoisoning();
-		Assert.AreEqual(medicineItem.GetMockPlayer().HealthStatus, PlayerHealthStatus.None);
+		Assert.AreEqual(Game.Instance.PlayerInstance.HealthStatus, PlayerHealthStatus.None);
 	}
 }

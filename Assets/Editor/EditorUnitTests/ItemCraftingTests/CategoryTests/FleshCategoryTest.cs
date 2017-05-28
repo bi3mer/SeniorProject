@@ -9,14 +9,24 @@ public class FleshCategoryTest
 	private BaseItem createTestItem()
 	{
 		PlayerInventory mockPlayerInventory = new PlayerInventory("player", 20);
-		Player mockPlayer = new Player(mockPlayerInventory);
 
-		BaseItem fleshItem = new BaseItem("Sample Flesh", mockPlayer);
+		PlayerController controller = new GameObject().AddComponent<PlayerController>();
+		controller.PlayerStatManager = new PlayerStatManager();
+	
+		Game.Instance.PlayerInstance = new Player(mockPlayerInventory);
+		Game.Instance.PlayerInstance.Controller = controller;
+		GuiInstanceManager.ItemAmountPanelInstance = new GameObject().AddComponent<ChooseItemAmountPanelBehavior>();
+		GuiInstanceManager.ItemAmountPanelInstance.CurrentAmount = 1;
+
+		BaseItem fleshItem = new BaseItem("Sample Flesh");
 		fleshItem.FlavorText = "This is a test flesh";
 		fleshItem.InventorySprite = "flesh.png";
 		fleshItem.WorldModel = "fleshModel.png";
 		fleshItem.Types = new List<string>();
 		fleshItem.Types.Add(ItemTypes.Edible);
+		fleshItem.ModifyingActionNames = new List<string>{"Cook"};
+		fleshItem.ActionModifiedSprites = new List<string>{"modifiedFlesh.png"};
+		fleshItem.ActionModifiedModels = new List<string>{"modifiedFleshModel.png"};
 
 		FleshCategory flesh = new FleshCategory ();
 		flesh.HealthEffect = 0.1f;
@@ -49,6 +59,8 @@ public class FleshCategoryTest
 		Assert.AreEqual("Cooked Sample Flesh", fleshItem.ItemName);
 		Assert.True(fleshItem.Types.Contains(ItemTypes.Edible));
 		Assert.AreEqual(1, fleshItem.Types.Count);
+		Assert.AreEqual("modifiedFlesh.png", fleshItem.InventorySprite);
+		Assert.AreEqual("modifiedFleshModel.png", fleshItem.WorldModel);
 
 		// Check the second time it cooks that it becomes burnt
 		fleshCategory.Cook();

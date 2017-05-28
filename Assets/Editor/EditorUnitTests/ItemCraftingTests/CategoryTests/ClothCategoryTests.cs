@@ -9,8 +9,13 @@ public class ClothCategoryTests
 	private BaseItem createTestItem()
 	{
 		PlayerInventory mockPlayerInventory = new PlayerInventory("player", 20);
-		Player mockPlayer = new Player(mockPlayerInventory);
-		BaseItem clothItem = new BaseItem("Sample Cloth", mockPlayer);
+		PlayerController controller = new GameObject().AddComponent<PlayerController>();
+		controller.PlayerStatManager = new PlayerStatManager();
+
+		Game.Instance.PlayerInstance = new Player(mockPlayerInventory);
+		Game.Instance.PlayerInstance.Controller = controller;
+
+		BaseItem clothItem = new BaseItem("Sample Cloth");
 		clothItem.FlavorText = "This is a test cloth";
 		clothItem.InventorySprite = "cloth.png";
 		clothItem.WorldModel = "clothModel.png";

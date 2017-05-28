@@ -80,7 +80,7 @@
     public Player PlayerInstance
     {
         get;
-        private set;
+        set;
     }
 
 	/// <summary>

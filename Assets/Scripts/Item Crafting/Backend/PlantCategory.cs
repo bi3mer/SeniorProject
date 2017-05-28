@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using UnityEngine;
 
 /// <summary>
 /// Contains attributes and actions that befit a plant category item.
@@ -99,6 +100,7 @@ public class PlantCategory : ItemCategory
 		category.PlantVolume = PlantVolume;
 		category.StomachEffect = StomachEffect;
 		category.PneumoniaEffect = PneumoniaEffect;
+		category.Toughness = Toughness;
 
 		category.Actions = new List<ItemAction> ();
 		category.Attributes = new List<ItemAttribute> ();
@@ -152,7 +154,7 @@ public class PlantCategory : ItemCategory
 		GetAttribute (toughAttrName).Value = Toughness;
 		GetAttribute (waterContAttrName).Value = WaterContent;
 
-		if (WaterContent > waterContentSoupThreshold && !baseItem.ItemName.Contains (soupNameAddition)) 
+		if (WaterContent >= waterContentSoupThreshold && !baseItem.ItemName.Contains (soupNameAddition)) 
 		{
 			baseItem.ChangeName (baseItem.ItemName + " " + soupNameAddition);
 		} 
@@ -190,13 +192,21 @@ public class PlantCategory : ItemCategory
 		{
             if (player.HealthStatus == PlayerHealthStatus.None)
             {
+				float rand = RandomUtility.RandomPercent;
 				// Random chance of getting food poisoning
-                if (RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
+                if ( rand <= Game.Player.FoodPoisoningChance)
                 {
                     Game.Player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
                 }
             }
 		} 
+		else if(StomachEffect > 0)
+		{
+			if (player.HealthStatus == PlayerHealthStatus.FoodPoisoning)
+            {
+				Game.Player.HealthStatus = PlayerHealthStatus.None;
+            }
+		}
 
 		Game.Player.Controller.PlayerStatManager.HungerRate.UseFoodEnergy((int)(PlantVolume + WaterContent));
 		baseItem.RemovalFlag = true;

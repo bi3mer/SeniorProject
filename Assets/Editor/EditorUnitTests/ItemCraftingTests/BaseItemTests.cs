@@ -10,8 +10,11 @@ public class BaseItemTests
 	private BaseItem createTestItem()
 	{
 		PlayerInventory mockPlayerInventory = new PlayerInventory("player", 20);
-		Player mockPlayer = new Player(mockPlayerInventory);
-		BaseItem item = new BaseItem("Sample Item", mockPlayer);
+		PlayerController controller = new GameObject().AddComponent<PlayerController>();
+
+		Game.Instance.PlayerInstance = new Player(mockPlayerInventory);
+		Game.Instance.PlayerInstance.Controller = controller;
+		BaseItem item = new BaseItem("Sample Item");
 		item.FlavorText = "This is a test item";
 		item.InventorySprite = "item.png";
 		item.WorldModel = "itemWorld.png";
