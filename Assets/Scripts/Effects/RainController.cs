@@ -58,6 +58,8 @@ public class RainController : MonoBehaviour
     [SerializeField]
     private float fogMod;
 
+    private float rainLevelModifier = 100;
+
     // The wind vector in XZ (considering Y is Up, but we're only concerned with 2d wind)
     public Vector2 WindVectorXZ
     {
@@ -119,7 +121,7 @@ public class RainController : MonoBehaviour
         else
         {
 			this.WindVectorXZ = Game.Instance.WeatherInstance.WindDirection2d / this.windMitigation;
-			this.RainLevel    = Game.Instance.WeatherInstance.StormStrength;
+			this.RainLevel    = Game.Instance.WeatherInstance.StormStrength * rainLevelModifier;
         }
 
         // Rain level in the shader is evaluated between 0-1 where here it's 1-100
