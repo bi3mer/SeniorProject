@@ -7,7 +7,7 @@ using NUnit.Framework;
 public class WorldItemFactoryTests 
 {
 	[Test]
-	public void testGetAllInteractables()
+	public void TestGetAllInteractables()
 	{
 		WorldItemFactory factory = new WorldItemFactory();
 		Dictionary<string, List<GameObject>> allLandItems = factory.GetAllInteractableItemsByDistrict(false, false);
@@ -29,7 +29,7 @@ public class WorldItemFactoryTests
 	}
 
 	[Test]
-	public void createPickUpInteractableItemTest()
+	public void CreatePickUpInteractableItemTest()
 	{
 		WorldItemFactory factory = new WorldItemFactory();
 		ItemFactory itemFactory = new ItemFactory();

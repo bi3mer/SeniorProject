@@ -17,7 +17,7 @@ public class ItemFactoryTests : MonoBehaviour
 		return new Inventory("Test Inventory", 5);
 	}
 
-	public Recipe tieredRecipe()
+	public Recipe TieredRecipe()
 	{
 		Recipe fishingRodRecipe = new Recipe();
 		Requirement hook = new Requirement();
@@ -55,7 +55,7 @@ public class ItemFactoryTests : MonoBehaviour
 		return fishingRodRecipe;
 	}
 
-	public Recipe tieredDecreasingRecipeWithTool()
+	public Recipe TieredDecreasingRecipeWithTool()
 	{
 		Recipe cloth = new Recipe();
 
@@ -90,7 +90,7 @@ public class ItemFactoryTests : MonoBehaviour
 		return cloth;
 	}
 
-	public Recipe untieredTool()
+	public Recipe UntieredTool()
 	{
 		Recipe knifeRecipe = new Recipe();
 
@@ -113,7 +113,7 @@ public class ItemFactoryTests : MonoBehaviour
 	}
 
 	[Test]
-	public void testTieredCrafting()
+	public void TestTieredCrafting()
 	{
 		Inventory targetInventory = createInventory();
 		ItemFactory factory = new ItemFactory();
@@ -128,7 +128,7 @@ public class ItemFactoryTests : MonoBehaviour
 		targetInventory.AddItem(stick, 1);
 		targetInventory.AddItem(riverReedThread, 1);
 
-		Recipe recipe = tieredRecipe();
+		Recipe recipe = TieredRecipe();
 
 		Ingredient threadIng = new Ingredient();
 		threadIng.Amount = 1;
@@ -161,7 +161,7 @@ public class ItemFactoryTests : MonoBehaviour
 	}
 
 	[Test]
-	public void testTieredDecreaseCrafting()
+	public void TestTieredDecreaseCrafting()
 	{
 		Inventory targetInventory = createInventory();
 		ItemFactory factory = new ItemFactory();
@@ -174,7 +174,7 @@ public class ItemFactoryTests : MonoBehaviour
 		targetInventory.AddItem(riverReedThread, 1);
 		targetInventory.AddItem(knife, 1);
 
-		Recipe recipe = tieredDecreasingRecipeWithTool();
+		Recipe recipe = TieredDecreasingRecipeWithTool();
 
 		Ingredient threadIng = new Ingredient();
 		threadIng.Amount = 1;
@@ -215,7 +215,7 @@ public class ItemFactoryTests : MonoBehaviour
 		targetInventory.AddItem(riverReedThread, 1);
 		targetInventory.AddItem(sharpObject, 1);
 
-		Recipe recipe = untieredTool();
+		Recipe recipe = UntieredTool();
 
 		Ingredient threadIng = new Ingredient();
 		threadIng.Amount = 1;
