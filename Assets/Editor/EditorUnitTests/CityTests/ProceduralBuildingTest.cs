@@ -36,10 +36,5 @@ public class ProceduralTest
 
 		ProceduralBuilding building = new ProceduralBuilding(transform, Vector3.left, seed, floors, config);
 		ProceduralBuilding.Generator = new ProceduralBuildingCreator();
-
-//		building.Load();
-//
-//		Assert.AreEqual(building.IsLoaded, true);
-//		Assert.NotNull(building.Instance);
 	}
 }
