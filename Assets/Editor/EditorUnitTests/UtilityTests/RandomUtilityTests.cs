@@ -65,8 +65,6 @@ public class RandomUtilityTests
 
         for (int i = 0; i < 100; ++i)
         {
-            // TODO: this is currently failing. I'm waiting for gabbby to get back to me
-            //       on this since she wrote the function.
             Vector2 res = RandomUtility.RandomVector2d(maxMagnitude);
             Assert.IsTrue(res.magnitude <= maxMagnitude);
         }
