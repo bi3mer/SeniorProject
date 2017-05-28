@@ -5,9 +5,9 @@ using NUnit.Framework;
 
 public class PressureSystemTest
 {
-    [Test]
-    public void UpdateHighPressureOverWater()
-    {
+    // [Test]
+    // public void UpdateHighPressureOverWater()
+    // {
         // TODO: I haven't been able to figure out how to get the raycast to work
         //       properly here. 
         //PressureSystem ps = new PressureSystem();
@@ -26,11 +26,11 @@ public class PressureSystemTest
         //ps.UpdatePressure();
         //Assert.AreEqual(-0.5f, ps.Pressure);
         //UnityEngine.Object.Destroy(go);
-    }
+    // }
 
-    [Test]
-    public void UpdateLowPressureOverWater()
-    {
+    // [Test]
+    // public void UpdateLowPressureOverWater()
+    // {
         // // TODO: I haven't been able to figure out how to get the raycast to work
         //       properly here. 
         //PressureSystem ps = new PressureSystem();
@@ -49,7 +49,7 @@ public class PressureSystemTest
         //ps.UpdatePressure();
         //Assert.AreEqual(-1.0f, ps.Pressure);
         //UnityEngine.Object.Destroy(go);
-    }
+    // }
 
     [Test]
     public void UpdateLowPressureOverLand()
