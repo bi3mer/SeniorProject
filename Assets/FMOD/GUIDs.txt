@@ -14,9 +14,12 @@
 {278ee143-183d-46d3-bcf6-dac3afaba768} event:/Radio/Mystery/Phase1/Evacuate_3_Block
 {c5e7490d-268e-4731-a592-c7cd45828e58} event:/Radio/Mystery/Phase1/Jeff
 {17ce8fdc-c68a-49e9-9d32-aaa4ba3ee9d6} event:/Radio/Mystery/Phase1/School_Musical
+{ee02a79a-b517-4a48-8b14-734281ad25e1} event:/Radio/Mystery/Phase2/Institute_Interview
 {c8723de3-adbb-4ad1-bad7-0a922b6c0496} event:/Radio/Mystery/Phase2/4_Officials_Missing
 {2095a734-f2ed-46b4-a2d3-0ade97d2dcd6} event:/Radio/Mystery/Phase2/Flooding_Centuries
 {0083de5b-6b90-4f9b-b027-1aeb937df9b3} event:/Radio/Mystery/Phase2/Hospital_Generators
+{d9de35b9-7d6f-4d58-a5cb-0e46cf2b0e58} event:/Radio/Mystery/Phase3/School_Generators
+{5a5b0a1e-e82f-4dba-be8a-a7d86433e7e9} event:/Radio/Mystery/Phase3/Help_Not_Coming
 {5fad04ca-5101-4acc-b36d-9b464562bd06} event:/Radio/Mystery/Phase3/Bodies_Found
 {34e6db70-5960-4a5d-9804-b841b02478b5} event:/Radio/Mystery/Phase3/District_5_6_Rations
 {4f68dea1-dc17-42e4-be62-d1c34168d8de} event:/Radio/Mystery/Phase3/Relgious_Fanatic
