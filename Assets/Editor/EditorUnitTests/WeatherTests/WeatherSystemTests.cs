@@ -5,9 +5,9 @@ using NUnit.Framework;
 
 public class WeatherSystemTests
 {
-    [Test]
-    public void OnGoingStorm()
-    {
+    // [Test]
+    // public void OnGoingStorm()
+    // {
 
-    }
+    // }
 }
