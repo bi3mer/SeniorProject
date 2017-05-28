@@ -9,7 +9,6 @@ public class EventManagerUnitTests
 	bool stormStart;
 	bool stormStop;
 	bool radioOn;
-	bool radioOff;
 	float fakePrecip;
 
 	[Test]
@@ -37,7 +36,7 @@ public class EventManagerUnitTests
 	{
 		radioOn = false;
 		EventManager e = new EventManager ();
-		e.RadioMusicSubscription += TurnRadioOn;
+		e.RadioMusicSubscription += RadioTrigger;
 		e.RadioMusicTurnedOn ();
 		Assert.IsTrue (radioOn);
 	}
@@ -45,11 +44,11 @@ public class EventManagerUnitTests
 	[Test]
 	public void RadioOffTest()
 	{
-		radioOff = false;
+		radioOn = true;
 		EventManager e = new EventManager ();
-		e.RadioMusicSubscription += TurnRadioOff;
+		e.RadioMusicSubscription += RadioTrigger;
 		e.RadioMusicTurnedOff ();
-		Assert.IsTrue (radioOff);
+		Assert.IsFalse (radioOn);
 	}
 		
 	[Test]
@@ -72,14 +71,9 @@ public class EventManagerUnitTests
 		stormStop = true;
 	}
 
-	public void TurnRadioOn()
+	public void RadioTrigger(bool flag)
 	{
-		radioOn = true;
-	}
-
-	public void TurnRadioOff()
-	{
-		radioOff = true;
+		radioOn = flag;
 	}
 
 	public void SetPrecip(float precip)
