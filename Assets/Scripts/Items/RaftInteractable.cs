@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
-public class RaftInteractable : InteractableObject {
+public class RaftInteractable : InteractableObject 
+{
     [SerializeField]
     private RaftMovement raftMovement;
 
