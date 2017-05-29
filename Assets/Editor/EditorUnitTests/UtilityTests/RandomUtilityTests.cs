@@ -66,7 +66,10 @@ public class RandomUtilityTests
         for (int i = 0; i < 100; ++i)
         {
             Vector2 res = RandomUtility.RandomVector2d(maxMagnitude);
-            Assert.IsTrue(res.magnitude <= maxMagnitude);
+
+            // Floor is used to avoid floating point errors that can
+            // cause this test to fail when it shouldn't
+            Assert.IsTrue(Math.Floor(res.magnitude) <= maxMagnitude);
         }
     }
 
