@@ -118,7 +118,7 @@ MonoBehaviour:
   zoomingSpeed: 0.3
   minZoomLevel: -1
   maxZoomLevel: 0.5
-  initialZoomLevel: 0
+  initialZoomLevel: 0.01
   zoomYPositionCurve:
     serializedVersion: 2
     m_Curve:
