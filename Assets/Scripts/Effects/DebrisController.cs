@@ -44,7 +44,7 @@ public class DebrisController : MonoBehaviour
     [SerializeField]
     private float lerpSpeed = .01f;
 
-	private float debrisLevelModifier = 100;
+	private const float debrisLevelModifier = 100;
 
 	/// <summary>
 	/// The wind vector in XZ (considering Y is Up, but we're only concerned with 2D wind)
