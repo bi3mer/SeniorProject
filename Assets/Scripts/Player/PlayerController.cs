@@ -22,8 +22,19 @@ public class PlayerController : MonoBehaviour
     private string waterTag;
 
     [Header("HUD Settings")]
+    /// <summary>
+    /// The events that fire when hunger is updated.
+    /// </summary>
     public UnityEvent HungerUpdatedEvent;
+
+    /// <summary>
+    /// The events that fire when health is updated.
+    /// </summary>
     public UnityEvent HealthUpdatedEvent;
+
+    /// <summary>
+    /// The events that fire when warmth is updated.
+    /// </summary>
     public UnityEvent WarmthUpdatedEvent;
 
     [Header("Resource Settings")]
