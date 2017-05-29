@@ -16,6 +16,16 @@ public class PickUpItem : InteractableObject
     private Rigidbody rigidBody;
 
     /// <summary>
+    /// Gets or sets the grid location.
+    /// </summary>
+    /// <value>The associated grid location.</value>
+    public Tuple<int, int> AssociatedGridLocation
+    {
+    	get;
+    	set;
+    }
+
+    /// <summary>
     /// Initializes text and hides it.
     /// </summary>
 	void Awake()
