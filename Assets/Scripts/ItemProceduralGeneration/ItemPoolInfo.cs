@@ -45,17 +45,29 @@ public class ItemPoolInfo
 	}
 
 	/// <summary>
+	/// Gets or sets the grid location.
+	/// </summary>
+	/// <value>The grid location.</value>
+	public Tuple<int, int> GridLocation
+	{
+		get;
+		set;
+	}
+
+	/// <summary>
 	/// Initializes a new instance of the <see cref="ItemPoolInfo"/> class.
 	/// </summary>
 	/// <param name="location">Location.</param>
 	/// <param name="itemName">Item name.</param>
+	/// <param name="coord">Grid coordinate.</param>
 	/// <param name="activated">If set to <c>true</c> activated.</param>
-	public ItemPoolInfo(Vector3 location, string itemName, bool activated)
+	public ItemPoolInfo(Vector3 location, string itemName, Tuple<int, int> coord, bool activated)
 	{
 		Locations = new List<Vector3>();
 		ItemNames = new List<string>();
 		Items = new List<GameObject>();
 		Activated = activated;
+		GridLocation = coord;
 
 		Locations.Add(location);
 		ItemNames.Add(itemName);
