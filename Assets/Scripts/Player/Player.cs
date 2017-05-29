@@ -146,6 +146,11 @@ public class Player
         	{
         		Game.Instance.DeathManagerInstance.Death();
         	}
+
+        	if(Controller != null)
+        	{
+        		Controller.HealthUpdatedEvent.Invoke();
+        	}
         }
     }
 
@@ -172,6 +177,11 @@ public class Player
         set
         {
         	warmth = Mathf.Clamp(value, 0, MaxWarmth);
+
+        	if(Controller != null)
+        	{
+				Controller.WarmthUpdatedEvent.Invoke();
+			}
         }
     }
 
@@ -198,6 +208,11 @@ public class Player
         set
         {
         	hunger = Mathf.Clamp(value, 0, MaxHunger);
+
+        	if(Controller != null)
+        	{
+				Controller.HungerUpdatedEvent.Invoke();
+			}
         }
     }
 
