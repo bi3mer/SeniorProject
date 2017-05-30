@@ -23,7 +23,7 @@ public class HealthRateTests
 	[Test]
 	public void PlayerHealthShouldStartAtMaxHealthTest()
 	{
-		//Arrange
+		// Arrange
 		Player mockPlayer = createTestPlayer();
 
 		// Assert
@@ -33,7 +33,7 @@ public class HealthRateTests
 	[Test]
 	public void PlayerHealthCannotExceedMaxHealthTest()
 	{
-		//Arrange
+		// Arrange
 		Player mockPlayer = createTestPlayer();
 
 		// Act
@@ -46,7 +46,7 @@ public class HealthRateTests
 	[Test]
 	public void PlayerHealthIncreasesBasedOnGivenAmountTest()
 	{
-		//Arrange
+		// Arrange
 		Player mockPlayer = createTestPlayer();
 
 		// Act
@@ -61,7 +61,7 @@ public class HealthRateTests
 	[Test]
 	public void PlayerHealthDecreasesBasedOnGivenAmountTest()
 	{
-		//Arrange
+		// Arrange
 		Player mockPlayer = createTestPlayer();
 
 		// Act
@@ -75,7 +75,7 @@ public class HealthRateTests
 	[Test]
 	public void PlayerHealthDecreasesBasedOnFallDamageAmountTest()
 	{
-		//Arrange
+		// Arrange
 		Player mockPlayer = createTestPlayer();
 
 		// Act
