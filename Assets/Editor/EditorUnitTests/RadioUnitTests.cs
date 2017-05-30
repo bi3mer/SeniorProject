@@ -27,11 +27,11 @@ public class RadioUnitTests
 
 		Radio r = o.GetComponent<Radio> ();
 
-		Assert.IsFalse (r.isOn);
+		Assert.IsFalse (r.IsOn);
 
 		r.Power ();
 
-		Assert.IsTrue (r.isOn);
+		Assert.IsTrue (r.IsOn);
 	}
 
 	[Test]

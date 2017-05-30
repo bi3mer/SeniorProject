@@ -42,7 +42,7 @@ public class Radio : MonoBehaviour
 	[SerializeField]
 	public string MusicDefaultPath = "event:/Radio/Music/Zero_Rain";
 	[SerializeField]
-	public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
+	public string MysteryDefaultPath = "event:/Radio/Mystery/Phase1/Intro";
 	[SerializeField]
 	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static";
 
@@ -58,7 +58,7 @@ public class Radio : MonoBehaviour
 	[SerializeField]
 	private Dial dial;
 
-	public bool isOn;
+	public bool IsOn;
 
 	public RadioChannel CurrentChannel { get; set; }
 	private string announcement;
@@ -130,7 +130,7 @@ public class Radio : MonoBehaviour
 		// Update the weather and play if radio on
 		StartCoroutine(updateWeather());
 
-		isOn = false;
+		IsOn = false;
 		StaticOverlayOn = false;
 
 		CurrentChannel = RadioChannel.Null;
@@ -140,7 +140,7 @@ public class Radio : MonoBehaviour
 		mysteryCarousel = new List<string> ();
 
 		musicCarousel.Add ("event:/Radio/Music/Zero_Rain");
-		mysteryCarousel.Add(StaticDefaultPath);
+		mysteryCarousel.Add(MysteryDefaultPath);
 
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
@@ -166,10 +166,10 @@ public class Radio : MonoBehaviour
 		AddToCarousel (RadioChannel.Music, "event:/Radio/Music/Apocalypse");
 		AddToCarousel (RadioChannel.Music, "event:/Radio/Music/Better_Safe");
 
-		Game.Instance.EventManager.StormStartedSubscription += StartStatic;
-		Game.Instance.EventManager.StormStoppedSubscription += StopStatic;
+		Game.Instance.EventManager.StormStartedSubscription += startStatic;
+		Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
 		Game.Instance.EventManager.PlayerBoardRaftSubscription += addRaftClip;
-		Game.Instance.ClockInstance.HourUpdate += addNextMysteryClip;
+		Game.Instance.ClockInstance.HalfHourUpdate += addNextMysteryClip;
 
 		// initialize with first two mystery clips
 		setUpMysteryClips();
@@ -187,9 +187,11 @@ public class Radio : MonoBehaviour
 		mysteryPhaseClips = new List<List<string>>();
 		List<string> phase = new List<string>();
 
+		phase.Add("event:/Radio/Mystery/Phase1/Scientist_Prediction");
+		phase.Add("event:/Radio/Mystery/Phase1/Evacuate_3_Block");		
 		phase.Add("event:/Radio/Mystery/Phase1/School_Musical");
 		phase.Add("event:/Radio/Mystery/Phase1/Jeff");
-		phase.Add("event:/Radio/Mystery/Phase1/Evacuate_3_Block");
+		phase.Add("event:/Radio/Mystery/Phase1/Hospital_Volunteers_1");
 
 		mysteryPhaseClips.Add(phase);
 		phase = new List<string>();
@@ -197,13 +199,27 @@ public class Radio : MonoBehaviour
 		phase.Add("event:/Radio/Mystery/Phase2/4_Officials_Missing");
 		phase.Add("event:/Radio/Mystery/Phase2/Flooding_Centuries");
 		phase.Add("event:/Radio/Mystery/Phase2/Hospital_Generators");
+		phase.Add("event:/Radio/Mystery/Phase2/Institute_Interview");
+		phase.Add("event:/Radio/Mystery/Phase2/District_5_6_Rations");
+		phase.Add("event:/Radio/Mystery/Phase2/Hospital_Volunteers_2");
 
 		mysteryPhaseClips.Add(phase);
 		phase = new List<string>();
 
 		phase.Add("event:/Radio/Mystery/Phase3/Bodies_Found");
-		phase.Add("event:/Radio/Mystery/Phase3/District_5_6_Rations");
 		phase.Add("event:/Radio/Mystery/Phase3/Relgious_Fanatic");
+		phase.Add("event:/Radio/Mystery/Phase3/School_Generators");
+		phase.Add("event:/Radio/Mystery/Phase3/Level_5_Rationing");
+		phase.Add("event:/Radio/Mystery/Phase3/Hospital_Fail");
+		phase.Add("event:/Radio/Mystery/Phase3/Rooftops");
+		phase.Add("event:/Radio/Mystery/Phase3/No_Rations_No_Comment");
+
+		mysteryPhaseClips.Add(phase);
+
+		phase = new List<string>();
+
+		phase.Add("event:/Radio/Mystery/Phase4/Help_Not_Coming");
+		phase.Add("event:/Radio/Mystery/Phase4/No_Rations_Comment");
 
 		mysteryPhaseClips.Add(phase);
 	}
@@ -226,7 +242,7 @@ public class Radio : MonoBehaviour
 			if (mysteryPhaseIndex >= mysteryPhaseClips.Count){
 
 				// unsubscribe if we're out of clips
-				Game.Instance.ClockInstance.HourUpdate -= addNextMysteryClip;
+				Game.Instance.ClockInstance.HalfHourUpdate -= addNextMysteryClip;
 			}
 		}
 
@@ -238,7 +254,7 @@ public class Radio : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-		if (isOn) 
+		if (IsOn) 
 		{
 			// Find the current channel and turn it on if it's not already playing 
 			FMOD.Studio.PLAYBACK_STATE state = FMOD.Studio.PLAYBACK_STATE.STOPPED;
@@ -362,9 +378,9 @@ public class Radio : MonoBehaviour
 	public void Power()
 	{
 		// Turn off the radio and all channels if it's currently on
-		if (isOn)
+		if (IsOn)
 		{
-			isOn = false;
+			IsOn = false;
 			CurrentChannel = RadioChannel.Null;
 
 			musicChannel.stop (FMOD.Studio.STOP_MODE.IMMEDIATE);
@@ -377,7 +393,7 @@ public class Radio : MonoBehaviour
 		// Turn on the radio if it's currently off
 		else
 		{
-			isOn = true;
+			IsOn = true;
 		}
 	}
 
@@ -424,7 +440,7 @@ public class Radio : MonoBehaviour
 	{
 		while (true)
 		{
-			if (isOn)
+			if (IsOn)
 			{
 				// Check if the weather is not playing and if the radio is on the weather channel
 				if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
@@ -476,7 +492,7 @@ public class Radio : MonoBehaviour
 	/// <param name="channel"></param>
 	public void SetChannel(RadioChannel channel)
 	{
-		if (isOn) 
+		if (IsOn) 
 		{
 			if (channel == RadioChannel.Music) 
 			{
@@ -594,13 +610,13 @@ public class Radio : MonoBehaviour
 		return newAnnouncement;
 	}
 
-	public void StartStatic()
+	private void startStatic()
 	{
 		StaticOverlayOn = true;
 		musicChannel.setVolume(lowMusic);
 	}
 
-	public void StopStatic()
+	private void stopStatic()
 	{
 		StaticOverlayOn = false;
 		musicChannel.setVolume(musicRegVol);
