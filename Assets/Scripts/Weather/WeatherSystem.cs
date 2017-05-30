@@ -109,6 +109,11 @@ public class WeatherSystem
 	{
 		get
 		{
+			if (this.WeatherInformation == null) 
+			{
+				return Vector2.zero;
+			}
+
 			return new Vector2(this.WeatherInformation[(int) Weather.WindSpeedX],
 			                   this.WeatherInformation[(int) Weather.WindSpeedY]);
 		}

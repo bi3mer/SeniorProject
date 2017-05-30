@@ -11,6 +11,11 @@ public class DeathManager
 	/// </summary>
 	public void Death()
 	{
+		if (Application.isEditor)
+		{
+			return;
+		}
+
 		SceneManager.LoadScene(deathSceneName);
 	}
 }
