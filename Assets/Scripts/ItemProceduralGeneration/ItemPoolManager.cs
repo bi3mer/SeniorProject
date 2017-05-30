@@ -305,10 +305,18 @@ public class ItemPoolManager : MonoBehaviour
 	/// <param name="gridCell">Grid cell.</param>
 	private  void activateCell(ref ItemPoolInfo gridCell)
 	{
-
 		for(int i = 0; i < gridCell.ItemNames.Count; ++i)
 		{
-			gridCell.Items.Add (getItemFromPool (gridCell.ItemNames [i]));
+			GameObject item = getItemFromPool (gridCell.ItemNames [i]);
+
+			PickUpItem pickup = item.GetComponent<PickUpItem>();
+
+			if( pickup != null)
+			{
+				pickup.AssociatedGridLocation = gridCell.GridLocation;
+			}
+
+			gridCell.Items.Add (item);
 			gridCell.Items [i].transform.position = gridCell.Locations [i];
 			gridCell.Items [i].transform.SetParent (activePool);
 		}
@@ -350,7 +358,18 @@ public class ItemPoolManager : MonoBehaviour
 	/// <param name="item">Item.</param>
 	public void RemoveItemFromWorld(GameObject item)
 	{
-		Tuple<int, int> itemGridLocation = PointToGrid(new Vector2(item.transform.position.x, item.transform.position.z));
+		Tuple<int, int> itemGridLocation;
+
+		PickUpItem pickup = item.GetComponent<PickUpItem>();
+
+		if(pickup != null)
+		{
+			itemGridLocation = pickup.AssociatedGridLocation;
+		}
+		else
+		{
+			itemGridLocation = PointToGrid(new Vector2(item.transform.position.x, item.transform.position.z));
+		}
 
 		if(itemGridLocation != null)
 		{
@@ -361,6 +380,7 @@ public class ItemPoolManager : MonoBehaviour
 				int index = gridCell.Items.IndexOf(item);
 
 				item.SetActive(false);
+				item.transform.SetParent(inactivePool.transform);
 
 				if(itemPool.ContainsKey(gridCell.ItemNames[index]))
 				{
@@ -395,7 +415,7 @@ public class ItemPoolManager : MonoBehaviour
 		{
 			if(grid[coord.X, coord.Y] == null)
 			{
-				grid[coord.X, coord.Y] = new ItemPoolInfo(location, item, activated);
+				grid[coord.X, coord.Y] = new ItemPoolInfo(location, item, coord, activated);
 			}
 			else
 			{
@@ -424,23 +444,27 @@ public class ItemPoolManager : MonoBehaviour
 		ItemPoolInfo gridCell = grid[itemGridLocation.X, itemGridLocation.Y];
 		string itemName = item.name;
 
+		PickUpItem pickup = item.GetComponent<PickUpItem>();
+
+		if( pickup != null)
+		{
+			pickup.AssociatedGridLocation = itemGridLocation;
+		}
+
 		if(isContainer)
 		{
 			itemName = item.GetComponent<InventoryInteractable>().AttachedInventory.InventoryName;
 		}
 
-		if(itemGridLocation != null)
+		if(gridCell == null)
 		{
-			grid[itemGridLocation.X, itemGridLocation.Y] = new ItemPoolInfo(item.transform.position, itemName, true);
-			grid[itemGridLocation.X, itemGridLocation.Y].Items.Add(item);
+			grid[itemGridLocation.X, itemGridLocation.Y] = new ItemPoolInfo(item.transform.position, itemName, itemGridLocation, true);
+			gridCell = grid[itemGridLocation.X, itemGridLocation.Y];
+		}
 
-			item.transform.SetParent(activePool);
-			item.SetActive(true);
-		}
-		else
-		{
-			gridCell.AddItemInfo(item, itemName);
-		}
+		item.transform.SetParent(activePool);
+		item.SetActive(true);
+		gridCell.AddItemInfo(item, itemName);
 	}
 
 	/// <summary>
