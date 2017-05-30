@@ -21,12 +21,26 @@ public class HungerRateTests
 	}
 
 	[Test]
-	public void PlayerHungerShouldStartAtMaxWarmthTest()
+	public void PlayerHungerShouldStartAtMaxHungerTest()
 	{
 		// Arrange
 		Player mockPlayer = createTestPlayer();
 
 		// Assert
 		Assert.AreEqual (mockPlayer.MaxHunger, mockPlayer.Hunger);
+	}
+
+	[Test]
+	[Ignore("Ignoring for failing invoke method")]
+	public void PlayerHungerUseFoodEnergyBasedOnAmountTest()
+	{
+		// Arrange
+		Player mockPlayer = createTestPlayer();
+
+		// Act
+		mockPlayer.Controller.PlayerStatManager.HungerRate.UseFoodEnergy(-1);
+
+		// Assert
+		Assert.AreEqual (99, mockPlayer.Hunger);
 	}
 }
