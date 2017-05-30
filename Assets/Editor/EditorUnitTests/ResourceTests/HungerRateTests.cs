@@ -31,7 +31,6 @@ public class HungerRateTests
 	}
 
 	[Test]
-	[Ignore("Ignoring for failing invoke method")]
 	public void PlayerHungerUseFoodEnergyBasedOnAmountTest()
 	{
 		// Arrange

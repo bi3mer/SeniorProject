@@ -31,7 +31,6 @@ public class HealthRateTests
 	}
 
 	[Test]
-	[Ignore("Ignoring for failing invoke method")]
 	public void PlayerHealthCannotExceedMaxHealthTest()
 	{
 		// Arrange
@@ -45,7 +44,6 @@ public class HealthRateTests
 	}
 
 	[Test]
-	[Ignore("Ignoring for failing invoke method")]
 	public void PlayerHealthIncreasesBasedOnGivenAmountTest()
 	{
 		// Arrange
@@ -60,7 +58,6 @@ public class HealthRateTests
 	}
 
 	[Test]
-	[Ignore("Ignoring for failing invoke method")]
 	public void PlayerHealthDecreasesBasedOnGivenAmountTest()
 	{
 		// Arrange
@@ -75,7 +72,6 @@ public class HealthRateTests
 	}
 
 	[Test]
-	[Ignore("Ignoring for failing invoke method")]
 	public void PlayerHealthDecreasesBasedOnFallDamageAmountTest()
 	{
 		// Arrange
