@@ -42,7 +42,7 @@ public class Radio : MonoBehaviour
 	[SerializeField]
 	public string MusicDefaultPath = "event:/Radio/Music/Zero_Rain";
 	[SerializeField]
-	public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
+	public string MysteryDefaultPath = "event:/Radio/Mystery/Phase1/Intro";
 	[SerializeField]
 	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static";
 
@@ -141,7 +141,7 @@ public class Radio : MonoBehaviour
 		mysteryCarousel = new List<string> ();
 
 		musicCarousel.Add ("event:/Radio/Music/Zero_Rain");
-		mysteryCarousel.Add(StaticDefaultPath);
+		mysteryCarousel.Add(MysteryDefaultPath);
 
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
@@ -170,7 +170,7 @@ public class Radio : MonoBehaviour
 		Game.Instance.EventManager.StormStartedSubscription += startStatic;
 		Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
 		Game.Instance.EventManager.PlayerBoardRaftSubscription += addRaftClip;
-		Game.Instance.ClockInstance.HourUpdate += addNextMysteryClip;
+		Game.Instance.ClockInstance.SecondUpdate += addNextMysteryClip;
 
 		// initialize with first two mystery clips
 		setUpMysteryClips();
@@ -189,7 +189,6 @@ public class Radio : MonoBehaviour
 		List<string> phase = new List<string>();
 
 		phase.Add("event:/Radio/Mystery/Phase1/Scientist_Prediction");
-		phase.Add("event:/Radio/Mystery/Phase1/Intro");
 		phase.Add("event:/Radio/Mystery/Phase1/Evacuate_3_Block");		
 		phase.Add("event:/Radio/Mystery/Phase1/School_Musical");
 		phase.Add("event:/Radio/Mystery/Phase1/Jeff");
@@ -247,6 +246,8 @@ public class Radio : MonoBehaviour
 				Game.Instance.ClockInstance.HourUpdate -= addNextMysteryClip;
 			}
 		}
+
+		Debug.Log("adding " + nextClip);
 
 		AddToCarousel (RadioChannel.Mystery, nextClip);
 	}

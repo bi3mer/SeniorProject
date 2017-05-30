@@ -1004,7 +1004,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weather: {fileID: 82000011756333628}
   MusicDefaultPath: event:/Radio/Music/Music1
-  MysteryDefaultPath: event:/Radio/Mystery/Mystery1
+  MysteryDefaultPath: event:/Radio/Mystery/Phase1/Intro
   StaticDefaultPath: event:/Radio/Static/Basic_Static
   staticOverlayOn: 0
   staticOverlayVolume: 5
