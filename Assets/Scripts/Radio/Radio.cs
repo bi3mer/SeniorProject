@@ -42,7 +42,7 @@ public class Radio : MonoBehaviour
 	[SerializeField]
 	public string MusicDefaultPath = "event:/Radio/Music/Zero_Rain";
 	[SerializeField]
-	public string MysteryDefaultPath = "event:/Radio/Mystery/Phase1/Intro";
+	public string MysteryDefaultPath = "event:/Radio/Mystery/Mystery1";
 	[SerializeField]
 	public string StaticDefaultPath = "event:/Radio/Static/Basic_Static";
 
@@ -50,18 +50,17 @@ public class Radio : MonoBehaviour
 	[SerializeField]
 	private FMOD.Studio.EventInstance staticOverlay;
 
-	[SerializeField]
-	private bool staticOverlayOn;
+	public bool StaticOverlayOn;
 
 	[SerializeField]
 	private float staticOverlayVolume = 5f;
-	 
+
 	[SerializeField]
 	private Dial dial;
 
-	private bool isOn;
+	public bool isOn;
 
-	private RadioChannel CurrentChannel { get; set; }
+	public RadioChannel CurrentChannel { get; set; }
 	private string announcement;
 
 	private bool weatherStarting = false;
@@ -95,13 +94,13 @@ public class Radio : MonoBehaviour
 	[SerializeField]
 	private float volumeIncrease;
 
-    // the lowest is always 0
-    private const float lowestVolume = 0;
-    // the highest possible volume is 1
-    private const float highestVolume = 1f;
+	// the lowest is always 0
+	private const float lowestVolume = 0;
+	// the highest possible volume is 1
+	private const float highestVolume = 1f;
 
-    [SerializeField]
-    [Tooltip("The rate the voice speaks for weather")]
+	[SerializeField]
+	[Tooltip("The rate the voice speaks for weather")]
 	private float voiceRate;
 	[SerializeField]
 	[Tooltip("The volume the voice speaks for weather")]
@@ -132,7 +131,7 @@ public class Radio : MonoBehaviour
 		StartCoroutine(updateWeather());
 
 		isOn = false;
-		staticOverlayOn = false;
+		StaticOverlayOn = false;
 
 		CurrentChannel = RadioChannel.Null;
 
@@ -141,7 +140,7 @@ public class Radio : MonoBehaviour
 		mysteryCarousel = new List<string> ();
 
 		musicCarousel.Add ("event:/Radio/Music/Zero_Rain");
-		mysteryCarousel.Add(MysteryDefaultPath);
+		mysteryCarousel.Add(StaticDefaultPath);
 
 		mysteryChannel = FMODUnity.RuntimeManager.CreateInstance (mysteryCarousel[0]);
 		musicChannel = FMODUnity.RuntimeManager.CreateInstance (musicCarousel[0]);
@@ -163,14 +162,14 @@ public class Radio : MonoBehaviour
 		e.getLength (out clipLength);
 		mysteryCarouselClipLengths.Add(mysteryCarousel[0], clipLength);
 		mysteryClipsTotalLength += clipLength;
-	
+
 		AddToCarousel (RadioChannel.Music, "event:/Radio/Music/Apocalypse");
 		AddToCarousel (RadioChannel.Music, "event:/Radio/Music/Better_Safe");
 
-		Game.Instance.EventManager.StormStartedSubscription += startStatic;
-		Game.Instance.EventManager.StormStoppedSubscription += stopStatic;
+		Game.Instance.EventManager.StormStartedSubscription += StartStatic;
+		Game.Instance.EventManager.StormStoppedSubscription += StopStatic;
 		Game.Instance.EventManager.PlayerBoardRaftSubscription += addRaftClip;
-		Game.Instance.ClockInstance.HalfHourUpdate += addNextMysteryClip;
+		Game.Instance.ClockInstance.HourUpdate += addNextMysteryClip;
 
 		// initialize with first two mystery clips
 		setUpMysteryClips();
@@ -188,11 +187,9 @@ public class Radio : MonoBehaviour
 		mysteryPhaseClips = new List<List<string>>();
 		List<string> phase = new List<string>();
 
-		phase.Add("event:/Radio/Mystery/Phase1/Scientist_Prediction");
-		phase.Add("event:/Radio/Mystery/Phase1/Evacuate_3_Block");		
 		phase.Add("event:/Radio/Mystery/Phase1/School_Musical");
 		phase.Add("event:/Radio/Mystery/Phase1/Jeff");
-		phase.Add("event:/Radio/Mystery/Phase1/Hospital_Volunteers_1");
+		phase.Add("event:/Radio/Mystery/Phase1/Evacuate_3_Block");
 
 		mysteryPhaseClips.Add(phase);
 		phase = new List<string>();
@@ -200,27 +197,13 @@ public class Radio : MonoBehaviour
 		phase.Add("event:/Radio/Mystery/Phase2/4_Officials_Missing");
 		phase.Add("event:/Radio/Mystery/Phase2/Flooding_Centuries");
 		phase.Add("event:/Radio/Mystery/Phase2/Hospital_Generators");
-		phase.Add("event:/Radio/Mystery/Phase2/Institute_Interview");
-		phase.Add("event:/Radio/Mystery/Phase2/District_5_6_Rations");
-		phase.Add("event:/Radio/Mystery/Phase2/Hospital_Volunteers_2");
 
 		mysteryPhaseClips.Add(phase);
 		phase = new List<string>();
 
 		phase.Add("event:/Radio/Mystery/Phase3/Bodies_Found");
+		phase.Add("event:/Radio/Mystery/Phase3/District_5_6_Rations");
 		phase.Add("event:/Radio/Mystery/Phase3/Relgious_Fanatic");
-		phase.Add("event:/Radio/Mystery/Phase3/School_Generators");
-		phase.Add("event:/Radio/Mystery/Phase3/Level_5_Rationing");
-		phase.Add("event:/Radio/Mystery/Phase3/Hospital_Fail");
-		phase.Add("event:/Radio/Mystery/Phase3/Rooftops");
-		phase.Add("event:/Radio/Mystery/Phase3/No_Rations_No_Comment");
-
-		mysteryPhaseClips.Add(phase);
-
-		phase = new List<string>();
-
-		phase.Add("event:/Radio/Mystery/Phase4/Help_Not_Coming");
-		phase.Add("event:/Radio/Mystery/Phase4/No_Rations_Comment");
 
 		mysteryPhaseClips.Add(phase);
 	}
@@ -243,10 +226,10 @@ public class Radio : MonoBehaviour
 			if (mysteryPhaseIndex >= mysteryPhaseClips.Count){
 
 				// unsubscribe if we're out of clips
-				Game.Instance.ClockInstance.HalfHourUpdate -= addNextMysteryClip;
+				Game.Instance.ClockInstance.HourUpdate -= addNextMysteryClip;
 			}
 		}
-		
+
 		AddToCarousel (RadioChannel.Mystery, nextClip);
 	}
 
@@ -358,7 +341,7 @@ public class Radio : MonoBehaviour
 			// if static overlay is active, play it if it's not already on, otherwise stop it
 			staticOverlay.getPlaybackState (out state);
 
-			if (staticOverlayOn && state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+			if (StaticOverlayOn && state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
 			{
 				staticOverlay.start();
 			} 
@@ -439,53 +422,53 @@ public class Radio : MonoBehaviour
 	/// </summary>
 	IEnumerator updateWeather()
 	{
-        while (true)
-        {
-            if (isOn)
-            {
-                // Check if the weather is not playing and if the radio is on the weather channel
-                if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
-                {
-                    // Play the weather 3 times before restarting to 0 
-                    if (weatherCounter == weatherUpdateThreshold)
-                    {
-                        weatherCounter = 0;
-                    }
+		while (true)
+		{
+			if (isOn)
+			{
+				// Check if the weather is not playing and if the radio is on the weather channel
+				if (!weather.isPlaying && CurrentChannel == RadioChannel.Weather)
+				{
+					// Play the weather 3 times before restarting to 0 
+					if (weatherCounter == weatherUpdateThreshold)
+					{
+						weatherCounter = 0;
+					}
 
-                    // Update the weather when it has played 3 times or has just turned on
-                    if (weatherCounter == 0)
-                    {
-                        // Update weather
-                        currentWeather = Game.Instance.WeatherInstance;
+					// Update the weather when it has played 3 times or has just turned on
+					if (weatherCounter == 0)
+					{
+						// Update weather
+						currentWeather = Game.Instance.WeatherInstance;
 
-                        // Get new announcment
-                        announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
+						// Get new announcment
+						announcement = GetWeatherAnnouncement(currentWeather.WeatherInformation[(int)Weather.WindSpeedMagnitude], currentWeather.WeatherInformation[(int)Weather.Temperature]);
 
-                        // Send the announcement to the wav file
-                        Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, voiceRate, voiceVolume, Application.dataPath + "/Sounds/Weather", voicePitch);
+						// Send the announcement to the wav file
+						Speaker.Speak(announcement, weather, Speaker.VoiceForCulture("en", 0), false, voiceRate, voiceVolume, Application.dataPath + "/Sounds/Weather", voicePitch);
 
-                        // Wait for the wave file to update
-                        yield return new WaitForSeconds(weatherUpdateTime);
-                    }
+						// Wait for the wave file to update
+						yield return new WaitForSeconds(weatherUpdateTime);
+					}
 
-                    ++weatherCounter;
-                    weather.Play();
-                }
+					++weatherCounter;
+					weather.Play();
+				}
 
-                // Don't do anything if the weather is still playing
-                else
-                {
-                    yield return null;
-                }
-            }
+				// Don't do anything if the weather is still playing
+				else
+				{
+					yield return null;
+				}
+			}
 
-            // Don't do anything if radio is not on
-            else
-            {
-                yield return null;
-            }
-        }
-    }
+			// Don't do anything if radio is not on
+			else
+			{
+				yield return null;
+			}
+		}
+	}
 
 	/// <summary>
 	/// Set new selected channel.
@@ -611,15 +594,15 @@ public class Radio : MonoBehaviour
 		return newAnnouncement;
 	}
 
-	private void startStatic()
+	public void StartStatic()
 	{
-		staticOverlayOn = true;
+		StaticOverlayOn = true;
 		musicChannel.setVolume(lowMusic);
 	}
 
-	private void stopStatic()
+	public void StopStatic()
 	{
-		staticOverlayOn = false;
+		StaticOverlayOn = false;
 		musicChannel.setVolume(musicRegVol);
 	}
 
@@ -676,7 +659,7 @@ public class Radio : MonoBehaviour
 	{
 		get
 		{
-            return weather.volume == lowestVolume;
+			return weather.volume == lowestVolume;
 		}
 	}
 }
