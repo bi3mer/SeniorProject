@@ -26,6 +26,8 @@ public class RainController : MonoBehaviour
     // The fog that falls to simulate extra rain.
     public ParticleSystem RainFog;
 
+    private const float minRainLevel = 5f;
+
     // The ammount of rain that can fall on a range between 0 to 100
     public float RainLevel
     {
@@ -36,7 +38,7 @@ public class RainController : MonoBehaviour
         set
         {
 			// keep value between 0 and 100
-			rainLevel = Mathf.Clamp(value, 0f, 100f);
+			rainLevel = Mathf.Clamp(value, minRainLevel, 100f);
             UpdateParticleSystem();
         }
     }
@@ -57,6 +59,8 @@ public class RainController : MonoBehaviour
     // How much fog to rain there should be
     [SerializeField]
     private float fogMod;
+
+    private float rainLevelModifier = 100;
 
     // The wind vector in XZ (considering Y is Up, but we're only concerned with 2d wind)
     public Vector2 WindVectorXZ
@@ -119,7 +123,7 @@ public class RainController : MonoBehaviour
         else
         {
 			this.WindVectorXZ = Game.Instance.WeatherInstance.WindDirection2d / this.windMitigation;
-			this.RainLevel    = Game.Instance.WeatherInstance.StormStrength;
+			this.RainLevel    = Game.Instance.WeatherInstance.StormStrength * rainLevelModifier;
         }
 
         // Rain level in the shader is evaluated between 0-1 where here it's 1-100

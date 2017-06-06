@@ -71,23 +71,26 @@ public class FloodWater : MonoBehaviour
         // only update when game is active
         if (Game.Instance.PauseInstance.IsPaused == false)
         {
-            // get precipitation from weather
-            float precipitation = Game.Instance.WeatherInstance.WeatherInformation[(int)Weather.Precipitation];
+        	// TODO fix this in the future
+//            // get precipitation from weather
+//            float precipitation = Game.Instance.WeatherInstance.WeatherInformation[(int)Weather.Precipitation];
+//
+//            // make sure that the precipiation received is a valid numer
+//            if (float.IsNaN(precipitation) == false)
+//            {
+//                // if the precipitation is below the negation level
+//                if (precipitation < this.precipitationNegation)
+//                {
+//                    // multiply it by negative 1 to subtract in the calculation below
+//                    precipitation *= -1;
+//                }
+//
+//                // update precipiation level on a per frame basis.
+//                this.precipitationWaterLevel += (precipitation / this.precipitationMitigation);
+//            }
 
-            // make sure that the precipiation received is a valid numer
-            if (float.IsNaN(precipitation) == false)
-            {
-                // if the precipitation is below the negation level
-                if (precipitation < this.precipitationNegation)
-                {
-                    // multiply it by negative 1 to subtract in the calculation below
-                    precipitation *= -1;
-                }
-
-                // update precipiation level on a per frame basis.
-                this.precipitationWaterLevel += (precipitation / this.precipitationMitigation);
-                this.transform.position = this.getTideLevel() + VectorUtility.HeightVector3d(this.precipitationWaterLevel);
-            }
+            // set the height of the water
+			this.transform.position = this.getTideLevel() + VectorUtility.HeightVector3d(this.precipitationWaterLevel);
         }
     }
 

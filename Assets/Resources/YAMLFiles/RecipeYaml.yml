@@ -16,8 +16,8 @@
       - "rope"
       - "hook"
      qualityThreshold:
-      - 2
-      - 4
+      - 5
+      - 10
    - statName: "elasticity"
      statAffectingItems:
       - "rod"

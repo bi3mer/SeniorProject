@@ -25,7 +25,7 @@ public class Player
     private PlayerHealthStatus healthStatus;
     private Vector3 worldPosition;
 
-    public const float FoodPoisoningChance = 0.3f;
+    public float FoodPoisoningChance = 0.3f;
 
     /// <summary>
     /// Player constructor.
@@ -34,6 +34,20 @@ public class Player
     public Player ()
     {
         ResetStatus();
+    }
+
+    public Player(PlayerInventory inventory)
+    {
+    	Inventory = inventory;
+		Health = MaxHealth = maxHealth;
+        Warmth = MaxWarmth = maxWarmth;
+        Hunger = MaxHunger = maxHunger;
+
+        HealthStatus = PlayerHealthStatus.None;
+
+        // set the transform if in unity editor so scenes without a player will
+        // still work
+		this.WorldPosition = Vector3.zero;
     }
 
     /// <summary>
@@ -132,6 +146,11 @@ public class Player
         	{
         		Game.Instance.DeathManagerInstance.Death();
         	}
+
+			if(Controller != null && Controller.WarmthUpdatedEvent != null)
+        	{
+        		Controller.HealthUpdatedEvent.Invoke();
+        	}
         }
     }
 
@@ -158,6 +177,11 @@ public class Player
         set
         {
         	warmth = Mathf.Clamp(value, 0, MaxWarmth);
+
+        	if(Controller != null && Controller.WarmthUpdatedEvent != null)
+        	{
+				Controller.WarmthUpdatedEvent.Invoke();
+			}
         }
     }
 
@@ -184,6 +208,11 @@ public class Player
         set
         {
         	hunger = Mathf.Clamp(value, 0, MaxHunger);
+
+			if(Controller != null && Controller.WarmthUpdatedEvent != null)
+        	{
+				Controller.HungerUpdatedEvent.Invoke();
+			}
         }
     }
 

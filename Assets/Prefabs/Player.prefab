@@ -4236,7 +4236,7 @@ MonoBehaviour:
   interactiveTag: Interactable
   landTag: Land
   waterTag: Water
-  hungerUpdatedEvent:
+  HungerUpdatedEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
@@ -4252,7 +4252,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  healthUpdatedEvent:
+  HealthUpdatedEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
@@ -4268,7 +4268,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  warmthUpdatedEvent:
+  WarmthUpdatedEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}

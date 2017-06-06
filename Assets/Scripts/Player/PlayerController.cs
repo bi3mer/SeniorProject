@@ -22,12 +22,20 @@ public class PlayerController : MonoBehaviour
     private string waterTag;
 
     [Header("HUD Settings")]
-    [SerializeField]
-    private UnityEvent hungerUpdatedEvent;
-    [SerializeField]
-    private UnityEvent healthUpdatedEvent;
-    [SerializeField]
-    private UnityEvent warmthUpdatedEvent;
+    /// <summary>
+    /// The events that fire when hunger is updated.
+    /// </summary>
+    public UnityEvent HungerUpdatedEvent;
+
+    /// <summary>
+    /// The events that fire when health is updated.
+    /// </summary>
+    public UnityEvent HealthUpdatedEvent;
+
+    /// <summary>
+    /// The events that fire when warmth is updated.
+    /// </summary>
+    public UnityEvent WarmthUpdatedEvent;
 
     [Header("Resource Settings")]
     [SerializeField]
@@ -441,7 +449,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
 			PlayerStatManager.HealthRate.TakeFallDamage ((int)movement.CurrentFallDammage);
-            healthUpdatedEvent.Invoke();
+            HealthUpdatedEvent.Invoke();
         }
     }
 
@@ -460,7 +468,6 @@ public class PlayerController : MonoBehaviour
 					Game.Instance.PlayerInstance.Health + PlayerStatManager.HealthRate.HealthAmount, 
 					0,
 					Game.Instance.PlayerInstance.MaxHealth);
-				healthUpdatedEvent.Invoke ();
 			}
 		}
 	}
@@ -480,7 +487,6 @@ public class PlayerController : MonoBehaviour
 					Game.Instance.PlayerInstance.Hunger + PlayerStatManager.HungerRate.HungerAmount,
 					0,
 					Game.Instance.PlayerInstance.MaxHunger);
-				hungerUpdatedEvent.Invoke ();
 			}
 		}
     }
@@ -502,7 +508,6 @@ public class PlayerController : MonoBehaviour
 					Game.Instance.PlayerInstance.Warmth + PlayerStatManager.WarmthRate.WarmthAmount,
 					0,
 					Game.Instance.PlayerInstance.MaxWarmth);
-				warmthUpdatedEvent.Invoke ();
 			}
 		}
     }
