@@ -147,7 +147,8 @@ public class BuildingGenerator : MonoBehaviour
         tutorialBuilding.transform.position = location;
 
         // Place the player back on the turoial building
-        Game.Player.WorldPosition = tutorialBuilding.transform.position + relativePlayerLocation;
+       // Game.Player.WorldPosition = tutorialBuilding.transform.position + relativePlayerLocation;
+		//Try to stop player movement
 
         return new TemplateBuilding(this.gameObject.transform, location, tutorialBuilding);
     }

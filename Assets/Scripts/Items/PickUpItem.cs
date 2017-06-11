@@ -82,11 +82,6 @@ public class PickUpItem : InteractableObject
 	/// </summary>
 	public override void SetUp()
 	{
-        // Make sure the component isn't added more than once.
-        if (gameObject.GetComponent<GlowObjectCmd>() == null)
-        {
-            gameObject.AddComponent<GlowObjectCmd>();
-        }
 
         if (!setupComplete)
 		{
@@ -109,7 +104,7 @@ public class PickUpItem : InteractableObject
 	/// </summary>
 	private void pickUp()
 	{
-        gameObject.GetComponent<GlowObjectCmd>().OutOfViewColor();
+      //  gameObject.GetComponent<GlowObjectCmd>().OutOfViewColor();
         StartCoroutine(addToInventory());
     }
 

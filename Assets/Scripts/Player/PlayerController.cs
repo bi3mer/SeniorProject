@@ -715,10 +715,10 @@ public class PlayerController : MonoBehaviour
                 if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag) && interactable != null && interactable.GetComponentInChildren<InteractableObject>() != null)
                 {
                     interactable.Show = false;
-                    if (interactable.GetComponent<GlowObjectCmd>() != null)
+                   /* if (interactable.GetComponent<GlowObjectCmd>() != null)
                     {
 						interactable.GetComponent<GlowObjectCmd> ().OutOfViewColor ();
-                    }
+                    }*/
                     interactable = null;
                 }
 
@@ -726,10 +726,10 @@ public class PlayerController : MonoBehaviour
                 {
                     interactable = closestInteractable.GetComponent<InteractableObject>();
                     interactable.Show = true;
-                    if (interactable.GetComponent<GlowObjectCmd>() != null)
+                 /*   if (interactable.GetComponent<GlowObjectCmd>() != null)
                     {
 						interactable.GetComponent<GlowObjectCmd> ().InViewColor ();
-                    }
+                    }*/
                 }
             }
 
