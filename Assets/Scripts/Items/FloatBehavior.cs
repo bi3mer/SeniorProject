@@ -21,9 +21,9 @@ public class FloatBehavior : MonoBehaviour
 	/// <summary>
 	/// The upper bounds of the randomness of the buoyant upward force 
 	/// </summary>
-	private float buoyancyRandomMax = 1.3f;
+	private float buoyancyRandomMax = 1.05f;
 
-	private float buoyancyRandomMin = 0.65f;
+	private float buoyancyRandomMin = 0.95f;
 
 	/// <summary>
 	/// Awake this instance.

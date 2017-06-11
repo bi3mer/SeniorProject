@@ -22,12 +22,20 @@ public class PlayerController : MonoBehaviour
     private string waterTag;
 
     [Header("HUD Settings")]
-    [SerializeField]
-    private UnityEvent hungerUpdatedEvent;
-    [SerializeField]
-    private UnityEvent healthUpdatedEvent;
-    [SerializeField]
-    private UnityEvent warmthUpdatedEvent;
+    /// <summary>
+    /// The events that fire when hunger is updated.
+    /// </summary>
+    public UnityEvent HungerUpdatedEvent;
+
+    /// <summary>
+    /// The events that fire when health is updated.
+    /// </summary>
+    public UnityEvent HealthUpdatedEvent;
+
+    /// <summary>
+    /// The events that fire when warmth is updated.
+    /// </summary>
+    public UnityEvent WarmthUpdatedEvent;
 
     [Header("Resource Settings")]
     [SerializeField]
@@ -396,9 +404,8 @@ public class PlayerController : MonoBehaviour
                 StopWalkingSound();
             }
 
-
             // can't jump while in debug mode
-            if (isGrounded && !Game.Instance.DebugMode && Input.GetKeyDown(controlScheme.Jump))
+            if ( (isGrounded || IsInWater) && !Game.Instance.DebugMode && Input.GetKeyDown(controlScheme.Jump))
             {
                 freezePlayer = true;
                 StartCoroutine(ClimbCoroutine());
@@ -442,7 +449,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
 			PlayerStatManager.HealthRate.TakeFallDamage ((int)movement.CurrentFallDammage);
-            healthUpdatedEvent.Invoke();
+            HealthUpdatedEvent.Invoke();
         }
     }
 
@@ -461,7 +468,6 @@ public class PlayerController : MonoBehaviour
 					Game.Instance.PlayerInstance.Health + PlayerStatManager.HealthRate.HealthAmount, 
 					0,
 					Game.Instance.PlayerInstance.MaxHealth);
-				healthUpdatedEvent.Invoke ();
 			}
 		}
 	}
@@ -481,7 +487,6 @@ public class PlayerController : MonoBehaviour
 					Game.Instance.PlayerInstance.Hunger + PlayerStatManager.HungerRate.HungerAmount,
 					0,
 					Game.Instance.PlayerInstance.MaxHunger);
-				hungerUpdatedEvent.Invoke ();
 			}
 		}
     }
@@ -503,7 +508,6 @@ public class PlayerController : MonoBehaviour
 					Game.Instance.PlayerInstance.Warmth + PlayerStatManager.WarmthRate.WarmthAmount,
 					0,
 					Game.Instance.PlayerInstance.MaxWarmth);
-				warmthUpdatedEvent.Invoke ();
 			}
 		}
     }
@@ -711,10 +715,10 @@ public class PlayerController : MonoBehaviour
                 if (prevInteractable != null && prevInteractable.CompareTag(interactiveTag) && interactable != null && interactable.GetComponentInChildren<InteractableObject>() != null)
                 {
                     interactable.Show = false;
-                    if (interactable.GetComponent<GlowObjectCmd>() != null)
+                   /* if (interactable.GetComponent<GlowObjectCmd>() != null)
                     {
 						interactable.GetComponent<GlowObjectCmd> ().OutOfViewColor ();
-                    }
+                    }*/
                     interactable = null;
                 }
 
@@ -722,10 +726,10 @@ public class PlayerController : MonoBehaviour
                 {
                     interactable = closestInteractable.GetComponent<InteractableObject>();
                     interactable.Show = true;
-                    if (interactable.GetComponent<GlowObjectCmd>() != null)
+                 /*   if (interactable.GetComponent<GlowObjectCmd>() != null)
                     {
 						interactable.GetComponent<GlowObjectCmd> ().InViewColor ();
-                    }
+                    }*/
                 }
             }
 

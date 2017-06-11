@@ -141,7 +141,7 @@ public class ItemFactory
 
 		if(recipe.Tiered)
 		{
-			int qualityLevel = GetResultingItemLevel(recipe, ingredientsByType);
+			int qualityLevel = GetResultingItemLevel(recipe, ingredientsByType, targetInventory);
 
 			itemName = itemLevels [qualityLevel] + " " + recipe.RecipeName;
 		}
@@ -219,13 +219,13 @@ public class ItemFactory
 	/// <returns>The resulting item level.</returns>
 	/// <param name="recipe">Recipe.</param>
 	/// <param name="ingredientsByType">Ingredients sorted by type.</param>
-	private int GetResultingItemLevel(Recipe recipe, Dictionary<string, List<Ingredient>> ingredientsByType)
+	/// <param name="inventory"> Target inventory. </param>
+	private int GetResultingItemLevel(Recipe recipe, Dictionary<string, List<Ingredient>> ingredientsByType, Inventory inventory)
 	{
 		// level starts at highest level, and decreases as the crafting stat fails to reach the threshold value
 		// highest level is the number of levels - 1 since 0 is the lowest level
 		int qualityLevel = levels - 1;
 		BaseItem currentItem;
-		Inventory inventory = Game.Instance.PlayerInstance.Inventory;
 
 		// flag that indicates whether or not a smaller stat results in a higher quality item
 		bool smallerStatsPreferred = false;
@@ -269,7 +269,6 @@ public class ItemFactory
 					{
 						typeSum += currentItem.GetItemAttribute (stat).Value;
 					}
-
 					typeUnits +=  ingredientsByType [affectingItems [y]] [z].Amount;
 				}
 
@@ -284,14 +283,14 @@ public class ItemFactory
 
 				if(smallerStatsPreferred)
 				{
-					while (qualityLevel > 0 && result > recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
+					while (qualityLevel > 0 && result > recipe.StatsToCheck [x].QualityThreshold [qualityLevel-1]) 
 					{
 						--qualityLevel;
 					}
 				}
 				else
 				{
-					while (qualityLevel > 0 && result < recipe.StatsToCheck [x].QualityThreshold [qualityLevel - 1]) 
+					while (qualityLevel > 0 && result < recipe.StatsToCheck [x].QualityThreshold [qualityLevel-1]) 
 					{
 						--qualityLevel;
 					}

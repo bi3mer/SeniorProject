@@ -14,6 +14,13 @@ public class Clock : MonoBehaviour
 	[Tooltip("Should the clock in the scene stop updating the weather")]
 	private bool freezeWeatherUpdates;
 
+	private const int thirtyMinutes = 30;
+	private const int sixtyMinutes  = 60;
+
+	/// <summary>
+	/// Gets the tick that represents a second in game time
+	/// </summary>
+	/// <value>The tick.</value>
 	public float Tick
 	{
 		get;
@@ -73,6 +80,17 @@ public class Clock : MonoBehaviour
 	/// </summary>
 	/// <value>The current time.</value>
 	public float CurrentTime
+	{
+		get;
+		private set;
+	}
+
+	/// <summary>
+	/// Represetns the local time as an integer that is relative to
+	/// how long a second is in the game world
+	/// </summary>
+	/// <value>The current local time.</value>
+	public int CurrentLocalTime
 	{
 		get;
 		private set;
@@ -168,6 +186,7 @@ public class Clock : MonoBehaviour
 
 		if(this.lastGameSecond + this.Tick < this.CurrentTime)
 		{
+			++this.CurrentLocalTime;
 			this.lastGameSecond += this.Tick;
 
 			if(this.CurrentTime >= this.TwentyFourHours)
@@ -182,13 +201,13 @@ public class Clock : MonoBehaviour
 			}
 
 			// Notify thirty minute long subscribed delegates
-			if(this.HalfHourUpdate != null && Mathf.Approximately(this.CurrentTime % this.HalfHour, 0f))
+			if(this.HalfHourUpdate != null && this.CurrentLocalTime % thirtyMinutes == 0)
 			{
 				this.HalfHourUpdate();
 			}
 
 			// notify hour long subscribed delegates
-			if(this.HourUpdate != null && Mathf.Approximately(this.CurrentTime % this.Hour, 0f))
+			if(this.HourUpdate != null && this.CurrentLocalTime % sixtyMinutes == 0)
 			{
 				this.HourUpdate();
 			}

@@ -111,6 +111,12 @@ public class FleshCategory : ItemCategory
 			GetAttribute (hungerGainAttrName).Value = HungerGain;
 	    }
 
+	    if(baseItem.ModifyingActionNames != null)
+	    {
+			int newModelIndex = baseItem.ModifyingActionNames.IndexOf(cookActName);
+			baseItem.SetNewModel(newModelIndex);
+		}
+
         baseItem.DirtyFlag = true;
     }
 
@@ -129,7 +135,7 @@ public class FleshCategory : ItemCategory
                 if (Game.Player.HealthStatus == PlayerHealthStatus.None)
                 {
                     // Random chance of getting food poisoning
-                    if (RandomUtility.RandomPercent <= Player.FoodPoisoningChance)
+                    if (RandomUtility.RandomPercent <= Game.Player.FoodPoisoningChance)
                     {
                         Game.Player.HealthStatus = PlayerHealthStatus.FoodPoisoning;
                     }

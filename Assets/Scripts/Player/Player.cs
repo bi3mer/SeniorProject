@@ -20,10 +20,12 @@ public class Player
     private const string inventoryFileName = "InventoryYaml.yml";
     private const int playerInventorySize = 20;
     private int health;
+    private int warmth;
+    private int hunger;
     private PlayerHealthStatus healthStatus;
     private Vector3 worldPosition;
 
-    public const float FoodPoisoningChance = 0.3f;
+    public float FoodPoisoningChance = 0.3f;
 
     /// <summary>
     /// Player constructor.
@@ -32,6 +34,20 @@ public class Player
     public Player ()
     {
         ResetStatus();
+    }
+
+    public Player(PlayerInventory inventory)
+    {
+    	Inventory = inventory;
+		Health = MaxHealth = maxHealth;
+        Warmth = MaxWarmth = maxWarmth;
+        Hunger = MaxHunger = maxHunger;
+
+        HealthStatus = PlayerHealthStatus.None;
+
+        // set the transform if in unity editor so scenes without a player will
+        // still work
+		this.WorldPosition = Vector3.zero;
     }
 
     /// <summary>
@@ -124,11 +140,16 @@ public class Player
 
         set
         {
-        	health = value;
+        	health = Mathf.Clamp(value, 0, MaxHealth);
 
         	if(health <= 0)
         	{
         		Game.Instance.DeathManagerInstance.Death();
+        	}
+
+			if(Controller != null && Controller.WarmthUpdatedEvent != null)
+        	{
+        		Controller.HealthUpdatedEvent.Invoke();
         	}
         }
     }
@@ -149,8 +170,19 @@ public class Player
     /// </summary>
     public int Warmth
     {
-        get;
-        set;
+        get
+        {
+        	return warmth;
+        }
+        set
+        {
+        	warmth = Mathf.Clamp(value, 0, MaxWarmth);
+
+        	if(Controller != null && Controller.WarmthUpdatedEvent != null)
+        	{
+				Controller.WarmthUpdatedEvent.Invoke();
+			}
+        }
     }
 
     /// <summary>
@@ -169,8 +201,19 @@ public class Player
     /// </summary>
     public int Hunger
     {
-        get;
-        set;
+        get
+        {
+        	return hunger;
+        }
+        set
+        {
+        	hunger = Mathf.Clamp(value, 0, MaxHunger);
+
+			if(Controller != null && Controller.WarmthUpdatedEvent != null)
+        	{
+				Controller.HungerUpdatedEvent.Invoke();
+			}
+        }
     }
 
     /// <summary>

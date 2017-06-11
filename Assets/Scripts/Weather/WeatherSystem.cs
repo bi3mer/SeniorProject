@@ -26,6 +26,9 @@ public class WeatherSystem
 	private const float airDensity         = 3.4f;
 	private const float kelvinConverter    = 273.15f; 
 
+	// the most precipitation that there can be in the world
+	private const float maxPrecipitation   = 100f;
+
 	// constants for celcius to farenheight
 	private const float celciusNumerator   = 9.0f;
 	private const float celciusDenominator = 5.0f;
@@ -413,10 +416,24 @@ public class WeatherSystem
 			              this.WeatherInformation[(int) Weather.WindSpeedMagnitude],
 			              this.WeatherInformation[(int) Weather.RelativeDewPoint]};
 
-		return Regression.Prediction(this.precipitationCoefficients, 
-			                         this.precipitationPowers, 
-		                             inputs,
-			                         WeatherSystem.precipitationIntercept);
+		float precipitation = Regression.Prediction(this.precipitationCoefficients, 
+			                                        this.precipitationPowers, 
+		                                            inputs,
+			                                        WeatherSystem.precipitationIntercept);
+
+		// make sure the precipitation is a number, and if not make it the max
+		if(float.IsNaN(precipitation)) 
+		{
+			precipitation = maxPrecipitation;
+		}
+
+		// cap the size of precipitation
+		if(precipitation > maxPrecipitation) 
+		{
+			precipitation = maxPrecipitation;
+		}
+
+		return precipitation;
 	}
 
 	/// <summary>

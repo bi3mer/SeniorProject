@@ -16,6 +16,16 @@ public class PickUpItem : InteractableObject
     private Rigidbody rigidBody;
 
     /// <summary>
+    /// Gets or sets the grid location.
+    /// </summary>
+    /// <value>The associated grid location.</value>
+    public Tuple<int, int> AssociatedGridLocation
+    {
+    	get;
+    	set;
+    }
+
+    /// <summary>
     /// Initializes text and hides it.
     /// </summary>
 	void Awake()
@@ -72,11 +82,6 @@ public class PickUpItem : InteractableObject
 	/// </summary>
 	public override void SetUp()
 	{
-        // Make sure the component isn't added more than once.
-        if (gameObject.GetComponent<GlowObjectCmd>() == null)
-        {
-            gameObject.AddComponent<GlowObjectCmd>();
-        }
 
         if (!setupComplete)
 		{
@@ -99,7 +104,7 @@ public class PickUpItem : InteractableObject
 	/// </summary>
 	private void pickUp()
 	{
-        gameObject.GetComponent<GlowObjectCmd>().OutOfViewColor();
+      //  gameObject.GetComponent<GlowObjectCmd>().OutOfViewColor();
         StartCoroutine(addToInventory());
     }
 

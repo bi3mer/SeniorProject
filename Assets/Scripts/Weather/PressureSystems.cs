@@ -26,7 +26,11 @@ public class PressureSystems
 	private const float lowPressureCenterAttractorForce  = 4f;
 
     // flag for if the class has been initialized before
-    private bool initialized = false;
+    public bool Initialized
+    {
+        get;
+        private set;
+    }
 
 	/// <summary>
 	/// Gets the local pressure systems.
@@ -45,7 +49,7 @@ public class PressureSystems
 	public void Initialize(CityBoundaries bounds)
 	{
         // This class can only be initialized once
-        if (this.initialized)
+        if (this.Initialized)
         {
             // print error but don't break
             Debug.LogError("This class should only be initialized once after loading.");
@@ -75,6 +79,8 @@ public class PressureSystems
 			// determine if high or low and set pressure
 			this.setVectorPressure(i);
 		}
+
+        this.Initialized = true;
 	}
 
 	/// <summary>
@@ -84,7 +90,7 @@ public class PressureSystems
 	public void UpdatePressureSystem()
 	{
         // only run if this class has been initialized
-        if (initialized)
+        if (!Initialized)
         {
             return;
         }
@@ -231,4 +237,14 @@ public class PressureSystems
 			                                                         this.PressureConstants[(int) PressureConstantIndexes.PressureLowMax]);
         }
 	}
+
+    /// <summary>
+    /// Create instance of pressure systems that has not yet been
+    /// initialized. Initialize can be called after the game has
+    /// been loaded
+    /// </summary>
+    public PressureSystems()
+    {
+        this.Initialized = false;
+    }
 }

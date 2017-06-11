@@ -40,7 +40,7 @@ MonoBehaviour:
         stationaryBlending: 0.95
         motionBlending: 0.85
   ambientOcclusion:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       intensity: 1.8
       radius: 0.3
@@ -71,9 +71,9 @@ MonoBehaviour:
   depthOfField:
     m_Enabled: 1
     m_Settings:
-      focusDistance: 10
-      aperture: 1.2
-      focalLength: 14
+      focusDistance: 1.5
+      aperture: 3.5
+      focalLength: 34
       useCameraFov: 0
       kernelSize: 0
   motionBlur:
@@ -100,7 +100,7 @@ MonoBehaviour:
     m_Enabled: 1
     m_Settings:
       bloom:
-        intensity: 0.5
+        intensity: 0.8
         threshold: 1.1
         softKnee: 0.7
         radius: 5
@@ -124,7 +124,7 @@ MonoBehaviour:
         temperature: 10
         tint: 10
         hueShift: 0
-        saturation: 1.2
+        saturation: 0.85
         contrast: 0.5
       channelMixer:
         red: {x: 0.8, y: 0, z: 0}
@@ -134,9 +134,9 @@ MonoBehaviour:
       colorWheels:
         mode: 1
         log:
-          slope: {r: 1, g: 0.9901535, b: 0.9140008, a: -0.11678832}
+          slope: {r: 0.9842238, g: 1, b: 0.80624384, a: -0.11678832}
           power: {r: 1, g: 0.97420096, b: 0.9742005, a: -0.17518249}
-          offset: {r: 0.9728041, g: 1, b: 0.9916435, a: 0}
+          offset: {r: 0.9107514, g: 0.9367671, b: 1, a: 0}
         linear:
           lift: {r: 0.9884344, g: 1, b: 0.92652225, a: -0.019464754}
           gamma: {r: 0.9966968, g: 1, b: 0.9423096, a: 0.02919708}
@@ -148,9 +148,9 @@ MonoBehaviour:
             m_Curve:
             - serializedVersion: 2
               time: 0
-              value: 0
-              inSlope: 2.1388888
-              outSlope: 2.1388888
+              value: 0.0043290257
+              inSlope: 1.8779228
+              outSlope: 1.8779228
               tangentMode: 0
             - serializedVersion: 2
               time: 0.51623374
@@ -181,8 +181,8 @@ MonoBehaviour:
               outSlope: 1
               tangentMode: 0
             - serializedVersion: 2
-              time: 0.4383117
-              value: 0.30555558
+              time: 0.43568465
+              value: 0.2900433
               inSlope: 0.39400622
               outSlope: 0.39400622
               tangentMode: 0
@@ -257,20 +257,74 @@ MonoBehaviour:
         hueVShue:
           curve:
             serializedVersion: 2
-            m_Curve: []
+            m_Curve:
+            - serializedVersion: 2
+              time: 0.09543569
+              value: 0.47186148
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+            - serializedVersion: 2
+              time: 0.5373444
+              value: 0.45454544
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+            - serializedVersion: 2
+              time: 0.6659751
+              value: 0.35930735
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+            - serializedVersion: 2
+              time: 0.82365143
+              value: 0.43722945
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
             m_PreInfinity: 2
             m_PostInfinity: 2
-            m_RotationOrder: 4
+            m_RotationOrder: 0
           m_Loop: 1
           m_ZeroValue: 0.5
           m_Range: 1
         hueVSsat:
           curve:
             serializedVersion: 2
-            m_Curve: []
+            m_Curve:
+            - serializedVersion: 2
+              time: 0.010373444
+              value: 0.3982684
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+            - serializedVersion: 2
+              time: 0.14730291
+              value: 0.5
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+            - serializedVersion: 2
+              time: 0.5643154
+              value: 0.5
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+            - serializedVersion: 2
+              time: 0.6721992
+              value: 0.49783552
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+            - serializedVersion: 2
+              time: 0.8215768
+              value: 0.5
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
             m_PreInfinity: 2
             m_PostInfinity: 2
-            m_RotationOrder: 4
+            m_RotationOrder: 0
           m_Loop: 1
           m_ZeroValue: 0.5
           m_Range: 1
@@ -296,9 +350,9 @@ MonoBehaviour:
           m_Range: 1
         e_CurrentEditingCurve: 0
         e_CurveY: 1
-        e_CurveR: 1
-        e_CurveG: 1
-        e_CurveB: 1
+        e_CurveR: 0
+        e_CurveG: 0
+        e_CurveB: 0
   userLut:
     m_Enabled: 0
     m_Settings:
@@ -307,7 +361,7 @@ MonoBehaviour:
   chromaticAberration:
     m_Enabled: 1
     m_Settings:
-      spectralTexture: {fileID: 0}
+      spectralTexture: {fileID: 2800000, guid: 7a051dbda2d7bc447bee412427cd311e, type: 3}
       intensity: 0.1
   grain:
     m_Enabled: 1
